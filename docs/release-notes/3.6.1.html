@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title># RabbitMQ 3.6.1 — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1># RabbitMQ 3.6.1</h1>
+<p>RabbitMQ <span class="code ">3.6.1</span> is a maintenance release that includes a fix for CVE-2015-8786,
+a vulnerability in RabbitMQ management plugin.</p>
+<h3>Server</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Purging a lazy queue could result in an exception</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/514">rabbitmq-server#514</a></p>
+<ul>
+<li>Ensure <span class="code ">epmd</span> is running before starting RabbitMQ node on Windows</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/625">rabbitmq-server#625</a></p>
+<ul>
+<li>Channel error could make broker unreachable</li>
+</ul>
+<p>Those errors were misleadingly logged as <span class="code ">channel_termination_timeout</span>, which
+   the issue really was with unhandled messages from concurrently closed TCP socket process.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/530">rabbitmq-server#530</a></p>
+<ul>
+<li>(Automatic) deletion of an auto-delete queue could lead
+   to blocked channels</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/581">rabbitmq-server#581</a></p>
+<ul>
+<li>During (from scratch) queue sync, queue master node didn't respect mirror alarm state.
+   With large data sets this could drive mirror node out of memory.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/616">rabbitmq-server#616</a></p>
+<ul>
+<li>Changing password for users with non-standard (think broker configuration) password
+   hashing function, for example, those migrated from <span class="code ">3.5.x</span> releases, didn't update
+   effective hashing function.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/623">rabbitmq-server#623</a></p>
+<ul>
+<li>Heavy and/or prolonged <span class="code ">rabbitmqctl</span> use could exhaust Erlang VM atom table</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/549">rabbitmq-server#549</a></p>
+<ul>
+<li>"Min masters" queue master location strategy could result
+   in an error.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/521">rabbitmq-server#521</a></p>
+<ul>
+<li>Fixed a race condition in <span class="code ">pause_minority</span> handling mode.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/307">rabbitmq-server#307</a></p>
+<ul>
+<li>Significantly reduce possibility of a race condition when
+   an exchange is deleted and immediately re-declared, e.g. by a federation
+   link.</li>
+</ul>
+<p>This could result in a link operation being blocked, preventing
+   nodes from stopping.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-federation/issues/7">rabbitmq-federation#7</a></p>
+<ul>
+<li><span class="code ">amq.rabbitmq.log</span> messages now have information about originating
+   node in message headers</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/595">rabbitmq-server#595</a></p>
+<ul>
+<li><span class="code ">scripts/rabbitmq-env</span> now works with GNU sed 4.2.2</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/592">rabbitmq-server#592</a></p>
+<ul>
+<li>Exceptions in VM memory use calculator no longer affect broker startup</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/328">rabbitmq-server#328</a></p>
+<ul>
+<li><a href="https://www.rabbitmq.com/direct-reply-to.html">Direct Reply-to</a> capability is now advertised to clients</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/520">rabbitmq-server#520</a></p>
+<h4>Enhancements</h4>
+<ul>
+<li>Paths with non-ASCII characters on Windows are now handled</li>
+</ul>
+<p>RabbitMQ now can be installed into a location with non-ASCII characters,
+   e.g. when username contains them.</p>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/493">rabbitmq-server#493</a></p>
+<ul>
+<li>Configurable number of TCP connection acceptors</li>
+</ul>
+<p>Plus a x10 increase of the default. This helps with workloads where connection
+   churn is very high (e.g. all clients are PHP Web apps that cannot maintain
+   long-lived connections).</p>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/528">rabbitmq-server#528</a></p>
+<ul>
+<li><span class="code ">rabbitmqctl cluster_status</span> now includes cluster-wide resource alarm status</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/392">rabbitmq-server#392</a></p>
+<ul>
+<li>Windows installer no longer jumps over installation log</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/634">rabbitmq-server#634</a></p>
+<ul>
+<li>Improved <span class="code ">rabbitmqctl reset</span> error messages</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/167">rabbitmq-server#167</a></p>
+<ul>
+<li>More unsigned field data types are supported.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/20">rabbitmq-server#20</a></p>
+<h3>Java client</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>Endpoints (hostnames) are now also accepted as a <span class="code ">java.util.List</span></li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-java-client/issues/125">rabbitmq-java-client#125</a></p>
+<ul>
+<li>Autorecovering connections now shuffle hosts in a more
+   reliable way</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-java-client/issues/124">rabbitmq-java-client#124</a></p>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Binding recovery could fail</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-java-client/issues/129">rabbitmq-java-client#129</a></p>
+<ul>
+<li><span class="code ">Channel.queueDelete</span> could throw a <span class="code ">NullPointerException</span></li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-java-client/issues/120">rabbitmq-java-client#120</a></p>
+<h3>.NET client</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Autorecovering connections now use full list of provided hostnames
+   during recovery</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-dotnet-client/issues/153">rabbitmq-dotnet-client#153</a></p>
+<h3>Federation Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Significantly reduce possibility of a race condition when
+   an exchange is deleted and immediately re-declared, e.g. by a federation
+   link</li>
+</ul>
+<p>This rendered federation links dysfunctional.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-federation/issues/7">rabbitmq-federation#7</a></p>
+<h3>Management plugin</h3>
+<h4>Vulnerability Fixes</h4>
+<ul>
+<li>CVE-2015-8786: user-provided query parameters <span class="code ">lengths_age</span> and <span class="code ">lengths_incr</span> had no validation
+   and could be used to exhaust server resources.</li>
+</ul>
+<p>The attacker needs to have access to HTTP API (authenticate successfully and have sufficient
+   tags to pass authorisation) in order to carry out the attack.</p>
+<p>There is no workaround for earlier releases.</p>
+<p>Kudos to Vladimir Ivanov (Positive Technologies) for the responsible disclosure.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/97">rabbitmq-management#97</a></p>
+<h4>Enhancements</h4>
+<ul>
+<li>Password hashing function is now included in exported definitions</li>
+</ul>
+<p>Those upgrading from versions earlier than <span class="code ">3.6.0</span> via definitions export
+   won't have to temporarily set hashing function to MD5 to ensure export succeeds.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/117">rabbitmq-management#117</a></p>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Internet Explorer (9+) compatibility restored</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/98">rabbitmq-management#98</a></p>
+<ul>
+<li>Internet Explorer 11 compatibility fixes</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/112">rabbitmq-management#112</a>,
+                  <a href="https://github.com/rabbitmq/rabbitmq-management/issues/114">rabbitmq-management#114</a></p>
+<ul>
+<li>When policy fails to be created with invalid paramaters a sensible
+   error message will be displayed.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/110">rabbitmq-management#110</a></p>
+<h3>Federation Management plugin</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>Federation link form now includes more settings (that are exchange- and queue-federation specific)</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-federation-management/issues/5">rabbitmq-federation-management#5</a></p>
+<h3>Erlang client</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li><span class="code ">password</span> and <span class="code ">depth</span> query parameters are now propagated to TLS options</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-erlang-client/issues/36">rabbitmq-erlang-client#36</a></p>
+<h3>STOMP plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li><span class="code ">durable</span> and <span class="code ">persistent</span> headers weren't always used interchangeably,
+   leading to non-durable subscriptions</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-stomp/issues/58">rabbitmq-stomp#58</a></p>
+<ul>
+<li>Client heartbeat timeouts resulted in confusing error messages
+   in broker log.</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-stomp/issues/63">rabbitmq-stomp#63</a></p>
+<h3>Web STOMP plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Cowboy options are now supported for TLS listeners.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-web-stomp/issues/36">rabbitmq-web-stomp#36</a></p>
+<h3>Web STOMP Examples plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Multi-byte UTF-8 characters are now handled
+   by the bundled version of stomp.js.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-web-stomp-examples/issues/2">rabbitmq-web-stomp-examples#2</a></p>
+<h3>Event Exchange plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Event timestamps are now in seconds, not milliseconds</li>
+</ul>
+<p>Per AMQP 0-9-1 spec. This is not a particularly great choice for events,
+   so we will add an optional header with millisecond precision in a future release.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-event-exchange/issues/8">rabbitmq-event-exchange#8</a></p>
+<h3>JSON RPC plugin</h3>
+<p>Note: this plugin is deprecated and its use is highly discouraged.</p>
+<h4>Enhancements</h4>
+<ul>
+<li>RabbitmQ <span class="code ">3.6.x</span> support.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-jsonrpc/issues/3">rabbitmq-jsonrpc#3</a></p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

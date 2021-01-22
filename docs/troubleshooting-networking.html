@@ -1,0 +1,348 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>Troubleshooting Network Connectivity — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>Troubleshooting Network Connectivity</h1>
+
+
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>This guide accompanies the one <a href="/networking.html">on networking</a> and focuses on troubleshooting of
+network connections.</p>
+<p>For connections that use TLS there is an additional <a href="/troubleshooting-ssl.html">guide on troubleshooting TLS</a>.</p>
+<h2><a id="methodology" class="anchor" href="#methodology">Troubleshooting Methodology</a></h2>
+<p>Troubleshooting of network connectivity issues is a broad topic. There are entire
+books written about it. This guide explains a methodology and widely available networking tools
+that help narrow most common issues down efficiently.</p>
+<p>Networking protocols are <a href="https://en.wikipedia.org/wiki/OSI_model#Comparison_with_TCP.2FIP_model">layered</a>.
+So are problems with them. An effective troubleshooting
+strategy typically uses the process of elimination to pinpoint the issue (or multiple issues),
+starting at higher levels. Specifically for messaging technologies, the following steps
+are often effective and sufficient:</p>
+<ul>
+<li><a href="#verify-client">Verify client configuration</a></li>
+<li><a href="#verify-server">Verify server configuration</a> using <span class="code "><a href="/rabbitmq-diagnostics.8.html">rabbitmq-diagnostics</a> listeners</span>,
+   <span class="code "><a href="/rabbitmq-diagnostics.8.html">rabbitmq-diagnostics</a> status</span>,
+   <span class="code "><a href="/rabbitmq-diagnostics.8.html">rabbitmq-diagnostics</a> environment</span></li>
+<li>Inspect <a href="#server-logs">server logs</a></li>
+<li>Verify <a href="#hostname-resolution">hostname resolution</a></li>
+<li>Verify what TCP <a href="#ports">port are used and their accessibility</a></li>
+<li>Verify <a href="#ip-routing">IP routing</a></li>
+<li>If needed, <a href="#traffic-capture">take and analyze a traffic dump</a> (traffic capture)</li>
+<li>Verify that clients can <a href="/access-control.html#troubleshooting-authn">successfully authenticate</a></li>
+</ul>
+<p>These steps, when performed in sequence, usually help identify the root cause of
+the vast majority of networking issues. Troubleshooting tools and techniques for
+levels lower than the <a href="https://en.wikipedia.org/wiki/Internet_protocol_suite#Internet_layer">Internet (networking) layer</a>
+are outside of the scope of this guide.</p>
+<p>Certain problems only happen in environments with a <a href="#detecting-high-connection-churn">high degree of connection churn</a>.
+Client connections can be inspected using the <a href="/management.html">management UI</a>.
+It is also possible to <a href="#inspecting-connections">inspect all TCP connections of a node and their state</a>.
+That information collected over time, combined with server logs, will help detect connection churn,
+file descriptor exhaustion and related issues.</p>
+<h2><a id="verify-client" class="anchor" href="#verify-client">Verify Client Configuration</a></h2>
+<p>All developers and operators have been there: typos,
+outdated values, issues in provisioning tools, mixed up
+public and private key paths, and so on. Step one is to
+double check application and client library
+configuration.</p>
+<h2><a id="verify-server" class="anchor" href="#verify-server">Verify Server Configuration</a></h2>
+<p>Verifying server configuration helps prove that RabbitMQ is running
+with the expected set of settings related to networking. It also verifies
+that the node is actually running. Here are the recommended steps:</p>
+<ul>
+<li>Make sure the node is running using <span class="code "><a href="/rabbitmq-diagnostics.8.html">rabbitmq-diagnostics</a> status</span></li>
+<li>Verify <a href="/configure.html#configuration-files">config file is correctly placed and has correct syntax/structure</a></li>
+<li>Inspect listeners using <span class="code "><a href="/rabbitmq-diagnostics.8.html">rabbitmq-diagnostics</a> listeners</span>
+   or the <span class="code ">listeners</span> section in <span class="code "><a href="/rabbitmq-diagnostics.8.html">rabbitmq-diagnostics</a> status</span></li>
+<li>Inspect effective configuration using <span class="code "><a href="/rabbitmq-diagnostics.8.html">rabbitmq-diagnostics</a> environment</span></li>
+</ul>
+<p>Note that in older RabbitMQ versions, the <span class="code ">status</span> and <span class="code ">environment</span> commands
+were only available as part of <a href="/rabbitmqctl.8.html">rabbitmqctl</a>:
+<span class="code "><a href="/rabbitmqctl.8.html">rabbitmqctl</a> status</span> and so on.
+In modern versions either tool can be used to run those commands but
+<a href="/rabbitmq-diagnostics.8.html">rabbitmq-diagnostics</a> is what most documentation guides
+will typically recommend.</p>
+<p>The listeners section will look something like this:</p>
+<pre class="lang-ini">
+Interface: [::], port: 25672, protocol: clustering, purpose: inter-node and CLI tool communication
+Interface: [::], port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and AMQP 1.0
+Interface: [::], port: 5671, protocol: amqp/ssl, purpose: AMQP 0-9-1 and AMQP 1.0 over TLS
+Interface: [::], port: 15672, protocol: http, purpose: HTTP API
+Interface: [::], port: 15671, protocol: https, purpose: HTTP API over TLS (HTTPS)
+Interface: [::], port: 1883, protocol: mqtt, purpose: MQTT
+</pre>
+
+<p>In the above example, there are 6 TCP listeners on the node:</p>
+<ul>
+<li><a href="/clustering.html">Inter-node</a> and <a href="/cli.html">CLI tool</a> communication on port <span class="code ">25672</span></li>
+<li>AMQP 0-9-1 (and 1.0, if enabled) listener for non-TLS connections on port <span class="code ">5672</span></li>
+<li>AMQP 0-9-1 (and 1.0, if enabled) listener for TLS-enabled connections on port <span class="code ">5671</span></li>
+<li><a href="/management.html">HTTP API</a> listeners on ports 15672 (HTTP) and 15671 (HTTPS)</li>
+<li><a href="/mqtt.html">MQTT</a> listener for non-TLS connections 1883</li>
+</ul>
+<p>In second example, there are 4 TCP listeners on the node:</p>
+<ul>
+<li><a href="/clustering.html">Inter-node</a> and <a href="/cli.html">CLI tool</a> communication on port <span class="code ">25672</span></li>
+<li>AMQP 0-9-1 (and 1.0, if enabled) listener for non-TLS connections, <span class="code ">5672</span></li>
+<li>AMQP 0-9-1 (and 1.0, if enabled) listener for TLS-enabled connections, <span class="code ">5671</span></li>
+<li><a href="/management.html">HTTP API</a> listener on ports 15672 (HTTP only)</li>
+</ul>
+<p>All listeners are bound to all available interfaces.</p>
+<p>Inspecting TCP listeners used by a node helps spot non-standard port configuration,
+protocol plugins (e.g. <a href="/mqtt.html">MQTT</a>) that are supposed to be configured but aren't,
+cases when the node is limited to only a few network interfaces, and so on. If a port is not on the
+listener list it means the node cannot accept any connections on it.</p>
+<h2><a id="server-logs" class="anchor" href="#server-logs">Inspect Server Logs</a></h2>
+<p>RabbitMQ nodes will <a href="/logging.html">log</a> key
+client <a href="/logging.html#connection-lifecycle-events">connection lifecycle events</a>.
+A TCP connection must be successfully established and at least 1 byte of data must be
+sent by the peer for a connection to be considered (and logged as) accepted.</p>
+<p>From this point, connection handshake and negotiation proceeds as defined by the specification
+of the messaging protocol used, e.g. AMQP 0-9-1, AMQP 1.0 or MQTT.</p>
+<p>If no events are logged, this means that either there were no successful inbound TCP connections
+or they sent no data.</p>
+<h2><a id="hostname-resolution" class="anchor" href="#hostname-resolution">Hostname Resolution</a></h2>
+<p>It is very common for applications to use hostnames or URIs with hostnames when connecting
+to RabbitMQ. <a href="https://en.wikipedia.org/wiki/Dig_(command)">dig</a> and <a href="https://en.wikipedia.org/wiki/Nslookup">nslookup</a> are
+commonly used tools for troubleshooting hostnames resolution.</p>
+<h2><a id="ports" class="anchor" href="#ports">Port Access</a></h2>
+<p>Besides hostname resolution and IP routing issues,
+TCP port inaccessibility for outside connections is a common reason for
+failing client connections. <a href="https://en.wikipedia.org/wiki/Telnet">telnet</a> is a commonly
+used, very minimalistic tool for testing TCP connections to a particular hostname and port.</p>
+<p>The following example uses <span class="code ">telnet</span> to connect to host <span class="code ">localhost</span> on port <span class="code ">5672</span>.
+There is a running node with stock defaults running on <span class="code ">localhost</span> and nothing blocks access to the port, so
+the connection succeeds. <span class="code ">12345</span> is then entered for input followed by an Enter.
+This data will be sent to the node on the opened connection.</p>
+<p>Since <span class="code ">12345</span> is not a correct AMQP 0-9-1 or AMQP 1.0 protocol header,
+so the server closes TCP connection:</p>
+<pre class="lang-bash">
+telnet localhost 5672
+# =&gt; Trying ::1...
+# =&gt; Connected to localhost.
+# =&gt; Escape character is '^]'.
+12345 # enter this and hit Enter to send
+# =&gt; AMQP   Connection closed by foreign host.
+</pre>
+
+<p>After <span class="code ">telnet</span> connection succeeds, use <span class="code ">Control + ]</span> and then <span class="code ">Control + D</span> to
+quit it.</p>
+<p>The following example connects to <span class="code ">localhost</span> on port <span class="code ">5673</span>.
+The connection fails (refused by the OS) since there is no process listening on that port.</p>
+<pre class="lang-bash">
+telnet localhost 5673
+# =&gt; Trying ::1...
+# =&gt; telnet: connect to address ::1: Connection refused
+# =&gt; Trying 127.0.0.1...
+# =&gt; telnet: connect to address 127.0.0.1: Connection refused
+# =&gt; telnet: Unable to connect to remote host
+</pre>
+
+<p>Failed or timing out <span class="code ">telnet</span> connections
+strongly suggest there's a proxy, load balancer or firewall
+that blocks incoming connections on the target port. It
+could also be due to RabbitMQ process not running on the
+target node or uses a non-standard port. Those scenarios
+should be eliminated at the step that double checks server
+listener configuration.</p>
+<p>There's a great number of firewall, proxy and load balancer tools and products.
+<a href="https://en.wikipedia.org/wiki/Iptables">iptables</a> is a commonly used
+firewall on Linux and other UNIX-like systems. There is no shortage of <span class="code ">iptables</span>
+tutorials on the Web.</p>
+<p>Open ports, TCP and UDP connections of a node can be inspected using <a href="https://en.wikipedia.org/wiki/Netstat">netstat</a>,
+<a href="https://linux.die.net/man/8/ss">ss</a>, <a href="https://en.wikipedia.org/wiki/Lsof">lsof</a>.</p>
+<p>The following example uses <span class="code ">lsof</span> to display OS processes that listen on port 5672 and use IPv4:</p>
+<pre class="lang-ini">
+sudo lsof -n -i4TCP:5672 | grep LISTEN
+</pre>
+
+<p>Similarly, for programs that use IPv6:</p>
+<pre class="lang-ini">
+sudo lsof -n -i6TCP:5672 | grep LISTEN
+</pre>
+
+<p>On port 1883:</p>
+<pre class="lang-ini">
+sudo lsof -n -i4TCP:1883 | grep LISTEN
+</pre>
+
+<pre class="lang-ini">
+sudo lsof -n -i6TCP:1883 | grep LISTEN
+</pre>
+
+<p>If the above commands produce no output then no local OS processes listen on the given port.</p>
+<p>The following example uses <span class="code ">ss</span> to display listening TCP sockets that use IPv4 and their OS processes:</p>
+<pre class="lang-ini">
+sudo ss --tcp -f inet --listening --numeric --processes
+</pre>
+
+<p>Similarly, for TCP sockets that use IPv6:</p>
+<pre class="lang-ini">
+sudo ss --tcp -f inet6 --listening --numeric --processes
+</pre>
+
+<p>For the list of ports used by RabbitMQ and its various
+plugins, see above. Generally all ports used for external
+connections must be allowed by the firewalls and proxies.</p>
+<p><span class="code ">rabbitmq-diagnostics listeners</span> and <span class="code ">rabbitmqctl status</span> can be
+used to list enabled listeners and their ports on a RabbitMQ node.</p>
+<h2><a id="ip-routing" class="anchor" href="#ip-routing">IP Routing</a></h2>
+<p>Messaging protocols supported by RabbitMQ use TCP and require IP routing between
+clients and RabbitMQ hosts to be functional. There are several tools and techniques
+that can be used to verify IP routing between two hosts. <a href="https://en.wikipedia.org/wiki/Traceroute">traceroute</a> and <a href="https://en.wikipedia.org/wiki/Ping_(networking_utility)">ping</a>
+are two common options available for many operating systems. Most routing table inspection tools are OS-specific.</p>
+<p>Note that both <span class="code ">traceroute</span> and <span class="code ">ping</span> use <a href="https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol">ICMP</a>
+while RabbitMQ client libraries and inter-node connections use TCP.
+Therefore a successful <span class="code ">ping</span> run alone does not guarantee successful client connectivity.</p>
+<p>Both <span class="code ">traceroute</span> and <span class="code ">ping</span> have Web-based and GUI tools built on top.</p>
+<h2><a id="traffic-capture" class="anchor" href="#traffic-capture">Capturing Traffic</a></h2>
+<p>All network activity can be inspected, filtered and analyzed using a traffic capture.</p>
+<p><a href="https://en.wikipedia.org/wiki/Tcpdump">tcpdump</a> and its GUI sibling <a href="https://www.wireshark.org">Wireshark</a>
+are the industry standards for capturing traffic, filtering and analysis. Both support all protocols supported by RabbitMQ.
+See the <a href="/amqp-wireshark.html">Using Wireshark with RabbitMQ</a> guide for an overview.</p>
+<h2><a id="tls" class="anchor" href="#tls">TLS Connections</a></h2>
+<p>For connections that use TLS there is a separate <a href="/troubleshooting-ssl.html">guide on troubleshooting TLS</a>.</p>
+<p>When adopting TLS it is important to make sure that clients
+use correct port to connect (see the list of ports above)
+and that they are instructed to use TLS (perform TLS
+upgrade). A client that is not configured to use TLS will
+successfully connect to a TLS-enabled server port but its connection
+will then time out since it never performs the TLS upgrade that the server
+expects.</p>
+<p>A TLS-enabled client connecting to a non-TLS enabled port will successfully
+connect and try to perform a TLS upgrade which the server does not expect, this
+triggering a protocol parser exception. Such exceptions will be logged by the server.</p>
+<h2><a id="inspecting-connections" class="anchor" href="#inspecting-connections">Inspecting Connections</a></h2>
+<p>Open ports, TCP and UDP connections of a node can be inspected using <a href="https://en.wikipedia.org/wiki/Netstat">netstat</a>,
+<a href="https://linux.die.net/man/8/ss">ss</a>, <a href="https://en.wikipedia.org/wiki/Lsof">lsof</a>.</p>
+<p>The following example uses <span class="code ">netstat</span> to list all TCP connection sockets regardless of their state and interface.
+IP addresses will be displayed as numbers instead of being resolved to domain names. Program names will be printed next
+to numeric port values (as opposed to protocol names).</p>
+<pre class="lang-bash">
+sudo netstat --all --numeric --tcp --programs
+</pre>
+
+<p>Both inbound (client, peer nodes, CLI tools) and outgoing (peer nodes,
+Federation links and Shovels) connections can be inspected this way.</p>
+<p><span class="code "><a href="/rabbitmqctl.8.html">rabbitmqctl</a> list_connections</span>, <a href="/management.html">management UI</a>
+can be used to inspect more connection properties, some of which are RabbitMQ- or
+messaging protocol-specific:</p>
+<ul>
+<li>Network traffic flow, both inbound and outbound</li>
+<li>Messaging (application-level) protocol used</li>
+<li>Connection virtual host</li>
+<li>Time of connection</li>
+<li>Username</li>
+<li>Number of channels</li>
+<li>Client library details (name, version, capabilities)</li>
+<li>Effective heartbeat timeout</li>
+<li>TLS details</li>
+</ul>
+<p>Combining connection information from management UI or CLI tools with those of <span class="code ">netstat</span> or <span class="code ">ss</span>
+can help troubleshoot misbehaving applications, application instances and client libraries.</p>
+<p>Most relevant connection metrics can be collected, aggregated and <a href="/monitoring.html">monitored</a>
+using <a href="/prometheus.html">Prometheus and Grafana</a>. </p>
+<h2><a id="detecting-high-connection-churn" class="anchor" href="#detecting-high-connection-churn">Detecting High Connection Churn</a></h2>
+<p>High connection churn (lots of connections opened and closed after a brief
+period of time) <a href="/networking.html#dealing-with-high-connection-churn">can lead to resource exhaustion</a>.
+It is therefore important to be able to identify such scenarios. <span class="code ">netstat</span> and <span class="code ">ss</span>
+are most popular options for <a href="troubleshooting-inspecting-connections">inspecting TCP connections</a>.
+A lot of connections in the <span class="code ">TIME_WAIT</span> state is a likely symptom of high connection churn.
+Lots of connections in states other than <span class="code ">ESTABLISHED</span> also might be a symptom worth investigating.</p>
+<p>Evidence of short lived connections can be found in RabbitMQ log files. E.g. here's an example
+of such connection that lasted only a few milliseconds:</p>
+<pre class="lang-ini">
+2018-06-17 16:23:29.851 [info] &lt;0.634.0&gt; accepting AMQP connection &lt;0.634.0&gt; (127.0.0.1:58588 -&gt; 127.0.0.1:5672)
+2018-06-17 16:23:29.853 [info] &lt;0.634.0&gt; connection &lt;0.634.0&gt; (127.0.0.1:58588 -&gt; 127.0.0.1:5672): user 'guest' authenticated and granted access to vhost '/'
+2018-06-17 16:23:29.855 [info] &lt;0.634.0&gt; closing AMQP connection &lt;0.634.0&gt; (127.0.0.1:58588 -&gt; 127.0.0.1:5672, vhost: '/', user: 'guest')
+</pre><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"><div id="in-this-section"><h4>In This Section</h4><ul>
+     <li><a href="/admin-guide.html" class="selected">Server Documentation</a><ul>
+       <li><a href="/configure.html">Configuration</a></li>
+       <li><a href="/management.html">Management UI</a></li>
+       <li><a href="/monitoring.html">Monitoring</a></li>
+       <li><a href="/production-checklist.html">Production Checklist</a></li>
+       <li><a href="/ssl.html">TLS Support</a></li>
+       <li><a href="/streams.html">Streams</a></li>
+       <li><a href="/feature-flags.html">Feature Flags</a></li>
+       <li><a href="/distributed.html">Distributed RabbitMQ</a></li>
+       <li><a href="/clustering.html">Clustering</a></li>
+       <li><a href="/reliability.html">Reliable Delivery</a></li>
+       <li><a href="/definitions.html">Schema Definition Export and Import</a></li>
+       <li><a href="/backup.html">Backup and restore</a></li>
+       <li><a href="/alarms.html">Alarms</a></li>
+       <li><a href="/memory-use.html">Memory Use</a></li>
+       <li><a href="/networking.html" class="selected">Networking</a><ul>
+         <li><a href="/troubleshooting-networking.html" class="selected">Troubleshooting Networking</a></li>
+       </ul></li>
+       <li><a href="/vhosts.html">Virtual Hosts</a></li>
+       <li><a href="/pacemaker.html">High Availability (pacemaker)</a></li>
+       <li><a href="/access-control.html">Access Control (Authorisation)</a></li>
+       <li><a href="/authentication.html">Authentication Mechanisms</a></li>
+       <li><a href="/ldap.html">LDAP</a></li>
+       <li><a href="/lazy-queues.html">Lazy Queues</a></li>
+       <li><a href="/event-exchange.html">Internal Event Exchange</a></li>
+       <li><a href="/firehose.html">Firehose (Message Tracing)</a></li>
+       <li><a href="/manpages.html">Manual Pages</a></li>
+       <li><a href="/windows-quirks.html">Windows Quirks</a></li>
+       
+       
+       
+       
+     </ul></li>
+     <li><a href="/clients.html">Client Documentation</a></li>
+     <li><a href="/plugins.html">Plugins</a></li>
+     <li><a href="/news.html">News</a></li>
+     <li><a href="/protocol.html">Protocol</a></li>
+     <li><a href="/extensions.html">Our Extensions</a></li>
+     <li><a href="/build.html">Building</a></li>
+     
+     <li><a href="/mpl.html">License</a></li>
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

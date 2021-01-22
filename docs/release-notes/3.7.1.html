@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title># RabbitMQ 3.7.1 — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1># RabbitMQ 3.7.1</h1>
+<p>RabbitMQ <span class="code ">3.7.1</span> is a bug fix release.</p>
+<h3>Upgrades and Compatibility</h3>
+<p>This release has no known incompatibilities with 3.7.0. See <a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.7.0">3.7.0 release notes</a>
+upgrade and compatibility notes if upgrading from an earlier release.</p>
+<p>See the <a href="https://www.rabbitmq.com/upgrade.html">Upgrading guide</a>
+for general documentation on upgrades.</p>
+<p>See <a href="https://www.rabbitmq.com/changelog.html">RabbitMQ change log</a> for release notes of other releases.</p>
+<h2>Changes</h2>
+<h3>Core Server</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Standalone Mac build now bundles a version of Erlang/OTP that is compatible with High Sierra (20.1, to be specific).</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server-release/issues/68">rabbitmq/rabbitmq-server-release#68</a></p>
+<ul>
+<li>RabbitMQ distribution now again can be built in an offline environment (one without access to the Internet).</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server-release/issues/61">rabbitmq/rabbitmq-server-release#61</a></p>
+<ul>
+<li><span class="code ">total_memory_available_override_value</span> was not available via the <a href="https://www.rabbitmq.com/configure.html">new config format</a>.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1445">rabbitmq/rabbitmq-server#1445</a></p>
+<h3>CLI Tools</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>
+<p><span class="code ">rabbitmqctl set_parameter</span> ignored the virtual host argument and default to the default (<span class="code ">/</span>) vhost.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/232">rabbitmq/rabbitmq-cli#232</a></p>
+</li>
+</ul>
+<h3>AWS Peer Discovery Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>HTTP client proxy settings were applied to late and thus didn't have any effect.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-common/issues/5">rabbitmq/rabbitmq-peer-discovery-common#5</a></p>
+<h3>Consul Peer Discovery Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>HTTP client proxy settings were applied to late and thus didn't have any effect.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-common/issues/5">rabbitmq/rabbitmq-peer-discovery-common#5</a></p>
+<h3>etcd Peer Discovery Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>HTTP client proxy settings were applied to late and thus didn't have any effect.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-common/issues/5">rabbitmq/rabbitmq-peer-discovery-common#5</a></p>
+<h3>Kubernetes Peer Discovery Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>HTTP client proxy settings were applied to late and thus didn't have any effect.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-common/issues/5">rabbitmq/rabbitmq-peer-discovery-common#5</a></p>
+<h3>Management and Management Agent Plugins</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Certain node metrics in multi-cluster environment were not merged correctly
+   when aggregated.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/525">rabbitmq/rabbitmq-management#525</a></p>
+<h3>Auth Backend HTTP Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>It was not possible to configure request HTTP method using the <a href="https://www.rabbitmq.com/configure.html">new style config file</a>.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-http/issues/61">rabbitmq/rabbitmq-auth-backend-http#61</a></p>
+<h3>Shovel Management Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Move Messages form on individual queue page didn't provide all the Shovel parameters required as
+   of 3.7.0 and thus did not transfer any messages.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-shovel-management/issues/24">rabbitmq/rabbitmq-shovel-management#24</a></p>
+<h3>Erlang AMQP 1.0 Client</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Continuation frames without <span class="code ">delivery_id</span> were not handled correctly.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-amqp1.0-client/issues/11">rabbitmq/rabbitmq-amqp1.0-client#11</a></p>
+<h2>Source code archives</h2>
+<p><strong>Warning</strong>: The source code archive provided by GitHub only contains the source of the broker,
+not the plugins or the client libraries. Please download the archive named <span class="code ">rabbitmq-3.7.1.tar.gz</span>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

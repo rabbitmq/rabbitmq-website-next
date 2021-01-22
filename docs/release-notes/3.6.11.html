@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title># RabbitMQ 3.6.11 — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1># RabbitMQ 3.6.11</h1>
+<p>RabbitMQ <span class="code ">3.6.11</span> is a maintenance release.</p>
+<h3>Upgrades and Compatibility</h3>
+<p>See the <a href="https://www.rabbitmq.com/clustering.html#upgrading">"Upgrading clusters" section of the documentation</a>
+for general documentation on upgrades.</p>
+<p>⚠️ This release <a href="https://groups.google.com/forum/#!topic/rabbitmq-users/TVZt45O3WzU">changes how nodes compute the amount of RAM they use</a> (and report). Previously the value was underreported.
+We recommend monitoring — or at least manually sampling — the <a href="http://www.linfo.org/ps.html">RSS of
+the Erlang VM</a> running RabbitMQ, comparing it to the value reported in the management UI
+to compute the delta. Then adjust configured <a href="https://www.rabbitmq.com/alarms.html">VM high memory watermark</a> an
+possibly provisioning more RAM as needed.</p>
+<p>This release has no other known incompatibilities with versions 3.6.7 through 3.6.10.
+See the upgrade and compatibility sections in the <a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/rabbitmq_v3_6_7">3.6.7 release notes</a> if upgrading from an earlier release.</p>
+<p>⚠️  This is the first release that <a href="https://groups.google.com/forum/#!searchin/rabbitmq-users/OTP$2020%7Csort:relevance/rabbitmq-users/_imbAavBYjY/ninEKhMYAgAJ">supports Erlang/OTP 20</a>.</p>
+<h3>Core Server</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Node RAM consumption calculation strategy <a href="https://groups.google.com/forum/#!topic/rabbitmq-users/TVZt45O3WzU">has changed</a>
+   to a more precise one. Previously the value <strong>was underreported</strong>. It is possible to switch to the behavior in earlier versions
+   if desired. This will <strong>affect monitoring charts</strong> and possibly <strong>require bumping VM memory high watermark</strong>
+   or provisioning more RAM.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1223">rabbitmq-server#1223</a>, <a href="https://github.com/rabbitmq/rabbitmq-server/pull/1270">rabbitmq-server#1270</a></p>
+<ul>
+<li>Erlang/OTP 20 is <a href="https://groups.google.com/forum/#!searchin/rabbitmq-users/OTP$2020%7Csort:relevance/rabbitmq-users/_imbAavBYjY/ninEKhMYAgAJ">now supported</a>.</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1243">rabbitmq-server#1243</a>, <a href="https://github.com/rabbitmq/rabbitmq-server/pull/1246">rabbitmq-server#1246</a>, <a href="https://github.com/rabbitmq/rabbitmq-federation/pull/58">rabbitmq-federation#58</a>, <a href="https://github.com/rabbitmq/rabbitmq-management-agent/pull/47">rabbitmq-management-agent#47</a>, <a href="https://github.com/rabbitmq/rabbitmq-management/pull/415">rabbitmq-management#415</a>, <a href="https://github.com/rabbitmq/rabbitmq-stomp/issues/115">rabbitmq-stomp#115</a></p>
+<ul>
+<li>
+<p><span class="code ">supervisor2</span>: supervisor could fail to restart failed child processes in some cases.
+    This could affect multiple plugins, e.g. federation.</p>
+<p>Contributed by Aliaksey Artamonau (Couchbase).</p>
+</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-common/pull/201">rabbitmq-common#201</a>,
+                  <a href="https://github.com/rabbitmq/rabbitmq-server/pull/1238">rabbitmq-server#1238</a></p>
+<ul>
+<li>Memory used by binary heap ("binaries") was reduced for some scenarios that involve mirrored queues.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-common/issues/208">rabbitmq-common#208</a></p>
+<ul>
+<li>Exclusive queues were not cleaned up when node failed or was considered unavailable by one of its
+   peers.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1323">rabbitmq-server#1323</a></p>
+<ul>
+<li><span class="code ">rabbitmq-service.bat start</span> and <span class="code ">rabbitmq-service.bat stop</span> did not report access violation
+   errors.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1324">rabbitmq-server#1324</a></p>
+<ul>
+<li>When high VM memory watermarked is set to a value greater than 1.0,
+   <span class="code ">1.0</span> will be used as effective value now instead of the default (<span class="code ">0.4</span>).</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1285">rabbitmq-server#1285</a></p>
+<h4>Enhancements</h4>
+<ul>
+<li>Total amount of RAM as seen by a node now can be overridden via config file.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1224">rabbitmq-server#1224</a></p>
+<ul>
+<li>Default value of <span class="code ">RABBITMQ_DISTRIBUTION_BUFFER_SIZE</span> is now <span class="code ">128000</span>. This makes inter-node communication
+   throughput more stable on 1 GBbit/s (or greater) network links.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1306">rabbitmq-server#1306</a></p>
+<ul>
+<li>Plugins that are already expanded (unarhived from <span class="code ">.ez</span> archives on node boot) won't be
+   expanded again.</li>
+</ul>
+<p>Contributed by Alex Lebedeff (Mirantis).</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/1226">rabbitmq-server#1226</a></p>
+<h3>Management plugin</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>Listing queues, exchanges, vhosts via HTTP API is now more efficient for common cases
+   (e.g. when pagination is not used or only a subset of fields is requested).</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/402">rabbitmq-management#402</a></p>
+<ul>
+<li>Inter-node cluster link traffic information was missing.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/434">rabbitmq-management#434</a></p>
+<ul>
+<li>Exclusive queues didn't have feature markers in the UI.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/459">rabbitmq-management#459</a></p>
+<ul>
+<li>Queue master locator now has a feature marker in the UI.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/pull/468">rabbitmq-management#468</a></p>
+<ul>
+<li>It is now possible to pre-configure user permission at the time of its creation.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/441">rabbitmq-management#441</a></p>
+<ul>
+<li><span class="code ">rabbitmqadmin</span> now supports <span class="code ">--ssl-insecure</span> (<span class="code ">-k</span>), serving the same purpose as <span class="code ">-k</span> in curl</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/452">rabbitmq-management#452</a></p>
+<ul>
+<li>
+<p><span class="code ">rabbitmqadmin</span> now supports setting HTTP API endpoint hostname, port, username, and password
+    using a URI.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/437">rabbitmq-management#437</a></p>
+</li>
+<li>
+<p>HTTP API requests now are less likely to produce log noise.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-web-dispatch/issues/27">rabbitmq-web-dispatch#27</a></p>
+</li>
+</ul>
+<h4>Bug Fixes</h4>
+<ul>
+<li>
+<p>Queue master migration no longer leaves statistics database records behind.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/427">rabbitmq-management#427</a></p>
+</li>
+<li>
+<p>Consumer argument serialisation to JSON was fixed.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/424">rabbitmq-management#424</a></p>
+</li>
+<li>
+<p>It is now again possible to create a user without a password (or password hash).
+    Such users won't be able to sign in with <a href="https://www.rabbitmq.com/access-control.html">internal authentication backend</a>
+    but can be used with external authentication mechanisms (x509 certificates) and backends
+    (LDAP, HTTP, etc).</p>
+<p>GitHib issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/383">rabbitmq-management#383</a></p>
+</li>
+<li>
+<p>Pagination combined with a user-provided set of columns returned no results.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/404">rabbitmq-management#404</a></p>
+</li>
+<li>
+<p>Regular expressions used for filtering were not correctly escaped.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/419">rabbitmq-management#419</a></p>
+</li>
+<li>
+<p><span class="code ">rabbitmqadmin</span> now handles float rates.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/457">rabbitmq-management#457</a></p>
+</li>
+<li>
+<p><span class="code ">rabbitmqadmin</span> now ignores <span class="code ">SIGPIPE</span> signals and much less likely to terminate when its output is piped to
+    another process.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/438">rabbitmq-management#438</a></p>
+</li>
+<li>
+<p>HTTP requests with unintialised fields are less likely to crash log event handler.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-web-dispatch/issues/27">rabbitmq-web-dispatch#27</a></p>
+</li>
+</ul>
+<h3>Federation Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>
+<p>Federation links now recover better in certain scenarios, e.g. when one side of a link could be reset.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-federation/issues/59">rabbitmq-federation#59</a></p>
+</li>
+</ul>
+<h3>STOMP Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Erlang/OTP 20 is <a href="https://groups.google.com/forum/#!searchin/rabbitmq-users/OTP$2020%7Csort:relevance/rabbitmq-users/_imbAavBYjY/ninEKhMYAgAJ">now supported</a>.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-stomp/issues/115">rabbitmq-stomp#115</a></p>
+<h3>MQTT Plugin</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>No-op MQTT message retainer.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-mqtt/issues/136">rabbitmq-mqtt#136</a></p>
+<h4>Bug Fixes</h4>
+<ul>
+<li>MQTT connection processes now use connection log level.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-mqtt/issues/142">rabbitmq-mqtt#142</a></p>
+<h3>Consistent Hashing Exchange</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Bucket distribution is now consistent (doesn't change) between plugin and node restarts
+   (assuming bindings haven't changed).</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-consistent-hash-exchange/issues/32">rabbitmq-consistent-hash-exchange#32</a></p>
+<h3>Top Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li><span class="code ">rabbitmq-top</span> now gracefully covers scenarios when it is enabled only on a subset of cluster nodes.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-top/issues/23">rabbitmq-top#23</a></p>
+<ul>
+<li>Node drop down on ETS table tab redirected to the processes tab.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-top/issues/24">rabbitmq-top#24</a></p>
+<h3>Message Timestamp Plugin</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>
+<p>Timestamp in milliseconds is also injected as a header (unless the header is present).</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-message-timestamp/issues/16">rabbitmq-message-timestamp#16</a></p>
+</li>
+</ul>
+<h2>Upgrading</h2>
+<p>To upgrade a non-clustered RabbitMQ simply install the new version. All configuration and persistent message data are retained.
+When upgrading using definitions export/import from versions earlier than 3.6.0, see http://rabbitmq.com/passwords.html.</p>
+<p>To upgrade a RabbitMQ cluster, follow the instructions <a href="https://www.rabbitmq.com/clustering.html#upgrading">in RabbitMQ documentation</a>.</p>
+<h2>Source code archives</h2>
+<p><strong>Warning</strong>: The source code archive provided by GitHub only contains the source of the broker,
+not the plugins or the client libraries. Please download the archive named <span class="code ">rabbitmq-3.6.11.tar.gz</span>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

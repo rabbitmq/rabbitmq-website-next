@@ -1,0 +1,239 @@
+<div class="mandoc">
+<div class="section">
+<h2 id="x4e414d45">NAME</h2> <b class="name">rabbitmq-plugins</b> &#8212; <span class="desc">command line tool for managing RabbitMQ plugins</span></div>
+<div class="section">
+<h2 id="x53594e4f50534953">SYNOPSIS</h2><table class="synopsis">
+<col style="width: 16.00ex;"/>
+<col/>
+<tbody>
+<tr>
+<td>
+rabbitmq-plugins</td>
+<td>
+[<span class="opt"><b class="flag">-q</b></span>] [<span class="opt"><b class="flag">-s</b></span>] [<span class="opt"><b class="flag">-l</b></span>] [<span class="opt"><b class="flag">-n</b> <i class="arg">node</i></span>] [<span class="opt"><b class="flag">-t</b> <i class="arg">timeout</i></span>] <i class="arg">command</i> [<span class="opt"><i class="arg">command_options</i></span>]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section">
+<h2 id="x4445534352495054494f4e">DESCRIPTION</h2> <b class="name">rabbitmq-plugins</b> is a command line tool for managing RabbitMQ plugins. See the <a class="link-ext" href="https://www.rabbitmq.com/plugins.html">RabbitMQ Plugins guide</a> for an overview of RabbitMQ plugins and how they are used.<div style="height: 1.00em;">
+&#160;</div>
+<b class="name">rabbitmq-plugins</b> allows the operator to enable, disable and inspect plugins. It must be run by a user with write permissions to the RabbitMQ configuration directory.<div class="spacer">
+</div>
+Plugins can depend on other plugins. <b class="name">rabbitmq-plugins</b> resolves the dependencies and enables or disables all dependencies so that the user doesn't have to manage them explicitly. Plugins listed on the <b class="name">rabbitmq-plugins</b> command line are marked as explicitly enabled; dependent plugins are marked as implicitly enabled. Implicitly enabled plugins are automatically disabled again when they are no longer required.<div class="spacer">
+</div>
+The <b class="flag">enable</b>, <b class="flag">disable</b>, and <b class="flag">set</b> commands will update the plugins file and then attempt to connect to the broker and ensure it is running all enabled plugins. By default if it is not possible to connect to and authenticate with the target node (for example if it is stopped), the operation will fail. If <b class="name">rabbitmq-plugins</b> is used on the same host as the target node, <b class="flag">--offline</b> can be specified to make <b class="name">rabbitmq-plugins</b> resolve and update plugin state directly (without contacting the node). Such changes will only have an effect on next node start. To learn more, see the <a class="link-ext" href="https://www.rabbitmq.com/plugins.html">RabbitMQ Plugins guide</a></div>
+<div class="section">
+<h2 id="x4f5054494f4e53">OPTIONS</h2><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-n</b> <i class="arg">node</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Default node is &#8220;<i class="arg">rabbit@target-hostname</i>&#8221;, where <i class="arg">target-hostname</i> is the local host. On a host named &#8220;myserver.example.com&#8221;, the node name will usually be &#8220;rabbit@myserver&#8221; (unless <span class="env">RABBITMQ_NODENAME</span> has been overridden). The output of &#8220;hostname -s&#8221; is usually the correct suffix to use after the &#8220;@&#8221; sign. See <a class="link-man" href="rabbitmq-server.8.html">rabbitmq-server(8)</a> for details of configuring a RabbitMQ node.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-q</b>, <b class="flag">--quiet</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Quiet output mode is selected. Informational messages are reduced when quiet mode is in effect.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-s</b>, <b class="flag">--silent</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Silent output mode is selected. Informational messages are reduced and table headers are suppressed when silent mode is in effect.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-t</b> <i class="arg">timeout</i>, <b class="flag">--timeout</b> <i class="arg">timeout</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Operation timeout in seconds. Not all commands support timeouts. Default is <b class="flag">infinity</b>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-l</b>, <b class="flag">--longnames</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Must be specified when the cluster is configured to use long (FQDN) node names. To learn more, see the <a class="link-ext" href="https://www.rabbitmq.com/clustering.html">RabbitMQ Clustering guide</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">--erlang-cookie</b> <i class="arg">cookie</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Shared secret to use to authenticate to the target node. Prefer using a local file or the <span class="env">RABBITMQ_ERLANG_COOKIE</span> environment variable instead of specifying this option on the command line. To learn more, see the <a class="link-ext" href="https://www.rabbitmq.com/cli.html">RabbitMQ CLI Tools guide</a></dd>
+</dl>
+</div>
+<div class="section">
+<h2 id="x434f4d4d414e4453">COMMANDS</h2><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list</b> [<span class="opt"><b class="flag">-Eemv</b></span>] [<span class="opt"><i class="arg">pattern</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-E</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Show only explicitly enabled plugins.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-e</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Show only explicitly or implicitly enabled plugins.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-m</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Show only plugin names (minimal).</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-v</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Show all plugin details (verbose).</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<i class="arg">pattern</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Pattern to filter the plugin names by.</dd>
+</dl>
+<div class="spacer">
+</div>
+Lists all plugins, their versions, dependencies and descriptions. Each plugin is prefixed with two status indicator characters inside [ ]. The first indicator can be:<dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 0.00em;">
+<span class="symb">&lt;space&gt;</span></dt>
+<dd class="list-tag" style="margin-left: 7.00ex;">
+to indicate that the plugin is not enabled</dd>
+<dt class="list-tag" style="margin-top: 0.00em;">
+<span class="symb">E</span></dt>
+<dd class="list-tag" style="margin-left: 7.00ex;">
+to indicate that it is explicitly enabled</dd>
+<dt class="list-tag" style="margin-top: 0.00em;">
+<span class="symb">e</span></dt>
+<dd class="list-tag" style="margin-left: 7.00ex;">
+to indicate that it is implicitly enabled</dd>
+<dt class="list-tag" style="margin-top: 0.00em;">
+<span class="symb">!</span></dt>
+<dd class="list-tag" style="margin-left: 7.00ex;">
+to indicate that it is enabled but missing and thus not operational</dd>
+</dl>
+<div class="spacer">
+</div>
+The second indicator can be:<dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 0.00em;">
+<span class="symb">&lt;space&gt;</span></dt>
+<dd class="list-tag" style="margin-left: 7.00ex;">
+to show that the plugin is not running</dd>
+<dt class="list-tag" style="margin-top: 0.00em;">
+<span class="symb">*</span></dt>
+<dd class="list-tag" style="margin-left: 7.00ex;">
+to show that it is</dd>
+</dl>
+<div class="spacer">
+</div>
+If the optional pattern is given, only plugins whose name matches <i class="arg">pattern</i> are shown.<div class="spacer">
+</div>
+For example, this command lists all plugins, on one line each<div style="height: 1.00em;">
+&#160;</div>
+<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-plugins list</code></div>
+</blockquote>
+<div class="spacer">
+</div>
+This command lists all plugins:<div style="height: 1.00em;">
+&#160;</div>
+<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-plugins list -v</code></div>
+</blockquote>
+<div class="spacer">
+</div>
+This command lists all plugins whose name contains &quot;management&quot;.<div style="height: 1.00em;">
+&#160;</div>
+<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-plugins list -v management</code></div>
+</blockquote>
+<div class="spacer">
+</div>
+This command lists all implicitly or explicitly enabled RabbitMQ plugins.<div style="height: 1.00em;">
+&#160;</div>
+<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-plugins list -e rabbit</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">enable</b> [<span class="opt"><b class="flag">--offline</b></span>] [<span class="opt"><b class="flag">--online</b></span>] <i class="arg">plugin ...</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">--offline</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Modify node's enabled plugin state directly without contacting the node.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">--online</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Treat a failure to connect to the running broker as fatal.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<i class="arg">plugin</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+One or more plugins to enable.</dd>
+</dl>
+<div class="spacer">
+</div>
+Enables the specified plugins and all their dependencies.<div class="spacer">
+</div>
+For example, this command enables the &#8220;shovel&#8221; and &#8220;management&#8221; plugins and all their dependencies:<div style="height: 1.00em;">
+&#160;</div>
+<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-plugins enable rabbitmq_shovel rabbitmq_management</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">disable</b> [<span class="opt"><b class="flag">--offline</b></span>] [<span class="opt"><b class="flag">--online</b></span>] <i class="arg">plugin ...</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">--offline</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Modify node's enabled plugin state directly without contacting the node.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">--online</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Treat a failure to connect to the running broker as fatal.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<i class="arg">plugin</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+One or more plugins to disable.</dd>
+</dl>
+<div class="spacer">
+</div>
+Disables the specified plugins and all their dependencies.<div class="spacer">
+</div>
+For example, this command disables &#8220;rabbitmq_management&#8221; and all plugins that depend on it:<div style="height: 1.00em;">
+&#160;</div>
+<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-plugins disable rabbitmq_management</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">set</b> [<span class="opt"><b class="flag">--offline</b></span>] [<span class="opt"><b class="flag">--online</b></span>] [<span class="opt"><i class="arg">plugin ...</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">--offline</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Modify node's enabled plugin state directly without contacting the node.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">--online</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Treat a failure to connect to the running broker as fatal.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<i class="arg">plugin</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Zero or more plugins to disable.</dd>
+</dl>
+<div class="spacer">
+</div>
+Enables the specified plugins and all their dependencies. Unlike <b class="flag">enable</b>, this command ignores and overwrites any existing enabled plugins. <b class="flag">set</b> with no plugin arguments is a legal command meaning &quot;disable all plugins&quot;.<div class="spacer">
+</div>
+For example, this command enables the &#8220;management&#8221; plugin and its dependencies and disables everything else:<div style="height: 1.00em;">
+&#160;</div>
+<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-plugins set rabbitmq_management</code></div>
+</blockquote>
+</dd>
+</dl>
+</div>
+<div class="section">
+<h2 id="x53454520414c534f">SEE ALSO</h2> <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a>, <a class="link-man" href="rabbitmq-diagnostics.8.html">rabbitmq-diagnostics(8)</a>, <a class="link-man" href="rabbitmq-server.8.html">rabbitmq-server(8)</a>, <a class="link-man" href="rabbitmq-queues.8.html">rabbitmq-queues(8)</a>, <a class="link-man" href="rabbitmq-upgrade.8.html">rabbitmq-upgrade(8)</a>, <a class="link-man" href="rabbitmq-service.8.html">rabbitmq-service(8)</a>, <a class="link-man" href="rabbitmq-env.conf.5.html">rabbitmq-env.conf(5)</a>, <a class="link-man" href="rabbitmq-echopid.8.html">rabbitmq-echopid(8)</a></div>
+<div class="section">
+<h2 id="x415554484f52">AUTHOR</h2> <span class="author">The RabbitMQ Team</span> &lt;<a class="link-mail" href="mailto:info@rabbitmq.com">info@rabbitmq.com</a>&gt;</div>
+</div>
+

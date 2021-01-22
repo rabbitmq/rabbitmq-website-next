@@ -1,0 +1,713 @@
+<div class="mandoc">
+<div class="section">
+<h2 id="x4e414d45">NAME</h2> <b class="name">rabbitmq-diagnostics</b> &#8212; <span class="desc">RabbitMQ diagnostics, monitoring and health checks tools</span></div>
+<div class="section">
+<h2 id="x53594e4f50534953">SYNOPSIS</h2><table class="synopsis">
+<col style="width: 20.00ex;"/>
+<col/>
+<tbody>
+<tr>
+<td>
+rabbitmq-diagnostics</td>
+<td>
+[<span class="opt"><b class="flag">-q</b></span>] [<span class="opt"><b class="flag">-s</b></span>] [<span class="opt"><b class="flag">-l</b></span>] [<span class="opt"><b class="flag">-n</b> <i class="arg">node</i></span>] [<span class="opt"><b class="flag">-t</b> <i class="arg">timeout</i></span>] <i class="arg">command</i> [<span class="opt"><i class="arg">command_options</i></span>]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section">
+<h2 id="x4445534352495054494f4e">DESCRIPTION</h2> <b class="name">rabbitmq-diagnostics</b> is a command line tool that provides commands used for diagnostics, monitoring and health checks of RabbitMQ nodes. See the <a class="link-ext" href="https://rabbitmq.com/documentation.html">RabbitMQ documentation guides</a> to learn more about RabbitMQ diagnostics, monitoring and health checks.<div style="height: 1.00em;">
+&#160;</div>
+<b class="name">rabbitmq-diagnostics</b> allows the operator to inspect node and cluster state. A number of health checks are available to be used interactively and by monitoring tools.<div style="height: 1.00em;">
+&#160;</div>
+<div class="spacer">
+</div>
+By default if it is not possible to connect to and authenticate with the target node (for example if it is stopped), the operation will fail. To learn more, see the <a class="link-ext" href="https://rabbitmq.com/monitoring.html">RabbitMQ Monitoring guide</a></div>
+<div class="section">
+<h2 id="x4f5054494f4e53">OPTIONS</h2><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-n</b> <i class="arg">node</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Default node is &#8220;rabbit@<i class="arg">target-hostname</i>&#8221;, where <i class="arg">target-hostname</i> is the local host. On a host named &#8220;myserver.example.com&#8221;, the node name will usually be &#8220;rabbit@myserver&#8221; (unless <span class="env">RABBITMQ_NODENAME</span> has been overridden). The output of &#8220;hostname -s&#8221; is usually the correct suffix to use after the &#8220;@&#8221; sign. See <a class="link-man" href="rabbitmq-server.8.html">rabbitmq-server(8)</a> for details of configuring a RabbitMQ node.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-q</b>, <b class="flag">--quiet</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Quiet output mode is selected. Informational messages are reduced when quiet mode is in effect.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-s</b>, <b class="flag">--silent</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Silent output mode is selected. Informational messages are reduced and table headers are suppressed when silent mode is in effect.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-t</b> <i class="arg">timeout</i>, <b class="flag">--timeout</b> <i class="arg">timeout</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Operation timeout in seconds. Not all commands support timeouts. Default is <b class="flag">infinity</b>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-l</b>, <b class="flag">--longnames</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Must be specified when the cluster is configured to use long (FQDN) node names. To learn more, see the <a class="link-ext" href="https://rabbitmq.com/clustering.html">RabbitMQ Clustering guide</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">--erlang-cookie</b> <i class="arg">cookie</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Shared secret to use to authenticate to the target node. Prefer using a local file or the <span class="env">RABBITMQ_ERLANG_COOKIE</span> environment variable instead of specifying this option on the command line. To learn more, see the <a class="link-ext" href="https://rabbitmq.com/cli.html">RabbitMQ CLI Tools guide</a></dd>
+</dl>
+</div>
+<div class="section">
+<h2 id="x434f4d4d414e4453">COMMANDS</h2> Most commands provided by <b class="name">rabbitmq-diagnostics</b> inspect node and cluster state or perform health checks.<div class="spacer">
+</div>
+Commands that list topology entities (e.g. queues) use tab as column delimiter. These commands and their arguments are delegated to rabbitmqctl(8).<div class="spacer">
+</div>
+Some commands ( <b class="flag">list_queues</b>, <b class="flag">list_exchanges</b>, <b class="flag">list_bindings</b> and <b class="flag">list_consumers</b>) accept an optional <i class="arg">vhost</i> parameter.<div class="spacer">
+</div>
+The <b class="flag">list_queues</b>, <b class="flag">list_exchanges</b> and <b class="flag">list_bindings</b> commands accept an optional virtual host parameter for which to display results. The default value is &#8220;/&#8221;.<div class="subsection">
+<h3 id="x48656c70">Help</h3><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">help</b> [<span class="opt"><b class="flag">-l</b></span>] [<span class="opt"><i class="arg">command_name</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Prints usage for all available commands.<dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-l</b>, <b class="flag">--list-commands</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+List command usages only, without parameter explanation.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<i class="arg">command_name</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Prints usage for the specified command.</dd>
+</dl>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">version</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Displays CLI tools version</dd>
+</dl>
+<dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+</dl>
+</div>
+<div class="subsection">
+<h3 id="x4e6f646573">Nodes</h3><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">wait</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">wait</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+</dl>
+</div>
+<div class="subsection">
+<h3 id="x436c7573746572">Cluster</h3><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">cluster_status</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">cluster_status</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+</dl>
+</div>
+<div class="subsection">
+<h3 id="x5573657273">Users</h3><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_users</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_users</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+</dl>
+</div>
+<div class="subsection">
+<h3 id="x41636365737320436f6e74726f6c">Access Control</h3><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_permissions</b> [<span class="opt"><b class="flag">-p</b> <i class="arg">vhost</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_permissions</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_topic_permissions</b> [<span class="opt"><b class="flag">-p</b> <i class="arg">vhost</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_topic_permissions</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_user_permissions</b> <i class="arg">username</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_user_permissions</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_user_topic_permissions</b> <i class="arg">username</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_user_topic_permissions</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_vhosts</b> [<span class="opt"><i class="arg">vhostinfoitem ...</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_vhosts</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+</dl>
+</div>
+<div class="subsection">
+<h3 id="x4d6f6e69746f72696e672c206f62736572766162696c69747920616e64206865616c746820636865636b73">Monitoring, observability and health checks</h3><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">alarms</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Lists resource alarms, if any, in the cluster.<div class="spacer">
+</div>
+See <a class="link-ext" href="https://rabbitmq.com/alarms.html">RabbitMQ Resource Alarms guide</a> to learn more.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics alarms</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">certificates</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Displays the node certificates for every listener on target node that is configured to use TLS.<div class="spacer">
+</div>
+Example:<div style="height: 1.00em;">
+&#160;</div>
+<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics certificates</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">check_alarms</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Health check that fails (returns with a non-zero code) if there are alarms in effect on any of the cluster nodes.<div class="spacer">
+</div>
+See <a class="link-ext" href="https://rabbitmq.com/alarms.html">RabbitMQ Resource Alarms guide</a> to learn more.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics check_alarms</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">check_certificate_expiration</b> [<span class="opt"><b class="flag">--unit</b> <i class="arg">time_unit</i></span>] [<span class="opt"><b class="flag">--within</b> <i class="arg">seconds</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Checks the expiration date on the certificates for every listener on target node that is configured to use TLS. Supported time units are:<ul style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-bul">
+<li class="list-bul" style="margin-top: 1.00em;">
+days</li>
+<li class="list-bul" style="margin-top: 1.00em;">
+weeks</li>
+<li class="list-bul" style="margin-top: 1.00em;">
+months</li>
+<li class="list-bul" style="margin-top: 1.00em;">
+years</li>
+</ul>
+<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics check_certificate_expiration --unit weeks --within 6</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">check_local_alarms</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Health check that fails (returns with a non-zero code) if there are alarms in effect on the target node.<div class="spacer">
+</div>
+See <a class="link-ext" href="https://rabbitmq.com/alarms.html">RabbitMQ Resource Alarms guide</a> to learn more.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics check_local_alarms</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">check_port_connectivity</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Health check that fails (returns with a non-zero code) if any listener ports on the target node cannot accept a new TCP connection opened by <b class="name">rabbitmq-diagnostics</b><div class="spacer">
+</div>
+The check only validates if a new TCP connection is accepted. It does not perform messaging protocol handshake or authenticate.<div class="spacer">
+</div>
+See <a class="link-ext" href="https://rabbitmq.com/networking.html">RabbitMQ Networking guide</a> to learn more.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics check_port_connectivity</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">check_port_listener</b> <i class="arg">port</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Health check that fails (returns with a non-zero code) if the target node is not listening on the specified port (there is no listener that uses that port).<div class="spacer">
+</div>
+See <a class="link-ext" href="https://rabbitmq.com/networking.html">RabbitMQ Networking guide</a> to learn more.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics check_port_listener 5672</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">check_protocol_listener</b> <i class="arg">protocol</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Health check that fails (returns with a non-zero code) if the target node does not have a listener for the specified protocol.<div class="spacer">
+</div>
+See <a class="link-ext" href="https://rabbitmq.com/networking.html">RabbitMQ Networking guide</a> to learn more.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics check_protocol_listener mqtt</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">check_running</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Health check that fails (returns with a non-zero code) if the RabbitMQ application is not running on the target node.<div class="spacer">
+</div>
+If <b class="flag">rabbitmqctl(8)</b> was used to stop the application, this check will fail.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics check_running</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">check_virtual_hosts</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Health check that checks if all vhosts are running in the target node<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics check_virtual_hosts --timeout 60</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">cipher_suites</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Lists cipher suites enabled by default. To list all available cipher suites, add the --all argument.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics cipher_suites --format openssl --all</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">command_line_arguments</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Displays target node's command-line arguments and flags as reported by the runtime.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics command_line_arguments -n rabbit@hostname</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">consume_event_stream</b> [<span class="opt"><b class="flag">--duration</b> <i class="arg">seconds</i> | <b class="flag">-d</b> <i class="arg">seconds</i></span>] [<span class="opt"><b class="flag">--pattern</b> <i class="arg">pattern</i></span>] [<span class="opt"><b class="flag">--timeout</b> <i class="arg">milliseconds</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Streams internal events from a running node. Output is jq-compatible.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics consume_event_stream -n rabbit@hostname --duration 20 --pattern queue_.*</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">discover_peers</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Runs a peer discovery on the target node and prints the discovered nodes, if any.<div class="spacer">
+</div>
+See <a class="link-ext" href="https://rabbitmq.com/cluster-formation.html">RabbitMQ Cluster Formation guide</a> to learn more.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics discover_peers --timeout 60</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">environment</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+See <b class="flag">environment</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">erlang_cookie_hash</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Outputs a hashed value of the shared secret used by the target node to authenticate CLI tools and peers. The value can be compared with the hash found in error messages of CLI tools.<div class="spacer">
+</div>
+See <a class="link-ext" href="https://rabbitmq.com/clustering.html#erlang-cookie">RabbitMQ Clustering guide</a> to learn more.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics erlang_cookie_hash -q</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">erlang_version</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Reports target node's Erlang/OTP version.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics erlang_version -q</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">is_booting</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Reports if RabbitMQ application is currently booting (not booted/running or stopped) on the target node.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics is_booting</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">is_running</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Reports if RabbitMQ application is fully booted and running (that is, not stopped) on the target node.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics is_running</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_bindings</b> [<span class="opt"><b class="flag">-p</b> <i class="arg">vhost</i></span>] [<span class="opt"><i class="arg">bindinginfoitem ...</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_bindings</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_channels</b> [<span class="opt"><i class="arg">channelinfoitem ...</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_channels</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_ciphers</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_ciphers</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_connections</b> [<span class="opt"><i class="arg">connectioninfoitem ...</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_connections</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_consumers</b> [<span class="opt"><b class="flag">-p</b> <i class="arg">vhost</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_consumers</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_exchanges</b> [<span class="opt"><b class="flag">-p</b> <i class="arg">vhost</i></span>] [<span class="opt"><i class="arg">exchangeinfoitem ...</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_exchanges</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_hashes</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_hashes</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_queues</b> [<span class="opt"><b class="flag">-p</b> <i class="arg">vhost</i></span>] [<span class="opt"><b class="flag">--offline</b> | <b class="flag">--online</b> | <b class="flag">--local</b></span>] [<span class="opt"><i class="arg">queueinfoitem ...</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_queues</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_unresponsive_queues</b> [<span class="opt"><b class="flag">--local</b></span>] [<span class="opt"><b class="flag">--queue-timeout</b> <i class="arg">milliseconds</i></span>] [<span class="opt"><i class="arg">column ...</i></span>] [<span class="opt"><b class="flag">--no-table-headers</b></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_unresponsive_queues</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">listeners</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Lists listeners (bound sockets) on this node. Use this to inspect what protocols and ports the node is listening on for client, CLI tool and peer connections.<div class="spacer">
+</div>
+See <a class="link-ext" href="https://rabbitmq.com/networking.html">RabbitMQ Networking guide</a> to learn more.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics listeners</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">log_tail</b> <b class="flag">--number</b> <i class="arg">number</i> | <b class="flag">-N</b> <i class="arg">number</i> [<span class="opt"><b class="flag">--timeout</b> <i class="arg">milliseconds</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Prints the last N lines of the log on the node<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics log_tail -number 100</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">log_tail_stream</b> [<span class="opt"><b class="flag">--duration</b> <i class="arg">seconds</i> | <b class="flag">-d</b> <i class="arg">seconds</i></span>] [<span class="opt"><b class="flag">--timeout</b> <i class="arg">milliseconds</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Streams logs from a running node for a period of time<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics log_tail_stream --duration 60</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">maybe_stuck</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Periodically samples stack traces of all Erlang processes (&quot;lightweight threads&quot;) on the node. Reports the processes for which stack trace samples are identical.<div class="spacer">
+</div>
+Identical samples may indicate that the process is not making any progress but is not necessarily an indication of a problem.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics maybe_stuck -q</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">memory_breakdown</b> [<span class="opt"><b class="flag">--unit</b> <i class="arg">memory_unit</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Displays node's memory usage by category. Supported memory units are:<ul style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-bul">
+<li class="list-bul" style="margin-top: 1.00em;">
+bytes</li>
+<li class="list-bul" style="margin-top: 1.00em;">
+megabytes</li>
+<li class="list-bul" style="margin-top: 1.00em;">
+gigabytes</li>
+<li class="list-bul" style="margin-top: 1.00em;">
+terabytes</li>
+</ul>
+<div class="spacer">
+</div>
+See <a class="link-ext" href="https://rabbitmq.com/memory-use.html">RabbitMQ Memory Use guide</a> to learn more.<div class="spacer">
+</div>
+Example:<div style="height: 1.00em;">
+&#160;</div>
+<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics memory_breakdown --unit gigabytes</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">observer</b> [<span class="opt"><b class="flag">--interval</b> <i class="arg">seconds</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Starts a CLI observer interface on the target node<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics observer --interval 10</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">ping</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Most basic health check. Succeeds if target node (runtime) is running and <b class="name">rabbitmq-diagnostics</b> can authenticate with it successfully.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">report</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">report</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">runtime_thread_stats</b> [<span class="opt"><b class="flag">--sample-interval</b> <i class="arg">interval</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Performs sampling of runtime (kernel) threads' activity for <i class="arg">interval</i> seconds and reports it.<div class="spacer">
+</div>
+For this command to work, Erlang/OTP on the target node must be compiled with microstate accounting support and have the runtime_tools package available.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics runtime_thread_stats --sample-interval 15</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">schema_info</b> [<span class="opt"><b class="flag">--no_table_headers</b></span>] [<span class="opt"><i class="arg">column ...</i></span>] [<span class="opt"><b class="flag">--timeout</b> <i class="arg">milliseconds</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">schema_info</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">server_version</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Reports target node's version.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics server_version -q</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">status</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">status</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">tls_versions</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Lists all TLS versions supported by the runtime on the target node. Note that RabbitMQ can be configured to only accept a subset of those versions, for example, SSLv3 is disabled by default.<div class="spacer">
+</div>
+See <a class="link-ext" href="https://rabbitmq.com/ssl.html">RabbitMQ TLS guide</a> to learn more.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics tls_versions -q</code></div>
+</blockquote>
+</dd>
+</dl>
+</div>
+<div class="subsection">
+<h3 id="x506172616d6574657273">Parameters</h3><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_global_parameters</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_global_parameters</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_parameters</b> [<span class="opt"><b class="flag">-p</b> <i class="arg">vhost</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_parameters</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+</dl>
+</div>
+<div class="subsection">
+<h3 id="x506f6c6963696573">Policies</h3><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_operator_policies</b> [<span class="opt"><b class="flag">-p</b> <i class="arg">vhost</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_operator_policies</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_policies</b> [<span class="opt"><b class="flag">-p</b> <i class="arg">vhost</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_policies</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+</dl>
+</div>
+<div class="subsection">
+<h3 id="x5669727475616c20686f737473">Virtual hosts</h3><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_vhost_limits</b> [<span class="opt"><b class="flag">--vhost</b> <i class="arg">vhost</i></span>] [<span class="opt"><b class="flag">--global</b></span>] [<span class="opt"><b class="flag">--no-table-headers</b></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_vhost_limits</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+</dl>
+</div>
+<div class="subsection">
+<h3 id="x4e6f646520636f6e66696775726174696f6e">Node configuration</h3><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">log_location</b> [<span class="opt"><b class="flag">--all</b> | <b class="flag">-a</b></span>] [<span class="opt"><b class="flag">--timeout</b> <i class="arg">milliseconds</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Shows log file location(s) on target node<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-diagnostics log_location -a</code></div>
+</blockquote>
+</dd>
+</dl>
+</div>
+<div class="subsection">
+<h3 id="x4665617475726520666c616773">Feature flags</h3><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">list_feature_flags</b> [<span class="opt"><i class="arg">column ...</i></span>] [<span class="opt"><b class="flag">--timeout</b> <i class="arg">milliseconds</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">list_feature_flags</b> in <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
+</dl>
+</div>
+<div class="subsection">
+<h3 id="x517565756573">Queues</h3><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">quorum_status</b> <i class="arg">queue</i> [<span class="opt"><b class="flag">--vhost</b> <i class="arg">vhost</i></span>]</dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">quorum_status</b> in <a class="link-man" href="rabbitmq-queues.8.html">rabbitmq-queues(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">check_if_node_is_mirror_sync_critical</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">check_if_node_is_mirror_sync_critical</b> in <a class="link-man" href="rabbitmq-queues.8.html">rabbitmq-queues(8)</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">check_if_node_is_quorum_critical</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+See <b class="flag">check_if_node_is_quorum_critical</b> in <a class="link-man" href="rabbitmq-queues.8.html">rabbitmq-queues(8)</a></dd>
+</dl>
+</div>
+</div>
+<div class="section">
+<h2 id="x53454520414c534f">SEE ALSO</h2> <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a>, <a class="link-man" href="rabbitmq-server.8.html">rabbitmq-server(8)</a>, <a class="link-man" href="rabbitmq-queues.8.html">rabbitmq-queues(8)</a>, <a class="link-man" href="rabbitmq-upgrade.8.html">rabbitmq-upgrade(8)</a>, <a class="link-man" href="rabbitmq-service.8.html">rabbitmq-service(8)</a>, <a class="link-man" href="rabbitmq-env.conf.5.html">rabbitmq-env.conf(5)</a>, <a class="link-man" href="rabbitmq-echopid.8.html">rabbitmq-echopid(8)</a></div>
+<div class="section">
+<h2 id="x415554484f52">AUTHOR</h2> <span class="author">The RabbitMQ Team</span> &lt;<a class="link-mail" href="mailto:info@rabbitmq.com">info@rabbitmq.com</a>&gt;</div>
+</div>
+

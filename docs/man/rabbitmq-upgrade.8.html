@@ -1,0 +1,69 @@
+<div class="mandoc">
+<div class="section">
+<h2 id="x4e414d45">NAME</h2> <b class="name">rabbitmq-upgrade</b> &#8212; <span class="desc">RabbitMQ installation upgrade tools</span></div>
+<div class="section">
+<h2 id="x53594e4f50534953">SYNOPSIS</h2><table class="synopsis">
+<col style="width: 16.00ex;"/>
+<col/>
+<tbody>
+<tr>
+<td>
+rabbitmq-upgrade</td>
+<td>
+[<span class="opt"><b class="flag">-q</b></span>] [<span class="opt"><b class="flag">-s</b></span>] [<span class="opt"><b class="flag">-l</b></span>] [<span class="opt"><b class="flag">-n</b> <i class="arg">node</i></span>] [<span class="opt"><b class="flag">-t</b> <i class="arg">timeout</i></span>] <i class="arg">command</i> [<span class="opt"><i class="arg">command_options</i></span>]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section">
+<h2 id="x4445534352495054494f4e">DESCRIPTION</h2> <b class="name">rabbitmq-upgrade</b> is a command line tool that provides commands used during the upgrade of RabbitMQ nodes. See the <a class="link-ext" href="https://www.rabbitmq.com/upgrade.html">RabbitMQ upgrade guide</a> to learn more about RabbitMQ installation upgrades.</div>
+<div class="section">
+<h2 id="x4f5054494f4e53">OPTIONS</h2><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-n</b> <i class="arg">node</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Default node is &#8220;rabbit@<i class="arg">target-hostname</i>&#8221;, where <i class="arg">target-hostname</i> is the local host. On a host named &#8220;myserver.example.com&#8221;, the node name will usually be &#8220;rabbit@myserver&#8221; (unless <span class="env">RABBITMQ_NODENAME</span> has been overridden). The output of &#8220;hostname -s&#8221; is usually the correct suffix to use after the &#8220;@&#8221; sign. See <a class="link-man" href="rabbitmq-server.8.html">rabbitmq-server(8)</a> for details of configuring a RabbitMQ node.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-q</b>, <b class="flag">--quiet</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Quiet output mode is selected. Informational messages are reduced when quiet mode is in effect.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-s</b>, <b class="flag">--silent</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Silent output mode is selected. Informational messages are reduced and table headers are suppressed when silent mode is in effect.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-t</b> <i class="arg">timeout</i>, <b class="flag">--timeout</b> <i class="arg">timeout</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Operation timeout in seconds. Not all commands support timeouts. Default is <b class="flag">infinity</b>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-l</b>, <b class="flag">--longnames</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Must be specified when the cluster is configured to use long (FQDN) node names. To learn more, see the <a class="link-ext" href="https://www.rabbitmq.com/clustering.html">RabbitMQ Clustering guide</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">--erlang-cookie</b> <i class="arg">cookie</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Shared secret to use to authenticate to the target node. Prefer using a local file or the <span class="env">RABBITMQ_ERLANG_COOKIE</span> environment variable instead of specifying this option on the command line. To learn more, see the <a class="link-ext" href="https://www.rabbitmq.com/cli.html">RabbitMQ CLI Tools guide</a></dd>
+</dl>
+</div>
+<div class="section">
+<h2 id="x434f4d4d414e4453">COMMANDS</h2><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">help</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Displays general help and commands supported by <b class="name">rabbitmq-upgrade</b>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">post_upgrade</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Runs post-upgrade tasks. In the current version, it performs the rebalance of mirrored and quorum queues across all nodes in the cluster.</dd>
+</dl>
+</div>
+<div class="section">
+<h2 id="x53454520414c534f">SEE ALSO</h2> <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a>, <a class="link-man" href="rabbitmq-diagnostics.8.html">rabbitmq-diagnostics(8)</a>, <a class="link-man" href="rabbitmq-server.8.html">rabbitmq-server(8)</a>, <a class="link-man" href="rabbitmq-queues.8.html">rabbitmq-queues(8)</a>, <a class="link-man" href="rabbitmq-service.8.html">rabbitmq-service(8)</a>, <a class="link-man" href="rabbitmq-env.conf.5.html">rabbitmq-env.conf(5)</a>, <a class="link-man" href="rabbitmq-echopid.8.html">rabbitmq-echopid(8)</a></div>
+<div class="section">
+<h2 id="x415554484f52">AUTHOR</h2> <span class="author">The RabbitMQ Team</span> &lt;<a class="link-mail" href="mailto:info@rabbitmq.com">info@rabbitmq.com</a>&gt;</div>
+</div>
+

@@ -1,0 +1,447 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>RabbitMQ tutorial - Publish/Subscribe  — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container">
+
+
+<h2>Publish/Subscribe</h2>
+<h3>(using Spring AMQP)</h3>
+<p><div class="aside" xml:base="site/tutorials/tutorials-help.xml.inc">
+    <h3>Prerequisites</h3>
+    <p>
+      This tutorial assumes RabbitMQ is <a href="/download.html">installed</a> and running
+      on <span class="code ">localhost</span> on the <a href="/networking.html#ports">standard port</a> (<span class="code ">5672</span>). In case you use
+      a different host, port or credentials, connections settings would require adjusting.
+    </p>
+
+    <h3>Where to get help</h3>
+    <p>
+        If you're having trouble going through this tutorial you can contact us through the
+        <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">mailing list</a>
+        or <a href="https://rabbitmq-slack.herokuapp.com/">RabbitMQ community Slack</a>.
+    </p>
+  </div></p>
+<p>In the <a href="tutorial-one-spring-amqp.html">first tutorial</a> we showed how
+to use start.spring.io to leverage Spring Initializr to create a project
+with the RabbitMQ starter dependency to create Spring AMQP
+applications.</p>
+<p>In the <a href="tutorial-two-spring-amqp.html">previous tutorial</a> we created
+a new package <span class="code ">tut2</span> to place our configuration, sender and receiver and
+created a work queue with two consumers. The assumption behind a work
+queue is that each task is delivered to exactly one worker.</p>
+<p>In this part we'll implement the fanout pattern to deliver
+a message to multiple consumers. This pattern is also known as "publish/subscribe"
+and is implemented by configuring a number of beans in our <span class="code ">Tut3Config</span> file.</p>
+<p>Essentially, published messages are going to be broadcast to all the receivers.</p>
+<h2>Exchanges</h2>
+<p>In previous parts of the tutorial we sent and received messages to and
+from a queue. Now it's time to introduce the full messaging model in
+RabbitMQ.</p>
+<p>Let's quickly go over what we covered in the previous tutorials:</p>
+<ul>
+<li>A <em>producer</em> is a user application that sends messages.</li>
+<li>A <em>queue</em> is a buffer that stores messages.</li>
+<li>A <em>consumer</em> is a user application that receives messages.</li>
+</ul>
+<p>The core idea in the messaging model in RabbitMQ is that the producer
+never sends any messages directly to a queue. Actually, quite often
+the producer doesn't even know if a message will be delivered to any
+queue at all.</p>
+<p>Instead, the producer can only send messages to an <em>exchange</em>. An
+exchange is a very simple thing. On one side it receives messages from
+producers and the other side it pushes them to queues. The exchange
+must know exactly what to do with a message it receives. Should it be
+appended to a particular queue? Should it be appended to many queues?
+Or should it get discarded. The rules for that are defined by the
+<em>exchange type</em>.</p>
+<div class="diagram">
+  <img src="/img/tutorials/exchanges.png" height="110" />
+  <div class="diagram_source">
+    digraph {
+      bgcolor=transparent;
+      truecolor=true;
+      rankdir=LR;
+      node [style="filled"];
+      //
+      P1 [label="P", fillcolor="#00ffff"];
+      X [label="X", fillcolor="#3333CC"];
+      Q1 [label="{||||}", fillcolor="red", shape="record"];
+      Q2 [label="{||||}", fillcolor="red", shape="record"];
+      //
+      P1 -&gt; X;
+      X -&gt; Q1;
+      X -&gt; Q2;
+    }
+  </div>
+</div>
+
+<p>There are a few exchange types available: <span class="code ">direct</span>, <span class="code ">topic</span>, <span class="code ">headers</span>
+and <span class="code ">fanout</span>. We'll focus on the last one -- the fanout. Let's configure
+a bean to describe an exchange of this type, and call it <span class="code ">tut.fanout</span>:</p>
+<pre class="lang-java">
+import org.springframework.amqp.core.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+
+@Profile({"tut3", "pub-sub", "publish-subscribe"})
+@Configuration
+public class Tut3Config {
+
+    @Bean
+    public FanoutExchange fanout() {
+        return new FanoutExchange("tut.fanout");
+    }
+
+    @Profile("receiver")
+    private static class ReceiverConfig {
+
+        @Bean
+        public Queue autoDeleteQueue1() {
+            return new AnonymousQueue();
+        }
+
+        @Bean
+        public Queue autoDeleteQueue2() {
+            return new AnonymousQueue();
+        }
+
+        @Bean
+        public Binding binding1(FanoutExchange fanout,
+            Queue autoDeleteQueue1) {
+            return BindingBuilder.bind(autoDeleteQueue1).to(fanout);
+        }
+
+        @Bean
+        public Binding binding2(FanoutExchange fanout,
+            Queue autoDeleteQueue2) {
+            return BindingBuilder.bind(autoDeleteQueue2).to(fanout);
+        }
+
+        @Bean
+        public Tut3Receiver receiver() {
+            return new Tut3Receiver();
+        }
+    }
+
+    @Profile("sender")
+    @Bean
+    public Tut3Sender sender() {
+        return new Tut3Sender();
+    }
+}
+</pre>
+
+<p>We follow the same approach as in the previous two tutorials.  We create three
+profiles for the tutorial (<span class="code ">tut3</span>, <span class="code ">pub-sub</span>, or <span class="code ">publish-subscribe</span>). They are
+all synonyms for running the fanout profile tutorial. Next we configure
+the <span class="code ">FanoutExchange</span> as a Spring bean. Within the <span class="code ">Tut3Receiver</span> class we
+define four beans: 2 <span class="code ">AnonymousQueue</span>s (non-durable, exclusive, auto-delete queues
+in AMQP terms) and 2 bindings to bind those queues to the exchange.</p>
+<p>The fanout exchange is very simple. As you can probably guess from the
+name, it just broadcasts all the messages it receives to all the
+queues it knows. And that's exactly what we need for fanning out our
+messages.</p>
+<blockquote>
+<h4>Listing exchanges</h4>
+<p>To list the exchanges on the server you can run the ever useful <span class="code ">rabbitmqctl</span>:</p>
+<p><pre class="lang-bash">
+sudo rabbitmqctl list_exchanges
+</pre></p>
+<p>In this list there will be some <span class="code ">amq.*</span> exchanges and the default (unnamed)
+exchange. These are created by default, but it is unlikely you'll need to
+use them at the moment.</p>
+<h4>Nameless exchange</h4>
+<p>In previous parts of the tutorial we knew nothing about exchanges,
+but still were able to send messages to queues. That was possible
+because we were using a default exchange, which we identify by the empty string (<span class="code ">""</span>).</p>
+<p>Recall how we published a message before:</p>
+<p><pre class="lang-java">
+   template.convertAndSend(queue.getName(), message)
+</pre></p>
+<p>The first parameter is the routing key and the <span class="code ">RabbitTemplate</span>
+sends messages by default to the default exchange. Each queue is automatically
+bound to the default exchange with the name of queue as the binding key.
+This is why we can use the name of the queue as the routing key to make
+sure the message ends up in the queue.</p>
+</blockquote>
+<p>Now, we can publish to our named exchange instead:</p>
+<pre class="lang-java">
+@Autowired
+private RabbitTemplate template;
+
+@Autowired
+private FanoutExchange fanout;   // configured in Tut3Config above
+
+template.convertAndSend(fanout.getName(), "", message);
+</pre>
+
+<p>From now on the <span class="code ">fanout</span> exchange will append messages to our queue.</p>
+<h2>Temporary queues</h2>
+<p>As you may remember previously we were using queues that had
+specific names (remember <span class="code ">hello</span>). Being able to name
+a queue was crucial for us -- we needed to point the workers to the
+same queue.  Giving a queue a name is important when you
+want to share the queue between producers and consumers.</p>
+<p>But that's not the case for our fanout example. We want to hear about
+all messages, not just a subset of them. We're
+also interested only in currently flowing messages, not in the old
+ones. To solve that we need two things.</p>
+<p>Firstly, whenever we connect to Rabbit, we need a fresh, empty queue.
+To do this, we could create a queue with a random name, or --
+even better -- let the server choose a random queue name for us.</p>
+<p>Secondly, once we disconnect the consumer, the queue should be
+automatically deleted. To do this with the Spring AMQP client,
+we defined an <em>AnonymousQueue</em>, which creates a non-durable,
+exclusive, auto-delete queue with a generated name:</p>
+<pre class="lang-java">
+@Bean
+public Queue autoDeleteQueue1() {
+    return new AnonymousQueue();
+}
+
+@Bean
+public Queue autoDeleteQueue2() {
+    return new AnonymousQueue();
+}
+</pre>
+
+<p>At this point, our queues have random queue names. For example,
+it may look like <span class="code ">spring.gen-1Rx9HOqvTAaHeeZrQWu8Pg</span>.</p>
+<h2>Bindings</h2>
+<div class="diagram">
+  <img src="/img/tutorials/bindings.png" height="90" />
+  <div class="diagram_source">
+    digraph {
+      bgcolor=transparent;
+      truecolor=true;
+      rankdir=LR;
+      node [style="filled"];
+      //
+      P1 [label="P", fillcolor="#00ffff"];
+      X [label="X", fillcolor="#3333CC"];
+      Q1 [label="{||||}", fillcolor="red", shape="record"];
+      Q2 [label="{||||}", fillcolor="red", shape="record"];
+      //
+      P1 -&gt; X;
+      X -&gt; Q1 [label="binding"];
+      X -&gt; Q2 [label="binding"];
+    }
+  </div>
+</div>
+
+<p>We've already created a fanout exchange and a queue. Now we need to
+tell the exchange to send messages to our queue. That relationship
+between exchange and a queue is called a <em>binding</em>. In the above
+<span class="code ">Tut3Config</span> you can see that we have two bindings, one for each
+<span class="code ">AnonymousQueue</span>.</p>
+<pre class="lang-java">
+@Bean
+public Binding binding1(FanoutExchange fanout,
+        Queue autoDeleteQueue1) {
+    return BindingBuilder.bind(autoDeleteQueue1).to(fanout);
+}
+</pre>
+
+<blockquote>
+<h4>Listing bindings</h4>
+<p>You can list existing bindings using, you guessed it,
+<pre class="lang-bash">
+rabbitmqctl list_bindings
+</pre></p>
+</blockquote>
+<h2>Putting it all together</h2>
+<div class="diagram">
+  <img src="/img/tutorials/python-three-overall.png" height="160" />
+  <div class="diagram_source">
+    digraph {
+      bgcolor=transparent;
+      truecolor=true;
+      rankdir=LR;
+      node [style="filled"];
+      //
+      P [label="P", fillcolor="#00ffff"];
+      X [label="X", fillcolor="#3333CC"];
+      subgraph cluster_Q1 {
+        label="amq.gen-RQ6...";
+    color=transparent;
+        Q1 [label="{||||}", fillcolor="red", shape="record"];
+      };
+      subgraph cluster_Q2 {
+        label="amq.gen-As8...";
+    color=transparent;
+        Q2 [label="{||||}", fillcolor="red", shape="record"];
+      };
+      C1 [label=&lt;C&lt;font point-size="7"&gt;1&lt;/font&gt;&gt;, fillcolor="#33ccff"];
+      C2 [label=&lt;C&lt;font point-size="7"&gt;2&lt;/font&gt;&gt;, fillcolor="#33ccff"];
+      //
+      P -&gt; X;
+      X -&gt; Q1;
+      X -&gt; Q2;
+      Q1 -&gt; C1;
+      Q2 -&gt; C2;
+    }
+  </div>
+</div>
+
+<p>The producer program, which emits messages, doesn't look much
+different from the previous tutorial. The most important change is that
+we now want to publish messages to our <span class="code ">fanout</span> exchange instead of the
+nameless one. We need to supply a <span class="code ">routingKey</span> when sending, but its
+value is ignored for <span class="code ">fanout</span> exchanges. Here goes the code for
+<span class="code ">tut3.Sender.java</span> program:</p>
+<pre class="lang-java">
+package org.springframework.amqp.tutorials.tut3;
+
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class Tut3Sender {
+
+    @Autowired
+    private RabbitTemplate template;
+
+    @Autowired
+    private FanoutExchange fanout;
+
+    AtomicInteger dots = new AtomicInteger(0);
+
+    AtomicInteger count = new AtomicInteger(0);
+
+    @Scheduled(fixedDelay = 1000, initialDelay = 500)
+    public void send() {
+        StringBuilder builder = new StringBuilder("Hello");
+        if (dots.getAndIncrement() == 3) {
+            dots.set(1);
+        }
+        for (int i = 0; i &lt; dots.get(); i++) {
+            builder.append('.');
+        }
+        builder.append(count.incrementAndGet());
+        String message = builder.toString();
+        template.convertAndSend(fanout.getName(), "", message);
+        System.out.println(" [x] Sent '" + message + "'");
+    }
+
+}
+</pre>
+
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/spring-amqp/src/main/java/org/springframework/amqp/tutorials/tut3/Tut3Sender.java">Tut3Sender.java source</a></p>
+<p>As you see, we leverage the beans from the <span class="code ">Tut3Config</span> file and
+autowire in the <span class="code ">RabbitTemplate</span> along with our configured
+<span class="code ">FanoutExchange</span>. This step is necessary as publishing to a non-existing
+exchange is forbidden.</p>
+<p>The messages will be lost if no queue is bound to the exchange yet,
+but that's okay for us; if no consumer is listening yet we can safely discard the message.</p>
+<p>The code for <span class="code ">Tut3Receiver.java</span>:</p>
+<pre class="lang-java">
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.util.StopWatch;
+
+public class Tut3Receiver {
+
+    @RabbitListener(queues = "#{autoDeleteQueue1.name}")
+    public void receive1(String in) throws InterruptedException {
+        receive(in, 1);
+    }
+
+    @RabbitListener(queues = "#{autoDeleteQueue2.name}")
+    public void receive2(String in) throws InterruptedException {
+        receive(in, 2);
+    }
+
+    public void receive(String in, int receiver) throws InterruptedException {
+        StopWatch watch = new StopWatch();
+        watch.start();
+        System.out.println("instance " + receiver + " [x] Received '" + in + "'");
+        doWork(in);
+        watch.stop();
+        System.out.println("instance " + receiver + " [x] Done in "
+            + watch.getTotalTimeSeconds() + "s");
+    }
+
+    private void doWork(String in) throws InterruptedException {
+        for (char ch : in.toCharArray()) {
+            if (ch == '.') {
+                Thread.sleep(1000);
+            }
+        }
+    }
+
+}
+</pre>
+
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/spring-amqp/src/main/java/org/springframework/amqp/tutorials/tut3/Tut3Receiver.java">Tut3Receiver.java source</a></p>
+<p>Compile as before and we're ready to execute the fanout sender and receiver.</p>
+<pre class="lang-bash">
+./mvnw clean package
+</pre>
+
+<p>And of course, to execute the tutorial do the following:</p>
+<pre class="lang-bash">
+# shell 1
+java -jar target/rabbitmq-tutorials.jar --spring.profiles.active=pub-sub,receiver \
+    --tutorial.client.duration=60000
+# shell 2
+java -jar target/rabbitmq-tutorials.jar --spring.profiles.active=pub-sub,sender \
+    --tutorial.client.duration=60000
+</pre>
+
+<p>Using <span class="code ">rabbitmqctl list_bindings</span> you can verify that the code actually
+creates bindings and queues as we want. With two <span class="code ">ReceiveLogs.java</span>
+programs running you should see something like:</p>
+<pre class="lang-bash">
+sudo rabbitmqctl list_bindings
+tut.fanout  exchange    8b289c9c-a1eb-4a3a-b6a9-163c4fdcb6c2    queue       []
+tut.fanout  exchange    d7e7d193-65b1-4128-a532-466a5256fd31    queue       []
+</pre>
+
+<p>The interpretation of the result is straightforward: data from
+exchange <span class="code ">logs</span> goes to two queues with server-assigned names. And
+that's exactly what we intended.</p>
+<p>To find out how to listen for a subset of messages, let's move on to
+<a href="tutorial-four-spring-amqp.html">tutorial 4</a></p></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

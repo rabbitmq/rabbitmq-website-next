@@ -1,0 +1,369 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title># RabbitMQ 3.6.2 — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1># RabbitMQ 3.6.2</h1>
+<p>RabbitMQ <span class="code ">3.6.2</span> is a maintenance release that includes a <a href="https://github.com/rabbitmq/rabbitmq-management/issues/41">new statistics
+collector in the management plugin</a>.</p>
+<h3>Management Plugin Incompatibility with Earlier 3.6.x Releases</h3>
+<p>Because this version includes significant changes to the management plugin,
+it should not be deployed into clusters with mixed <span class="code ">3.6.x</span> node versions
+unless <strong>all nodes that have the management plugin enabled</strong> run <span class="code ">3.6.2</span>.
+Otherwise HTTP API requests will fail with exceptions in some scenarios and parts of
+management UI may not be updated.</p>
+<p>There are no other known incompatibilities with earlier <span class="code ">3.6.x</span> releases.</p>
+<h3>OpenSSL Requirement for Standalone Mac Release</h3>
+<p>Standalone Mac OS X package now requires OpenSSL 1.0.x to be provided by the system, for example, 
+from Homebrew.</p>
+<h3>Optional <span class="code ">socat</span> Package Dependency for Distributions that Use <span class="code ">systemd</span></h3>
+<p>Starting with <span class="code ">3.6.2</span>, RabbitMQ Debian and RPM packages have an optional
+<a href="https://groups.google.com/forum/#!searchin/rabbitmq-users/socat/rabbitmq-users/ktzOsgNEBkY/cOlF_eP6AAAJ">dependency on socat</a>. When
+installing using <span class="code ">dpkg</span>, this dependency won't be automatically installed. To install it manually, use</p>
+<pre class="highlight"><span class="code ">sudo apt-get install socat</span></pre>
+
+
+<h3>Server</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Channel operations that time out no longer produce noisy crash reports in
+   RabbitMQ log files</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-common/issues/63">rabbitmq-common#63</a></p>
+<ul>
+<li>Channel operation timeout default is bumped to 15 seconds</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/667">rabbitmq-server/issues/667</a></p>
+<ul>
+<li>Windows service will pick up RabbitMQ config file regardless of whether
+   it was present during service installation</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/659">rabbitmq-server#659</a></p>
+<ul>
+<li>Erlang distribution failures for <span class="code ">rabbitmqctl</span> and cross-node links will
+   provide more detail when running on Erlang 19 (scheduled for release in Q3 2016).</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/401">rabbitmq-server#401</a></p>
+<ul>
+<li><span class="code ">rabbitmqctl list_consumers</span> now lists all consumers on a given queue</li>
+</ul>
+<p>Previously it would only list one.</p>
+<p>Contributed by Alexey Lebedeff (Mirantis).</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/701">rabbitmq-server#701</a></p>
+<ul>
+<li><span class="code ">rabbitmqctl list_queues</span> now correctly outputs rows for unavailable queues</li>
+</ul>
+<p>Contributed by Alexey Lebedeff (Mirantis).</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/696">rabbitmq-server#696</a></p>
+<ul>
+<li><span class="code ">rabbitmqctl set_disk_free_limit mem_relative</span> erroneously rejected values greater than <span class="code ">1.0</span></li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/717">rabbitmq-server#717</a></p>
+<ul>
+<li>Messages with an invalid client-provided <span class="code ">x-death</span> header value caused queue process termination</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/767">rabbitmq-server#767</a></p>
+<ul>
+<li>Messages with priorities higher than queue max are now assigned max configured priority
+   and no longer cause an unhandled exception that results in queue process restart</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/795">rabbitmq-server#795</a></p>
+<ul>
+<li>Policy-related <span class="code ">rabbitmqctl</span> commands could return unformatted messages</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/742">rabbitmq-server#742</a></p>
+<ul>
+<li><span class="code ">RABBITMQ_IO_THREAD_POOL_SIZE</span> is no longer ignored by <span class="code ">rabbitmq-server.bat</span></li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/705">rabbitmq-server#705</a></p>
+<ul>
+<li>Deleting a vhost in parallel with updating a policy in it resulted
+   in unhandled exceptions</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/755">rabbitmq-server#755</a>,
+                  <a href="https://github.com/rabbitmq/rabbitmq-server/issues/759">rabbitmq-server#759</a>,
+                  <a href="https://github.com/rabbitmq/rabbitmq-server/issues/744">rabbitmq-server#744</a></p>
+<h4>Enhancements</h4>
+<ul>
+<li>Connections now emit stats unconditionally when they are blocked and unblocked
+   by resource alarms. This makes management UI and HTTP API-reported data to be more up-to-date</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/679">rabbitmq-server#679</a></p>
+<ul>
+<li>New (node-local) health check command</li>
+</ul>
+<p><span class="code ">rabbitmqctl node_health_check</span> is a new command that performs basic health check of a node</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/398">rabbitmq-server#398</a></p>
+<ul>
+<li>Automatic restart policy enabled for Windows service</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/645">rabbitmq-server#645</a></p>
+<ul>
+<li>Default number of async I/O VM threads is now calculated based on the
+   number of available CPU cores</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/151">rabbitmq-server#151</a></p>
+<ul>
+<li><span class="code ">rabbitmqctl list_queues</span> now supports new flags, <span class="code ">--offline</span> and <span class="code ">--online</span>, that limit
+   result to only unavailable or available queues (queue masters, to be more precise)</li>
+</ul>
+<p>Contributed by Alexey Lebedeff (Mirantis).</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/688">rabbitmq-server#688</a></p>
+<ul>
+<li>RabbitMQ will no longer log a warning about disabled kernel polling on Windows</li>
+</ul>
+<p>The runtime does not support kernel polling (I/O completion ports) on Windows,
+   so there is nothing the user can do about it.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/695">rabbitmq-server#695</a></p>
+<ul>
+<li>Queue index is now updated in batches when messages are requeued</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/343">rabbitmq-server#343</a></p>
+<h3>Management plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Samples (stats) for abnormally terminated connections and channels will now be cleaned up more aggressively</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/198">rabbitmq-management#198</a></p>
+<ul>
+<li>Cluster name could be returned by HTTP API as a non-string value</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/143">rabbitmq-management#143</a></p>
+<ul>
+<li>Improved IE 11 compatibility</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/123">rabbitmq-management#123</a></p>
+<h4>Enhancements</h4>
+<ul>
+<li>Management plugin has a new, better parallelised event collector which is less likely to
+   fall behind.</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/41">rabbitmq-management#41</a>,
+                  <a href="https://github.com/rabbitmq/rabbitmq-management/issues/166">rabbitmq-management#166</a>,
+                  <a href="https://github.com/rabbitmq/rabbitmq-management/issues/173">rabbitmq-management#173</a>,
+                  <a href="https://github.com/rabbitmq/rabbitmq-management/issues/185">rabbitmq-management#185</a>,
+                  <a href="https://github.com/rabbitmq/rabbitmq-management/issues/174">rabbitmq-management#174</a></p>
+<ul>
+<li>Clients now can provide a human-readable connection name that will be displayed
+   in the management UI. Currently Java, .NET and Erlang clients support this.
+   In order to use this feature, set the <span class="code ">connection_name</span> key in client properties.
+   Note that this name doesn't have to be unique and cannot be used as a connection identifier,
+   for example, in HTTP API requests.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/104">rabbitmq-server#104</a></p>
+<ul>
+<li><span class="code ">GET /api/nodes/{node}/memory</span> and <span class="code ">GET /api/nodes/{node}/memory/relative</span> are new HTTP API
+   endpoints that return memory usage breakdown in absolute (same as <span class="code ">rabbitmqctl status</span>) and
+   relative terms.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/161">rabbitmq-management#161</a></p>
+<ul>
+<li>HTTPS related improvements in <span class="code ">rabbitmqadmin</span>.</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/152">rabbitmq-management#152</a>, <a href="https://github.com/rabbitmq/rabbitmq-management/issues/151">rabbitmq-management#151</a>, <a href="https://github.com/rabbitmq/rabbitmq-management/issues/149">rabbitmq-management#149</a>.</p>
+<ul>
+<li>Policies now can be listed (read) by the users tagged with <span class="code ">management</span> and <span class="code ">monitoring</span></li>
+</ul>
+<p>As well as those tagged with <span class="code ">policymaker</span> and <span class="code ">administrator</span>, of course.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/156">rabbitmq-management#156</a></p>
+<ul>
+<li>Effective rates mode is now displayed for cluster nodes by default</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/177">rabbitmq-management#177</a></p>
+<h3>MQTT plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Resource alarms are handled correctly by MQTT connections</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-mqtt/issues/62">rabbitmq-mqtt#62</a></p>
+<ul>
+<li>Session [pre-existing] presence is now correctly communicated to clients</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-mqtt/issues/61">rabbitmq-mqtt#61</a></p>
+<h4>Enhancements</h4>
+<ul>
+<li>Connections now emit stats unconditionally when they are blocked and unblocked
+   by resource alarms. This makes management UI and HTTP API-reported data to be more up-to-date.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-mqtt/issues/71">rabbitmq-mqtt#71</a></p>
+<ul>
+<li>More connection details for MQTT connections reported to management UI</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-mqtt/pull/66">rabbitmq-mqtt#66</a></p>
+<h3>STOMP plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Resource alarms are handled correctly by STOMP connections</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-stomp/issues/68">rabbitmq-stomp#68</a>,
+                  <a href="https://github.com/rabbitmq/rabbitmq-stomp/issues/67">rabbitmq-stomp#67</a></p>
+<h4>Enhancements</h4>
+<ul>
+<li>Connections now emit stats unconditionally when they are blocked and unblocked
+   by resource alarms. This makes management UI and HTTP API-reported data to be more up-to-date.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-stomp/issues/70">rabbitmq-stomp#70</a></p>
+<ul>
+<li>More connection details for STOMP connections reported to management UI</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-stomp/issues/55">rabbitmq-stomp#55</a></p>
+<h3>Web STOMP plugin</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>More connection details for STOMP-over-WebSockets connections reported to management UI</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-web-stomp/pull/45">rabbitmq-web-stomp#45</a></p>
+<ul>
+<li>The plugin now sends a protocol header (<span class="code ">Sec-WebSocket-Protocol</span>) response when
+   client presents it.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-web-stomp/issues/53">rabbitmq-web-stomp#53</a></p>
+<h3>Web MQTT plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>More connection details for MQTT-over-WebSockets connections reported to management UI</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-web-mqtt/pull/3">rabbitmq-web-mqtt#3</a></p>
+<ul>
+<li>Plugin deactivation now correctly stops TCP listener</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-web-mqtt/issues/7">rabbitmq-web-mqtt#7</a></p>
+<h3>.NET client</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Compatibility with SQL Server 2014 CLR restored</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-dotnet-client/issues/167">rabbitmq-dotnet-client#167</a></p>
+<ul>
+<li>Autorecovering connections now respect all provided hostnames
+   when reconnecting.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-dotnet-client/issues/157">rabbitmq-dotnet-client#157</a></p>
+<ul>
+<li><span class="code ">ConnectionFactory#CreateConnection</span> now respects all provided hostnames
+   when automatic connection recovery is disabled.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-dotnet-client/issues/176">rabbitmq-dotnet-client#176</a></p>
+<h3>Erlang client</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Certain channel failures resulted in a race condition during process [tree] shutdown.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-erlang-client/issues/42">rabbitmq-erlang-client#42</a></p>
+<h3>LDAP Authentication/Authorisation Backend</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>LDAP connection pool is now more resilient to TCP connection closure/loss on Erlang/OTP 18.3</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-ldap/issues/41">rabbitmq-auth-backend-ldap#41</a></p>
+<ul>
+<li>Non-existent group in <span class="code ">tag_queries</span> shouldn't terminate authorisation</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-ldap/issues/15">rabbitmq-auth-backend-ldap#15</a></p>
+<ul>
+<li><span class="code ">attribute</span> query should not fail when multiple values are returned</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-ldap/issues/16">rabbitmq-auth-backend-ldap#16</a></p>
+<h4>Enhancements</h4>
+<ul>
+<li>Virtual host is now available as a variable in <span class="code ">tag_queries</span></li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-ldap/issues/13">rabbitmq-auth-backend-ldap#13</a></p>
+<ul>
+<li>Default LDAP connection pool size was increased from <span class="code ">10</span> to <span class="code ">64</span></li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-ldap/issues/35">rabbitmq-auth-backend-ldap#35</a></p>
+<h3>HTTP Authentication/Authorisation Backend</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>The plugin now uses HTTP 1.1 and keep-alive connections for requests.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-http/issues/20">rabbitmq-auth-backend-http#20</a></p>
+<ul>
+<li>It is now possible to configure the plugin to use <span class="code ">POST</span> requests instead of
+   <span class="code ">GET</span>, so that no sensitive information is logged.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-http/issues/7">rabbitmq-auth-backend-http#7</a></p>
+<ul>
+<li>The plugin now supports HTTP client TLS options, so authenticating apps can use HTTPS</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-http/issues/29">rabbitmq-auth-backend-http#29</a></p>
+<ul>
+<li>Vhost access requests now include client IP address</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-http/pull/33">rabbitmq-auth-backend-http#33</a></p>
+<p>Contributed by Abdulrazak Alkl.</p>
+<h3>Event Exchange plugin</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>Policy events now include a vhost field</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-event-exchange/issues/17">rabbitmq-event-exchange#17</a></p>
+<ul>
+<li>Binding events now include a vhost field</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-event-exchange/issues/9">rabbitmq-event-exchange#9</a></p>
+<ul>
+<li>Millesecond resolution timestamp of events is now back as a message header</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-event-exchange/issues/12">rabbitmq-event-exchange#12</a></p>
+<ul>
+<li><span class="code ">user.authentication.success</span> no longer has the <span class="code ">vhost</span> field
+   since vhost is only available at a later point. <span class="code ">connection.created</span>
+   events should be used to track successful connections if vhost
+   information is desired.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-event-exchange/issues/13">rabbitmq-event-exchange#13</a></p>
+<h2>Upgrading</h2>
+<p>To upgrade a non-clustered RabbitMQ simply install the new version. All configuration and persistent message data are retained. When upgrading using definitions export/import from versions earlier than 3.6.1, see http://rabbitmq.com/passwords.html.</p>
+<p>To upgrade a RabbitMQ cluster, follow the instructions <a href="https://www.rabbitmq.com/clustering.html#upgrading">in RabbitMQ documentation</a>. All nodes that have RabbitMQ management plugin enabled
+must be upgraded in lock step.</p>
+<h2>Source code archives</h2>
+<p><strong>Warning</strong>: The source code archive provided by GitHub only contains the source of the broker, not the plugins or the client libraries. Please download the archive named <span class="code ">rabbitmq-3.6.2.tar.gz</span>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

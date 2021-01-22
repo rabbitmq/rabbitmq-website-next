@@ -1,0 +1,199 @@
+<div class="mandoc">
+<div class="section">
+<h2 id="x4e414d45">NAME</h2> <b class="name">rabbitmq-queues</b> &#8212; <span class="desc">RabbitMQ queue management tools</span></div>
+<div class="section">
+<h2 id="x53594e4f50534953">SYNOPSIS</h2><table class="synopsis">
+<col style="width: 15.00ex;"/>
+<col/>
+<tbody>
+<tr>
+<td>
+rabbitmq-queues</td>
+<td>
+[<span class="opt"><b class="flag">-q</b></span>] [<span class="opt"><b class="flag">-s</b></span>] [<span class="opt"><b class="flag">-l</b></span>] [<span class="opt"><b class="flag">-n</b> <i class="arg">node</i></span>] [<span class="opt"><b class="flag">-t</b> <i class="arg">timeout</i></span>] <i class="arg">command</i> [<span class="opt"><i class="arg">command_options</i></span>]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section">
+<h2 id="x4445534352495054494f4e">DESCRIPTION</h2> <b class="name">rabbitmq-queues</b> is a command line tool that provides commands used to manage queues, mainly member handling for quorum queues. See the <a class="link-ext" href="https://www.rabbitmq.com/quorum-queues.html">RabbitMQ quorum queues guide</a> and <a class="link-ext" href="https://www.rabbitmq.com/ha.html">RabbitMQ classic mirrored queues guide</a> to learn more about queue types in RabbitMQ.</div>
+<div class="section">
+<h2 id="x4f5054494f4e53">OPTIONS</h2><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-n</b> <i class="arg">node</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Default node is &#8220;rabbit@<i class="arg">target-hostname</i>&#8221;, where <i class="arg">target-hostname</i> is the local host. On a host named &#8220;myserver.example.com&#8221;, the node name will usually be &#8220;rabbit@myserver&#8221; (unless <span class="env">RABBITMQ_NODENAME</span> has been overridden). The output of &#8220;hostname -s&#8221; is usually the correct suffix to use after the &#8220;@&#8221; sign. See <a class="link-man" href="rabbitmq-server.8.html">rabbitmq-server(8)</a> for details of configuring a RabbitMQ node.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-q</b>, <b class="flag">--quiet</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Quiet output mode is selected. Informational messages are reduced when quiet mode is in effect.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-s</b>, <b class="flag">--silent</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Silent output mode is selected. Informational messages are reduced and table headers are suppressed when silent mode is in effect.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-t</b> <i class="arg">timeout</i>, <b class="flag">--timeout</b> <i class="arg">timeout</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Operation timeout in seconds. Not all commands support timeouts. Default is <b class="flag">infinity</b>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-l</b>, <b class="flag">--longnames</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Must be specified when the cluster is configured to use long (FQDN) node names. To learn more, see the <a class="link-ext" href="https://www.rabbitmq.com/clustering.html">RabbitMQ Clustering guide</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">--erlang-cookie</b> <i class="arg">cookie</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Shared secret to use to authenticate to the target node. Prefer using a local file or the <span class="env">RABBITMQ_ERLANG_COOKIE</span> environment variable instead of specifying this option on the command line. To learn more, see the <a class="link-ext" href="https://www.rabbitmq.com/cli.html">RabbitMQ CLI Tools guide</a></dd>
+</dl>
+</div>
+<div class="section">
+<h2 id="x434f4d4d414e4453">COMMANDS</h2><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">help</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Displays general help and commands supported by <b class="name">rabbitmq-queues</b>.</dd>
+</dl>
+<div class="subsection">
+<h3 id="x436c7573746572">Cluster</h3><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">grow</b> <i class="arg">node</i> <i class="arg">selector</i> <b class="flag">--vhost-pattern</b> <i class="arg">pattern</i> <b class="flag">--queue-pattern</b> <i class="arg">pattern</i> <b class="flag">--errors-only</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Adds a new replica on the given node for all or a half of matching quorum queues.<div class="spacer">
+</div>
+Supported <i class="arg">selector</i> values are:<dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<span class="symb">all</span></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Selects all quorum queues</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<span class="symb">even</span></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Selects quorum queues with an even number of replicas</dd>
+</dl>
+<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-queues grow &#8220;rabbit@newhost&#8221; &#8220;all&#8221; --vhost-pattern &#8220;a-vhost&#8221; --queue-pattern &#8220;.*&#8221;</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">rebalance</b> <i class="arg">type</i> <b class="flag">--vhost-pattern</b> <i class="arg">pattern</i> <b class="flag">--queue-pattern</b> <i class="arg">pattern</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Rebalances queue master replicas across cluster nodes.<div class="spacer">
+</div>
+Supported <i class="arg">type</i> values are:<dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<span class="symb">all</span></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+All queue types</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<span class="symb">quorum</span></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Only quorum queues</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<span class="symb">classic</span></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Only classic queues</dd>
+</dl>
+<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-queues rebalance &#8220;all&#8221; --vhost-pattern &#8220;a-vhost&#8221; --queue-pattern &#8220;.*&#8221;</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">shrink</b> <i class="arg">node</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Shrinks quorum queue clusters by removing any members (replicas) on the given node.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-queues shrink &#8220;rabbit@decomissioned-node&#8221;</code></div>
+</blockquote>
+</dd>
+</dl>
+</div>
+<div class="subsection">
+<h3 id="x5265706c69636174696f6e">Replication</h3><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">add_member</b> <i class="arg">queue</i> <i class="arg">node</i> <b class="flag">--vhost</b> <i class="arg">virtual-host</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Adds a quorum queue member (replica) on the given node.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-queues add_member --vhost &#8220;a-vhost&#8221; &#8220;a-queue&#8221; &#8220;rabbit@new-node&#8221;</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">delete_member</b> <i class="arg">queue</i> <i class="arg">node</i> <b class="flag">--vhost</b> <i class="arg">virtual-host</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Removes a quorum queue member (replica) on the given node.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-queues delete_member --vhost &#8220;a-vhost&#8221; &#8220;a-queue&#8221; &#8220;rabbit@decomissioned-node&#8221;</code></div>
+</blockquote>
+</dd>
+</dl>
+</div>
+<div class="subsection">
+<h3 id="x517565756573">Queues</h3><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">quorum_status</b> <i class="arg">queue</i> <b class="flag">--vhost</b> <i class="arg">virtual-host</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Displays quorum status of a quorum queue.<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-queues quorum_status --vhost &#8220;a-vhost&#8221; &#8220;a-queue&#8221;</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">check_if_node_is_mirror_sync_critical</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Health check that exits with a non-zero code if there are classic mirrored queues without online synchronised mirrors (queues that would potentially lose data if the target node is shut down).<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-queues check_if_node_is_mirror_sync_critical</code></div>
+</blockquote>
+</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">check_if_node_is_quorum_critical</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Health check that exits with a non-zero code if there are queues with minimum online quorum (queues that would lose their quorum if the target node is shut down).<div class="spacer">
+</div>
+Example:<blockquote style="margin-top: 0.00em;margin-bottom: 0.00em;">
+<div class="display">
+<code class="lit">rabbitmq-queues check_if_node_is_quorum_critical</code></div>
+</blockquote>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section">
+<h2 id="x53454520414c534f">SEE ALSO</h2> <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a>, <a class="link-man" href="rabbitmq-diagnostics.8.html">rabbitmq-diagnostics(8)</a>, <a class="link-man" href="rabbitmq-server.8.html">rabbitmq-server(8)</a>, <a class="link-man" href="rabbitmq-upgrade.8.html">rabbitmq-upgrade(8)</a>, <a class="link-man" href="rabbitmq-service.8.html">rabbitmq-service(8)</a>, <a class="link-man" href="rabbitmq-env.conf.5.html">rabbitmq-env.conf(5)</a>, <a class="link-man" href="rabbitmq-echopid.8.html">rabbitmq-echopid(8)</a></div>
+<div class="section">
+<h2 id="x415554484f52">AUTHOR</h2> <span class="author">The RabbitMQ Team</span> &lt;<a class="link-mail" href="mailto:info@rabbitmq.com">info@rabbitmq.com</a>&gt;</div>
+</div>
+

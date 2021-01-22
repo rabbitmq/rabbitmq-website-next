@@ -1,0 +1,315 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>Queues  — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>Queues </h1>
+
+
+<h2>Introduction</h2>
+<p>This guide provides an overview of queues in RabbitMQ. Since
+many features in a messaging system are related to queues, it
+is not meant to be an exhaustive guide but rather an overview
+that provides links to other guides.</p>
+<p>This guide covers queues primarily in the context of <a href="/tutorials/amqp-concepts.html">AMQP 0-9-1</a>,
+however, much of the content is applicable to other supported protocols.</p>
+<p>Some protocols (e.g. STOMP and MQTT) are based around the idea of topics.
+For them, queues act as data accumulation buffer for consumers.
+However, it is still important to understand the role queues play
+because many features still operate at the queue level, even for those protocols.</p>
+<h2><a id="basics" class="anchor" href="#basics">The Basics</a></h2>
+<p>A <a href="https://en.wikipedia.org/wiki/Queue_(abstract_data_type)">queue</a> is a sequential data structure
+with two primary operations: an item can be <strong>enqueued</strong> (added) at the tail and <strong>dequeued</strong> (consumed)
+from the head. Queues play a prominent role in the messaging technology space:
+many messaging protocols and tools assume that <a href="/publishers.html">publishers</a> and <a href="/consumers.html">consumers</a>
+communicate using a queue-like storage mechanism.</p>
+<p>Queues in RabbitMQ are <a href="https://en.wikipedia.org/wiki/FIFO_(computing_and_electronics)">FIFO ("first in, first out")</a>.
+Some queue features, namely priorities and <a href="/confirms.html">requeueing</a> by consumers, can affect
+the ordering as observed by consumers.</p>
+<h2><a id="names" class="anchor" href="#names">Names</a></h2>
+<p>Queues have names so that applications can reference them.</p>
+<p>Applications may pick queue names or ask the broker to generate a name
+for them. Queue names may be up to 255 bytes of UTF-8 characters.</p>
+<p>Queue names starting with "amq." are reserved for internal
+use by the broker. Attempts to declare a queue with a name that
+violates this rule will result in a channel-level exception
+with reply code 403 (<span class="code ">ACCESS_REFUSED</span>).</p>
+<h3><a id="server-named-queues" class="anchor" href="#server-named-queues">Server-named Queues</a></h3>
+<p>In AMQP 0-9-1, the broker can generate a unique queue name on behalf of
+an app. To use this feature, pass an empty string as the queue name
+argument: The same generated name may be obtained by subsequent
+methods in the same channel by using the empty string where a queue
+name is expected. This works because the channel remembers the last
+server-generated queue name.</p>
+<h2><a id="properties" class="anchor" href="#properties">Properties</a></h2>
+<p>Queues have properties that define how they behave. There is a set
+of mandatory properties and a map of optional ones:</p>
+<ul>
+<li>Name</li>
+<li>Durable (the queue will survive a broker restart)</li>
+<li>Exclusive (used by only one connection and the queue will be deleted when that connection closes)</li>
+<li>Auto-delete (queue that has had at least one consumer is deleted when last consumer unsubscribes)</li>
+<li>Arguments (optional; used by plugins and broker-specific features such as message TTL, queue length limit, etc)</li>
+</ul>
+<h3><a id="property-equivalence" class="anchor" href="#property-equivalence">Declaration and Property Equivalence</a></h3>
+<p>Before a queue can be used it has to be declared. Declaring
+a queue will cause it to be created if it does not already
+exist. The declaration will have no effect if the queue does
+already exist and its attributes are the same as those in the
+declaration. When the existing queue attributes are not the
+same as those in the declaration a channel-level exception
+with code 406 (<span class="code ">PRECONDITION_FAILED</span>) will be raised.</p>
+<h3><a id="optional-arguments" class="anchor" href="#optional-arguments">Optional Arguments</a></h3>
+<p>Optional queue arguments, also known as "x-arguments" because of their
+field name in the AMQP 0-9-1 protocol, is a map (dictionary) of arbitrary key/value
+pairs that can be provided by clients when a queue is declared.</p>
+<p>The map is used by various features and plugins such as</p>
+<ul>
+<li>Queue type (e.g. <a href="/quorum-queues.html">quorum</a> or classic)</li>
+<li><a href="/ttl.html">Message and queue TTL</a></li>
+<li><a href="/maxlength.html">Queue length limit</a></li>
+<li><a href="/ha.html">Classic mirrored queue</a> settings</li>
+<li>Max number of <a href="/priority.html">priorities</a></li>
+<li><a href="/consumer-priority.html">Consumer priorities</a></li>
+</ul>
+<p>and so on.</p>
+<p>Most optional arguments can be dynamically changed after queue declaration but there are
+exceptions. For example, <a href="/quorum-queues.html">queue type</a> (<span class="code ">x-queue-type</span>) and max number
+of <a href="/priority.html">queue priorities</a> (<span class="code ">x-max-priority</span>) must be set at queue declaration time
+and cannot be changed after that.</p>
+<p>Optional queue arguments can be set in a couple of ways:</p>
+<ul>
+<li>To groups of queues using <a href="/parameters.html#policies">policies</a> (recommended)</li>
+<li>On a per-queue basis when a queue is declared by a client</li>
+</ul>
+<p>The former option is more flexible, non-intrusive, does not require application
+modifications and redeployments. Therefore it is highly recommended for most users.
+Note that some optional arguments such as queue type or max number of priorities can
+only be provided by clients because they cannot be dynamically changed and must be known
+at declaration time.</p>
+<p>The way optional arguments are provided by clients varies from client library
+to client library but is usually an argument next to the <span class="code ">durable</span>,
+<span class="code ">auto_delete</span> and other arguments of the function (method) that
+declares queues.</p>
+<h2><a id="message-ordering" class="anchor" href="#message-ordering">Message Ordering</a></h2>
+<p>Queues in RabbitMQ are ordered collections of messages.
+Messages are enqueued and dequeued (delivered to consumers) in the <a href="https://en.wikipedia.org/wiki/FIFO_(computing_and_electronics)">FIFO manner</a>.</p>
+<p>FIFO ordering is not guaranteed for <a href="/priority.html">priority</a> and <a href="https://github.com/rabbitmq/rabbitmq-sharding/">sharded queues</a>.</p>
+<p>Ordering also can be affected by the presence of multiple competing <a href="/consumers.html">consumers</a>,
+<a href="/consumers.html#priority">consumer priorities</a>, message redeliveries.
+This applies to redeliveries of any kind: automatic after channel closure and
+<a href="/confirms.html">negative consumer acknowledgements</a>.</p>
+<p>Publishing applications can assume that messages that were published on a single channel
+in order will be enqueued onto all queues those messages were routed to in the same order.
+When publishing happens on multiple connections or channels, their sequences of messages
+will be routed concurrently and interleaved.</p>
+<p>Consuming applications can assume that <strong>initial deliveries</strong> (those where the <span class="code ">redelivered</span> property
+is set to <span class="code ">false</span>) to a single consumer are performed in the same FIFO order as they were enqueued.
+For <strong>repeated deliveries</strong> (the <span class="code ">redelivered</span> property is set to <span class="code ">true</span>), original ordering
+can be affected by the timing of consumer acknowledgements and redeliveries, and thus
+not guaranteed.</p>
+<p>In case of multiple consumers, messages will be dequeued for delivery in the FIFO order
+but actual delivery will happen to multiple consumers. If all of the consumers have
+equal priorities, they will be picked on a <a href="https://en.wikipedia.org/wiki/Round-robin_scheduling">round-robin basis</a>.
+Only consumers on channels that have not exceeded their <a href="/consumers.html#prefetch">prefetch value</a>
+(the number of outstanding unacknowledged deliveries) will be considered.</p>
+<h2><a id="durability" class="anchor" href="#durability">Durability</a></h2>
+<p>Queues can be durable or transient. Metadata of a durable queue is stored on disk,
+while metadata of a transient queue is stored in memory when possible.
+The same distinction is made for <a href="/publishers.html#message-properties">messages at publishing time</a>
+in some protocols, e.g. AMQP 0-9-1 and MQTT.</p>
+<p>In environments and use cases where durability is important, applications
+must use durable queues <em>and</em> make sure that publish mark published messages as persisted.</p>
+<p>Transient queues will be deleted on node boot. They therefore will not survive a node restart,
+by design. Messages in transient queues will also be discarded.</p>
+<p>Durable queues will be recovered on node boot, including messages in them published as persistent.
+Messages published as transient will be <strong>discarded</strong> during recovery, even if they were stored
+in durable queues.</p>
+<h3>How to Choose</h3>
+<p>In most other cases, durable queues are the recommended option. For <a href="#distributed">replicated queues</a>,
+the only reasonable option is to use durable queues.</p>
+<p>Throughput and latency of a queue is <strong>not affected</strong> by whether a queue is durable or not
+in most cases. Only environments with very high queue or binding churn — that is, where queues are deleted
+and re-declared hundreds or more times a second — will see latency improvements for
+some operations, namely on bindings. The choice between durable and transient queues
+therefore comes down to the semantics of the use case.</p>
+<p>Temporary queues can be a reasonable choice for workloads with transient clients, for example,
+temporary WebSocket connections in user interfaces, mobile applications and devices
+that are expected to go offline or use switch identities. Such clients usually have
+inherently transient state that should be replaced when the client reconnects.</p>
+<p>Some queue types do not support transient queues. <a href="/quorum-queues.html">Quorum queues</a> must
+be durable due to the assumptions and requirements of the underlying replication protocol,
+for example.</p>
+<h2><a id="temporary-queues" class="anchor" href="#temporary-queues">Temporary Queues</a></h2>
+<p>With some workloads queues are supposed to be short lived. While clients can
+delete the queues they declare before disconnection, this is not always convenient.
+On top of that, client connections can fail, potentially leaving unused
+resources (queues) behind.</p>
+<p>There are three ways to make queue deleted automatically:</p>
+<ul>
+<li>Exclusive queues (covered below)</li>
+<li>TTLs (also covered below)</li>
+<li>Auto-delete queues</li>
+</ul>
+<p>An auto-delete queue will be deleted when its last consumer
+is cancelled (e.g. using the <span class="code ">basic.cancel</span> in AMQP 0-9-1)
+or gone (closed channel or connection, or lost TCP connection with the server).</p>
+<p>If a queue never had any consumers, for instance, when all consumption happens
+using the <span class="code ">basic.get</span> method (the "pull" API), it won't be automatically
+deleted. For such cases, use exclusive queues or queue TTL.</p>
+<h2><a id="exclusive-queues" class="anchor" href="#exclusive-queues">Exclusive Queues</a></h2>
+<p>An exclusive queue can only be used (consumed from, purged, deleted, etc)
+by its declaring connection. An attempt to use an exclusive queue from
+a different connection will result in a channel-level exception
+<span class="code ">RESOURCE_LOCKED</span> with an error message that says
+<span class="code ">cannot obtain exclusive access to locked queue</span>.</p>
+<p>Exclusive queues are deleted when their declaring connection is closed
+or gone (e.g. due to underlying TCP connection loss). They therefore
+are only suitable for client-specific transient state.</p>
+<p>It is common to make exclusive queues server-named.</p>
+<h2><a id="distributed" class="anchor" href="#distributed">Replicated and Distributed Queues</a></h2>
+<p>Queues can be replicated to multiple cluster nodes and <a href="https://www.rabbitmq.com/federated-queues.html">federated</a>
+across loosely coupled nodes or clusters. There are two replicated queue types provided:</p>
+<ul>
+<li><a href="/quorum-queues.html">Quorum queues</a></li>
+<li>Classic queues with <a href="/ha.html">mirroring</a> enabled</li>
+</ul>
+<p>The difference between them is covered in the <a href="/quorum-queues.html">Quorum queues</a> guide.
+Quorum queues is the recommended option for most workloads and use cases.</p>
+<p>Note that intra-cluster replication and federation
+are orthogonal features and should not be considered direct alternatives.</p>
+<h2><a id="ttl-and-limits" class="anchor" href="#ttl-and-limits">Time-to-Live and Length Limit</a></h2>
+<p>Queues can have their length <a href="/maxlength.html">limited</a>.
+Queues and messages can have a <a href="/ttl.html">TTL</a>.</p>
+<p>Both features can be used for data expiration and as a way of limiting
+how many resources (RAM, disk space) a queue can use at most, e.g.
+when consumers go offline or their throughput falls behind publishers.</p>
+<h2><a id="storage" class="anchor" href="#storage">In Memory and Durable Storage</a></h2>
+<p>Queues keep messages in RAM and/or on disk. In some protocols (e.g. AMQP 0-9-1)
+this is in part controlled by the client. In AMQP 0-9-1, this is done
+via a message property (<span class="code ">delivery_mode</span> or, in some clients, <span class="code ">persistent</span>).</p>
+<p>Publishing messages as transient suggests that RabbitMQ should keep as many messages
+as possible in RAM. Queues will, however, page even transient messages to disk when
+they find themselves under <a href="/memory.html">memory pressure</a>.</p>
+<p>Persistent messages routed to durable queues are persisted in batches
+or when a certain amount of time passes (fraction of a second).</p>
+<p><a href="/lazy-queues.html">Lazy queues</a> page messages out to disk more aggressively
+regardless of their persistence property.</p>
+<p>See <a href="/memory-use.html">Memory Usage</a>, <a href="/alarms.html">Alarms</a>
+<a href="/memory.html">Memory Alarms</a>, <a href="/disk-alarms.html">Free Disk Space Alarms</a>,
+<a href="/production-checklist.html">Production Checklist</a>, and <a href="/persistence-conf.html">Message Store Configuration</a>
+guide for details.</p>
+<h2><a id="priorities" class="anchor" href="#priorities">Priorities</a></h2>
+<p>Queues can have 0 or more <a href="/priority.html">priorities</a>. This feature is opt-in:
+only queues that have maximum number of priorities configured via an optional argument
+(see above) will do prioritisation.</p>
+<p>Publishers specify message priority using the <span class="code ">priority</span> field
+in message properties.</p>
+<p>If priority queues are desired, we recommend using between 1 and 10.
+Currently using more priorities will consume more resources (Erlang processes).</p>
+<h2><a id="runtime-characteristics" class="anchor" href="#runtime-characteristics">CPU Utilisation and Parallelism Considerations</a></h2>
+<p>Currently a single queue (master or mirror) is limited to a single CPU core
+on its hot code path. This design therefore assumes that most systems
+use multiple queues in practice. A single queue is generally
+considered to be an anti-pattern (and not just for resource utilisation
+reasons).</p>
+<p>In case when it is desirable to trade off message ordering for parallelism
+(better CPU core utilisation), <a href="https://github.com/rabbitmq/rabbitmq-sharding/">rabbitmq-sharding</a>
+provides an opinionated way of doing so transparently to the clients.</p>
+<h2><a id="metrics" class="anchor" href="#metrics">Metrics and Monitoring</a></h2>
+<p>RabbitMQ collects multiple metrics about queues. Most of them are available
+via <a href="/management.html">RabbitMQ HTTP API and management UI</a>, which is designed for monitoring.
+This includes queue length, ingress and egress rates, number of consumers, number of
+messages in various states (e.g. ready for delivery or <a href="/confirms.html">unacknowledged</a>),
+number of messages in RAM vs. on disk, and so on.</p>
+<p><a href="/man/rabbitmqctl.8.html">rabbitmqctl</a> can list queues and some basic metrics.</p>
+<p>Runtime metrics such as VM scheduler usage, queue (Erlang) process GC activity, amount of
+RAM used by the queue process, queue process mailbox length can be accessed
+using the <a href="https://github.com/rabbitmq/rabbitmq-top">rabbitmq-top</a> plugin and
+individual queue pages in the management UI.</p>
+<h2><a id="consumer-acknowledgement" class="anchor" href="#consumer-acknowledgement">Consumers and Acknowledgements</a></h2>
+<p>Messages can be consumed by registering a consumer (subscription),
+which means RabbitMQ will push messages to the client, or fetched
+individually for protocols that support this (e.g. the <span class="code ">basic.get</span> AMQP 0-9-1 method),
+similarly to HTTP GET.</p>
+<p>Delivered messages can be <a href="/confirms.html">acknowledged by consumer</a> explicitly
+or automatically as soon as a delivery is written to connection socket.</p>
+<p>Automatic acknowledgement mode generally will provide higher throughput
+rate and uses less network bandwidth. However, it offers the least number
+of guarantees when it comes to <a href="/reliability.html">failures</a>. As a rule of
+thumb, consider using manual acknowledgement mode first.</p>
+<h3><a id="prefetch-consumer-overload" class="anchor" href="#prefetch-consumer-overload">Prefetch and Consumer Overload</a></h3>
+<p>Automatic acknowledgement mode can also overwhelm
+consumers which cannot process messages as quickly as they are delivered.
+This can result in permanently growing memory usage and/or
+OS swapping for the consumer process.</p>
+<p>Manual acknowledgement mode provides a way to <a href="/confirms.html">set a limit on the number
+of outstanding (unconfirmed) deliveries</a>: channel QoS (prefetch).</p>
+<p>Consumers using higher (several thousands or more) prefetch levels can experience
+the same overload problem as consumers using automatic acknowledgements.</p>
+<p>High number of unacknowledged messages will lead to higher memory usage by
+the broker.</p>
+<h3><a id="message-states" class="anchor" href="#message-states">Message States</a></h3>
+<p>Enqueued messages therefore can be in one of two states:</p>
+<ul>
+<li>Ready for delivery</li>
+<li>Delivered but not yet <a href="/confirms.html">acknowledged by consumer</a></li>
+</ul>
+<p>Message breakdown by state can be found in the management UI.</p>
+<h2><a id="queue-length" class="anchor" href="#queue-length">Determining Queue Length</a></h2>
+<p>It is possible to determine queue length in a number of ways:</p>
+<ul>
+<li>With AMQP 0-9-1, using a property on the <span class="code ">queue.declare</span> method response
+   (<span class="code ">queue.declare-ok</span>). The field name is <span class="code ">message_count</span>. How it is accessed
+   varies from client library to client library.</li>
+<li>Using <a href="/management.html">RabbitMQ HTTP API</a>.</li>
+<li>Using the <a href="/man/rabbitmqctl.8.html">rabbitmqctl</a> <span class="code ">list_queues</span> command.</li>
+</ul>
+<p>Queue length is defined as the number of messages ready for delivery.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

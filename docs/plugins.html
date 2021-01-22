@@ -1,0 +1,571 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>Plugins — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>Plugins</h1>
+
+
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>This guide covers</p>
+<ul>
+<li><a href="#overview">Plugin support</a> in RabbitMQ</li>
+<li>How to <a href="#ways-to-enable-plugins">enable a plugin</a> using <a href="/cli.html">CLI tools</a></li>
+<li><a href="#plugin-directories">Plugin directories</a></li>
+<li>How to <a href="#enabled-plugins-file">preconfigure plugins</a> on a node at deployment time</li>
+<li><a href="#troubleshooting">Troubleshooting</a> of a number of common issues</li>
+<li><a href="#plugin-tiers">Plugin support tiers</a></li>
+</ul>
+<p>and more.</p>
+<p><a href="/plugin-development.html">Plugin development</a> is covered in a separate guide.</p>
+<h2><a id="basics" class="anchor" href="#basics">The Basics</a></h2>
+<p>RabbitMQ supports plugins. Plugins extend core broker functionality in a variety of ways: with support
+for more protocols, system state <a href="/monitoring.html">monitoring</a>, additional AMQP 0-9-1 exchange types,
+node <a href="/federation.html">federation</a>, and more. A number of features are implemented as plugins
+that ship in the core distribution.</p>
+<p>This guide covers the plugin mechanism and plugins that ship in the <a href="/changelog.html">latest release</a> of the RabbitMQ distribution.
+3rd party plugins can be installed separately. A set of <a href="#plugin-tiers">curated plugins</a> is also available.</p>
+<p>Plugins are activated when a node is started or at runtime when a <a href="cli.html">CLI tool</a>
+is used. For a plugin to be activated at boot, it must be enabled. To enable a plugin, use
+the <a href="cli.html">rabbitmq-plugins</a>:</p>
+<pre class="lang-bash">rabbitmq-plugins enable &lt;plugin-name&gt;</pre>
+
+<p>For example, to enable the Kubernetes <a href="/cluster-formation.html">peer discovery</a> plugin:</p>
+<pre class="lang-bash">rabbitmq-plugins enable rabbitmq_peer_discovery_k8s</pre>
+
+<p>And to disable a plugin, use:</p>
+<pre class="lang-bash">rabbitmq-plugins disable &lt;plugin-name&gt;</pre>
+
+<p>For example, to disable the <a href="/memory-use.html#breakdown-top"><span class="code ">rabbitmq-top</span></a> plugin:</p>
+<pre class="lang-bash">rabbitmq-plugins disable rabbitmq_top</pre>
+
+<p>A list of plugins available locally (in the node's <a href="/relocate.html">plugins directory</a>) as well
+as their status (enabled or disabled) can be obtained using <span class="code ">rabbitmq-plugins list</span>:</p>
+<pre class="lang-bash">rabbitmq-plugins list</pre>
+
+<h2><a id="ways-to-enable-plugins" class="anchor" href="#ways-to-enable-plugins">Different Ways to Enable Plugins</a></h2>
+<p>The <span class="code ">rabbitmq-plugins</span> command enables or
+disables plugins by contacting the running node to tell it to
+start or stop plugins as needed. It is possible to contact an arbitrary
+node <span class="code ">-n</span> option to specify a different node.</p>
+<p>Having a node running before the plugins are enabled is not always practical
+or operator-friendly. For those cases <span class="code ">rabbitmq-plugins</span>
+provides an alternative way. If the <span class="code ">--offline</span> flag is specified,
+the tool will not contact any nodes and instead will modify the file containing
+the list of enabled plugins (appropriately named <span class="code ">enabled_plugins</span>) directly.
+This option is often optimal for node provisioning automation.</p>
+<p>The <span class="code ">enabled_plugins</span> file is usually <a href="/relocate.html">located</a> in the node
+data directory or under <span class="code ">/etc</span>, together with configuration files. The file contains
+a list of plugin names ending with a dot. For example, when <a href="/management.html">rabbitmq_management</a> and
+<a href="/shovel.html">rabbitmq_shovel</a> plugins are enabled,
+the file contents will look like this:</p>
+<pre class="lang-erlang">
+[rabbitmq_management,rabbitmq_management_agent,rabbitmq_shovel].
+</pre>
+
+<p>Note that dependencies of plugins are not listed. Plugins with correct dependency metadata
+will specify their dependencies there and they will be enabled first at the time of
+plugin activation. Unlike <span class="code ">rabbitmq-plugins disable</span> calls against a running node,
+changes to the file require a node restart.</p>
+<p>The file can be generated by deployment tools. This is another automation-friendly approach.
+When a plugin must be disabled, it should be removed from the list and the node must be restarted.</p>
+<p>For more information on <span class="code ">rabbitmq-plugins</span>,
+consult <a href="man/rabbitmq-plugins.8.html">the manual
+page</a>.</p>
+<h2><a id="plugin-directories" class="anchor" href="#plugin-directories">Plugin Directories</a></h2>
+<p>RabbitMQ loads plugins from the local filesystem. Plugins are distributed as
+archives (<span class="code ">.ez</span> files) with compiled code modules and metadata.
+Since some plugins <a href="#plugin-tiers">ship with RabbitMQ</a>, every
+node has at least one default plugin directory. The path varies between
+package types and can be <a href="/relocate.html">overridden</a> using the
+<span class="code ">RABBITMQ_PLUGINS_DIR</span> <a href="/configure.html#customise-environment">environment variable</a>.
+Please see <a href="/relocate.html">File and Directory Locations guide</a> to learn about the default
+value on various platforms.</p>
+<p>The built-in plugin directory is by definition version-independent: its contents will change
+from release to release. So will its exact path (by default) which contains version number,
+e.g. <span class="code ">/usr/lib/rabbitmq/lib/rabbitmq_server-3.8.4/plugins</span>. Because of this
+automated installation of 3rd party plugins into this directory is harder and more error-prone,
+and therefore not recommended. To solve this problem, the plugin directory can be a list
+of paths separated by a colon (on Linux, MacOS, BSD):</p>
+<pre class="lang-bash">
+# Example rabbitmq-env.conf file that features a colon-separated list of plugin directories
+PLUGINS_DIR="/usr/lib/rabbitmq/plugins:/usr/lib/rabbitmq/lib/rabbitmq_server-3.8.4/plugins"
+</pre>
+
+<p>On Windows, a semicolon is used as path separator:</p>
+<pre class="lang-powershell">
+# Example rabbitmq-env-conf.bat file that features a colon-separated list of plugin directories
+PLUGINS_DIR="C:\Example\RabbitMQ\plugins;C:\Example\RabbitMQ\rabbitmq_server-3.8.4\plugins"
+</pre>
+
+<p>Plugin directory paths that don't have a version-specific component and are not updated
+by RabbitMQ package installers during upgrades are optimal for 3rd party plugin installation.
+Provisioning automation tools can rely on those directories to be stable and only managed
+by them.</p>
+<p>3rd party plugin directories will differ from platform to platform and installation method
+to installation method. For example, <span class="code ">/usr/lib/rabbitmq/plugins</span> is a 3rd party plugin directory
+path used by RabbitMQ <a href="/install-debian.html">Debian packages</a>.</p>
+<p>Plugin directory can be located by executing the <span class="code ">rabbitmq-plugins directories</span> command on the host
+with a running RabbitMQ node:</p>
+<pre class="lang-bash">
+rabbitmq-plugins directories -s
+# =&gt; Plugin archives directory: /path/to/rabbitmq/plugins
+# =&gt; Plugin expansion directory: /path/to/node/node-plugins-expand
+# =&gt; Enabled plugins file: /path/to/enabled_plugins
+</pre>
+
+<p>The first directory in the example above is the 3rd party plugin directory.
+The second one contains plugins that ship with RabbitMQ and will change as
+installed RabbitMQ version changes between upgrades.</p>
+<h3><a id="enabled-plugins-file" class="anchor" href="#enabled-plugins-file">The Enabled Plugins File</a></h3>
+<p>The list of currently enabled plugins on a node is stored in a file.
+The file is commonly known as the enabled plugins file. Depending on the package type
+it is usually located under the <span class="code ">etc</span> directory or under the node's
+data directory. Its path can be <a href="/configure.html">overridden</a> using the <span class="code ">RABBITMQ_ENABLED_PLUGINS_FILE</span>
+environment variable. As a user you don't usually have to think about that file as it is
+managed by the node and <span class="code ">rabbitmq-plugins</span> (when used in <span class="code ">--offline</span> mode).</p>
+<p>Deployment automation tools must make sure that the file is readable and writeable by the local RabbitMQ node.
+In environments that need to preconfigure plugins the file can be machine-generated at deployment time.
+The plugin names on the list are exactly the same as listed by <span class="code ">rabbitmq-plugins list</span>.</p>
+<p>The file contents is an Erlang term file that contains a single list:</p>
+<pre class="lang-erlang">
+[rabbitmq_management,rabbitmq_management_agent,rabbitmq_mqtt,rabbitmq_stomp].
+</pre>
+
+<p>Note that the trailing dot is significant and cannot be left out.</p>
+<h3><a id="plugin-expansion" class="anchor" href="#plugin-expansion">Plugin Expansion (Extraction)</a></h3>
+<p>Not every plugin can be loaded from an archive <span class="code ">.ez</span> file.
+For this reason RabbitMQ will extract plugin archives on boot into a separate
+directory that is then added to its code path. This directory is known
+as the expanded plugins directory. It is usually managed entirely by RabbitMQ
+but if node directories are changed to non-standard ones, that directory will likely
+need to be overridden, too. It can be done using the <span class="code ">RABBITMQ_PLUGINS_EXPAND_DIR</span>
+<a href="/configure.html#customise-environment">environment variable</a>. The directory
+must be readable and writable by the effective operating system user of the RabbitMQ node.</p>
+<h2><a id="troubleshooting" class="anchor" href="#troubleshooting">Troubleshooting</a></h2>
+<p>If a 3rd party plugin was installed but cannot be found, the most likely reasons
+are</p>
+<ul>
+<li>Incorrect plugin directory</li>
+<li><span class="code ">rabbitmq-plugins</span> and the server use different plugin directories</li>
+<li><span class="code ">rabbitmq-plugins</span> and the server use different enable plugin file</li>
+<li>The plugin doesn't declare a dependency on RabbitMQ core</li>
+<li>Plugin version is incompatible with RabbitMQ core</li>
+</ul>
+<h3><a id="troubleshooting-plugin-not-found" class="anchor" href="#troubleshooting-plugin-not-found">3rd Party Plugin Not Found</a></h3>
+<p>When a plugin is enabled but the server cannot locate it, it will report an error.
+Since any plugin name can be given to <span class="code ">rabbitmq-plugins</span>, double check
+the name:</p>
+<pre class="lang-bash">
+# note the typo
+rabbitmq-plugins enable rabbitmq_managemenr
+# =&gt; Error:
+# =&gt; {:plugins_not_found, [:rabbitmq_managemenr]}
+</pre>
+
+<p>Another common reason is that plugin directory the plugin archive (the <span class="code ">.ez</span> file)
+was downloaded to doesn't match that of the server.</p>
+<p>Plugin directory can be located by executing the <span class="code ">rabbitmq-plugins directories</span> command on the host
+with a running RabbitMQ node:</p>
+<pre class="lang-bash">
+rabbitmq-plugins directories -s
+# =&gt; Plugin archives directory: /path/to/rabbitmq/plugins
+# =&gt; Plugin expansion directory: /path/to/node/node-plugins-expand
+# =&gt; Enabled plugins file: /path/to/enabled_plugins
+</pre>
+
+<p>The first directory in the example above is the 3rd party plugin directory.
+The second one contains plugins that ship with RabbitMQ and will change as
+installed RabbitMQ version changes between upgrades.</p>
+<p><span class="code ">which</span> and similar tools can be used to locate <span class="code ">rabbitmq-plugins</span> and
+determine if it comes from the expected installation:</p>
+<pre class="lang-bash">
+which rabbitmq-plugins
+# =&gt; /path/to/rabbitmq/installation/sbin/rabbitmq-plugins
+</pre>
+
+<h3><a id="troubleshooting-enabled-plugins-file-mismatch" class="anchor" href="#troubleshooting-enabled-plugins-file-mismatch">Plugin Cannot be Enabled</a></h3>
+<p>In some environments, in particular development ones, <span class="code ">rabbitmq-plugins</span>
+comes from a different installation than the running server node. This can be the case
+when a node is installed using a <a href="/install-generic-unix.html">binary build package</a>
+but CLI tools come from the local package manager such as <span class="code ">apt</span> or Homebrew.</p>
+<p>In that case CLI tools will have a different <a href="#enabled-plugins-file">enabled plugins file</a>
+from the server and the operation will fail with an error:</p>
+<pre class="lang-bash">
+rabbitmq-plugins enable rabbitmq_top
+Enabling plugins on node rabbit@warp10:
+# =&gt;  rabbitmq_top
+# =&gt;  The following plugins have been configured:
+# =&gt;    rabbitmq_management
+# =&gt;    rabbitmq_management_agent
+# =&gt;    rabbitmq_shovel
+# =&gt;    rabbitmq_shovel_management
+# =&gt;    rabbitmq_top
+# =&gt;    rabbitmq_web_dispatch
+# =&gt;  Applying plugin configuration to rabbit@warp10...
+# =&gt;  Error:
+# =&gt;  {:enabled_plugins_mismatch, '/path/to/installation1/etc/rabbitmq/enabled_plugins', '/path/to/installation2/etc/rabbitmq/enabled_plugins'}
+</pre>
+
+<p>The first path in the error above corresponds to the enabled plugins file used by <span class="code ">rabbitmq-plugins</span>, the second
+one is that used by the target RabbitMQ node.</p>
+<p><span class="code ">rabbitmqctl environment</span> can be used to inspect effective enabled plugins file path
+used by the server:</p>
+<pre class="lang-bash">
+rabbitmq-plugins directories -s
+# =&gt; Plugin archives directory: /path/to/rabbitmq/plugins
+# =&gt; Plugin expansion directory: /path/to/node/node-plugins-expand
+# =&gt; Enabled plugins file: /path/to/enabled_plugins
+</pre>
+
+<p>Other common reasons that prevent plugins from being enabled can include <a href="#plugin-directories">plugin archive</a>
+and/or <a href="#plugin-expansion">plugin expansion</a>
+directories permissions not having sufficient privileges for the effective user of the server node. In other words,
+the node cannot use those directories to complete plugin activation and loading.</p>
+<h2><a id="plugin-tiers" class="anchor" href="#plugin-tiers">Plugin Tiers</a></h2>
+<p>Plugins that ship with the RabbitMQ distributions are often referred
+to as tier 1 plugins. Provided that a standard distribution package is
+used they do not need to be <a href="/installing-plugins.html">installed</a> but do need to be
+enabled before they can be used.</p>
+<p>In addition to the plugins bundled with the server, team RabbitMQ
+offers binary downloads of curated plugins which have been
+contributed by authors in the community. See the <a href="community-plugins.html">community plugins page</a> for
+more details.</p>
+<p>Even more plugins can be found on GitHub, GitLab, Bitbucket and similar
+services.</p>
+<h2><a id="tier1-plugins" class="anchor" href="#tier1-plugins">Tier 1 (Core) Plugins</a></h2>
+<p>The table below lists tier 1 (core) plugins that ship with RabbitMQ.</p>
+<table class="plugins">
+  <thead>
+    <tr>
+      <th>Plugin name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <th>rabbitmq_amqp1_0</th>
+      <td>
+        AMQP 1.0 protocol support.
+
+        This plugin is several years old and is moderately
+        mature. It may have certain limitations with its current
+        architecture but most major AMQP 1.0 features should be in
+        place.
+
+        <ul>
+          <li>
+            <a href="https://github.com/rabbitmq/rabbitmq-amqp1.0/blob/v3.7.x/README.md">README for this plugin</a>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_auth_backend_ldap</th>
+      <td>
+        Authentication and authorisation plugin using an external
+        LDAP server.
+        <ul>
+          <li><a href="ldap.html">Documentation for the LDAP
+          plugin</a></li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_auth_backend_http</th>
+      <td>
+        Authentication and authorisation plugin that uses an external HTTP API.
+
+        <ul>
+          <li>
+            <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-http/blob/v3.7.x/README.md">README for this plugin</a>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_auth_mechanism_ssl</th>
+      <td>
+        Authentication mechanism plugin using SASL EXTERNAL to authenticate
+        using TLS (x509) client certificates.
+
+        <ul>
+          <li>
+            <a href="https://github.com/rabbitmq/rabbitmq-auth-mechanism-ssl/blob/v3.7.x/README.md">README for this plugin</a>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_consistent_hash_exchange</th>
+      <td>
+        Consistent hashing exchange.
+
+        <ul>
+          <li>
+            <a href="https://github.com/rabbitmq/rabbitmq-consistent-hash-exchange/blob/v3.7.x/README.md">README for this plugin</a>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_federation</th>
+      <td>
+        Scalable messaging across WANs and administrative
+        domains.
+        <ul>
+          <li><a href="federation.html">Documentation for the
+          federation plugin</a></li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_federation_management</th>
+      <td>
+        Shows federation status in the management API and UI. Only
+        of use when using rabbitmq_federation in conjunction with
+        <span class="code ">rabbitmq_management</span>. In a heterogenous cluster this
+        should be installed on the same nodes as rabbitmq_management.
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_management</th>
+      <td>
+        A management / monitoring API over HTTP, along with a
+        browser-based UI.
+        <ul>
+          <li><a href="management.html">Documentation for the
+          management plugin</a></li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_management_agent</th>
+      <td>
+        When installing the management plugin on <em>some</em>
+        of the nodes in a cluster,
+        <span class="code ">rabbitmq_management_agent</span> must be enabled on all
+        on <em>all</em> cluster nodes nodes, otherwise stats for some nodes
+        will not be collected.
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_mqtt</th>
+      <td>
+        MQTT 3.1.1 support.
+
+        <ul>
+          <li><a href="mqtt.html">Documentation for the MQTT plugin</a></li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_prometheus</th>
+      <td>
+        Prometheus monitoring support.
+
+        <ul>
+          <li><a href="prometheus.html">Documentation for monitoring with the Prometheus plugin</a></li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_shovel</th>
+      <td>
+        A plug-in for RabbitMQ that shovels messages from a queue on
+        one broker to an exchange on another broker.
+
+        <ul>
+          <li>
+            <a href="/shovel.html">Documentation for the Shovel plugin</a>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_shovel_management</th>
+      <td>
+        Shows <a href="/shovel.html">Shovel</a> status in the management API and UI.
+        Only of use when using <span class="code ">rabbitmq_shovel</span> in
+        conjunction with <span class="code ">rabbitmq_management</span>. In a
+        heterogenous cluster this should be installed on the same
+        nodes as <a href="">RabbitMQ management plugin</a>.
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_stomp</th>
+      <td>
+        Provides <a href="http://stomp.github.io/stomp-specification-1.2.html">STOMP protocol</a> support in RabbitMQ.
+        <ul>
+          <li><a href="stomp.html">Documentation for the STOMP plugin</a><br /></li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_tracing</th>
+      <td>
+        Adds message tracing to the management plugin. Logs
+        messages from the <a href="firehose.html">firehose</a> in
+        a couple of formats.
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_trust_store</th>
+      <td>
+        Provides a client x509 certificate trust store.
+        <ul>
+          <li>
+            <a href="https://github.com/rabbitmq/rabbitmq-trust-store/blob/v3.7.x/README.md">README for this plugin</a>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_web_stomp</th>
+      <td>
+        STOMP-over-WebSockets: a bridge exposing <span class="code ">rabbitmq_stomp</span> to web
+        browsers using WebSockets.
+        <ul>
+          <li><a href="web-stomp.html">Documentation for the
+          web-stomp plugin</a></li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_web_mqtt</th>
+      <td>
+        MQTT-over-WebSockets: a bridge exposing <a href="/mqtt.html">rabbitmq_mqtt</a> to Web
+        browsers using WebSockets.
+        <ul>
+          <li><a href="web-mqtt.html">Documentation for the
+          web-mqtt plugin</a></li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_web_stomp_examples</th>
+      <td>
+        Adds some basic examples to
+        <span class="code ">rabbitmq_web_stomp</span>: a simple "echo" service
+        and a basic canvas-based collaboration tool.
+
+        <ul>
+          <li>
+            <a href="https://github.com/rabbitmq/rabbitmq-web-stomp-examples/blob/v3.7.x/README.md">README for this plugin</a>
+          </li>
+        </ul>
+      </td>
+    </tr>
+
+    <tr>
+      <th>rabbitmq_web_mqtt_examples</th>
+      <td>
+        Adds some basic examples to
+        <span class="code ">rabbitmq_web_mqtt</span>: a simple "echo" service
+        and a basic canvas-based collaboration tool.
+
+        <ul>
+          <li>
+            <a href="https://github.com/rabbitmq/rabbitmq-web-mqtt-examples/blob/v3.7.x/README.md">README for this plugin</a>
+          </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2><a id="discontinued" class="anchor" href="#discontinued">Discontinued</a></h2>
+<p>All plugins below have been <em>discontinued</em>. They don't (or won't) ship
+with the RabbitMQ distribution and are no longer maintained.</p>
+<ul>
+<li><span class="code ">rabbitmq_management_visualiser</span></li>
+</ul><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"><div id="in-this-section"><h4>In This Section</h4><ul>
+     <li><a href="/admin-guide.html">Server Documentation</a></li>
+     <li><a href="/clients.html">Client Documentation</a></li>
+     <li><a href="/plugins.html" class="selected">Plugins</a><ul>
+       <li><a href="/management.html">Management plugin</a></li>
+       <li><a href="/federation.html">Federation plugin</a></li>
+       <li><a href="/shovel.html">Shovel plugin</a></li>
+       <li><a href="/stream.html">Stream plugin</a></li>
+       <li><a href="/stomp.html">STOMP plugin</a></li>
+       <li><a href="/web-stomp.html">STOMP-over-WebSockets</a></li>
+       <li><a href="/mqtt.html">MQTT plugin</a></li>
+       <li><a href="/web-mqtt.html">MQTT-over-WebSockets</a></li>
+       <li><a href="/ldap.html">LDAP plugin</a></li>
+       <li><a href="/installing-plugins.html">Installing plugins</a></li>
+       <li><a href="/plugin-development.html">Plugin development</a></li>
+       
+     </ul></li>
+     <li><a href="/news.html">News</a></li>
+     <li><a href="/protocol.html">Protocol</a></li>
+     <li><a href="/extensions.html">Our Extensions</a></li>
+     <li><a href="/build.html">Building</a></li>
+     
+     <li><a href="/mpl.html">License</a></li>
+   </ul></div><div id="related-links"><h4>Related Links</h4><ul><li><a href="/community-plugins.html">Community Plugins</a></li></ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

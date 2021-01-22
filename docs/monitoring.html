@@ -1,0 +1,838 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>Monitoring — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>Monitoring</h1>
+
+
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>This document provides an overview of topics related to RabbitMQ monitoring.
+Monitoring RabbitMQ and applications that use it is critically important. Monitoring helps
+detect issues before they affect the rest of the environment and, eventually, the end users.</p>
+<p>Many aspects of the system can be monitored. This guide will group them into a handful of
+categories:</p>
+<ul>
+<li><a href="#approaches-to-monitoring">What is monitoring</a>, what common approaches to it
+   exist and why it is important.</li>
+<li>Built-in and <a href="#external-monitoring">external monitoring</a> options</li>
+<li>What <a href="#system-metrics">infrastructure and kernel metrics</a> are important to monitor</li>
+<li>What <a href="#rabbitmq-metrics">RabbitMQ metrics</a> are available:<ul>
+<li><a href="#node-metrics">Node metrics</a></li>
+<li><a href="#queue-metrics">Queue metrics</a></li>
+<li><a href="#cluster-wide-metrics">Cluster-wide metrics</a></li>
+</ul>
+</li>
+<li><a href="#monitoring-frequency">How frequently</a> should monitoring checks be performed?</li>
+<li><a href="#app-metrics">Application-level metrics</a></li>
+<li>How to approach <a href="#health-checks">node health checking</a> and why it's more involved than a single
+   CLI command</li>
+<li>Health checks use as <a href="#readiness-probes">node readiness probes</a> during deployment or upgrades</li>
+<li><a href="#log-aggregation">Log aggregation</a></li>
+<li><a href="#diagnostics-observer">Command-line based observer</a> tool</li>
+</ul>
+<p><a href="#log-aggregation">Log aggregation</a> across all nodes and applications is closely related to monitoring
+and also mentioned in this guide.</p>
+<p>A number of <a href="#monitoring-tools">popular tools</a>, both open source and commercial,
+can be used to monitor RabbitMQ. <a href="/prometheus.html">Prometheus and Grafana</a> are one highly
+recommended option.</p>
+<h2><a id="approaches-to-monitoring" class="anchor" href="#approaches-to-monitoring">What is Monitoring?</a></h2>
+<p>In this guide we define monitoring as a process of
+capturing the behaviour of a system via health checks and metrics  over time.
+This helps detect anomalies: when the system is unavailable, experiences an unusual load,
+exhausted of certain resources or otherwise does not behave within its normal
+(expected) parameters. Monitoring involves collecting and storing metrics for the long term,
+which is important for more than anomaly detection
+but also root cause analysis, trend detection and capacity planning.</p>
+<p>Monitoring systems typically integrate with alerting systems.
+When an anomaly is detected by a monitoring system an alarm of some sort is typically
+passed to an alerting system, which notifies interested parties such as the technical operations team.</p>
+<p>Having monitoring in place means that important deviations in system behavior,
+from degraded service in some areas to complete unavailability, is easier
+to detect and the root cause takes much less time to find.
+Operating a distributed system is a bit like trying to get out of a forest
+without a GPS navigator device or compass. It doesn't matter how brilliant or experienced
+the person is, having relevant information is very important for
+a good outcome.</p>
+<h3>Health Checks' Role in Monitoring</h3>
+<p>A <a href="#health-checks">Health check</a> is the most basic aspect of monitoring. It involves a command or
+set of commands that collect a few essential metrics of the monitored system <a href="#monitoring-frequency">over
+time</a> and test them. For example, whether RabbitMQ's Erlang VM is running is
+one such check. The metric in this case is "is an OS process running?". The normal operating
+parameters are "the process must be running". Finally, there is an evaluation step.</p>
+<p>Of course, there are more varieties of health checks. Which ones are most appropriate depends on the
+definition of a "healthy node" used. So, it is a system- and team-specific decision. <a href="/cli.html">RabbitMQ CLI
+tools</a> provide commands that can serve as useful health checks. They will be covered
+<a href="#health-checks">later in this guide</a>.</p>
+<p>While health checks are a useful tool, they only provide so much insight into the state of the
+system because they are by design focused on one or a handful of metrics, usually check a single
+node and can only reason about the state of that node at a particular moment in time. For a more
+comprehensive assessment, collect more metrics <a href="#monitoring-frequency">over time</a>. This detects more
+types of anomalies as some can only be identified over longer periods of time. This is usually done
+by tools known as monitoring tools of which there are a grand variety. This guides covers some tools
+used for RabbitMQ monitoring.</p>
+<h3>System and RabbitMQ Metrics</h3>
+<p>Some metrics are RabbitMQ-specific: they are <a href="#rabbitmq-metrics">collected and reported by RabbitMQ
+nodes</a>. In this guide we refer to them as "RabbitMQ metrics". Examples include
+the number of socket descriptors used, total number of enqueued messages or inter-node communication
+traffic rates. Others metrics are <a href="#system-metrics">collected and reported by the OS kernel</a>. Such
+metrics are often called system metrics or infrastructure metrics. System metrics are not specific
+to RabbitMQ. Examples include CPU utilisation rate, amount of memory used by processes, network
+packet loss rate, et cetera. Both types are important to track. Individual metrics are not always
+useful but when analysed together, they can provide a more complete insight into the state of the
+system. Then operators can form a hypothesis about what's going on and needs addressing.</p>
+<h3><a id="system-metrics" class="anchor" href="#system-metrics">Infrastructure and Kernel Metrics</a></h3>
+<p>First step towards a useful monitoring system starts with infrastructure and
+kernel metrics. There are quite a few of them but some are more important than others.
+Collect the following metrics on all hosts that run RabbitMQ nodes or applications:</p>
+<ul>
+<li>CPU stats (user, system, iowait &amp; idle percentages)</li>
+<li>Memory usage (used, buffered, cached &amp; free percentages)</li>
+<li><a href="https://www.kernel.org/doc/Documentation/sysctl/vm.txt">Virtual Memory</a> statistics (dirty page flushes, writeback volume)</li>
+<li>Disk I/O (operations &amp; amount of data transferred per unit time, time to service operations)</li>
+<li>Free disk space on the mount used for the <a href="/relocate.html">node data directory</a></li>
+<li>File descriptors used by <span class="code ">beam.smp</span> vs. <a href="/networking.html#open-file-handle-limit">max system limit</a></li>
+<li>TCP connections by state (<span class="code ">ESTABLISHED</span>, <span class="code ">CLOSE_WAIT</span>, <span class="code ">TIME_WAIT</span>)</li>
+<li>Network throughput (bytes received, bytes sent) &amp; maximum network throughput</li>
+<li>Network latency (between all RabbitMQ nodes in a cluster as well as to/from clients)</li>
+</ul>
+<p>There is no shortage of existing tools (such as Prometheus or Datadog) that collect infrastructure
+and kernel metrics, store and visualise them over periods of time.</p>
+<h3><a id="monitoring-frequency" class="anchor" href="#monitoring-frequency">Frequency of Monitoring</a></h3>
+<p>Many monitoring systems poll their monitored services periodically. How often that's
+done varies from tool to tool but usually can be configured by the operator.</p>
+<p>Very frequent polling can have negative consequences on the system under monitoring. For example,
+excessive load balancer checks that open a test TCP connection to a node can lead to a <a href="/networking.html#dealing-with-high-connection-churn">high connection churn</a>.
+Excessive checks of channels and queues in RabbitMQ will increase its CPU consumption. When there
+are many (say, 10s of thousands) of them on a node, the difference can be significant.</p>
+<p>The recommended metric collection interval is 15 second. To collect at an interval which is closer to real-time, use 5 second - but not lower.
+For rate metrics, use a time range that spans 4 metric collection intervals so that it can tolerate race-conditions and is resilient to scrape failures.</p>
+<p>For production systems a collection interval of 30 or even 60 seconds is recommended.
+<a href="/prometheus.html">Prometheus</a> exporter API is designed to be scraped every 15 seconds,
+including production systems.</p>
+<h2><a id="external-monitoring" class="anchor" href="#external-monitoring">Management UI and External Monitoring Systems</a></h2>
+<p>RabbitMQ comes with a <a href="/monitoring.html">management UI and HTTP API</a> which exposes a number of <a href="#rabbitmq-metrics">RabbitMQ metrics</a>
+for nodes, connections, queues, message rates and so on. This is a convenient option for development
+and in environments where external monitoring is difficult or impossible to introduce.</p>
+<p>However, the management UI has a number of limitations:</p>
+<ul>
+<li>The monitoring system is intertwined with the system being monitored</li>
+<li>A certain amount of overhead</li>
+<li>It only stores recent data (think hours, not days or months)</li>
+<li>It has a basic user interface</li>
+<li>Its design <a href="/management.html#clustering">emphasizes ease of use over best possible availability</a>.</li>
+<li>Management UI access is controlled via the <a href="/access-control.html">RabbitMQ permission tags system</a>
+   (or a convention on JWT token scopes)</li>
+</ul>
+<p>Long term metric storage and visualisation services such as <a href="/prometheus.html">Prometheus and Grafana</a> or the <a href="https://www.elastic.co/what-is/elk-stack">ELK stack</a> are more suitable options for production systems. They offer:</p>
+<ul>
+<li>Decoupling of the monitoring system from the system being monitored</li>
+<li>Lower overhead</li>
+<li>Long term metric storage</li>
+<li>Access to additional related metrics such as <a href="/runtime.html">Erlang runtime</a> ones</li>
+<li>More powerful and customizable user interface</li>
+<li>Ease of metric data sharing: both metric state and dashboards</li>
+<li>Metric access permissions are not specific to RabbitMQ</li>
+<li>Collection and aggregation of node-specific metrics which is more resilient to individual node failures</li>
+</ul>
+<p>RabbitMQ provides first class support for <a href="/prometheus.html">Prometheus and Grafana</a> as of 3.8.
+It is recommended for production environments.</p>
+<h2><a id="rabbitmq-metrics" class="anchor" href="#rabbitmq-metrics">RabbitMQ Metrics</a></h2>
+<p>The RabbitMQ <a href="management.html">management plugin</a> provides an API for
+accessing RabbitMQ metrics. The plugin will store up to one day's worth of
+metric data. Longer term monitoring should be accomplished with an <a href="#monitoring-tools">external tool</a>.</p>
+<p>This section will cover multiple RabbitMQ-specific aspects of monitoring.</p>
+<h3><a id="clusters" class="anchor" href="#clusters">Monitoring of Clusters</a></h3>
+<p>When monitoring clusters it is important to understand the guarantees provided by the
+HTTP API. In a clustered environment every node can serve metric endpoint requests.
+Cluster-wide metrics can be fetched from any node that <a href="/management.html#clustering">can contact its peers</a>. That node
+will collect and combine data from its peers as needed before producing a response.</p>
+<p>Every node also can serve requests to endpoints that provide <a href="#node-metrics">node-specific metrics</a>
+for itself as well as other cluster nodes. Like with <a href="#system-metrics">infrastructure and OS metrics</a>,
+node-specific metrics must be collected for each node. Monitoring tools can execute HTTP API requests against any node.</p>
+<p>As mentioned earlier, inter-node connectivity issues
+will <a href="/management.html#clustering">affect HTTP API behaviour</a>. Choose a random online node for monitoring requests.
+For example, using a load balancer or <a href="https://en.wikipedia.org/wiki/Round-robin_DNS">round-robin DNS</a>.</p>
+<p>Some endpoints perform operations on the target node. Node-local health checks is the most common
+example. Those are an exception, not the rule.</p>
+<h3><a id="cluster-wide-metrics" class="anchor" href="#cluster-wide-metrics">Cluster-wide Metrics</a></h3>
+<p>Cluster-wide metrics provide a high level view of cluster state. Some of them describe interaction
+between nodes. Examples of such metrics are cluster link traffic and detected network partitions.
+Others combine metrics across all cluster members. A complete list of connections to all nodes would
+be one example. Both types are complimentary to infrastructure and node metrics.</p>
+<p><span class="code ">GET /api/overview</span> is the <a href="management.html#http-api">HTTP API</a> endpoint that returns cluster-wide metrics.</p>
+<table>
+  <thead>
+    <tr><td>Metric</td><td>JSON field name</td></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Cluster name</td>
+      <td><span class="code ">cluster_name</span></td>
+    </tr>
+    <tr>
+      <td>Cluster-wide message rates</td>
+      <td><span class="code ">message_stats</span></td>
+    </tr>
+    <tr>
+      <td>Total number of connections</td>
+      <td><span class="code ">object_totals.connections</span></td>
+    </tr>
+    <tr>
+      <td>Total number of channels</td>
+      <td><span class="code ">object_totals.channels</span></td>
+    </tr>
+    <tr>
+      <td>Total number of queues</td>
+      <td><span class="code ">object_totals.queues</span></td>
+    </tr>
+    <tr>
+      <td>Total number of consumers</td>
+      <td><span class="code ">object_totals.consumers</span></td>
+    </tr>
+    <tr>
+      <td>Total number of messages (ready plus unacknowledged)</td>
+      <td><span class="code ">queue_totals.messages</span></td>
+    </tr>
+    <tr>
+      <td>Number of messages ready for delivery</td>
+      <td><span class="code ">queue_totals.messages_ready</span></td>
+    </tr>
+    <tr>
+      <td>Number of <a href="/confirms.html">unacknowledged</a> messages</td>
+      <td><span class="code ">queue_totals.messages_unacknowledged</span></td>
+    </tr>
+    <tr>
+      <td>Messages published recently</td>
+      <td><span class="code ">message_stats.publish</span></td>
+    </tr>
+    <tr>
+      <td>Message publish rate</td>
+      <td><span class="code ">message_stats.publish_details.rate</span></td>
+    </tr>
+    <tr>
+      <td>Messages delivered to consumers recently</td>
+      <td><span class="code ">message_stats.deliver_get</span></td>
+    </tr>
+    <tr>
+      <td>Message delivery rate</td>
+      <td><span class="code ">message_stats.deliver_get.rate</span></td>
+    </tr>
+    <tr>
+      <td>Other message stats</td>
+      <td>
+        <span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-management/v3.8.11/priv/www/api/index.html">HTTP API reference</a>)
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3><a id="node-metrics" class="anchor" href="#node-metrics">Node Metrics</a></h3>
+<p>There are two  <a href="management.html#http-api">HTTP API</a> endpoints that provide access to node-specific metrics:</p>
+<ul>
+<li><span class="code ">GET /api/nodes/{node}</span> returns stats for a single node</li>
+<li><span class="code ">GET /api/nodes</span> returns stats for all cluster members</li>
+</ul>
+<p>The latter endpoint returns an array of objects. Monitoring tools that support (or can support) that
+as an input should prefer that endpoint since it reduces the number of requests. When that's not
+the case, use the former endpoint to retrieve stats for every cluster member in turn. That implies
+that the monitoring system is aware of the list of cluster members.</p>
+<p>Most of the metrics represent point-in-time absolute values. Some, represent activity over a recent
+period of time (for example, GC runs and bytes reclaimed). The latter metrics are most useful when
+compared to their previous values and historical mean/percentile values.</p>
+<table>
+  <thead>
+    <tr><td>Metric</td><td>JSON field name</td></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Total amount of <a href="/memory-use.html">memory used</a></td>
+      <td><span class="code ">mem_used</span></td>
+    </tr>
+    <tr>
+      <td>Memory usage high watermark</td>
+      <td><span class="code ">mem_limit</span></td>
+    </tr>
+    <tr>
+      <td>Is a <a href="/memory.html">memory alarm</a> in effect?</td>
+      <td><span class="code ">mem_alarm</span></td>
+    </tr>
+    <tr>
+      <td>Free disk space low watermark</td>
+      <td><span class="code ">disk_free_limit</span></td>
+    </tr>
+    <tr>
+      <td>Is a <a href="/disk-alarms.html">disk alarm</a> in effect?</td>
+      <td><span class="code ">disk_free_alarm</span></td>
+    </tr>
+    <tr>
+      <td><a href="/networking.html#open-file-handle-limit">File descriptors available</a></td>
+      <td><span class="code ">fd_total</span></td>
+    </tr>
+    <tr>
+      <td>File descriptors used</td>
+      <td><span class="code ">fd_used</span></td>
+    </tr>
+    <tr>
+      <td>File descriptor open attempts</td>
+      <td><span class="code ">io_file_handle_open_attempt_count</span></td>
+    </tr>
+    <tr>
+      <td>Sockets available</td>
+      <td><span class="code ">sockets_total</span></td>
+    </tr>
+    <tr>
+      <td>Sockets used</td>
+      <td><span class="code ">sockets_used</span></td>
+    </tr>
+    <tr>
+      <td>Message store disk reads</td>
+      <td><span class="code ">message_stats.disk_reads</span></td>
+    </tr>
+    <tr>
+      <td>Message store disk writes</td>
+      <td><span class="code ">message_stats.disk_writes</span></td>
+    </tr>
+    <tr>
+      <td>Inter-node communication links</td>
+      <td>cluster_links</td>
+    </tr>
+    <tr>
+      <td>GC runs</td>
+      <td><span class="code ">gc_num</span></td>
+    </tr>
+    <tr>
+      <td>Bytes reclaimed by GC</td>
+      <td><span class="code ">gc_bytes_reclaimed</span></td>
+    </tr>
+    <tr>
+      <td>Erlang process limit</td>
+      <td><span class="code ">proc_total</span></td>
+    </tr>
+    <tr>
+      <td>Erlang processes used</td>
+      <td><span class="code ">proc_used</span></td>
+    </tr>
+    <tr>
+      <td>Runtime run queue</td>
+      <td><span class="code ">run_queue</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3><a id="queue-metrics" class="anchor" href="#queue-metrics">Individual Queue Metrics</a></h3>
+<p>Individual queue metrics are made available through the <a href="management.html#http-api">HTTP API</a>
+via the <span class="code ">GET /api/queues/{vhost}/{qname}</span> endpoint.</p>
+<table>
+  <thead>
+    <tr><td>Metric</td><td>JSON field name</td></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Memory</td>
+      <td><span class="code ">memory</span></td>
+    </tr>
+    <tr>
+      <td>Total number of messages (ready plus unacknowledged)</td>
+      <td><span class="code ">messages</span></td>
+    </tr>
+    <tr>
+      <td>Number of messages ready for delivery</td>
+      <td><span class="code ">messages_ready</span></td>
+    </tr>
+    <tr>
+      <td>Number of <a href="/confirms.html">unacknowledged</a> messages</td>
+      <td><span class="code ">messages_unacknowledged</span></td>
+    </tr>
+    <tr>
+      <td>Messages published recently</td>
+      <td><span class="code ">message_stats.publish</span></td>
+    </tr>
+    <tr>
+      <td>Message publishing rate</td>
+      <td><span class="code ">message_stats.publish_details.rate</span></td>
+    </tr>
+    <tr>
+      <td>Messages delivered recently</td>
+      <td><span class="code ">message_stats.deliver_get</span></td>
+    </tr>
+    <tr>
+      <td>Message delivery rate</td>
+      <td><span class="code ">message_stats.deliver_get.rate</span></td>
+    </tr>
+    <tr>
+      <td>Other message stats</td>
+      <td><span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-management/v3.8.11/priv/www/api/index.html">HTTP API reference</a>)
+    </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2><a id="app-metrics" class="anchor" href="#app-metrics">Application-level Metrics</a></h2>
+<p>A system that uses messaging is almost always distributed. In such systems it is often not
+immediately obvious which component is misbehaving. Every single part of the system, including
+applications, should be monitored and investigated.</p>
+<p>Some infrastructure-level and RabbitMQ metrics can show
+presence of an unusual system behaviour or issue but can't
+pinpoint the root cause. For example, it is easy to tell that a
+node is running out of disk space but not always easy to tell why.
+This is where application metrics come in: they can help identify
+a run-away publisher, a repeatedly failing consumer, a consumer that cannot
+keep up with the rate, even a downstream service that's experiencing a slowdown
+(e.g. a missing index in a database used by the consumers).</p>
+<p>Some client libraries and frameworks
+provide means of registering metrics collectors or collect metrics out of the box.
+<a href="/api-guide.html">RabbitMQ Java client</a> and <a href="http://spring.io/projects/spring-amqp">Spring AMQP</a> are two examples.
+With others developers have to track metrics in their application code.</p>
+<p>What metrics applications track can be system-specific but some are relevant
+to most systems:</p>
+<ul>
+<li>Connection opening rate</li>
+<li>Channel opening rate</li>
+<li>Connection failure (recovery) rate</li>
+<li>Publishing rate</li>
+<li>Delivery rate</li>
+<li>Positive delivery acknowledgement rate</li>
+<li>Negative delivery acknowledgement rate</li>
+<li>Mean/95th percentile delivery processing latency</li>
+</ul>
+<h2><a id="health-checks" class="anchor" href="#health-checks">Health Checks</a></h2>
+<p>A health check is a command that
+tests whether an aspect of the RabbitMQ service is operating as expected.
+Health checks are <a href="#monitoring-frequency">executed periodically by machines</a> or interactively by operators.</p>
+<p>Health checks can be used to both assess the state and liveness of a node but also as <a href="#readiness-probes">readiness probes</a>
+by deployment automation and orchestration tools, including during upgrades.</p>
+<p>There is a series of health checks that can be performed, starting
+with the most basic and very rarely producing <a href="https://en.wikipedia.org/wiki/False_positives_and_false_negatives">false positives</a>,
+to increasingly more comprehensive, intrusive, and opinionated that have a
+higher probability of false positives. In other words, the more comprehensive a
+health check is, the less conclusive the result will be.</p>
+<p>Health checks can verify the state of an individual node (node health checks), or the entire cluster
+(cluster health checks).</p>
+<h3><a id="individual-checks" class="anchor" href="#individual-checks">Individual Node Checks</a></h3>
+<p>This section covers several examples of node health check. They are organised in stages.
+Higher stages perform more comprehensive and opinionated checks. Such checks will have a higher probability of
+false positives. Some stages have dedicated RabbitMQ CLI tool commands, others can involve extra tools.</p>
+<p>While the health checks are ordered, a higher number does not mean a check is "better".</p>
+<p>The health checks can be used selectively and combined.
+Unless noted otherwise, the checks should follow the same <a href="#monitoring-frequency">monitoring frequency</a> recommendation
+as metric collection.</p>
+<h4>Stage 1</h4>
+<p>The most basic check ensures that the <a href="/runtime.html">runtime</a> is running
+and (indirectly) that CLI tools can <a href="/cli.html#erlang-cookie">authenticate</a> with it.</p>
+<p>Except for the CLI tool authentication
+part, the probability of false positives can be considered approaching <span class="code ">0</span>
+except for upgrades and maintenance windows.</p>
+<p><a href="/rabbitmq-diagnostics.8.html"><span class="code ">rabbitmq-diagnostics ping</span></a> performs this check:</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics -q ping
+# =&gt; Ping succeeded if exit code is 0
+</pre>
+
+<h4>Stage 2</h4>
+<p>A slightly more comprehensive check is executing <a href="/rabbitmq-diagnostics.8.html"><span class="code ">rabbitmq-diagnostics status</span></a> status:</p>
+<p>This includes the stage 1 check plus retrieves some essential
+system information which is useful for other checks and should always be
+available if RabbitMQ is running on the node (see below).</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics -q status
+# =&gt; [output elided for brevity]
+</pre>
+
+<p>This is a common way of sanity checking a node.
+The probability of false positives can be considered approaching <span class="code ">0</span>
+except for upgrades and maintenance windows.</p>
+<h4>Stage 3</h4>
+<p>Includes previous checks and also verifies that the RabbitMQ application is running
+(not stopped with <a href="/rabbitmqctl.8.html#stop_app"><span class="code ">rabbitmqctl stop_app</span></a>
+or the <a href="/partitions.html">Pause Minority partition handling strategy</a>)
+and there are no resource alarms.</p>
+<pre class="lang-bash">
+# lists alarms in effect across the cluster, if any
+rabbitmq-diagnostics -q alarms
+</pre>
+
+<p><a href="/rabbitmq-diagnostics.8.html"><span class="code ">rabbitmq-diagnostics check_running</span></a> is a check that makes sure that the runtime is running
+and the RabbitMQ application on it is not stopped or paused.</p>
+<p><a href="/rabbitmq-diagnostics.8.html"><span class="code ">rabbitmq-diagnostics check_local_alarms</span></a> checks that there are no local alarms in effect
+on the node. If there are any, it will exit with a non-zero status.</p>
+<p>The two commands in combination deliver the stage 3 check:</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics -q check_running &amp;&amp; rabbitmq-diagnostics -q check_local_alarms
+# if both checks succeed, the exit code will be 0
+</pre>
+
+<p>The probability of false positives is low. Systems hovering around their
+<a href="/alarms.html">high runtime memory watermark</a> will have a high probability of false positives.
+During upgrades and maintenance windows can raise significantly.</p>
+<p>Specifically for memory alarms, the <span class="code ">GET /api/nodes/{node}/memory</span> HTTP API endpoint can be used for additional checks.
+In the following example its output is piped to <a href="https://stedolan.github.io/jq/manual/">jq</a>:</p>
+<pre class="lang-bash">
+curl --silent -u guest:guest -X GET http://127.0.0.1:15672/api/nodes/rabbit@hostname/memory | jq
+# =&gt; {
+# =&gt;     "memory": {
+# =&gt;         "connection_readers": 24100480,
+# =&gt;         "connection_writers": 1452000,
+# =&gt;         "connection_channels": 3924000,
+# =&gt;         "connection_other": 79830276,
+# =&gt;         "queue_procs": 17642024,
+# =&gt;         "queue_slave_procs": 0,
+# =&gt;         "plugins": 63119396,
+# =&gt;         "other_proc": 18043684,
+# =&gt;         "metrics": 7272108,
+# =&gt;         "mgmt_db": 21422904,
+# =&gt;         "mnesia": 1650072,
+# =&gt;         "other_ets": 5368160,
+# =&gt;         "binary": 4933624,
+# =&gt;         "msg_index": 31632,
+# =&gt;         "code": 24006696,
+# =&gt;         "atom": 1172689,
+# =&gt;         "other_system": 26788975,
+# =&gt;         "allocated_unused": 82315584,
+# =&gt;         "reserved_unallocated": 0,
+# =&gt;         "strategy": "rss",
+# =&gt;         "total": {
+# =&gt;             "erlang": 300758720,
+# =&gt;             "rss": 342409216,
+# =&gt;             "allocated": 383074304
+# =&gt;         }
+# =&gt;     }
+# =&gt; }
+</pre>
+
+<p>The <a href="/memory-use.html">breakdown information</a> it produces can be reduced down to a single value using <a href="https://stedolan.github.io/jq/manual/">jq</a>
+or similar tools:</p>
+<pre class="lang-bash">
+curl --silent -u guest:guest -X GET http://127.0.0.1:15672/api/nodes/rabbit@hostname/memory | jq ".memory.total.allocated"
+# =&gt; 397365248
+</pre>
+
+<p><a href="/rabbitmq-diagnostics.8.html"><span class="code ">rabbitmq-diagnostics -q memory_breakdown</span></a> provides access to the same per category data
+and supports various units:</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics -q memory_breakdown --unit "MB"
+# =&gt; connection_other: 50.18 mb (22.1%)
+# =&gt; allocated_unused: 43.7058 mb (19.25%)
+# =&gt; other_proc: 26.1082 mb (11.5%)
+# =&gt; other_system: 26.0714 mb (11.48%)
+# =&gt; connection_readers: 22.34 mb (9.84%)
+# =&gt; code: 20.4311 mb (9.0%)
+# =&gt; queue_procs: 17.687 mb (7.79%)
+# =&gt; other_ets: 4.3429 mb (1.91%)
+# =&gt; connection_writers: 4.068 mb (1.79%)
+# =&gt; connection_channels: 4.012 mb (1.77%)
+# =&gt; metrics: 3.3802 mb (1.49%)
+# =&gt; binary: 1.992 mb (0.88%)
+# =&gt; mnesia: 1.6292 mb (0.72%)
+# =&gt; atom: 1.0826 mb (0.48%)
+# =&gt; msg_index: 0.0317 mb (0.01%)
+# =&gt; plugins: 0.0119 mb (0.01%)
+# =&gt; queue_slave_procs: 0.0 mb (0.0%)
+# =&gt; mgmt_db: 0.0 mb (0.0%)
+# =&gt; reserved_unallocated: 0.0 mb (0.0%)
+</pre>
+
+<h4>Stage 4</h4>
+<p>Includes all checks in stage 3 plus a check on all enabled listeners
+(using a temporary TCP connection).</p>
+<p>To inspect all listeners enabled on a node, use <a href="/rabbitmq-diagnostics.8.html"><span class="code ">rabbitmq-diagnostics listeners</span></a>:</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics -q listeners
+# =&gt; Interface: [::], port: 25672, protocol: clustering, purpose: inter-node and CLI tool communication
+# =&gt; Interface: [::], port: 5672, protocol: amqp, purpose: AMQP 0-9-1 and AMQP 1.0
+# =&gt; Interface: [::], port: 5671, protocol: amqp/ssl, purpose: AMQP 0-9-1 and AMQP 1.0 over TLS
+# =&gt; Interface: [::], port: 15672, protocol: http, purpose: HTTP API
+# =&gt; Interface: [::], port: 15671, protocol: https, purpose: HTTP API over TLS (HTTPS)
+</pre>
+
+<p><a href="/rabbitmq-diagnostics.8.html"><span class="code ">rabbitmq-diagnostics check_port_connectivity</span></a> is a command that
+performs the basic TCP connectivity check mentioned above:</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics -q check_port_connectivity
+# If the check succeeds, the exit code will be 0
+</pre>
+
+<p>The probability of false positives is generally low but during upgrades and
+maintenance windows can raise significantly.</p>
+<h4>Stage 5</h4>
+<p>Includes all checks in stage 4 plus checks that there are no failed <a href="/vhosts.html">virtual hosts</a>.</p>
+<p><a href="/rabbitmq-diagnostics.8.html"><span class="code ">rabbitmq-diagnostics check_virtual_hosts</span></a> is a command
+checks whether any virtual host dependencies may have failed. This is done for all
+virtual hosts.</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics -q check_virtual_hosts
+# if the check succeeded, exit code will be 0
+</pre>
+
+<p>The probability of false positives is generally low except for systems that are under
+high CPU load.</p>
+<h3><a id="readiness-probes" class="anchor" href="#readiness-probes">Health Checks as Readiness Probes</a></h3>
+<p>In some environments, node restarts are controlled with a designated <a href="/monitoring.html#health-checks">health check</a>.
+The checks verify that one node has started and the deployment process can proceed to the next one.
+If the check does not pass, the deployment of the node is considered to be incomplete and the deployment process
+will typically wait and retry for a period of time. One popular example of such environment is Kubernetes
+where an operator-defined <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-readiness-gate">readiness probe</a>
+can prevent a deployment from proceeding when the <a href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#deployment-and-scaling-guarantees"><span class="code ">OrderedReady</span> pod management policy</a> is used.</p>
+<p>Given the <a href="/clustering.html#restarting-schema-sync">peer syncing behavior during node restarts</a>, such a health check can prevent a cluster-wide restart
+from completing in time. Checks that explicitly or implicitly assume a fully booted node that's rejoined
+its cluster peers will fail and block further node deployments.</p>
+<p>Most health check, even relatively basic ones, implicitly assume that the node has
+finished booting. They are not suitable for nodes that are <a href="/clustering.html#restarting-schema-sync">awaiting schema table sync</a> from a peer.</p>
+<p>One very common example of such check is</p>
+<pre class="lang-bash">
+# will exit with an error for the nodes that are currently waiting for
+# a peer to sync schema tables from
+rabbitmq-diagnostics check_running
+</pre>
+
+<p>One health check that does not expect a node to be fully booted and have schema tables synced is</p>
+<pre class="lang-bash">
+# a very basic check that will succeed for the nodes that are currently waiting for
+# a peer to sync schema from
+rabbitmq-diagnostics ping
+</pre>
+
+<p>This basic check would allow the deployment to proceed and the nodes to eventually rejoin each other,
+assuming they are <a href="/upgrade.html">compatible</a>.</p>
+<h4>Optional Check 1</h4>
+<p>This check verifies that an expected set of plugins is enabled. It is orthogonal to
+the primary checks.</p>
+<p><a href="/rabbitmq-plugins.8.html#list"><span class="code ">rabbitmq-plugins list --enabled</span></a> is the command that lists enabled plugins
+on a node:</p>
+<pre class="lang-bash">
+rabbitmq-plugins -q list --enabled --minimal
+# =&gt; Configured: E = explicitly enabled; e = implicitly enabled
+# =&gt; | Status: * = running on rabbit@mercurio
+# =&gt; |/
+# =&gt; [E*] rabbitmq_auth_mechanism_ssl       3.8.0
+# =&gt; [E*] rabbitmq_consistent_hash_exchange 3.8.0
+# =&gt; [E*] rabbitmq_management               3.8.0
+# =&gt; [E*] rabbitmq_management_agent         3.8.0
+# =&gt; [E*] rabbitmq_shovel                   3.8.0
+# =&gt; [E*] rabbitmq_shovel_management        3.8.0
+# =&gt; [E*] rabbitmq_top                      3.8.0
+# =&gt; [E*] rabbitmq_tracing                  3.8.0
+</pre>
+
+<p>A health check that verifies that a specific plugin, <a href="/shovel.html"><span class="code ">rabbitmq_shovel</span></a>
+is enabled and running:</p>
+<pre class="lang-bash">
+rabbitmq-plugins -q is_enabled rabbitmq_shovel
+# if the check succeeded, exit code will be 0
+</pre>
+
+<p>The probability of false positives is generally low but raises
+in environments where environment variables that can affect <a href="/cli.html">rabbitmq-plugins</a>
+are overridden.</p>
+<h2><a id="diagnostics-observer" class="anchor" href="#diagnostics-observer">Command-line Based Observer Tool</a></h2>
+<p><span class="code ">rabbitmq-diagnostics observer</span> is a command-line tool similar to <span class="code ">top</span>, <span class="code ">htop</span>, <span class="code ">vmstat</span>. It is a command line
+alternative to <a href="http://erlang.org/doc/man/observer.html">Erlang's Observer application</a>. It provides
+access to many metrics, including detailed state of individual <a href="/runtime.html">runtime</a> processes:</p>
+<ul>
+<li>Runtime version information</li>
+<li>CPU and schedule stats</li>
+<li>Memory allocation and usage stats</li>
+<li>Top processes by CPU (reductions) and memory usage</li>
+<li>Network link stats</li>
+<li>Detailed process information such as basic TCP socket stats</li>
+</ul>
+<p>and more, in an interactive <a href="https://en.wikipedia.org/wiki/Ncurses">ncurses</a>-like command line interface with periodic updates.</p>
+<p>Here are some screenshots that demonstrate what kind of information the
+tool provides.</p>
+<p>An overview page with key runtime metrics:</p>
+<p><a href="img/monitoring/observer_cli/diagnostics-observer-overview.png">
+  <img class="screenshot" src="img/monitoring/observer_cli/diagnostics-observer-overview.png" alt="rabbitmq-diagnostics observer overview" title="rabbitmq-diagnostics observer overview" />
+</a></p>
+<p>Memory allocator stats:</p>
+<p><a href="img/monitoring/observer_cli/diagnostics-observer-heap-inspector.png">
+  <img class="screenshot" src="img/monitoring/observer_cli/diagnostics-observer-heap-inspector.png" alt="rabbitmq-diagnostics memory breakdown" title="rabbitmq-diagnostics observer memory breakdown" />
+</a></p>
+<p>A client connection process metrics:</p>
+<p><a href="img/monitoring/observer_cli/diagnostics-observer-connection-process.png">
+  <img class="screenshot" src="img/monitoring/observer_cli/diagnostics-observer-connection-process.png" alt="rabbitmq-diagnostics connection process" title="rabbitmq-diagnostics observer connection process" />
+</a></p>
+<h2><a id="monitoring-tools" class="anchor" href="#monitoring-tools">Monitoring Tools</a></h2>
+<p>The following is an alphabetised list of third-party tools commonly used to collect RabbitMQ metrics. These
+tools vary in capabilities but usually can collect both <a href="#system-metrics">infrastructure-level</a> and
+<a href="#rabbitmq-metrics">RabbitMQ metrics</a>.</p>
+<p>Note that this list is by no means complete.</p>
+<table>
+  <thead>
+    <tr><td>Monitoring Tool</td><td>Online Resource(s)</td></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>AppDynamics</td>
+      <td>
+        <a href="https://www.appdynamics.com/community/exchange/extension/rabbitmq-monitoring-extension/">AppDynamics</a>,
+        <a href="https://github.com/Appdynamics/rabbitmq-monitoring-extension">GitHub</a>
+      </td>
+    </tr>
+    <tr>
+      <td>AWS CloudWatch</td>
+      <td>
+        <a href="https://github.com/noxdafox/rabbitmq-cloudwatch-exporter">GitHub</a>
+      </td>
+    </tr>
+    <tr>
+      <td>collectd</td>
+      <td><a href="https://github.com/signalfx/integrations/tree/master/collectd-rabbitmq">GitHub</a></td>
+    </tr>
+    <tr>
+      <td>DataDog</td>
+      <td>
+        <a href="https://docs.datadoghq.com/integrations/rabbitmq/">DataDog RabbitMQ integration</a>,
+        <a href="https://github.com/DataDog/integrations-core/tree/master/rabbitmq">GitHub</a>
+      </td>
+    </tr>
+    <tr>
+      <td>Ganglia</td>
+      <td><a href="https://github.com/ganglia/gmond_python_modules/tree/master/rabbit">GitHub</a></td>
+    </tr>
+    <tr>
+      <td>Graphite</td>
+      <td><a href="http://graphite.readthedocs.io/en/latest/tools.html">Tools that work with Graphite</a></td>
+    </tr>
+    <tr>
+      <td>Munin</td>
+      <td>
+        <a href="http://munin-monitoring.org/">Munin docs</a>,
+        <a href="https://github.com/ask/rabbitmq-munin">GitHub</a>
+      </td>
+    </tr>
+    <tr>
+      <td>Nagios</td>
+      <td><a href="https://github.com/nagios-plugins-rabbitmq/nagios-plugins-rabbitmq">GitHub</a></td>
+    </tr>
+    <tr>
+      <td>Nastel AutoPilot</td>
+      <td><a href="https://www.nastel.com/rabbitmq/">Nastel RabbitMQ Solutions</a></td>
+    </tr>
+    <tr>
+      <td>New Relic</td>
+      <td>
+        <a href="https://newrelic.com/plugins/vmware-29/95">NewRelic Plugins</a>,
+        <a href="https://github.com/pivotalsoftware/newrelic_pivotal_agent">GitHub</a>
+        </td>
+    </tr>
+    <tr>
+      <td>Prometheus</td>
+      <td>
+        <a href="/prometheus.html">Prometheus guide</a>,
+        <a href="https://github.com/rabbitmq/rabbitmq-prometheus">GitHub</a>
+      </td>
+    </tr>
+    <tr>
+      <td>Sematext</td>
+      <td>
+        <a href="https://sematext.com/docs/integration/rabbitmq/">Sematext RabbitMQ monitoring integration</a>,
+        <a href="https://sematext.com/docs/integration/rabbitmq-logs/">Sematext RabbitMQ logs integration</a>
+      </td>
+    </tr>
+    <tr>
+      <td>Zabbix</td>
+      <td><a href="https://git.zabbix.com/projects/ZBX/repos/zabbix/browse/templates/app/rabbitmq_http">Zabbix by HTTP</a>,
+      <a href="https://git.zabbix.com/projects/ZBX/repos/zabbix/browse/templates/app/rabbitmq_agent">Zabbix by Agent</a>,
+      <a href="http://blog.thomasvandoren.com/monitoring-rabbitmq-queues-with-zabbix.html">Blog article</a></td>
+    </tr>
+    <tr>
+      <td>Zenoss</td>
+      <td>
+        <a href="https://www.zenoss.com/product/zenpacks/rabbitmq">RabbitMQ ZenPack</a>,
+        <a href="http://www.youtube.com/watch?v=CAak2ayFcV0">Instructional Video</a>
+        </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2><a id="log-aggregation" class="anchor" href="#log-aggregation">Log Aggregation</a></h2>
+<p><a href="/logging.html">Logs</a> are also very important in troubleshooting a distributed system. Like metrics, logs can provide
+important clues that will help identify the root cause. Collect logs from all RabbitMQ nodes as well
+as all applications (if possible).</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"><div id="in-this-section"><h4>In This Section</h4><ul>
+     <li><a href="/admin-guide.html" class="selected">Server Documentation</a><ul>
+       <li><a href="/configure.html">Configuration</a></li>
+       <li><a href="/management.html">Management UI</a></li>
+       <li><a href="/monitoring.html" class="selected">Monitoring</a></li>
+       <li><a href="/production-checklist.html">Production Checklist</a></li>
+       <li><a href="/ssl.html">TLS Support</a></li>
+       <li><a href="/streams.html">Streams</a></li>
+       <li><a href="/feature-flags.html">Feature Flags</a></li>
+       <li><a href="/distributed.html">Distributed RabbitMQ</a></li>
+       <li><a href="/clustering.html">Clustering</a></li>
+       <li><a href="/reliability.html">Reliable Delivery</a></li>
+       <li><a href="/definitions.html">Schema Definition Export and Import</a></li>
+       <li><a href="/backup.html">Backup and restore</a></li>
+       <li><a href="/alarms.html">Alarms</a></li>
+       <li><a href="/memory-use.html">Memory Use</a></li>
+       <li><a href="/networking.html">Networking</a></li>
+       <li><a href="/vhosts.html">Virtual Hosts</a></li>
+       <li><a href="/pacemaker.html">High Availability (pacemaker)</a></li>
+       <li><a href="/access-control.html">Access Control (Authorisation)</a></li>
+       <li><a href="/authentication.html">Authentication Mechanisms</a></li>
+       <li><a href="/ldap.html">LDAP</a></li>
+       <li><a href="/lazy-queues.html">Lazy Queues</a></li>
+       <li><a href="/event-exchange.html">Internal Event Exchange</a></li>
+       <li><a href="/firehose.html">Firehose (Message Tracing)</a></li>
+       <li><a href="/manpages.html">Manual Pages</a></li>
+       <li><a href="/windows-quirks.html">Windows Quirks</a></li>
+       
+       
+       
+       
+     </ul></li>
+     <li><a href="/clients.html">Client Documentation</a></li>
+     <li><a href="/plugins.html">Plugins</a></li>
+     <li><a href="/news.html">News</a></li>
+     <li><a href="/protocol.html">Protocol</a></li>
+     <li><a href="/extensions.html">Our Extensions</a></li>
+     <li><a href="/build.html">Building</a></li>
+     
+     <li><a href="/mpl.html">License</a></li>
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

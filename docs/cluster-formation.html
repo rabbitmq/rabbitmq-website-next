@@ -1,0 +1,1318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>Cluster Formation and Peer Discovery — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>Cluster Formation and Peer Discovery</h1>
+
+
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>This guide covers various automation-oriented cluster formation and
+peer discovery features. For a general overview of RabbitMQ clustering,
+please refer to the <a href="/clustering.html">Clustering Guide</a>.</p>
+<p>This guide assumes general familiarity with <a href="/clustering.html">RabbitMQ clustering</a>
+and focuses on the peer discovery subsystem.
+For example, it will not cover what <a href="/networking.html">ports must be open</a> for inter-node communication, how nodes authenticate to each other, and so on.
+Besides discovery mechanisms and <a href="#configuring">their configuration</a>,
+this guide also covers a closely related topic of <a href="#rejoining">rejoining nodes</a>,
+the problem of <a href="#initial-formation-race-condition">initial cluster formation</a> with nodes booting in parallel as well as <a href="#node-health-checks-and-cleanup">additional health checks</a> offered
+by some discovery implementations.</p>
+<p>The guide also covers the basics of <a href="#troubleshooting">peer discovery troubleshooting</a>.</p>
+<h2><a id="peer-discovery" class="anchor" href="#peer-discovery">What is Peer Discovery?</a></h2>
+<p>To form a cluster, new ("blank") nodes need to be able to discover
+their peers. This can be done using a variety of mechanisms (backends).
+Some mechanisms assume all cluster members are known ahead of time (for example, listed
+in the config file), others are dynamic (nodes can come and go).</p>
+<p>All peer discovery mechanisms assume that newly joining nodes will be able to
+contact their peers in the cluster and authenticate with them successfully.
+The mechanisms that rely on an external service (e.g. DNS or Consul) or API (e.g. AWS or Kubernetes)
+require the service(s) or API(s) to be available and reachable on their standard ports.
+Inability to reach the services will lead to node's inability to join the cluster.</p>
+<h3><a id="peer-discovery-plugins" class="anchor" href="#peer-discovery-plugins">Available Discovery Mechanisms</a></h3>
+<p>The following mechanisms are built into the core and always available:</p>
+<ul>
+<li><a href="#peer-discovery-classic-config">Config file</a></li>
+<li><a href="#peer-discovery-dns">Pre-configured DNS A/AAAA records</a></li>
+</ul>
+<p>Additional peer discovery mechanisms are available via plugins. The following
+peer discovery plugins ship with <a href="/versions.html">supported RabbitMQ versions</a>:</p>
+<ul>
+<li><a href="#peer-discovery-aws">AWS (EC2)</a></li>
+<li><a href="#peer-discovery-k8s">Kubernetes</a></li>
+<li><a href="#peer-discovery-consul">Consul</a></li>
+<li><a href="#peer-discovery-etcd">etcd</a></li>
+</ul>
+<p>The above plugins do not need to be installed but like all <a href="/plugins.html">plugins</a> they must be <a href="/plugins.html#basics">enabled</a>
+or <a href="/plugins.html#enabled-plugins-file">preconfigured</a> before they can be used.</p>
+<p>For peer discovery plugins, which must be available on node boot, this means they must be enabled before first node boot.
+The example below uses <a href="/cli.html">rabbitmq-plugins</a>' <span class="code ">--offline</span> mode:</p>
+<pre class="lang-bash">
+rabbitmq-plugins --offline enable &lt;plugin name&gt;
+</pre>
+
+<p>A more specific example:</p>
+<pre class="lang-bash">
+rabbitmq-plugins --offline enable rabbitmq_peer_discovery_k8s
+</pre>
+
+<p>A node with configuration settings that belong a non-enabled peer discovery plugin will fail
+to start and report those settings as unknown.</p>
+<h3><a id="peer-discovery-configuring-mechanism" class="anchor" href="#peer-discovery-configuring-mechanism">Specifying the Peer Discovery Mechanism</a></h3>
+<p>The discovery mechanism to use is specified in the <a href="/configure.html">config file</a>,
+as are various mechanism-specific settings, for example, discovery service hostnames, credentials, and so
+on. <span class="code ">cluster_formation.peer_discovery_backend</span> is the key
+that controls what discovery module (implementation) is used:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = classic_config
+
+# The backend can also be specified using its module name. Note that
+# module names do not necessarily match plugin names exactly.
+# cluster_formation.peer_discovery_backend = rabbit_peer_discovery_classic_config
+</pre>
+
+<p>The module has to implement the <a href="https://github.com/rabbitmq/rabbitmq-common/blob/master/src/rabbit_peer_discovery_backend.erl">rabbit_peer_discovery_backend</a>
+behaviour. Plugins therefore can introduce their own discovery
+mechanisms.</p>
+<h3><a id="peer-discovery-how-does-it-work" class="anchor" href="#peer-discovery-how-does-it-work">How Peer Discovery Works</a></h3>
+<p>When a node starts and detects it doesn't have a previously
+initialised database, it will check if there's a peer
+discovery mechanism configured. If that's the case, it will
+then perform the discovery and attempt to contact each
+discovered peer in order. Finally, it will attempt to join the
+cluster of the first reachable peer.</p>
+<p>Depending on the backend (mechanism) used, the process of peer discovery may involve
+contacting external services, for example, an AWS API endpoint, a Consul node or
+performing a DNS query. Some backends require nodes to register (tell the backend that the
+node is up and should be counted as a cluster member): for example, Consul and etcd both
+support registration. With other backends the list of nodes is configured ahead of
+time (e.g. config file). Those backends are said to not support node registration.</p>
+<p>In some cases node registration is implicit or managed by an external service.
+AWS autoscaling groups is a good example: AWS keeps track of group membership,
+so nodes don't have to (or cannot) explicitly register. However, the list of cluster members
+is not predefined. Such backends usually include a no-op registration step
+and apply one of the <a href="#initial-formation-race-condition">race condition mitigation mechanisms</a> described below.</p>
+<p>When a cluster is first formed and there are no registered nodes yet,
+a natural race condition between booting
+nodes occurs. Different backends <a href="#initial-formation-race-condition">address this problem</a>
+differently: some try to acquire a lock with an external service, others rely on randomized
+delays. This problem does not apply to the backends that require listing all nodes ahead of time.</p>
+<p>When the configured backend supports registration, nodes unregister when they stop.</p>
+<p>If peer discovery isn't configured, or it <a href="#discovery-retries">repeatedly fails</a>,
+or no peers are reachable, a node that wasn't a cluster member in the past
+will initialise from scratch and proceed as a standalone node.
+Peer discovery progress and outcomes will be <a href="/logging.html">logged</a>
+by the node.</p>
+<p>If a node previously was a cluster member, it will try to contact and rejoin
+its "last seen" peer for a period of time. In this case, no peer discovery
+will be performed. This is true for all backends.</p>
+<h2><a id="rejoining" class="anchor" href="#rejoining">Nodes Rejoining Their Existing Cluster</a></h2>
+<p>A new node joining a cluster is just one possible case. Another common scenario
+is when an existing cluster member temporarily leaves and then rejoins the cluster.
+While the peer discovery subsystem does not affect the behavior described in this section,
+it important to understand how nodes behave when they rejoin their cluster after a restart or failure.</p>
+<p>Existing cluster members <strong>will not perform peer discovery</strong>. Instead they will try to
+contact their previously known peers.</p>
+<p>If a node previously was a cluster member, when it boots it will try to contact
+its "last seen" peer for a period of time. If the peer is not booted (e.g. when
+a full cluster restart or upgrade is performed) or cannot be reached, the node will
+retry the operation a number of times.</p>
+<p>Default values are <span class="code ">10</span> retries and <span class="code ">30</span> seconds per attempt,
+respectively, or 5 minutes total. In environments where nodes can take a long and/or uneven
+time to start it is recommended that the number of retries is increased.</p>
+<p>If a node is reset since losing contact with the cluster, it will behave <a href="#peer-discovery-how-does-it-work">like a blank node</a>.
+Note that other cluster members might still consider it to be a cluster member, in which case
+the two sides will disagree and the node will fail to join. Such reset nodes must also be
+removed from the cluster using <a href="/cli.html"><span class="code ">rabbitmqctl forget_cluster_node</span></a> executed against
+an existing cluster member.</p>
+<p>If a node was explicitly removed from the cluster by the operator and then reset,
+it will be able to join the cluster as a new member. In this case it will behave exactly
+<a href="#peer-discovery-how-does-it-work">like a blank node</a> would.</p>
+<p>A node rejoining after a node name or host name change can start as <a href="#peer-discovery-how-does-it-work">a blank node</a>
+if its data directory path changes as a result. Such nodes will fail to rejoin the cluster.
+While the node is offline, its peers can be reset or started with a blank data directory.
+In that case the recovering node will fail to rejoin its peer as well since internal data store cluster
+identity would no longer match.</p>
+<p>Consider the following scenario:</p>
+<ol>
+  <li>A cluster of 3 nodes, A, B and C is formed</li>
+  <li>Node A is shut down</li>
+  <li>Node B is reset</li>
+  <li>Node A is started</li>
+  <li>Node A tries to rejoin B but B's cluster identity has changed</li>
+  <li>Node B doesn't recognise A as a known cluster member because it's been reset</li>
+</ol>
+
+<p>in this case node B will reject the clustering attempt from A with an appropriate error
+message in the log:</p>
+<pre class="lang-plaintext">
+Node 'rabbit@node1.local' thinks it's clustered with node 'rabbit@node2.local', but 'rabbit@node2.local' disagrees
+</pre>
+
+<p>In this case B can be reset again and then will be able to join A, or A
+can be reset and will successfully join B.</p>
+<h2><a id="configuring" class="anchor" href="#configuring">How to Configure Peer Discovery</a></h2>
+<p>Peer discovery plugins are configured just like the core server and other
+plugins: using a <a href="/configure.html">config file</a>.</p>
+<p><span class="code ">cluster_formation.peer_discovery_backend</span> is the key that <a href="#peer-discovery-configuring-mechanism">controls what peer discovery backend will be used</a>.
+Each backend will also have a number of configuration settings specific to it.
+The rest of the guide will cover configurable settings specific to a particular mechanism
+as well as provide examples for each one.</p>
+<h2><a id="peer-discovery-classic-config" class="anchor" href="#peer-discovery-classic-config">Config File Peer Discovery Backend</a></h2>
+<h3>Config File Peer Discovery Overview</h3>
+<p>The most basic way for a node to discover its cluster peers is to read a list
+of nodes from the config file. The set of cluster members is assumed to be known at deployment
+time.</p>
+<p><a href="#initial-formation-race-condition">Race condition during initial cluster formation</a> is addressed
+by using a randomized startup delay.</p>
+<h3>Configuration</h3>
+<p>The peer nodes are listed using the <span class="code ">cluster_formation.classic_config.nodes</span> config setting:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = classic_config
+
+# the backend can also be specified using its module name
+# cluster_formation.peer_discovery_backend = rabbit_peer_discovery_classic_config
+
+cluster_formation.classic_config.nodes.1 = rabbit@hostname1.eng.example.local
+cluster_formation.classic_config.nodes.2 = rabbit@hostname2.eng.example.local
+</pre>
+
+<h2><a id="peer-discovery-dns" class="anchor" href="#peer-discovery-dns">DNS Peer Discovery Backend</a></h2>
+<h3>DNS Peer Discovery Overview</h3>
+<p>Another built-in peer discovery mechanism as of RabbitMQ 3.7.0 is DNS-based.
+It relies on a pre-configured hostname ("seed hostname") with DNS A (or AAAA) records and reverse DNS lookups
+to perform peer discovery. More specifically, this mechanism will perform the following steps:</p>
+<ol>
+<li>Query DNS A records of the seed hostname.</li>
+<li>For each returned DNS record's IP address, perform a reverse DNS lookup.</li>
+<li>Append current node's prefix (e.g. <span class="code ">rabbit</span> in <span class="code ">rabbit@hostname1.example.local</span>)
+   to each hostname and return the result.</li>
+</ol>
+<p>For example, let's consider a seed hostname of
+<span class="code ">discovery.eng.example.local</span>.  It has 2 DNS A
+records that return two IP addresses:
+<span class="code ">192.168.100.1</span> and
+<span class="code ">192.168.100.2</span>. Reverse DNS lookups for those IP
+addresses return <span class="code ">node1.eng.example.local</span> and
+<span class="code ">node2.eng.example.local</span>, respectively. Current node's name is not
+set and defaults to <span class="code ">rabbit@$(hostname)</span>.
+The final list of nodes discovered will contain two nodes: <span class="code ">rabbit@node1.eng.example.local</span>
+and <span class="code ">rabbit@node2.eng.example.local</span>.</p>
+<h3>Configuration</h3>
+<p>The seed hostname is set using the <span class="code ">cluster_formation.dns.hostname</span> config setting:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = dns
+
+# the backend can also be specified using its module name
+# cluster_formation.peer_discovery_backend = rabbit_peer_discovery_dns
+
+cluster_formation.dns.hostname = discovery.eng.example.local
+</pre>
+
+<h2><a id="peer-discovery-aws" class="anchor" href="#peer-discovery-aws">Peer Discovery on AWS (EC2)</a></h2>
+<h3>AWS Peer Discovery Overview</h3>
+<p>An <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-aws">AWS (EC2)-specific</a> discovery mechanism
+is available via a plugin.</p>
+<p>As with any <a href="/plugins.html">plugin</a>, it must be enabled before it
+can be used. For peer discovery plugins it means they must be <a href="/plugins.html#basics">enabled</a>
+or <a href="/plugins.html#enabled-plugins-file">preconfigured</a> before first node boot:</p>
+<pre class="lang-bash">
+rabbitmq-plugins --offline enable rabbitmq_peer_discovery_aws
+</pre>
+
+<p>The plugin provides two ways for a node to discover its peers:</p>
+<ul>
+<li>Using EC2 instance tags</li>
+<li>Using AWS autoscaling group membership</li>
+</ul>
+<p>Both methods rely on AWS-specific APIs (endpoints) and features and thus cannot work in
+other IaaS environments. Once a list of cluster member instances is retrieved,
+final node names are computed using instance hostnames or IP addresses.</p>
+<p>When the AWS peer discovery mechanism is used, nodes will
+delay their startup for a randomly picked value to reduce the
+probability of a <a href="#initial-formation-race-condition">race condition during initial cluster formation</a>.</p>
+<h3><a id="peer-discovery-aws-credentials" class="anchor" href="#peer-discovery-aws-credentials">Configuration and Credentials</a></h3>
+<p>Before a node can perform any operations on AWS, it needs to have a set of
+AWS account credentials configured. This can be done in a couple of ways:</p>
+<ol>
+<li>Via <a href="/configure.html">config file</a></li>
+<li>Using environment variables <span class="code ">AWS_ACCESS_KEY_ID</span> and <span class="code ">AWS_SECRET_ACCESS_KEY</span></li>
+</ol>
+<p><a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">EC2 Instance Metadata service</a> for the region will also be consulted.</p>
+<p>The following example snippet configures RabbitMQ to use the AWS peer discovery
+backend and provides information about AWS region as well as a set of credentials:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = aws
+
+# the backend can also be specified using its module name
+# cluster_formation.peer_discovery_backend = rabbit_peer_discovery_aws
+
+cluster_formation.aws.region = us-east-1
+cluster_formation.aws.access_key_id = ANIDEXAMPLE
+cluster_formation.aws.secret_key = WjalrxuTnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY
+</pre>
+
+<p>If region is left unconfigured, <span class="code ">us-east-1</span> will be used by default.
+Sensitive values in configuration file can optionally <a href="/configure.html#configuration-encryption">be encrypted</a>.</p>
+<p>If an <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html">IAM role is assigned to EC2 instances</a> running RabbitMQ nodes,
+a policy has to be used to <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html">allow said instances use EC2 Instance Metadata Service</a>.
+When the plugin is configured to use Autoscaling group members,
+a policy has to <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/control-access-using-iam.html">grant access to describe autoscaling group members</a> (instances).
+Below is an example of a policy that covers both use cases:</p>
+<pre class="lang-json">
+{
+"Version": "2012-10-17",
+"Statement": [
+              {
+              "Effect": "Allow",
+              "Action": [
+                         "autoscaling:DescribeAutoScalingInstances",
+                         "ec2:DescribeInstances"
+                         ],
+              "Resource": [
+                           "*"
+                           ]
+              }
+              ]
+}
+</pre>
+
+<h3><a id="peer-discovery-aws-autoscaling-group-membership" class="anchor" href="#peer-discovery-aws-autoscaling-group-membership">Using Autoscaling Group Membership</a></h3>
+<p>When autoscaling-based peer discovery is used, current node's EC2 instance autoscaling
+group members will be listed and used to produce the list of discovered peers.</p>
+<p>To use autoscaling group membership, set the <span class="code ">cluster_formation.aws.use_autoscaling_group</span> key
+to <span class="code ">true</span>:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = aws
+
+cluster_formation.aws.region = us-east-1
+cluster_formation.aws.access_key_id = ANIDEXAMPLE
+cluster_formation.aws.secret_key = WjalrxuTnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY
+
+cluster_formation.aws.use_autoscaling_group = true
+</pre>
+
+<h3><a id="peer-discovery-aws-tags" class="anchor" href="#peer-discovery-aws-tags">Using EC2 Instance Tags</a></h3>
+<p>When tags-based peer discovery is used, the plugin will list EC2 instances
+using EC2 API and filter them by configured instance tags. Resulting instance set
+will be used to produce the list of discovered peers.</p>
+<p>Tags are configured using the <span class="code ">cluster_formation.aws.instance_tags</span> key. The example
+below uses three tags: <span class="code ">region</span>, <span class="code ">service</span>, and <span class="code ">environment</span>.</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = aws
+
+cluster_formation.aws.region = us-east-1
+cluster_formation.aws.access_key_id = ANIDEXAMPLE
+cluster_formation.aws.secret_key = WjalrxuTnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY
+
+cluster_formation.aws.instance_tags.region = us-east-1
+cluster_formation.aws.instance_tags.service = rabbitmq
+cluster_formation.aws.instance_tags.environment = staging
+</pre>
+
+<h3><a id="peer-discovery-aws-other-settings" class="anchor" href="#peer-discovery-aws-other-settings">Using Private EC2 Instance IPs</a></h3>
+<p>By default peer discovery will use private DNS hostnames to compute node names.
+It is possible to opt into using private IPs instead by setting
+the <span class="code ">cluster_formation.aws.use_private_ip</span> key to <span class="code ">true</span>:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = aws
+
+cluster_formation.aws.region = us-east-1
+cluster_formation.aws.access_key_id = ANIDEXAMPLE
+cluster_formation.aws.secret_key = WjalrxuTnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY
+
+cluster_formation.aws.use_autoscaling_group = true
+cluster_formation.aws.use_private_ip = true
+</pre>
+
+<h2><a id="peer-discovery-k8s" class="anchor" href="#peer-discovery-k8s">Peer Discovery on Kubernetes</a></h2>
+<h3>Kubernetes Peer Discovery Overview</h3>
+<p>A <a href="https://kubernetes.io/">Kubernetes</a>-based discovery mechanism
+is available via <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-k8s">a plugin</a>.</p>
+<p>As with any <a href="/plugins.html">plugin</a>, it must be enabled before it
+can be used. For peer discovery plugins it means they must be <a href="/plugins.html#basics">enabled</a>
+or <a href="/plugins.html#enabled-plugins-file">preconfigured</a> before first node boot:</p>
+<pre class="lang-bash">
+rabbitmq-plugins --offline enable rabbitmq_peer_discovery_k8s
+</pre>
+
+<h3>Important: Prerequisites and Deployment Considerations</h3>
+<p>With this mechanism, nodes fetch a list of their peers from
+a Kubernetes API endpoint using a set of configured values:
+a URI scheme, host, port, as well as the token and certificate paths.</p>
+<p>There are several prerequisites and deployment choices that must be taken into
+account when deploying RabbitMQ to Kubernetes, with this peer discovery mechanism
+and in general.</p>
+<h4>Use a Stateful Set</h4>
+<p>A RabbitMQ cluster deployed to Kubernetes will use a set of pods. The set must be a <a href="https://kubernetes.io/docs/tasks/run-application/run-replicated-stateful-application/#statefulset">stateful set</a>.
+A <a href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#limitations">headless service</a> must be used to
+control <a href="https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/">network identity of the pods</a>
+(their hostnames), which in turn affect RabbitMQ node names.</p>
+<p>If a stateless set is used recreated nodes will not have their persisted data and will start as blank nodes.
+This can lead to data loss and higher network traffic volume due to more frequent
+data synchronisation of both <a href="/quorum-queues.html">quorum queues</a>
+and <a href="/ha.html">classic queue mirrors</a> on newly joining nodes.</p>
+<p>Stateless sets are also prone to the <a href="#initial-formation-race-condition">natural race condition</a> during initial
+cluster formation, unlike stateful sets that initialise pods <a href="https://kubernetes.io/docs/tasks/run-application/run-replicated-stateful-application/#understanding-stateful-pod-initialization">one by one</a>.</p>
+<h4>Use Persistent Volumes</h4>
+<p>How <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">storage is configured</a>
+is generally orthogonal to peer discovery. However, it does not make sense to run a stateful
+data service such as RabbitMQ with <a href="/relocate.html">node data directory</a> stored on a transient volume.
+Use of transient volumes can lead nodes to not have their persisted data after a restart.
+This has the same consequences as with stateless sets covered above.</p>
+<h4>Make Sure <span class="code ">/etc/rabbitmq</span> is Mounted as Writeable</h4>
+<p>RabbitMQ nodes and images may need to update a file under <span class="code ">/etc/rabbitmq</span>, the default <a href="/configure.html#config-location">configuration file location</a> on Linux. This may involve configuration file generation
+performed by the image used, <a href="/plugins.html#enabled-plugins-file">enabled plugins file</a> updates,
+and so on.</p>
+<p>It is therefore highly recommended that <span class="code ">/etc/rabbitmq</span> is mounted as writeable and owned by
+RabbitMQ's effective user (typically <span class="code ">rabbitmq</span>).</p>
+<h4>Use <span class="code ">OrderedReady</span> Pod Management Policy</h4>
+<p>Peer discovery mechanism will filter out nodes whose pods are not yet ready
+(initialised) according to their readiness probe as reported by the Kubernetes API.
+For example, if <a href="https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/#pod-management-policy">pod management policy</a>
+of a stateful set is set to <span class="code ">Parallel</span>, some nodes may be discovered but will not be joined.
+To work around this, the Kubernetes peer discovery plugin uses <a href="/cluster-formation.html#initial-formation-race-condition">randomized startup delays</a>.</p>
+<p>Deployments that use the <span class="code ">OrderedReady</span> pod management policy start pods one by one and therefore
+all discovered nodes will be ready to join. This policy is used by default by Kubernetes.</p>
+<p>However, such deployments can run into a deadlock if the readiness probe used expects
+the node to be fully booted. This is covered in the following section.</p>
+<h4>Use Most Basic Health Checks for RabbitMQ Pod Readiness Probes</h4>
+<p>A readiness probe that expects the node to be fully booted and have rejoined its cluster peers
+can prevent a deployment that restarts all RabbitMQ pods and relies on the <span class="code ">OrderedReady</span> pod management policy.
+Deployments that use the <span class="code ">Parallel</span> pod management policy
+will not be affected but must worry about the <a href="#initial-formation-race-condition">natural race condition during initial cluster formation</a>.</p>
+<p>One health check that does not expect a node to be fully booted and have schema tables synced is</p>
+<pre class="lang-bash">
+# a very basic check that will succeed for the nodes that are currently waiting for
+# a peer to sync schema from
+rabbitmq-diagnostics ping
+</pre>
+
+<p>This basic check would allow the deployment to proceed and the nodes to eventually rejoin each other,
+assuming they are <a href="/upgrade.html">compatible</a>.</p>
+<p>See <a href="/clustering.html#restarting-schema-sync">Schema Syncing from Online Peers</a> in the <a href="/clustering.html">Clustering guide</a>.</p>
+<h3>Examples</h3>
+<p>A minimalistic <a href="https://github.com/rabbitmq/diy-kubernetes-examples">runnable example of Kubernetes peer discovery</a>
+mechanism can be found on GitHub.</p>
+<p>The example can be run using either MiniKube or Kind.</p>
+<h3>Configuration</h3>
+<p>To use Kubernetes for peer discovery, set the <span class="code ">cluster_formation.peer_discovery_backend</span>
+to <span class="code ">k8s</span> or <span class="code ">kubernetes</span> or its module name, <span class="code ">rabbit_peer_discovery_k8s</span>
+(note: the name of the module is slightly different from plugin name):</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = k8s
+
+# the backend can also be specified using its module name
+# cluster_formation.peer_discovery_backend = rabbit_peer_discovery_k8s
+
+# Kubernetes API hostname (or IP address). Default value is kubernetes.default.svc.cluster.local
+cluster_formation.k8s.host = kubernetes.default.example.local
+</pre>
+
+<p>It is possible to configure Kubernetes API port and URI scheme:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = k8s
+
+cluster_formation.k8s.host = kubernetes.default.example.local
+# 443 is used by default
+cluster_formation.k8s.port = 443
+# https is used by default
+cluster_formation.k8s.scheme = https
+</pre>
+
+<p>Kubernetes token file path is configurable via <span class="code ">cluster_formation.k8s.token_path</span>:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = k8s
+
+cluster_formation.k8s.host = kubernetes.default.example.local
+# default value is /var/run/secrets/kubernetes.io/serviceaccount/token
+cluster_formation.k8s.token_path = /var/run/secrets/kubernetes.io/serviceaccount/token
+</pre>
+
+<p>It must point to a local file that exists and is readable by RabbitMQ.</p>
+<p>Certificate and namespace paths use <span class="code ">cluster_formation.k8s.cert_path</span>
+and <span class="code ">cluster_formation.k8s.namespace_path</span>, respectively:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = k8s
+
+cluster_formation.k8s.host = kubernetes.default.example.local
+# default value is /var/run/secrets/kubernetes.io/serviceaccount/token
+cluster_formation.k8s.token_path = /var/run/secrets/kubernetes.io/serviceaccount/token
+
+# default value is /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+cluster_formation.k8s.cert_path = /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+
+# default value is /var/run/secrets/kubernetes.io/serviceaccount/namespace
+cluster_formation.k8s.namespace_path = /var/run/secrets/kubernetes.io/serviceaccount/namespace
+</pre>
+
+<p>Just like with the token path key both must point to a local
+file that exists and is readable by RabbitMQ.</p>
+<p>When a list of peer nodes is computed from a list of pod containers returned by Kubernetes,
+either hostnames or IP addresses can be used. This is configurable using the
+<span class="code ">cluster_formation.k8s.address_type</span> key:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = k8s
+
+cluster_formation.k8s.host = kubernetes.default.example.local
+
+cluster_formation.k8s.token_path = /var/run/secrets/kubernetes.io/serviceaccount/token
+cluster_formation.k8s.cert_path = /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+cluster_formation.k8s.namespace_path = /var/run/secrets/kubernetes.io/serviceaccount/namespace
+
+# should result set use hostnames or IP addresses
+# of Kubernetes API-reported containers?
+# supported values are "hostname" and "ip"
+cluster_formation.k8s.address_type = hostname
+</pre>
+
+<p>Supported values are <span class="code ">ip</span> or <span class="code ">hostname</span>. <span class="code ">hostname</span> is
+the recommended option but has limitations: it can only be used with <a href="https://kubernetes.io/docs/tasks/run-application/run-replicated-stateful-application/#statefulset">stateful sets</a> (also highly recommended)
+and <a href="https://kubernetes.io/docs/concepts/services-networking/service/#headless-services">headless services</a>.
+<span class="code ">ip</span> is used by default for better compatibility.</p>
+<p>It is possible to append a suffix to peer hostnames returned by Kubernetes using
+<span class="code ">cluster_formation.k8s.hostname_suffix</span>:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = k8s
+
+cluster_formation.k8s.host = kubernetes.default.example.local
+
+cluster_formation.k8s.token_path = /var/run/secrets/kubernetes.io/serviceaccount/token
+cluster_formation.k8s.cert_path = /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+cluster_formation.k8s.namespace_path = /var/run/secrets/kubernetes.io/serviceaccount/namespace
+
+# no suffix is appended by default
+cluster_formation.k8s.hostname_suffix = rmq.eng.example.local
+</pre>
+
+<p>Service name is <span class="code ">rabbitmq</span> by default but can be overridden using the
+<span class="code ">cluster_formation.k8s.service_name</span> key if needed:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = k8s
+
+cluster_formation.k8s.host = kubernetes.default.example.local
+
+cluster_formation.k8s.token_path = /var/run/secrets/kubernetes.io/serviceaccount/token
+cluster_formation.k8s.cert_path = /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+cluster_formation.k8s.namespace_path = /var/run/secrets/kubernetes.io/serviceaccount/namespace
+
+# overrides Kubernetes service name. Default value is "rabbitmq".
+cluster_formation.k8s.service_name = rmq-qa
+</pre>
+
+<p>As mentioned above, stateful sets is the recommended way of running RabbitMQ on Kubernetes.
+Stateful set pods are initialised one at a time. That effectively addresses
+the natural <a href="#initial-formation-race-condition">race condition during the initial cluster formation</a>.
+Randomized startup delay in such scenarios can use a significantly lower delay value range (e.g. 0 to 1 second):</p>
+<pre class="lang-ini">
+cluster_formation.randomized_startup_delay_range.min = 0
+cluster_formation.randomized_startup_delay_range.max = 2
+
+cluster_formation.peer_discovery_backend = k8s
+
+cluster_formation.k8s.host = kubernetes.default.example.local
+
+# ...
+</pre>
+
+<h2><a id="peer-discovery-consul" class="anchor" href="#peer-discovery-consul">Peer Discovery Using Consul</a></h2>
+<h3>Consul Peer Discovery Overview</h3>
+<p>A <a href="https://www.consul.io">Consul</a>-based discovery mechanism
+is available via <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-consul">a plugin</a>.</p>
+<p>As with any <a href="/plugins.html">plugin</a>, it must be enabled before it
+can be used. For peer discovery plugins it means they must be <a href="/plugins.html#basics">enabled</a>
+or <a href="/plugins.html#enabled-plugins-file">preconfigured</a> before first node boot:</p>
+<pre class="lang-bash">
+rabbitmq-plugins --offline enable rabbitmq_peer_discovery_consul
+</pre>
+
+<p>The plugin supports Consul 0.8.0 and later versions.</p>
+<p>Nodes register with Consul on boot and unregister when they
+leave. Prior to registration, nodes will attempt to acquire a
+lock in Consul to reduce the probability of a <a href="#initial-formation-race-condition">race condition
+during initial cluster formation</a>.
+When a node registers with Consul, it will set up a periodic <a href="https://www.consul.io/docs/agent/checks.html">health
+check</a> for itself (more on this below).</p>
+<h3>Configuration</h3>
+<p>To use Consul for peer discovery, set the <span class="code ">cluster_formation.peer_discovery_backend</span>
+to <span class="code ">consul</span> or its module name, <span class="code ">rabbit_peer_discovery_consul</span> (note: the name of the module is
+slightly different from plugin name):</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = consul
+
+# the backend can also be specified using its module name
+# cluster_formation.peer_discovery_backend = rabbit_peer_discovery_consul
+
+# Consul host (hostname or IP address). Default value is localhost
+cluster_formation.consul.host = consul.eng.example.local
+</pre>
+
+<h4>Consul Endpoint</h4>
+<p>It is possible to configure Consul port and URI scheme:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = consul
+
+cluster_formation.consul.host = consul.eng.example.local
+# 8500 is used by default
+cluster_formation.consul.port = 8500
+# http is used by default
+cluster_formation.consul.scheme = http
+</pre>
+
+<h4>Consul ACL Token</h4>
+<p>To configure <a href="https://www.consul.io/docs/guides/acl.html">Consul ACL</a> token,
+use <span class="code ">cluster_formation.consul.acl_token</span>:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = consul
+
+cluster_formation.consul.host = consul.eng.example.local
+cluster_formation.consul.acl_token = acl-token-value
+</pre>
+
+<p>Service name (as registered in Consul) defaults to "rabbitmq" but can be overridden:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = consul
+
+cluster_formation.consul.host = consul.eng.example.local
+# rabbitmq is used by default
+cluster_formation.consul.svc = rabbitmq
+</pre>
+
+<h4>Service Address</h4>
+<p>Service hostname (address) as registered in Consul will be fetched by peers
+and therefore must resolve on all nodes.
+The hostname can be computed by the plugin or specified by the user. When computed automatically,
+a number of nodes and OS properties can be used:</p>
+<ul>
+<li>Hostname (as returned by <span class="code ">gethostname(2)</span>)</li>
+<li>Node name (without the <span class="code ">rabbit@</span> prefix)</li>
+<li>IP address of an NIC (network controller interface)</li>
+</ul>
+<p>When <span class="code ">cluster_formation.consul.svc_addr_auto</span> is set to <span class="code ">false</span>,
+service name will be taken as is from <span class="code ">cluster_formation.consul.svc_addr</span>.
+When it is set to <span class="code ">true</span>, other options explained below come into play.</p>
+<p>In the following example, the service address reported to Consul is
+hardcoded to <span class="code ">hostname1.rmq.eng.example.local</span> instead of being computed automatically
+from the environment:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = consul
+
+cluster_formation.consul.host = consul.eng.example.local
+
+cluster_formation.consul.svc = rabbitmq
+# do not compute service address, it will be specified below
+cluster_formation.consul.svc_addr_auto = false
+# service address, will be communicated to other nodes
+cluster_formation.consul.svc_addr = hostname1.rmq.eng.example.local
+# use long RabbitMQ node names?
+cluster_formation.consul.use_longname = true
+</pre>
+
+<p>In this example, the service address reported to Consul is
+parsed from node name (the <span class="code ">rabbit@</span> prefix will be dropped):</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = consul
+
+cluster_formation.consul.host = consul.eng.example.local
+
+cluster_formation.consul.svc = rabbitmq
+# do compute service address
+cluster_formation.consul.svc_addr_auto = true
+# compute service address using node name
+cluster_formation.consul.svc_addr_use_nodename = true
+# use long RabbitMQ node names?
+cluster_formation.consul.use_longname = true
+</pre>
+
+<p><span class="code ">cluster_formation.consul.svc_addr_use_nodename</span> is a boolean
+field that instructs Consul peer discovery backend to compute service address
+using RabbitMQ node name.</p>
+<p>In the next example, the service address is
+computed using hostname as reported by the OS instead of node name:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = consul
+
+cluster_formation.consul.host = consul.eng.example.local
+
+cluster_formation.consul.svc = rabbitmq
+# do compute service address
+cluster_formation.consul.svc_addr_auto = true
+# compute service address using host name and not node name
+cluster_formation.consul.svc_addr_use_nodename = false
+# use long RabbitMQ node names?
+cluster_formation.consul.use_longname = true
+</pre>
+
+<p>In the example below, the service address is
+computed by taking the IP address of a provided NIC, <span class="code ">en0</span>:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = consul
+
+cluster_formation.consul.host = consul.eng.example.local
+
+cluster_formation.consul.svc = rabbitmq
+# do compute service address
+cluster_formation.consul.svc_addr_auto = true
+# compute service address using the IP address of a NIC, en0
+cluster_formation.consul.svc_addr_nic = en0
+cluster_formation.consul.svc_addr_use_nodename = false
+# use long RabbitMQ node names?
+cluster_formation.consul.use_longname = true
+</pre>
+
+<h4>Service Port</h4>
+<p>Service port as registered in Consul can be overridden. This is only
+necessary if RabbitMQ uses a <a href="/networking.html">non-standard port</a>
+for client (technically AMQP 0-9-1 and AMQP 1.0) connections since default value is 5672.</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = consul
+
+cluster_formation.consul.host = consul.eng.example.local
+# 5672 is used by default
+cluster_formation.consul.svc_port = 6674
+</pre>
+
+<h4>Service Tags and Metadata</h4>
+<p>It is possible to provide <a href="https://www.consul.io/docs/agent/services.html">Consul service tags</a>:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = consul
+
+cluster_formation.consul.host = consul.eng.example.local
+# Define tags for the RabbitMQ service: "qa" and "3.8"
+cluster_formation.consul.svc_tags.1 = qa
+cluster_formation.consul.svc_tags.2 = 3.8
+</pre>
+
+<p>It is possible to configure <a href="https://www.consul.io/docs/agent/services.html">Consul service metadata</a>,
+which is a map of string keys to string values with certain restrictions
+(see Consul documentation to learn more):</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = consul
+
+cluster_formation.consul.host = consul.eng.example.local
+
+# Define metadata for the RabbitMQ service. Both keys and values have a
+# maximum length limit enforced by Consul. This can be used to provide additional
+# context about the service (RabbitMQ cluster) for operators or other tools.
+cluster_formation.consul.svc_meta.owner = team-xyz
+cluster_formation.consul.svc_meta.service = service-one
+cluster_formation.consul.svc_meta.stats_url = https://service-one.eng.megacorp.local/stats/
+</pre>
+
+<h4>Service Health Checks</h4>
+<p>When a node registers with Consul, it will set up a periodic <a href="https://www.consul.io/docs/agent/checks.html">health check</a>
+for itself. Online nodes will periodically send a health check update to Consul to indicate the service
+is available. This interval can be configured:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = consul
+
+cluster_formation.consul.host = consul.eng.example.local
+# health check interval (node TTL) in seconds
+# default: 30
+cluster_formation.consul.svc_ttl = 40
+</pre>
+
+<p>A node that failed its <a href="https://www.consul.io/docs/agent/checks.html">health check</a> is considered
+to be in the warning state by Consul.
+Such nodes can be automatically unregistered by Consul after a
+period of time (note: this is a separate interval value from
+the TTL above). The period cannot be less than 60 seconds.</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = consul
+
+cluster_formation.consul.host = consul.eng.example.local
+# health check interval (node TTL) in seconds
+cluster_formation.consul.svc_ttl = 30
+# how soon should nodes that fail their health checks be unregistered by Consul?
+# this value is in seconds and must not be lower than 60 (a Consul requirement)
+cluster_formation.consul.deregister_after = 90
+</pre>
+
+<p>Please see a section on <a href="#node-health-checks-and-cleanup">automatic cleanup of nodes</a> below.</p>
+<p>Nodes in the warning state are excluded from peer discovery results
+by default. It is possible to opt into including them by setting
+<span class="code ">cluster_formation.consul.include_nodes_with_warnings</span> to
+<span class="code ">true</span>:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = consul
+
+cluster_formation.consul.host = consul.eng.example.local
+# health check interval (node TTL) in seconds
+cluster_formation.consul.svc_ttl = 30
+# include node in the warning state into discovery result set
+cluster_formation.consul.include_nodes_with_warnings = true
+</pre>
+
+<h4>Node Name Suffixes</h4>
+<p>If node name is computed and long node names are used, it is possible to
+append a suffix to node names retrieved from Consul. The format is
+<em>.node.{domain_suffix}</em>. This can be useful in environments with
+DNS conventions, e.g. when all service nodes
+are organised in a separate subdomain. Here's an example:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = consul
+
+cluster_formation.consul.host = consul.eng.example.local
+
+cluster_formation.consul.svc = rabbitmq
+# do compute service address
+cluster_formation.consul.svc_addr_auto = true
+# compute service address using node name
+cluster_formation.consul.svc_addr_use_nodename = true
+# use long RabbitMQ node names?
+cluster_formation.consul.use_longname = true
+# append a suffix (node.rabbitmq.example.local) to node names retrieved from Consul
+cluster_formation.consul.domain_suffix = example.local
+</pre>
+
+<p>With this setup node names will be computed to <span class="code ">rabbit@192.168.100.1.node.example.local</span>
+instead of <span class="code ">rabbit@192.168.100.1</span>.</p>
+<h4>Distributed Lock Acquisition</h4>
+<p>When a node tries to acquire a lock on boot and the lock is already taken,
+it will wait for the lock to become available for a limited amount of time. Default value is 300
+seconds but it can be configured:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = consul
+
+cluster_formation.consul.host = consul.eng.example.local
+# lock acquisition timeout in seconds
+# default: 300
+# cluster_formation.consul.lock_wait_time is an alias
+cluster_formation.consul.lock_timeout = 60
+</pre>
+
+<p>Lock key prefix is <span class="code ">rabbitmq</span> by default. It can also be overridden:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = consul
+
+cluster_formation.consul.host = consul.eng.example.local
+cluster_formation.consul.lock_timeout = 60
+# should the Consul key used for locking be prefixed with something
+# other than "rabbitmq"?
+cluster_formation.consul.lock_prefix = environments-qa
+</pre>
+
+<h2><a id="peer-discovery-etcd" class="anchor" href="#peer-discovery-etcd">Peer Discovery Using Etcd</a></h2>
+<h3>Etcd Peer Discovery Overview</h3>
+<p>An <a href="https://coreos.com/etcd">etcd</a>-based discovery mechanism
+is available via <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-etcd">a plugin</a>.</p>
+<p>As of RabbitMQ <span class="code ">3.8.4</span>, the plugin uses a v3 API, gRPC-based etcd client and
+<strong>requires etcd 3.4 or a later version</strong>.</p>
+<p>As with any <a href="/plugins.html">plugin</a>, it must be enabled before it
+can be used. For peer discovery plugins it means they must be <a href="/plugins.html#basics">enabled</a>
+or <a href="/plugins.html#enabled-plugins-file">preconfigured</a> before first node boot:</p>
+<pre class="lang-bash">
+rabbitmq-plugins --offline enable rabbitmq_peer_discovery_etcd
+</pre>
+
+<p>Nodes register with etcd on boot by creating a key in a conventionally named directory. The keys have
+a short (say, a minute) expiration period. The keys are deleted when nodes stop cleanly.</p>
+<p>Prior to registration, nodes will attempt to acquire a
+lock in etcd to reduce the probability of a <a href="#initial-formation-race-condition">race condition
+during initial cluster formation</a>.</p>
+<p>Every node's key has an associated <a href="https://etcd.io/docs/v3.4.0/dev-guide/interacting_v3/#grant-leases">lease</a>
+with a configurable TTL. Nodes keep their key's leases alive.
+If a node loses connectivity and cannot update its lease, its key will be cleaned up by etcd after TTL expires.
+Such nodes won't be discovered by newly joining nodes.
+If configured, such nodes can be forcefully removed from the cluster.</p>
+<h3>Configuration</h3>
+<h4>etcd Endpoints and Authentication</h4>
+<p>To use etcd for peer discovery, set the <span class="code ">cluster_formation.peer_discovery_backend</span>
+to <span class="code ">etcd</span> or its module name, <span class="code ">rabbit_peer_discovery_etcd</span> (note: the name of the module
+is slightly different from plugin name).</p>
+<p>The plugin requires a configured etcd endpoint for the plugin
+to connect to:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = etcd
+
+# the backend can also be specified using its module name
+# cluster_formation.peer_discovery_backend = rabbit_peer_discovery_etcd
+
+# etcd endpoints. This property is required or peer discovery won't be performed.
+cluster_formation.etcd.endpoints.1 = one.etcd.eng.example.local:2379
+</pre>
+
+<p>It is possible to configure multiple etcd endpoints. The first randomly
+chosen one that the plugin can successfully connect to will be used.</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = etcd
+
+cluster_formation.etcd.endpoints.1 = one.etcd.eng.example.local:2379
+cluster_formation.etcd.endpoints.2 = two.etcd.eng.example.local:2479
+cluster_formation.etcd.endpoints.3 = three.etcd.eng.example.local:2579
+</pre>
+
+<p>If <a href="https://etcd.io/docs/v3.4.0/op-guide/authentication/">authentication is enabled for etcd</a>, the plugin can be configured to use
+a pair of credentials:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = etcd
+
+cluster_formation.etcd.endpoints.1 = one.etcd.eng.example.local:2379
+cluster_formation.etcd.endpoints.2 = two.etcd.eng.example.local:2479
+cluster_formation.etcd.endpoints.3 = three.etcd.eng.example.local:2579
+
+cluster_formation.etcd.username = rabbitmq
+cluster_formation.etcd.password = s3kR37
+</pre>
+
+<p>It is possible to use <a href="/configure.html#advanced-config-file">advanced.config</a> file to <a href="/configure.html#configuration-encryption">encrypt the password value</a>
+listed in the config. In this case all plugin settings must be moved to the advanced config:</p>
+<pre class="lang-erlang">
+%% advanced.config file
+[
+ {rabbit,
+     [{cluster_formation,
+          [{peer_discovery_etcd, [
+                {endpoints, [
+                  "one.etcd.eng.example.local:2379",
+                  "two.etcd.eng.example.local:2479",
+                  "three.etcd.eng.example.local:2579"
+                ]},
+
+                {etcd_prefix,   "rabbitmq"},
+                {cluster_name,  "default"},
+
+                {etcd_username, "etcd user"},
+                {etcd_password, {encrypted, &lt;&lt;"cPAymwqmMnbPXXRVqVzpxJdrS8mHEKuo2V+3vt1u/fymexD9oztQ2G/oJ4PAaSb2c5N/hRJ2aqP/X0VAfx8xOQ=="&gt;&gt;}
+                }]
+           }]
+      }]
+ },
+
+  {config_entry_decoder, [
+             {passphrase, &lt;&lt;"decryption key passphrase"&gt;&gt;}
+         ]}
+].
+</pre>
+
+<h4>Key Naming</h4>
+<p>Directories and keys used by the peer discovery mechanism follow a naming scheme.
+Since in etcd <a href="https://etcd.io/docs/v3.4.0/rfc/v3api/">v3 API the key space is flat</a>,
+a hardcoded prefix is used. It allows the plugin to predictably perform key range queries
+using a well-known prefix:</p>
+<pre class="lang-ini">
+# for node presence keys
+/rabbitmq/discovery/{prefix}/clusters/{cluster name}/nodes/{node name}
+</pre>
+
+<pre class="lang-ini">
+# for registration lock keys
+/rabbitmq/locks/{prefix}/clusters/{cluster name}/registration
+</pre>
+
+<p>Here's an example of a key that would be used by node <span class="code ">rabbit@hostname1</span>
+with default user-provided key prefix and cluster name:</p>
+<pre class="lang-ini">
+/rabbitmq/discovery/rabbitmq/clusters/default/nodes/rabbit@hostname1
+</pre>
+
+<p>Default key prefix is simply "rabbitmq". It rarely needs overriding but that's
+supported:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = etcd
+
+cluster_formation.etcd.endpoints.1 = one.etcd.eng.example.local:2379
+cluster_formation.etcd.endpoints.2 = two.etcd.eng.example.local:2479
+cluster_formation.etcd.endpoints.3 = three.etcd.eng.example.local:2579
+
+# rabbitmq is used by default
+cluster_formation.etcd.key_prefix = rabbitmq_discovery
+</pre>
+
+<p>If multiple RabbitMQ clusters share an etcd installation, each cluster must use
+a unique name:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = etcd
+
+cluster_formation.etcd.endpoints.1 = one.etcd.eng.example.local:2379
+cluster_formation.etcd.endpoints.2 = two.etcd.eng.example.local:2479
+cluster_formation.etcd.endpoints.3 = three.etcd.eng.example.local:2579
+
+# default name: "default"
+cluster_formation.etcd.cluster_name = staging
+</pre>
+
+<h4>Key Leases and TTL</h4>
+<p>Key used for node registration will have a lease with a TTL associated with them.
+Online nodes will periodically keep the leases alive (refresh). The TTL value can be configured:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = etcd
+
+cluster_formation.etcd.endpoints.1 = one.etcd.eng.example.local:2379
+cluster_formation.etcd.endpoints.2 = two.etcd.eng.example.local:2479
+cluster_formation.etcd.endpoints.3 = three.etcd.eng.example.local:2579
+
+# node TTL in seconds
+# default: 30
+cluster_formation.etcd.node_ttl = 40
+</pre>
+
+<p>Key leases are updated periodically while the node is running and the plugin
+remains enabled.</p>
+<p>It is possible to forcefully remove the nodes that fail to refresh their keys from the cluster.
+This is covered later in this guide.</p>
+<h4>Locks</h4>
+<p>When a node tries to acquire a lock on boot and the lock is already taken,
+it will wait for the lock to become available for a limited amount of time. Default value is 300
+seconds but it can be configured:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = etcd
+
+cluster_formation.etcd.endpoints.1 = one.etcd.eng.example.local:2379
+cluster_formation.etcd.endpoints.2 = two.etcd.eng.example.local:2479
+
+# lock acquisition timeout in seconds
+# default: 300
+# cluster_formation.consul.lock_wait_time is an alias
+cluster_formation.etcd.lock_timeout = 60
+</pre>
+
+<h4>Inspecting Keys</h4>
+<p>In order to list all keys used by the etcd-based peer discovery mechanism, use <span class="code ">etcdctl get</span> like so:</p>
+<pre class="lang-shell">
+etcdctl get --prefix=true "/rabbitmq"
+</pre>
+
+<h4>TLS</h4>
+<p>It is possible to configure the plugin to <a href="/ssl.html">use TLS</a> when connecting to etcd.
+TLS will be enabled if any of the TLS options listed below are configured, otherwise
+connections will use "plain TCP" without TLS.</p>
+<p>The plugin acts as a TLS client. A <a href="/ssl.html#peer-verification">trusted CA certificate</a> file must
+be provided as well as a client certificate and private key pair:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = etcd
+
+cluster_formation.etcd.endpoints.1 = one.etcd.eng.example.local:2379
+cluster_formation.etcd.endpoints.2 = two.etcd.eng.example.local:2479
+
+# trusted CA certificate file path
+cluster_formation.etcd.ssl_options.cacertfile = /path/to/ca_certificate.pem
+# client certificate (public key) file path
+cluster_formation.etcd.ssl_options.certfile   = /path/to/client_certificate.pem
+# client private key file path
+cluster_formation.etcd.ssl_options.keyfile    = /path/to/client_key.pem
+
+# use TLSv1.2 for connections
+cluster_formation.etcd.ssl_options.versions.1 = tlsv1.2
+
+# enables peer verification (the plugin will verify the certificate chain of the server)
+cluster_formation.etcd.ssl_options.verify               = verify_peer
+cluster_formation.etcd.ssl_options.fail_if_no_peer_cert = true
+</pre>
+
+<p>More <a href="/ssl.html">TLS options</a> are supported such as cipher suites and
+client-side session renegotiation options:</p>
+<pre class="lang-ini">
+cluster_formation.peer_discovery_backend = etcd
+
+cluster_formation.etcd.endpoints.1 = one.etcd.eng.example.local:2379
+cluster_formation.etcd.endpoints.2 = two.etcd.eng.example.local:2479
+
+# trusted CA certificate file path
+cluster_formation.etcd.ssl_options.cacertfile = /path/to/ca_certificate.pem
+# client certificate (public key) file path
+cluster_formation.etcd.ssl_options.certfile   = /path/to/client_certificate.pem
+# client private key file path
+cluster_formation.etcd.ssl_options.keyfile    = /path/to/client_key.pem
+
+# use TLSv1.2 for connections
+cluster_formation.etcd.ssl_options.versions.1 = tlsv1.2
+
+# enables peer verification (the plugin will verify the certificate chain of the server)
+cluster_formation.etcd.ssl_options.verify               = verify_peer
+cluster_formation.etcd.ssl_options.fail_if_no_peer_cert = true
+
+# use secure session renegotiation
+cluster_formation.etcd.ssl_options.secure_renegotiate   = true
+
+# Explicitly list enabled cipher suites. This can break connectivity
+# and is not necessary most of the time.
+cluster_formation.etcd.ssl_options.ciphers.1  = ECDHE-ECDSA-AES256-GCM-SHA384
+cluster_formation.etcd.ssl_options.ciphers.2  = ECDHE-RSA-AES256-GCM-SHA384
+cluster_formation.etcd.ssl_options.ciphers.3  = ECDH-ECDSA-AES256-GCM-SHA384
+cluster_formation.etcd.ssl_options.ciphers.4  = ECDH-RSA-AES256-GCM-SHA384
+cluster_formation.etcd.ssl_options.ciphers.5  = DHE-RSA-AES256-GCM-SHA384
+cluster_formation.etcd.ssl_options.ciphers.6  = DHE-DSS-AES256-GCM-SHA384
+cluster_formation.etcd.ssl_options.ciphers.7  = ECDHE-ECDSA-AES128-GCM-SHA256
+cluster_formation.etcd.ssl_options.ciphers.8  = ECDHE-RSA-AES128-GCM-SHA256
+cluster_formation.etcd.ssl_options.ciphers.9  = ECDH-ECDSA-AES128-GCM-SHA256
+cluster_formation.etcd.ssl_options.ciphers.10 = ECDH-RSA-AES128-GCM-SHA256
+cluster_formation.etcd.ssl_options.ciphers.11 = DHE-RSA-AES128-GCM-SHA256
+cluster_formation.etcd.ssl_options.ciphers.12 = DHE-DSS-AES128-GCM-SHA256
+</pre>
+
+<h2><a id="initial-formation-race-condition" class="anchor" href="#initial-formation-race-condition">Race Conditions During Initial Cluster Formation</a></h2>
+<p>Consider a deployment where the entire cluster is provisioned at once and all nodes
+start in parallel. In this case there's a natural race
+condition between node registration and more than one node
+can become "first to register" (discovers no existing peers
+and thus starts as standalone).</p>
+<p>Different peer discovery backends use different approaches to
+minimize the probability of such scenario. Some use locking
+(etcd, Consul), others use a technique known as randomized startup delay.
+With randomized startup delay nodes will delay their startup
+for a randomly picked value (between 5 and 60 seconds by default).</p>
+<p>Some backends (config file, DNS) rely on a pre-configured set of peers and avoid
+the issue that way.</p>
+<p>Effective delay interval, if used, is logged on node boot.</p>
+<p>Lastly, some mechanism rely on ordered node startup provided by the underlying
+provisioning and orchestration tool. <a href="https://kubernetes.io/docs/tasks/run-application/run-replicated-stateful-application/#understanding-stateful-pod-initialization">Kubernetes stateful sets</a> is one example of an environment that offers such a guarantee.</p>
+<h2><a id="node-health-checks-and-cleanup" class="anchor" href="#node-health-checks-and-cleanup">Node Health Checks and Forced Removal</a></h2>
+<p>Nodes in clusters formed using peer discovery can fail, become unavailable or be permanently
+removed (decomissioned). Some operators may want such nodes to be automatically removed
+from the cluster after a period of time. Such automated forced removal also can produced
+unforeseen side effects, so RabbitMQ does not enforce this behavior. It <strong>should be used
+with great care</strong> and only if the side effects are fully understood and considered.</p>
+<p>For example, consider a cluster that uses the AWS backend configured to use autoscaling group membership.
+If an EC2 instance in that group fails and is later re-created as a new node, its original "incarnation"
+will be considered a separate, now permanently unavailable node in the same cluster.</p>
+<p>With peer discovery backends that offer dynamic node management (as opposed to, say, a fixed list of nodes
+in the configuration file), such unknown nodes can be logged or forcefully removed from the cluster.</p>
+<p>They are</p>
+<ul>
+<li><a href="#peer-discovery-aws">AWS (EC2)</a></li>
+<li><a href="#peer-discovery-k8s">Kubernetes</a></li>
+<li><a href="#peer-discovery-consul">Consul</a></li>
+<li><a href="#peer-discovery-etcd">etcd</a></li>
+</ul>
+<p>Forced node removal can be dangerous and should be carefully considered. For example,
+a node that's temporarily unavailable but will be rejoining (or recreated with its
+persistent storage re-attached from its previous incarnation) can be kicked
+out of the cluster permanently by automatic cleanup, thus failing to rejoin.</p>
+<p>Before enabling the configuration keys covered below make sure that a compatible
+peer discovery plugin is enabled. If that's not the case the node will report
+the settings to be unknown and will fail to start.</p>
+<p>To log warnings for the unknown nodes,
+<span class="code ">cluster_formation.node_cleanup.only_log_warning</span> should be set to
+<span class="code ">true</span>:</p>
+<pre class="lang-ini">
+# Don't remove cluster members unknown to the peer discovery backend but log
+# warnings.
+#
+# This setting can only be used if a compatible peer discovery plugin is enabled.
+cluster_formation.node_cleanup.only_log_warning = true
+</pre>
+
+<p>This is the default behavior.</p>
+<p>To forcefully delete the unknown nodes from the cluster,
+<span class="code ">cluster_formation.node_cleanup.only_log_warning</span> should be set to
+<span class="code ">false</span>.</p>
+<pre class="lang-ini">
+# Forcefully remove cluster members unknown to the peer discovery backend. Once removed,
+# the nodes won't be able to rejoin. Use this mode with great care!
+#
+# This setting can only be used if a compatible peer discovery plugin is enabled.
+cluster_formation.node_cleanup.only_log_warning = false
+</pre>
+
+<p>Note that this option should be used with care, in particular
+with discovery backends other than AWS.</p>
+<p>The cleanup checks are performed periodically. The interval is 60 seconds
+by default and can be overridden:</p>
+<pre class="lang-ini">
+# perform the check every 90 seconds
+cluster_formation.node_cleanup.interval = 90
+</pre>
+
+<p>Some backends (Consul, etcd) support node health checks or TTL. These checks
+should not to be confused with <a href="/monitoring.html#health-checks">monitoring health checks</a>.
+They allow peer discovery services (such as etcd or Consul) keep track of what
+nodes are still around (have checked in recently).</p>
+<p>With service discovery health checks, nodes set a TTL on their keys and/or periodically
+notify their respective discovery service that they are still present. If no notifications
+from a node come in after a period of time, the node's key will eventually expire (with
+Consul, such nodes will be considered to be in a warning state).</p>
+<p>With etcd, such nodes will no longer show up in discovery results. With Consul,
+they can either be removed (deregistered) or their warning state can be
+reported. Please see documentation for those backends to learn more.</p>
+<p>Automatic cleanup of absent nodes makes most sense in environments where failed/discontinued nodes
+will be replaced with brand new ones (including cases when persistent storage won't be re-attached).</p>
+<p>When automatic node cleanup is disabled (switched to the warning mode), operators have to
+explicitly remove absent cluster nodes using <a href="/cli.html"><span class="code ">rabbitmqctl forget_cluster_node</span></a>.</p>
+<h3>Negative Side Effects of Automatic Removal</h3>
+<p>Automatic node removal has a number of negative side effects operators should be aware of.
+A node that's temporarily unreachable, for example, because it's lost connectivity
+to the rest of the network or its VM was temporarily suspended, will be removed and will
+then come back. Such node won't be able to <a href="#rejoining">rejoin its cluster</a> and will
+log a similar message:</p>
+<pre class="lang-plaintext">
+Node 'rabbit@node1.local' thinks it's clustered with node 'rabbit@node2.local', but 'rabbit@node2.local' disagrees
+</pre>
+
+<p>In addition, such nodes can begin to fail their <a href="/monitoring.html#health-checks">monitoring health checks</a>,
+as they would be in a permanent "partitioned off" state. Even though such nodes might have been
+replaced with a new one and the cluster would be operating as expected, such automatically removed
+and replaced nodes can produce monitoring false positives.</p>
+<p>The list of side effects is not limited to those two scenarios but they all have the same
+root cause: an automatically removed node can come back without realising that it's been kicked out
+of its cluster. Monitoring systems and operators won't be immediately aware of that event either.</p>
+<h2><a id="discovery-retries" class="anchor" href="#discovery-retries">Peer Discovery Failures and Retries</a></h2>
+<p>In latest releases if a peer discovery attempt fail, it will be retried up to a certain number
+of times with a delay between each attempt. This is similar to the peer sync retries nodes
+perform <a href="/clustering.html#restarting">when they come online after a restart</a>.</p>
+<p>For example, with the <a href="#peer-discovery-k8s">Kubernetes peer discovery mechanism</a> this means that
+Kubernetes API requests that list pods will be retried should they fail. With the AWS mechanism,
+EC2 API requests are retried, and so on.</p>
+<p>Such retries by no means handle every possible failure scenario but they improve the resilience
+of peer discovery and thus cluster and node deployments in practice. However, if clustered
+nodes <a href="/clustering.html#erlang-cookie">fail to authenticate</a> with each other, retries
+will simply merely the inevitable failure of cluster formation.</p>
+<p>Nodes that fail to perform peer discovery will <a href="/logging.html">log</a> their remaining recovery attempts:</p>
+<pre class="lang-plaintext">
+2020-06-27 06:35:36.426 [error] &lt;0.277.0&gt; Trying to join discovered peers failed. Will retry after a delay of 500 ms, 4 retries left...
+2020-06-27 06:35:36.928 [warning] &lt;0.277.0&gt; Could not auto-cluster with node rabbit@hostname2: {badrpc,nodedown}
+2020-06-27 06:35:36.930 [warning] &lt;0.277.0&gt; Could not auto-cluster with node rabbit@hostname3: {badrpc,nodedown}
+2020-06-27 06:35:36.930 [error] &lt;0.277.0&gt; Trying to join discovered peers failed. Will retry after a delay of 500 ms, 3 retries left...
+2020-06-27 06:35:37.432 [warning] &lt;0.277.0&gt; Could not auto-cluster with node rabbit@hostname2: {badrpc,nodedown}
+2020-06-27 06:35:37.434 [warning] &lt;0.277.0&gt; Could not auto-cluster with node rabbit@hostname3: {badrpc,nodedown}
+</pre>
+
+<p>If a node fails to perform peer discovery and exhausts all retries, <a href="/logging.html#debug-logging">enable debug logging</a> is highly recommended for <a href="#troubleshooting">troubleshooting</a>.</p>
+<p>The number of retries and the delay can be configured:</p>
+<pre class="lang-ini">
+# These are the default values
+
+# Retry peer discovery operations up to ten times
+cluster_formation.discovery_retry_limit = 10
+
+# 500 milliseconds
+cluster_formation.discovery_retry_interval = 500
+</pre>
+
+<p>The defaults cover five seconds of unavailability of services, API endpoints or nodes
+involved in peer discovery. These values are sufficient to cover sporadic failures.
+They will require increasing in environments where dependent services (DNS, etcd, Consul, etc)
+may be provisioned concurrently with RabbitMQ cluster deployment and thus can become
+available only after a period of time.</p>
+<h2><a id="http-proxy-settings" class="anchor" href="#http-proxy-settings">HTTP Proxy Settings</a></h2>
+<p>Peer discovery mechanisms that use HTTP to interact with its dependencies (e.g. AWS, Consul
+and etcd ones) can proxy their requests using an HTTP proxy.</p>
+<p>There are separate proxy settings for HTTP and HTTPS:</p>
+<pre class="lang-ini">
+# example HTTP and HTTPS proxy servers, values in your environment
+# will vary
+cluster_formation.proxy.http_proxy = 192.168.0.98
+cluster_formation.proxy.https_proxy = 192.168.0.98
+</pre>
+
+<p>Some hosts can be excluded from proxying, e.g. the link-local AWS instance metadata
+IP address:</p>
+<pre class="lang-ini">
+# example HTTP and HTTPS proxy servers, values in your environment
+# will vary
+cluster_formation.proxy.http_proxy = 192.168.0.98
+cluster_formation.proxy.https_proxy = 192.168.0.98
+
+# requests to these hosts won't go via proxy
+cluster_formation.proxy.proxy_exclusions.1 = 169.254.169.254
+cluster_formation.proxy.proxy_exclusions.2 = excluded.example.local
+</pre>
+
+<h2><a id="troubleshooting" class="anchor" href="#troubleshooting">Troubleshooting</a></h2>
+<p>The peer discovery subsystem and individual mechanism implementations log important
+discovery procedure steps at the <span class="code ">info</span> log level. More extensive logging
+is available at the <span class="code ">debug</span> level. Mechanisms that depend on external services
+accessible over HTTP will log all outgoing HTTP requests and response codes at <span class="code ">debug</span> level.
+See the <a href="/logging.html">logging guide</a> for more information about logging configuration.</p>
+<p>If the log does not contain any entries that demonstrate peer discovery progress, for example, the list
+of nodes retrieved by the mechanism or clustering attempts, it may mean that the node already has
+an initialised data directory or is already a member of the cluster. In those cases peer discovery
+won't be performed.</p>
+<p>Peer discovery relies on inter-node network connectivity and successful authentication via a shared
+secret. Verifying that nodes can communicate with one another and use the expected Erlang cookie value (that's also identical across all cluster nodes).
+See the main <a href="clustering.html">Clustering guide</a> for more information.</p>
+<p>A methodology for network connectivity troubleshooting as well as commonly used
+tools are covered in the <a href="troubleshooting-networking.html">Troubleshooting Network Connectivity</a> guide.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"><div id="in-this-section"><h4>In This Section</h4><ul>
+     <li><a href="/admin-guide.html" class="selected">Server Documentation</a><ul>
+       <li><a href="/configure.html">Configuration</a></li>
+       <li><a href="/management.html">Management UI</a></li>
+       <li><a href="/monitoring.html">Monitoring</a></li>
+       <li><a href="/production-checklist.html">Production Checklist</a></li>
+       <li><a href="/ssl.html">TLS Support</a></li>
+       <li><a href="/streams.html">Streams</a></li>
+       <li><a href="/feature-flags.html">Feature Flags</a></li>
+       <li><a href="/distributed.html">Distributed RabbitMQ</a></li>
+       <li><a href="/clustering.html" class="selected">Clustering</a><ul>
+         <li><a href="/cluster-formation.html" class="selected">Cluster Formation</a></li>
+         <li><a href="/ha.html">High Availability</a></li>
+         <li><a href="/partitions.html">Network Partitions</a></li>
+         <li><a href="/nettick.html">Net Tick Time</a></li>
+         <li><a href="/clustering-ssl.html">TLS for Inter-node (Clustering) Traffic</a></li>
+         <li><a href="/erlang-distribution-compression.html">Inter-node Traffic Compression</a></li>
+       </ul></li>
+       <li><a href="/reliability.html">Reliable Delivery</a></li>
+       <li><a href="/definitions.html">Schema Definition Export and Import</a></li>
+       <li><a href="/backup.html">Backup and restore</a></li>
+       <li><a href="/alarms.html">Alarms</a></li>
+       <li><a href="/memory-use.html">Memory Use</a></li>
+       <li><a href="/networking.html">Networking</a></li>
+       <li><a href="/vhosts.html">Virtual Hosts</a></li>
+       <li><a href="/pacemaker.html">High Availability (pacemaker)</a></li>
+       <li><a href="/access-control.html">Access Control (Authorisation)</a></li>
+       <li><a href="/authentication.html">Authentication Mechanisms</a></li>
+       <li><a href="/ldap.html">LDAP</a></li>
+       <li><a href="/lazy-queues.html">Lazy Queues</a></li>
+       <li><a href="/event-exchange.html">Internal Event Exchange</a></li>
+       <li><a href="/firehose.html">Firehose (Message Tracing)</a></li>
+       <li><a href="/manpages.html">Manual Pages</a></li>
+       <li><a href="/windows-quirks.html">Windows Quirks</a></li>
+       
+       
+       
+       
+     </ul></li>
+     <li><a href="/clients.html">Client Documentation</a></li>
+     <li><a href="/plugins.html">Plugins</a></li>
+     <li><a href="/news.html">News</a></li>
+     <li><a href="/protocol.html">Protocol</a></li>
+     <li><a href="/extensions.html">Our Extensions</a></li>
+     <li><a href="/build.html">Building</a></li>
+     
+     <li><a href="/mpl.html">License</a></li>
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

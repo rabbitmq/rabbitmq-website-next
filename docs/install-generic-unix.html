@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>Generic Binary Build ("Generic UNIX Build") — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>Generic Binary Build ("Generic UNIX Build")</h1>
+
+
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>RabbitMQ releases include a binary package for Linux, MacOS, and *BSD systems.
+It is minimalistic and not opinionated in how it is installed, configured and managed.
+This package is recommended in environments where more opinionated installation options
+(the <a href="/install-debian.html">Debian</a> or <a href="/install-rpm.html">RPM packages</a>, <a href="/install-homebrew.html">Homebrew</a>, BSD ports) cannot be used.
+It is also the most convenient option for running multiple versions on the same machine
+in development environments, e.g. <a href="/snapshots.html">preview release</a> testing.
+There's a separate <a href="/install-windows-manually.html">binary package for Windows</a>.</p>
+<h2><a id="downloads" class="anchor" href="#downloads">Downloads</a></h2>
+<table>
+  <thead>
+    <th>Description</th>
+    <th>Download</th>
+    <th>Signature</th>
+  </thead>
+
+  <tr>
+    <td>
+      Generic UNIX binary build (tar.xz, from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>, recommended)
+    </td>
+    <td>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.11/rabbitmq-server-generic-unix-3.8.11.tar.xz">rabbitmq-server-generic-unix-3.8.11.tar.xz</a>
+    </td>
+    <td>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.11/rabbitmq-server-generic-unix-3.8.11.tar.xz.asc">Signature</a>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Alternative download location (from <a href="https://bintray.com/rabbitmq/binaries">Bintray</a>)
+    </td>
+    <td>
+      <a href="https://dl.bintray.com/rabbitmq/all/rabbitmq-server/3.8.11/rabbitmq-server-generic-unix-3.8.11.tar.xz">rabbitmq-server-generic-unix-3.8.11.tar.xz</a>
+    </td>
+    <td></td>
+  </tr>
+</table>
+
+<h2><a id="installation" class="anchor" href="#installation">Installation</a></h2>
+<h3><a id="install-erlang" class="anchor" href="#install-erlang">Make Sure Erlang/OTP is Installed</a></h3>
+<p>This package requires a <a href="/which-erlang.html">supported version of Erlang</a> to be installed
+in order to run.</p>
+<h3><a id="install" class="anchor" href="#install">Install the Server</a></h3>
+<p><a href="#downloads">Download</a> a <span class="code ">rabbitmq-server-generic-unix-3.8.11.tar.xz</span> archive and extract it.</p>
+<p>Contained in the tarball is a directory named <span class="code ">rabbitmq_server-3.8.11</span>. This directory is the node base directory. It should be
+moved to a suitable application directory on the system, such as <span class="code ">/usr/local</span>.
+The <span class="code ">sbin</span> directory in that directory contains server and <a href="/cli.html">CLI tool</a> scripts.
+It is a good candidate for including into <span class="code ">PATH</span>.</p>
+<h2><a id="operations" class="anchor" href="#operations">Operations</a></h2>
+<h3><a id="running-generic-unix" class="anchor" href="#running-generic-unix">Running and Managing the Node</a></h3>
+<p>Unlike some other installation methods, namely the <a href="/install-debian.html">Debian</a> and <a href="/install-rpm.html">RPM packages</a>, RabbitMQ
+generic UNIX binary build does not require <span class="code ">sudo</span>. It can be uncompressed
+into any location and started and managed using the scripts and <a href="/cli.html">CLI tools</a> under <span class="code ">sbin</span>.
+Default <a href="/relocate.html">data directory location</a> will be under <span class="code ">./var</span>,
+that is, in the installation directory.</p>
+<h4>Starting the Server</h4>
+<p>To start the server, run the <span class="code ">sbin/rabbitmq-server</span> script. This
+displays a short banner message, concluding with the message
+"completed with <i>[n]</i> plugins.", indicating that the
+RabbitMQ broker has been started successfully.
+To start the server in "detached" mode, use
+<span class="code ">rabbitmq-server -detached</span>. This will run
+the node process in the background.</p>
+<h4>Stopping the Server</h4>
+<p>To stop a running node, use <span class="code ">sbin/rabbitmqctl shutdown</span>. The command
+will wait for the node process to stop. If the target node is not running,
+it will exit with an error.</p>
+<h4>Configuring the Server</h4>
+<p><a href="configure.html#configuration-file">RabbitMQ configuration file</a> located at <span class="code ">$RABBITMQ_HOME/etc/rabbitmq/rabbitmq.conf</span>
+is the primary way of configuring the node.</p>
+<p>It is possible to <a href="configure.html#customise-general-unix-environment">use environment variables</a> to control certain settings.
+The recommended way of doing that is using the <span class="code ">$RABBITMQ_HOME/etc/rabbitmq/rabbitmq-env.conf</span> file.</p>
+<p>Neither of these files exist after installation, so they must be created first.</p>
+<p>See RabbitMQ <a href="configure.html">configuration guide</a> to learn more.</p>
+<h3><a id="file-locations" class="anchor" href="#file-locations">File Locations</a></h3>
+<p>The generic binary build is designed to run without granted
+permissions to directories outside of its base one. The <a href="/relocate.html">directories and files</a> used by default are
+all held under the installation directory <span class="code ">rabbitmq_server-3.8.11</span>
+which is in the <span class="envvar">$RABBITMQ_HOME</span>
+variable in the scripts.</p>
+<p>The node can be <a href="/relocate.html">instructed</a> to use more
+conventional system directories for <a href="/configure.html">configuration</a>,
+node data directory, <a href="/logging.html">log</a> files, <a href="/plugins.html">plugins</a> and so on.
+In order to make the node use operating system defaults, locate the following line</p>
+<pre class="lang-bash">
+PREFIX=${RABBITMQ_HOME}
+</pre>
+
+<p>in the <span class="code ">sbin/rabbitmq-defaults</span> script and
+change this line to:</p>
+<pre class="lang-bash">
+SYS_PREFIX=
+</pre>
+
+<p>but do not modify any other line in this script.</p>
+<p><strong>Important</strong>: after this modification the default directory
+locations may point to non-existent directories or directories that the effective
+node user won't have permissions for.</p>
+<p>In particular <span class="code ">RABBITMQ_MNESIA_BASE</span> and
+<span class="code ">RABBITMQ_LOG_BASE</span> may need to be created (the server will attempt to create them at startup), and the
+<a href="/plugins.html">enabled plugins file</a> (<span class="code ">RABBITMQ_ENABLED_PLUGINS_FILE</span>) will need
+to be writable by <a href="/cli.html">rabbitmq-plugins</a>.</p>
+<p>The configuration files will be looked for in <span class="code ">/etc/rabbitmq/</span>.</p>
+<h2><a id="ports" class="anchor" href="#ports">Port Access</a></h2>
+<p>RabbitMQ nodes bind to ports (open server TCP sockets) in order to accept client and CLI tool connections.
+Other processes and tools such as SELinux may prevent RabbitMQ from binding to a port. When that happens,
+the node will fail to start.</p>
+<p>CLI tools, client libraries and RabbitMQ nodes also open connections (client TCP sockets).
+Firewalls can prevent nodes and CLI tools from communicating with each other.
+Make sure the following ports are accessible:</p>
+<ul>
+<li>4369: <a href="http://erlang.org/doc/man/epmd.html">epmd</a>, a peer discovery service used by RabbitMQ nodes and CLI tools</li>
+<li>5672, 5671: used by AMQP 0-9-1 and 1.0 clients without and with TLS</li>
+<li>25672: used for inter-node and CLI tools communication (Erlang distribution server port)
+   and is allocated from a dynamic range (limited to a single port by default,
+   computed as AMQP port + 20000). Unless external connections on these ports are really necessary (e.g.
+   the cluster uses <a href="/federation.html">federation</a> or CLI tools are used on machines outside the subnet),
+   these ports should not be publicly exposed. See <a href="/networking.html">networking guide</a> for details.</li>
+<li>35672-35682: used by CLI tools (Erlang distribution client ports) for communication with nodes
+   and is allocated from a dynamic range (computed as server distribution port + 10000 through
+   server distribution port + 10010). See <a href="/networking.html">networking guide</a> for details.</li>
+<li>15672: <a href="/management.html">HTTP API</a> clients, <a href="/management.html">management UI</a> and <a href="/management-cli.html">rabbitmqadmin</a>
+   (only if the <a href="/management.html">management plugin</a> is enabled)</li>
+<li>61613, 61614: <a href="https://stomp.github.io/stomp-specification-1.2.html">STOMP clients</a> without and with TLS (only if the <a href="/stomp.html">STOMP plugin</a> is enabled)</li>
+<li>1883, 8883: <a href="http://mqtt.org/">MQTT clients</a> without and with TLS, if the <a href="/mqtt.html">MQTT plugin</a> is enabled</li>
+<li>15674: STOMP-over-WebSockets clients (only if the <a href="/web-stomp.html">Web STOMP plugin</a> is enabled)</li>
+<li>15675: MQTT-over-WebSockets clients (only if the <a href="/web-mqtt.html">Web MQTT plugin</a> is enabled)</li>
+<li>15692: Prometheus metrics (only if the <a href="/prometheus.html">Prometheus plugin</a> is enabled)</li>
+</ul>
+<p>It is possible to <a href="/configure.html">configure RabbitMQ</a>
+to use <a href="/networking.html">different ports and specific network interfaces</a>.</p>
+<h2><a id="default-user-access" class="anchor" href="#default-user-access">Default User Access</a></h2>
+<p>The broker creates a user <span class="code ">guest</span> with password
+<span class="code ">guest</span>. Unconfigured clients will in general use these
+credentials. <strong>By default, these credentials can only be
+used when connecting to the broker as localhost</strong> so you
+will need to take action before connecting from any other machine.</p>
+<p>See the documentation on <a href="access-control.html">access control</a> for information on how to create more users and delete
+the <span class="code ">guest</span> user.</p>
+<h2><a id="managing" class="anchor" href="#managing">Managing the Node</a></h2>
+<p>To stop the server or check its status, etc., you can invoke
+<span class="code ">sbin/rabbitmqctl</span> (as the user running
+<span class="code ">rabbitmq-server</span>). All <span class="code ">rabbitmqctl</span>
+commands will report the node absence if no broker is running.</p>
+<ul>
+<li>Invoke <span class="code ">rabbitmqctl stop</span> or <span class="code ">rabbitmqctl shutdown</span> to stop the server</li>
+<li>Invoke <span class="code ">rabbitmqctl status</span> to check whether it is running</li>
+</ul>
+<p>See <a href="/cli.html">CLI tools guide</a> to learn more.</p>
+<h2><a id="kernel-resource-limits" class="anchor" href="#kernel-resource-limits">Controlling System Limits on Linux</a></h2>
+<p>RabbitMQ installations running production workloads may need system
+limits and kernel parameters tuning in order to handle a decent number of
+concurrent connections and queues. The main setting that needs adjustment
+is the max number of open files, also known as <span class="code ">ulimit -n</span>.
+The default value on many operating systems is too low for a messaging
+broker (<span class="code ">1024</span> on several Linux distributions). We recommend allowing
+for at least 65536 file descriptors for user <span class="code ">rabbitmq</span> in
+production environments. 4096 should be sufficient for many development
+workloads.</p>
+<p>There are two limits in play: the maximum number of open files the OS kernel
+allows (<span class="code ">fs.file-max</span> on Linux, <span class="code ">kern.maxfilesperproc</span> on OS X and FreeBSD) and the per-user limit (<span class="code ">ulimit -n</span>).
+The former must be higher than the latter.
+For more information about controlling the system-wide limit,
+please refer to the excellent <a href="https://github.com/basho/basho_docs/blob/master/content/riak/kv/2.2.3/using/performance/open-files-limit.md">Riak guide on open file limit tuning</a>.</p>
+<h3><a id="verifying-limits" class="anchor" href="#verifying-limits">Verifying the Limit</a></h3>
+<p><a href="management.html">RabbitMQ management UI</a> displays the number of file descriptors available for it to use on the Overview tab.</p>
+<pre class="lang-plaintext">rabbitmqctl status</pre>
+
+<p>includes the same value. The following command</p>
+<pre class="lang-bash">
+ulimit -a
+</pre>
+
+<p>can be used to display effective limits for the current user. There may be more convenient
+OS-specific ways of doing that for a running process, such as the <span class="code ">/proc</span> filesystem on Linux.</p>
+<h3><a id="chef-puppet-bosh" class="anchor" href="#chef-puppet-bosh">Configuration Management Tools</a></h3>
+<p>Configuration management tools (e.g. Chef, Puppet, BOSH) provide assistance
+with system limit tuning. Our <a href="devtools.html#devops-tools">developer tools</a> guide
+lists relevant modules and projects.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

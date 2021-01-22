@@ -1,0 +1,39 @@
+<div class="mandoc">
+<div class="section">
+<h2 id="x4e414d45">NAME</h2> <b class="name">rabbitmq-echopid.bat</b> &#8212; <span class="desc">returns the Windows process id of the Erlang runtime running RabbitMQ</span></div>
+<div class="section">
+<h2 id="x53594e4f50534953">SYNOPSIS</h2><table class="synopsis">
+<col style="width: 20.00ex;"/>
+<col/>
+<tbody>
+<tr>
+<td>
+rabbitmq-echopid.bat</td>
+<td>
+<i class="arg">sname</i></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section">
+<h2 id="x4445534352495054494f4e">DESCRIPTION</h2> RabbitMQ is an open source multi-protocol messaging broker.<div class="spacer">
+</div>
+Running <b class="name">rabbitmq-echopid.bat</b> will attempt to discover and echo the process id (PID) of the Erlang runtime process (<i class="file">erl.exe</i>) that is hosting RabbitMQ. To allow <i class="file">erl.exe</i> time to start up and load RabbitMQ, the script will wait for ten seconds before timing out if a suitable PID cannot be found.<div class="spacer">
+</div>
+If a PID is discovered, the script will echo it to stdout before exiting with a <span class="env">ERRORLEVEL</span> of 0. If no PID is discovered before the timeout, nothing is written to stdout and the script exits setting <span class="env">ERRORLEVEL</span> to 1.<div class="spacer">
+</div>
+Note that this script only exists on Windows due to the need to wait for <i class="file">erl.exe</i> and possibly time-out. To obtain the PID on Unix set <span class="env">RABBITMQ_PID_FILE</span> before starting <a class="link-man" href="rabbitmq-server.8.html">rabbitmq-server(8)</a> and do not use <b class="flag">-detached</b>.</div>
+<div class="section">
+<h2 id="x4f5054494f4e53">OPTIONS</h2><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<i class="arg">sname</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+The short-name form of the RabbitMQ node name.</dd>
+</dl>
+</div>
+<div class="section">
+<h2 id="x53454520414c534f">SEE ALSO</h2> <a class="link-man" href="rabbitmq-plugins.8.html">rabbitmq-plugins(8)</a>, <a class="link-man" href="rabbitmq-server.8.html">rabbitmq-server(8)</a>, <a class="link-man" href="rabbitmq-service.8.html">rabbitmq-service(8)</a>, <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></div>
+<div class="section">
+<h2 id="x415554484f52">AUTHOR</h2> <span class="author">The RabbitMQ Team</span> &lt;<a class="link-mail" href="mailto:info@rabbitmq.com">info@rabbitmq.com</a>&gt;</div>
+</div>
+

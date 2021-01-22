@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>rabbitmq-upgrade(8) — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>rabbitmq-upgrade(8)</h1>
+    <div class="docSection"><a name="manpage" class="anchor" id="manpage"></a>
+      <div xmlns="" class="mandoc" xml:base="man/rabbitmq-upgrade.8.html">
+<div class="section">
+<h2 id="x4e414d45">NAME</h2> <b class="name">rabbitmq-upgrade</b> — <span class="desc">RabbitMQ installation upgrade tools</span></div>
+<div class="section">
+<h2 id="x53594e4f50534953">SYNOPSIS</h2><table class="synopsis">
+<col style="width: 16.00ex;" />
+<col />
+<tbody>
+<tr>
+<td>
+rabbitmq-upgrade</td>
+<td>
+[<span class="opt"><b class="flag">-q</b></span>] [<span class="opt"><b class="flag">-s</b></span>] [<span class="opt"><b class="flag">-l</b></span>] [<span class="opt"><b class="flag">-n</b> <i class="arg">node</i></span>] [<span class="opt"><b class="flag">-t</b> <i class="arg">timeout</i></span>] <i class="arg">command</i> [<span class="opt"><i class="arg">command_options</i></span>]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section">
+<h2 id="x4445534352495054494f4e">DESCRIPTION</h2> <b class="name">rabbitmq-upgrade</b> is a command line tool that provides commands used during the upgrade of RabbitMQ nodes. See the <a class="link-ext" href="https://www.rabbitmq.com/upgrade.html">RabbitMQ upgrade guide</a> to learn more about RabbitMQ installation upgrades.</div>
+<div class="section">
+<h2 id="x4f5054494f4e53">OPTIONS</h2><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-n</b> <i class="arg">node</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Default node is “rabbit@<i class="arg">target-hostname</i>”, where <i class="arg">target-hostname</i> is the local host. On a host named “myserver.example.com”, the node name will usually be “rabbit@myserver” (unless <span class="env">RABBITMQ_NODENAME</span> has been overridden). The output of “hostname -s” is usually the correct suffix to use after the “@” sign. See <a class="link-man" href="rabbitmq-server.8.html">rabbitmq-server(8)</a> for details of configuring a RabbitMQ node.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-q</b>, <b class="flag">--quiet</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Quiet output mode is selected. Informational messages are reduced when quiet mode is in effect.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-s</b>, <b class="flag">--silent</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Silent output mode is selected. Informational messages are reduced and table headers are suppressed when silent mode is in effect.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-t</b> <i class="arg">timeout</i>, <b class="flag">--timeout</b> <i class="arg">timeout</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Operation timeout in seconds. Not all commands support timeouts. Default is <b class="flag">infinity</b>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">-l</b>, <b class="flag">--longnames</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Must be specified when the cluster is configured to use long (FQDN) node names. To learn more, see the <a class="link-ext" href="https://www.rabbitmq.com/clustering.html">RabbitMQ Clustering guide</a></dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">--erlang-cookie</b> <i class="arg">cookie</i></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+Shared secret to use to authenticate to the target node. Prefer using a local file or the <span class="env">RABBITMQ_ERLANG_COOKIE</span> environment variable instead of specifying this option on the command line. To learn more, see the <a class="link-ext" href="https://www.rabbitmq.com/cli.html">RabbitMQ CLI Tools guide</a></dd>
+</dl>
+</div>
+<div class="section">
+<h2 id="x434f4d4d414e4453">COMMANDS</h2><dl style="margin-top: 0.00em;margin-bottom: 0.00em;" class="list list-tag">
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">help</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Displays general help and commands supported by <b class="name">rabbitmq-upgrade</b>.</dd>
+<dt class="list-tag" style="margin-top: 1.00em;">
+<b class="flag">post_upgrade</b></dt>
+<dd class="list-tag" style="margin-left: 6.00ex;">
+<div class="spacer">
+</div>
+Runs post-upgrade tasks. In the current version, it performs the rebalance of mirrored and quorum queues across all nodes in the cluster.</dd>
+</dl>
+</div>
+<div class="section">
+<h2 id="x53454520414c534f">SEE ALSO</h2> <a class="link-man" href="rabbitmqctl.8.html">rabbitmqctl(8)</a>, <a class="link-man" href="rabbitmq-diagnostics.8.html">rabbitmq-diagnostics(8)</a>, <a class="link-man" href="rabbitmq-server.8.html">rabbitmq-server(8)</a>, <a class="link-man" href="rabbitmq-queues.8.html">rabbitmq-queues(8)</a>, <a class="link-man" href="rabbitmq-service.8.html">rabbitmq-service(8)</a>, <a class="link-man" href="rabbitmq-env.conf.5.html">rabbitmq-env.conf(5)</a>, <a class="link-man" href="rabbitmq-echopid.8.html">rabbitmq-echopid(8)</a></div>
+<div class="section">
+<h2 id="x415554484f52">AUTHOR</h2> <span class="author">The RabbitMQ Team</span> &lt;<a class="link-mail" href="mailto:info@rabbitmq.com">info@rabbitmq.com</a>&gt;</div>
+</div>
+    </div>
+  <div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"><div id="in-this-section"><h4>In This Section</h4><ul>
+     <li><a href="/admin-guide.html" class="selected">Server Documentation</a><ul>
+       <li><a href="/configure.html">Configuration</a></li>
+       <li><a href="/management.html">Management UI</a></li>
+       <li><a href="/monitoring.html">Monitoring</a></li>
+       <li><a href="/production-checklist.html">Production Checklist</a></li>
+       <li><a href="/ssl.html">TLS Support</a></li>
+       <li><a href="/streams.html">Streams</a></li>
+       <li><a href="/feature-flags.html">Feature Flags</a></li>
+       <li><a href="/distributed.html">Distributed RabbitMQ</a></li>
+       <li><a href="/clustering.html">Clustering</a></li>
+       <li><a href="/reliability.html">Reliable Delivery</a></li>
+       <li><a href="/definitions.html">Schema Definition Export and Import</a></li>
+       <li><a href="/backup.html">Backup and restore</a></li>
+       <li><a href="/alarms.html">Alarms</a></li>
+       <li><a href="/memory-use.html">Memory Use</a></li>
+       <li><a href="/networking.html">Networking</a></li>
+       <li><a href="/vhosts.html">Virtual Hosts</a></li>
+       <li><a href="/pacemaker.html">High Availability (pacemaker)</a></li>
+       <li><a href="/access-control.html">Access Control (Authorisation)</a></li>
+       <li><a href="/authentication.html">Authentication Mechanisms</a></li>
+       <li><a href="/ldap.html">LDAP</a></li>
+       <li><a href="/lazy-queues.html">Lazy Queues</a></li>
+       <li><a href="/event-exchange.html">Internal Event Exchange</a></li>
+       <li><a href="/firehose.html">Firehose (Message Tracing)</a></li>
+       <li><a href="/manpages.html" class="selected">Manual Pages</a><ul>
+         <li><a href="/rabbitmqctl.8.html">rabbitmqctl</a></li>
+         <li><a href="/rabbitmq-diagnostics.8.html">rabbitmq-diagnostics</a></li>
+         <li><a href="/rabbitmq-plugins.8.html">rabbitmq-plugins</a></li>
+         <li><a href="/rabbitmq-upgrade.8.html" class="selected">rabbitmq-upgrade</a></li>
+         <li><a href="/rabbitmq-queues.8.html">rabbitmq-queues</a></li>
+         <li><a href="/rabbitmq-server.8.html">rabbitmq-server</a></li>
+         <li><a href="/rabbitmq-service.8.html">rabbitmq-service</a></li>
+         <li><a href="/rabbitmq-echopid.8.html">rabbitmq-echopid</a></li>
+         <li><a href="/rabbitmq-env.conf.5.html">rabbitmq-env.conf</a></li>
+       </ul></li>
+       <li><a href="/windows-quirks.html">Windows Quirks</a></li>
+       
+       
+       
+       
+     </ul></li>
+     <li><a href="/clients.html">Client Documentation</a></li>
+     <li><a href="/plugins.html">Plugins</a></li>
+     <li><a href="/news.html">News</a></li>
+     <li><a href="/protocol.html">Protocol</a></li>
+     <li><a href="/extensions.html">Our Extensions</a></li>
+     <li><a href="/build.html">Building</a></li>
+     
+     <li><a href="/mpl.html">License</a></li>
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

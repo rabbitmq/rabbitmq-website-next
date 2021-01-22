@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>Dead Letter Exchanges — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>Dead Letter Exchanges</h1>
+
+
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>Messages from a queue can be "dead-lettered"; that is, republished to
+an exchange when any of the following events occur:</p>
+<ul>
+<li>The message is <a href="/confirms.html">negatively acknowledged</a> by a consumer using <span class="code ">basic.reject</span> or
+   <span class="code ">basic.nack</span> with <span class="code ">requeue</span> parameter set to <span class="code ">false</span>.</li>
+<li>The message expires due to <a href="/ttl.html">per-message TTL</a>; or</li>
+<li>The message is dropped because its queue exceeded a <a href="/maxlength.html">length limit</a></li>
+</ul>
+<p>Note that expiration of a queue will not dead letter the messages in it.</p>
+<p>Dead letter exchanges (DLXs) are normal exchanges. They can be
+any of the usual types and are declared as usual.</p>
+<p>For any given queue, a DLX can be defined by clients using the
+<a href="/queues.html#optional-arguments">queue's arguments</a>, or in the server
+using <a href="/parameters.html#policies">policies</a>. In the
+case where both policy and arguments specify a DLX, the one
+specified in arguments overrules the one specified in policy.</p>
+<p>Configuration using policies is recommended as it allows for DLX
+reconfiguration that does not involve application redeployment.</p>
+<h2><a id="using-policies" class="anchor" href="#using-policies">Configuration Using a Policy</a></h2>
+<p>To specify a DLX using policy, add the key "dead-letter-exchange"
+to a policy definition. For example:</p>
+<table>
+  <tr>
+    <th>rabbitmqctl</th>
+    <td>
+<pre class="lang-bash">
+rabbitmqctl set_policy DLX ".*" '{"dead-letter-exchange":"my-dlx"}' --apply-to queues
+</pre>
+    </td>
+  </tr>
+  <tr>
+    <th>rabbitmqctl (Windows)</th>
+    <td>
+<pre class="lang-powershell">
+rabbitmqctl set_policy DLX ".*" "{""dead-letter-exchange"":""my-dlx""}" --apply-to queues
+</pre>
+    </td>
+  </tr>
+</table>
+
+<p>The policy above applies the DLX "my-dlx" to all queues. This is merely an example, in practice
+different sets of queues will likely use different dead lettering settings (or none at all)</p>
+<p>Similarly, an explicit routing key can be specified by adding
+the key "dead-letter-routing-key" to the policy.</p>
+<p>Policies can also be defined using the management plugin, see
+the <a href="parameters.html#policies">policy documentation</a> for more details.</p>
+<h2><a id="using-optional-queue-arguments" class="anchor" href="#using-optional-queue-arguments">Configuration Using Optional Queue Arguments</a></h2>
+<p>To set the dead letter exchange for a queue, specify
+the optional <span class="code ">x-dead-letter-exchange</span> argument when
+declaring the queue. The value must be an exchange name in
+the same virtual host:</p>
+<pre class="lang-java">
+channel.exchangeDeclare("some.exchange.name", "direct");
+
+Map&lt;String, Object&gt; args = new HashMap&lt;String, Object&gt;();
+args.put("x-dead-letter-exchange", "some.exchange.name");
+channel.queueDeclare("myqueue", false, false, false, args);
+</pre>
+
+<p>The code above declares a new exchange called
+<span class="code ">some.exchange.name</span> and sets this new exchange
+as the dead letter exchange for a newly created queue.
+Note that the exchange does not have to be declared when
+the queue is declared, but it should exist by the time
+messages need to be dead-lettered; if it is missing then,
+the messages will be silently dropped.</p>
+<p>You may also specify a routing key to be used when
+dead-lettering messages.  If this is not set, the
+message's own routing keys will be used.</p>
+<pre class="lang-java">
+args.put("x-dead-letter-routing-key", "some-routing-key");
+</pre>
+
+<p>When a dead letter exchange has been specified, in addition to
+the usual configure permissions on the declared queue, the user
+needs to have read permissions on that queue and write
+permissions on the dead letter exchange. Permissions are
+verified at the time of queue declaration.</p>
+<h2><a id="routing" class="anchor" href="#routing">Routing Dead-Lettered Messages</a></h2>
+<p>Dead-lettered messages are routed to their dead letter
+exchange either:</p>
+<ul>
+<li>with the routing key specified for the queue they
+   were on; or, <em>if this was not set</em>,</li>
+<li>with the same routing keys they were originally
+   published with</li>
+</ul>
+<p>For example, if you publish a message to an exchange with
+routing key <span class="code ">foo</span>, and that message is
+dead-lettered, it will be published to its dead letter
+exchange with routing key <span class="code ">foo</span>.  If the queue
+the message originally landed on had been declared with
+<span class="code ">x-dead-letter-routing-key</span> set to
+<span class="code ">bar</span>, then the message will be published to
+its dead letter exchange with routing key
+<span class="code ">bar</span>.</p>
+<p>Note that, if a specific routing key was not set for the
+queue, messages on it are dead-lettered with <em>all</em>
+their original routing keys.  This includes routing keys
+added by the <span class="code ">CC</span> and <span class="code ">BCC</span> headers
+(see <a href="sender-selected.html">Sender-selected distribution</a> for details on these two headers).</p>
+<p>It is possible to form a cycle of message dead-lettering.  For
+instance, this can happen when a queue dead-letters
+messages to the default exchange without specifying a
+dead-letter routing key.  Messages in such cycles (i.e.
+messages that reach the same queue twice) will be
+dropped <em>if there was no rejections in the entire cycle</em>.</p>
+<h2><a id="safety" class="anchor" href="#safety">Safety</a></h2>
+<p>Dead-lettered messages are re-published <em>without</em> publisher
+<a href="confirms.html">confirms</a> turned on internally. Therefore using DLX in a clustered
+RabbitMQ environment is not guaranteed to be safe. Messages are removed from the
+original queue immediately after publishing to the DLX target queue. This ensures
+that there is no chance of excessive message buildup that could exhaust broker
+resources but does mean that messages may be lost should the target queue not
+be available to accept messages. </p>
+<h2><a id="effects" class="anchor" href="#effects">Dead-Lettered Effects on Messages</a></h2>
+<p>Dead-lettering a message modifies its headers:</p>
+<ul>
+<li>the exchange name is replaced with that of the latest dead-letter exchange,</li>
+<li>the routing key may be replaced with that specified in a queue performing dead lettering,</li>
+<li>if the above happens, the <span class="code ">CC</span> header will also be removed, and</li>
+<li>the <span class="code ">BCC</span> header will be removed as per <a href="sender-selected.html">Sender-selected distribution</a></li>
+</ul>
+<p>The dead-lettering process adds an array to the header of
+each dead-lettered message named <span class="code ">x-death</span>.
+This array contains an entry for each dead lettering event,
+identified by a pair of <span class="code ">{queue, reason}</span>.
+Each such entry is a table that consists
+of several fields:</p>
+<ul>
+<li><span class="code ">queue</span>: the name of the queue the message was in before it was dead-lettered</li>
+<li><span class="code ">reason</span>: reason for dead lettering, see below</li>
+<li><span class="code ">time</span>: the date and time the message was dead lettered as a 64-bit AMQP 0-9-1 timestamp</li>
+<li><span class="code ">exchange</span> - the exchange the message was published to (note that this will be a dead letter
+    exchange if the message is dead lettered multiple times)</li>
+<li><span class="code ">routing-keys</span>: the routing keys (including <span class="code ">CC</span> keys but excluding
+   <span class="code ">BCC</span> ones) the message was published with</li>
+<li><span class="code ">count</span>: how many times this message was dead-lettered in this queue for this reason</li>
+<li><span class="code ">original-expiration</span> (if the message was dead-lettered due to <a href="ttl.html#per-message-ttl">per-message TTL</a>): the
+   original <span class="code ">expiration</span> property of the message. The <span class="code ">expiration</span> property is removed from the
+   message on dead-lettering in order to prevent it from expiring again in any queues it is routed to.</li>
+</ul>
+<p>New entries are prepended to the beginning of the <span class="code ">x-death</span>
+array. In case <span class="code ">x-death</span> already contains an entry with
+the same queue and dead lettering reason, its count field will be
+incremented and it will be moved to the beginning of the array.</p>
+<p>The <span class="code ">reason</span> is a name describing why the
+message was dead-lettered and is one of the following:</p>
+<ul>
+<li><span class="code ">rejected</span>: the message was rejected with <span class="code ">requeue</span> parameter set to <span class="code ">false</span></li>
+<li><span class="code ">expired</span>: the <a href="/ttl.html">message TTL</a> has expired</li>
+<li><span class="code ">maxlen</span>: the <a href="/maxlength.html">maximum allowed queue length</a> was exceeded</li>
+</ul>
+<p>Three top-level headers are added for the very first dead-lettering
+event. They are</p>
+<ul>
+<li><span class="code ">x-first-death-reason</span></li>
+<li><span class="code ">x-first-death-queue</span></li>
+<li><span class="code ">x-first-death-exchange</span></li>
+</ul>
+<p>They have the same values as the <span class="code ">reason</span>, <span class="code ">queue</span>,
+and <span class="code ">exchange</span> fields of the original dead lettering event.
+Once added, these headers are never modified.</p>
+<p>Note that the array is sorted most-recent-first, so the
+most recent dead-lettering will be recorded in the first
+entry.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"><div id="in-this-section"><h4>In This Section</h4><ul>
+     <li><a href="/admin-guide.html">Server Documentation</a></li>
+     <li><a href="/clients.html">Client Documentation</a></li>
+     <li><a href="/plugins.html">Plugins</a></li>
+     <li><a href="/news.html">News</a></li>
+     <li><a href="/protocol.html">Protocol</a></li>
+     <li><a href="/extensions.html" class="selected">Our Extensions</a><ul>
+       <li><a href="/confirms.html">Confirms</a></li>
+       <li><a href="/consumer-cancel.html">Consumer Cancel</a></li>
+       <li><a href="/consumer-prefetch.html">Consumer Prefetch</a></li>
+       <li><a href="/consumer-priority.html">Consumer Priorities</a></li>
+       <li><a href="/direct-reply-to.html">Direct reply-to</a></li>
+       <li><a href="/connection-blocked.html">Blocked Connections</a></li>
+       <li><a href="/nack.html">basic.nack</a></li>
+       <li><a href="/e2e.html">e2e bindings</a></li>
+       <li><a href="/ae.html">Alternate Exchanges</a></li>
+       <li><a href="/sender-selected.html">Sender Routing</a></li>
+       <li><a href="/ttl.html">TTL</a></li>
+       <li><a href="/dlx.html" class="selected">Dead Lettering</a></li>
+       <li><a href="/maxlength.html">Length Limit</a></li>
+       <li><a href="/priority.html">Priority Queues</a></li>
+       <li><a href="/validated-user-id.html">Validated User ID</a></li>
+       <li><a href="/auth-notification.html">Auth Failure</a></li>
+       <li><a href="/spec-differences.html">Spec Differences</a></li>
+     </ul></li>
+     <li><a href="/build.html">Building</a></li>
+     
+     <li><a href="/mpl.html">License</a></li>
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

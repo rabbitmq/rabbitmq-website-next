@@ -1,0 +1,307 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>Runtime Tuning — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>Runtime Tuning</h1>
+
+
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>RabbitMQ runs on the <a href="https://erlang.org">Erlang virtual machine</a> and runtime.
+A <a href="/which-erlang.html">compatible version of Erlang</a> must be installed in order to run RabbitMQ.</p>
+<p>The Erlang runtime includes a number of components used by RabbitMQ. The most important ones
+as far as this guide is concerned are</p>
+<ul>
+<li>The Erlang virtual machine executes the code</li>
+<li><span class="code ">epmd</span> resolves node names on a host to an <a href="/networking.html">inter-node communication port</a></li>
+</ul>
+<p>This guide will focus on the virtual machine. For an overview of epmd, please refer to the
+<a href="/networking.html#epmd-inet-dist-port-range">Networking guide</a>.</p>
+<p>Topics covered include:</p>
+<ul>
+<li>How to <a href="#vm-settings">configure Erlang VM settings for RabbitMQ</a> nodes</li>
+<li><a href="#scheduling">Runtime schedulers</a>, what they are, how they relate to CPU cores, and so on</li>
+<li>Runtime <a href="#thread-stats">thread activity metrics</a>: where is scheduler and CPU time spent</li>
+<li>Runtime features that affect <a href="#cpu">CPU utilisation</a></li>
+<li>How to <a href="#cpu-reduce-idle-usage">reduce CPU utilisation</a> on moderately or lightly loaded nodes</li>
+<li><a href="#allocators">Memory allocator</a> settings</li>
+<li><a href="#open-file-handle-limit">Open file handle limit</a></li>
+<li><a href="#distribution-buffer">Inter-node communication buffer</a> size</li>
+<li><a href="#io-threads">Asynchronous I/O thread pool</a> size</li>
+<li><a href="#erlang-process-limit">Erlang process limit</a></li>
+</ul>
+<h2><a id="vm-settings" class="anchor" href="#vm-settings">VM Settings</a></h2>
+<p>The Erlang VM has a broad range of <a href="https://erlang.org/doc/man/erl.html">options that can be configured</a>
+that cover process scheduler settings, memory allocation, garbage collection, I/O, and more.
+Tuning of those flags can significantly change runtime behavior of a node.</p>
+<h3><a id="configure" class="anchor" href="#configure">Configuring Flags</a></h3>
+<p>Most of the settings can be configured using <a href="/configure.html#supported-environment-variables">environment variables</a>.
+A few settings have dedicated variables, others can only be changed using the following generic
+variables that control what flags are passed by RabbitMQ startup scripts to the Erlang virtual machine.</p>
+<p>The generic variables are</p>
+<ul>
+<li><span class="code ">RABBITMQ_SERVER_ERL_ARGS</span> allows all VM flags to be overridden, including the defaults set by RabbitMQ scripts</li>
+<li><span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span> allows a set of flags to be appended to the defaults set by RabbitMQ scripts</li>
+<li><span class="code ">RABBITMQ_CTL_ERL_ARGS</span> controls <a href="/cli.html">CLI tool</a> VM flags</li>
+</ul>
+<p>In most cases <span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span> is the recommended option. It can be used to override defaults
+in a safe manner. For example, if an important flag is omitted from <span class="code ">RABBITMQ_SERVER_ERL_ARGS</span>, runtime performance
+characteristics or system limits can be unintentionally affected.</p>
+<p>As with other environment variables used by RabbitMQ, <span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span>
+and friends can be <a href="/configure.html#customise-environment">set using a separate environment variable file</a>.</p>
+<h2><a id="cpu" class="anchor" href="#cpu">CPU Utilisation</a></h2>
+<p>CPU utilisation is a workload-specific topic. Generally speaking, when a workload involves more queues, connections
+and channels than CPU cores, all cores will be used without any configuration necessary.</p>
+<p>The runtime provides several features that control how the cores are used.</p>
+<h3><a id="scheduling" class="anchor" href="#scheduling">Runtime Schedulers</a></h3>
+<p>Schedulers in the runtime assign work to kernel threads that perform it.
+They execute code, perform I/O, execute timers and so on. Schedulers have a number of settings
+that can affect overall system performance, CPU utilisation, latency and other runtime characteristics
+of a node.</p>
+<p>By default the runtime will start one scheduler for one CPU core it detects. Starting
+with Erlang 23, this <a href="http://blog.erlang.org/OTP-23-Highlights/">takes CPU quotas into account</a> in
+containerized environments such as Docker and Kubernetes.</p>
+<p>The number of schedulers can be explicitly set using the <span class="code ">+S</span> flag. The following example configures
+the node to start 4 schedulers even if it detects more cores to be available to it:</p>
+<pre class="lang-bash">
+RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+S 4:4"
+</pre>
+
+<p>Most of the time the default behaviour works well. In shared or CPU constrained environments (including
+containerised ones), explicitly configuring scheduler count may be necessary.</p>
+<h3><a id="cpu-contention" class="anchor" href="#cpu-contention">CPU Resource Contention</a></h3>
+<p>The runtime assumes that it does not share CPU resources with other tools or tenants. When that's the case,
+the scheduling mechanism used can become very inefficient and result in significant (up to several orders of magnitude)
+latency increase for certain operations.</p>
+<p>This means that in most cases colocating RabbitMQ nodes with other tools or applying CPU time slicing
+is highly discouraged and will result in suboptimal performance.</p>
+<h3><a id="busy-waiting" class="anchor" href="#busy-waiting">Scheduler Busy Waiting</a></h3>
+<p>The runtime can put schedulers to sleep when they run out of work to execute. There's a certain cost
+to bringing them back online, so with some workloads it may be beneficial to not do that.</p>
+<p>This can be compared to a factory with multiple conveyor belts. When one belt runs out of items,
+it can be stopped. However, once more work is there for it to do, restarting it will take time.
+Alternatively the conveyor can be speculatively kept running for a period of time.</p>
+<p>By default, RabbitMQ nodes configure runtime schedulers to speculatively wait for a short period
+of time before going to sleep. Workloads where there can be prolonged periods of inactivity
+can choose to disable this speculative busy waiting using the <a href="https://erlang.org/doc/man/erl.html"><span class="code ">+sbwt</span> and related runtime flags</a>:</p>
+<pre class="lang-bash">
+RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+sbwt none +sbwtdcpu none +sbwtdio none"
+</pre>
+
+<p>This can also reduce CPU usage on systems with limited or burstable CPU resources.</p>
+<p>In order to use the minimum amount of busy waiting, use:</p>
+<pre class="lang-bash">
+RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+sbwt very_short +sbwtdcpu very_short +sbwtdio very_short"
+</pre>
+
+<p>Disabling busy waiting can result in higher latency and lower throughput but generally
+does reduce CPU usage of the node that can go idle for periods of time.</p>
+<p>In order to determine how much time schedulers spend in busy wait, consult <a href="#thread-stats">thread activity metrics</a>.
+Busy waiting will usually be accounted as system time in the output of tools such as <span class="code ">top</span> and <span class="code ">pidstat</span>.</p>
+<h3><a id="scheduler-bind-type" class="anchor" href="#scheduler-bind-type">Scheduler-to-CPU Core Binding</a></h3>
+<p>The number of schedulers won't always match the number of CPU cores available and the number
+of CPU cores does not necessarily correlate to the number of hardware threads (due to hyperthreading,
+for example). As such the runtime has to decide how to bind scheduler binding to hardware threads,
+CPU cores and NUMA nodes.</p>
+<p>There are several binding strategies available. Desired strategy can be specified using the
+<span class="code ">RABBITMQ_SCHEDULER_BIND_TYPE</span> environment variable or using the <a href="http://erlang.org/doc/man/erl.html"><span class="code ">+stbt</span> runtime flag</a>
+value.</p>
+<pre class="lang-bash">
+RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+stbt nnts"
+</pre>
+
+<pre class="lang-bash">
+RABBITMQ_SCHEDULER_BIND_TYPE="nnts"
+</pre>
+
+<p>Note that the strategy will only be effective if the runtime can detect CPU topology in the given environment.</p>
+<p>Valid values are:</p>
+<ul>
+<li><span class="code ">db</span> (used by default, alias for <span class="code ">tnnps</span> in current Erlang release series)</li>
+<li><span class="code ">tnnps</span></li>
+<li><span class="code ">nnts</span></li>
+<li><span class="code ">nnps</span></li>
+<li><span class="code ">ts</span></li>
+<li><span class="code ">ps</span></li>
+<li><span class="code ">s</span></li>
+<li><span class="code ">ns</span></li>
+</ul>
+<p>See <a href="http://erlang.org/doc/man/erl.html">VM flag documentation</a> for more detailed descriptions.</p>
+<h3><a id="cpu-reduce-idle-usage" class="anchor" href="#cpu-reduce-idle-usage">Reducing CPU Usage</a> for "Moderately Idle" Nodes and Clusters</h3>
+<p>CPU usage is by definition very workload-dependent metric. Some workloads naturally use more CPU resources.
+Others use <a href="https://www.rabbitmq.com/blog/2020/04/21/quorum-queues-and-why-disks-matter/">disk-heavy features such as quorum queues</a>,
+and if disk I/O throughput is insufficient, CPU resources will be wasted while nodes are busy waiting for I/O operations to complete.</p>
+<p>A couple of general recommendations can be applied to "moderately loaded" systems where a large percentage or
+most connections and queues can go idle from time to time. Put differently, in this section we consider
+any system that's not hovering around its peak capacity to be "moderately loaded".</p>
+<p>Such system often can reduce their CPU footprint with a few straightforward steps.
+These recommendations can significantly decrease CPU footprint with some workloads: consider
+<a href="https://groups.google.com/forum/#!msg/rabbitmq-users/6jGtaHINmNM/rc1rR1PqAwAJ">this community case for example</a>.</p>
+<h4>Collect Runtime Thread Statistics</h4>
+<p>Collect <a href="#thread-stats">runtime thread activity stats</a> data to understand how scheduler and CPU time
+is spent. This is a critically important step for making informed decisions.</p>
+<h4>Disable Speculative Scheduler Busy Waiting</h4>
+<p>Disable speculative <a href="#busy-waiting">scheduler busy waiting</a> using the <a href="https://erlang.org/doc/man/erl.html"><span class="code ">+sbwt</span> and related runtime flags</a>:</p>
+<pre class="lang-bash">
+RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+sbwt none +sbwtdcpu none +sbwtdio none"
+</pre>
+
+<p>Speculative busy waiting usually not productive on moderately loaded systems.</p>
+<h4>Reduce Statistics Emission Frequency (Increase the Statistics Emission Interval)</h4>
+<p>Increase <a href="/management.html#statistics-interval">statistics emission interval</a> from default 5 seconds to 15 or 30 seconds. This will reduce
+periodic activity that all connections, channels and queues carry out, even if they would otherwise be
+idle as far as client operations go. With most monitoring tools such <a href="/monitoring.html#monitoring-frequency">monitoring frequency</a>
+would be sufficient or even optimal.</p>
+<h2><a id="thread-stats" class="anchor" href="#thread-stats">Thread Statistics</a>: How is Scheduler and CPU Time Spent?</h2>
+<p>RabbitMQ CLI tools provide a number of <a href="/monitoring.html">metrics</a> that make it easier to reason
+about runtime thread activity.</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics runtime_thread_stats
+</pre>
+
+<p>is the command that produces a breakdown of how various threads spend their time.</p>
+<p>The command's output will produce a table with percentages by thread activity:</p>
+<ul>
+<li><span class="code ">emulator</span>: general code execution</li>
+<li><span class="code ">port</span>: external I/O activity (socket I/O, file I/O, subprocesses)</li>
+<li><span class="code ">gc</span>: performing garbage collection</li>
+<li><span class="code ">check_io</span>: checking for I/O events</li>
+<li><span class="code ">other</span>, <span class="code ">aux</span>: busy waiting, managing timers, all other tasks</li>
+<li><span class="code ">sleep</span>: sleeping (idle state)</li>
+</ul>
+<p>Significant percentage of activity in the external I/O state may indicate that the node
+and/or clients have maxed out network link capacity. This can be confirmed by <a href="/monitoring.html">infrastructure metrics</a>.</p>
+<p>Significant percentage of activity in the sleeping state might indicate a lightly loaded node or suboptimal
+runtime scheduler configuration for the available hardware and workload.</p>
+<h2><a id="allocators" class="anchor" href="#allocators">Memory Allocator Settings</a></h2>
+<p>The runtime manages (allocates and releases) memory. Runtime memory management is a complex topic with
+<a href="http://erlang.org/doc/man/erts_alloc.html">many tunable parameters</a>. This section
+only covers the basics.</p>
+<p>Memory is allocated in blocks from areas larger pre-allocated areas called carriers. Settings that control
+carrier size, block size, memory allocation strategy and so on are commonly referred to as allocator settings.</p>
+<p>Depending on the allocator settings used and the workload, RabbitMQ can experience <a href="https://en.wikipedia.org/wiki/Fragmentation_(computing)">memory fragmentation</a>
+of various degrees. Finding the best fit for your workload is a matter of trial, measurement (metric collection)
+and error. Note that some degree of fragmentation is inevitable.</p>
+<p>Here are the allocator arguments used by default:</p>
+<pre class="lang-bash">
+RABBITMQ_DEFAULT_ALLOC_ARGS="+MBas ageffcbf +MHas ageffcbf +MBlmbcs 512 +MHlmbcs 512 +MMmcs 30"
+</pre>
+
+<p>Instead of overriding <span class="code ">RABBITMQ_DEFAULT_ALLOC_ARGS</span>, add flags that should be overridden to <span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span>. They
+will take precedence over the default ones. So a node started with the following <span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span> value</p>
+<pre class="lang-bash">
+RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+MHlmbcs 8192"
+</pre>
+
+<p>will use in the following effective allocator settings:</p>
+<pre class="lang-bash">
+"+MBas ageffcbf +MHas ageffcbf +MBlmbcs 512 +MHlmbcs 8192 +MMmcs 30"
+</pre>
+
+<p>For some workloads a larger preallocated area reduce allocation rate and memory fragmentation.
+To configure the node to use a preallocated area of 1 GB, add <span class="code ">+MMscs 4096</span> to VM startup arguments
+using <span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span>:</p>
+<pre class="lang-bash">
+RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+MMscs 1024"
+</pre>
+
+<p>The value is in MB. The following example will preallocate a larger, 4 GB area:</p>
+<pre class="lang-bash">
+RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+MMscs 4096"
+</pre>
+
+<p>To learn about other available settings, see <a href="http://erlang.org/doc/man/erts_alloc.html">runtime documentation on allocators</a>.</p>
+<h2><a id="open-file-handle-limit" class="anchor" href="#open-file-handle-limit">Open File Handle Limit</a></h2>
+<p>Most operating systems limit the number of file handles that
+can be opened at the same time. When an OS process (such as RabbitMQ's Erlang VM) reaches
+the limit, it won't be able to open any new files or accept any more
+TCP connections.</p>
+<p>This limit is covered in detail in the <a href="/networking.html#open-file-handle-limit">Networking guide</a>.
+Note that it cannot be configured using Erlang VM flags.</p>
+<h2><a id="distribution-buffer" class="anchor" href="#distribution-buffer">Inter-node Communication Buffer Size</a></h2>
+<p>Inter-node traffic between a pair of nodes uses a TCP connection with a buffer known as the inter-node communication buffer.
+Its size is 128 MB by default. This is a reasonable default for most workloads. In some environments
+inter-node traffic can be very heavy and run into the buffer's capacity. Other workloads where the
+default is not a good fit involve transferring very large (say, in hundreds of megabytes) messages
+that do not fit into the buffer.</p>
+<p>In this case the value can be increased using the <span class="code ">RABBITMQ_DISTRIBUTION_BUFFER_SIZE</span> environment variable
+or the <a href="http://erlang.org/doc/man/erl.html"><span class="code ">+zdbbl</span> VM flag</a>.
+The value is in kilobytes:</p>
+<pre class="lang-bash">
+RABBITMQ_DISTRIBUTION_BUFFER_SIZE=192000
+</pre>
+
+<pre class="lang-bash">
+RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+zdbbl 192000"
+</pre>
+
+<p>When the buffer is hovering around full capacity, nodes will <a href="/logging.html">log</a> a warning
+mentioning a busy distribution port (<span class="code ">busy_dist_port</span>):</p>
+<pre class="lang-ini">
+2019-04-06 22:48:19.031 [warning] &lt;0.242.0&gt; rabbit_sysmon_handler busy_dist_port &lt;0.1401.0&gt;
+</pre>
+
+<p>Increasing buffer size may help increase throughput and/or reduce latency.</p>
+<h2><a id="erlang-process-limit" class="anchor" href="#erlang-process-limit">Erlang Process Limit</a></h2>
+<p>The runtime has a limit on the number of Erlang processes ("lightweight threads") that can exist on a node.
+The default is about 1 million. In most environments this is sufficient with a wide safety margin.</p>
+<p>Environments that have a particularly <a href="/networking.html#tuning-for-large-number-of-connections">high number of concurrent connections</a> or a very large number
+of queues (say, hundreds of thousands) this limit might need adjusting. This is done using the
+<span class="code ">RABBITMQ_MAX_NUMBER_OF_PROCESSES</span> environment variable, which is a convenient way of
+setting the <span class="code ">+P</span> Erlang VM flag:</p>
+<pre class="lang-bash">
+RABBITMQ_MAX_NUMBER_OF_PROCESSES=2000000
+</pre>
+
+<p>To set the flag directly, use the <span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span> environment
+variable:</p>
+<pre class="lang-bash">
+RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+P 2000000"
+</pre><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

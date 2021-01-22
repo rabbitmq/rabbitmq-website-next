@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>Event Exchange Plugin  — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>Event Exchange Plugin </h1>
+
+
+<h2>Overview</h2>
+<p>Client connection, channels, queues, consumers, and other parts of the
+system naturally generate events. For example, when a connection is
+accepted, authenticated and access to the target virtual host is
+authorised, it will emit an event of type <span class="code ">connection_created</span>. When a
+connection is closed or fails for any reason, a <span class="code ">connection_closed</span>
+event is deleted.</p>
+<p>Monitoring and auditing services can be interested in observing those
+events. RabbitMQ has a minimalistic mechanism for event notifications
+that can be exposed to RabbitMQ clients with a plugin.</p>
+<h2>Consuming Internal Events with rabbitmq-event-exchange Plugin</h2>
+<p><a href="https://github.com/rabbitmq/rabbitmq-event-exchange">rabbitmq-event-exchange</a>
+is a plugin that consumes internal events and re-publishes them to a
+topic exchange, thus exposing the events to clients (applications).</p>
+<p>To consume the events, an application needs to declare a queue, bind
+it to a special system exchange and consume messages.</p>
+<p>It declares a topic exchange called <span class="code ">amq.rabbitmq.event</span> in the default
+virtual host. All events are published to this exchange with routing
+keys like 'exchange.created', 'binding.deleted' etc, so you can
+subscribe to only the events you're interested in.</p>
+<p>The exchange behaves similarly to <span class="code ">amq.rabbitmq.log</span>: everything gets
+published there; if you don't trust a user with the information that
+gets published, don't allow them access.</p>
+<p>The plugin requires no configuration, just activate it:</p>
+<pre class="lang-bash">
+rabbitmq-plugins enable rabbitmq_event_exchange
+</pre>
+
+<p>Each event has various properties associated with it. These are
+translated into AMQP 0-9-1 data encoding and inserted in the message headers. The
+<strong>message body is always blank</strong>.</p>
+<h2>Events</h2>
+<p>RabbitMQ and related plugins emit events with the following routing keys:</p>
+<h3>RabbitMQ Broker</h3>
+<p>Queue, Exchange and Binding events:</p>
+<ul>
+<li><span class="code ">queue.deleted</span></li>
+<li><span class="code ">queue.created</span></li>
+<li><span class="code ">exchange.created</span></li>
+<li><span class="code ">exchange.deleted</span></li>
+<li><span class="code ">binding.created</span></li>
+<li><span class="code ">binding.deleted</span></li>
+</ul>
+<p>Connection and Channel events:</p>
+<ul>
+<li><span class="code ">connection.created</span></li>
+<li><span class="code ">connection.closed</span></li>
+<li><span class="code ">channel.created</span></li>
+<li><span class="code ">channel.closed</span></li>
+</ul>
+<p>Consumer events:</p>
+<ul>
+<li><span class="code ">consumer.created</span></li>
+<li><span class="code ">consumer.deleted</span></li>
+</ul>
+<p>Policy and Parameter events:</p>
+<ul>
+<li><span class="code ">policy.set</span></li>
+<li><span class="code ">policy.cleared</span></li>
+<li><span class="code ">parameter.set</span></li>
+<li><span class="code ">parameter.cleared</span></li>
+</ul>
+<p>Virtual host events:</p>
+<ul>
+<li><span class="code ">vhost.created</span></li>
+<li><span class="code ">vhost.deleted</span></li>
+</ul>
+<p>User related events:</p>
+<ul>
+<li><span class="code ">user.authentication.success</span></li>
+<li><span class="code ">user.authentication.failure</span></li>
+<li><span class="code ">user.created</span></li>
+<li><span class="code ">user.deleted</span></li>
+<li><span class="code ">user.password.changed</span></li>
+<li><span class="code ">user.password.cleared</span></li>
+<li><span class="code ">user.tags.set</span></li>
+</ul>
+<p>Permission events:</p>
+<ul>
+<li><span class="code ">permission.created</span></li>
+<li><span class="code ">permission.deleted</span></li>
+</ul>
+<h3>Shovel Plugin</h3>
+<p>Worker events:</p>
+<ul>
+<li><span class="code ">shovel.worker.status</span></li>
+<li><span class="code ">shovel.worker.removed</span></li>
+</ul>
+<h3>Federation Plugin</h3>
+<p>Link events:</p>
+<ul>
+<li><span class="code ">federation.link.status</span></li>
+<li><span class="code ">federation.link.removed</span></li>
+</ul>
+<h2>Example</h2>
+<p>There is a usage example using the Java client <a href="https://github.com/rabbitmq/rabbitmq-event-exchange/tree/master/examples/java">in the rabbitmq-event-exchange repository</a>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"><div id="in-this-section"><h4>In This Section</h4><ul>
+     <li><a href="/admin-guide.html" class="selected">Server Documentation</a><ul>
+       <li><a href="/configure.html">Configuration</a></li>
+       <li><a href="/management.html">Management UI</a></li>
+       <li><a href="/monitoring.html">Monitoring</a></li>
+       <li><a href="/production-checklist.html">Production Checklist</a></li>
+       <li><a href="/ssl.html">TLS Support</a></li>
+       <li><a href="/streams.html">Streams</a></li>
+       <li><a href="/feature-flags.html">Feature Flags</a></li>
+       <li><a href="/distributed.html">Distributed RabbitMQ</a></li>
+       <li><a href="/clustering.html">Clustering</a></li>
+       <li><a href="/reliability.html">Reliable Delivery</a></li>
+       <li><a href="/definitions.html">Schema Definition Export and Import</a></li>
+       <li><a href="/backup.html">Backup and restore</a></li>
+       <li><a href="/alarms.html">Alarms</a></li>
+       <li><a href="/memory-use.html">Memory Use</a></li>
+       <li><a href="/networking.html">Networking</a></li>
+       <li><a href="/vhosts.html">Virtual Hosts</a></li>
+       <li><a href="/pacemaker.html">High Availability (pacemaker)</a></li>
+       <li><a href="/access-control.html">Access Control (Authorisation)</a></li>
+       <li><a href="/authentication.html">Authentication Mechanisms</a></li>
+       <li><a href="/ldap.html">LDAP</a></li>
+       <li><a href="/lazy-queues.html">Lazy Queues</a></li>
+       <li><a href="/event-exchange.html" class="selected">Internal Event Exchange</a></li>
+       <li><a href="/firehose.html">Firehose (Message Tracing)</a></li>
+       <li><a href="/manpages.html">Manual Pages</a></li>
+       <li><a href="/windows-quirks.html">Windows Quirks</a></li>
+       
+       
+       
+       
+     </ul></li>
+     <li><a href="/clients.html">Client Documentation</a></li>
+     <li><a href="/plugins.html">Plugins</a></li>
+     <li><a href="/news.html">News</a></li>
+     <li><a href="/protocol.html">Protocol</a></li>
+     <li><a href="/extensions.html">Our Extensions</a></li>
+     <li><a href="/build.html">Building</a></li>
+     
+     <li><a href="/mpl.html">License</a></li>
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

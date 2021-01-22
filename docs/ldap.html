@@ -1,0 +1,1000 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>LDAP Support — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>LDAP Support</h1>
+
+
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>RabbitMQ can use LDAP to perform <a href="/access-control.html">authentication and
+authorisation</a> by deferring to an external LDAP
+server. This functionality is provided by a
+plugin that ships with RabbitMQ but <a href="#enabling-the-plugin">has to be enabled</a>.
+Authentication and authorisation operations are
+translated into <a href="#authorisation">LDAP queries</a> configured by the user.</p>
+<p><a href="#ldap-operation-flow">LDAP Operation Flow</a> section
+provides a more detailed overview of how the plugin works.</p>
+<p>The plugin primarily targets OpenLDAP and Microsoft Active Directory. Other
+LDAP v3 implementations should work reasonably well.</p>
+<p>This guide provides a very brief overview of LDAP terms but generally
+assumes basic familiarity with LDAP. Several beginner-oriented
+LDAP primers are available elsewhere on the Web, for example, <a href="https://www.digitalocean.com/community/tutorials/understanding-the-ldap-protocol-data-hierarchy-and-entry-components">one</a>,
+<a href="https://www.ldap.com/basic-ldap-concepts">two</a>, and the <a href="https://www.ldap.com/glossary-of-ldap-terms">LDAP glossary</a>.</p>
+<p>This guide covers the <a href="#ldap-operation-flow">LDAP operation flow</a> used by RabbitMQ, how the LDAP model
+<a href="#authorisation">maps to the RabbitMQ permission model</a> and what tools are available
+for <a href="#troubleshooting">troubleshooting</a> and <a href="#proxies">proxying</a> of LDAP requests.</p>
+<h2><a id="prerequisites" class="anchor" href="#prerequisites">Prerequisites</a></h2>
+<p>RabbitMQ LDAP plugin depends on an LDAP client called <span class="code ">eldap</span>. The library
+ships with <a href="/which-erlang.html">Erlang/OTP</a>. On some operating systems, some Erlang
+components must be installed separately from the core runtime.</p>
+<p>On Debian and Ubuntu, <span class="code ">eldap</span> is provided by the <span class="code ">erlang-eldap</span> package:</p>
+<pre class="lang-bash">
+sudo apt-get install -y erlang-eldap
+</pre>
+
+<p>Please see the <a href="/which-erlang.html">Erlang compatibility guide</a> to learn more.</p>
+<h2><a id="enabling-the-plugin" class="anchor" href="#enabling-the-plugin">Enabling the Plugin</a></h2>
+<p>The LDAP plugin ships with RabbitMQ. To enable it, use
+<a href="man/rabbitmq-plugins.8.html">rabbitmq-plugins</a>:
+<pre class="lang-erlang">rabbitmq-plugins enable rabbitmq_auth_backend_ldap</pre></p>
+<h2><a id="essential-configuration" class="anchor" href="#essential-configuration">Enabling LDAP AuthN and AuthZ backends</a></h2>
+<p>After enabling the plugin it is necessary to configure the node to use it.
+To do so, add <span class="code ">rabbit_auth_backend_ldap</span> to the list of <span class="code ">auth_backends</span>.
+See the <a href="/access-control.html">Access Control</a> guide for an overview of authentication
+and authorisation backends and how they are used.</p>
+<p>The following example will configure RabbitMQ to <strong>only</strong> check LDAP for users, and ignore the internal database:</p>
+<pre class="lang-init">
+auth_backends.1 = ldap
+</pre>
+
+<p>The same can be done using the <a href="/configure.html#erlang-term-config-file">advanced config format</a>:</p>
+<pre class="lang-erlang">
+{rabbit, [
+  {auth_backends, [rabbit_auth_backend_ldap]}
+]}
+</pre>
+
+<p>The following example will instruct the node to check LDAP first and then fall back to the internal
+database if the user cannot be authenticated through LDAP:</p>
+<pre class="lang-ini">
+auth_backends.1 = ldap
+auth_backends.2 = internal
+</pre>
+
+<p>Same example in the <a href="/configure.html#erlang-term-config-file">advanced config format</a>:</p>
+<pre class="lang-erlang">
+{rabbit,[
+  {auth_backends, [rabbit_auth_backend_ldap, rabbit_auth_backend_internal]}
+]}
+</pre>
+
+<p>In example, LDAP will be used for authentication first. If the user is found in LDAP then the
+password will be checked against LDAP and subsequent authorisation
+checks will be performed against the internal database (therefore
+users in LDAP must exist in the internal database as well, but do not
+need a password there). If the user is not found in LDAP then a second
+attempt is made using only the internal database.</p>
+<pre class="lang-ini">
+auth_backends.1.authn = ldap
+auth_backends.1.authz = internal
+auth_backends.2 = internal
+</pre>
+
+<p>In the <a href="/configure.html#erlang-term-config-file">advanced config format</a>:</p>
+<pre class="lang-erlang">
+{rabbit,[{auth_backends, [{rabbit_auth_backend_ldap, rabbit_auth_backend_internal},
+                           rabbit_auth_backend_internal]}]}
+</pre>
+
+<h2><a id="basic" class="anchor" href="#basic">Configuration</a></h2>
+<p>Once the plugin is enabled and its backends are wired in, a number of LDAP-specific
+settings must be configured. They include LDAP server list, authentication and
+authorisation settings and more.</p>
+<p>The default configuration allows all users to access all objects in
+all vhosts, but does not make them administrators. Restricting access is possible
+by configuring LDAP queries.</p>
+<h3><a id="connectivity" class="anchor" href="#connectivity">LDAP Servers</a></h3>
+<p>For the plugin to be able to connect to a LDAP server, at least one server hostname or IP address must be configured
+using the <span class="code ">auth_ldap.servers</span> key. If multiple values are provided,
+List values can be hostnames or IP addresses. This value must be configured. The following
+example configures the plugin to use two LDAP servers. They will be tried
+in order until connection to one of them succeeds:</p>
+<pre class="lang-ini">
+auth_ldap.servers.1 = ldap.eng.megacorp.local
+auth_ldap.servers.2 = 192.168.0.100
+</pre>
+
+<p>The same examples using the classic config format:</p>
+<pre class="lang-erlang">
+[
+  {rabbitmq_auth_backend_ldap, [
+    {servers, ["ldap.eng.megacorp.local", "192.168.0.100"]}
+  ]}
+].
+</pre>
+
+<p>LDAP servers typically use port <span class="code ">389</span> and that's the port the
+LDAP plugin will use by default. <span class="code ">auth_ldap.port</span> can be used
+to override this:</p>
+<pre class="lang-ini">
+auth_ldap.servers.1 = ldap.eng.megacorp.local
+auth_ldap.servers.2 = 192.168.0.100
+
+auth_ldap.port      = 6389
+</pre>
+
+<p>The same examples using the classic config format:</p>
+<pre class="lang-erlang">
+[
+  {rabbitmq_auth_backend_ldap, [
+    {servers, ["ldap.eng.megacorp.local", "192.168.0.100"]},
+    {port,    6389}
+  ]}
+].
+</pre>
+
+<p>TCP connections to LDAP servers can be given a timeout using the <span class="code ">auth_ldap.timeout</span>
+configuration key:</p>
+<pre class="lang-ini">
+auth_ldap.servers.1 = ldap.eng.megacorp.local
+auth_ldap.servers.2 = 192.168.0.100
+
+# 15 seconds in milliseconds
+auth_ldap.timeout   = 15000
+</pre>
+
+<p>The default is <span class="code ">infinity</span>, or no timeout.</p>
+<p>LDAP server connections are pooled to avoid excessive connection churn and LDAP server
+load. By default the pool has up to 64 connections. This can be controlled using the
+<span class="code ">auth_ldap.connection_pool_size</span> setting:</p>
+<pre class="lang-ini">
+auth_ldap.servers.1 = ldap.eng.megacorp.local
+auth_ldap.servers.2 = 192.168.0.100
+
+auth_ldap.connection_pool_size = 256
+</pre>
+
+<p>Pooled connections without activity are closed after a period of time
+configurable via <span class="code ">auth_ldap.idle_timeout</span>, in milliseconds
+or <span class="code ">infinity</span>:</p>
+<pre class="lang-ini">
+auth_ldap.servers.1 = ldap.eng.megacorp.local
+auth_ldap.servers.2 = 192.168.0.100
+
+auth_ldap.connection_pool_size = 256
+# 300 seconds in milliseconds
+auth_ldap.idle_timeout = 300000
+</pre>
+
+<p>Values between 120 and 300 seconds are recommended.</p>
+<h3><a id="ldap-tls" class="anchor" href="#ldap-tls">Using TLS for LDAP Connections</a></h3>
+<p>It is possible to connect to LDAP servers using TLS. To instruct the
+plugin to do so, set the <span class="code ">auth_ldap.use_ssl</span> setting to <span class="code ">true</span>.
+If StartTLS is used by the LDAP server, use <span class="code ">auth_ldap.use_starttls</span> instead.
+Note that those settings are mutually exclusive (cannot be combined).
+Both values default to <span class="code ">false</span>.</p>
+<p>Client side TLS settings are configured using <span class="code ">ssl_options</span>, which
+are very similar to <a href="/ssl.html">TLS settings elsewhere in RabbitMQ</a>.
+TLS settings for LDAP connections can only be configured via the advanced config file:</p>
+<pre class="lang-ini">
+auth_ldap.servers.1 = ldap.eng.megacorp.local
+auth_ldap.servers.2 = 192.168.0.100
+
+auth_ldap.use_ssl   = true
+</pre>
+
+<pre class="lang-erlang">
+[
+  {rabbitmq_auth_backend_ldap, [
+     {ssl_options, [{cacertfile,"/path/to/ca_certificate.pem"},
+                    {certfile,"/path/to/server_certificate.pem"},
+                    {keyfile,"/path/to/server_key.pem"},
+                    {verify, verify_peer},
+                    {fail_if_no_peer_cert, true}]}
+   ]}
+].
+</pre>
+
+<p>An example that uses both of the above and uses the <a href="/configure.html">classic config format</a>:</p>
+<pre class="lang-erlang">
+[
+  {rabbitmq_auth_backend_ldap, [
+     {use_ssl,     true},
+     {ssl_options, [{cacertfile, "/path/to/ca_certificate.pem"},
+                    {certfile,   "/path/to/server_certificate.pem"},
+                    {keyfile,    "/path/to/server_key.pem"},
+                    {verify,               verify_peer},
+                    {fail_if_no_peer_cert, true}]}
+   ]}
+].
+</pre>
+
+<h3><a id="ldap-essentials-and-terminology" class="anchor" href="#ldap-essentials-and-terminology">LDAP Essentials and Terminology</a></h3>
+<p>This section covers some basic LDAP terminology used in this document. For an LDAP primer, please
+refer to <a href="https://www.digitalocean.com/community/tutorials/understanding-the-ldap-protocol-data-hierarchy-and-entry-components">this overview</a> by Digital Ocean and the <a href="https://www.ldap.com/glossary-of-ldap-terms">LDAP glossary</a> from ldap.com.</p>
+<table>
+  <thead>
+    <th>Term</th>
+    <th>Description</th>
+  </thead>
+  <tr>
+    <td>Bind</td>
+    <td>LDAP speak for "authentication request".</td>
+  </tr>
+  <tr>
+    <td>Distinguished Name (DN)</td>
+    <td>
+      A distinguished name is a unique key in an LDAP directory (tree) that identifies an object
+      (like a user or a group). The plugin will translate a client-provided username into a
+      distinguished name during the authentication stage (see below). One way to think of
+      a DN is an absolute file path in a filesystem.
+    </td>
+  </tr>
+  <tr>
+    <td>Common Name (CN)</td>
+    <td>
+      A short identifier of an object in the tree. This identifier will vary between
+      object classes (types) in the LDAP database. For example, a person's common name
+      will be her full name. A group's common name would be the name of that group.
+      One way to think of a CN is a file name in a filesystem.
+    </td>
+  </tr>
+  <tr>
+    <td>Attribute</td>
+    <td>
+      A property of an object (a key-value pair). Think of it as a field of an object in
+      an object-oriented programming language.
+    </td>
+  </tr>
+  <tr>
+    <td>Object Class</td>
+    <td>
+      A set of predefined attributes. Think of it as a type (class) in an object-oriented language.
+    </td>
+  </tr>
+
+  <tr>
+    <td>Entry</td>
+    <td>
+      An LDAP database entity, for example, a person or a
+      group. It has an object class associated with it and
+      one or more attributes, including a common name.
+      Since the entity is located somewhere in the LDAP
+      database tree it also must have a distinguished name
+      which uniquely identifies it. Entries is what LDAP
+      plugin queries use (look up, check for membership,
+      compare attributes of and so on). An LDAP database
+      must have some entries (typically users, groups) in
+      order to be practically useful for RabbitMQ
+      authentication and authorisation.
+    </td>
+  </tr>
+</table>
+
+<h3><a id="ldap-operation-flow" class="anchor" href="#ldap-operation-flow">LDAP Operation Flow</a></h3>
+<p>In order to execute an LDAP query the plugin will open a connection to the first
+LDAP server on the list which is reachable. Then, depending on the credential
+configuration it will perform an anonymous bind or a "<a href="https://msdn.microsoft.com/en-us/library/cc223499.aspx">simple bind</a>"
+(authenticate the user with the LDAP server using a username/password pair).
+The credentials used to perform the bind can be derived from the client-provided username
+as explained in the following section.</p>
+<p>If vhost access query is configured it will be executed next, otherwise vhost access
+is granted unconditionally.</p>
+<p>At this point the connection can be considered successfully negotiated and established.
+It should be possible to open a channel on it, for example. All further operations
+performed on the connection will execute one of the authorisation queries. For example,
+declaring a queue will execute a resource access query (covered below). Publishing a
+message to a topic exchange will additionally execute a topic access query. Please refer
+to the <a href="/access-control.html">Access Control guide</a> to learn more.</p>
+<h3><a id="usernames-and-dns" class="anchor" href="#usernames-and-dns">Usernames and Distinguished Names</a></h3>
+<p>During the simple bind phase, the <span class="code ">user_dn_pattern</span> pattern is used to translate
+the provided username into a value to be used for the bind. By default, the pattern
+passes the provided value as-is (i.e. the pattern is <span class="code ">${username}</span>). If
+<span class="code ">user_bind_pattern</span> is specified, it takes precedence over
+<span class="code ">user_dn_pattern</span>. This can be handy if a different <span class="code ">user_dn_pattern</span>
+needs to be used during the distinguished name lookup phase. Note that the above does
+not apply to anonymous binds, nor when <span class="code ">dn_lookup_bind</span> is not set to
+<span class="code ">as_user</span>.</p>
+<p>Client connections provide usernames which are translated into Distinguished
+Names (DNs) in LDAP.
+There are two ways to do that. The simplest way is via string substitution
+with <span class="code ">user_dn_pattern</span>. To use this option, set
+<span class="code ">user_dn_pattern</span> to a string containing exactly one
+instance of <span class="code ">${username}</span>, a variable that will be
+substituted for the username value provided by the client.</p>
+<p>For example, setting user_dn_pattern to
+<span class="code ">"cn=${username},ou=People,dc=example,dc=com"</span>
+would cause the username <span class="code ">simon</span> to be converted to the
+DN <span class="code ">cn=simon,ou=People,dc=example,dc=com</span>. Default value is
+<span class="code ">"${username}"</span>, in other words, the username is used verbatim.</p>
+<p>The other way to convert a username to a Distinguished
+Name is via an LDAP lookup. To do this, set
+<span class="code ">auth_ldap.dn_lookup_attribute</span> to the name of the
+attribute that represents the user name, and
+<span class="code ">auth_ldap.dn_lookup_base</span> to the base DN for the
+query. The lookup can be done at one of two times, either
+before attempting to bind as the user in question, or
+afterwards.</p>
+<p>To do the lookup after binding, leave
+<span class="code ">auth_ldap.dn_lookup_bind</span> set to its default
+of <span class="code ">as_user</span>. The LDAP plugin will then bind
+with the user's plain (unmodified) username to do the login, then
+look up its DN. In order for this to work the LDAP server
+needs to be configured to allow binding with the plain
+username (Microsoft Active Directory typically does this).</p>
+<p>To do the lookup before binding, set <span class="code ">dn_lookup_bind</span>, <span class="code ">dn_lookup_base</span> and
+<span class="code ">dn_lookup_attribute</span> as follows. The LDAP plugin will then bind with these
+credentials first to do the lookup, then bind with the user's DN and password
+to do the login.</p>
+<pre class="lang-ini">
+auth_ldap.dn_lookup_bind.user_dn = CN=myuser,OU=users,DC=gopivotal,DC=com
+auth_ldap.dn_lookup_bind.password = test1234
+auth_ldap.dn_lookup_attribute = userPrincipalName
+auth_ldap.dn_lookup_base = DC=gopivotal,DC=com
+</pre>
+
+<p>Consider the following example:</p>
+<pre class="lang-ini">
+auth_ldap.dn_lookup_attribute = userPrincipalName
+auth_ldap.dn_lookup_base = DC=gopivotal,DC=com
+</pre>
+
+<p>With this configuration it is possible authenticate using an email address
+(<span class="code ">userPrincipalName</span> values are typically email addresses)
+and have the local Active Directory server return an actual DN to do
+the login.</p>
+<p>If both <span class="code ">auth_ldap.dn_lookup_attribute</span>
+and <span class="code ">auth_ldap.user_dn_pattern</span> are set then the approaches are
+combined: the plugin fills out the template and then
+searches for the DN.</p>
+<p><span class="code ">auth_ldap.dn_lookup_bind</span>'s default value is <span class="code ">as_user</span>.
+For <span class="code ">auth_ldap.dn_lookup_base</span> and <span class="code ">auth_ldap.dn_lookup_attribute</span>
+it is <span class="code ">none</span>.</p>
+<h3><a id="logging" class="anchor" href="#logging">LDAP Activity Logging</a></h3>
+<p>The plugin makes it possible to control the verbosity of LDAP activity
+logging using the <span class="code ">auth_ldap.log</span>
+(<span class="code ">rabbitmq_auth_backend_ldap.log</span> in the classic config format) setting.
+This is essential for troubleshooting.</p>
+<p>Setting the value to <span class="code ">true</span> will enable verbose logging of the logic used by
+the LDAP plugin to make decisions. Credentials in bind request outcomes will be
+scrubbed in this mode. This mode is not recommended for production systems
+but occasionally can be useful.</p>
+<p>The value of <span class="code ">network</span> works similarly to the above but  <b>additionally</b> causes LDAP
+network traffic to be logged at a lower (LDAP client) level, with bind
+request credentials scrubbed. This setting can result in excessive logging and should be
+used with great care.</p>
+<p>The value of <span class="code ">network_unsafe</span> causes LDAP network traffic to
+be logged at a lower (LDAP client) level, with bind request credentials such as
+passwords, written to the logs; this mode must not be used in production and will violate
+nearly every widely adopted security policy.
+It can, however, be very useful for troubleshooting in development
+and QA environments.</p>
+<p>Lastly, the value of <span class="code ">false</span> (the default) disables LDAP traffic logging.</p>
+<p>The following examples sets LDAP logging level to <span class="code ">network</span>:</p>
+<pre class="lang-ini">
+auth_ldap.log = network
+</pre>
+
+<p>The same examples in the classic config format:</p>
+<pre class="lang-ini">
+[
+  {rabbitmq_auth_backend_ldap, [
+    %% ...
+    {log, network}
+  ]}
+]
+</pre>
+
+<h3><a id="other-bind" class="anchor" href="#other-bind">Binding for Authorisation Queries</a></h3>
+<p>For authentication this plugin binds to the LDAP server as the
+user it is trying to authenticate. The <span class="code ">other_bind</span> setting controls how to
+bind for authorisation queries, and to retrieve the details of a
+user who is logging in without presenting a password (e.g. using the
+<a href="/authentication.html">EXTERNAL authentication mechanism</a>).</p>
+<p>The accepted values are <span class="code ">as_user</span> (to bind as the authenticated
+user) or <span class="code ">anon</span> (to bind anonymously), or be presented by two
+options <span class="code ">other_bind.user_dn</span> and <span class="code ">other_bind.password</span>
+to bind with a specified username and password. For example:</p>
+<pre class="lang-ini">
+auth_ldap.other_bind.user_dn = a-username
+auth_ldap.other_bind.password = a-password
+</pre>
+
+<p>Using the classic config format:</p>
+<pre class="lang-erlang">
+[
+  {rabbitmq_auth_backend_ldap, [
+    {other_bind, {"a-username", "a-password"}}
+  ]}
+].
+</pre>
+
+<p>Note that it is not possible to use the
+default <span class="code ">as_user</span> configuration when users connect
+without providing a password. In that case, use
+<span class="code ">auth_ldap.other_bind.user_dn</span> and <span class="code ">auth_ldap.other_bind.password</span>
+or the <span class="code ">anon</span> option.</p>
+<p>Default value of <span class="code ">auth_ldap.other_bind</span> is <span class="code ">as_user</span>.</p>
+<h3><a id="group-lookups" class="anchor" href="#group-lookups">Group Membership Lookup</a></h3>
+<p>The plugin supports several group membership lookup queries.
+The <span class="code ">group_lookup_base</span> setting controls what base DN will be used to search for nested groups. It is used by
+the <span class="code ">{in_group_nested, ...}</span> query only. For more info see the <a href="#query-reference">section on queries</a>.</p>
+<p>In the following example <span class="code ">ou=groups,dc=example,dc=com</span> is the directory that contains all groups.
+Note that it uses the <a href="/configure.html">classic config format</a>:</p>
+<pre class="lang-erlang">
+[
+  {rabbitmq_auth_backend_ldap, [
+    %% ...
+    {group_lookup_base, "ou=groups,dc=example,dc=com"}
+  ]}
+]
+</pre>
+
+<p>Default value is <span class="code ">'none'</span>.</p>
+<h2><a id="authorisation" class="anchor" href="#authorisation">Configuring Authorisation</a></h2>
+<h3><a id="authorisation-overview" class="anchor" href="#authorisation-overview">How RabbitMQ Permission Model Maps to LDAP</a></h3>
+<p>RabbitMQ <a href="/access-control.html">permission model</a>
+is different from that of LDAP. In addition, the way LDAP
+schemas are used will vary from company to
+company. Therefore a mechanism that defines what LDAP
+requests are used by the RabbitMQ authorisation functions is
+needed. Authorisation is controlled by four configurable queries:</p>
+<ul>
+<li><span class="code ">rabbitmq_auth_backend_ldap.vhost_access_query</span></li>
+<li><span class="code ">rabbitmq_auth_backend_ldap.resource_access_query</span></li>
+<li><span class="code ">rabbitmq_auth_backend_ldap.topic_access_query</span></li>
+<li><span class="code ">rabbitmq_auth_backend_ldap.tag_queries</span></li>
+</ul>
+<p>Each defines a query that will determine whether a user has
+access to a vhost, whether they have access to a resource
+(e.g. exchange, queue, binding) and
+which <a href="management.html#permissions">tags</a> they
+have.</p>
+<p>Note the longer <span class="code ">rabbitmq_auth_backend_ldap</span> prefix.
+Queries are expressed using a domain-specific language expressed in Erlang terms (data structures),
+so they can be defined only using the
+<a href="/configure.html#erlang-term-config-file">classic config format</a>. Starting with RabbitMQ 3.7
+query definitions are commonly placed into the <a href="/configure.html#advanced-config-file">advanced.config file</a>.</p>
+<h3><a id="query-types" class="anchor" href="#query-types">Queries and Their Types</a></h3>
+<p>Each query mentioned above is used at a different authorisation stage and must
+evaluate to either <span class="code ">true</span> or false. Specific query types (expressions,
+e.g. value comparison or group membership check) are covered later
+in this guide.</p>
+<p>A query can be of one of several types. Each type represents a boolean expression or function:
+a comparison, string match, object existence check, group membership check, and so on.
+Queries can be nested and combined using boolean operators.</p>
+<p>The default values (expressions) can be found in the table below:</p>
+<table>
+  <thead>
+    <td>Query</td>
+    <td>Default Expression</td>
+  </thead>
+  <tr>
+    <td><span class="code ">rabbitmq_auth_backend_ldap.vhost_access_query</span></td>
+    <td><span class="code ">{constant, true}</span></td>
+  </tr>
+  <tr>
+    <td><span class="code ">rabbitmq_auth_backend_ldap.resource_access_query</span></td>
+    <td><span class="code ">{constant, true}</span></td>
+  </tr>
+  <tr>
+    <td><span class="code ">rabbitmq_auth_backend_ldap.topic_access_query</span></td>
+    <td><span class="code ">{constant, true}</span></td>
+  </tr>
+  <tr>
+    <td><span class="code ">rabbitmq_auth_backend_ldap.tag_queries</span></td>
+    <td><span class="code ">[{administrator, {constant, false}}]</span></td>
+  </tr>
+</table>
+
+<p>This means that all users are granted access to all objects in all
+vhosts but they are not system administrators.</p>
+<p>All of the query types which take strings for arguments support string
+substitution, where variables pertaining to the query being
+made can be substituted in. Each of the queries supports
+different variables.</p>
+<p>The <span class="code ">vhost_access_query</span> supports:</p>
+<ul>
+<li><span class="code ">${username}</span>: the user name provided at authentication</li>
+<li><span class="code ">${user_dn}</span>: the distinguished name of the user</li>
+<li><span class="code ">${vhost}</span>: the virtual host for which we are querying access</li>
+</ul>
+<p>The <span class="code ">resource_access_query</span> supports:</p>
+<ul>
+<li><span class="code ">${username}</span>: the user name provided at authentication</li>
+<li><span class="code ">${user_dn}</span>: the distinguished name of the user</li>
+<li><span class="code ">${vhost}</span>: the virtual host in which the resource resides</li>
+<li><span class="code ">${resource}</span>: one of "exchange" or "queue" for the type of resource</li>
+<li><span class="code ">${name}</span>: the name of the resource</li>
+<li><span class="code ">${permission}</span>: one of "configure", "write" or "read" for the type of access being requested to the resource</li>
+</ul>
+<p>The <span class="code ">tag_queries</span> supports:</p>
+<ul>
+<li><span class="code ">${username}</span>: the user name provided at authentication</li>
+<li><span class="code ">${user_dn}</span>: the distinguished name of the user</li>
+<li><span class="code ">${vhost}</span>: can be used for additional context, e.g. to group applications or users</li>
+</ul>
+<p>The <span class="code ">topic_access_query</span> supports:</p>
+<ul>
+<li><span class="code ">${username}</span>: the user name provided at authentication</li>
+<li><span class="code ">${user_dn}</span>: the distinguished name of the user</li>
+<li><span class="code ">${vhost}</span>: the virtual host in which the resource resides</li>
+<li><span class="code ">${resource}</span>: always "topic" in this case</li>
+<li><span class="code ">${name}</span>: the name of the resource</li>
+<li><span class="code ">${permission}</span>: one of "write" (publishing) or "read" (consuming, queue and
+   exchange-to-exchange binding for topic exchanges)</li>
+<li><span class="code ">${routing_key}</span>: the routing key of the published message ("write" permission)
+   or routing key of the topic exchange to queue/exchange binding ("read" permission)</li>
+</ul>
+<p>Finally, if the user name provided at authentication is in the form
+<span class="code ">Domain\User</span> (which is the case in some Active Directory environments),
+two <i>additional</i> variables will be made available for each of the above queries:</p>
+<ul>
+<li><span class="code ">${ad_domain}</span> - the domain part of <span class="code ">Domain\User</span></li>
+<li><span class="code ">${ad_user}</span> - the user part of <span class="code ">Domain\User</span></li>
+</ul>
+<p>The terms configure, write and read for resource access have the
+same meanings that they do for the built-in RabbitMQ permissions
+system, see https://www.rabbitmq.com/access-control.html. See
+also <a href="/access-control.html#topic-authorisation">topic authorisation</a>
+for <span class="code ">topic_access_query</span>.</p>
+<p>When first getting familiar with the query DSL, it can be
+helpful to switch on the <span class="code ">log</span> configuration
+parameter documented above. This will cause the LDAP plugin
+to write fairly verbose descriptions of the queries it
+executes and the decisions it therefore makes to the
+RabbitMQ log.</p>
+<h3><a id="authorisation-vhost-access" class="anchor" href="#authorisation-vhost-access">Virtual Host Access</a></h3>
+<p><span class="code ">rabbitmq_auth_backend_ldap.vhost_access_query</span>
+is the query used to control virtual host
+access. If the query evaluates to <span class="code ">true</span> then access
+is granted.</p>
+<p>Note that before a user can access a virtual host, the
+virtualhost must have been created within RabbitMQ; unlike
+users and permissions, virtual hosts cannot live entirely
+within LDAP.</p>
+<h3><a id="authorisation-tag-query" class="anchor" href="#authorisation-tag-query">User Tags</a></h3>
+<p>The <span class="code ">tag_queries</span> consists of a key-value map
+mapping the name of a tag to a query to perform to determine
+whether or not the user has that tag. It is necessary to
+list list queries for all tags that the users should to
+have.</p>
+<h2><a id="query-reference" class="anchor" href="#query-reference">Authorisation Query Reference</a></h2>
+<h3><a id="constant-query" class="anchor" href="#constant-query">Constant Query</a></h3>
+<pre class="lang-erlang">{constant, Bool}</pre>
+
+<p>This will always return either true or false, unconditionally granting
+or denying access. Example:</p>
+<pre class="lang-erlang">
+{tag_queries, [{administrator, {constant, false}},
+ {management,    {constant, true}}]}
+</pre>
+
+<p>This grants all users the ability to use the management
+plugin, but makes none of them administrators.</p>
+<h3><a id="exists-query" class="anchor" href="#exists-query">Exists Query</a></h3>
+<pre class="lang-erlang">{exists, Pattern}</pre>
+
+<p>This will substitute variables into the pattern, and return true if
+there exists an object with the resulting DN. Example:</p>
+<pre class="lang-erlang">{vhost_access_query, {exists, "ou=${vhost},ou=vhosts,dc=example,dc=com"}}</pre>
+
+<p>This grants access to all virtual hosts which exist as
+organisational units
+within <span class="code ">ou=vhosts,dc=example,dc=com</span> to all
+users.</p>
+<h3><a id="in-group-query" class="anchor" href="#in-group-query">In Group Query</a></h3>
+<pre class="lang-erlang">{in_group, Pattern}</pre>
+
+<pre class="lang-erlang">{in_group, Pattern, AttributeName}</pre>
+
+<p>Like the Exists Query, substitutes arguments into a pattern to look
+for an object. However, this query returns true if the logged in
+user is a member; checking either against the <span class="code ">member</span>
+attribute, or any named attribute. Example:</p>
+<pre class="lang-erlang">{vhost_access_query, {in_group, "cn=${vhost}-users,ou=vhosts,dc=example,dc=com"}}</pre>
+
+<p>This grants access to virtual hosts when the user is listed
+as a <span class="code ">member</span> attribute of an appropriately named
+object (such as a <span class="code ">groupOfNames</span>)
+within <span class="code ">ou=vhosts,dc=example,dc=com</span>.</p>
+<h3><a id="in-nested-group-query" class="anchor" href="#in-nested-group-query">In Nested Group Query</a></h3>
+<pre class="lang-erlang">{in_group_nested, Pattern}</pre>
+
+<pre class="lang-erlang">{in_group_nested, Pattern, AttributeName}</pre>
+
+<pre class="lang-erlang">{in_group_nested, Pattern, AttributeName, Scope}</pre>
+
+<p>Similar to the <span class="code ">in_group</span> query but also traverses group hierarchy,
+e.g. if the logged in user is a member of the group which is a member of
+another group. Membership is checked against the <span class="code ">member</span>
+attribute or any named attribute.
+Groups are searched in the DN defined by the <span class="code ">group_lookup_base</span>
+configuration key, or the <span class="code ">dn_lookup_base</span> variable if
+former is <span class="code ">none</span>. If both lookup base variables are set to
+<span class="code ">none</span> the query will always return <span class="code ">false</span>.
+Search scope can be set to either <span class="code ">subtree</span> or <span class="code ">single_level</span>.</p>
+<ul>
+<li><span class="code ">subtree</span> searches all objects contained under the lookup base</li>
+<li><span class="code ">single_level</span> searches for groups directly contained within the lookup base</li>
+</ul>
+<p>Default value for scope is <span class="code ">subtree</span> The query is
+using in-depth search up from user to target group.  Search
+process will detect and skip cyclic paths.  This query can
+be time and memory consuming if users are members of many
+groups, which are members of many groups as well. Use this
+query when groups for a membership hierarchy. It is still
+recommended to use plain <span class="code ">{in_group, ...}</span> query
+when possible: nested groups can be challenging to reason
+about. Example:</p>
+<pre class="lang-erlang">
+[
+  {group_lookup_base, "ou=groups,dc=example,dc=com"},
+  {vhost_access_query, {in_group_nested, "cn=${vhost}-groups,ou=groups,dc=example,dc=com"}, "member", single_level}
+]
+</pre>
+
+<p>This grants access to virtual hosts when the user a member in group
+hierarchy defined by the <span class="code ">member</span> attribute values and located
+in the <span class="code ">ou=groups,dc=example,dc=com</span> directory.</p>
+<h3><a id="for-query" class="anchor" href="#for-query">For Query</a></h3>
+<pre class="lang-erlang">{for, [{Name, Value, SubQuery}, ...]}</pre>
+
+<p>This allows you to split up a query and handle different cases with
+different subqueries.</p>
+<p>Options should be a list of three-tuples, with each tuple containing
+a name, value and subquery. The name is the name of a variable
+(i.e. something that would go into a <span class="code ">${}</span>
+substitution). The value is a possible value for that variable.</p>
+<p>Note that the values are of different Erlang types;
+<span class="code ">resource</span> and <span class="code ">permission</span> have atom
+values (e.g. <span class="code ">resource</span> could be
+<span class="code ">exchange</span>) while the other keys have binary
+values (e.g. <span class="code ">name</span> might be
+<span class="code ">&lt;&lt;"amq.fanout"&gt;&gt;</span>).</p>
+<p>Example:</p>
+<pre class="lang-erlang">
+{resource_access_query,
+ {for, [{resource, exchange, {for, [{permission, configure,
+                                     {in_group, "cn=wheel,dc=example,dc=com"}
+                                    },
+                                    {permission, write, {constant, true}},
+                                    {permission, read,  {constant, true}}
+                                   ]}},
+                                   {resource, queue,    {constant, true}}]}}
+</pre>
+
+<p>This allows members of the <span class="code ">wheel</span> group to declare and
+delete exchanges, and allow all users to do everything else.</p>
+<h3><a id="boolean-query" class="anchor" href="#boolean-query">Boolean Queries</a></h3>
+<pre class="lang-erlang">{'not', SubQuery}</pre>
+
+<pre class="lang-erlang">{'and', [SubQuery1, SubQuery2, SubQuery3, ...]}</pre>
+
+<pre class="lang-erlang">{'or', [SubQuery1, SubQuery2, SubQuery3, ...]}</pre>
+
+<p>These can be used to combine subqueries with boolean logic. The
+'and' and 'or' queries each take an arbitrarily long list of
+subqueries, returning true if all or any subqueries evaluate to true
+respectively.</p>
+<p>Note that 'and', 'or' and 'not' are reserved words in Erlang,
+therefore the keywords need to be quoted with single quotes in the
+configuration file, as above. Example:</p>
+<pre class="lang-erlang">{resource_access_query,
+ {'or',
+  [{'and',
+    [{equals, "${name}", "test1"},
+     {equals, "${username}", "user1"}]},
+   {'and',
+    [{equals, "${name}", "test2"},
+     {'not', {equals, "${username}", "user1"}}]}
+  ]}}
+</pre>
+
+<p>This example gives full access to objects called "test1" to "user1",
+and access to "test2" to everyone but "user1".</p>
+<h3><a id="equals-query" class="anchor" href="#equals-query">Equals Query</a></h3>
+<pre class="lang-erlang">{equals, StringSubQuery1, StringSubQuery2}</pre>
+
+<p>Takes two strings, and checks that the one matches the
+other. Note that both strings are subqueries (of the
+<span class="code ">string</span> and <span class="code ">attribute</span> types below)
+in turn.</p>
+<p>This can be useful in order to compare the value of one of
+the string substitution variables with a constant, or with
+an attribute value, etc. Example:</p>
+<pre class="lang-erlang">{resource_access_query,
+ {for, [{permission, configure, {equals, {attribute, "${user_dn}", "description"},
+                                         {string, "can-declare-${resource}s"}
+                                }
+        },
+        {permission, write, {constant, true}},
+        {permission, read,  {constant, true}}
+       ]
+}</pre>
+
+<p>This grants permissions to declare and delete exchanges and
+queues based on the presence of the strings
+"can-declare-exchanges" and "can-declare-queues" in the
+user's description field, and grants permission to write and
+read exchanges to everyone.</p>
+<h3><a id="match-query" class="anchor" href="#match-query">Match Query</a></h3>
+<pre class="lang-erlang">{match, StringSubQuery, RESubQuery}</pre>
+
+<p>Takes a string and a regular expression, and checks that the one
+matches the other. Note that the string and the regular expression are
+both subqueries (of the <span class="code ">string</span> and <span class="code ">attribute</span>
+types below) in turn. Example:</p>
+<pre class="lang-erlang">
+{resource_access_query, {match, {string, "${name}"},
+                      {string, "^${username}-"}}
+}</pre>
+
+<p>This allows users to configure, read and write any object whose name
+begins with their own username followed by a hyphen.</p>
+<h3><a id="string-subquery" class="anchor" href="#string-subquery">String Sub-query</a></h3>
+<pre class="lang-erlang">{string, Pattern}</pre>
+
+<p>Just substitutes arguments into a string. As this returns a string
+rather than a boolean it should be used within a <span class="code ">match</span>
+or <span class="code ">equals</span> query. See above for example. As a shorthand
+you can use a plain string instead of
+<span class="code ">{string, Pattern}</span>.</p>
+<h3><a id="attributes-subquery" class="anchor" href="#attributes-subquery">Attribute Sub-query</a></h3>
+<pre class="lang-erlang">{attribute, DNPattern, AttributeName}</pre>
+
+<p>Returns the value of an attribute of an object retrieved from
+LDAP. As this returns a string rather than a boolean it should be
+used within a <span class="code ">match</span> or <span class="code ">equals</span> query. See
+above for example.</p>
+<h2><a id="example" class="anchor" href="#example">Example Configuration</a></h2>
+<p>Bringing it all together, here's a sample configuration. It uses both the <a href="/configure.html#config-file">standard config</a> and
+<a href="/configure.html#advanced-config-file">advanced config</a> files together. This
+makes all users able to access the management plugin, but
+makes none of them administrators. Access to virtual hosts is
+controlled by membership of a group per virtual host. Only
+members of <span class="code ">admin</span> can declare, delete or
+bind exchanges and queues, but all users can publish to
+exchanges and declare from queues. Publishing to topic-typed
+exchanges is restricted to messages with a routing key
+beginning with "a" and consuming from topics isn't restricted (topic authorisation).</p>
+<p>The <a href="/configure.html#config-file">standard config</a>
+(rabbitmq.conf) is used to configure authentication backends and
+several LDAP plugin parameters:</p>
+<pre class="lang-plaintext">
+auth_backends.1 = ldap
+
+auth_ldap.servers.1  = my-ldap-server
+auth_ldap.user_dn_pattern = cn=${username},ou=People,dc=example,dc=com
+auth_ldap.use_ssl    = false
+auth_ldap.port       = 389
+auth_ldap.log        = false
+</pre>
+
+<p><a href="/configure.html#advanced-config-file">Advanced config</a> is used to define LDAP queries:</p>
+<pre class="lang-erlang">
+[{rabbitmq_auth_backend_ldap,[
+    {vhost_access_query,    {in_group,
+                              "ou=${vhost}-users,ou=vhosts,dc=example,dc=com"}},
+     {resource_access_query,
+      {for, [{permission, configure, {in_group, "cn=admin,dc=example,dc=com"}},
+             {permission, write,
+              {for, [{resource, queue,    {in_group, "cn=admin,dc=example,dc=com"}},
+                     {resource, exchange, {constant, true}}]}},
+             {permission, read,
+              {for, [{resource, exchange, {in_group, "cn=admin,dc=example,dc=com"}},
+                     {resource, queue,    {constant, true}}]}}
+            ]
+      }},
+     {topic_access_query,
+      {for, [{permission, write, {match, {string, "${routing_key}"}, {string, "^a"}}},
+             {permission, read,  {constant, true}}
+            ]
+      }},
+     {tag_queries,           [{administrator, {constant, false}},
+                              {management,    {constant, true}}]}
+]}].
+</pre>
+
+<p>Alternatively, you can use the <a href="/configure.html#erlang-term-config-file">classic config format</a>
+to configure everything in a single file:</p>
+<pre class="lang-erlang">
+[
+  {rabbit, [{auth_backends, [rabbit_auth_backend_ldap]}]},
+  {rabbitmq_auth_backend_ldap,
+   [ {servers,               ["my-ldap-server"]},
+     {user_dn_pattern,       "cn=${username},ou=People,dc=example,dc=com"},
+     {use_ssl,               false},
+     {port,                  389},
+     {log,                   false},
+     {vhost_access_query,    {in_group,
+                              "ou=${vhost}-users,ou=vhosts,dc=example,dc=com"}},
+     {resource_access_query,
+      {for, [{permission, configure, {in_group, "cn=admin,dc=example,dc=com"}},
+             {permission, write,
+              {for, [{resource, queue,    {in_group, "cn=admin,dc=example,dc=com"}},
+                     {resource, exchange, {constant, true}}]}},
+             {permission, read,
+              {for, [{resource, exchange, {in_group, "cn=admin,dc=example,dc=com"}},
+                     {resource, queue,    {constant, true}}]}}
+            ]
+      }},
+     {topic_access_query,
+      {for, [{permission, write, {match, {string, "${routing_key}"}, {string, "^a"}}},
+             {permission, read,  {constant, true}}
+            ]
+     }},
+     {tag_queries,           [{administrator, {constant, false}},
+                              {management,    {constant, true}}]}
+   ]
+  }
+].</pre>
+
+<h2><a id="troubleshooting" class="anchor" href="#troubleshooting">Troubleshooting</a></h2>
+<p>Using LDAP for authentication and/or authorisation introduces another moving
+part into the system. Since LDAP servers are accessed over the network,
+some topics covered in the <a href="/troubleshooting-networking.html">Network Troubleshooting</a>
+and <a href="/troubleshooting-ssl.html">TLS Troubleshooting</a> guides apply to LDAP.</p>
+<p>In order to troubleshoot LDAP operations performed during the authentication and authorisation
+stages, <a href="#logging">enabling LDAP traffic logging</a> is highly recommended.</p>
+<p><a href="http://bit.ly/2GPyTmq">ldapsearch</a> is a command line tool that ships with LDAP and makes it possible to execute arbitrary
+LDAP queries against an OpenLDAP installation. This can be useful when troubleshooting complex authorisation
+queries. <a href="https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2003/cc772839(v=ws.10)">ldp.exe</a> is the Active Directory counterpart.</p>
+<h2><a id="proxies" class="anchor" href="#proxies">LDAP Proxies</a></h2>
+<p>An LDAP proxy can be used to modify LDAP requests performed by this plugin. <a href="https://ldaptor.readthedocs.io/en/latest/">ldaptor</a>
+is a library that can be used to build custom logic into the proxy.</p>
+<p>Operators should recognise that using a proxy will make <a href="#troubleshooting">troubleshooting</a> of LDAP requests more difficult.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"><div id="in-this-section"><h4>In This Section</h4><ul>
+     <li><a href="/admin-guide.html" class="selected">Server Documentation</a><ul>
+       <li><a href="/configure.html">Configuration</a></li>
+       <li><a href="/management.html">Management UI</a></li>
+       <li><a href="/monitoring.html">Monitoring</a></li>
+       <li><a href="/production-checklist.html">Production Checklist</a></li>
+       <li><a href="/ssl.html">TLS Support</a></li>
+       <li><a href="/streams.html">Streams</a></li>
+       <li><a href="/feature-flags.html">Feature Flags</a></li>
+       <li><a href="/distributed.html">Distributed RabbitMQ</a></li>
+       <li><a href="/clustering.html">Clustering</a></li>
+       <li><a href="/reliability.html">Reliable Delivery</a></li>
+       <li><a href="/definitions.html">Schema Definition Export and Import</a></li>
+       <li><a href="/backup.html">Backup and restore</a></li>
+       <li><a href="/alarms.html">Alarms</a></li>
+       <li><a href="/memory-use.html">Memory Use</a></li>
+       <li><a href="/networking.html">Networking</a></li>
+       <li><a href="/vhosts.html">Virtual Hosts</a></li>
+       <li><a href="/pacemaker.html">High Availability (pacemaker)</a></li>
+       <li><a href="/access-control.html">Access Control (Authorisation)</a></li>
+       <li><a href="/authentication.html">Authentication Mechanisms</a></li>
+       <li><a href="/ldap.html" class="selected">LDAP</a></li>
+       <li><a href="/lazy-queues.html">Lazy Queues</a></li>
+       <li><a href="/event-exchange.html">Internal Event Exchange</a></li>
+       <li><a href="/firehose.html">Firehose (Message Tracing)</a></li>
+       <li><a href="/manpages.html">Manual Pages</a></li>
+       <li><a href="/windows-quirks.html">Windows Quirks</a></li>
+       
+       
+       
+       
+     </ul></li>
+     <li><a href="/clients.html">Client Documentation</a></li>
+     <li><a href="/plugins.html" class="selected">Plugins</a><ul>
+       <li><a href="/management.html">Management plugin</a></li>
+       <li><a href="/federation.html">Federation plugin</a></li>
+       <li><a href="/shovel.html">Shovel plugin</a></li>
+       <li><a href="/stream.html">Stream plugin</a></li>
+       <li><a href="/stomp.html">STOMP plugin</a></li>
+       <li><a href="/web-stomp.html">STOMP-over-WebSockets</a></li>
+       <li><a href="/mqtt.html">MQTT plugin</a></li>
+       <li><a href="/web-mqtt.html">MQTT-over-WebSockets</a></li>
+       <li><a href="/ldap.html" class="selected">LDAP plugin</a></li>
+       <li><a href="/installing-plugins.html">Installing plugins</a></li>
+       <li><a href="/plugin-development.html">Plugin development</a></li>
+       
+     </ul></li>
+     <li><a href="/news.html">News</a></li>
+     <li><a href="/protocol.html">Protocol</a></li>
+     <li><a href="/extensions.html">Our Extensions</a></li>
+     <li><a href="/build.html">Building</a></li>
+     
+     <li><a href="/mpl.html">License</a></li>
+   </ul></div><div id="in-this-section"><h4>In This Section</h4><ul>
+     <li><a href="/admin-guide.html" class="selected">Server Documentation</a><ul>
+       <li><a href="/configure.html">Configuration</a></li>
+       <li><a href="/management.html">Management UI</a></li>
+       <li><a href="/monitoring.html">Monitoring</a></li>
+       <li><a href="/production-checklist.html">Production Checklist</a></li>
+       <li><a href="/ssl.html">TLS Support</a></li>
+       <li><a href="/streams.html">Streams</a></li>
+       <li><a href="/feature-flags.html">Feature Flags</a></li>
+       <li><a href="/distributed.html">Distributed RabbitMQ</a></li>
+       <li><a href="/clustering.html">Clustering</a></li>
+       <li><a href="/reliability.html">Reliable Delivery</a></li>
+       <li><a href="/definitions.html">Schema Definition Export and Import</a></li>
+       <li><a href="/backup.html">Backup and restore</a></li>
+       <li><a href="/alarms.html">Alarms</a></li>
+       <li><a href="/memory-use.html">Memory Use</a></li>
+       <li><a href="/networking.html">Networking</a></li>
+       <li><a href="/vhosts.html">Virtual Hosts</a></li>
+       <li><a href="/pacemaker.html">High Availability (pacemaker)</a></li>
+       <li><a href="/access-control.html">Access Control (Authorisation)</a></li>
+       <li><a href="/authentication.html">Authentication Mechanisms</a></li>
+       <li><a href="/ldap.html" class="selected">LDAP</a></li>
+       <li><a href="/lazy-queues.html">Lazy Queues</a></li>
+       <li><a href="/event-exchange.html">Internal Event Exchange</a></li>
+       <li><a href="/firehose.html">Firehose (Message Tracing)</a></li>
+       <li><a href="/manpages.html">Manual Pages</a></li>
+       <li><a href="/windows-quirks.html">Windows Quirks</a></li>
+       
+       
+       
+       
+     </ul></li>
+     <li><a href="/clients.html">Client Documentation</a></li>
+     <li><a href="/plugins.html" class="selected">Plugins</a><ul>
+       <li><a href="/management.html">Management plugin</a></li>
+       <li><a href="/federation.html">Federation plugin</a></li>
+       <li><a href="/shovel.html">Shovel plugin</a></li>
+       <li><a href="/stream.html">Stream plugin</a></li>
+       <li><a href="/stomp.html">STOMP plugin</a></li>
+       <li><a href="/web-stomp.html">STOMP-over-WebSockets</a></li>
+       <li><a href="/mqtt.html">MQTT plugin</a></li>
+       <li><a href="/web-mqtt.html">MQTT-over-WebSockets</a></li>
+       <li><a href="/ldap.html" class="selected">LDAP plugin</a></li>
+       <li><a href="/installing-plugins.html">Installing plugins</a></li>
+       <li><a href="/plugin-development.html">Plugin development</a></li>
+       
+     </ul></li>
+     <li><a href="/news.html">News</a></li>
+     <li><a href="/protocol.html">Protocol</a></li>
+     <li><a href="/extensions.html">Our Extensions</a></li>
+     <li><a href="/build.html">Building</a></li>
+     
+     <li><a href="/mpl.html">License</a></li>
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

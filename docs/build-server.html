@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>Server Build Instructions — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>Server Build Instructions</h1>
+
+
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>This section describes the process for obtaining a copy of the
+RabbitMQ server source code, as well as instructions for building the
+server from source.</p>
+<h2><a id="git" class="anchor" href="#git">Build from Git</a></h2>
+<p>First, get the source code from <a href="github.html">our GitHub repositories</a>:</p>
+<pre class="lang-bash">
+git clone https://github.com/rabbitmq/rabbitmq-server.git rabbitmq
+</pre>
+
+<p>Then, use GNU Make to pull down dependencies and build the server and all plugins
+that ship with the RabbitMQ distribution:</p>
+<pre class="lang-bash">
+cd rabbitmq
+make
+</pre>
+
+<h2><a id="prerequisites" class="anchor" href="#prerequisites">Required Libraries and Tools</a></h2>
+<p>In order to build RabbitMQ, a few tools must be installed.</p>
+<h3>Python</h3>
+<p>RabbitMQ requires a recent version of <a href="http://www.python.org/download/">Python</a> and <a href="http://pypi.python.org/pypi/simplejson">simplejson.py</a>
+(an implementation of a <a href="http://json.org">JSON</a> reader
+and writer in Python), for generating AMQP 0-9-1 framing code.
+simplejson.py is included as a standard json library in the Python
+core since 2.6 release.</p>
+<h3>Erlang/OTP Toolchain and Headers</h3>
+<p>The <a href="http://www.erlang.org/download.html">Erlang</a> development and runtime tools
+are needed to compile RabbitMQ server, tools and <a href="/plugins.html">tier 1 plugins</a>.</p>
+<p>On a Debian-based system, install the <span class="code ">erlang-nox</span>, <span class="code ">erlang-dev</span> and
+<span class="code ">erlang-src</span> packages.</p>
+<p>See <a href="/which-erlang.html">Erlang compatibility guide</a> to learn more about supported versions of Erlang/OTP.</p>
+<h3>Elixir</h3>
+<p>A recent version of <a href="https://elixir-lang.org/">Elixir</a> is needed
+to build <a href="/cli.html">RabbitMQ CLI tools</a>.</p>
+<h3>GNU Make</h3>
+<p><a href="http://www.gnu.org/software/make/">GNU make</a> is the primary build tool
+used by RabbitMQ.</p>
+<h3>xsltproc and xmlto</h3>
+<p>A recent version of <i>xsltproc</i>, which is part of <a href="http://xmlsoft.org/XSLT/">libxslt</a> and
+<i>xmlto</i> must be available.</p>
+<h3>zip and unzip</h3>
+<p><a href="http://www.info-zip.org/Zip.html">zip</a> and <a href="http://www.info-zip.org/UnZip.html">unzip</a>
+would be necessary if source code is obtained via an archive instead of a git repository clone.</p>
+<h2><a id="building-server" class="anchor" href="#building-server">Building the Server</a></h2>
+<p>Change to the <span class="code ">rabbitmq</span> directory, and type <span class="code ">make</span>.</p>
+<p>Other interesting <span class="code ">Makefile</span> targets include</p>
+<table>
+  <thead>
+    <tr>
+      <th>Make Target</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>all</td>
+      <td>
+        The default target. Builds the server.
+      </td>
+    </tr>
+    <tr>
+      <td>shell</td>
+      <td>
+        Builds the client libraries and starts an Erlang shell with the
+        libraries loaded.
+      </td>
+    </tr>
+    <tr>
+      <td>run-broker</td>
+      <td>
+        Builds the server and starts an instance with an
+        interactive Erlang shell. This will by default put
+        data, including the node's data directory, under <span class="code ">/tmp/rabbitmq-test-instances</span>,
+        but this location can be overridden by setting the
+        Makefile variable <span class="code ">TEST_TMPDIR</span>:
+
+<pre class="lang-bash">
+make run-broker TEST_TMPDIR="/some/other/location/for/rabbitmq-test-instances"
+</pre>
+
+        The Erlang node name can also be changed by setting
+        <span class="code ">RABBITMQ_NODENAME</span>:
+
+<pre class="lang-bash">
+make run-broker RABBITMQ_NODENAME=rmq
+</pre>
+
+        See <a href="/configure.html">Configuration guide</a> for other
+        variables that may be useful.
+      </td>
+    </tr>
+    <tr>
+      <td>clean</td>
+      <td>Removes temporary build products.</td>
+    </tr>
+    <tr>
+      <td>distclean</td>
+      <td>Removes all build products, including fetched dependencies.</td>
+    </tr>
+    <tr>
+      <td>tests</td>
+      <td>
+        Runs multiple server test suites. This is very resource-intensive and will
+        take up to a few hours. Many nodes and clusters will be started, modified and destroyed
+        by various test suites.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2><a id="building-packages" class="anchor" href="#building-packages">Building Packages</a></h2>
+<p>In practice, building RabbitMQ server from source is of limited use
+unless an easy to deploy package (e.g. a generic binary build or Debian one) can be produced.</p>
+<p>Everything related to packaging the RabbitMQ server is in the <a href="https://github.com/rabbitmq/rabbitmq-server">main RabbitMQ repository</a>.</p>
+<p>There is a number of top-level packaging Make targets available, one for each package
+type (or family of packages, such as RPM):</p>
+<ul>
+<li><span class="code ">make package-generic-unix</span></li>
+<li><span class="code ">make package-deb</span></li>
+<li><span class="code ">make package-rpm</span></li>
+<li><span class="code ">make package-rpm-suse</span></li>
+<li><span class="code ">make package-windows</span></li>
+</ul><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"><div id="in-this-section"><h4>In This Section</h4><ul>
+     <li><a href="/admin-guide.html">Server Documentation</a></li>
+     <li><a href="/clients.html">Client Documentation</a></li>
+     <li><a href="/plugins.html">Plugins</a></li>
+     <li><a href="/news.html">News</a></li>
+     <li><a href="/protocol.html">Protocol</a></li>
+     <li><a href="/extensions.html">Our Extensions</a></li>
+     <li><a href="/build.html" class="selected">Building</a><ul>
+       <li><a href="/build-server.html" class="selected">Building the Server</a></li>
+       <li><a href="/build-java-client.html">Building the Java Client</a></li>
+       <li><a href="/build-dotnet-client.html">Building the .NET Client</a></li>
+       <li><a href="/build-erlang-client.html">Building the Erlang Client</a></li>
+       <li><a href="/github.html">Our use of Git and GitHub</a></li>
+       
+     </ul></li>
+     
+     <li><a href="/mpl.html">License</a></li>
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

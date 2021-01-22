@@ -1,0 +1,783 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>Configuring Static Shovels — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>Configuring Static Shovels</h1>
+
+
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>This guide focuses on statically configured shovels. It assumes
+familiarity with the key concepts behind the <a href="/shovel.html">Shovel plugin</a>.</p>
+<p>Unlike with <a href="/shovel-dynamic.html">dynamic shovels</a>, static shovels are configured using the <a href="/configure.html">advanced configuration file</a>.
+They are started on node boot and are primarily useful for permanently
+running workloads. Any changes to static shovel configuration would require
+a node restart, which makes them highly inflexible.</p>
+<p>Most users <strong>should prefer dynamic shovels</strong> to static ones for their flexibility
+and ease of automation. Generating a dynamic shovel definition (a JSON document) is usually
+easier compared to a static shovel definition (which uses Erlang terms).</p>
+<h2><a id="configuration" class="anchor" href="#configuration">Configuration</a></h2>
+<p>The configuration for the Shovel plugin must be defined in the
+<a href="configure.html#advanced-config-file">advanced configuration file</a>.</p>
+<p>It consists of a single <span class="code ">shovels</span> clause that lists the shovels that should
+be started on node boot:</p>
+<pre class="lang-erlang">
+{rabbit, [
+  %% ...
+]},
+
+{rabbitmq_shovel, [
+  {shovels, [
+    {shovel_one, [
+      %% shovel_one properties ...
+    ]},
+    %% ...
+  ]}
+]}
+</pre>
+
+<p>A (deliberately verbose) <a href="#example-config">example configuration</a> can be found below.</p>
+<p>Each element of the <span class="code ">shovels</span> clause is a named static shovel.
+The names in the list must be distinct.</p>
+<p>A shovel definition looks like this at the top level:</p>
+<pre class="lang-erlang">
+{<em>shovel_name</em>, [
+  {source, [ <em>...protocol specific config...</em> ]},
+  {destination, [ <em>...protocol specific config...</em> ]},
+  {ack_mode, <em>a_mode</em>},
+  {reconnect_delay, <em>reconn_delay</em>}
+]}
+</pre>
+
+<p>where <span class="code "><em>shovel_name</em></span> is the name of the
+shovel (an Erlang atom). The name should be enclosed in single quotes (<span class="code ">'</span>) if they do
+not begin with a lower-case letter or if they contain
+other characters than alphanumeric characters, underscore
+(<span class="code ">_</span>), or <span class="code ">@</span>.</p>
+<h3>The Source and The Destination</h3>
+<p>A shovel transfers messages from a source to a destination.</p>
+<p>The <span class="code ">source</span> and <span class="code ">destination</span> keys are <strong>mandatory</strong> and contain nested protocol-specific keys. Currently AMQP 0.9.1 and AMQP 1.0 are two supported protocols.
+Source and destination do not have to use the same protocol.
+All the other properties are optional.</p>
+<p><span class="code ">source</span> is a mandatory key and has different keys properties
+for different protocols. Two properties are common across all
+protocols: <span class="code ">protocol</span> and <span class="code ">uris</span>.
+<span class="code ">protocol</span> supports two values: <span class="code ">amqp091</span> and <span class="code ">amqp10</span>,
+for AMQP 0-9-1 and AMQP 1.0, respectively:</p>
+<pre class="lang-erlang">
+%% for AMQP 0-9-1
+{protocol, amqp091}
+</pre>
+
+<p><span class="code ">uris</span> is a list of <a href="/uri-spec.html">AMQP connection URIs</a>:</p>
+<pre class="lang-erlang">
+{uris, [
+        "amqp://fred:secret@host1.domain/my_vhost",
+        "amqp://john:secret@host2.domain/my_vhost"
+       ]}
+</pre>
+
+<p>The URI syntax is extended to include a query part to
+permit the configuration of additional connection parameters.
+See the <a href="uri-query-parameters.html">query parameter reference</a> which
+are available to static shovels, such as TLS certificate and private key.</p>
+<h3>General Source Keys</h3>
+<p>Some keys are supported by both AMQP 0-9-1 and AMQP 1.0 sources.
+They are described in the table below.</p>
+<table>
+  <caption>General Static Shovel Keys (Properties)</caption>
+
+  <thead>
+    <tr>
+      <td><strong>Key</strong></td>
+      <td><strong>Description</strong></td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>reconnect-delay</td>
+      <td>
+        The duration (in seconds) to wait before reconnecting to the
+        brokers after being disconnected at either end. Default is 1.
+
+<pre class="lang-erlang">
+{reconnect_delay, 5}
+</pre>
+        would delay for five seconds before reconnecting after failure. Value of `0`
+        means no reconnection: the shovel will stop after first failure or unsuccessful
+        connection attempt.
+      </td>
+    </tr>
+    <tr>
+      <td>ack-mode</td>
+      <td>
+        <p>
+          Determines how the shovel should <a href="/confirms.html">acknowledge</a> consumed messages.
+          If set to <span class="code ">on-confirm</span> (the default), messages are
+          acknowledged to the source broker after they have been confirmed
+          by the destination. This handles network errors and broker
+          failures without losing messages, and is the slowest option.
+        </p>
+        <p>
+          If set to <span class="code ">on-publish</span>, messages are acknowledged to
+          the source broker after they have been published at the
+          destination. This handles network errors without losing messages,
+          but may lose messages in the event of broker failures.
+        </p>
+        <p>
+          If set to <span class="code ">no-ack</span>, message acknowledgements are not
+          used. This is the fastest option, but may lose messages in the
+          event of network or broker failures.
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>AMQP 0-9-1 Source Keys</h3>
+<p>AMQP 0-9-1-specific source keys are covered in a separate table:</p>
+<table>
+  <caption>AMQP 0-9-1 Source Keys (Properties)</caption>
+
+  <thead>
+    <tr>
+      <td><strong>Key</strong></td>
+      <td><strong>Description</strong></td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>declarations</td>
+      <td>
+        <p>
+          An optional list of AMQP 0-9-1 operations to be executed by the Shovel
+          before it starts transferring messages. They are typically used to set
+          up the topology.
+        </p>
+<pre class="lang-erlang">
+  {declarations, <em>declaration_list</em>}
+</pre>
+        <p>
+          The declarations follow method and property names used by the <a href="erlang-client-user-guide.html">RabbitMQ Erlang Client</a>.
+        </p>
+        <p>
+          A minimalistic declaration example:
+        </p>
+<pre class="lang-erlang">
+  {declarations, [
+                   'queue.declare',
+                   {'queue.bind', [
+                                    {exchange, &lt;&lt;"my_exchange"&gt;&gt;},
+                                    {queue,    &lt;&lt;&gt;&gt;}
+                                  ]}
+                 ]}
+</pre>
+        <p>
+          will first declare an anonymous queue, and then bind it
+          to the exchange called <span class="code ">"my_exchange"</span>. The
+          queue name of <span class="code ">&lt;&lt;&gt;&gt;</span> on method <span class="code ">queue.bind</span>
+          means "use the queue last declared on this channel".
+        </p>
+        <p>
+          Each element of the declaration list is either an AMQP 0-9-1 method
+          given as single quoted atom such as <span class="code ">'queue.declare'</span>,
+          or a tuple with first element the method atom, and second element
+          a property list of parameters.
+        </p>
+        <p>
+          If just the method name is used all the
+          parameters take their defaults (as illustrated with
+          <span class="code ">'queue.declare'</span> above).
+        </p>
+        <p>
+          If a tuple and property-list is supplied, then the
+          properties in the list specify some or all of the
+          parameters explicitly.
+        </p>
+        <p>
+          Here is another example:
+        </p>
+<pre class="lang-erlang">
+{'exchange.declare', [
+                      {exchange, &lt;&lt;"my_exchange"&gt;&gt;},
+                      {type, &lt;&lt;"direct"&gt;&gt;},
+                      durable
+                     ]}
+</pre>
+        <p>
+          will declare a durable, direct exchange called
+          "<span class="code ">my_exchange</span>".
+        </p>
+      </td>
+    </tr>
+
+    <tr>
+      <td>queue</td>
+      <td>
+          <p>
+            The name of the source queue as an Erlang binary value. This property is mandatory:
+
+<pre class="lang-erlang">
+{queue, &lt;&lt;"queue.1"&gt;&gt;}
+</pre>
+          </p>
+          <p>
+            <span class="code ">queue.1</span> is the name of the queue
+            to shovel messages from, as a binary string.
+          </p>
+          <p>
+            This queue must exist. Use the resource <span class="code ">declarations</span>
+            covered above to declare the queue or ensure it exists. If
+            the value is <span class="code ">&lt;&lt;&gt;&gt;</span> (the empty binary string) then the
+            <em>most recently declared queue</em> in <span class="code ">declarations</span> is used.
+            This allows anonymous queues to be declared and used.
+          </p>
+      </td>
+    </tr>
+
+    <tr>
+      <td>prefetch-count</td>
+      <td>
+        The maximum number of unacknowledged messages copied over a shovel at
+        any one time. Default is <span class="code ">1000</span>:
+
+<pre class="lang-erlang">
+{prefetch_count, 1000}
+</pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>AMQP 1.0 Source Keys</h3>
+<p>AMQP 1.0 source settings are different from those of AMQP 0-9-1 sources.</p>
+<table>
+  <caption>AMQP 1.0 Source Keys (Properties)</caption>
+
+  <thead>
+    <tr>
+      <td><strong>Key</strong></td>
+      <td><strong>Description</strong></td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>source_address</td>
+      <td>
+        This represents the source address of the AMQP 1.0 link.
+        This key is mandatory:
+
+<pre class="lang-erlang">
+{source_address, &lt;&lt;"my-address"&gt;&gt;}
+</pre>
+      </td>
+    </tr>
+
+    <tr>
+      <td>prefetch-count</td>
+      <td>
+        This optional key sets the link credit amount that will
+        be granted to the receiving link. The credit will be automatically
+        renewed when it falls below a 10th of this value. The default is 1000.
+        It takes the form
+
+<pre class="lang-erlang">
+  {prefetch_count, 10}
+</pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Destination</h2>
+<p><span class="code ">destination</span> is a mandatory key and has different keys properties
+for different protocols. Two properties are common across all
+protocols: <span class="code ">protocol</span> and <span class="code ">uris</span>.
+<span class="code ">protocol</span> supports two values: <span class="code ">amqp091</span> and <span class="code ">amqp10</span>,
+for AMQP 0-9-1 and AMQP 1.0, respectively:</p>
+<pre class="lang-erlang">
+%% for AMQP 0-9-1
+{protocol, amqp091}
+</pre>
+
+<p><span class="code ">uris</span> is a list of <a href="/uri-spec.html">AMQP connection URIs</a>:</p>
+<pre class="lang-erlang">
+{uris, [
+        "amqp://fred:secret@host1.domain/my_vhost",
+        "amqp://john:secret@host2.domain/my_vhost"
+       ]}
+</pre>
+
+<p>The URI syntax is extended to include a query part to
+permit the configuration of additional connection parameters.
+See the <a href="uri-query-parameters.html">query parameter reference</a> which
+are available to static shovels, such as TLS certificate and private key.</p>
+<h3>General Destination Keys</h3>
+<table>
+  <caption>General Destination Keys (Properties)</caption>
+
+  <thead>
+    <tr>
+      <td><strong>Key</strong></td>
+      <td><strong>Description</strong></td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>reconnect-delay</td>
+      <td>
+        The duration (in seconds) to wait before reconnecting to the
+        brokers after being disconnected at either end. Default is 1.
+
+<pre class="lang-erlang">
+{reconnect_delay, 5}
+</pre>
+        would delay for five seconds before reconnecting after failure. Value of `0`
+        means no reconnection: the shovel will stop after first failure or unsuccessful
+        connection attempt.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>AMQP 0-9-1 Destination Keys</h3>
+<table>
+  <caption>AMQP 0-9-1 Destination Keys (Properties)</caption>
+
+  <thead>
+    <tr>
+      <td><strong>Key</strong></td>
+      <td><strong>Description</strong></td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>publish_properties</td>
+      <td>
+        <p>
+          This optional key controls <a href="/publishers.html#message-properties">message properties</a>
+          set or overridden by the shovel. It takes the following form
+        </p>
+<pre class="lang-erlang">
+{publish_properties, [
+  {delivery_mode, 2}
+]}
+</pre>
+          <p>
+            where the properties in the list are set on the
+            basic properties of each message before it is re-published.
+          </p>
+          <p>
+            This specific example would mark all re-published messages as persistent:
+          </p>
+<pre class="lang-erlang">
+{publish_properties, [
+  {delivery_mode, 2}
+]}
+</pre>
+          <p>
+            By default the original properties of the message are preserved, but
+            this clause can be used to change or set any known property: 
+
+            <ul>
+              <li><span class="code ">content_type</span></li>
+              <li><span class="code ">content_encoding</span></li>
+              <li><span class="code ">headers</span></li>
+              <li><span class="code ">delivery_mode</span></li>
+              <li><span class="code ">priority</span></li>
+              <li><span class="code ">correlation_id</span></li>
+              <li><span class="code ">reply_to</span></li>
+              <li><span class="code ">expiration</span></li>
+              <li><span class="code ">message_id</span></li>
+              <li><span class="code ">timestamp</span></li>
+              <li><span class="code ">type</span></li>
+              <li><span class="code ">user_id</span></li>
+              <li><span class="code ">app_id</span></li>
+              <li><span class="code ">cluster_id</span></li>
+            </ul>
+          </p>
+      </td>
+    </tr>
+
+    <tr>
+      <td>publish_fields</td>
+      <td>
+          <p>
+            This optional key is similar to <span class="code "></span> but controls the publishing settings
+            instead of message properties that are accessible to consumers. It takes the form of
+          </p>
+<pre class="lang-erlang">
+{publish_fields, [ 
+                    {exchange, &lt;&lt;"my_exchange"&gt;&gt;},
+                    {routing_key, &lt;&lt;"from_shovel"&gt;&gt;}
+                  ]}
+</pre>
+          <p>
+            where the properties in the list are used to set the
+            <em>fields</em> on the <span class="code ">basic.publish</span> method
+            used to re-publish messages.
+          </p>
+          <p>
+           By default the messages are re-published using the original
+           exchange name and routing key. By specifying
+         </p>
+<pre class="lang-erlang">
+{publish_fields, [ 
+                    {exchange, &lt;&lt;"my_exchange"&gt;&gt;},
+                    {routing_key, &lt;&lt;"from_shovel"&gt;&gt;}
+                  ]}
+</pre>
+          <p>
+            messages would be re-published to an explicit exchange name
+            with an explicit, fixed routing key.
+          </p>
+      </td>
+    </tr>
+
+    <tr>
+      <td>add_timestamp_header</td>
+      <td>
+        This boolean key controls whether a custom header, <span class="code ">x-shovelled-timestamp</span>,
+        will be added to the message before it is re-published:
+
+<pre class="lang-erlang">
+{add_timestamp_header, true}
+</pre>
+
+        This header value is timestamp (in seconds since epoch) when message had been shovelled.
+        By default the header is not added.
+      </td>
+    </tr>
+
+    <tr>
+      <td>add_forward_headers</td>
+      <td>
+        When set to true the shovel will add a number of custom message headers: <span class="code ">shovelled-by</span>, <span class="code ">shovel-type</span>, <span class="code ">shovel-name</span>,
+        to provide some additional metadata about the transfer.
+
+<pre class="lang-erlang">
+{add_forward_headers, true}
+</pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>AMQP 1.0 Destination Keys</h3>
+<table>
+  <caption>AMQP 1.0 Destination Keys (Properties)</caption>
+
+  <thead>
+    <tr>
+      <td><strong>Key</strong></td>
+      <td><strong>Description</strong></td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>target_address</td>
+      <td>
+        <p>
+          This represents the target address of the sending AMQP 1.0 link:
+
+<pre class="lang-erlang">
+{target_address, &lt;&lt;"some-address"&gt;&gt;}
+</pre>
+        </p>
+      </td>
+    </tr>
+
+    <tr>
+      <td>properties</td>
+      <td>
+        This optional key controls what additional properties will be added when re-publishing
+        messages. It takes the form of
+
+<pre class="lang-erlang">
+{properties, [
+  {content_typle, &lt;&lt;"application/json"&gt;&gt;}
+]}
+</pre>
+        <p>
+          The available keys include
+          <span class="code ">message_id</span>, <span class="code ">user_id</span>, <span class="code ">to</span>, <span class="code ">subject</span>, <span class="code ">reply_to</span>, <span class="code ">correlation_id</span>, <span class="code ">content_type</span>, <span class="code ">content_encoding</span>, <span class="code ">absolute_expiry_time</span>, <span class="code ">creation_time</span>.
+          See the AMQP 1.0 spec (§3.2.4) for the all the available keys and values.
+        </p>
+      </td>
+    </tr>
+
+    <tr>
+      <td>application_properties</td>
+      <td>
+            <p>
+              This optional key declares any additional application properties
+              to be added when re-publishing a message. It takes the form of
+            </p>
+<pre class="lang-erlang">
+{application_properties, [
+  {&lt;&lt;"application-key-1"&gt;&gt;, &lt;&lt;"value-1"&gt;&gt;},
+  {&lt;&lt;"application-key-2"&gt;&gt;, &lt;&lt;"value-2"&gt;&gt;}
+]}
+</pre>
+        <p>
+          Keys and values should be binary strings as in the example below.
+        </p>
+      </td>
+    </tr>
+
+    <tr>
+      <td>add_timestamp_header</td>
+      <td>
+        This boolean key controls whether a <span class="code ">creation_time</span> property
+        will be set on the message before it is re-published:
+
+<pre class="lang-erlang">
+{add_timestamp_header, true}
+</pre>
+
+        This value is timestamp (in seconds since epoch) when message had been shovelled.
+        By default the property is not set.
+      </td>
+    </tr>
+
+    <tr>
+      <td>add_forward_headers</td>
+      <td>
+        When set to true the shovel will add application properties for the
+        following keys: <span class="code ">shovelled-by</span>, <span class="code ">shovel-type</span>, <span class="code ">shovel-name</span>
+        to provide some additional metadata about the transfer.
+
+<pre class="lang-erlang">
+{add_forward_headers, true}
+</pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2><a id="example-config" class="anchor" href="#example-config">Example Configuration</a></h2>
+<p>A reasonably complete static shovel configuration between AMQP 0.9.1 endpoints
+might look like this:</p>
+<pre class="lang-erlang">
+{rabbitmq_shovel,
+  [ {shovels, [ {my_first_shovel,
+                  [ {source,
+                      [ {protocol, amqp091},
+                        {uris, [ "amqp://fred:secret@host1.domain/my_vhost",
+                                  "amqp://john:secret@host2.domain/my_vhost" ]},
+                        {declarations, [ {'exchange.declare',
+                                            [ {exchange, &lt;&lt;"my_fanout"&gt;&gt;},
+                                              {type, &lt;&lt;"fanout"&gt;&gt;},
+                                              durable
+                                            ]},
+                                          {'queue.declare',
+                                            [{arguments,
+                                                [{&lt;&lt;"x-message-ttl"&gt;&gt;, long, 60000}]}]},
+                                          {'queue.bind',
+                                            [ {exchange, &lt;&lt;"my_fanout"&gt;&gt;},
+                                              {queue,    &lt;&lt;&gt;&gt;}
+                                            ]}
+                                          ]},
+                        {queue, &lt;&lt;&gt;&gt;},
+                        {prefetch_count, 10}
+                      ]},
+                    {destination,
+                      [ {protocol, amqp091},
+                        {uris, ["amqp://"]},
+                        {declarations, [ {'exchange.declare',
+                                            [ {exchange, &lt;&lt;"my_direct"&gt;&gt;},
+                                              {type, &lt;&lt;"direct"&gt;&gt;},
+                                              durable
+                                            ]}
+                                        ]},
+                        {publish_properties, [ {delivery_mode, 2} ]},
+                        {add_forward_headers, true},
+                        {publish_fields, [ {exchange, &lt;&lt;"my_direct"&gt;&gt;},
+                                          {routing_key, &lt;&lt;"from_shovel"&gt;&gt;}
+                                          ]}
+                          ]},
+                    {ack_mode, on_confirm},
+                    {reconnect_delay, 5}
+                  ]}
+              ]}
+  ]}
+</pre>
+
+<p>The configuration above defines a single shovel called
+<span class="code ">'my_first_shovel'</span>.</p>
+<p><span class="code ">'my_first_shovel'</span> will connect to a broker on
+either <span class="code ">host1</span> or <span class="code ">host2</span> (as source), and
+directly to the local broker as destination. It will reconnect
+to the other source broker on failure, after a delay of 5
+seconds.</p>
+<p>When connected to the source it will declare a direct, fanout exchange
+called <span class="code ">"my_fanout"</span>, an anonymous queue with a <a href="/ttl.html#per-queue-message-ttl">per-queue message ttl</a>,
+and bind the queue to the exchange.</p>
+<p>When connected to the destination (the local broker) it will declare a
+durable, direct exchange called <span class="code ">"my_direct"</span>.</p>
+<p>This shovel will re-publish messages sent to the anonymous queue on the
+source to the local exchange with the fixed routing key
+<span class="code ">"from_shovel"</span>. The messages will be persistent and only
+acknowledged after receiving a publish confirm from the local broker.</p>
+<p>The shovel consumer will not get more deliveries if there are at least ten
+unacknowledged messages at any moment in time.</p>
+<h2><a id="example-config-amqp10-amqp091" class="anchor" href="#example-config-amqp10-amqp091">Example Configuration (1.0 Source - 0.9.1 Destination)</a></h2>
+<p>A reasonably complete shovel configuration between an AMQP 1.0 source and an
+AMQP 0.9.1 destination might look like this:</p>
+<pre class="lang-erlang">
+{rabbitmq_shovel,
+ [ {shovels, [ {my_first_shovel,
+                [ {source,
+                   [ {protocol, amqp10,
+                      uris, [ "amqp://fred:secret@host1.domain/my_vhost",
+                            ]},
+                     {source_address, &lt;&lt;"my-source"&gt;&gt;},
+                     {prefetch_count, 10}
+                   ]},
+                  {destination,
+                     [ {protocol, amqp091},
+                       {uris, ["amqp://"]},
+                       {declarations, [ {'exchange.declare',
+                                         [ {exchange, &lt;&lt;"my_direct"&gt;&gt;},
+                                           {type, &lt;&lt;"direct"&gt;&gt;},
+                                           durable
+                                         ]}
+                                      ]},
+                       {publish_properties, [ {delivery_mode, 2} ]},
+                       {add_forward_headers, true},
+                       {publish_fields, [ {exchange, &lt;&lt;"my_direct"&gt;&gt;},
+                                          {routing_key, &lt;&lt;"from_shovel"&gt;&gt;}
+                                        ]}
+                     ]},
+                  {ack_mode, on_confirm},
+                  {reconnect_delay, 5}
+                ]}
+             ]}
+ ]}
+</pre>
+
+<h2><a id="example-config-amqp091-amqp10" class="anchor" href="#example-config-amqp091-amqp10">Example Configuration (0.9.1 Source — 1.0 Destination)</a></h2>
+<p>A more extensive shovel configuration between an AMQP 0.9.1 Source and an
+AMQP 1.0 destination might look like this:</p>
+<pre class="lang-erlang">
+{rabbitmq_shovel,
+ [{shovels, [{my_first_shovel,
+              {source,
+               [{protocol, amqp091},
+                {uris, ["amqp://fred:secret@host1.domain/my_vhost",
+                        "amqp://john:secret@host2.domain/my_vhost"]},
+                {declarations, [{'exchange.declare',
+                                   [{exchange, &lt;&lt;"my_fanout"&gt;&gt;},
+                                    {type, &lt;&lt;"fanout"&gt;&gt;},
+                                    durable]},
+                                {'queue.declare',
+                                   [{arguments,
+                                      [{&lt;&lt;"x-message-ttl"&gt;&gt;, long, 60000}]}]},
+                                {'queue.bind',
+                                   [{exchange, &lt;&lt;"my_fanout"&gt;&gt;},
+                                    {queue,    &lt;&lt;&gt;&gt;}
+                                    ]}
+                               ]},
+                {queue, &lt;&lt;&gt;&gt;},
+                {prefetch_count, 10}
+               ]},
+              {destination,
+               [{protocol, amqp10},
+                %% Note: for plain text SASL authentication, use
+                % {uris, ["amqp://user:pass@host:5672?sasl=plain"]},
+                %% Note: this relies on default user credentials
+                %%       which has remote access restrictions, see
+                %%       https://www.rabbitmq.com/access-control.html to learn more
+                {uris, ["amqp://host:5672"]},
+                {properties, [{user_id, &lt;&lt;"my-user"&gt;&gt;}]},
+                {application_properties, [{&lt;&lt;"my-prop"&gt;&gt;, &lt;&lt;"my-prop-value"&gt;&gt;}]},
+                {add_forward_headers, true},
+                {target_address, &lt;&lt;"destination-queue"&gt;&gt;}
+               ]},
+              {ack_mode, on_confirm},
+              {reconnect_delay, 5}
+             }]}
+ ]}
+}
+</pre><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"><div id="in-this-section"><h4>In This Section</h4><ul>
+     <li><a href="/admin-guide.html">Server Documentation</a></li>
+     <li><a href="/clients.html">Client Documentation</a></li>
+     <li><a href="/plugins.html" class="selected">Plugins</a><ul>
+       <li><a href="/management.html">Management plugin</a></li>
+       <li><a href="/federation.html">Federation plugin</a></li>
+       <li><a href="/shovel.html" class="selected">Shovel plugin</a><ul>
+         <li><a href="/shovel-static.html" class="selected">Static Shovels</a></li>
+         <li><a href="/shovel-dynamic.html">Dynamic Shovels</a></li>
+         
+         
+       </ul></li>
+       <li><a href="/stream.html">Stream plugin</a></li>
+       <li><a href="/stomp.html">STOMP plugin</a></li>
+       <li><a href="/web-stomp.html">STOMP-over-WebSockets</a></li>
+       <li><a href="/mqtt.html">MQTT plugin</a></li>
+       <li><a href="/web-mqtt.html">MQTT-over-WebSockets</a></li>
+       <li><a href="/ldap.html">LDAP plugin</a></li>
+       <li><a href="/installing-plugins.html">Installing plugins</a></li>
+       <li><a href="/plugin-development.html">Plugin development</a></li>
+       
+     </ul></li>
+     <li><a href="/news.html">News</a></li>
+     <li><a href="/protocol.html">Protocol</a></li>
+     <li><a href="/extensions.html">Our Extensions</a></li>
+     <li><a href="/build.html">Building</a></li>
+     
+     <li><a href="/mpl.html">License</a></li>
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>
