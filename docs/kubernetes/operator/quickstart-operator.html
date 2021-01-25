@@ -16,141 +16,188 @@
 <li><span class="code ">kubectl</span> configured to access the cluster</li>
 </ul>
 <h2>Quickstart Steps</h2>
-<p>This guide is goes through the following steps -
-1. Install the RabbitMQ Cluster Operator
-2. Deploy a RabbitMQ Cluster using the Operator
-3. View RabbitMQ Logs
-4. Access the RabbitMQ Management UI
-5. Attach A Workload to the Cluster
-6. Next Steps</p>
+<p>This guide goes through the following steps:</p>
+<ol>
+<li>Install the RabbitMQ Cluster Operator</li>
+<li>Deploy a RabbitMQ Cluster using the Operator</li>
+<li>View RabbitMQ Logs</li>
+<li>Access the RabbitMQ Management UI</li>
+<li>Attach a Workload to the Cluster</li>
+<li>Next Steps</li>
+</ol>
 <h2>The <span class="code ">kubectl rabbitmq</span> Plugin</h2>
-<p>Many steps in the quickstart - installing the operator, accessing the Management UI, fetching credentials for the RabbitMQ Cluster, are made easier by the <span class="code ">kubectl rabbitmq</span> plugin. While there are instructions to follow along without using the plugin, getting the plugin will make these commands simpler. To install the plugin, look at it's <a href="/Kubernetes/operator/install-operator.html">installation instructions</a>.</p>
+<p>Many steps in the quickstart - installing the operator, accessing the Management UI, fetching credentials for the RabbitMQ Cluster, are made easier by the <span class="code ">kubectl rabbitmq</span> plugin. While there are instructions to follow along without using the plugin, getting the plugin will make these commands simpler. To install the plugin, look at its <a href="/kubernetes/operator/install-operator.html">installation instructions</a>.</p>
 <h2>Install the RabbitMQ Cluster Operator</h2>
-<p>Let's start by installing the latest version of the Cluster Operator. This can done directly using <span class="code ">kubectl apply</span> -</p>
-<p>```shell
-kubectl apply -f "https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml"</p>
-<h1>namespace/rabbitmq-system created</h1>
-<h1>customresourcedefinition.apiextensions.k8s.io/rabbitmqclusters.rabbitmq.com created</h1>
-<h1>serviceaccount/rabbitmq-cluster-operator created</h1>
-<h1>role.rbac.authorization.k8s.io/rabbitmq-cluster-leader-election-role created</h1>
-<h1>clusterrole.rbac.authorization.k8s.io/rabbitmq-cluster-operator-role created</h1>
-<h1>rolebinding.rbac.authorization.k8s.io/rabbitmq-cluster-leader-election-rolebinding created</h1>
-<h1>clusterrolebinding.rbac.authorization.k8s.io/rabbitmq-cluster-operator-rolebinding created</h1>
-<h1>deployment.apps/rabbitmq-cluster-operator created</h1>
-<p>```</p>
-<p>The Cluster Operator can also be installed using the <span class="code ">kubectl rabbitmq</span> plugin -</p>
-<p><span class="code ">shell
-kubectl rabbitmq install-cluster-operator</span></p>
-<p>Installing the Cluster Operator creates a bunch of Kubernetes resources. Breaking these down, we have:
-- a new namespace <span class="code ">rabbitmq-system</span>. The Cluster Operator deployment is created in this namespace.
-```shell
-kubectl get all -n rabbitmq-system</p>
-<p>NAME                                             READY   STATUS    RESTARTS   AGE
-pod/rabbitmq-cluster-operator-54f948d8b6-k79kd   1/1     Running   0          2m10s</p>
-<p>NAME                                        READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/rabbitmq-cluster-operator   1/1     1            1           2m10s</p>
-<p>NAME                                                   DESIRED   CURRENT   READY   AGE
+<p>Let's start by installing the latest version of the Cluster Operator. This can be done directly using <span class="code ">kubectl apply</span>:</p>
+<pre class="lang-bash">
+kubectl apply -f "https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml"
+# namespace/rabbitmq-system created
+# customresourcedefinition.apiextensions.k8s.io/rabbitmqclusters.rabbitmq.com created
+# serviceaccount/rabbitmq-cluster-operator created
+# role.rbac.authorization.k8s.io/rabbitmq-cluster-leader-election-role created
+# clusterrole.rbac.authorization.k8s.io/rabbitmq-cluster-operator-role created
+# rolebinding.rbac.authorization.k8s.io/rabbitmq-cluster-leader-election-rolebinding created
+# clusterrolebinding.rbac.authorization.k8s.io/rabbitmq-cluster-operator-rolebinding created
+# deployment.apps/rabbitmq-cluster-operator created
+</pre>
+
+<p>The Cluster Operator can also be installed using the <span class="code ">kubectl rabbitmq</span> plugin:</p>
+<pre class="lang-bash">
+kubectl rabbitmq install-cluster-operator
+</pre>
+
+<p>Installing the Cluster Operator creates a bunch of Kubernetes resources. Breaking these down, we have:</p>
+<ul>
+<li>a new namespace <span class="code ">rabbitmq-system</span>. The Cluster Operator deployment is created in this namespace.</li>
+</ul>
+<pre class="lang-bash">
+kubectl get all -n rabbitmq-system
+
+NAME                                             READY   STATUS    RESTARTS   AGE
+pod/rabbitmq-cluster-operator-54f948d8b6-k79kd   1/1     Running   0          2m10s
+
+NAME                                        READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/rabbitmq-cluster-operator   1/1     1            1           2m10s
+
+NAME                                                   DESIRED   CURRENT   READY   AGE
 replicaset.apps/rabbitmq-cluster-operator-54f948d8b6   1         1         1       2m10s
-<span class="code ">- a new custom resource `rabbitmqclusters.rabbitmq.com`. The custom resource allows us to define an API for the creation of RabbitMQ Clusters.</span>shell
-kubectl get customresourcedefinitions.apiextensions.k8s.io</p>
-<p>NAME                                             CREATED AT
+</pre>
+
+<ul>
+<li>a new custom resource <span class="code ">rabbitmqclusters.rabbitmq.com</span>. The custom resource allows us to define an API for the creation of RabbitMQ Clusters.</li>
+</ul>
+<pre class="lang-bash">
+kubectl get customresourcedefinitions.apiextensions.k8s.io
+
+NAME                                             CREATED AT
 ...
 rabbitmqclusters.rabbitmq.com                    2021-01-14T11:12:26Z
 ...
-```
-- and some rbac roles. These are required by the Operator to create, update and delete RabbitMQ Clusters.</p>
+</pre>
+
+<ul>
+<li>and some rbac roles. These are required by the Operator to create, update and delete RabbitMQ Clusters.</li>
+</ul>
 <h2>Hello RabbitMQ!</h2>
 <p>Now that we have the Operator deployed, let's create the simplest RabbitMQ Cluster.</p>
-<p>This example can be found in the <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/hello-world">Cluster Operator GitHub repo</a>.  As mentioned on the page:</p>
+<p>This example can be found in the <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/hello-world">Cluster Operator GitHub repo</a>. As mentioned on the page:</p>
 <blockquote>
 <p>This is the simplest <span class="code ">RabbitmqCluster</span> definition. The only explicitly specified property is the name of the cluster. Everything else will be configured according to the Cluster Operator's defaults.</p>
 </blockquote>
 <p>The <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/">examples folder</a> has many other references such as creating a RabbitMQ Cluster with TLS, mTLS, setting up a Cluster with production defaults, adding community plugins, etc.</p>
 <p>Continuing with our example, we will submit the following yaml to Kubernetes:</p>
-<p><span class="code ">yaml
+<pre class="lang-yaml">
 apiVersion: rabbitmq.com/v1beta1
 kind: RabbitmqCluster
 metadata:
-    name: hello-world</span>
-Submit this using the following command -
-<span class="code ">shell
-kubectl apply -f https://raw.githubusercontent.com/rabbitmq/cluster-operator/main/docs/examples/hello-world/rabbitmq.yaml</span></p>
-<p>This will create  a RabbitMQ cluster called <span class="code ">hello-world</span> in the current namespace. You can see the RabbitMQ Cluster as it is being created:</p>
-<p>```shell
-watch kubectl get all</p>
-<p>NAME                       READY   STATUS    RESTARTS   AGE
-pod/hello-world-server-0   1/1     Running   0          2m</p>
-<p>NAME                        TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)              AGE
+    name: hello-world
+</pre>
+
+<p>Submit this using the following command:
+<pre class="lang-bash">
+kubectl apply -f https://raw.githubusercontent.com/rabbitmq/cluster-operator/main/docs/examples/hello-world/rabbitmq.yaml
+</pre></p>
+<p>This will create a RabbitMQ cluster called <span class="code ">hello-world</span> in the current namespace. You can see the RabbitMQ Cluster as it is being created:</p>
+<pre class="lang-bash">
+watch kubectl get all
+
+NAME                       READY   STATUS    RESTARTS   AGE
+pod/hello-world-server-0   1/1     Running   0          2m
+
+NAME                        TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)              AGE
 service/hello-world         ClusterIP   10.75.242.149   &lt;none&gt;  5672/TCP,15672/TCP   2m
 service/hello-world-nodes   ClusterIP   None            &lt;none&gt;  4369/TCP,25672/TCP   2m
-service/kubernetes          ClusterIP   10.75.240.1     &lt;none&gt;  443/TCP              4h1m</p>
-<p>NAME                                  READY   AGE
+service/kubernetes          ClusterIP   10.75.240.1     &lt;none&gt;  443/TCP              4h1m
+
+NAME                                  READY   AGE
 statefulset.apps/hello-world-server   1/1     2m
-```</p>
+</pre>
+
 <p>You will also be able to see an instance of the <span class="code ">rabbitmqclusters.rabbitmq.com</span> custom resource created.</p>
-<p>```shell
-kubectl get rabbitmqclusters.rabbitmq.com</p>
-<p>NAME          AGE    STATUS
+<pre class="lang-bash">
+kubectl get rabbitmqclusters.rabbitmq.com
+
+NAME          AGE    STATUS
 hello-world   4m1s
-```</p>
-<p>You may also use the kubectl rabbitmq plugin to list the RabbitMQ Clusters deployed -</p>
-<p><span class="code ">shell
+</pre>
+
+<p>You may also use the kubectl rabbitmq plugin to list the RabbitMQ Clusters deployed:</p>
+<pre class="lang-bash">
 kubectl rabbitmq list
 NAME          AGE    STATUS
-hello-world   4m10s</span></p>
+hello-world   4m10s
+</pre>
+
 <h2>View RabbitMQ Logs</h2>
-<p>In order to make sure RabbitMQ has started correctly, let's view the RabbitMQ log file. This can be done by viewing the RabbitMQ pod logs. In this case, it would be -</p>
-<p>```shell
+<p>In order to make sure RabbitMQ has started correctly, let's view the RabbitMQ log file. This can be done by viewing the RabbitMQ pod logs. In this case, it would be:</p>
+<pre class="lang-bash">
 kubectl logs hello-world-server-0
-...</p>
-<p>Starting RabbitMQ 3.8.9 on Erlang 23.2.1
+...
+
+ Starting RabbitMQ 3.8.9 on Erlang 23.2.1
  Copyright (c) 2007-2020 VMware, Inc. or its affiliates.
- Licensed under the MPL 2.0. Website: https://rabbitmq.com</p>
-<p>##  ##      RabbitMQ 3.8.9
+ Licensed under the MPL 2.0. Website: https://rabbitmq.com
+
+  ##  ##      RabbitMQ 3.8.9
   ##  ##
   ##########  Copyright (c) 2007-2020 VMware, Inc. or its affiliates.
   ######  ##
-  ##########  Licensed under the MPL 2.0. Website: https://rabbitmq.com</p>
-<p>Doc guides: https://rabbitmq.com/documentation.html
+  ##########  Licensed under the MPL 2.0. Website: https://rabbitmq.com
+
+  Doc guides: https://rabbitmq.com/documentation.html
   Support:    https://rabbitmq.com/contact.html
   Tutorials:  https://rabbitmq.com/getstarted.html
-  Monitoring: https://rabbitmq.com/monitoring.html</p>
-<p>...
-```</p>
+  Monitoring: https://rabbitmq.com/monitoring.html
+
+...
+</pre>
+
 <p>If you care only about viewing the logs, the detail of the component is hidden away in the kubectl rabbitmq plugin. Here, you may just run:</p>
-<p><span class="code ">shell
-kubectl rabbitmq tail hello-world</span></p>
+<pre class="lang-bash">
+kubectl rabbitmq tail hello-world
+</pre>
+
 <h2>Access The Management UI</h2>
 <p>Next, let's access the Management UI.</p>
-<p>```shell
+<pre class="lang-bash">
 username="$(kubectl get secret hello-world-default-user -o jsonpath='{.data.username}' | base64 --decode)"
 echo "username: $username"
 password="$(kubectl get secret hello-world-default-user -o jsonpath='{.data.password}' | base64 --decode)"
-echo "password: $password"</p>
-<p>kubectl port-forward "service/hello-world" 15672
-<span class="code ">``
-Now we can open localhost:15672 in the browser and see the Management UI. The credentials are as printed in the commands above. Alternatively, you can run a</span>curl` command to verify access -</p>
-<p><span class="code ">shell
+echo "password: $password"
+
+kubectl port-forward "service/hello-world" 15672
+</pre>
+
+<p>Now we can open localhost:15672 in the browser and see the Management UI. The credentials are as printed in the commands above. Alternatively, you can run a <span class="code ">curl</span> command to verify access:</p>
+<pre class="lang-bash">
 curl -u$username:$password localhost:15672/api/overview
-{"management_version":"3.8.9","rates_mode":"basic", ...}</span></p>
-<p>Using the <span class="code ">kubectl rabbitmq</span> plugin, the Management UI can be accessed using -</p>
-<p><span class="code ">shell
-kubectl rabbitmq manage hello-world</span></p>
+{"management_version":"3.8.9","rates_mode":"basic", ...}
+</pre>
+
+<p>Using the <span class="code ">kubectl rabbitmq</span> plugin, the Management UI can be accessed using:</p>
+<pre class="lang-bash">
+kubectl rabbitmq manage hello-world
+</pre>
+
 <h2>Connect An Application To The Cluster</h2>
-<p>The next step would be to connect an application to the RabbitMQ Cluster in order to use it's messaging capabilities. The <a href="https://github.com/rabbitmq/rabbitmq-perf-test">perf-test</a> application is frequently used within the RabbitMQ community for load testing RabbitMQ Clusters.</p>
+<p>The next step would be to connect an application to the RabbitMQ Cluster in order to use its messaging capabilities. The <a href="https://github.com/rabbitmq/rabbitmq-perf-test">perf-test</a> application is frequently used within the RabbitMQ community for load testing RabbitMQ Clusters.</p>
 <p>Here, we will be using the <span class="code ">hello-world</span> service to find the connection address, and the <span class="code ">hello-world-default-user</span> to find connection credentials.</p>
-<p>```shell
+<pre class="lang-bash">
 username="$(kubectl get secret hello-world-default-user -o jsonpath='{.data.username}' | base64 --decode)"
 password="$(kubectl get secret hello-world-default-user -o jsonpath='{.data.password}' | base64 --decode)"
 service="$(kubectl get service hello-world -o jsonpath='{.spec.clusterIP}')"
-kubectl run perf-test --image=pivotalrabbitmq/perf-test -- --uri amqp://$username:$password@$service</p>
-<h1>pod/perf-test created</h1>
-<p>```</p>
+kubectl run perf-test --image=pivotalrabbitmq/perf-test -- --uri amqp://$username:$password@$service
+
+# pod/perf-test created
+</pre>
+
 <p>These steps are automated in the kubectl rabbitmq plugin which may simply be run as:</p>
-<p><span class="code ">shell
-kubectl rabbitmq perf-test hello-world</span></p>
-<p>We can now view the perf-test logs by running -</p>
-<p><span class="code ">shell
+<pre class="lang-bash">
+kubectl rabbitmq perf-test hello-world
+</pre>
+
+<p>We can now view the perf-test logs by running:</p>
+<pre class="lang-bash">
 kubectl logs --follow perf-test
 ...
 id: test-141948-895, time: 16.001s, sent: 25651 msg/s, received: 25733 msg/s, min/median/75th/95th/99th consumer latency: 1346110/1457130/1495463/1529703/1542172 µs
@@ -159,14 +206,18 @@ id: test-141948-895, time: 18.001s, sent: 26292 msg/s, received: 25505 msg/s, mi
 id: test-141948-895, time: 19.001s, sent: 23727 msg/s, received: 26055 msg/s, min/median/75th/95th/99th consumer latency: 1355788/1450757/1480030/1514469/1531624 µs
 id: test-141948-895, time: 20.001s, sent: 25009 msg/s, received: 25202 msg/s, min/median/75th/95th/99th consumer latency: 1327462/1447157/1474394/1509857/1521303 µs
 id: test-141948-895, time: 21.001s, sent: 28487 msg/s, received: 25942 msg/s, min/median/75th/95th/99th consumer latency: 1350527/1454599/1490094/1519461/1531042 µs
-...</span></p>
+...
+</pre>
+
 <p>As can be seen, perf-test is able to produce and consume about 25,000 messages per second.</p>
 <h2>Next Steps</h2>
 <p>Now that you are up and running with the basics, you can explore what the Cluster Operator can do for you!</p>
-<p>You can do so by:
-1. Looking at <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/">more examples</a> such as <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/prometheus">monitoring the deployed RabbitMQ Cluster using Prometheus</a>, <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/tls">enabling TLS</a>, etc.
-2. Looking at the <a href="/kubernetes/operator/using-operator.html">API reference documentation</a>.
-3. Check out our <a href="https://github.com/rabbitmq/cluster-operator/">GitHub repository</a> and contribute to this guide, other docs, and the codebase!</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+<p>You can do so by:</p>
+<ol>
+<li>Looking at <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/">more examples</a> such as <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/prometheus">monitoring the deployed RabbitMQ Cluster using Prometheus</a>, <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/tls">enabling TLS</a>, etc.</li>
+<li>Looking at the <a href="/kubernetes/operator/using-operator.html">API reference documentation</a>.</li>
+<li>Checking out our <a href="https://github.com/rabbitmq/cluster-operator/">GitHub repository</a> and contributing to this guide, other docs, and the codebase!</li>
+</ol><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.

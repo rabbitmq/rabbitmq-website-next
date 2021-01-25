@@ -252,7 +252,7 @@ using <a href="/prometheus.html">Prometheus and Grafana</a>. </p>
 <p>High connection churn (lots of connections opened and closed after a brief
 period of time) <a href="/networking.html#dealing-with-high-connection-churn">can lead to resource exhaustion</a>.
 It is therefore important to be able to identify such scenarios. <span class="code ">netstat</span> and <span class="code ">ss</span>
-are most popular options for <a href="troubleshooting-inspecting-connections">inspecting TCP connections</a>.
+are most popular options for <a href="#inspecting-connections">inspecting TCP connections</a>.
 A lot of connections in the <span class="code ">TIME_WAIT</span> state is a likely symptom of high connection churn.
 Lots of connections in states other than <span class="code ">ESTABLISHED</span> also might be a symptom worth investigating.</p>
 <p>Evidence of short lived connections can be found in RabbitMQ log files. E.g. here's an example
