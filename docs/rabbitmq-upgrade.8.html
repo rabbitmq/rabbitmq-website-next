@@ -9,46 +9,49 @@
       <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>rabbitmq-upgrade(8) — RabbitMQ</title>
     
   </head>
-  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>rabbitmq-upgrade(8)</h1>
+  <body id="rabbitmq-upgrade.8"><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>rabbitmq-upgrade(8)</h1>
     <div class="docSection"><a name="manpage" class="anchor" id="manpage"></a>
       <div xmlns="" class="manual-text" xml:base="man/rabbitmq-upgrade.8.html">
-<h2 class="Sh" title="Sh" id="NAME"><a class="permalink" href="#NAME">NAME</a></h2>
+<section class="Sh">
+<h2 class="Sh" id="NAME"><a class="permalink" href="#NAME">NAME</a></h2>
 <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmq-upgrade</span> —
-<div class="Nd" title="Nd">RabbitMQ installation upgrade tools</div>
-<h2 class="Sh" title="Sh" id="SYNOPSIS"><a class="permalink" href="#SYNOPSIS">SYNOPSIS</a></h2>
+<div class="Nd">RabbitMQ installation upgrade tools</div>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="SYNOPSIS"><a class="permalink" href="#SYNOPSIS">SYNOPSIS</a></h2>
 <table class="Nm">
   <tr>
     <td><span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmq-upgrade</span></td>
-    <td>[<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-q</span></div>]
-      [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-s</span></div>]
-      [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-l</span></div>]
-      [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-n</span>
-      <var class="Ar" title="Ar">node</var></div>]
-      [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-t</span>
-      <var class="Ar" title="Ar">timeout</var></div>]
-      <var class="Ar" title="Ar">command</var>
-      [<div class="Op"><var class="Ar" title="Ar">command_options</var></div>]</td>
+    <td>[<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-q</span>] [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-s</span>]
+      [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-l</span>] [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-n</span>
+      <var class="Ar">node</var>] [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-t</span>
+      <var class="Ar">timeout</var>] <var class="Ar">command</var>
+      [<var class="Ar">command_options</var>]</td>
   </tr>
 </table>
-<h2 class="Sh" title="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
-<span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmq-upgrade</span> is a command line tool that
-  provides commands used during the upgrade of RabbitMQ nodes. See the
-  <a class="Lk" title="Lk" href="https://www.rabbitmq.com/upgrade.html">RabbitMQ
-  upgrade guide</a> to learn more about RabbitMQ installation upgrades.
-<h2 class="Sh" title="Sh" id="OPTIONS"><a class="permalink" href="#OPTIONS">OPTIONS</a></h2>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
+<span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmq-upgrade</span> is a command line tool that provides
+  commands used during the upgrade of RabbitMQ nodes. See the
+  <a class="Lk" href="https://www.rabbitmq.com/upgrade.html">RabbitMQ upgrade
+  guide</a> to learn more about RabbitMQ installation upgrades.
+</section>
+<section class="Sh">
+<h2 class="Sh" id="OPTIONS"><a class="permalink" href="#OPTIONS">OPTIONS</a></h2>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#n"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-n</span></a>
-    <var class="Ar" title="Ar">node</var></dt>
+    <var class="Ar">node</var></dt>
   <dd>Default node is
-      "rabbit@<var class="Ar" title="Ar">target-hostname</var>",
-      where <var class="Ar" title="Ar">target-hostname</var> is the local host.
-      On a host named "myserver.example.com", the node name will
-      usually be "rabbit@myserver" (unless
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Ev">RABBITMQ_NODENAME</span> has been overridden).
-      The output of "hostname -s" is usually the correct suffix to
-      use after the "@" sign. See
-      <a class="Xr" title="Xr" href="rabbitmq-server.8.html">rabbitmq-server(8)</a>
-      for details of configuring a RabbitMQ node.</dd>
+      "rabbit@<var class="Ar">target-hostname</var>", where
+      <var class="Ar">target-hostname</var> is the local host. On a host named
+      "myserver.example.com", the node name will usually be
+      "rabbit@myserver" (unless
+      <span xmlns="http://www.w3.org/1999/xhtml" class="code Ev">RABBITMQ_NODENAME</span> has been overridden). The output
+      of "hostname -s" is usually the correct suffix to use after
+      the "@" sign. See
+      <a class="Xr" href="rabbitmq-server.8.html">rabbitmq-server(8)</a> for
+      details of configuring a RabbitMQ node.</dd>
   <dt><a class="permalink" href="#q"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-q</span></a>,
     <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--quiet</span></dt>
   <dd>Quiet output mode is selected. Informational messages are reduced when
@@ -58,52 +61,83 @@
   <dd>Silent output mode is selected. Informational messages are reduced and
       table headers are suppressed when silent mode is in effect.</dd>
   <dt><a class="permalink" href="#t"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-t</span></a>
-    <var class="Ar" title="Ar">timeout</var>,
-    <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--timeout</span>
-    <var class="Ar" title="Ar">timeout</var></dt>
+    <var class="Ar">timeout</var>, <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--timeout</span>
+    <var class="Ar">timeout</var></dt>
   <dd>Operation timeout in seconds. Not all commands support timeouts. Default
       is <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">infinity</span>.</dd>
   <dt><a class="permalink" href="#l"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-l</span></a>,
     <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--longnames</span></dt>
   <dd>Must be specified when the cluster is configured to use long (FQDN) node
       names. To learn more, see the
-      <a class="Lk" title="Lk" href="https://www.rabbitmq.com/clustering.html">RabbitMQ
+      <a class="Lk" href="https://www.rabbitmq.com/clustering.html">RabbitMQ
       Clustering guide</a></dd>
   <dt><a class="permalink" href="#-erlang-cookie"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--erlang-cookie</span></a>
-    <var class="Ar" title="Ar">cookie</var></dt>
+    <var class="Ar">cookie</var></dt>
   <dd>Shared secret to use to authenticate to the target node. Prefer using a
-      local file or the
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Ev">RABBITMQ_ERLANG_COOKIE</span> environment
-      variable instead of specifying this option on the command line. To learn
-      more, see the
-      <a class="Lk" title="Lk" href="https://www.rabbitmq.com/cli.html">RabbitMQ
-      CLI Tools guide</a></dd>
+      local file or the <span xmlns="http://www.w3.org/1999/xhtml" class="code Ev">RABBITMQ_ERLANG_COOKIE</span>
+      environment variable instead of specifying this option on the command
+      line. To learn more, see the
+      <a class="Lk" href="https://www.rabbitmq.com/cli.html">RabbitMQ CLI Tools
+      guide</a></dd>
 </dl>
-<h2 class="Sh" title="Sh" id="COMMANDS"><a class="permalink" href="#COMMANDS">COMMANDS</a></h2>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="COMMANDS"><a class="permalink" href="#COMMANDS">COMMANDS</a></h2>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#help"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">help</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Displays general help and commands supported by
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmq-upgrade</span>.</dd>
+    <p class="Pp">Displays general help and commands supported by
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmq-upgrade</span>.</p>
+  </dd>
   <dt><a class="permalink" href="#post_upgrade"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">post_upgrade</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Runs post-upgrade tasks. In the current version, it performs the rebalance
-      of mirrored and quorum queues across all nodes in the cluster.</dd>
+    <p class="Pp">Runs post-upgrade tasks. In the current version, it performs
+        the rebalance of mirrored and quorum queues across all nodes in the
+        cluster.</p>
+  </dd>
+  <dt><a class="permalink" href="#await_online_quorum_plus_one"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">await_online_quorum_plus_one</span></a></dt>
+  <dd>
+    <p class="Pp">Waits for all quorum queues to have an above minimum online
+        quorum. This makes sure that no queues would lose their quorum if the
+        target node is shut down.</p>
+  </dd>
+  <dt><a class="permalink" href="#drain"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">drain</span></a></dt>
+  <dd>
+    <p class="Pp">Puts the node in maintenance mode. Such nodes will not serve
+        any client traffic or considered for hosting any primary queue
+      replicas.</p>
+    <p class="Pp">To learn more, see the
+        <a class="Lk" href="https://www.rabbitmq.com/upgrade.html#maintenance-mode">RabbitMQ
+        Upgrade guide</a></p>
+  </dd>
+  <dt><a class="permalink" href="#revive"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">revive</span></a></dt>
+  <dd>
+    <p class="Pp">Puts the node out of maintenance and into regular operating
+        mode. Such nodes will again serve client traffic and considered for
+        primary queue replica placement.</p>
+    <p class="Pp">To learn more, see the
+        <a class="Lk" href="https://www.rabbitmq.com/upgrade.html#maintenance-mode">RabbitMQ
+        Upgrade guide</a></p>
+  </dd>
 </dl>
-<h2 class="Sh" title="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
+</section>
+<section class="Sh">
+<h2 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
   ALSO</a></h2>
-<a class="Xr" title="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a>,
-  <a class="Xr" title="Xr" href="rabbitmq-diagnostics.8.html">rabbitmq-diagnostics(8)</a>,
-  <a class="Xr" title="Xr" href="rabbitmq-server.8.html">rabbitmq-server(8)</a>,
-  <a class="Xr" title="Xr" href="rabbitmq-queues.8.html">rabbitmq-queues(8)</a>,
-  <a class="Xr" title="Xr" href="rabbitmq-service.8.html">rabbitmq-service(8)</a>,
-  <a class="Xr" title="Xr" href="rabbitmq-env.conf.5.html">rabbitmq-env.conf(5)</a>,
-  <a class="Xr" title="Xr" href="rabbitmq-echopid.8.html">rabbitmq-echopid(8)</a>
-<h2 class="Sh" title="Sh" id="AUTHOR"><a class="permalink" href="#AUTHOR">AUTHOR</a></h2>
-<span class="An" title="An">The RabbitMQ Team</span>
-  &lt;<a class="Mt" title="Mt" href="mailto:info@rabbitmq.com">info@rabbitmq.com</a>&gt;</div>
+<a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a>,
+  <a class="Xr" href="rabbitmq-diagnostics.8.html">rabbitmq-diagnostics(8)</a>,
+  <a class="Xr" href="rabbitmq-server.8.html">rabbitmq-server(8)</a>,
+  <a class="Xr" href="rabbitmq-queues.8.html">rabbitmq-queues(8)</a>,
+  <a class="Xr" href="rabbitmq-service.8.html">rabbitmq-service(8)</a>,
+  <a class="Xr" href="rabbitmq-env.conf.5.html">rabbitmq-env.conf(5)</a>,
+  <a class="Xr" href="rabbitmq-echopid.8.html">rabbitmq-echopid(8)</a>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="AUTHOR"><a class="permalink" href="#AUTHOR">AUTHOR</a></h2>
+<span class="An">The RabbitMQ Team</span>
+  &lt;<a class="Mt" href="mailto:info@rabbitmq.com">info@rabbitmq.com</a>&gt;
+</section>
+</div>
     </div>
   <div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or

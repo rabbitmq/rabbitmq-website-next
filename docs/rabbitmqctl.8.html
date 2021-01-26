@@ -9,56 +9,57 @@
       <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>rabbitmqctl(8) — RabbitMQ</title>
     
   </head>
-  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>rabbitmqctl(8)</h1>
+  <body id="rabbitmqctl.8"><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>rabbitmqctl(8)</h1>
     <div class="docSection"><a name="manpage" class="anchor" id="manpage"></a>
       <div xmlns="" class="manual-text" xml:base="man/rabbitmqctl.8.html">
-<h2 class="Sh" title="Sh" id="NAME"><a class="permalink" href="#NAME">NAME</a></h2>
+<section class="Sh">
+<h2 class="Sh" id="NAME"><a class="permalink" href="#NAME">NAME</a></h2>
 <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span> —
-<div class="Nd" title="Nd">tool for managing RabbitMQ nodes</div>
-<h2 class="Sh" title="Sh" id="SYNOPSIS"><a class="permalink" href="#SYNOPSIS">SYNOPSIS</a></h2>
+<div class="Nd">tool for managing RabbitMQ nodes</div>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="SYNOPSIS"><a class="permalink" href="#SYNOPSIS">SYNOPSIS</a></h2>
 <table class="Nm">
   <tr>
     <td><span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span></td>
-    <td>[<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-q</span></div>]
-      [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-s</span></div>]
-      [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-l</span></div>]
-      [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-n</span>
-      <var class="Ar" title="Ar">node</var></div>]
-      [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-t</span>
-      <var class="Ar" title="Ar">timeout</var></div>]
-      <var class="Ar" title="Ar">command</var>
-      [<div class="Op"><var class="Ar" title="Ar">command_options</var></div>]</td>
+    <td>[<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-q</span>] [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-s</span>]
+      [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-l</span>] [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-n</span>
+      <var class="Ar">node</var>] [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-t</span>
+      <var class="Ar">timeout</var>] <var class="Ar">command</var>
+      [<var class="Ar">command_options</var>]</td>
   </tr>
 </table>
-<h2 class="Sh" title="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
 RabbitMQ is an open source multi-protocol messaging broker.
-<div class="Pp"></div>
-<span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span> is a command line tool for
-  managing a RabbitMQ server node. It performs all actions by connecting to the
-  target RabbitMQ node on a dedicated CLI tool communication port and
-  authenticating using a shared secret (known as the cookie file).
-<div class="Pp"></div>
-Diagnostic information is displayed if connection failed, the target node was
-  not running, or <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span> could not
-  authenticate to the target node successfully. To learn more, see the
-  <a class="Lk" title="Lk" href="https://www.rabbitmq.com/cli.html">RabbitMQ CLI
-  Tools guide</a> and
-  <a class="Lk" title="Lk" href="https://www.rabbitmq.com/networking.html">RabbitMQ
-  Networking guide</a>
-<h2 class="Sh" title="Sh" id="OPTIONS"><a class="permalink" href="#OPTIONS">OPTIONS</a></h2>
+<p class="Pp"><span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span> is a command line tool for
+    managing a RabbitMQ server node. It performs all actions by connecting to
+    the target RabbitMQ node on a dedicated CLI tool communication port and
+    authenticating using a shared secret (known as the cookie file).</p>
+<p class="Pp">Diagnostic information is displayed if connection failed, the
+    target node was not running, or <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span> could
+    not authenticate to the target node successfully. To learn more, see the
+    <a class="Lk" href="https://www.rabbitmq.com/cli.html">RabbitMQ CLI Tools
+    guide</a> and
+    <a class="Lk" href="https://www.rabbitmq.com/networking.html">RabbitMQ
+    Networking guide</a></p>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="OPTIONS"><a class="permalink" href="#OPTIONS">OPTIONS</a></h2>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#n"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-n</span></a>
-    <var class="Ar" title="Ar">node</var></dt>
+    <var class="Ar">node</var></dt>
   <dd>Default node is
-      "<var class="Ar" title="Ar">rabbit@target-hostname</var>",
-      where <var class="Ar" title="Ar">target-hostname</var> is the local host.
-      On a host named "myserver.example.com", the node name will
-      usually be "rabbit@myserver" (unless
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Ev">RABBITMQ_NODENAME</span> has been overridden).
-      The output of "hostname -s" is usually the correct suffix to
-      use after the "@" sign. See
-      <a class="Xr" title="Xr" href="rabbitmq-server.8.html">rabbitmq-server(8)</a>
-      for details of configuring a RabbitMQ node.</dd>
+      "<var class="Ar">rabbit@target-hostname</var>", where
+      <var class="Ar">target-hostname</var> is the local host. On a host named
+      "myserver.example.com", the node name will usually be
+      "rabbit@myserver" (unless
+      <span xmlns="http://www.w3.org/1999/xhtml" class="code Ev">RABBITMQ_NODENAME</span> has been overridden). The output
+      of "hostname -s" is usually the correct suffix to use after
+      the "@" sign. See
+      <a class="Xr" href="rabbitmq-server.8.html">rabbitmq-server(8)</a> for
+      details of configuring a RabbitMQ node.</dd>
   <dt><a class="permalink" href="#q"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-q</span></a>,
     <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--quiet</span></dt>
   <dd>Quiet output mode is selected. Informational messages are reduced when
@@ -72,295 +73,261 @@ Diagnostic information is displayed if connection failed, the target node was
   <dt><a class="permalink" href="#-dry-run"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--dry-run</span></a></dt>
   <dd>Do not run the command. Only print information message.</dd>
   <dt><a class="permalink" href="#t"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-t</span></a>
-    <var class="Ar" title="Ar">timeout</var>,
-    <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--timeout</span>
-    <var class="Ar" title="Ar">timeout</var></dt>
+    <var class="Ar">timeout</var>, <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--timeout</span>
+    <var class="Ar">timeout</var></dt>
   <dd>Operation timeout in seconds. Not all commands support timeouts. Default
       is <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">infinity</span>.</dd>
   <dt><a class="permalink" href="#l"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-l</span></a>,
     <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--longnames</span></dt>
   <dd>Must be specified when the cluster is configured to use long (FQDN) node
       names. To learn more, see the
-      <a class="Lk" title="Lk" href="https://www.rabbitmq.com/clustering.html">RabbitMQ
+      <a class="Lk" href="https://www.rabbitmq.com/clustering.html">RabbitMQ
       Clustering guide</a></dd>
   <dt><a class="permalink" href="#-erlang-cookie"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--erlang-cookie</span></a>
-    <var class="Ar" title="Ar">cookie</var></dt>
+    <var class="Ar">cookie</var></dt>
   <dd>Shared secret to use to authenticate to the target node. Prefer using a
-      local file or the
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Ev">RABBITMQ_ERLANG_COOKIE</span> environment
-      variable instead of specifying this option on the command line. To learn
-      more, see the
-      <a class="Lk" title="Lk" href="https://www.rabbitmq.com/cli.html">RabbitMQ
-      CLI Tools guide</a></dd>
+      local file or the <span xmlns="http://www.w3.org/1999/xhtml" class="code Ev">RABBITMQ_ERLANG_COOKIE</span>
+      environment variable instead of specifying this option on the command
+      line. To learn more, see the
+      <a class="Lk" href="https://www.rabbitmq.com/cli.html">RabbitMQ CLI Tools
+      guide</a></dd>
 </dl>
-<h2 class="Sh" title="Sh" id="COMMANDS"><a class="permalink" href="#COMMANDS">COMMANDS</a></h2>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="COMMANDS"><a class="permalink" href="#COMMANDS">COMMANDS</a></h2>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#help"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">help</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-l</span></div>]
-    [<div class="Op"><var class="Ar" title="Ar">command_name</var></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-l</span>] [<var class="Ar">command_name</var>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Prints usage for all available commands.
+    <p class="Pp">Prints usage for all available commands.</p>
     <dl class="Bl-tag">
       <dt><a class="permalink" href="#l_2"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-l</span></a>,
         <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--list-commands</span></dt>
       <dd>List command usages only, without parameter explanation.</dd>
-      <dt><var class="Ar" title="Ar">command_name</var></dt>
+      <dt><var class="Ar">command_name</var></dt>
       <dd>Prints usage for the specified command.</dd>
     </dl>
   </dd>
   <dt><a class="permalink" href="#version"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">version</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Displays CLI tools version</dd>
+    <p class="Pp">Displays CLI tools version</p>
+  </dd>
 </dl>
-<h3 class="Ss" title="Ss" id="Nodes"><a class="permalink" href="#Nodes">Nodes</a></h3>
+<section class="Ss">
+<h3 class="Ss" id="Nodes"><a class="permalink" href="#Nodes">Nodes</a></h3>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#await_startup"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">await_startup</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Waits for the RabbitMQ application to start on the target node
-    <div class="Pp"></div>
-    For example, to wait for the RabbitMQ application to start:
-    <div class="Pp"></div>
+    <p class="Pp">Waits for the RabbitMQ application to start on the target
+      node</p>
+    <p class="Pp">For example, to wait for the RabbitMQ application to
+      start:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       await_startup</span></div>
   </dd>
   <dt><a class="permalink" href="#reset"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">reset</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Returns a RabbitMQ node to its virgin state.
-    <div class="Pp"></div>
-    Removes the node from any cluster it belongs to, removes all data from the
-      management database, such as configured users and vhosts, and deletes all
-      persistent messages.
-    <div class="Pp"></div>
-    For <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">reset</span> and
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">force_reset</span> to succeed the RabbitMQ
-      application must have been stopped, e.g. with
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">stop_app</span>.
-    <div class="Pp"></div>
-    For example, to reset the RabbitMQ node:
-    <div class="Pp"></div>
+    <p class="Pp">Returns a RabbitMQ node to its virgin state.</p>
+    <p class="Pp">Removes the node from any cluster it belongs to, removes all
+        data from the management database, such as configured users and vhosts,
+        and deletes all persistent messages.</p>
+    <p class="Pp">For <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">reset</span> and
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">force_reset</span> to succeed the RabbitMQ application
+        must have been stopped, e.g. with <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">stop_app</span>.</p>
+    <p class="Pp">For example, to reset the RabbitMQ node:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl reset</span></div>
   </dd>
   <dt><a class="permalink" href="#rotate_logs"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">rotate_logs</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Instructs the RabbitMQ node to perform internal log rotation.
-    <div class="Pp"></div>
-    Log rotation is performed according to lager settings specified in
-      configuration file.
-    <div class="Pp"></div>
-    Note that there is no need to call this command in case of external log
-      rotation (e.g. from logrotate(8)), because lager detects renames and
-      automatically reopens log files.
-    <div class="Pp"></div>
-    For example, this command starts internal log rotation process:
-    <div class="Pp"></div>
+    <p class="Pp">Instructs the RabbitMQ node to perform internal log
+      rotation.</p>
+    <p class="Pp">Log rotation is performed according to lager settings
+        specified in configuration file.</p>
+    <p class="Pp">Note that there is no need to call this command in case of
+        external log rotation (e.g. from logrotate(8)), because lager detects
+        renames and automatically reopens log files.</p>
+    <p class="Pp">For example, this command starts internal log rotation
+        process:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       rotate_logs</span></div>
-    <div class="Pp"></div>
-    Rotation is performed asynchronously, so there is no guarantee that it will
-      be completed when this command returns.</dd>
+    <p class="Pp">Rotation is performed asynchronously, so there is no guarantee
+        that it will be completed when this command returns.</p>
+  </dd>
   <dt><a class="permalink" href="#shutdown"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">shutdown</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Shuts down the node, both RabbitMQ and its runtime. The command is blocking
-      and will return after the runtime process exits. If RabbitMQ fails to
-      stop, it will return a non-zero exit code. This command infers the OS PID
-      of the target node and therefore can only be used to shut down nodes
-      running on the same host (or broadly speaking, in the same operating
-      system, e.g. in the same VM or container)
-    <div class="Pp"></div>
-    Unlike the stop command, the shutdown command:
+    <p class="Pp">Shuts down the node, both RabbitMQ and its runtime. The
+        command is blocking and will return after the runtime process exits. If
+        RabbitMQ fails to stop, it will return a non-zero exit code. This
+        command infers the OS PID of the target node and therefore can only be
+        used to shut down nodes running on the same host (or broadly speaking,
+        in the same operating system, e.g. in the same VM or container)</p>
+    <p class="Pp">Unlike the stop command, the shutdown command:</p>
     <ul class="Bl-bullet">
-      <li>does not require a <var class="Ar" title="Ar">pid_file</var> to wait
-          for the runtime process to exit</li>
+      <li>does not require a <var class="Ar">pid_file</var> to wait for the
+          runtime process to exit</li>
       <li>returns a non-zero exit code if RabbitMQ node is not running</li>
     </ul>
-    <div class="Pp"></div>
-    For example, this will shut down a locally running RabbitMQ node with
-      default node name:
-    <div class="Pp"></div>
+    <p class="Pp">For example, this will shut down a locally running RabbitMQ
+        node with default node name:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl shutdown</span></div>
   </dd>
   <dt><a class="permalink" href="#start_app"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">start_app</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Starts the RabbitMQ application.
-    <div class="Pp"></div>
-    This command is typically run after performing other management actions that
-      required the RabbitMQ application to be stopped, e.g.
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">reset</span>.
-    <div class="Pp"></div>
-    For example, to instruct the RabbitMQ node to start the RabbitMQ
-      application:
-    <div class="Pp"></div>
+    <p class="Pp">Starts the RabbitMQ application.</p>
+    <p class="Pp">This command is typically run after performing other
+        management actions that required the RabbitMQ application to be stopped,
+        e.g. <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">reset</span>.</p>
+    <p class="Pp">For example, to instruct the RabbitMQ node to start the
+        RabbitMQ application:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       start_app</span></div>
   </dd>
   <dt><a class="permalink" href="#stop"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">stop</span></a>
-    [<div class="Op"><var class="Ar" title="Ar">pid_file</var></div>]</dt>
+    [<var class="Ar">pid_file</var>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Stops the Erlang node on which RabbitMQ is running. To restart the node
-      follow the instructions for "Running the Server" in the
-      <a class="Lk" title="Lk" href="https://rabbitmq.com/download.html">installation
-      guide</a>.
-    <div class="Pp"></div>
-    If a <var class="Ar" title="Ar">pid_file</var> is specified, also waits for
-      the process specified there to terminate. See the description of the
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">wait</span> command for details on this file.
-    <div class="Pp"></div>
-    For example, to instruct the RabbitMQ node to terminate:
-    <div class="Pp"></div>
+    <p class="Pp">Stops the Erlang node on which RabbitMQ is running. To restart
+        the node follow the instructions for "Running the Server"
+        in the
+        <a class="Lk" href="https://rabbitmq.com/download.html">installation
+        guide</a>.</p>
+    <p class="Pp">If a <var class="Ar">pid_file</var> is specified, also waits
+        for the process specified there to terminate. See the description of the
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">wait</span> command for details on this file.</p>
+    <p class="Pp">For example, to instruct the RabbitMQ node to terminate:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl stop</span></div>
   </dd>
   <dt><a class="permalink" href="#stop_app"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">stop_app</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Stops the RabbitMQ application, leaving the runtime (Erlang VM) running.
-    <div class="Pp"></div>
-    This command is typically run prior to performing other management actions
-      that require the RabbitMQ application to be stopped, e.g.
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">reset</span>.
-    <div class="Pp"></div>
-    For example, to instruct the RabbitMQ node to stop the RabbitMQ application:
-    <div class="Pp"></div>
+    <p class="Pp">Stops the RabbitMQ application, leaving the runtime (Erlang
+        VM) running.</p>
+    <p class="Pp">This command is typically run prior to performing other
+        management actions that require the RabbitMQ application to be stopped,
+        e.g. <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">reset</span>.</p>
+    <p class="Pp">For example, to instruct the RabbitMQ node to stop the
+        RabbitMQ application:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl stop_app</span></div>
   </dd>
   <dt><a class="permalink" href="#wait"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">wait</span></a>
-    <var class="Ar" title="Ar">pid_file</var>,
-    <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">wait</span>
-    <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--pid</span>
-    <var class="Ar" title="Ar">pid</var></dt>
+    <var class="Ar">pid_file</var>, <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">wait</span>
+    <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--pid</span> <var class="Ar">pid</var></dt>
   <dd>
-    <div class="Pp"></div>
-    Waits for the RabbitMQ application to start.
-    <div class="Pp"></div>
-    This command will wait for the RabbitMQ application to start at the node. It
-      will wait for the pid file to be created if
-      <var class="Ar" title="Ar">pidfile</var> is specified, then for a process
-      with a pid specified in the pid file or the
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--pid</span> argument, and then for the
-      RabbitMQ application to start in that process. It will fail if the process
-      terminates without starting the RabbitMQ application.
-    <div class="Pp"></div>
-    If the specified pidfile is not created or erlang node is not started within
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--timeout</span> the command will fail.
-      Default timeout is 10 seconds.
-    <div class="Pp"></div>
-    A suitable pid file is created by the
-      <a class="Xr" title="Xr" href="rabbitmq-server.8.html">rabbitmq-server(8)</a>
-      script. By default this is located in the Mnesia directory. Modify the
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Ev">RABBITMQ_PID_FILE</span> environment variable
-      to change the location.
-    <div class="Pp"></div>
-    For example, this command will return when the RabbitMQ node has started up:
-    <div class="Pp"></div>
+    <p class="Pp">Waits for the RabbitMQ application to start.</p>
+    <p class="Pp">This command will wait for the RabbitMQ application to start
+        at the node. It will wait for the pid file to be created if
+        <var class="Ar">pidfile</var> is specified, then for a process with a
+        pid specified in the pid file or the <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--pid</span>
+        argument, and then for the RabbitMQ application to start in that
+        process. It will fail if the process terminates without starting the
+        RabbitMQ application.</p>
+    <p class="Pp">If the specified pidfile is not created or erlang node is not
+        started within <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--timeout</span> the command will fail.
+        Default timeout is 10 seconds.</p>
+    <p class="Pp">A suitable pid file is created by the
+        <a class="Xr" href="rabbitmq-server.8.html">rabbitmq-server(8)</a>
+        script. By default this is located in the Mnesia directory. Modify the
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Ev">RABBITMQ_PID_FILE</span> environment variable to change
+        the location.</p>
+    <p class="Pp">For example, this command will return when the RabbitMQ node
+        has started up:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl wait
       /var/run/rabbitmq/pid</span></div>
   </dd>
 </dl>
-<h3 class="Ss" title="Ss" id="Cluster_management"><a class="permalink" href="#Cluster_management">Cluster
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Cluster_management"><a class="permalink" href="#Cluster_management">Cluster
   management</a></h3>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#await_online_nodes"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">await_online_nodes</span></a>
-    <var class="Ar" title="Ar">count</var></dt>
+    <var class="Ar">count</var></dt>
   <dd>
-    <div class="Pp"></div>
-    Waits for <var class="Ar" title="Ar">count</var> nodes to join the cluster
-    <div class="Pp"></div>
-    For example, to wait for two RabbitMQ nodes to start:
-    <div class="Pp"></div>
+    <p class="Pp">Waits for <var class="Ar">count</var> nodes to join the
+        cluster</p>
+    <p class="Pp">For example, to wait for two RabbitMQ nodes to start:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl await_online_nodes
       2</span></div>
   </dd>
   <dt><a class="permalink" href="#change_cluster_node_type"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">change_cluster_node_type</span></a>
-    <var class="Ar" title="Ar">type</var></dt>
+    <var class="Ar">type</var></dt>
   <dd>
-    <div class="Pp"></div>
-    Changes the type of the cluster node.
-    <div class="Pp"></div>
-    The <var class="Ar" title="Ar">type</var> must be one of the following:
+    <p class="Pp">Changes the type of the cluster node.</p>
+    <p class="Pp">The <var class="Ar">type</var> must be one of the
+      following:</p>
     <ul class="Bl-bullet Bl-compact">
       <li><a class="permalink" href="#disc"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">disc</span></a></li>
       <li><a class="permalink" href="#ram"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">ram</span></a></li>
     </ul>
-    <div class="Pp"></div>
-    The node must be stopped for this operation to succeed, and when turning a
-      node into a RAM node the node must not be the only disc node in the
-      cluster.
-    <div class="Pp"></div>
-    For example, this command will turn a RAM node into a disc node:
-    <div class="Pp"></div>
+    <p class="Pp">The node must be stopped for this operation to succeed, and
+        when turning a node into a RAM node the node must not be the only disc
+        node in the cluster.</p>
+    <p class="Pp">For example, this command will turn a RAM node into a disc
+        node:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       change_cluster_node_type disc</span></div>
   </dd>
   <dt><a class="permalink" href="#cluster_status"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">cluster_status</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Displays all the nodes in the cluster grouped by node type, together with
-      the currently running nodes.
-    <div class="Pp"></div>
-    For example, this command displays the nodes in the cluster:
-    <div class="Pp"></div>
+    <p class="Pp">Displays all the nodes in the cluster grouped by node type,
+        together with the currently running nodes.</p>
+    <p class="Pp">For example, this command displays the nodes in the
+      cluster:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       cluster_status</span></div>
   </dd>
   <dt><a class="permalink" href="#force_boot"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">force_boot</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Ensures that the node will start next time, even if it was not the last to
-      shut down.
-    <div class="Pp"></div>
-    Normally when you shut down a RabbitMQ cluster altogether, the first node
-      you restart should be the last one to go down, since it may have seen
-      things happen that other nodes did not. But sometimes that's not possible:
-      for instance if the entire cluster loses power then all nodes may think
-      they were not the last to shut down.
-    <div class="Pp"></div>
-    In such a case you can invoke <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">force_boot</span>
-      while the node is down. This will tell the node to unconditionally start
-      next time you ask it to. If any changes happened to the cluster after this
-      node shut down, they will be lost.
-    <div class="Pp"></div>
-    If the last node to go down is permanently lost then you should use
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">forget_cluster_node</span>
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--offline</span> in preference to this
-      command, as it will ensure that mirrored queues which were mastered on the
-      lost node get promoted.
-    <div class="Pp"></div>
-    For example, this will force the node not to wait for other nodes next time
-      it is started:
-    <div class="Pp"></div>
+    <p class="Pp">Ensures that the node will start next time, even if it was not
+        the last to shut down.</p>
+    <p class="Pp">Normally when you shut down a RabbitMQ cluster altogether, the
+        first node you restart should be the last one to go down, since it may
+        have seen things happen that other nodes did not. But sometimes that's
+        not possible: for instance if the entire cluster loses power then all
+        nodes may think they were not the last to shut down.</p>
+    <p class="Pp">In such a case you can invoke
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">force_boot</span> while the node is down. This will
+        tell the node to unconditionally start next time you ask it to. If any
+        changes happened to the cluster after this node shut down, they will be
+        lost.</p>
+    <p class="Pp">If the last node to go down is permanently lost then you
+        should use <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">forget_cluster_node</span>
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--offline</span> in preference to this command, as it
+        will ensure that mirrored queues which were mastered on the lost node
+        get promoted.</p>
+    <p class="Pp">For example, this will force the node not to wait for other
+        nodes next time it is started:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       force_boot</span></div>
   </dd>
   <dt><a class="permalink" href="#force_reset"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">force_reset</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Forcefully returns a RabbitMQ node to its virgin state.
-    <div class="Pp"></div>
-    The <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">force_reset</span> command differs from
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">reset</span> in that it resets the node
-      unconditionally, regardless of the current management database state and
-      cluster configuration. It should only be used as a last resort if the
-      database or cluster configuration has been corrupted.
-    <div class="Pp"></div>
-    For <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">reset</span> and
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">force_reset</span> to succeed the RabbitMQ
-      application must have been stopped, e.g. with
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">stop_app</span>.
-    <div class="Pp"></div>
-    For example, to reset the RabbitMQ node:
-    <div class="Pp"></div>
+    <p class="Pp">Forcefully returns a RabbitMQ node to its virgin state.</p>
+    <p class="Pp">The <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">force_reset</span> command differs from
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">reset</span> in that it resets the node
+        unconditionally, regardless of the current management database state and
+        cluster configuration. It should only be used as a last resort if the
+        database or cluster configuration has been corrupted.</p>
+    <p class="Pp">For <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">reset</span> and
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">force_reset</span> to succeed the RabbitMQ application
+        must have been stopped, e.g. with <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">stop_app</span>.</p>
+    <p class="Pp">For example, to reset the RabbitMQ node:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       force_reset</span></div>
   </dd>
   <dt><a class="permalink" href="#forget_cluster_node"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">forget_cluster_node</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--offline</span></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--offline</span>]</dt>
   <dd>
     <dl class="Bl-tag">
       <dt><a class="permalink" href="#-offline"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--offline</span></a></dt>
@@ -370,499 +337,450 @@ Diagnostic information is displayed if connection failed, the target node was
           starting. It should not be used in any other circumstances since it
           can lead to inconsistencies.</dd>
     </dl>
-    <div class="Pp"></div>
-    Removes a cluster node remotely. The node that is being removed must be
-      offline, while the node we are removing from must be online, except when
-      using the <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--offline</span> flag.
-    <div class="Pp"></div>
-    When using the <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--offline</span> flag ,
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span> will not attempt to connect
-      to a node as normal; instead it will temporarily become the node in order
-      to make the change. This is useful if the node cannot be started normally.
-      In this case the node will become the canonical source for cluster
-      metadata (e.g. which queues exist), even if it was not before. Therefore
-      you should use this command on the latest node to shut down if at all
-      possible.
-    <div class="Pp"></div>
-    For example, this command will remove the node
-      "rabbit@stringer" from the node
-      "hare@mcnulty":
-    <div class="Pp"></div>
+    <p class="Pp">Removes a cluster node remotely. The node that is being
+        removed must be offline, while the node we are removing from must be
+        online, except when using the <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--offline</span>
+      flag.</p>
+    <p class="Pp">When using the <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--offline</span> flag ,
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span> will not attempt to connect to a
+        node as normal; instead it will temporarily become the node in order to
+        make the change. This is useful if the node cannot be started normally.
+        In this case the node will become the canonical source for cluster
+        metadata (e.g. which queues exist), even if it was not before. Therefore
+        you should use this command on the latest node to shut down if at all
+        possible.</p>
+    <p class="Pp">For example, this command will remove the node
+        "rabbit@stringer" from the node
+        "hare@mcnulty":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl -n hare@mcnulty
       forget_cluster_node rabbit@stringer</span></div>
   </dd>
   <dt><a class="permalink" href="#join_cluster"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">join_cluster</span></a>
-    <var class="Ar" title="Ar">seed-node</var>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--ram</span></div>]</dt>
+    <var class="Ar">seed-node</var> [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--ram</span>]</dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">seed-node</var></dt>
+      <dt><var class="Ar">seed-node</var></dt>
       <dd>Existing cluster member (seed node) to cluster with.</dd>
       <dt><a class="permalink" href="#-ram"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--ram</span></a></dt>
       <dd>If provided, the node will join the cluster as a RAM node. RAM node
           use is discouraged. Use only if you understand why exactly you need to
           use them.</dd>
     </dl>
-    <div class="Pp"></div>
-    Instructs the node to become a member of the cluster that the specified node
-      is in. Before clustering, the node is reset, so be careful when using this
-      command. For this command to succeed the RabbitMQ application must have
-      been stopped, e.g. with <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">stop_app</span>.
-    <div class="Pp"></div>
-    Cluster nodes can be of two types: disc or RAM. Disc nodes replicate data in
-      RAM and on disc, thus providing redundancy in the event of node failure
-      and recovery from global events such as power failure across all nodes.
-      RAM nodes replicate data in RAM only (with the exception of queue
-      contents, which can reside on disc if the queue is persistent or too big
-      to fit in memory) and are mainly used for scalability. RAM nodes are more
-      performant only when managing resources (e.g. adding/removing queues,
-      exchanges, or bindings). A cluster must always have at least one disc
-      node, and usually should have more than one.
-    <div class="Pp"></div>
-    The node will be a disc node by default. If you wish to create a RAM node,
-      provide the <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--ram</span> flag.
-    <div class="Pp"></div>
-    After executing the <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">join_cluster</span> command,
-      whenever the RabbitMQ application is started on the current node it will
-      attempt to connect to the nodes that were in the cluster when the node
-      went down.
-    <div class="Pp"></div>
-    To leave a cluster, <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">reset</span> the node. You
-      can also remove nodes remotely with the
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">forget_cluster_node</span> command.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ node to join the cluster
-      that "hare@elena" is part of, as a ram node:
-    <div class="Pp"></div>
+    <p class="Pp">Instructs the node to become a member of the cluster that the
+        specified node is in. Before clustering, the node is reset, so be
+        careful when using this command. For this command to succeed the
+        RabbitMQ application must have been stopped, e.g. with
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">stop_app</span>.</p>
+    <p class="Pp">Cluster nodes can be of two types: disc or RAM. Disc nodes
+        replicate data in RAM and on disc, thus providing redundancy in the
+        event of node failure and recovery from global events such as power
+        failure across all nodes. RAM nodes replicate data in RAM only (with the
+        exception of queue contents, which can reside on disc if the queue is
+        persistent or too big to fit in memory) and are mainly used for
+        scalability. RAM nodes are more performant only when managing resources
+        (e.g. adding/removing queues, exchanges, or bindings). A cluster must
+        always have at least one disc node, and usually should have more than
+        one.</p>
+    <p class="Pp">The node will be a disc node by default. If you wish to create
+        a RAM node, provide the <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--ram</span> flag.</p>
+    <p class="Pp">After executing the <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">join_cluster</span>
+        command, whenever the RabbitMQ application is started on the current
+        node it will attempt to connect to the nodes that were in the cluster
+        when the node went down.</p>
+    <p class="Pp">To leave a cluster, <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">reset</span> the node.
+        You can also remove nodes remotely with the
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">forget_cluster_node</span> command.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ node to join
+        the cluster that "hare@elena" is part of, as a ram
+      node:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl join_cluster
       hare@elena --ram</span></div>
-    <div class="Pp"></div>
-    To learn more, see the
-      <a class="Lk" title="Lk" href="https://www.rabbitmq.com/clustering.html">RabbitMQ
-      Clustering guide</a>.</dd>
+    <p class="Pp">To learn more, see the
+        <a class="Lk" href="https://www.rabbitmq.com/clustering.html">RabbitMQ
+        Clustering guide</a>.</p>
+  </dd>
   <dt><a class="permalink" href="#rename_cluster_node"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">rename_cluster_node</span></a>
-    <var class="Ar" title="Ar">oldnode1</var>
-    <var class="Ar" title="Ar">newnode1</var>
-    [<div class="Op"><var class="Ar" title="Ar">oldnode2</var>
-    <var class="Ar" title="Ar">newnode2 ...</var></div>]</dt>
+    <var class="Ar">oldnode1</var> <var class="Ar">newnode1</var>
+    [<var class="Ar">oldnode2</var> <var class="Ar">newnode2 ...</var>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Supports renaming of cluster nodes in the local database.
-    <div class="Pp"></div>
-    This subcommand causes <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span> to
-      temporarily become the node in order to make the change. The local cluster
-      node must therefore be completely stopped; other nodes can be online or
-      offline.
-    <div class="Pp"></div>
-    This subcommand takes an even number of arguments, in pairs representing the
-      old and new names for nodes. You must specify the old and new names for
-      this node and for any other nodes that are stopped and being renamed at
-      the same time.
-    <div class="Pp"></div>
-    It is possible to stop all nodes and rename them all simultaneously (in
-      which case old and new names for all nodes must be given to every node) or
-      stop and rename nodes one at a time (in which case each node only needs to
-      be told how its own name is changing).
-    <div class="Pp"></div>
-    For example, this command will rename the node
-      "rabbit@misshelpful" to the node
-      "rabbit@cordelia"
-    <div class="Pp"></div>
+    <p class="Pp">Supports renaming of cluster nodes in the local database.</p>
+    <p class="Pp">This subcommand causes <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span> to
+        temporarily become the node in order to make the change. The local
+        cluster node must therefore be completely stopped; other nodes can be
+        online or offline.</p>
+    <p class="Pp">This subcommand takes an even number of arguments, in pairs
+        representing the old and new names for nodes. You must specify the old
+        and new names for this node and for any other nodes that are stopped and
+        being renamed at the same time.</p>
+    <p class="Pp">It is possible to stop all nodes and rename them all
+        simultaneously (in which case old and new names for all nodes must be
+        given to every node) or stop and rename nodes one at a time (in which
+        case each node only needs to be told how its own name is changing).</p>
+    <p class="Pp">For example, this command will rename the node
+        "rabbit@misshelpful" to the node
+        "rabbit@cordelia"</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl rename_cluster_node
       rabbit@misshelpful rabbit@cordelia</span></div>
-    <div class="Pp"></div>
-    Note that this command only changes the local database. It may also be
-      necessary to rename the local database directories, and to configure the
-      new node name. For example:
-    <div class="Pp"></div>
+    <p class="Pp">Note that this command only changes the local database. It may
+        also be necessary to rename the local database directories, and to
+        configure the new node name. For example:</p>
+    <p class="Pp"></p>
     <ol class="Bl-enum Bl-compact">
       <li>Stop the node:
-        <div class="Pp"></div>
+        <p class="Pp"></p>
         <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl stop
           rabbit@misshelpful</span></div>
-        <div class="Pp"></div>
+        <p class="Pp"></p>
       </li>
       <li>Rename the node in the local database:
-        <div class="Pp"></div>
+        <p class="Pp"></p>
         <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
           rename_cluster_node rabbit@misshelpful rabbit@cordelia</span></div>
-        <div class="Pp"></div>
+        <p class="Pp"></p>
       </li>
       <li>Rename the local database directories (note, you do not need to do
           this if you have set the RABBITMQ_MNESIA_DIR environment variable):
-        <div class="Pp"></div>
+        <p class="Pp"></p>
         <div class="Bd Bd-indent lang-bash">
-        <pre class="Li">
-mv \ 
-  /var/lib/rabbitmq/mnesia/rabbit\@misshelpful \ 
-  /var/lib/rabbitmq/mnesia/rabbit\@cordelia 
-mv \ 
-  /var/lib/rabbitmq/mnesia/rabbit\@misshelpful-rename \ 
-  /var/lib/rabbitmq/mnesia/rabbit\@cordelia-rename 
-mv \ 
-  /var/lib/rabbitmq/mnesia/rabbit\@misshelpful-plugins-expand \ 
+        <pre>
+mv \
+  /var/lib/rabbitmq/mnesia/rabbit\@misshelpful \
+  /var/lib/rabbitmq/mnesia/rabbit\@cordelia
+mv \
+  /var/lib/rabbitmq/mnesia/rabbit\@misshelpful-rename \
+  /var/lib/rabbitmq/mnesia/rabbit\@cordelia-rename
+mv \
+  /var/lib/rabbitmq/mnesia/rabbit\@misshelpful-plugins-expand \
   /var/lib/rabbitmq/mnesia/rabbit\@cordelia-plugins-expand
         </pre>
         </div>
-        <div class="Pp"></div>
+        <p class="Pp"></p>
       </li>
       <li>If node name is configured e.g. using
-          <var class="Ar" title="Ar">/etc/rabbitmq/rabbitmq-env.conf</var> it
-          has also be updated there.
-        <div class="Pp"></div>
+          <var class="Ar">/etc/rabbitmq/rabbitmq-env.conf</var> it has also be
+          updated there.
+        <p class="Pp"></p>
       </li>
       <li>Start the node when ready</li>
     </ol>
   </dd>
   <dt><a class="permalink" href="#update_cluster_nodes"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">update_cluster_nodes</span></a>
-    <var class="Ar" title="Ar">clusternode</var></dt>
+    <var class="Ar">clusternode</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">clusternode</var></dt>
+      <dt><var class="Ar">clusternode</var></dt>
       <dd>The node to consult for up-to-date information.</dd>
     </dl>
-    <div class="Pp"></div>
-    Instructs an already clustered node to contact
-      <var class="Ar" title="Ar">clusternode</var> to cluster when booting up.
-      This is different from <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">join_cluster</span>
-      since it does not join any cluster - it checks that the node is already in
-      a cluster with <var class="Ar" title="Ar">clusternode</var>.
-    <div class="Pp"></div>
-    The need for this command is motivated by the fact that clusters can change
-      while a node is offline. Consider a situation where node
-      <var class="Va" title="Va">rabbit@A</var> and
-      <var class="Va" title="Va">rabbit@B</var> are clustered.
-      <var class="Va" title="Va">rabbit@A</var> goes down,
-      <var class="Va" title="Va">rabbit@C</var> clusters with
-      <var class="Va" title="Va">rabbit@B</var>, and then
-      <var class="Va" title="Va">rabbit@B</var> leaves the cluster. When
-      <var class="Va" title="Va">rabbit@A</var> starts back up, it'll try to
-      contact <var class="Va" title="Va">rabbit@B</var>, but this will fail
-      since <var class="Va" title="Va">rabbit@B</var> is not in the cluster
-      anymore. The following command will rename node
-      <var class="Va" title="Va">rabbit@B</var> to
-      <var class="Va" title="Va">rabbit@C</var> on node
-      <var class="Va" title="Va">rabbitA</var>
-    <div class="Pp"></div>
+    <p class="Pp">Instructs an already clustered node to contact
+        <var class="Ar">clusternode</var> to cluster when booting up. This is
+        different from <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">join_cluster</span> since it does not
+        join any cluster - it checks that the node is already in a cluster with
+        <var class="Ar">clusternode</var>.</p>
+    <p class="Pp">The need for this command is motivated by the fact that
+        clusters can change while a node is offline. Consider a situation where
+        node <var class="Va">rabbit@A</var> and <var class="Va">rabbit@B</var>
+        are clustered. <var class="Va">rabbit@A</var> goes down,
+        <var class="Va">rabbit@C</var> clusters with
+        <var class="Va">rabbit@B</var>, and then <var class="Va">rabbit@B</var>
+        leaves the cluster. When <var class="Va">rabbit@A</var> starts back up,
+        it'll try to contact <var class="Va">rabbit@B</var>, but this will fail
+        since <var class="Va">rabbit@B</var> is not in the cluster anymore. The
+        following command will rename node <var class="Va">rabbit@B</var> to
+        <var class="Va">rabbit@C</var> on node <var class="Va">rabbitA</var></p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">update_cluster_nodes -n
-      <var xmlns="" class="Va" title="Va">rabbit@A</var>
-      <var xmlns="" class="Va" title="Va">rabbit@B</var>
-      <var xmlns="" class="Va" title="Va">rabbit@C</var></span></div>
-    <div class="Pp"></div>
-    To learn more, see the
-      <a class="Lk" title="Lk" href="https://www.rabbitmq.com/clustering.html">RabbitMQ
-      Clustering guide</a></dd>
+      <var xmlns="" class="Va">rabbit@A</var> <var xmlns="" class="Va">rabbit@B</var>
+      <var xmlns="" class="Va">rabbit@C</var></span></div>
+    <p class="Pp">To learn more, see the
+        <a class="Lk" href="https://www.rabbitmq.com/clustering.html">RabbitMQ
+        Clustering guide</a></p>
+  </dd>
 </dl>
-<h3 class="Ss" title="Ss" id="Replication"><a class="permalink" href="#Replication">Replication</a></h3>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Replication"><a class="permalink" href="#Replication">Replication</a></h3>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#sync_queue"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">sync_queue</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    <var class="Ar" title="Ar">queue</var></dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    <var class="Ar">queue</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">queue</var></dt>
+      <dt><var class="Ar">queue</var></dt>
       <dd>The name of the queue to synchronise.</dd>
     </dl>
-    <div class="Pp"></div>
-    Instructs a mirrored queue with unsynchronised mirrors (follower replicas)
-      to synchronise them. The queue will block while synchronisation takes
-      place (all publishers to and consumers using the queue will block or
-      temporarily see no activity). This command can only be used with mirrored
-      queues. To learn more, see the
-      <a class="Lk" title="Lk" href="https://www.rabbitmq.com/ha.html">RabbitMQ
-      Mirroring guide</a>
-    <div class="Pp"></div>
-    Note that queues with unsynchronised replicas and active consumers will
-      become synchronised eventually (assuming that consumers make progress).
-      This command is primarily useful for queues which do not have active
-      consumers.</dd>
+    <p class="Pp">Instructs a mirrored queue with unsynchronised mirrors
+        (follower replicas) to synchronise them. The queue will block while
+        synchronisation takes place (all publishers to and consumers using the
+        queue will block or temporarily see no activity). This command can only
+        be used with mirrored queues. To learn more, see the
+        <a class="Lk" href="https://www.rabbitmq.com/ha.html">RabbitMQ Mirroring
+        guide</a></p>
+    <p class="Pp">Note that queues with unsynchronised replicas and active
+        consumers will become synchronised eventually (assuming that consumers
+        make progress). This command is primarily useful for queues which do not
+        have active consumers.</p>
+  </dd>
   <dt><a class="permalink" href="#cancel_sync_queue"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">cancel_sync_queue</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    <var class="Ar" title="Ar">queue</var></dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    <var class="Ar">queue</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">queue</var></dt>
+      <dt><var class="Ar">queue</var></dt>
       <dd>The name of the queue to cancel synchronisation for.</dd>
     </dl>
-    <div class="Pp"></div>
-    Instructs a synchronising mirrored queue to stop synchronising itself.</dd>
+    <p class="Pp">Instructs a synchronising mirrored queue to stop synchronising
+        itself.</p>
+  </dd>
 </dl>
-<h3 class="Ss" title="Ss" id="User_Management"><a class="permalink" href="#User_Management">User
+</section>
+<section class="Ss">
+<h3 class="Ss" id="User_Management"><a class="permalink" href="#User_Management">User
   Management</a></h3>
-Note that all user management commands
-  <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span> only can manage users in the
-  internal RabbitMQ database. Users from any alternative authentication backends
-  such as LDAP cannot be inspected or managed with those commands.
-  <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span>.
+Note that all user management commands <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span> only
+  can manage users in the internal RabbitMQ database. Users from any alternative
+  authentication backends such as LDAP cannot be inspected or managed with those
+  commands. <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span>.
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#add_user"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">add_user</span></a>
-    <var class="Ar" title="Ar">username</var>
-    <var class="Ar" title="Ar">password</var></dt>
+    <var class="Ar">username</var> <var class="Ar">password</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">username</var></dt>
+      <dt><var class="Ar">username</var></dt>
       <dd>The name of the user to create.</dd>
-      <dt><var class="Ar" title="Ar">password</var></dt>
+      <dt><var class="Ar">password</var></dt>
       <dd>The password the created user will use to log in to the broker.</dd>
     </dl>
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to create a
-      (non-administrative) user named "janeway" with (initial)
-      password "changeit":
-    <div class="Pp"></div>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        create a (non-administrative) user named "janeway" with
+        (initial) password "changeit":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl add_user janeway
       changeit</span></div>
   </dd>
   <dt><a class="permalink" href="#authenticate_user"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">authenticate_user</span></a>
-    <var class="Ar" title="Ar">username</var>
-    <var class="Ar" title="Ar">password</var></dt>
+    <var class="Ar">username</var> <var class="Ar">password</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">username</var></dt>
+      <dt><var class="Ar">username</var></dt>
       <dd>The name of the user.</dd>
-      <dt><var class="Ar" title="Ar">password</var></dt>
+      <dt><var class="Ar">password</var></dt>
       <dd>The password of the user.</dd>
     </dl>
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to authenticate the
-      user named "janeway" with password "verifyit":
-    <div class="Pp"></div>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        authenticate the user named "janeway" with password
+        "verifyit":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl authenticate_user
       janeway verifyit</span></div>
   </dd>
   <dt><a class="permalink" href="#change_password"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">change_password</span></a>
-    <var class="Ar" title="Ar">username</var>
-    <var class="Ar" title="Ar">newpassword</var></dt>
+    <var class="Ar">username</var> <var class="Ar">newpassword</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">username</var></dt>
+      <dt><var class="Ar">username</var></dt>
       <dd>The name of the user whose password is to be changed.</dd>
-      <dt><var class="Ar" title="Ar">newpassword</var></dt>
+      <dt><var class="Ar">newpassword</var></dt>
       <dd>The new password for the user.</dd>
     </dl>
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to change the
-      password for the user named "janeway" to
-      "newpass":
-    <div class="Pp"></div>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        change the password for the user named "janeway" to
+        "newpass":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl change_password
       janeway newpass</span></div>
   </dd>
   <dt><a class="permalink" href="#clear_password"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">clear_password</span></a>
-    <var class="Ar" title="Ar">username</var></dt>
+    <var class="Ar">username</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">username</var></dt>
+      <dt><var class="Ar">username</var></dt>
       <dd>The name of the user whose password is to be cleared.</dd>
     </dl>
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to clear the
-      password for the user named "janeway":
-    <div class="Pp"></div>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        clear the password for the user named "janeway":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl clear_password
       janeway</span></div>
-    <div class="Pp"></div>
-    This user now cannot log in with a password (but may be able to through e.g.
-      SASL EXTERNAL if configured).</dd>
+    <p class="Pp">This user now cannot log in with a password (but may be able
+        to through e.g. SASL EXTERNAL if configured).</p>
+  </dd>
   <dt><a class="permalink" href="#delete_user"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">delete_user</span></a>
-    <var class="Ar" title="Ar">username</var></dt>
+    <var class="Ar">username</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">username</var></dt>
+      <dt><var class="Ar">username</var></dt>
       <dd>The name of the user to delete.</dd>
     </dl>
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to delete the user
-      named "janeway":
-    <div class="Pp"></div>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        delete the user named "janeway":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl delete_user
       janeway</span></div>
   </dd>
   <dt><a class="permalink" href="#list_users"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_users</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Lists users. Each result row will contain the user name followed by a list
-      of the tags set for that user.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to list all users:
-    <div class="Pp"></div>
+    <p class="Pp">Lists users. Each result row will contain the user name
+        followed by a list of the tags set for that user.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        list all users:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       list_users</span></div>
   </dd>
   <dt><a class="permalink" href="#set_user_tags"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_user_tags</span></a>
-    <var class="Ar" title="Ar">username</var>
-    [<div class="Op"><var class="Ar" title="Ar">tag ...</var></div>]</dt>
+    <var class="Ar">username</var> [<var class="Ar">tag ...</var>]</dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">username</var></dt>
+      <dt><var class="Ar">username</var></dt>
       <dd>The name of the user whose tags are to be set.</dd>
-      <dt><var class="Ar" title="Ar">tag</var></dt>
+      <dt><var class="Ar">tag</var></dt>
       <dd>Zero, one or more tags to set. Any existing tags will be removed.</dd>
     </dl>
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to ensure the user
-      named "janeway" is an administrator:
-    <div class="Pp"></div>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        ensure the user named "janeway" is an administrator:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl set_user_tags janeway
       administrator</span></div>
-    <div class="Pp"></div>
-    This has no effect when the user logs in via AMQP, but can be used to permit
-      the user to manage users, virtual hosts and permissions when the user logs
-      in via some other means (for example with the management plugin).
-    <div class="Pp"></div>
-    This command instructs the RabbitMQ broker to remove any tags from the user
-      named "janeway":
-    <div class="Pp"></div>
+    <p class="Pp">This has no effect when the user logs in via AMQP, but can be
+        used to permit the user to manage users, virtual hosts and permissions
+        when the user logs in via some other means (for example with the
+        management plugin).</p>
+    <p class="Pp">This command instructs the RabbitMQ broker to remove any tags
+        from the user named "janeway":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl set_user_tags
       janeway</span></div>
   </dd>
 </dl>
-<h3 class="Ss" title="Ss" id="Access_control"><a class="permalink" href="#Access_control">Access
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Access_control"><a class="permalink" href="#Access_control">Access
   control</a></h3>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#clear_permissions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">clear_permissions</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    <var class="Ar" title="Ar">username</var></dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    <var class="Ar">username</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">vhost</var></dt>
+      <dt><var class="Ar">vhost</var></dt>
       <dd>The name of the virtual host to which to deny the user access,
           defaulting to "/".</dd>
-      <dt><var class="Ar" title="Ar">username</var></dt>
+      <dt><var class="Ar">username</var></dt>
       <dd>The name of the user to deny access to the specified virtual
         host.</dd>
     </dl>
-    <div class="Pp"></div>
-    Sets user permissions.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to deny the user
-      named "janeway" access to the virtual host called
-      "my-vhost":
-    <div class="Pp"></div>
+    <p class="Pp">Sets user permissions.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        deny the user named "janeway" access to the virtual host
+        called "my-vhost":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl clear_permissions -p
       my-vhost janeway</span></div>
   </dd>
   <dt><a class="permalink" href="#clear_topic_permissions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">clear_topic_permissions</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    <var class="Ar" title="Ar">username</var>
-    [<div class="Op"><var class="Ar" title="Ar">exchange</var></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    <var class="Ar">username</var> [<var class="Ar">exchange</var>]</dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">vhost</var></dt>
+      <dt><var class="Ar">vhost</var></dt>
       <dd>The name of the virtual host to which to clear the topic permissions,
           defaulting to "/".</dd>
-      <dt><var class="Ar" title="Ar">username</var></dt>
+      <dt><var class="Ar">username</var></dt>
       <dd>The name of the user to clear topic permissions to the specified
           virtual host.</dd>
-      <dt><var class="Ar" title="Ar">exchange</var></dt>
+      <dt><var class="Ar">exchange</var></dt>
       <dd>The name of the topic exchange to clear topic permissions, defaulting
           to all the topic exchanges the given user has topic permissions
         for.</dd>
     </dl>
-    <div class="Pp"></div>
-    Clear user topic permissions.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to remove topic
-      permissions for user named "janeway" for the topic exchange
-      "amq.topic" in the virtual host called
-      "my-vhost":
-    <div class="Pp"></div>
+    <p class="Pp">Clear user topic permissions.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        remove topic permissions for user named "janeway" for the
+        topic exchange "amq.topic" in the virtual host called
+        "my-vhost":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       clear_topic_permissions -p my-vhost janeway amq.topic</span></div>
   </dd>
   <dt><a class="permalink" href="#list_permissions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_permissions</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]</dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">vhost</var></dt>
+      <dt><var class="Ar">vhost</var></dt>
       <dd>The name of the virtual host for which to list the users that have
           been granted access to it, and their permissions. Defaults to
           "/".</dd>
     </dl>
-    <div class="Pp"></div>
-    Lists permissions in a virtual host.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to list all the
-      users which have been granted access to the virtual host called
-      "my-vhost", and the permissions they have for operations on
-      resources in that virtual host. Note that an empty string means no
-      permissions granted:
-    <div class="Pp"></div>
+    <p class="Pp">Lists permissions in a virtual host.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        list all the users which have been granted access to the virtual host
+        called "my-vhost", and the permissions they have for
+        operations on resources in that virtual host. Note that an empty string
+        means no permissions granted:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl list_permissions -p
       my-vhost</span></div>
   </dd>
   <dt><a class="permalink" href="#list_topic_permissions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_topic_permissions</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]</dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">vhost</var></dt>
+      <dt><var class="Ar">vhost</var></dt>
       <dd>The name of the virtual host for which to list the users topic
           permissions. Defaults to "/".</dd>
     </dl>
-    <div class="Pp"></div>
-    Lists topic permissions in a virtual host.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to list all the
-      users which have been granted topic permissions in the virtual host called
-      "my-vhost:"
-    <div class="Pp"></div>
+    <p class="Pp">Lists topic permissions in a virtual host.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        list all the users which have been granted topic permissions in the
+        virtual host called "my-vhost:"</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       list_topic_permissions -p my-vhost</span></div>
   </dd>
   <dt><a class="permalink" href="#list_user_permissions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_user_permissions</span></a>
-    <var class="Ar" title="Ar">username</var></dt>
+    <var class="Ar">username</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">username</var></dt>
+      <dt><var class="Ar">username</var></dt>
       <dd>The name of the user for which to list the permissions.</dd>
     </dl>
-    <div class="Pp"></div>
-    Lists user permissions.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to list all the
-      virtual hosts to which the user named "janeway" has been
-      granted access, and the permissions the user has for operations on
-      resources in these virtual hosts:
-    <div class="Pp"></div>
+    <p class="Pp">Lists user permissions.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        list all the virtual hosts to which the user named
+        "janeway" has been granted access, and the permissions the
+        user has for operations on resources in these virtual hosts:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl list_user_permissions
       janeway</span></div>
   </dd>
   <dt><a class="permalink" href="#list_user_topic_permissions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_user_topic_permissions</span></a>
-    <var class="Ar" title="Ar">username</var></dt>
+    <var class="Ar">username</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">username</var></dt>
+      <dt><var class="Ar">username</var></dt>
       <dd>The name of the user for which to list the topic permissions.</dd>
     </dl>
-    <div class="Pp"></div>
-    Lists user topic permissions.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to list all the
-      virtual hosts to which the user named "janeway" has been
-      granted access, and the topic permissions the user has in these virtual
-      hosts:
-    <div class="Pp"></div>
+    <p class="Pp">Lists user topic permissions.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        list all the virtual hosts to which the user named
+        "janeway" has been granted access, and the topic
+        permissions the user has in these virtual hosts:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       list_topic_user_permissions janeway</span></div>
   </dd>
   <dt><a class="permalink" href="#list_vhosts"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_vhosts</span></a>
-    [<div class="Op"><var class="Ar" title="Ar">vhostinfoitem
-    ...</var></div>]</dt>
+    [<var class="Ar">vhostinfoitem ...</var>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Lists virtual hosts.
-    <div class="Pp"></div>
-    The <var class="Ar" title="Ar">vhostinfoitem</var> parameter is used to
-      indicate which virtual host information items to include in the results.
-      The column order in the results will match the order of the parameters.
-      <var class="Ar" title="Ar">vhostinfoitem</var> can take any value from the
-      list that follows:
+    <p class="Pp">Lists virtual hosts.</p>
+    <p class="Pp">The <var class="Ar">vhostinfoitem</var> parameter is used to
+        indicate which virtual host information items to include in the results.
+        The column order in the results will match the order of the parameters.
+        <var class="Ar">vhostinfoitem</var> can take any value from the list
+        that follows:</p>
     <dl class="Bl-tag">
       <dt><a class="permalink" href="#name"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">name</span></a></dt>
       <dd>The name of the virtual host with non-ASCII characters escaped as in
@@ -870,124 +788,112 @@ Note that all user management commands
       <dt><a class="permalink" href="#tracing"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">tracing</span></a></dt>
       <dd>Whether tracing is enabled for this virtual host.</dd>
     </dl>
-    <div class="Pp"></div>
-    If no <var class="Ar" title="Ar">vhostinfoitem</var> are specified then the
-      vhost name is displayed.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to list all virtual
-      hosts:
-    <div class="Pp"></div>
+    <p class="Pp">If no <var class="Ar">vhostinfoitem</var> are specified then
+        the vhost name is displayed.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        list all virtual hosts:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl list_vhosts name
       tracing</span></div>
   </dd>
   <dt><a class="permalink" href="#set_permissions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_permissions</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    <var class="Ar" title="Ar">user</var> <var class="Ar" title="Ar">conf</var>
-    <var class="Ar" title="Ar">write</var>
-    <var class="Ar" title="Ar">read</var></dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    <var class="Ar">user</var> <var class="Ar">conf</var>
+    <var class="Ar">write</var> <var class="Ar">read</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">vhost</var></dt>
+      <dt><var class="Ar">vhost</var></dt>
       <dd>The name of the virtual host to which to grant the user access,
           defaulting to "/".</dd>
-      <dt><var class="Ar" title="Ar">user</var></dt>
+      <dt><var class="Ar">user</var></dt>
       <dd>The name of the user to grant access to the specified virtual
         host.</dd>
-      <dt><var class="Ar" title="Ar">conf</var></dt>
+      <dt><var class="Ar">conf</var></dt>
       <dd>A regular expression matching resource names for which the user is
           granted configure permissions.</dd>
-      <dt><var class="Ar" title="Ar">write</var></dt>
+      <dt><var class="Ar">write</var></dt>
       <dd>A regular expression matching resource names for which the user is
           granted write permissions.</dd>
-      <dt><var class="Ar" title="Ar">read</var></dt>
+      <dt><var class="Ar">read</var></dt>
       <dd>A regular expression matching resource names for which the user is
           granted read permissions.</dd>
     </dl>
-    <div class="Pp"></div>
-    Sets user permissions.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to grant the user
-      named "janeway" access to the virtual host called
-      "my-vhost", with configure permissions on all resources
-      whose names starts with "janeway-", and write and read
-      permissions on all resources:
-    <div class="Pp"></div>
+    <p class="Pp">Sets user permissions.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        grant the user named "janeway" access to the virtual host
+        called "my-vhost", with configure permissions on all
+        resources whose names starts with "janeway-", and write
+        and read permissions on all resources:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl set_permissions -p
       my-vhost janeway "^janeway-.*" ".*"
       ".*"</span></div>
   </dd>
   <dt><a class="permalink" href="#set_topic_permissions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_topic_permissions</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    <var class="Ar" title="Ar">user</var>
-    <var class="Ar" title="Ar">exchange</var>
-    <var class="Ar" title="Ar">write</var>
-    <var class="Ar" title="Ar">read</var></dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    <var class="Ar">user</var> <var class="Ar">exchange</var>
+    <var class="Ar">write</var> <var class="Ar">read</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">vhost</var></dt>
+      <dt><var class="Ar">vhost</var></dt>
       <dd>The name of the virtual host to which to grant the user access,
           defaulting to "/".</dd>
-      <dt><var class="Ar" title="Ar">user</var></dt>
+      <dt><var class="Ar">user</var></dt>
       <dd>The name of the user the permissions apply to in the target virtual
           host.</dd>
-      <dt><var class="Ar" title="Ar">exchange</var></dt>
+      <dt><var class="Ar">exchange</var></dt>
       <dd>The name of the topic exchange the authorisation check will be applied
           to.</dd>
-      <dt><var class="Ar" title="Ar">write</var></dt>
+      <dt><var class="Ar">write</var></dt>
       <dd>A regular expression matching the routing key of the published
           message.</dd>
-      <dt><var class="Ar" title="Ar">read</var></dt>
+      <dt><var class="Ar">read</var></dt>
       <dd>A regular expression matching the routing key of the consumed
         message.</dd>
     </dl>
-    <div class="Pp"></div>
-    Sets user topic permissions.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to let the user
-      named "janeway" publish and consume messages going through
-      the "amp.topic" exchange of the "my-vhost"
-      virtual host with a routing key starting with "janeway-":
-    <div class="Pp"></div>
+    <p class="Pp">Sets user topic permissions.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to let
+        the user named "janeway" publish and consume messages
+        going through the "amp.topic" exchange of the
+        "my-vhost" virtual host with a routing key starting with
+        "janeway-":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl set_topic_permissions
       -p my-vhost janeway amq.topic "^janeway-.*"
       "^janeway-.*"</span></div>
-    <div class="Pp"></div>
-    Topic permissions support variable expansion for the following variables:
-      username, vhost, and client_id. Note that client_id is expanded only when
-      using MQTT. The previous example could be made more generic by using
-      "^{username}-.*":
-    <div class="Pp"></div>
+    <p class="Pp">Topic permissions support variable expansion for the following
+        variables: username, vhost, and client_id. Note that client_id is
+        expanded only when using MQTT. The previous example could be made more
+        generic by using "^{username}-.*":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl set_topic_permissions
       -p my-vhost janeway amq.topic "^{username}-.*"
       "^{username}-.*"</span></div>
   </dd>
 </dl>
-<h3 class="Ss" title="Ss" id="Monitoring,_observability_and_health_checks"><a class="permalink" href="#Monitoring,_observability_and_health_checks">Monitoring,
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Monitoring,_observability_and_health_checks"><a class="permalink" href="#Monitoring,_observability_and_health_checks">Monitoring,
   observability and health checks</a></h3>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#environment"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">environment</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Displays the name and value of each variable in the application environment
-      for each running application.</dd>
+    <p class="Pp">Displays the name and value of each variable in the
+        application environment for each running application.</p>
+  </dd>
   <dt><a class="permalink" href="#list_bindings"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_bindings</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    [<div class="Op"><var class="Ar" title="Ar">bindinginfoitem
-    ...</var></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    [<var class="Ar">bindinginfoitem ...</var>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Returns binding details. By default the bindings for the "/"
-      virtual host are returned. The <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> flag
-      can be used to override this default.
-    <div class="Pp"></div>
-    The <var class="Ar" title="Ar">bindinginfoitem</var> parameter is used to
-      indicate which binding information items to include in the results. The
-      column order in the results will match the order of the parameters.
-      <var class="Ar" title="Ar">bindinginfoitem</var> can take any value from
-      the list that follows:
+    <p class="Pp">Returns binding details. By default the bindings for the
+        "/" virtual host are returned. The
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> flag can be used to override this
+      default.</p>
+    <p class="Pp">The <var class="Ar">bindinginfoitem</var> parameter is used to
+        indicate which binding information items to include in the results. The
+        column order in the results will match the order of the parameters.
+        <var class="Ar">bindinginfoitem</var> can take any value from the list
+        that follows:</p>
     <dl class="Bl-tag">
       <dt><a class="permalink" href="#source_name"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">source_name</span></a></dt>
       <dd>The name of the source of messages to which the binding is attached.
@@ -1008,31 +914,27 @@ Note that all user management commands
       <dt><a class="permalink" href="#arguments"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">arguments</span></a></dt>
       <dd>The binding's arguments.</dd>
     </dl>
-    <div class="Pp"></div>
-    If no <var class="Ar" title="Ar">bindinginfoitem</var> are specified then
-      all above items are displayed.
-    <div class="Pp"></div>
-    For example, this command displays the exchange name and queue name of the
-      bindings in the virtual host named "my-vhost"
-    <div class="Pp"></div>
+    <p class="Pp">If no <var class="Ar">bindinginfoitem</var> are specified then
+        all above items are displayed.</p>
+    <p class="Pp">For example, this command displays the exchange name and queue
+        name of the bindings in the virtual host named
+      "my-vhost"</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl list_bindings -p
       my-vhost exchange_name queue_name</span></div>
   </dd>
   <dt><a class="permalink" href="#list_channels"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_channels</span></a>
-    [<div class="Op"><var class="Ar" title="Ar">channelinfoitem
-    ...</var></div>]</dt>
+    [<var class="Ar">channelinfoitem ...</var>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Returns information on all current channels, the logical containers
-      executing most AMQP commands. This includes channels that are part of
-      ordinary AMQP connections, and channels created by various plug-ins and
-      other extensions.
-    <div class="Pp"></div>
-    The <var class="Ar" title="Ar">channelinfoitem</var> parameter is used to
-      indicate which channel information items to include in the results. The
-      column order in the results will match the order of the parameters.
-      <var class="Ar" title="Ar">channelinfoitem</var> can take any value from
-      the list that follows:
+    <p class="Pp">Returns information on all current channels, the logical
+        containers executing most AMQP commands. This includes channels that are
+        part of ordinary AMQP connections, and channels created by various
+        plug-ins and other extensions.</p>
+    <p class="Pp">The <var class="Ar">channelinfoitem</var> parameter is used to
+        indicate which channel information items to include in the results. The
+        column order in the results will match the order of the parameters.
+        <var class="Ar">channelinfoitem</var> can take any value from the list
+        that follows:</p>
     <dl class="Bl-tag">
       <dt><a class="permalink" href="#pid"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">pid</span></a></dt>
       <dd>Id of the Erlang process associated with the connection.</dd>
@@ -1071,39 +973,32 @@ Note that all user management commands
       <dt><a class="permalink" href="#global_prefetch_count"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">global_prefetch_count</span></a></dt>
       <dd>QoS prefetch limit for the entire channel, 0 if unlimited.</dd>
     </dl>
-    <div class="Pp"></div>
-    If no <var class="Ar" title="Ar">channelinfoitem</var> are specified then
-      pid, user, consumer_count, and messages_unacknowledged are assumed.
-    <div class="Pp"></div>
-    For example, this command displays the connection process and count of
-      unacknowledged messages for each channel:
-    <div class="Pp"></div>
+    <p class="Pp">If no <var class="Ar">channelinfoitem</var> are specified then
+        pid, user, consumer_count, and messages_unacknowledged are assumed.</p>
+    <p class="Pp">For example, this command displays the connection process and
+        count of unacknowledged messages for each channel:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl list_channels
       connection messages_unacknowledged</span></div>
   </dd>
   <dt><a class="permalink" href="#list_ciphers"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_ciphers</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Lists cipher suites supported by encoding commands.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to list all cipher
-      suites supported by encoding commands:
-    <div class="Pp"></div>
+    <p class="Pp">Lists cipher suites supported by encoding commands.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        list all cipher suites supported by encoding commands:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       list_ciphers</span></div>
   </dd>
   <dt><a class="permalink" href="#list_connections"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_connections</span></a>
-    [<div class="Op"><var class="Ar" title="Ar">connectioninfoitem
-    ...</var></div>]</dt>
+    [<var class="Ar">connectioninfoitem ...</var>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Returns TCP/IP connection statistics.
-    <div class="Pp"></div>
-    The <var class="Ar" title="Ar">connectioninfoitem</var> parameter is used to
-      indicate which connection information items to include in the results. The
-      column order in the results will match the order of the parameters.
-      <var class="Ar" title="Ar">connectioninfoitem</var> can take any value
-      from the list that follows:
+    <p class="Pp">Returns TCP/IP connection statistics.</p>
+    <p class="Pp">The <var class="Ar">connectioninfoitem</var> parameter is used
+        to indicate which connection information items to include in the
+        results. The column order in the results will match the order of the
+        parameters. <var class="Ar">connectioninfoitem</var> can take any value
+        from the list that follows:</p>
     <dl class="Bl-tag">
       <dt><a class="permalink" href="#pid_2"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">pid</span></a></dt>
       <dd>Id of the Erlang process associated with the connection.</dd>
@@ -1157,9 +1052,9 @@ Note that all user management commands
           <li>{0,9,1}</li>
           <li>{0,8,0}</li>
         </ul>
-        <div class="Pp"></div>
-        Note that if a client requests an AMQP 0-9 connection, we treat it as
-          AMQP 0-9-1.</dd>
+        <p class="Pp">Note that if a client requests an AMQP 0-9 connection, we
+            treat it as AMQP 0-9-1.</p>
+      </dd>
       <dt><a class="permalink" href="#auth_mechanism"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">auth_mechanism</span></a></dt>
       <dd>SASL authentication mechanism used, such as
         "PLAIN".</dd>
@@ -1189,47 +1084,41 @@ Note that all user management commands
       <dt><a class="permalink" href="#connected_at"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">connected_at</span></a></dt>
       <dd>Date and time this connection was established, as timestamp.</dd>
     </dl>
-    <div class="Pp"></div>
-    If no <var class="Ar" title="Ar">connectioninfoitem</var> are specified then
-      user, peer host, peer port, time since flow control and memory block state
-      are displayed.
-    <div class="Pp"></div>
-    For example, this command displays the send queue size and server port for
-      each connection:
-    <div class="Pp"></div>
+    <p class="Pp">If no <var class="Ar">connectioninfoitem</var> are specified
+        then user, peer host, peer port, time since flow control and memory
+        block state are displayed.</p>
+    <p class="Pp">For example, this command displays the send queue size and
+        server port for each connection:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl list_connections
       send_pend port</span></div>
   </dd>
   <dt><a class="permalink" href="#list_consumers"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_consumers</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Lists consumers, i.e. subscriptions to a queue´s message stream. Each
-      line printed shows, separated by tab characters, the name of the queue
-      subscribed to, the id of the channel process via which the subscription
-      was created and is managed, the consumer tag which uniquely identifies the
-      subscription within a channel, a boolean indicating whether
-      acknowledgements are expected for messages delivered to this consumer, an
-      integer indicating the prefetch limit (with 0 meaning
-      "none"), and any arguments for this consumer.</dd>
+    <p class="Pp">Lists consumers, i.e. subscriptions to a queue´s
+        message stream. Each line printed shows, separated by tab characters,
+        the name of the queue subscribed to, the id of the channel process via
+        which the subscription was created and is managed, the consumer tag
+        which uniquely identifies the subscription within a channel, a boolean
+        indicating whether acknowledgements are expected for messages delivered
+        to this consumer, an integer indicating the prefetch limit (with 0
+        meaning "none"), and any arguments for this consumer.</p>
+  </dd>
   <dt><a class="permalink" href="#list_exchanges"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_exchanges</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    [<div class="Op"><var class="Ar" title="Ar">exchangeinfoitem
-    ...</var></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    [<var class="Ar">exchangeinfoitem ...</var>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Returns exchange details. Exchange details of the "/" virtual
-      host are returned if the <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> flag is
-      absent. The <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> flag can be used to
-      override this default.
-    <div class="Pp"></div>
-    The <var class="Ar" title="Ar">exchangeinfoitem</var> parameter is used to
-      indicate which exchange information items to include in the results. The
-      column order in the results will match the order of the parameters.
-      <var class="Ar" title="Ar">exchangeinfoitem</var> can take any value from
-      the list that follows:
+    <p class="Pp">Returns exchange details. Exchange details of the
+        "/" virtual host are returned if the
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> flag is absent. The
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> flag can be used to override this
+      default.</p>
+    <p class="Pp">The <var class="Ar">exchangeinfoitem</var> parameter is used
+        to indicate which exchange information items to include in the results.
+        The column order in the results will match the order of the parameters.
+        <var class="Ar">exchangeinfoitem</var> can take any value from the list
+        that follows:</p>
     <dl class="Bl-tag">
       <dt><a class="permalink" href="#name_4"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">name</span></a></dt>
       <dd>The name of the exchange with non-ASCII characters escaped as in
@@ -1256,44 +1145,35 @@ Note that all user management commands
       <dt><a class="permalink" href="#policy"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">policy</span></a></dt>
       <dd>Policy name for applying to the exchange.</dd>
     </dl>
-    <div class="Pp"></div>
-    If no <var class="Ar" title="Ar">exchangeinfoitem</var> are specified then
-      exchange name and type are displayed.
-    <div class="Pp"></div>
-    For example, this command displays the name and type for each exchange of
-      the virtual host named "my-vhost":
-    <div class="Pp"></div>
+    <p class="Pp">If no <var class="Ar">exchangeinfoitem</var> are specified
+        then exchange name and type are displayed.</p>
+    <p class="Pp">For example, this command displays the name and type for each
+        exchange of the virtual host named "my-vhost":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl list_exchanges -p
       my-vhost name type</span></div>
   </dd>
   <dt><a class="permalink" href="#list_hashes"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_hashes</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Lists hash functions supported by encoding commands.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to list all hash
-      functions supported by encoding commands:
-    <div class="Pp"></div>
+    <p class="Pp">Lists hash functions supported by encoding commands.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        list all hash functions supported by encoding commands:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       list_hashes</span></div>
   </dd>
   <dt><a class="permalink" href="#list_queues"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_queues</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--offline</span> |
-    <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--online</span> |
-    <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--local</span></div>]
-    [<div class="Op"><var class="Ar" title="Ar">queueinfoitem
-    ...</var></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--offline</span> | <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--online</span> |
+    <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--local</span>] [<var class="Ar">queueinfoitem
+    ...</var>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Returns queue details. Queue details of the "/" virtual host
-      are returned if the <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> flag is absent.
-      The <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> flag can be used to override
-      this default.
-    <div class="Pp"></div>
-    Displayed queues can be filtered by their status or location using one of
-      the following mutually exclusive options:
+    <p class="Pp">Returns queue details. Queue details of the "/"
+        virtual host are returned if the <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> flag is
+        absent. The <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> flag can be used to override this
+        default.</p>
+    <p class="Pp">Displayed queues can be filtered by their status or location
+        using one of the following mutually exclusive options:</p>
     <dl class="Bl-tag">
       <dt><a class="permalink" href="#-offline_2"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--offline</span></a></dt>
       <dd>List only those durable queues that are not currently available (more
@@ -1304,12 +1184,11 @@ Note that all user management commands
       <dd>List only those queues whose master process is located on the current
           node.</dd>
     </dl>
-    <div class="Pp"></div>
-    The <var class="Ar" title="Ar">queueinfoitem</var> parameter is used to
-      indicate which queue information items to include in the results. The
-      column order in the results will match the order of the parameters.
-      <var class="Ar" title="Ar">queueinfoitem</var> can take any value from the
-      list that follows:
+    <p class="Pp">The <var class="Ar">queueinfoitem</var> parameter is used to
+        indicate which queue information items to include in the results. The
+        column order in the results will match the order of the parameters.
+        <var class="Ar">queueinfoitem</var> can take any value from the list
+        that follows:</p>
     <dl class="Bl-tag">
       <dt><a class="permalink" href="#name_5"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">name</span></a></dt>
       <dd>The name of the queue with non-ASCII characters escaped as in C.</dd>
@@ -1357,18 +1236,17 @@ Note that all user management commands
           include the message properties (including headers) or any
         overhead.</dd>
       <dt><a class="permalink" href="#message_bytes_ready"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">message_bytes_ready</span></a></dt>
-      <dd>Like <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">message_bytes</span> but counting
-          only those messages ready to be delivered to clients.</dd>
+      <dd>Like <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">message_bytes</span> but counting only those
+          messages ready to be delivered to clients.</dd>
       <dt><a class="permalink" href="#message_bytes_unacknowledged"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">message_bytes_unacknowledged</span></a></dt>
-      <dd>Like <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">message_bytes</span> but counting
-          only those messages delivered to clients but not yet
-        acknowledged.</dd>
+      <dd>Like <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">message_bytes</span> but counting only those
+          messages delivered to clients but not yet acknowledged.</dd>
       <dt><a class="permalink" href="#message_bytes_ram"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">message_bytes_ram</span></a></dt>
-      <dd>Like <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">message_bytes</span> but counting
-          only those messages which are currently held in RAM.</dd>
+      <dd>Like <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">message_bytes</span> but counting only those
+          messages which are currently held in RAM.</dd>
       <dt><a class="permalink" href="#message_bytes_persistent"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">message_bytes_persistent</span></a></dt>
-      <dd>Like <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">message_bytes</span> but counting
-          only those messages which are persistent.</dd>
+      <dd>Like <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">message_bytes</span> but counting only those
+          messages which are persistent.</dd>
       <dt><a class="permalink" href="#head_message_timestamp"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">head_message_timestamp</span></a></dt>
       <dd>The timestamp property of the first message in the queue, if present.
           Timestamps of messages only appear when they are in the paged-in
@@ -1391,261 +1269,228 @@ Note that all user management commands
       <dt><a class="permalink" href="#slave_pids"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">slave_pids</span></a></dt>
       <dd>If the queue is mirrored, this lists the IDs of the mirrors (follower
           replicas). To learn more, see the
-          <a class="Lk" title="Lk" href="https://www.rabbitmq.com/ha.html">RabbitMQ
+          <a class="Lk" href="https://www.rabbitmq.com/ha.html">RabbitMQ
           Mirroring guide</a></dd>
       <dt><a class="permalink" href="#synchronised_slave_pids"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">synchronised_slave_pids</span></a></dt>
       <dd>If the queue is mirrored, this gives the IDs of the mirrors (follower
           replicas) which are synchronised with the master (leader). To learn
           more, see the
-          <a class="Lk" title="Lk" href="https://www.rabbitmq.com/ha.html">RabbitMQ
+          <a class="Lk" href="https://www.rabbitmq.com/ha.html">RabbitMQ
           Mirroring guide</a></dd>
       <dt><a class="permalink" href="#state_2"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">state</span></a></dt>
       <dd>The state of the queue. Normally "running", but may be
-          "{syncing,
-          <var class="Ar" title="Ar">message_count</var>}" if the queue
-          is synchronising.
-        <div class="Pp"></div>
-        Queues which are located on cluster nodes that are currently down will
-          be shown with a status of "down" (and most other
-          <var class="Ar" title="Ar">queueinfoitem</var> will be
-        unavailable).</dd>
+          "{syncing, <var class="Ar">message_count</var>}" if the
+          queue is synchronising.
+        <p class="Pp">Queues which are located on cluster nodes that are
+            currently down will be shown with a status of "down"
+            (and most other <var class="Ar">queueinfoitem</var> will be
+            unavailable).</p>
+      </dd>
     </dl>
-    <div class="Pp"></div>
-    If no <var class="Ar" title="Ar">queueinfoitem</var> are specified then
-      queue name and depth are displayed.
-    <div class="Pp"></div>
-    For example, this command displays the depth and number of consumers for
-      each queue of the virtual host named "my-vhost"
-    <div class="Pp"></div>
+    <p class="Pp">If no <var class="Ar">queueinfoitem</var> are specified then
+        queue name and depth are displayed.</p>
+    <p class="Pp">For example, this command displays the depth and number of
+        consumers for each queue of the virtual host named
+        "my-vhost"</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl list_queues -p
       my-vhost messages consumers</span></div>
   </dd>
   <dt><a class="permalink" href="#list_unresponsive_queues"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_unresponsive_queues</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--local</span></div>]
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--queue-timeout</span>
-    <var class="Ar" title="Ar">milliseconds</var></div>]
-    [<div class="Op"><var class="Ar" title="Ar">column ...</var></div>]
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--no-table-headers</span></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--local</span>] [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--queue-timeout</span>
+    <var class="Ar">milliseconds</var>] [<var class="Ar">column ...</var>]
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--no-table-headers</span>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Tests queues to respond within timeout. Lists those which did not respond
-    <div class="Pp"></div>
-    For example, this command lists only those unresponsive queues whose master
-      process is located on the current node.
+    <p class="Pp">Tests queues to respond within timeout. Lists those which did
+        not respond</p>
+    <p class="Pp">For example, this command lists only those unresponsive queues
+        whose master process is located on the current node.</p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       list_unresponsive_queues --local name</span></div>
   </dd>
   <dt><a class="permalink" href="#ping"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">ping</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Checks that the node OS process is up, registered with EPMD and CLI tools
-      can authenticate with it
-    <div class="Pp"></div>
-    Example:
+    <p class="Pp">Checks that the node OS process is up, registered with EPMD
+        and CLI tools can authenticate with it</p>
+    <p class="Pp">Example:</p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl ping -n
       rabbit@hostname</span></div>
   </dd>
   <dt><a class="permalink" href="#report"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">report</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Generate a server status report containing a concatenation of all server
-      status information for support purposes. The output should be redirected
-      to a file when accompanying a support request.
-    <div class="Pp"></div>
-    For example, this command creates a server report which may be attached to a
-      support request email:
-    <div class="Pp"></div>
+    <p class="Pp">Generate a server status report containing a concatenation of
+        all server status information for support purposes. The output should be
+        redirected to a file when accompanying a support request.</p>
+    <p class="Pp">For example, this command creates a server report which may be
+        attached to a support request email:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl report &gt;
       server_report.txt</span></div>
   </dd>
   <dt><a class="permalink" href="#schema_info"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">schema_info</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--no-table-headers</span></div>]
-    [<div class="Op"><var class="Ar" title="Ar">column ...</var></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--no-table-headers</span>] [<var class="Ar">column
+    ...</var>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Lists schema database tables and their properties
-    <div class="Pp"></div>
-    For example, this command lists the table names and their active replicas:
-    <div class="Pp"></div>
+    <p class="Pp">Lists schema database tables and their properties</p>
+    <p class="Pp">For example, this command lists the table names and their
+        active replicas:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl schema_info name
       active_replicas</span></div>
   </dd>
   <dt><a class="permalink" href="#status"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">status</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Displays broker status information such as the running applications on the
-      current Erlang node, RabbitMQ and Erlang versions, OS name, memory and
-      file descriptor statistics. (See the
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">cluster_status</span> command to find out
-      which nodes are clustered and running.)
-    <div class="Pp"></div>
-    For example, this command displays information about the RabbitMQ broker:
-    <div class="Pp"></div>
+    <p class="Pp">Displays broker status information such as the running
+        applications on the current Erlang node, RabbitMQ and Erlang versions,
+        OS name, memory and file descriptor statistics. (See the
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">cluster_status</span> command to find out which nodes
+        are clustered and running.)</p>
+    <p class="Pp">For example, this command displays information about the
+        RabbitMQ broker:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl status</span></div>
   </dd>
 </dl>
-<h3 class="Ss" title="Ss" id="Runtime_Parameters_and_Policies"><a class="permalink" href="#Runtime_Parameters_and_Policies">Runtime
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Runtime_Parameters_and_Policies"><a class="permalink" href="#Runtime_Parameters_and_Policies">Runtime
   Parameters and Policies</a></h3>
 Certain features of RabbitMQ (such as the Federation plugin) are controlled by
-  dynamic, cluster-wide <i class="Em" title="Em">parameters.</i> There are 2
-  kinds of parameters: parameters scoped to a virtual host and global
-  parameters. Each vhost-scoped parameter consists of a component name, a name
-  and a value. The component name and name are strings, and the value is a valid
-  JSON document. A global parameter consists of a name and value. The name is a
-  string and the value is an arbitrary Erlang data structure. Parameters can be
-  set, cleared and listed. In general you should refer to the documentation for
-  the feature in question to see how to set parameters.
-<div class="Pp"></div>
-Policies is a feature built on top of runtime parameters. Policies are used to
-  control and modify the behaviour of queues and exchanges on a cluster-wide
-  basis. Policies apply within a given vhost, and consist of a name, pattern,
-  definition and an optional priority. Policies can be set, cleared and listed.
+  dynamic, cluster-wide <i class="Em">parameters.</i> There are 2 kinds of
+  parameters: parameters scoped to a virtual host and global parameters. Each
+  vhost-scoped parameter consists of a component name, a name and a value. The
+  component name and name are strings, and the value is a valid JSON document. A
+  global parameter consists of a name and value. The name is a string and the
+  value is an arbitrary Erlang data structure. Parameters can be set, cleared
+  and listed. In general you should refer to the documentation for the feature
+  in question to see how to set parameters.
+<p class="Pp">Policies is a feature built on top of runtime parameters. Policies
+    are used to control and modify the behaviour of queues and exchanges on a
+    cluster-wide basis. Policies apply within a given vhost, and consist of a
+    name, pattern, definition and an optional priority. Policies can be set,
+    cleared and listed.</p>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#clear_global_parameter"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">clear_global_parameter</span></a>
-    <var class="Ar" title="Ar">name</var></dt>
+    <var class="Ar">name</var></dt>
   <dd>
-    <div class="Pp"></div>
-    Clears a global runtime parameter. This is similar to
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">clear_parameter</span> but the key-value pair
-      isn't tied to a virtual host.
+    <p class="Pp">Clears a global runtime parameter. This is similar to
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">clear_parameter</span> but the key-value pair isn't
+        tied to a virtual host.</p>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">name</var></dt>
+      <dt><var class="Ar">name</var></dt>
       <dd>The name of the global runtime parameter being cleared.</dd>
     </dl>
-    <div class="Pp"></div>
-    For example, this command clears the global runtime parameter
-      "mqtt_default_vhosts":
-    <div class="Pp"></div>
+    <p class="Pp">For example, this command clears the global runtime parameter
+        "mqtt_default_vhosts":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       clear_global_parameter mqtt_default_vhosts</span></div>
   </dd>
   <dt><a class="permalink" href="#clear_parameter"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">clear_parameter</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    <var class="Ar" title="Ar">component_name</var>
-    <var class="Ar" title="Ar">key</var></dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    <var class="Ar">component_name</var> <var class="Ar">key</var></dt>
   <dd>
-    <div class="Pp"></div>
-    Clears a parameter.
+    <p class="Pp">Clears a parameter.</p>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">component_name</var></dt>
+      <dt><var class="Ar">component_name</var></dt>
       <dd>The name of the component for which the parameter is being
         cleared.</dd>
-      <dt><var class="Ar" title="Ar">name</var></dt>
+      <dt><var class="Ar">name</var></dt>
       <dd>The name of the parameter being cleared.</dd>
     </dl>
-    <div class="Pp"></div>
-    For example, this command clears the parameter "node01" for
-      the "federation-upstream" component in the default virtual
-      host:
-    <div class="Pp"></div>
+    <p class="Pp">For example, this command clears the parameter
+        "node01" for the "federation-upstream"
+        component in the default virtual host:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl clear_parameter
       federation-upstream node01</span></div>
   </dd>
   <dt><a class="permalink" href="#list_global_parameters"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_global_parameters</span></a></dt>
   <dd>
-    <div class="Pp"></div>
-    Lists all global runtime parameters. This is similar to
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_parameters</span> but the global runtime
-      parameters are not tied to any virtual host.
-    <div class="Pp"></div>
-    For example, this command lists all global parameters:
-    <div class="Pp"></div>
+    <p class="Pp">Lists all global runtime parameters. This is similar to
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_parameters</span> but the global runtime
+        parameters are not tied to any virtual host.</p>
+    <p class="Pp">For example, this command lists all global parameters:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       list_global_parameters</span></div>
   </dd>
   <dt><a class="permalink" href="#list_parameters"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_parameters</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Lists all parameters for a virtual host.
-    <div class="Pp"></div>
-    For example, this command lists all parameters in the default virtual host:
-    <div class="Pp"></div>
+    <p class="Pp">Lists all parameters for a virtual host.</p>
+    <p class="Pp">For example, this command lists all parameters in the default
+        virtual host:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       list_parameters</span></div>
   </dd>
   <dt><a class="permalink" href="#set_global_parameter"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_global_parameter</span></a>
-    <var class="Ar" title="Ar">name</var>
-    <var class="Ar" title="Ar">value</var></dt>
+    <var class="Ar">name</var> <var class="Ar">value</var></dt>
   <dd>
-    <div class="Pp"></div>
-    Sets a global runtime parameter. This is similar to
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_parameter</span> but the key-value pair
-      isn't tied to a virtual host.
+    <p class="Pp">Sets a global runtime parameter. This is similar to
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_parameter</span> but the key-value pair isn't tied
+        to a virtual host.</p>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">name</var></dt>
+      <dt><var class="Ar">name</var></dt>
       <dd>The name of the global runtime parameter being set.</dd>
-      <dt><var class="Ar" title="Ar">value</var></dt>
+      <dt><var class="Ar">value</var></dt>
       <dd>The value for the global runtime parameter, as a JSON term. In most
           shells you are very likely to need to quote this.</dd>
     </dl>
-    <div class="Pp"></div>
-    For example, this command sets the global runtime parameter
-      "mqtt_default_vhosts" to the JSON term
-      {"O=client,CN=guest":"/"}:
-    <div class="Pp"></div>
+    <p class="Pp">For example, this command sets the global runtime parameter
+        "mqtt_default_vhosts" to the JSON term
+        {"O=client,CN=guest":"/"}:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl set_global_parameter
       mqtt_default_vhosts
       '{"O=client,CN=guest":"/"}'</span></div>
   </dd>
   <dt><a class="permalink" href="#set_parameter"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_parameter</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    <var class="Ar" title="Ar">component_name</var>
-    <var class="Ar" title="Ar">name</var>
-    <var class="Ar" title="Ar">value</var></dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    <var class="Ar">component_name</var> <var class="Ar">name</var>
+    <var class="Ar">value</var></dt>
   <dd>
-    <div class="Pp"></div>
-    Sets a parameter.
+    <p class="Pp">Sets a parameter.</p>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">component_name</var></dt>
+      <dt><var class="Ar">component_name</var></dt>
       <dd>The name of the component for which the parameter is being set.</dd>
-      <dt><var class="Ar" title="Ar">name</var></dt>
+      <dt><var class="Ar">name</var></dt>
       <dd>The name of the parameter being set.</dd>
-      <dt><var class="Ar" title="Ar">value</var></dt>
+      <dt><var class="Ar">value</var></dt>
       <dd>The value for the parameter, as a JSON term. In most shells you are
           very likely to need to quote this.</dd>
     </dl>
-    <div class="Pp"></div>
-    For example, this command sets the parameter "node01" for the
-      "federation-upstream" component in the default virtual host
-      to the following JSON "guest":
-    <div class="Pp"></div>
+    <p class="Pp">For example, this command sets the parameter
+        "node01" for the "federation-upstream"
+        component in the default virtual host to the following JSON
+        "guest":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl set_parameter
       federation-upstream node01
       '{"uri":"amqp://user:password@server/%2F","ack-mode":"on-publish"}'</span></div>
   </dd>
   <dt><a class="permalink" href="#list_policies"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_policies</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Lists all policies for a virtual host.
-    <div class="Pp"></div>
-    For example, this command lists all policies in the default virtual host:
-    <div class="Pp"></div>
+    <p class="Pp">Lists all policies for a virtual host.</p>
+    <p class="Pp">For example, this command lists all policies in the default
+        virtual host:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       list_policies</span></div>
   </dd>
   <dt><a class="permalink" href="#set_operator_policy"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_operator_policy</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--priority</span>
-    <var class="Ar" title="Ar">priority</var></div>]
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--apply-to</span>
-    <var class="Ar" title="Ar">apply-to</var></div>]
-    <var class="Ar" title="Ar">name</var>
-    <var class="Ar" title="Ar">pattern</var>
-    <var class="Ar" title="Ar">definition</var></dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--priority</span> <var class="Ar">priority</var>]
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--apply-to</span> <var class="Ar">apply-to</var>]
+    <var class="Ar">name</var> <var class="Ar">pattern</var>
+    <var class="Ar">definition</var></dt>
   <dd>
-    <div class="Pp"></div>
-    Sets an operator policy that overrides a subset of arguments in user
-      policies. Arguments are identical to those of
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_policy</span>.
-    <div class="Pp"></div>
-    Supported arguments are:
+    <p class="Pp">Sets an operator policy that overrides a subset of arguments
+        in user policies. Arguments are identical to those of
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_policy</span>.</p>
+    <p class="Pp">Supported arguments are:</p>
     <ul class="Bl-bullet Bl-compact">
       <li>expires</li>
       <li>message-ttl</li>
@@ -1654,31 +1499,26 @@ Policies is a feature built on top of runtime parameters. Policies are used to
     </ul>
   </dd>
   <dt><a class="permalink" href="#set_policy"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_policy</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--priority</span>
-    <var class="Ar" title="Ar">priority</var></div>]
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--apply-to</span>
-    <var class="Ar" title="Ar">apply-to</var></div>]
-    <var class="Ar" title="Ar">name</var>
-    <var class="Ar" title="Ar">pattern</var>
-    <var class="Ar" title="Ar">definition</var></dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--priority</span> <var class="Ar">priority</var>]
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--apply-to</span> <var class="Ar">apply-to</var>]
+    <var class="Ar">name</var> <var class="Ar">pattern</var>
+    <var class="Ar">definition</var></dt>
   <dd>
-    <div class="Pp"></div>
-    Sets a policy.
+    <p class="Pp">Sets a policy.</p>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">name</var></dt>
+      <dt><var class="Ar">name</var></dt>
       <dd>The name of the policy.</dd>
-      <dt><var class="Ar" title="Ar">pattern</var></dt>
+      <dt><var class="Ar">pattern</var></dt>
       <dd>The regular expression, which when matches on a given resources causes
           the policy to apply.</dd>
-      <dt><var class="Ar" title="Ar">definition</var></dt>
+      <dt><var class="Ar">definition</var></dt>
       <dd>The definition of the policy, as a JSON term. In most shells you are
           very likely to need to quote this.</dd>
-      <dt><var class="Ar" title="Ar">priority</var></dt>
+      <dt><var class="Ar">priority</var></dt>
       <dd>The priority of the policy as an integer. Higher numbers indicate
           greater precedence. The default is 0.</dd>
-      <dt><var class="Ar" title="Ar">apply-to</var></dt>
+      <dt><var class="Ar">apply-to</var></dt>
       <dd>Which types of object this policy should apply to. Possible values
           are:
         <ul class="Bl-bullet Bl-compact">
@@ -1688,233 +1528,202 @@ Policies is a feature built on top of runtime parameters. Policies are used to
         </ul>
         The default is <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">all ..</span></dd>
     </dl>
-    <div class="Pp"></div>
-    For example, this command sets the policy "federate-me" in the
-      default virtual host so that built-in exchanges are federated:
-    <div class="Pp"></div>
+    <p class="Pp">For example, this command sets the policy
+        "federate-me" in the default virtual host so that built-in
+        exchanges are federated:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl set_policy
       federate-me ^amq.
       '{"federation-upstream-set":"all"}'</span></div>
   </dd>
   <dt><a class="permalink" href="#clear_policy"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">clear_policy</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    <var class="Ar" title="Ar">name</var></dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    <var class="Ar">name</var></dt>
   <dd>
-    <div class="Pp"></div>
-    Clears a policy.
+    <p class="Pp">Clears a policy.</p>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">name</var></dt>
+      <dt><var class="Ar">name</var></dt>
       <dd>The name of the policy being cleared.</dd>
     </dl>
-    <div class="Pp"></div>
-    For example, this command clears the "federate-me" policy in
-      the default virtual host:
-    <div class="Pp"></div>
+    <p class="Pp">For example, this command clears the
+        "federate-me" policy in the default virtual host:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl clear_policy
       federate-me</span></div>
   </dd>
   <dt><a class="permalink" href="#clear_operator_policy"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">clear_operator_policy</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    <var class="Ar" title="Ar">name</var></dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    <var class="Ar">name</var></dt>
   <dd>
-    <div class="Pp"></div>
-    Clears an operator policy. Arguments are identical to those of
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">clear_policy</span>.</dd>
+    <p class="Pp">Clears an operator policy. Arguments are identical to those of
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">clear_policy</span>.</p>
+  </dd>
   <dt><a class="permalink" href="#list_operator_policies"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_operator_policies</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Lists operator policy overrides for a virtual host. Arguments are identical
-      to those of <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_policies</span>.</dd>
+    <p class="Pp">Lists operator policy overrides for a virtual host. Arguments
+        are identical to those of <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_policies</span>.</p>
+  </dd>
 </dl>
-<h3 class="Ss" title="Ss" id="Virtual_hosts"><a class="permalink" href="#Virtual_hosts">Virtual
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Virtual_hosts"><a class="permalink" href="#Virtual_hosts">Virtual
   hosts</a></h3>
-Note that <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span> manages the RabbitMQ
-  internal user database. Permissions for users from any alternative
-  authorisation backend will not be visible to
-  <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span>.
+Note that <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span> manages the RabbitMQ internal user
+  database. Permissions for users from any alternative authorisation backend
+  will not be visible to <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span>.
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#add_vhost"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">add_vhost</span></a>
-    <var class="Ar" title="Ar">vhost</var></dt>
+    <var class="Ar">vhost</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">vhost</var></dt>
+      <dt><var class="Ar">vhost</var></dt>
       <dd>The name of the virtual host entry to create.</dd>
     </dl>
-    <div class="Pp"></div>
-    Creates a virtual host.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to create a new
-      virtual host called "test":
-    <div class="Pp"></div>
+    <p class="Pp">Creates a virtual host.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        create a new virtual host called "test":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl add_vhost
       test</span></div>
   </dd>
   <dt><a class="permalink" href="#clear_vhost_limits"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">clear_vhost_limits</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Clears virtual host limits.
-    <div class="Pp"></div>
-    For example, this command clears vhost limits in vhost
-      "qa_env":
-    <div class="Pp"></div>
+    <p class="Pp">Clears virtual host limits.</p>
+    <p class="Pp">For example, this command clears vhost limits in vhost
+        "qa_env":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl clear_vhost_limits -p
       qa_env</span></div>
   </dd>
   <dt><a class="permalink" href="#delete_vhost"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">delete_vhost</span></a>
-    <var class="Ar" title="Ar">vhost</var></dt>
+    <var class="Ar">vhost</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">vhost</var></dt>
+      <dt><var class="Ar">vhost</var></dt>
       <dd>The name of the virtual host entry to delete.</dd>
     </dl>
-    <div class="Pp"></div>
-    Deletes a virtual host.
-    <div class="Pp"></div>
-    Deleting a virtual host deletes all its exchanges, queues, bindings, user
-      permissions, parameters and policies.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to delete the
-      virtual host called "test":
-    <div class="Pp"></div>
+    <p class="Pp">Deletes a virtual host.</p>
+    <p class="Pp">Deleting a virtual host deletes all its exchanges, queues,
+        bindings, user permissions, parameters and policies.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        delete the virtual host called "test":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl delete_vhost
       a-vhost</span></div>
   </dd>
   <dt><a class="permalink" href="#list_vhost_limits"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_vhost_limits</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--global</span></div>]
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--no-table-headers</span></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--global</span>]
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--no-table-headers</span>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Displays configured virtual host limits.
+    <p class="Pp">Displays configured virtual host limits.</p>
     <dl class="Bl-tag">
       <dt><a class="permalink" href="#-global"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--global</span></a></dt>
-      <dd>Show limits for all vhosts. Suppresses the
-          <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> parameter.</dd>
+      <dd>Show limits for all vhosts. Suppresses the <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
+          parameter.</dd>
     </dl>
   </dd>
   <dt><a class="permalink" href="#restart_vhost"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">restart_vhost</span></a>
-    <var class="Ar" title="Ar">vhost</var></dt>
+    <var class="Ar">vhost</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">vhost</var></dt>
+      <dt><var class="Ar">vhost</var></dt>
       <dd>The name of the virtual host entry to restart.</dd>
     </dl>
-    <div class="Pp"></div>
-    Restarts a failed vhost data stores and queues.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to restart a virtual
-      host called "test":
-    <div class="Pp"></div>
+    <p class="Pp">Restarts a failed vhost data stores and queues.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        restart a virtual host called "test":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl restart_vhost
       test</span></div>
   </dd>
   <dt><a class="permalink" href="#set_vhost_limits"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_vhost_limits</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    <var class="Ar" title="Ar">definition</var></dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    <var class="Ar">definition</var></dt>
   <dd>
-    <div class="Pp"></div>
-    Sets virtual host limits.
+    <p class="Pp">Sets virtual host limits.</p>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">definition</var></dt>
+      <dt><var class="Ar">definition</var></dt>
       <dd>The definition of the limits, as a JSON term. In most shells you are
           very likely to need to quote this.
-        <div class="Pp"></div>
-        Recognised limits are:
+        <p class="Pp">Recognised limits are:</p>
         <ul class="Bl-bullet Bl-compact">
           <li>max-connections</li>
           <li>max-queues</li>
         </ul>
-        <div class="Pp"></div>
-        Use a negative value to specify "no limit".</dd>
+        <p class="Pp">Use a negative value to specify "no limit".</p>
+      </dd>
     </dl>
-    <div class="Pp"></div>
-    For example, this command limits the max number of concurrent connections in
-      vhost "qa_env" to 64:
-    <div class="Pp"></div>
+    <p class="Pp">For example, this command limits the max number of concurrent
+        connections in vhost "qa_env" to 64:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl set_vhost_limits -p
       qa_env '{"max-connections": 64}'</span></div>
-    <div class="Pp"></div>
-    This command limits the max number of queues in vhost "qa_env"
-      to 256:
-    <div class="Pp"></div>
+    <p class="Pp">This command limits the max number of queues in vhost
+        "qa_env" to 256:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl set_vhost_limits -p
       qa_env '{"max-queues": 256}'</span></div>
-    <div class="Pp"></div>
-    This command clears the max number of connections limit in vhost
-      "qa_env":
-    <div class="Pp"></div>
+    <p class="Pp">This command clears the max number of connections limit in
+        vhost "qa_env":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl set_vhost_limits -p
       qa_env '{"max-connections": -1}'</span></div>
-    <div class="Pp"></div>
-    This command disables client connections in vhost "qa_env":
-    <div class="Pp"></div>
+    <p class="Pp">This command disables client connections in vhost
+        "qa_env":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl set_vhost_limits -p
       qa_env '{"max-connections": 0}'</span></div>
   </dd>
   <dt><a class="permalink" href="#trace_off"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">trace_off</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]</dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">vhost</var></dt>
+      <dt><var class="Ar">vhost</var></dt>
       <dd>The name of the virtual host for which to stop tracing.</dd>
     </dl>
-    <div class="Pp"></div>
-    Stops tracing.</dd>
+    <p class="Pp">Stops tracing.</p>
+  </dd>
   <dt><a class="permalink" href="#trace_on"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">trace_on</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]</dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">vhost</var></dt>
+      <dt><var class="Ar">vhost</var></dt>
       <dd>The name of the virtual host for which to start tracing.</dd>
     </dl>
-    <div class="Pp"></div>
-    Starts tracing. Note that the trace state is not persistent; it will revert
-      to being off if the node is restarted.</dd>
+    <p class="Pp">Starts tracing. Note that the trace state is not persistent;
+        it will revert to being off if the node is restarted.</p>
+  </dd>
 </dl>
-<h3 class="Ss" title="Ss" id="Configuration"><a class="permalink" href="#Configuration">Configuration</a></h3>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Configuration"><a class="permalink" href="#Configuration">Configuration</a></h3>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#decode"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">decode</span></a>
-    <var class="Ar" title="Ar">value</var>
-    <var class="Ar" title="Ar">passphrase</var>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--cipher</span>
-    <var class="Ar" title="Ar">cipher</var></div>]
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--hash</span>
-    <var class="Ar" title="Ar">hash</var></div>]
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--iterations</span>
-    <var class="Ar" title="Ar">iterations</var></div>]</dt>
+    <var class="Ar">value</var> <var class="Ar">passphrase</var>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--cipher</span> <var class="Ar">cipher</var>]
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--hash</span> <var class="Ar">hash</var>]
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--iterations</span> <var class="Ar">iterations</var>]</dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">value</var>
-        <var class="Ar" title="Ar">passphrase</var></dt>
+      <dt><var class="Ar">value</var> <var class="Ar">passphrase</var></dt>
       <dd>Value to decrypt (as produced by the encode command) and passphrase.
-        <div class="Pp"></div>
-        For example:
-        <div class="Pp"></div>
+        <p class="Pp">For example:</p>
+        <p class="Pp"></p>
         <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl decode
           '{encrypted, &lt;&lt;"..."&gt;&gt;}'
           mypassphrase</span></div>
       </dd>
       <dt><a class="permalink" href="#-cipher"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--cipher</span></a>
-        <var class="Ar" title="Ar">cipher</var>
-        <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--hash</span>
-        <var class="Ar" title="Ar">hash</var>
-        <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--iterations</span>
-        <var class="Ar" title="Ar">iterations</var></dt>
+        <var class="Ar">cipher</var> <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--hash</span>
+        <var class="Ar">hash</var> <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--iterations</span>
+        <var class="Ar">iterations</var></dt>
       <dd>Options to specify the decryption settings. They can be used
           independently.
-        <div class="Pp"></div>
-        For example:
-        <div class="Pp"></div>
+        <p class="Pp">For example:</p>
+        <p class="Pp"></p>
         <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl decode --cipher
           blowfish_cfb64 --hash sha256 --iterations 10000
           '{encrypted,&lt;&lt;"..."&gt;&gt;} mypassphrase</span></div>
@@ -1922,36 +1731,27 @@ Note that <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl
     </dl>
   </dd>
   <dt><a class="permalink" href="#encode"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">encode</span></a>
-    <var class="Ar" title="Ar">value</var>
-    <var class="Ar" title="Ar">passphrase</var>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--cipher</span>
-    <var class="Ar" title="Ar">cipher</var></div>]
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--hash</span>
-    <var class="Ar" title="Ar">hash</var></div>]
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--iterations</span>
-    <var class="Ar" title="Ar">iterations</var></div>]</dt>
+    <var class="Ar">value</var> <var class="Ar">passphrase</var>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--cipher</span> <var class="Ar">cipher</var>]
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--hash</span> <var class="Ar">hash</var>]
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--iterations</span> <var class="Ar">iterations</var>]</dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">value</var>
-        <var class="Ar" title="Ar">passphrase</var></dt>
+      <dt><var class="Ar">value</var> <var class="Ar">passphrase</var></dt>
       <dd>Value to encrypt and passphrase.
-        <div class="Pp"></div>
-        For example:
-        <div class="Pp"></div>
+        <p class="Pp">For example:</p>
+        <p class="Pp"></p>
         <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl encode
           '&lt;&lt;"guest"&gt;&gt;' mypassphrase</span></div>
       </dd>
       <dt><a class="permalink" href="#-cipher_2"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--cipher</span></a>
-        <var class="Ar" title="Ar">cipher</var>
-        <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--hash</span>
-        <var class="Ar" title="Ar">hash</var>
-        <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--iterations</span>
-        <var class="Ar" title="Ar">iterations</var></dt>
+        <var class="Ar">cipher</var> <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--hash</span>
+        <var class="Ar">hash</var> <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--iterations</span>
+        <var class="Ar">iterations</var></dt>
       <dd>Options to specify the encryption settings. They can be used
           independently.
-        <div class="Pp"></div>
-        For example:
-        <div class="Pp"></div>
+        <p class="Pp">For example:</p>
+        <p class="Pp"></p>
         <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl encode --cipher
           blowfish_cfb64 --hash sha256 --iterations 10000
           '&lt;&lt;"guest"&gt;&gt;' mypassphrase</span></div>
@@ -1959,47 +1759,44 @@ Note that <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl
     </dl>
   </dd>
   <dt><a class="permalink" href="#set_cluster_name"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_cluster_name</span></a>
-    <var class="Ar" title="Ar">name</var></dt>
+    <var class="Ar">name</var></dt>
   <dd>
-    <div class="Pp"></div>
-    Sets the cluster name to <var class="Ar" title="Ar">name</var>. The cluster
-      name is announced to clients on connection, and used by the federation and
-      shovel plugins to record where a message has been. The cluster name is by
-      default derived from the hostname of the first node in the cluster, but
-      can be changed.
-    <div class="Pp"></div>
-    For example, this sets the cluster name to "london":
-    <div class="Pp"></div>
+    <p class="Pp">Sets the cluster name to <var class="Ar">name</var>. The
+        cluster name is announced to clients on connection, and used by the
+        federation and shovel plugins to record where a message has been. The
+        cluster name is by default derived from the hostname of the first node
+        in the cluster, but can be changed.</p>
+    <p class="Pp">For example, this sets the cluster name to
+        "london":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl set_cluster_name
       london</span></div>
   </dd>
   <dt><a class="permalink" href="#set_disk_free_limit"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_disk_free_limit</span></a>
-    <var class="Ar" title="Ar">disk_limit</var></dt>
+    <var class="Ar">disk_limit</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">disk_limit</var></dt>
+      <dt><var class="Ar">disk_limit</var></dt>
       <dd>Lower bound limit as an integer in bytes or a string with memory unit
           symbols (see vm_memory_high_watermark), e.g. 512M or 1G. Once free
           disk space reaches the limit, a disk alarm will be set.</dd>
     </dl>
   </dd>
   <dt><a class="permalink" href="#set_disk_free_limit_mem_relative"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_disk_free_limit
-    mem_relative</span></a> <var class="Ar" title="Ar">fraction</var></dt>
+    mem_relative</span></a> <var class="Ar">fraction</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">fraction</var></dt>
+      <dt><var class="Ar">fraction</var></dt>
       <dd>Limit relative to the total amount available RAM as a non-negative
           floating point number. Values lower than 1.0 can be dangerous and
           should be used carefully.</dd>
     </dl>
   </dd>
   <dt><a class="permalink" href="#set_log_level"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_log_level</span></a>
-    [<div class="Op"><var class="Ar" title="Ar">log_level</var></div>]</dt>
+    [<var class="Ar">log_level</var>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Sets log level in the running node
-    <div class="Pp"></div>
-    Supported <var class="Ar" title="Ar">type</var> values are:
+    <p class="Pp">Sets log level in the running node</p>
+    <p class="Pp">Supported <var class="Ar">type</var> values are:</p>
     <ul class="Bl-bullet Bl-compact">
       <li>debug</li>
       <li>info</li>
@@ -2007,26 +1804,24 @@ Note that <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl
       <li>error</li>
       <li>none</li>
     </ul>
-    <div class="Pp"></div>
-    Example:
+    <p class="Pp">Example:</p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl log_level
       debug</span></div>
   </dd>
   <dt><a class="permalink" href="#set_vm_memory_high_watermark"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_vm_memory_high_watermark</span></a>
-    <var class="Ar" title="Ar">fraction</var></dt>
+    <var class="Ar">fraction</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">fraction</var></dt>
+      <dt><var class="Ar">fraction</var></dt>
       <dd>The new memory threshold fraction at which flow control is triggered,
           as a floating point number greater than or equal to 0.</dd>
     </dl>
   </dd>
   <dt><a class="permalink" href="#set_vm_memory_high_watermark_2"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_vm_memory_high_watermark</span></a>
-    [<div class="Op">absolute</div>]
-    <var class="Ar" title="Ar">memory_limit</var></dt>
+    [absolute] <var class="Ar">memory_limit</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">memory_limit</var></dt>
+      <dt><var class="Ar">memory_limit</var></dt>
       <dd>The new memory limit at which flow control is triggered, expressed in
           bytes as an integer number greater than or equal to 0 or as a string
           with memory unit symbol(e.g. 512M or 1G). Available unit symbols are:
@@ -2051,26 +1846,27 @@ Note that <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl
     </dl>
   </dd>
 </dl>
-<h3 class="Ss" title="Ss" id="Feature_flags"><a class="permalink" href="#Feature_flags">Feature
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Feature_flags"><a class="permalink" href="#Feature_flags">Feature
   flags</a></h3>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#enable_feature_flag"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">enable_feature_flag</span></a>
-    <var class="Ar" title="Ar">feature_flag</var></dt>
+    <var class="Ar">feature_flag</var></dt>
   <dd>
-    <div class="Pp"></div>
-    Enables a feature flag on the target node.
-    <div class="Pp"></div>
-    Example:
+    <p class="Pp">Enables a feature flag on the target node.</p>
+    <p class="Pp">Example:</p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl enable_feature_flag
-      quorum_queue</span></div>
+          quorum_queue</span></div>
+    <p class="Pp">You can also enable all feature flags by specifying "all":</p>
+    <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl enable_feature_flag
+          all</span></div>
   </dd>
   <dt><a class="permalink" href="#list_feature_flags"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_feature_flags</span></a>
-    [<div class="Op"><var class="Ar" title="Ar">column ...</var></div>]</dt>
+    [<var class="Ar">column ...</var>]</dt>
   <dd>
-    <div class="Pp"></div>
-    Lists feature flags
-    <div class="Pp"></div>
-    Supported <var class="Ar" title="Ar">column</var> values are:
+    <p class="Pp">Lists feature flags</p>
+    <p class="Pp">Supported <var class="Ar">column</var> values are:</p>
     <ul class="Bl-bullet Bl-compact">
       <li>name</li>
       <li>state</li>
@@ -2079,152 +1875,150 @@ Note that <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl
       <li>desc</li>
       <li>doc_url</li>
     </ul>
-    <div class="Pp"></div>
-    Example:
+    <p class="Pp">Example:</p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl list_feature_flags
       name state</span></div>
   </dd>
 </dl>
-<h3 class="Ss" title="Ss" id="Connection_Operations"><a class="permalink" href="#Connection_Operations">Connection
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Connection_Operations"><a class="permalink" href="#Connection_Operations">Connection
   Operations</a></h3>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#close_all_connections"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">close_all_connections</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--global</span></div>]
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--per-connection-delay</span>
-    <var class="Ar" title="Ar">delay</var></div>]
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--limit</span>
-    <var class="Ar" title="Ar">limit</var></div>]
-    <var class="Ar" title="Ar">explanation</var></dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--global</span>]
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--per-connection-delay</span> <var class="Ar">delay</var>]
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--limit</span> <var class="Ar">limit</var>]
+    <var class="Ar">explanation</var></dt>
   <dd>
     <dl class="Bl-tag">
       <dt><a class="permalink" href="#p"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span></a>
-        <var class="Ar" title="Ar">vhost</var></dt>
+        <var class="Ar">vhost</var></dt>
       <dd>The name of the virtual host for which connections should be closed.
-          Ignored when <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--global</span> is
-        specified.</dd>
+          Ignored when <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--global</span> is specified.</dd>
       <dt><a class="permalink" href="#-global_2"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--global</span></a></dt>
       <dd>If connections should be close for all vhosts. Overrides
           <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span></dd>
       <dt><a class="permalink" href="#-per-connection-delay"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--per-connection-delay</span></a>
-        <var class="Ar" title="Ar">delay</var></dt>
+        <var class="Ar">delay</var></dt>
       <dd>Time in milliseconds to wait after each connection closing.</dd>
       <dt><a class="permalink" href="#-limit"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--limit</span></a>
-        <var class="Ar" title="Ar">limit</var></dt>
+        <var class="Ar">limit</var></dt>
       <dd>Number of connection to close. Only works per vhost. Ignored when
           <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--global</span> is specified.</dd>
-      <dt><var class="Ar" title="Ar">explanation</var></dt>
+      <dt><var class="Ar">explanation</var></dt>
       <dd>Explanation string.</dd>
     </dl>
-    <div class="Pp"></div>
-    Instructs the broker to close all connections for the specified vhost or
-      entire RabbitMQ node.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to close 10
-      connections on "qa_env" vhost, passing the explanation
-      "Please close":
-    <div class="Pp"></div>
+    <p class="Pp">Instructs the broker to close all connections for the
+        specified vhost or entire RabbitMQ node.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        close 10 connections on "qa_env" vhost, passing the
+        explanation "Please close":</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl close_all_connections
       -p qa_env --limit 10 'Please close'</span></div>
-    <div class="Pp"></div>
-    This command instructs broker to close all connections to the node:
-    <div class="Pp"></div>
+    <p class="Pp">This command instructs broker to close all connections to the
+        node:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl close_all_connections
       --global</span></div>
-    <div class="Pp"></div>
+    <p class="Pp"></p>
   </dd>
   <dt><a class="permalink" href="#close_connection"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">close_connection</span></a>
-    <var class="Ar" title="Ar">connectionpid</var>
-    <var class="Ar" title="Ar">explanation</var></dt>
+    <var class="Ar">connectionpid</var> <var class="Ar">explanation</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">connectionpid</var></dt>
+      <dt><var class="Ar">connectionpid</var></dt>
       <dd>Id of the Erlang process associated with the connection to close.</dd>
-      <dt><var class="Ar" title="Ar">explanation</var></dt>
+      <dt><var class="Ar">explanation</var></dt>
       <dd>Explanation string.</dd>
     </dl>
-    <div class="Pp"></div>
-    Instructs the broker to close the connection associated with the Erlang
-      process id <var class="Ar" title="Ar">connectionpid</var> (see also the
-      <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_connections</span> command), passing the
-      <var class="Ar" title="Ar">explanation</var> string to the connected
-      client as part of the AMQP connection shutdown protocol.
-    <div class="Pp"></div>
-    For example, this command instructs the RabbitMQ broker to close the
-      connection associated with the Erlang process id
-      "&lt;rabbit@tanto.4262.0&gt;", passing the explanation
-      "go away" to the connected client:
-    <div class="Pp"></div>
+    <p class="Pp">Instructs the broker to close the connection associated with
+        the Erlang process id <var class="Ar">connectionpid</var> (see also the
+        <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_connections</span> command), passing the
+        <var class="Ar">explanation</var> string to the connected client as part
+        of the AMQP connection shutdown protocol.</p>
+    <p class="Pp">For example, this command instructs the RabbitMQ broker to
+        close the connection associated with the Erlang process id
+        "&lt;rabbit@tanto.4262.0&gt;", passing the explanation
+        "go away" to the connected client:</p>
+    <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl close_connection
       "&lt;rabbit@tanto.4262.0&gt;" "go
       away"</span></div>
   </dd>
 </dl>
-<h3 class="Ss" title="Ss" id="Misc"><a class="permalink" href="#Misc">Misc</a></h3>
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Misc"><a class="permalink" href="#Misc">Misc</a></h3>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#eval"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">eval</span></a>
-    <var class="Ar" title="Ar">expression</var></dt>
+    <var class="Ar">expression</var></dt>
   <dd>
-    <div class="Pp"></div>
-    Evaluates an Erlang expression on the target node</dd>
+    <p class="Pp">Evaluates an Erlang expression on the target node</p>
+  </dd>
 </dl>
-<h3 class="Ss" title="Ss" id="Queue_Operations"><a class="permalink" href="#Queue_Operations">Queue
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Queue_Operations"><a class="permalink" href="#Queue_Operations">Queue
   Operations</a></h3>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#delete_queue"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">delete_queue</span></a>
-    <var class="Ar" title="Ar">queue_name</var>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--if-empty</span> |
-    <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-e</span></div>]
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--if-unused</span> |
-    <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-u</span></div>]</dt>
+    <var class="Ar">queue_name</var> [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--if-empty</span> |
+    <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-e</span>] [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--if-unused</span> |
+    <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-u</span>]</dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">queue_name</var></dt>
+      <dt><var class="Ar">queue_name</var></dt>
       <dd>The name of the queue to delete.</dd>
-      <dt><var class="Ar" title="Ar">--if-empty</var></dt>
+      <dt><var class="Ar">--if-empty</var></dt>
       <dd>Delete the queue if it is empty (has no messages ready for
         delivery)</dd>
-      <dt><var class="Ar" title="Ar">--if-unused</var></dt>
+      <dt><var class="Ar">--if-unused</var></dt>
       <dd>Delete the queue only if it has no consumers</dd>
     </dl>
-    <div class="Pp"></div>
-    Deletes a queue.</dd>
+    <p class="Pp">Deletes a queue.</p>
+  </dd>
   <dt><a class="permalink" href="#purge_queue"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">purge_queue</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    <var class="Ar" title="Ar">queue</var></dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    <var class="Ar">queue</var></dt>
   <dd>
     <dl class="Bl-tag">
-      <dt><var class="Ar" title="Ar">queue</var></dt>
+      <dt><var class="Ar">queue</var></dt>
       <dd>The name of the queue to purge.</dd>
     </dl>
-    <div class="Pp"></div>
-    Purges a queue (removes all messages in it).</dd>
+    <p class="Pp">Purges a queue (removes all messages in it).</p>
+  </dd>
 </dl>
-<h2 class="Sh" title="Sh" id="PLUGIN_COMMANDS"><a class="permalink" href="#PLUGIN_COMMANDS">PLUGIN
+</section>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="PLUGIN_COMMANDS"><a class="permalink" href="#PLUGIN_COMMANDS">PLUGIN
   COMMANDS</a></h2>
 RabbitMQ plugins can extend rabbitmqctl tool to add new commands when enabled.
-  Currently available commands can be found in
-  <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">rabbitmqctl help</span> output. Following commands
-  are added by RabbitMQ plugins, available in default distribution:
-<h3 class="Ss" title="Ss" id="Shovel_plugin"><a class="permalink" href="#Shovel_plugin">Shovel
+  Currently available commands can be found in <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">rabbitmqctl
+  help</span> output. Following commands are added by RabbitMQ plugins,
+  available in default distribution:
+<section class="Ss">
+<h3 class="Ss" id="Shovel_plugin"><a class="permalink" href="#Shovel_plugin">Shovel
   plugin</a></h3>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#shovel_status"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">shovel_status</span></a></dt>
   <dd>Prints a list of configured Shovels</dd>
   <dt><a class="permalink" href="#delete_shovel"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">delete_shovel</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span>
-    <var class="Ar" title="Ar">vhost</var></div>]
-    <var class="Ar" title="Ar">name</var></dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
+    <var class="Ar">name</var></dt>
   <dd>Instructs the RabbitMQ node to delete the configured shovel by
-      <var class="Ar" title="Ar">name</var>.</dd>
+      <var class="Ar">name</var>.</dd>
 </dl>
-<h3 class="Ss" title="Ss" id="Federation_plugin"><a class="permalink" href="#Federation_plugin">Federation
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Federation_plugin"><a class="permalink" href="#Federation_plugin">Federation
   plugin</a></h3>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#federation_status"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">federation_status</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--only-down</span></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--only-down</span>]</dt>
   <dd>Prints a list of federation links.
     <dl class="Bl-tag">
       <dt><a class="permalink" href="#-only-down"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--only-down</span></a></dt>
@@ -2232,23 +2026,24 @@ RabbitMQ plugins can extend rabbitmqctl tool to add new commands when enabled.
     </dl>
   </dd>
   <dt><a class="permalink" href="#restart_federation_link"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">restart_federation_link</span></a>
-    <var class="Ar" title="Ar">link_id</var></dt>
+    <var class="Ar">link_id</var></dt>
   <dd>Instructs the RabbitMQ node to restart the federation link with specified
-      <var class="Ar" title="Ar">link_id</var>.</dd>
+      <var class="Ar">link_id</var>.</dd>
 </dl>
-<h3 class="Ss" title="Ss" id="AMQP_1.0_plugin"><a class="permalink" href="#AMQP_1.0_plugin">AMQP
+</section>
+<section class="Ss">
+<h3 class="Ss" id="AMQP_1.0_plugin"><a class="permalink" href="#AMQP_1.0_plugin">AMQP
   1.0 plugin</a></h3>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#list_amqp10_connections"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_amqp10_connections</span></a>
-    [<div class="Op"><var class="Ar" title="Ar">amqp10_connectioninfoitem
-    ...</var></div>]</dt>
-  <dd>Similar to the <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_connections</span>
-      command, but returns fields which make sense for AMQP-1.0 connections.
-      <var class="Ar" title="Ar">amqp10_connectioninfoitem</var> parameter is
-      used to indicate which connection information items to include in the
-      results. The column order in the results will match the order of the
-      parameters. <var class="Ar" title="Ar">amqp10_connectioninfoitem</var> can
-      take any value from the list that follows:
+    [<var class="Ar">amqp10_connectioninfoitem ...</var>]</dt>
+  <dd>Similar to the <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_connections</span> command, but
+      returns fields which make sense for AMQP-1.0 connections.
+      <var class="Ar">amqp10_connectioninfoitem</var> parameter is used to
+      indicate which connection information items to include in the results. The
+      column order in the results will match the order of the parameters.
+      <var class="Ar">amqp10_connectioninfoitem</var> can take any value from
+      the list that follows:
     <dl class="Bl-tag">
       <dt><a class="permalink" href="#pid_4"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">pid</span></a></dt>
       <dd>Id of the Erlang process associated with the connection.</dd>
@@ -2307,18 +2102,20 @@ RabbitMQ plugins can extend rabbitmqctl tool to add new commands when enabled.
     </dl>
   </dd>
 </dl>
-<h3 class="Ss" title="Ss" id="MQTT_plugin"><a class="permalink" href="#MQTT_plugin">MQTT
+</section>
+<section class="Ss">
+<h3 class="Ss" id="MQTT_plugin"><a class="permalink" href="#MQTT_plugin">MQTT
   plugin</a></h3>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#list_mqtt_connections"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_mqtt_connections</span></a>
-    [<div class="Op"><var class="Ar" title="Ar">mqtt_connectioninfoitem</var></div>]</dt>
-  <dd>Similar to the <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_connections</span>
-      command, but returns fields which make sense for MQTT connections.
-      <var class="Ar" title="Ar">mqtt_connectioninfoitem</var> parameter is used
-      to indicate which connection information items to include in the results.
-      The column order in the results will match the order of the parameters.
-      <var class="Ar" title="Ar">mqtt_connectioninfoitem</var> can take any
-      value from the list that follows:
+    [<var class="Ar">mqtt_connectioninfoitem</var>]</dt>
+  <dd>Similar to the <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_connections</span> command, but
+      returns fields which make sense for MQTT connections.
+      <var class="Ar">mqtt_connectioninfoitem</var> parameter is used to
+      indicate which connection information items to include in the results. The
+      column order in the results will match the order of the parameters.
+      <var class="Ar">mqtt_connectioninfoitem</var> can take any value from the
+      list that follows:
     <dl class="Bl-tag">
       <dt><a class="permalink" href="#host_3"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">host</span></a></dt>
       <dd>Server hostname obtained via reverse DNS, or its IP address if reverse
@@ -2395,18 +2192,20 @@ RabbitMQ plugins can extend rabbitmqctl tool to add new commands when enabled.
     </dl>
   </dd>
 </dl>
-<h3 class="Ss" title="Ss" id="STOMP_plugin"><a class="permalink" href="#STOMP_plugin">STOMP
+</section>
+<section class="Ss">
+<h3 class="Ss" id="STOMP_plugin"><a class="permalink" href="#STOMP_plugin">STOMP
   plugin</a></h3>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#list_stomp_connections"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_stomp_connections</span></a>
-    [<div class="Op"><var class="Ar" title="Ar">stomp_connectioninfoitem</var></div>]</dt>
-  <dd>Similar to the <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_connections</span>
-      command, but returns fields which make sense for STOMP connections.
-      <var class="Ar" title="Ar">stomp_connectioninfoitem</var> parameter is
-      used to indicate which connection information items to include in the
-      results. The column order in the results will match the order of the
-      parameters. <var class="Ar" title="Ar">stomp_connectioninfoitem</var> can
-      take any value from the list that follows:
+    [<var class="Ar">stomp_connectioninfoitem</var>]</dt>
+  <dd>Similar to the <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_connections</span> command, but
+      returns fields which make sense for STOMP connections.
+      <var class="Ar">stomp_connectioninfoitem</var> parameter is used to
+      indicate which connection information items to include in the results. The
+      column order in the results will match the order of the parameters.
+      <var class="Ar">stomp_connectioninfoitem</var> can take any value from the
+      list that follows:
     <dl class="Bl-tag">
       <dt><a class="permalink" href="#conn_name_2"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">conn_name</span></a></dt>
       <dd>Readable name for the connection.</dd>
@@ -2480,11 +2279,13 @@ RabbitMQ plugins can extend rabbitmqctl tool to add new commands when enabled.
     </dl>
   </dd>
 </dl>
-<h3 class="Ss" title="Ss" id="Management_agent_plugin"><a class="permalink" href="#Management_agent_plugin">Management
+</section>
+<section class="Ss">
+<h3 class="Ss" id="Management_agent_plugin"><a class="permalink" href="#Management_agent_plugin">Management
   agent plugin</a></h3>
 <dl class="Bl-tag">
   <dt><a class="permalink" href="#reset_stats_db"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">reset_stats_db</span></a>
-    [<div class="Op"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--all</span></div>]</dt>
+    [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--all</span>]</dt>
   <dd>Reset management stats database for the RabbitMQ node.
     <dl class="Bl-tag">
       <dt><a class="permalink" href="#-all"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--all</span></a></dt>
@@ -2492,19 +2293,26 @@ RabbitMQ plugins can extend rabbitmqctl tool to add new commands when enabled.
     </dl>
   </dd>
 </dl>
-<h2 class="Sh" title="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
+</section>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
   ALSO</a></h2>
-<a class="Xr" title="Xr" href="rabbitmq-diagnostics.8.html">rabbitmq-diagnostics(8)</a>,
-  <a class="Xr" title="Xr" href="rabbitmq-plugins.8.html">rabbitmq-plugins(8)</a>,
-  <a class="Xr" title="Xr" href="rabbitmq-server.8.html">rabbitmq-server(8)</a>,
-  <a class="Xr" title="Xr" href="rabbitmq-queues.8.html">rabbitmq-queues(8)</a>,
-  <a class="Xr" title="Xr" href="rabbitmq-upgrade.8.html">rabbitmq-upgrade(8)</a>,
-  <a class="Xr" title="Xr" href="rabbitmq-service.8.html">rabbitmq-service(8)</a>,
-  <a class="Xr" title="Xr" href="rabbitmq-env.conf.5.html">rabbitmq-env.conf(5)</a>,
-  <a class="Xr" title="Xr" href="rabbitmq-echopid.8.html">rabbitmq-echopid(8)</a>
-<h2 class="Sh" title="Sh" id="AUTHOR"><a class="permalink" href="#AUTHOR">AUTHOR</a></h2>
-<span class="An" title="An">The RabbitMQ Team</span>
-  &lt;<a class="Mt" title="Mt" href="mailto:info@rabbitmq.com">info@rabbitmq.com</a>&gt;</div>
+<a class="Xr" href="rabbitmq-diagnostics.8.html">rabbitmq-diagnostics(8)</a>,
+  <a class="Xr" href="rabbitmq-plugins.8.html">rabbitmq-plugins(8)</a>,
+  <a class="Xr" href="rabbitmq-server.8.html">rabbitmq-server(8)</a>,
+  <a class="Xr" href="rabbitmq-queues.8.html">rabbitmq-queues(8)</a>,
+  <a class="Xr" href="rabbitmq-upgrade.8.html">rabbitmq-upgrade(8)</a>,
+  <a class="Xr" href="rabbitmq-service.8.html">rabbitmq-service(8)</a>,
+  <a class="Xr" href="rabbitmq-env.conf.5.html">rabbitmq-env.conf(5)</a>,
+  <a class="Xr" href="rabbitmq-echopid.8.html">rabbitmq-echopid(8)</a>
+</section>
+<section class="Sh">
+<h2 class="Sh" id="AUTHOR"><a class="permalink" href="#AUTHOR">AUTHOR</a></h2>
+<span class="An">The RabbitMQ Team</span>
+  &lt;<a class="Mt" href="mailto:info@rabbitmq.com">info@rabbitmq.com</a>&gt;
+</section>
+</div>
     </div>
   <div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or

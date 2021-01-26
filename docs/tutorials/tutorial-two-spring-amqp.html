@@ -5,11 +5,10 @@
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>RabbitMQ tutorial - Work Queues  — RabbitMQ</title>
-    
-  </head>
-  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container">
-
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> RabbitMQ tutorial - Work Queues 
+ — RabbitMQ</title></head>
+  <body id="tutorials/tutorial-two-spring-amqp"><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container">
+<div id="left-content" class="tutorial">
 
 <h2>Work Queues</h2>
 <h3>(using Spring AMQP)</h3>
@@ -387,7 +386,185 @@ you can browse the <a href="http://docs.spring.io/spring-amqp/docs/current/api/i
 For understanding the underlying foundation for Spring AMQP you can find the
 <a href="https://rabbitmq.github.io/rabbitmq-java-client/api/current/">rabbitmq-java-client</a>.</p>
 <p>Now we can move on to <a href="tutorial-three-spring-amqp.html">tutorial 3</a> and learn how
-to deliver the same message to many consumers.</p></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+to deliver the same message to many consumers.</p>
+   <div xmlns="" xml:base="site/tutorials/disclaimer.xml.inc">
+  <h2>Production [Non-]Suitability Disclaimer</h2>
+  <p>
+    Please keep in mind that this and other tutorials are, well, tutorials.
+    They demonstrate one new concept at a time and may intentionally oversimplify some things and leave out others. For example topics such as
+    connection management, error handling, connection recovery, concurrency and metric collection are largely omitted
+    for the sake of brevity. Such simplified code should not be considered production ready.
+  </p>
+  <p>
+    Please take a look at the rest of the <a href="/documentation.html">documentation</a> before going live with your app.
+    We particularly recommend the following guides: <a href="/confirms.html">Publisher Confirms and Consumer Acknowledgements</a>,
+    <a href="/production-checklist.html">Production Checklist</a> and <a href="/monitoring.html">Monitoring</a>.
+  </p>
+</div>
+   <div xmlns="" id="help-and-feedback" xml:base="site/tutorials/getting_help.xml.inc">
+  <h2>Getting Help and Providing Feedback</h2>
+  <p>
+    If you have questions about the contents of this tutorial or
+    any other topic related to RabbitMQ, don't hesitate to ask them
+    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+  </p>
+</div>
+   <div xmlns="" id="contribute" xml:base="site/tutorials/contribute.xml.inc">
+  <h2>Help Us Improve the Docs &lt;3</h2>
+
+  <p>
+    If you'd like to contribute an improvement to the site,
+    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+    Simply fork the repository and submit a pull request. Thank you!
+  </p>
+</div>
+</div>
+<div id="right-nav" class="tutorial-two">
+   <table id="tutorials" xml:base="site/tutorials/tutorials-menu.xml.inc">
+  <tr>
+  <td id="tutorial-one">
+    <h2><span class="tute-num">1</span> <a href="/tutorials/tutorial-one-python.html">"Hello World!"</a></h2>
+    <p>
+      The simplest thing that does <em>something</em>
+    </p>
+    <p><img src="/img/tutorials/python-one.png" width="180" /></p>
+    <ul>
+      <li><a href="/tutorials/tutorial-one-python.html">Python</a></li>
+      <li><a href="/tutorials/tutorial-one-java.html">Java</a></li>
+      <li><a href="/tutorials/tutorial-one-ruby.html">Ruby</a></li>
+      <li><a href="/tutorials/tutorial-one-php.html">PHP</a></li>
+      <li><a href="/tutorials/tutorial-one-dotnet.html">C#</a></li>
+      <li><a href="/tutorials/tutorial-one-javascript.html">JavaScript</a></li>
+      <li><a href="/tutorials/tutorial-one-go.html">Go</a></li>
+      <li><a href="/tutorials/tutorial-one-elixir.html">Elixir</a></li>
+      <li><a href="/tutorials/tutorial-one-objectivec.html">Objective-C</a></li>
+      <li><a href="/tutorials/tutorial-one-swift.html">Swift</a></li>
+      <li><a href="/tutorials/tutorial-one-spring-amqp.html">Spring AMQP</a></li>
+    </ul>
+  </td>
+
+  <td id="tutorial-two">
+    <h2><span class="tute-num">2</span> <a href="/tutorials/tutorial-two-python.html">Work queues</a></h2>
+    <p>
+      Distributing tasks among workers (the <a href="http://www.enterpriseintegrationpatterns.com/patterns/messaging/CompetingConsumers.html">competing consumers pattern</a>)
+    </p>
+    <p><img src="/img/tutorials/python-two.png" width="180" /></p>
+    <ul>
+        <li><a href="/tutorials/tutorial-two-python.html">Python</a></li>
+        <li><a href="/tutorials/tutorial-two-java.html">Java</a></li>
+        <li><a href="/tutorials/tutorial-two-ruby.html">Ruby</a></li>
+        <li><a href="/tutorials/tutorial-two-php.html">PHP</a></li>
+        <li><a href="/tutorials/tutorial-two-dotnet.html">C#</a></li>
+        <li><a href="/tutorials/tutorial-two-javascript.html">JavaScript</a></li>
+        <li><a href="/tutorials/tutorial-two-go.html">Go</a></li>
+        <li><a href="/tutorials/tutorial-two-elixir.html">Elixir</a></li>
+        <li><a href="/tutorials/tutorial-two-objectivec.html">Objective-C</a></li>
+        <li><a href="/tutorials/tutorial-two-swift.html">Swift</a></li>
+        <li><a href="/tutorials/tutorial-two-spring-amqp.html">Spring AMQP</a></li>
+    </ul>
+  </td>
+
+  <td id="tutorial-three">
+    <h2><span class="tute-num">3</span> <a href="/tutorials/tutorial-three-python.html">Publish/Subscribe</a></h2>
+    <p>
+      Sending messages to many consumers at once
+    </p>
+    <p><img src="/img/tutorials/python-three.png" height="50" width="180" /></p>
+    <ul>
+      <li><a href="/tutorials/tutorial-three-python.html">Python</a></li>
+      <li><a href="/tutorials/tutorial-three-java.html">Java</a></li>
+      <li><a href="/tutorials/tutorial-three-ruby.html">Ruby</a></li>
+      <li><a href="/tutorials/tutorial-three-php.html">PHP</a></li>
+      <li><a href="/tutorials/tutorial-three-dotnet.html">C#</a></li>
+      <li><a href="/tutorials/tutorial-three-javascript.html">JavaScript</a></li>
+      <li><a href="/tutorials/tutorial-three-go.html">Go</a></li>
+      <li><a href="/tutorials/tutorial-three-elixir.html">Elixir</a></li>
+      <li><a href="/tutorials/tutorial-three-objectivec.html">Objective-C</a></li>
+      <li><a href="/tutorials/tutorial-three-swift.html">Swift</a></li>
+      <li><a href="/tutorials/tutorial-three-spring-amqp.html">Spring AMQP</a></li>
+    </ul>
+  </td>
+  </tr>
+
+  <tr>
+  <td id="tutorial-four">
+    <h2><span class="tute-num">4</span> <a href="/tutorials/tutorial-four-python.html">Routing</a></h2>
+    <p>
+      Receiving messages selectively
+    </p>
+    <p><img src="/img/tutorials/python-four.png" height="50" width="180" /></p>
+    <ul>
+      <li><a href="/tutorials/tutorial-four-python.html">Python</a></li>
+      <li><a href="/tutorials/tutorial-four-java.html">Java</a></li>
+      <li><a href="/tutorials/tutorial-four-ruby.html">Ruby</a></li>
+      <li><a href="/tutorials/tutorial-four-php.html">PHP</a></li>
+      <li><a href="/tutorials/tutorial-four-dotnet.html">C#</a></li>
+      <li><a href="/tutorials/tutorial-four-javascript.html">JavaScript</a></li>
+      <li><a href="/tutorials/tutorial-four-go.html">Go</a></li>
+      <li><a href="/tutorials/tutorial-four-elixir.html">Elixir</a></li>
+      <li><a href="/tutorials/tutorial-four-objectivec.html">Objective-C</a></li>
+      <li><a href="/tutorials/tutorial-four-swift.html">Swift</a></li>
+      <li><a href="/tutorials/tutorial-four-spring-amqp.html">Spring AMQP</a></li>
+    </ul>
+  </td>
+
+  <td id="tutorial-five">
+    <h2><span class="tute-num">5</span> <a href="/tutorials/tutorial-five-python.html">Topics</a></h2>
+    <p>
+      Receiving messages based on a pattern (topics)
+    </p>
+    <p><img src="/img/tutorials/python-five.png" height="50" width="180" /></p>
+    <ul>
+      <li><a href="/tutorials/tutorial-five-python.html">Python</a></li>
+      <li><a href="/tutorials/tutorial-five-java.html">Java</a></li>
+      <li><a href="/tutorials/tutorial-five-ruby.html">Ruby</a></li>
+      <li><a href="/tutorials/tutorial-five-php.html">PHP</a></li>
+      <li><a href="/tutorials/tutorial-five-dotnet.html">C#</a></li>
+      <li><a href="/tutorials/tutorial-five-javascript.html">JavaScript</a></li>
+      <li><a href="/tutorials/tutorial-five-go.html">Go</a></li>
+      <li><a href="/tutorials/tutorial-five-elixir.html">Elixir</a></li>
+      <li><a href="/tutorials/tutorial-five-objectivec.html">Objective-C</a></li>
+      <li><a href="/tutorials/tutorial-five-swift.html">Swift</a></li>
+      <li><a href="/tutorials/tutorial-five-spring-amqp.html">Spring AMQP</a></li>
+    </ul>
+  </td>
+
+  <td id="tutorial-six">
+    <h2><span class="tute-num">6</span> <a href="/tutorials/tutorial-six-python.html">RPC</a></h2>
+    <p>
+      <a href="http://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html">Request/reply pattern</a> example
+    </p>
+    <p><img src="/img/tutorials/python-six.png" height="50" width="180" /></p>
+    <ul>
+      <li><a href="/tutorials/tutorial-six-python.html">Python</a></li>
+      <li><a href="/tutorials/tutorial-six-java.html">Java</a></li>
+      <li><a href="/tutorials/tutorial-six-ruby.html">Ruby</a></li>
+      <li><a href="/tutorials/tutorial-six-php.html">PHP</a></li>
+      <li><a href="/tutorials/tutorial-six-dotnet.html">C#</a></li>
+      <li><a href="/tutorials/tutorial-six-javascript.html">JavaScript</a></li>
+      <li><a href="/tutorials/tutorial-six-go.html">Go</a></li>
+      <li><a href="/tutorials/tutorial-six-elixir.html">Elixir</a></li>
+      <li><a href="/tutorials/tutorial-six-spring-amqp.html">Spring AMQP</a></li>
+    </ul>
+  </td>
+  </tr>
+  <tr>
+  <td id="tutorial-seven">
+    <h2><span class="tute-num">7</span> <a href="/tutorials/tutorial-seven-java.html">Publisher Confirms</a></h2>
+    <p>
+      Reliable publishing with publisher confirms
+    </p>
+    <ul>
+      <li><a href="/tutorials/tutorial-seven-java.html">Java</a></li>
+      <li><a href="/tutorials/tutorial-seven-dotnet.html">C#</a></li>
+      <li><a href="/tutorials/tutorial-seven-php.html">PHP</a></li>
+    </ul>
+  </td>
+  <td class="tutorial-empty"></td>
+  <td class="tutorial-empty"></td>
+  </tr>
+</table>
+</div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://pivotal.io/legal">Terms of Use</a>,
           <a href="https://pivotal.io/privacy-policy">Privacy</a> and

@@ -5,13 +5,12 @@
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title># Breaking Changes — RabbitMQ</title>
-    
-  </head>
-  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1># Breaking Changes</h1>
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>(Untitled) — RabbitMQ</title></head>
+  <body id="release-notes/3.7.0"><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>(Untitled)</h1>
 <p>This release introduces new features, changes to RabbitMQ distribution (e.g. what plugins ship
 with it), and bug fixes. It also includes all the changes from the <a href="https://www.rabbitmq.com/changelog.html">3.6.x release series</a> unless stated otherwise.</p>
 <p>Documentation for this release is available at <a href="https://www.rabbitmq.com">the RabbitMQ website</a>.</p>
+<h2>Breaking Changes</h2>
 <ul>
 <li>Minimum required Erlang/OTP version is now 19.3. Recent Erlang versions can be obtained from <a href="https://www.erlang-solutions.com/resources/download.html">Erlang Solutions</a>, <a href="https://github.com/rabbitmq/erlang-rpm">RabbitMQ zero dependency Erlang RPM</a>, as well as main and backports repositories of recent Ubuntu and Debian releases.</li>
 </ul>
@@ -73,10 +72,11 @@ with it), and bug fixes. It also includes all the changes from the <a href="http
    peers using pluggable backends. This is a set of features adopted from the <a href="https://github.com/rabbitmq/rabbitmq-autocluster/">rabbitmq-autocluster</a> plugin by Gavin Roy.
    Two implementations are available out of the box: one uses a config file- and another DNS A records.
    Several more are available via plugins:</p>
-<pre class="highlight"><span class="code ">* [AWS](https://github.com/rabbitmq/rabbitmq-peer-discovery-aws)
+<div class="highlight"><pre><span></span>* [AWS](https://github.com/rabbitmq/rabbitmq-peer-discovery-aws)
 * [Consul](https://github.com/rabbitmq/rabbitmq-peer-discovery-consul)
 * [etcd](https://github.com/rabbitmq/rabbitmq-peer-discovery-etcd)
-* [Kubernetes](https://github.com/rabbitmq/rabbitmq-peer-discovery-k8s)</span></pre>
+* [Kubernetes](https://github.com/rabbitmq/rabbitmq-peer-discovery-k8s)
+</pre></div>
 
 
 <p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/486">rabbitmq-server#486</a>, <a href="https://github.com/rabbitmq/rabbitmq-server/issues/988">rabbitmq-server#988</a>, <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1143">rabbitmq-server#1143</a>
