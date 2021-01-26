@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title># RabbitMQ 3.8.0 — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1># RabbitMQ 3.8.0</h1>
+<p>RabbitMQ <span class="code ">3.8.0</span> is a feature release. It contains several major improvements in areas of
+data safety, replication, observability, and ease of upgrades. Some highlight features are</p>
+<ul>
+<li><a href="http://next.rabbitmq.com/quorum-queues.html">Quorum Queues</a></li>
+<li>Built-in <a href="http://next.rabbitmq.com/prometheus.html">Prometheus support</a> with a set of Grafana dashboards to complement it</li>
+<li><a href="http://next.rabbitmq.com/feature-flags.html">Feature Flags</a></li>
+<li><a href="http://next.rabbitmq.com/consumers.html#single-active-consumer">Single Active Consumer</a></li>
+<li>New authentication and authorisation <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-oauth2">backend that uses OAuth 2.0 (JWT)</a> tokens and scopes</li>
+</ul>
+<p>A recorded webinar, <a href="https://content.pivotal.io/webinars/may-23-what-s-new-in-rabbitmq-3-8-webinar">What's New in RabbitMQ 3.8</a>, covers some of the highlights in this release.</p>
+<p>Several features in this release are backed by a new Raft implementation for Erlang and Elixir,
+<a href="https://github.com/rabbitmq/ra/">Ra</a>.</p>
+<h3>Erlang/OTP Compatibility Notes</h3>
+<p>This release <a href="https://www.rabbitmq.com/which-erlang.html"><strong>requires Erlang/OTP 21.3</strong></a> or later.
+<span class="code ">22.x</span> series is recommended.</p>
+<p><a href="https://www.rabbitmq.com/which-erlang.html#erlang-repositories">Provisioning Latest Erlang Releases</a> explains
+what package repositories and tools can be used to provision latest patch versions of Erlang <span class="code ">21.3.x</span> and <span class="code ">22.x</span>.</p>
+<h3>Rolling Upgrades to 3.8</h3>
+<p>RabbitMQ 3.8.0 nodes can run alongside <span class="code ">3.7.18</span> or later <span class="code ">3.7.x</span> nodes.
+No 3.8.0-specific features would be available in a mixed version cluster. Mixed versions are meant
+to simplify rolling upgrades and not meant to be running for long periods of time.</p>
+<p>See the <a href="https://www.rabbitmq.com/upgrade.html">Upgrading guide</a> for documentation on upgrades.</p>
+<h3>Compatibility Notes</h3>
+<h4>Upgrading to Erlang 21.x or Later Versions</h4>
+<p>When upgrading to this release <strong>and upgrading Erlang to 21.x or later</strong> at the same time, extra care has to be taken.
+Since CLI tools from RabbitMQ releases older than 3.7.7 will fail on Erlang 21 or later,
+RabbitMQ <strong>must be upgraded before Erlang</strong>.</p>
+<h4>Upgrade Doc Guides and Change Log</h4>
+<p>See the <a href="https://www.rabbitmq.com/upgrade.html">Upgrading guide</a> for documentation on upgrades
+and <a href="https://www.rabbitmq.com/changelog.html">RabbitMQ change log</a> for release notes of other releases.</p>
+<h4>Client Library Compatibility</h4>
+<p>Client libraries that were compatible with RabbitMQ <span class="code ">3.7.x</span> will be compatible with <span class="code ">3.8.0</span>.</p>
+<h3>Getting Help</h3>
+<p>Any questions about this release, upgrades or RabbitMQ in general are welcome on the
+<a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.</p>
+<h2>Changes</h2>
+<h3>Core Server</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>
+<p><a href="http://next.rabbitmq.com/quorum-queues.html">Quorum Queues</a> built on top of the <a href="https://raft.github.io/">Raft consensus algorithm</a> for data safety,
+   more predictable failure recovery, more efficient synchronisation of new and recovered followers, and parallel replication.</p>
+</li>
+<li>
+<p><a href="http://next.rabbitmq.com/feature-flags.html">Feature Flags</a> allow for mixed-version clusters and safer rolling upgrades.</p>
+</li>
+<li>
+<p><a href="http://next.rabbitmq.com/consumers.html#single-active-consumer">Single Active Consumer</a> makes it possible
+   to run a set of consumers for redundancy while ensuring that only one consumer is getting deliveries.</p>
+</li>
+<li>
+<p>New metric: dropped unroutable messages. Spotting faulty publishers and routing topology issues is now easier.</p>
+</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1904">rabbitmq/rabbitmq-server#1904</a></p>
+<ul>
+<li>New metrics: <a href="https://www.rabbitmq.com/connections.html#monitoring">connection</a> and <a href="https://www.rabbitmq.com/channels.html#monitoring">channel churn</a>.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1723">rabbitmq/rabbitmq-server#1723</a></p>
+<ul>
+<li>Quorum queues support redelivery tracking, which can be used by consumers to protect themselves from
+   poison message redeliveries.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/502">rabbitmq/rabbitmq-server#502</a></p>
+<ul>
+<li>New queue overflow behaviour: <span class="code ">reject-publish-dlx</span>. It is identical to <span class="code ">reject-publish</span>
+   but also dead letters rejected messages.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1443">rabbitmq/rabbitmq-server#1443</a></p>
+<ul>
+<li>Default bindings are now explicit instead of being rows in the internal data store. That means
+   that high queue churn results in significantly less binding churn, reducing lock contention on
+   schema database tables, and peak schema operation latencies with it.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/1721">rabbitmq/rabbitmq-server#1721</a></p>
+<h4>Internal API Changes</h4>
+<ul>
+<li>
+<p><a href="https://github.com/rabbitmq/rabbitmq-server/blob/master/src/amqqueue.erl"><span class="code ">amqqueue</span></a> is a new public API module
+   that should be used to access queue state instead of using queue state records directly. This allows the record
+   to evolve a lot more rapidly with fewer or no code changes in the plugins that access queue state.</p>
+</li>
+<li>
+<p><span class="code ">authn</span> and <span class="code ">authz</span> functions now have access to additional (e.g. protocol-specific) context information.</p>
+</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1767">rabbitmq/rabbitmq-server#1767</a></p>
+<ul>
+<li>Backing queue interface now exposes a function for message deduplication. Plugins now can track duplicate messages
+   in a way that makes it possible to negatively confirm duplicates back to the publisher.</li>
+</ul>
+<p>Contributed by Matteo Cafasso.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/1774">rabbitmq/rabbitmq-server#1774</a>.</p>
+<h4>Usability</h4>
+<ul>
+<li>New style configuration format is now more forgiving: it will ignore lines that only contain
+   whitespace and tab characters, as well as leading and trailing whitespace.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2072">rabbitmq/rabbitmq-server#2072</a></p>
+<ul>
+<li>Maximum message size is now configurable. The default was reduced to 128 MiB.e</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/1812">rabbitmq/rabbitmq-server#1812</a></p>
+<h4>Bug Fixes</h4>
+<p>Most bug fixes in this release previously shipped in <a href="https://rabbitmq.com/changelog.html"><span class="code ">3.7.x</span> release series</a>.
+The list below contains community contributions and most important issues that were not backported to <span class="code ">3.7.x</span> releases.</p>
+<ul>
+<li>Queue index consistency and safety improvements.</li>
+</ul>
+<p>Contributed by @tomyouyou.</p>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2092">rabbitmq/rabbitmq-server#2092</a>, <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2096">rabbitmq/rabbitmq-server#2096</a>, <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2100">rabbitmq/rabbitmq-server#2100</a>.</p>
+<h3>CLI Tools</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>More user-friendly <span class="code ">rabbitmq-diagnostics status</span> output.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/340">rabbitmq/rabbitmq-cli#340</a></p>
+<ul>
+<li>New <span class="code ">help</span> command.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/pull/316">rabbitmq/rabbitmq-cli#316</a></p>
+<ul>
+<li>A new set of fine-grained <a href="https://www.rabbitmq.com/monitoring.html#health-checks">health check</a> commands.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/292">rabbitmq/rabbitmq-cli#292</a></p>
+<ul>
+<li>New tool, <span class="code ">rabbitmq-queues</span>, with commands that display Raft state metrics and manage nodes that
+   host quorum queue replicas.</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/287">rabbitmq/rabbitmq-cli#287</a>, <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/286">rabbitmq/rabbitmq-cli#286</a></p>
+<ul>
+<li>Feature flag status reporting.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/346">rabbitmq/rabbitmq-cli#346</a></p>
+<h4>Usability</h4>
+<ul>
+<li><span class="code ">rabbitmq-diagnostics cipher_suites</span> now uses OpenSSL cipher suite format by default.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/267">rabbitmq/rabbitmq-cli#267</a></p>
+<h3>Management Plugin</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>Metric collection and visualisation in management UI now can be disabled in favor of built-in
+   Prometheus support and Grafana dashboard from Team RabbitMQ.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/pull/707">rabbitmq/rabbitmq-management#707</a></p>
+<ul>
+<li>Feature flag management interface.</li>
+</ul>
+<p><a href="https://github.com/rabbitmq/rabbitmq-management/pull/648">rabbitmq/rabbitmq-management#648</a></p>
+<ul>
+<li>
+<p>Quorum Queue support.</p>
+</li>
+<li>
+<p>Single Active Consumer support.</p>
+</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/pull/650">rabbitmq/rabbitmq-management#650</a></p>
+<ul>
+<li>Support for more TLS options.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/pull/644">rabbitmq/rabbitmq-management#644</a></p>
+<ul>
+<li>OAuth 2.0 Single Sign On support for <a href="https://docs.cloudfoundry.org/concepts/architecture/uaa.html">UAA</a></li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/pull/722">rabbitmq/rabbitmq-management#722</a></p>
+<ul>
+<li>Username and password-based Basic HTTP Auth authentication for API operations now can be disabled
+   in favor of OAuth 2.0 Single Sign On via <a href="https://docs.cloudfoundry.org/concepts/architecture/uaa.html">UAA</a>.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/pull/724">rabbitmq/rabbitmq-management#724</a></p>
+<h3>Shovel Plugin</h3>
+<h4>Bug Fixes</h4>
+<p>Most bug fixes in this release previously shipped in <a href="https://rabbitmq.com/changelog.html"><span class="code ">3.7.x</span> release series</a>.
+The list below contains most prominent fixes.</p>
+<ul>
+<li>Sensitive values in Shovel connection state (namely, the connection credentials) are now stored in
+   encrypted form. This avoids unintentional credential logging by the runtime (exception logger)
+   at the cost of making troubleshooting authentication failures harder.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-erlang-client/issues/123">rabbitmq-erlang-client#123</a></p>
+<h3>Federation Plugin</h3>
+<h4>Bug Fixes</h4>
+<p>Most bug fixes in this release previously shipped in <a href="https://rabbitmq.com/changelog.html"><span class="code ">3.7.x</span> release series</a>.
+The list below contains most prominent fixes.</p>
+<ul>
+<li>Sensitive values in federation link state (namely, the connection credentials) are now stored in
+   encrypted form. This avoids unintentional credential logging by the runtime (exception logger)
+   at the cost of making troubleshooting authentication failures harder.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-erlang-client/issues/123">rabbitmq-erlang-client#123</a></p>
+<h3>JWT and OAuth 2.0 Plugin</h3>
+<p>Initial release.</p>
+<p>GitHub repository: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-oauth2">rabbitmq/rabbitmq-auth-backend-oauth2</a></p>
+<h3>MQTT Plugin</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>Client ID tracking is now cluster-wide (state is replicated across all nodes). A majority of nodes is required
+   for client connections to be accepted. This is a consequence of the neew consistency-oriented design.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-mqtt/issues/91">rabbitmq/rabbitmq-mqtt#91</a></p>
+<h3>Web STOMP Plugin</h3>
+<h4>Bug Fixes</h4>
+<p>Most bug fixes in this release previously shipped in <a href="https://rabbitmq.com/changelog.html"><span class="code ">3.7.x</span> release series</a>.
+The list below contains most prominent fixes.</p>
+<ul>
+<li>Maximum concurrent client connection limit now defaults to "infinity" (so, there is no limit).</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-web-stomp/issues/113">rabbitmq/rabbitmq-web-stomp#113</a></p>
+<h3>Web MQTT Plugin</h3>
+<h4>Bug Fixes</h4>
+<p>Most bug fixes in this release previously shipped in <a href="https://rabbitmq.com/changelog.html"><span class="code ">3.7.x</span> release series</a>.
+The list below contains most prominent fixes.</p>
+<ul>
+<li>Maximum concurrent client connection limit now defaults to "infinity" (so, there is no limit).</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-web-mqtt/issues/28">rabbitmq/rabbitmq-web-mqtt#28</a></p>
+<h3>RabbitMQ Erlang Client</h3>
+<h4>Bug Fixes</h4>
+<p>Most bug fixes in this release previously shipped in <a href="https://rabbitmq.com/changelog.html"><span class="code ">3.7.x</span> release series</a>.
+The list below contains most prominent fixes.</p>
+<ul>
+<li>Sensitive values in connection state (namely, the connection credentials) are now stored in
+   encrypted form. This avoids unintentional credential logging by the runtime (exception logger)
+   at the cost of making troubleshooting authentication failures harder.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-erlang-client/issues/123">rabbitmq-erlang-client#123</a></p>
+<h2>Source code archives</h2>
+<p><strong>Warning</strong>: The source code archive provided by GitHub only contains the source of the broker,
+not the plugins or the client libraries. Please download the archive named <span class="code ">rabbitmq-server-3.8.0.tar.xz</span>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

@@ -1,0 +1,518 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>RabbitMQ Erlang Version Requirements — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>RabbitMQ Erlang Version Requirements</h1>
+
+
+<h2><a id="intro" class="anchor" href="#intro">Introduction</a></h2>
+<p>This guide covers Erlang/OTP version requirements, <a href="#supported-version-policy">Erlang version support policy</a>,
+a RabbitMQ/Erlang <a href="#compatibility-matrix">compatibility matrix</a>,
+version-specific notes and <a href="#erlang-repositories">ways of provisioning</a> recent Erlang/OTP releases.</p>
+<h2><a id="supported-version-policy" class="anchor" href="#supported-version-policy">Supported Erlang Version Policy</a></h2>
+<p><a href="https://groups.google.com/d/msg/rabbitmq-users/G4UJ9zbIYHs/qCeyjkjyCQAJ">Starting in January 2019</a>,
+RabbitMQ supports two most recent Erlang release series: <span class="code ">23.x</span> and <span class="code ">22.x</span>.</p>
+<h2><a id="compatibility-matrix" class="anchor" href="#compatibility-matrix">RabbitMQ and Erlang/OTP Compatibility Matrix</a></h2>
+<p>The table below provides an Erlang compatibility matrix of currently supported RabbitMQ release series.
+For RabbitMQ releases that have reached end of life, see <a href="#eol-series">Unsupported Series Compatibility Matrix</a>.</p>
+<table class="matrix">
+  <th><a href="/versions.html">RabbitMQ version</a></th>
+  <th>Minimum required Erlang/OTP</th>
+  <th>Maximum supported Erlang/OTP</th>
+  <th>Notes</th>
+
+  <tr>
+    <td>
+      <ul>
+        <li>3.8.11</li>
+        <li>3.8.10</li>
+        <li>3.8.9</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>22.3</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>23.x</li>
+      </ul>
+    </td>
+    <td>
+      <ul class="notes">
+        <li>
+          <a href="https://groups.google.com/forum/#!topic/rabbitmq-users/wlPIWz3UYHQ">Erlang/OTP <span class="code ">23</span> compatibility notes</a>
+        </li>
+        <li>Erlang 23.x is recommended</li>
+        <li>Erlang 22.x dropped support for HiPE</li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <ul>
+        <li>3.8.8</li>
+        <li>3.8.7</li>
+        <li>3.8.6</li>
+        <li>3.8.5</li>
+        <li>3.8.4</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>21.3</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>23.x</li>
+      </ul>
+    </td>
+    <td>
+      <ul class="notes">
+        <li>
+          <a href="https://groups.google.com/forum/#!topic/rabbitmq-users/wlPIWz3UYHQ">Erlang/OTP <span class="code ">23</span> compatibility notes</a>
+        </li>
+        <li>Erlang 22.x or 23.x is recommended</li>
+        <li>Erlang 22.x dropped support for HiPE</li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <ul>
+        <li>3.8.3</li>
+        <li>3.8.2</li>
+        <li>3.8.1</li>
+        <li>3.8.0</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>21.3</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>22.x</li>
+      </ul>
+    </td>
+    <td>
+      <ul class="notes">
+        <li>Erlang 22.x is recommended.</li>
+        <li>Erlang 22.x dropped support for HiPE</li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <ul>
+        <li>3.7.27</li>
+        <li>3.7.26</li>
+        <li>3.7.25</li>
+        <li>3.7.24</li>
+        <li>3.7.23</li>
+        <li>3.7.22</li>
+        <li>3.7.21</li>
+        <li>3.7.20</li>
+        <li>3.7.19</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>21.3</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>22.x</li>
+      </ul>
+    </td>
+    <td>
+      <ul class="notes">
+        <li>
+          <a href="https://groups.google.com/forum/#!searchin/rabbitmq-users/ANN|sort:date/rabbitmq-users/9tc_OE1eMPk/ly1NEISwBwAJ">Erlang/OTP <span class="code ">20.x</span> support is discontinued</a>
+        </li>
+        <li>Erlang 22.x dropped support for HiPE</li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <ul>
+        <li>3.7.18</li>
+        <li>3.7.17</li>
+        <li>3.7.16</li>
+        <li>3.7.15</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>20.3</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>22.x</li>
+      </ul>
+    </td>
+    <td>
+      <ul class="notes">
+        <li><a href="https://groups.google.com/forum/#!topic/rabbitmq-users/vcRLhpUdg_o">Erlang/OTP <span class="code ">22.0</span> compatibility notes</a></li>
+        <li><a href="/ssl.html#tls-versions">TLSv1.0 and TLSv1.1 support</a> is disabled by default on Erlang 22.x</li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <ul>
+        <li>3.7.14</li>
+        <li>3.7.13</li>
+        <li>3.7.12</li>
+        <li>3.7.11</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>20.3</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>21.x</li>
+      </ul>
+    </td>
+    <td>
+      <ul class="notes">
+        <li><a href="https://groups.google.com/forum/#!topic/rabbitmq-users/G4UJ9zbIYHs">Erlang/OTP <span class="code ">19.x</span> support is discontinued</a></li>
+        <li>For the best TLS support, the latest version of Erlang/OTP 21.x is recommended</li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <ul>
+        <li>3.7.10</li>
+        <li>3.7.9</li>
+        <li>3.7.8</li>
+        <li>3.7.7</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>19.3</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>21.x</li>
+      </ul>
+    </td>
+    <td>
+      <ul class="notes">
+        <li><a href="https://groups.google.com/forum/#!topic/rabbitmq-users/EuRwfeTGA_o">Erlang/OTP <span class="code ">21.0</span> compatibility notes</a></li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <ul>
+        <li>3.7.6</li>
+        <li>3.7.5</li>
+        <li>3.7.4</li>
+        <li>3.7.3</li>
+        <li>3.7.2</li>
+        <li>3.7.1</li>
+        <li>3.7.0</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>19.3</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>20.x</li>
+      </ul>
+    </td>
+    <td>
+      <ul class="notes">
+        <li>For the best TLS support, the latest version of Erlang/OTP 20.x is recommended</li>
+        <li>Erlang versions prior to 19.3.6.4 have known bugs (e.g. <a href="https://bugs.erlang.org/browse/ERL-430">ERL-430</a>, <a href="https://bugs.erlang.org/browse/ERL-448">ERL-448</a>) that can prevent RabbitMQ nodes from accepting connections (including from CLI tools) and stopping</li>
+        <li>Versions prior to 19.3.6.4 are vulnerable to the <a href="https://robotattack.org/">ROBOT attack</a> (CVE-2017-1000385)</li>
+        <li>On Windows, Erlang/OTP 20.2 changed <a href="/cli.html">default cookie file location</a></li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<p>As a rule of thumb, most recent minor &amp; patch versions of each supported Erlang/OTP series
+is recommended.</p>
+<h2><a id="erlang-repositories" class="anchor" href="#erlang-repositories">Provisioning Latest Erlang Releases</a></h2>
+<p>Most recent versions can be obtained from a number of sources:</p>
+<ul>
+<li><a href="https://bintray.com/rabbitmq-erlang/">Debian Erlang packages</a> from team RabbitMQ.</li>
+<li><a href="https://github.com/rabbitmq/erlang-rpm">Zero dependency Erlang RPM</a> from team RabbitMQ</li>
+<li>As part of <a href="https://github.com/docker-library/rabbitmq/">RabbitMQ Docker image</a> or via <a href="https://hub.docker.com/_/erlang/">Erlang Docker image</a></li>
+<li><a href="https://erlang.org/download/otp_versions_tree.html">Erlang/OTP Version Tree</a> provides binary builds of patch releases for Windows</li>
+<li><a href="https://packages.erlang-solutions.com/erlang/">Erlang Solutions</a> package repositories</li>
+<li>Building from source with <a href="https://github.com/kerl/kerl">kerl</a></li>
+</ul>
+<h2><a id="debian" class="anchor" href="#debian">Installing Erlang/OTP on Debian or Ubuntu</a></h2>
+<p>Standard Debian and Ubuntu repositories provide Erlang/OTP but it is
+heavily sliced and diced into dozens of packages. In addition, unless the system
+has backport repositories enabled, the versions tend to be quite old.
+See <a href="/install-debian.html">Debian and Ubuntu installation guide</a> for
+more information on the essential packages, dependencies, and alternative apt repositories.</p>
+<h2><a id="redhat" class="anchor" href="#redhat">Installing Erlang/OTP on RHEL, CentOS and Fedora</a></h2>
+<p>There are multiple RPM packages available for Erlang/OTP. The recommended option is
+the <a href="https://github.com/rabbitmq/erlang-rpm">zero-dependency Erlang RPM</a> from the RabbitMQ team.
+It closely follows the latest Erlang/OTP patch release schedule.</p>
+<p>See <a href="/install-rpm.html">CentOS, RHEL and Fedora installation guide</a> for more information on the available options.</p>
+<h2><a id="clusters" class="anchor" href="#clusters">Erlang Versions in Clusters</a></h2>
+<p>It is <strong>highly recommended</strong> that the same major version of
+Erlang is used across all <a href="upgrade.html#rolling-upgrades-version-limitations">cluster nodes</a>
+(e.g. <span class="code ">22.x</span>).</p>
+<p>RabbitMQ will check for internal protocol versions of
+Erlang and its distributed libraries when a node joins a
+cluster, refusing to cluster if there's a potentially
+incompatible combination detected.</p>
+<p>Outside of a reasonably long upgrade time window, it is
+recommended that all nodes use exactly the same version of Erlang.</p>
+<h2><a id="hipe" class="anchor" href="#hipe">HiPE (JIT Compilation)</a></h2>
+<p>HiPE support has been dropped in Erlang 22. RabbitMQ no longer supports HiPE precompilation.</p>
+<h2><a id="building-from-source" class="anchor" href="#building-from-source">Building Erlang from Source</a></h2>
+<p>If a sufficiently recent Erlang package is not available for a given operating system,
+Erlang/OTP can be <a href="http://www.erlang.org/doc/installation_guide/INSTALL.html">built from source</a>.
+This requires a build environment that satisfies the Erlang build dependencies, such as a
+modern OpenSSL version.</p>
+<p><a href="https://github.com/kerl/kerl">kerl</a> makes building Erlang/OTP releases from
+source, including specific tags from GitHub, a much more pleasant experience.</p>
+<h2><a id="old-timers" class="anchor" href="#old-timers">Older RabbitMQ and Erlang Releases</a></h2>
+<h3><a id="eol-series" class="anchor" href="#eol-series">Unsupported RabbitMQ Series</a></h3>
+<table class="matrix">
+  <th><a href="/changelog.html">Unsupported RabbitMQ Series</a></th>
+  <th>Minimum required Erlang/OTP</th>
+  <th>Maximum supported Erlang/OTP</th>
+  <th>Notes</th>
+  <tr>
+    <td>
+      <ul>
+        <li>3.6.16</li>
+        <li>3.6.15</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>19.3</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>20.3.x</li>
+      </ul>
+    </td>
+    <td>
+      <ul class="notes">
+        <li>RabbitMQ 3.6 was released on 2015-12-22, and reached end of life on 2018-05-31, we strongly discourage its use</li>
+        <li>On Windows, Erlang/OTP 20.2 changed <a href="/cli.html">default cookie file location</a></li>
+        <li>
+          Versions prior to 19.3.6.4 have known bugs (e.g. <a href="https://bugs.erlang.org/browse/ERL-430">ERL-430</a>, <a href="https://bugs.erlang.org/browse/ERL-448">ERL-448</a>)
+          that can prevent RabbitMQ nodes from accepting connections (including from CLI tools) and stopping
+        </li>
+        <li>Versions prior to 19.3.6.4 are vulnerable to the <a href="https://robotattack.org/">ROBOT attack</a> (CVE-2017-1000385)</li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <ul>
+        <li>3.6.14</li>
+        <li>3.6.13</li>
+        <li>3.6.12</li>
+        <li>3.6.11</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>R16B03</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>20.1.x</li>
+      </ul>
+    </td>
+    <td>
+      <ul class="notes">
+        <li>RabbitMQ 3.6 was released on 2015-12-22, and reached end of life on 2018-05-31, we strongly discourage its use</li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <ul>
+        <li>3.6.10</li>
+        <li>3.6.9</li>
+        <li>3.6.8</li>
+        <li>3.6.7</li>
+        <li>3.6.6</li>
+        <li>3.6.5</li>
+        <li>3.6.4</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>R16B03</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>19.3.x</li>
+      </ul>
+    </td>
+    <td>
+      <ul class="notes">
+        <li>RabbitMQ 3.6 was released on 2015-12-22, and reached end of life on 2018-05-31, we strongly discourage its use</li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <ul>
+        <li>3.6.3</li>
+        <li>3.6.2</li>
+        <li>3.6.1</li>
+        <li>3.6.0</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>R16B03</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>18.3.x</li>
+      </ul>
+    </td>
+    <td>
+      <ul class="notes">
+        <li>RabbitMQ 3.6 was released on 2015-12-22, and reached end of life on 2018-05-31, we strongly discourage its use</li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <ul>
+        <li>3.5.x</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>R14B04</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>17.5.x</li>
+      </ul>
+    </td>
+    <td>
+      <ul class="notes">
+        <li>RabbitMQ 3.5 was released on 2015-03-11, and reached end of life on 2016-10-31, we strongly discourage its use</li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <ul>
+        <li>3.4.x</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>R13B03</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>16B03</li>
+      </ul>
+    </td>
+    <td>
+      <ul class="notes">
+        <li>RabbitMQ 3.4 was released 2014-10-21, and reached end of life 2015-10-31, we strongly discourage its use</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<h3><a id="r16b03" class="anchor" href="#r16b03">Last Version to Support R16B03</a></h3>
+<p>If you absolutely must use an older version of Erlang, RabbitMQ
+3.6.14 is the newest version compatible with R16B03.</p>
+<h3><a id="r13b03" class="anchor" href="#r13b03">Last Version to Support R13B03</a></h3>
+<p>If you absolutely must use an older version of Erlang, <a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/rabbitmq_v3_5_8">RabbitMQ 3.5.8</a>
+is the newest version compatible with R13B03.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

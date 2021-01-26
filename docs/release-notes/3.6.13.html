@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title># RabbitMQ 3.6.13 — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1># RabbitMQ 3.6.13</h1>
+<p>RabbitMQ <span class="code ">3.6.13</span> is a maintenance release.</p>
+<h3>Upgrades and Compatibility</h3>
+<p>See the <a href="https://www.rabbitmq.com/clustering.html#upgrading">"Upgrading clusters" section of the documentation</a>
+for general documentation on upgrades.</p>
+<p>This release has no known incompatibilities with versions 3.6.7 through 3.6.12.
+See the upgrade and compatibility sections in the <a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/rabbitmq_v3_6_7">3.6.7 release notes</a> if upgrading from an earlier release.</p>
+<h3>3.6.x Series Support Timeline</h3>
+<p>Please read this node on <a href="https://groups.google.com/forum/#!msg/rabbitmq-users/kXkI-f3pgEw/UFowJIK4BQAJ">RabbitMQ 3.6.x series support timeline</a>.</p>
+<h3>Core Server</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Memory usage monitor uses subprocesses a lot more sparingly. They are started
+   roughly once a second or not started at all, depending on the strategy (e.g. on Windows
+   Erlang VM allocator information is used instead).</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1343">rabbitmq-server#1343</a>, <a href="https://github.com/rabbitmq/rabbitmq-common/issues/224">rabbitmq-common#224</a></p>
+<ul>
+<li>Very busy queues are now more efficient at prioritizing consumers, avoiding
+   consumer delivery blocking when relatively long running operations (e.g. bulk flushing
+   of transient messages to disk) happen.</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/1388">rabbitmq-server#1388</a>, <a href="https://github.com/rabbitmq/rabbitmq-server/pull/1407">rabbitmq-server#1407</a></p>
+<ul>
+<li>Queue master strategies now take additional queue HA arguments into account.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1371">rabbitmq-server#1371</a></p>
+<ul>
+<li>Logging to standard output using <span class="code ">RABBITMQ_LOGS=-</span> wasn't possible on Windows.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1348">rabbitmq-server#1348</a></p>
+<ul>
+<li>Queue master locator name now can be specified as Erlang strings.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1411">rabbitmq-server#1411</a></p>
+<ul>
+<li>Direct Erlang client connections could fail with obscure messages when
+   target node was still booting.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1356">rabbitmq-server#1356</a></p>
+<h4>Enhancements</h4>
+<ul>
+<li><span class="code ">supervisor2</span> now can be used in environments that perform hot code upgrades.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-common/pull/230">rabbitmq-common#230</a></p>
+<ul>
+<li>systemd service file now white lists exit code 69.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server-release/issues/51">rabbitmq-server-release#51</a></p>
+<ul>
+<li>Example systemd service file now includes service restart settings.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1359">rabbitmq-server#1359</a></p>
+<ul>
+<li>Queue master locator strategy now can be configured using strings.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1411">rabbitmq-server#1411</a></p>
+<ul>
+<li>Plugin activation avoids logs things that can be confusing.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1364">rabbitmq-server#1364</a></p>
+<h3>Management Plugin</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>Minor efficiency improvements around stats collection.</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-common/pull/235">rabbitmq-common#235</a></p>
+<ul>
+<li>jQuery upgraded to 1.12.4.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/pull/502">rabbitmq-management#502</a></p>
+<ul>
+<li>
+<p>UI improvements.</p>
+</li>
+<li>
+<p>More detailed memory use breakdown on the node page.</p>
+</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/pull/500">rabbitmq-management#500</a></p>
+<ul>
+<li>It is now possible to configure an HTTP API path prefix for the plugin.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/481">rabbitmq-management#481</a></p>
+<ul>
+<li>Queue details page no longer truncates node name.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/473">rabbitmq-management#473</a></p>
+<ul>
+<li>Policy name in queue and exchange info is now a link.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/493">rabbitmq-management#493</a></p>
+<ul>
+<li><span class="code ">DELETE /api/connections/{name}</span> is now more defensive.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/497">rabbitmq-management#497</a></p>
+<h2>Upgrading</h2>
+<p>To upgrade a non-clustered RabbitMQ simply install the new version. All configuration and persistent message data are retained.
+When upgrading using definitions export/import from versions earlier than 3.6.0, see http://rabbitmq.com/passwords.html.</p>
+<p>To upgrade a RabbitMQ cluster, follow the instructions <a href="https://www.rabbitmq.com/clustering.html#upgrading">in RabbitMQ documentation</a>.</p>
+<h2>Source code archives</h2>
+<p><strong>Warning</strong>: The source code archive provided by GitHub only contains the source of the broker,
+not the plugins or the client libraries. Please download the archive named <span class="code ">rabbitmq-3.6.13.tar.gz</span>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

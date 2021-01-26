@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title># RabbitMQ 3.6.15 — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1># RabbitMQ 3.6.15</h1>
+<p>RabbitMQ 3.6.15 is a maintenance release.</p>
+<h3>Upgrades and Compatibility</h3>
+<p>See the <a href="https://www.rabbitmq.com/upgrade.html">"Upgrading clusters" section of the
+documentation</a> for general
+documentation on upgrades.</p>
+<p>This release has no known incompatibilities with versions 3.6.7 through
+3.6.14. See the upgrade and compatibility sections in the <a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/rabbitmq_v3_6_7">3.6.7 release
+notes</a>
+if upgrading from an earlier release.</p>
+<h3>3.6.x Series Support Timeline</h3>
+<p>Please read this node on <a href="https://groups.google.com/forum/#!msg/rabbitmq-users/kXkI-f3pgEw/UFowJIK4BQAJ">RabbitMQ 3.6.x series support
+timeline</a>.</p>
+<h3>Core Server</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>
+<p>Avoid infinite loop when dropping entries in the GM.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/1431">rabbitmq-server#1431</a></p>
+</li>
+<li>
+<p>Various changes to the OCF scripts.</p>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-server-release/pull/66">rabbitmq-server-release#66</a>,
+<a href="https://github.com/rabbitmq/rabbitmq-server-release/pull/67">rabbitmq-server-release#67</a>,
+<a href="https://github.com/rabbitmq/rabbitmq-server-release/pull/73">rabbitmq-server-release#73</a></p>
+</li>
+</ul>
+<h4>Enhancements</h4>
+<ul>
+<li><a href="https://www.rabbitmq.com/access-control.html">Internal authN backend</a> will now prohibit logins with a blank passwords. Such attempts
+   are usually made by mistake because a passwordless user that was meant to authenticate
+   using <a href="https://github.com/rabbitmq/rabbitmq-auth-mechanism-ssl/">x509 (TLS) certificates</a> was not configured to use the correct <a href="https://www.rabbitmq.com/authentication.html">authentication
+   mechanism</a>.</li>
+</ul>
+<p>Note that the same behavior can already be achieved using a <a href="https://www.rabbitmq.com/passwords.html">credential validator</a>, 
+   so this is just an extra safety measure.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/1466">rabbitmq-server#1466</a></p>
+<h3>Management Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>
+<p>Multi-input forms (such as message properties) again submit all fields.</p>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/511">rabbitmq-management#511</a></p>
+</li>
+<li>
+<p>User update form now successfully updates tags for passwordless users (or if the password is cleared at the same time).</p>
+</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/533">rabbitmq-management#533</a></p>
+<ul>
+<li>
+<p><span class="code ">Content-Type</span> header was returned twice in API responses.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/527">rabbitmq-management#527</a></p>
+</li>
+<li>
+<p>Avoid duplicated event handlers in the UI.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/pull/516">rabbitmq-management#516</a></p>
+</li>
+<li>
+<p>Use <span class="code ">auto</span> width to make option values fully visible.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/519">rabbitmq-management#519</a></p>
+</li>
+</ul>
+<h3>MQTT Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>
+<p>Concurrently registering consumers could fail with a "Key exists" exception in the log.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-mqtt/issues/132">rabbitmq-mqtt#132</a></p>
+</li>
+</ul>
+<h3>Federation Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>
+<p>Disabling policy (or plugin) now cleans up all internal exchanges and queues used by federation links.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-federation/issues/63">rabbitmq-federation#63</a></p>
+</li>
+</ul>
+<h3>Standalone MacOS Package</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>
+<p>Standalone MacOS package now ships with Erlang/OTP 20.1 which is compatible with High Sierra.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server-release/issues/68">rabbitmq-server-release#68</a></p>
+</li>
+</ul>
+<h3>Debian Package</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>
+<p>Make adm the group owner for RabbitMQ log directories.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server-release/pull/70">rabbitmq-server-release#70</a></p>
+</li>
+</ul>
+<h3>Web MQTT Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>
+<p><span class="code ">https/web-mqtt</span> listener displayed incorrect port in management UI.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-web-mqtt/issues/25">rabbitmq-web-mqtt#25</a></p>
+</li>
+</ul>
+<h3>Top Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>
+<p>Fix node and row selectors after jQuery upgrade to 1.12.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-top/pull/29">rabbitmq-top#29</a></p>
+</li>
+</ul>
+<h3>Erlang Client</h3>
+<h4>Buf Fixes</h4>
+<ul>
+<li>
+<p>Enable hostname verification for OTP 19.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-erlang-client/pull/95">rabbitmq-erlang-client#95</a></p>
+</li>
+</ul>
+<h2>Upgrading</h2>
+<p>To upgrade a non-clustered RabbitMQ simply install the new version. All
+configuration and persistent message data are retained. When upgrading
+using definitions export/import from versions earlier than 3.6.0, see
+http://rabbitmq.com/passwords.html.</p>
+<p>To upgrade a RabbitMQ cluster, follow the instructions <a href="https://www.rabbitmq.com/clustering.html#upgrading">in RabbitMQ
+documentation</a>.</p>
+<h2>Source code archives</h2>
+<p><strong>Warning</strong>: The source code archive provided by GitHub only contains
+the source of the broker, not the plugins or the client libraries.
+Please download the archive named <span class="code ">rabbitmq-server-3.6.15.tar.xz</span>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title># RabbitMQ 3.8.6 — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1># RabbitMQ 3.8.6</h1>
+<p>RabbitMQ <span class="code ">3.8.6</span> is a maintenance release.
+It focuses on bug fixes and usability improvements.</p>
+<h3>RabbitMQ Adopts the Mozilla Public License 2.0</h3>
+<p>Starting with this release, core RabbitMQ server and all <a href="https://www.rabbitmq.com/plugins.html#plugin-tiers">tier 1 plugins</a>
+are <a href="https://github.com/rabbitmq/rabbitmq-server/issues/2372">relicensed</a> under the <a href="https://www.mozilla.org/en-US/MPL/2.0/">Mozilla Public License 2.0</a>
+(previously used license: the Mozilla Public License 1.1).</p>
+<p>The permissiveness of the MPL 2.0 is largely the same as of the MPL 1.1.
+See the <a href="https://www.mozilla.org/en-US/MPL/2.0/FAQ/">MPL 2.0 FAQ</a> and
+<a href="https://www.mozilla.org/en-US/MPL/2.0/Revision-FAQ/">MPL 2.0 Revision and Changes FAQ</a> to learn more.</p>
+<h3>Erlang 23 Compatibility</h3>
+<p>This release is <a href="https://groups.google.com/forum/#!topic/rabbitmq-users/wlPIWz3UYHQ">compatible</a> with <a href="http://blog.erlang.org/OTP-23-Highlights/">Erlang 23</a>.</p>
+<h3>Erlang/OTP Compatibility Notes</h3>
+<p>This release <a href="https://www.rabbitmq.com/which-erlang.html"><strong>requires Erlang/OTP 21.3</strong></a> or later.
+<span class="code ">22.3</span> or <span class="code ">23.0</span> releases are recommended.</p>
+<p><a href="https://www.rabbitmq.com/which-erlang.html#erlang-repositories">Provisioning Latest Erlang Releases</a> explains
+what package repositories and tools can be used to provision latest patch versions of Erlang <span class="code ">22.3.x</span>.</p>
+<h2>Upgrade and Compatibility Notes</h2>
+<h3>Deprecations</h3>
+<p>This release removed HiPE precompilation support. HiPE has been deprecated and
+mostly unmaintained since Erlang 22, and will be replaced with a JIT <a href="http://erlang.org/pipermail/erlang-questions/2020-June/099645.html">in Erlang 24</a>
+in 2021.</p>
+<p><span class="code ">shell
+rabbitmqctl hipe_compile</span></p>
+<p>and</p>
+<p><span class="code ">ini
+hipe_compile = true</span></p>
+<p>are both retained for backwards compatibility but they won't have any effect.</p>
+<h3>Upgrade Doc Guides and Change Log</h3>
+<p>See <a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.8.0">3.8.0 release notes</a> upgrade and
+compatibility notes first if upgrading from an earlier release.</p>
+<p>See the <a href="https://www.rabbitmq.com/upgrade.html">Upgrading guide</a> for general documentation on upgrades and
+<a href="https://www.rabbitmq.com/changelog.html">RabbitMQ change log</a> for release notes of other releases.</p>
+<h3>Upgrading to Erlang 21.x or Later Versions</h3>
+<p>When upgrading to this release from <span class="code ">3.7.6</span> or an older version, extra care has to be taken.</p>
+<p>Since CLI tools from RabbitMQ releases older than 3.7.7 will fail on Erlang 21 or later,
+RabbitMQ <strong>must be upgraded at the same time as Erlang</strong>.</p>
+<p>Alternatively the node can be upgraded to <span class="code ">3.7.18</span> first, then Erlang 22.x or 23.x, then RabbitMQ to most recent
+3.8.x release.</p>
+<h3>Getting Help</h3>
+<p>Any questions about this release, upgrades or RabbitMQ in general are welcome on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.</p>
+<h2>Changes Worth Mentioning</h2>
+<h3>Core Server</h3>
+<h4>License Change</h4>
+<p>RabbitMQ has been <a href="https://github.com/rabbitmq/rabbitmq-server/issues/2372">relicensed</a> under the <a href="https://www.mozilla.org/en-US/MPL/2.0/">Mozilla Public License 2.0</a>
+(previously used license: the Mozilla Public License 1.1).</p>
+<p>The permissiveness of the MPL 2.0 is largely the same as of the MPL 1.1.
+See the <a href="https://www.mozilla.org/en-US/MPL/2.0/FAQ/">MPL 2.0 FAQ</a> and
+<a href="https://www.mozilla.org/en-US/MPL/2.0/Revision-FAQ/">MPL 2.0 Revision and Changes FAQ</a> to learn more.</p>
+<h4>Deprecations</h4>
+<ul>
+<li>Removed HiPE pre-compilation support.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2392">rabbitmq/rabbitmq-server#2392</a></p>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Definition import on node boot (via the <strong>built-in <span class="code ">load_definitions</span> configuration setting</strong>) is now performed
+   after plugins are enabled.</li>
+</ul>
+<p>This resolves a long-standing chicken-and-egg dependency problem that prevented definitions
+   that depend on plugins being functional from being successfully imported during node boot.</p>
+<p>Note that definition import via the management plugin (<span class="code ">management.load_definitions</span>) is still
+   performed during management plugin activation time and therefore <strong>can not offer any guarantees</strong>
+   as some plugins may be enabled after the management one.</p>
+<p>Some affected features include</p>
+<ul>
+<li><a href="https://www.rabbitmq.com/federation.html#getting-started">federation upstreams</a></li>
+<li><a href="https://www.rabbitmq.com/shovel-dynamic.html">dynamic shovels</a></li>
+<li>exchanges of types provided by plugins such as <a href="https://github.com/rabbitmq/rabbitmq-consistent-hash-exchange">rabbitmq-consistent-hash-exchange</a></li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/2384">rabbitmq/rabbitmq-server#2384</a></p>
+<ul>
+<li>Similarly, client connection listeners (both TCP and TLS-enabled) are now started after
+   plugin activation. This makes certain configurations that use the trust store plugin
+   behave as expected.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/2405">rabbitmq/rabbitmq-server#2405</a></p>
+<ul>
+<li>Environment variables prefixed with <span class="code ">RABBITMQ_</span> were ignored when used in the <a href=""><span class="code ">rabbitmq-env.conf</span> file</a>,
+   while their prefixless counterparts worked as expected.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-common/issues/401">rabbitmq/rabbitmq-common#401</a></p>
+<h4>Enhancements</h4>
+<ul>
+<li><span class="code ">rabbitmq.conf</span> config parser now accepts lines that only consist of whitespace.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2393">rabbitmq/rabbitmq-server#2393</a></p>
+<h3>CLI Tools</h3>
+<h4>Deprecations</h4>
+<ul>
+<li><span class="code ">rabbitmqctl hipe_compile</span> is now a no-op. HiPE support has been deprecated in Erlang 22
+   <a href="http://erlang.org/pipermail/erlang-questions/2020-June/099645.html">will be removed in Erlang 24</a>.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/pull/433">rabbitmq/rabbitmq-cli#433</a></p>
+<ul>
+<li>The use of the <span class="code ">` environment variable to configure the [shared secret](https://www.rabbitmq.com/cli.html#erlang-cookie) is now deprecated.
+   Use the [local file](https://www.rabbitmq.com/cli.html#cookie-file-locations) option instead or, if the value absolutely must be provided on the command line,
+   the</span>--erlang-cookie [value]` switch.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/443">rabbitmq/rabbitmq-cli#443</a></p>
+<h4>Bug Fixes</h4>
+<ul>
+<li><span class="code ">rabbitmqctl export_definitions</span> incorrectly serialised runtime parameter values.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/435">rabbitmq/rabbitmq-cli#435</a></p>
+<ul>
+<li><span class="code ">CTL_ERL_ARGS</span> environment variable was unintentionally ignored starting with version <span class="code ">3.8.4</span>.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/2394">rabbitmq/rabbitmq-server#2394</a></p>
+<ul>
+<li>
+<p><span class="code ">[command] --help</span> and <span class="code ">help [command]</span> output had minor unintentional inconsistencies.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/pull/437">rabbitmq/rabbitmq-cli#437</a></p>
+</li>
+</ul>
+<h4>Enhancements</h4>
+<ul>
+<li>
+<p><span class="code ">rabbitmq-queues check_if_node_is_quorum_critical</span> and <span class="code ">rabbitmq-queues check_if_node_is_mirror_sync_critical</span> checks
+    have been adjusted. They now special case single node clusters as the check does not make much sense
+    in those environments.</p>
+<p><span class="code ">rabbitmq-queues check_if_node_is_mirror_sync_critical</span> now also excludes exclusive queues from
+consideration as they, even if matched by a policy that enables classic queue mirroring,
+would not actually be mirrored.</p>
+</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/432">rabbitmq/rabbitmq-cli#432</a></p>
+<ul>
+<li><span class="code ">rabbitmq-diagnostics status</span> now includes the total amount of memory used by the node in its
+   regular output. It was previously only available when <span class="code ">--formatter=json</span> switch was used.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/pull/449">rabbitmq/rabbitmq-cli#449</a></p>
+<ul>
+<li><span class="code ">rabbitmq-diagnostics erlang_cookie_sources</span> is a new command that helps with troubleshooting
+   CLI tool authentication to nodes by listing relevant environment information about the
+   <a href="https://www.rabbitmq.com/cli.html#erlang-cookie">shared secret</a>. The actual secret
+   <strong>is not displayed</strong> for obvious security reasons.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/pull/446">rabbitmq/rabbitmq-cli#446</a></p>
+<ul>
+<li><span class="code ">rabbitmqct eval_file</span> is a new command that evaluates Erlang code expressions from a local file
+   on the target node:</li>
+</ul>
+<p><span class="code ">shell
+   rabbitmqctl eval_file /path/to/code_snippet.escript</span></p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/438">rabbitmq/rabbitmq-cli#438</a></p>
+<ul>
+<li><span class="code ">rabbitmqct eval</span> now accepts code snippets from standard input:</li>
+</ul>
+<p><span class="code ">shell
+   rabbitmqctl eval &lt;&lt;EOF
+    io:format("~p~n", [
+        rabbit:product_info()
+    ]).</span></p>
+<p><span class="code ">shell
+   rabbitmqctl eval &lt; code_snippet.escript</span></p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/438">rabbitmq/rabbitmq-cli#438</a></p>
+<ul>
+<li><span class="code ">rabbitmq-diagnostics resolve_hostname</span> is a new command that resolves a hostname either locally
+   or on the node, and returns the resolved IPv4 or IPv6 addresses.</li>
+</ul>
+<p>The command can help quickly detect hostname resolution irregularities on a node, including
+   the effects of <a href="https://erlang.org/doc/apps/erts/inet_cfg.html">Erlang inetrc file</a> settings.
+   Hostname resolution issues can cause CLI tools, cluster formation and peer reconnection to
+   not work as expected.</p>
+<p>Some examples:</p>
+<p>``` shell
+   rabbitmq-diagnostics resolve_hostname "google.com" --address-family ipv4</p>
+<p>rabbitmq-diagnostics resolve_hostname "google.com" --address-family ipv6 --offline
+   ```</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/pull/431">rabbitmq/rabbitmq-cli#431</a></p>
+<ul>
+<li>All CLI tools now provide an <span class="code ">autocomplete [prefix]</span> command that lists command completion
+   options. It is intended to be used to implement autocompletion of command names in shells.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/439">rabbitmq/rabbitmq-cli#439</a></p>
+<h3>Management Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>The plugin could send the <span class="code ">authorization</span> header as <span class="code ">null</span> in some cases before a successful login.</li>
+</ul>
+<p>Contributed by @furkhat.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/pull/833">rabbitmq/rabbitmq-management#833</a></p>
+<h4>Enhancements</h4>
+<ul>
+<li>The UI now uses more human-friendly information units when displaying client network traffic rate values.</li>
+</ul>
+<p>Contribute by @seadog007.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/pull/827">rabbitmq/rabbitmq-management#827</a></p>
+<h3>Federation Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>In environments where <span class="code ">rabbitmq_federation.pgroup_name_cluster_id</span> is not set or set to <span class="code ">undefined</span>,
+   links will treat such values as a <span class="code ">false</span> (the default) instead of failing with an exception.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-federation/pull/109">rabbitmq/rabbitmq-federation#109</a></p>
+<h3>MQTT Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>The plugin could fail to accept new client connections with an exception in some cases.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-mqtt/pull/235">rabbitmq/rabbitmq-mqtt#235</a></p>
+<h3>Web STOMP Plugin</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>Certain Web Socket errors are now handled more gracefully.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-web-stomp/pull/123">rabbitmq/rabbitmq-web-stomp#123</a></p>
+<h3>Web MQTT Plugin</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>Certain Web Socket errors are now handled more gracefully.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-web-mqtt/issues/64">rabbitmq/rabbitmq-web-mqtt#64</a></p>
+<h3>AuthN/AuthZ Backend HTTP Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Virtual host access checks failed in certain complex configurations.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-http/issues/100">rabbitmq/rabbitmq-auth-backend-http#100</a></p>
+<h2>Dependency Upgrades</h2>
+<ul>
+<li><span class="code ">cuttlefish</span> was upgraded <a href="https://github.com/Kyorai/cuttlefish/compare/v2.2.0...v2.3.0">from 2.2.0 to 2.3.0</a></li>
+<li><span class="code ">credentials_obfuscation</span> was upgraded <a href="https://github.com/rabbitmq/credentials-obfuscation/compare/v2.0.0...v2.1.1">from 2.0.0 to 2.1.1</a></li>
+</ul>
+<h2>Source code archives</h2>
+<p><strong>Warning</strong>: The source code archive provided by GitHub only contains the source of the broker, not the plugins or the client libraries.
+Please download the archive named <span class="code ">rabbitmq-server-3.8.6.tar.xz</span>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title># RabbitMQ 3.7.6 — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1># RabbitMQ 3.7.6</h1>
+<p>RabbitMQ <span class="code ">3.7.6</span> a maintenance release that primarily includes bug fixes.</p>
+<h3>Upgrades and Compatibility</h3>
+<p>This release includes one <strong>potential incompatibility</strong> with earlier <span class="code ">3.7.x</span> releases. Only systems
+that use a high number (hundreds) of <a href="https://www.rabbitmq.com/priority.html">queue priorities</a> are affected.</p>
+<p>See <a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.7.0">3.7.0 release notes</a> upgrade and compatibility notes if upgrading from an earlier release.</p>
+<p>See the <a href="https://www.rabbitmq.com/upgrade.html">Upgrading guide</a> for general documentation on upgrades.</p>
+<p>See <a href="https://www.rabbitmq.com/changelog.html">RabbitMQ change log</a> for release notes of other releases.</p>
+<h2>Changes</h2>
+<h3>Core Server</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Max priority cap for queues is now enforced and set to 255. Applications that rely on a higher number of priorities <strong>will break</strong>.
+   Such applications must be updated to use no more than 255 priorities.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1590">rabbitmq-server#1590</a></p>
+<ul>
+<li>Bulk deletion of exclusive queues when their owning connection closes has been optimized.</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1566">rabbitmq/rabbitmq-server#1566</a>, <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1513">rabbitmq/rabbitmq-server#1513</a></p>
+<h4>Enhancements</h4>
+<ul>
+<li>On Erlang 20.2.3 or later, more optimal memory allocators will be used. On some workloads that leads
+   to <a href="https://groups.google.com/d/msg/rabbitmq-users/LSYaac9frYw/LNZDZUlrBAAJ">significant reduction in node's RAM consumption</a>. The change is workload-specific, however, on the workloads
+   tested that do introduce a negative effect (more RAM used) the difference was very small (about 1%).</li>
+</ul>
+<p>It is possible to go back to the previous settings, <span class="code ">+MBas aoffcbf +MHas aoffcbf +MBlmbcs 5120 +MHlmbcs 5120 +MMmcs 10</span>,
+   by specifying them in the <span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span> <a href="https://www.rabbitmq.com/configure.html#customise-environment">environment variable</a>.</p>
+<p>On Erlang/OTP releases older than 20.2.3 there will be no default changes.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/1604">rabbitmq/rabbitmq-server#1604</a></p>
+<ul>
+<li><a href="https://www.rabbitmq.com/logging.html#logging-to-syslog">Logging to Syslog</a> without 3rd party plugins.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/1600">rabbitmq-server#1600</a></p>
+<ul>
+<li><span class="code ">connection.closed</span> events now include client-provided connection name and more client details.
+   That information is in turn available via the <a href="https://github.com/rabbitmq/rabbitmq-event-exchange">rabbitmq_event_exchange</a>.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1596">rabbitmq-server#1596</a></p>
+<h3>CLI Tools</h3>
+<h4>Enhancements</h4>
+<ul>
+<li><span class="code ">await_online_nodes &lt;count&gt; [--timeout &lt;timeout&gt;]</span> is a new command that will wait until the target
+   node's cluster has at least <span class="code ">&lt;count&gt;</span> nodes. The command supports a timeout. It is meant to simplify
+   cluster provisioning automation and can be used as the very first check performed after starting a node.</li>
+</ul>
+<p>Note that the command requires at least one node to be running and reachable.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/235">rabbitmq-cli#235</a></p>
+<ul>
+<li><span class="code ">rabbitmq-diagnostics ping [--node &lt;target&gt; --timeout &lt;timeout&gt;]</span> is a new minimalistic health check command.
+   It only verifies if the target node is up, registered with epmd and accepts/authenticates CLI tool connections.
+   It fills the gap between <span class="code ">rabbitmq-diagnostics node_health_check</span>, which performs a lot of checks, take a lot more time
+   and is fairly opinionated in what it does. <span class="code ">ping</span> is more suitable in environments where
+   failing aliveness checks will result in node restarts, namely Kubernetes.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/253">rabbitmq-cli#253</a></p>
+<h3>Management and Management Agent Plugins</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Queue metrics could be missing after a node restart or plugin [re-]enablement.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management-agent/issues/58">rabbitmq/rabbitmq-management-agent#58</a></p>
+<ul>
+<li><span class="code ">rabbitmqadmin</span> now correctly percent-encodes spaces in connection names.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/576">rabbitmq/rabbitmq-management#576</a></p>
+<ul>
+<li>When creating a new vhost, user permissions will only be granted to the users that exist in the
+   internal database. If an external authentication/authorisation service is used, the step is skipped.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/531">rabbitmq-management#531</a></p>
+<ul>
+<li>Virtual host imported from definitions or created via HTTP API will explicitly await for the vhost to initialise
+   on all cluster nodes.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/575">rabbitmq/rabbitmq-management#575</a></p>
+<h3>LDAP Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>LDAP connection pool now correctly purges connections in more failure scenarios (e.g. LDAP server restart)</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-ldap/issues/92">rabbitmq-auth-backend-ldap#92</a></p>
+<h3>HTTP Authentication/authorisation Plugin</h3>
+<h4>Enhancements</h4>
+<ul>
+<li><span class="code ">201 Created</span> responses are now accepted from HTTP services that back the plugin.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-http/pull/68">rabbitmq-auth-backend-http#68</a></p>
+<h2>Source code archives</h2>
+<p><strong>Warning</strong>: The source code archive provided by GitHub only contains the source of the broker,
+not the plugins or the client libraries. Please download the archive named <span class="code ">rabbitmq-3.7.6.tar.gz</span>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

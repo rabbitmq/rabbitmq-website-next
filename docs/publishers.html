@@ -1,0 +1,575 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>Publishers — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>Publishers</h1>
+
+
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>This guide covers various topics related to publishers:</p>
+<ul>
+<li><a href="#basics">The basics</a></li>
+<li><a href="#publisher-lifecycle">Publisher lifecycle</a></li>
+<li><a href="#protocols">Protocol Differences</a></li>
+<li><a href="#message-properties">Message properties</a> and delivery metadata</li>
+<li><a href="#data-safety">Publisher-side data safety</a> topics (connection recovery, publisher confirms)</li>
+<li><a href="#exception-handling">Exception Handling</a></li>
+<li><a href="#alarms">Effects of Resource Alarms</a></li>
+<li><a href="#unroutable">Unroutable Message Handling</a></li>
+<li><a href="#metrics">Metrics</a> relevant for publishers</li>
+<li><a href="#concurrency">Concurrency Consideration</a></li>
+<li>How to <a href="#disable-publishing">temporarily block all publishers</a></li>
+<li>How to <a href="#troubleshooting">troubleshoot common issues</a> with publishers</li>
+</ul>
+<p>and more.</p>
+<p>The guide focuses on AMQP 0-9-1 and mentions key protocol-specific differences
+with other protocols supported by RabbitMQ: AMQP 1.0, MQTT and STOMP.</p>
+<h2><a id="terminology" class="anchor" href="#terminology">Terminology</a></h2>
+<p>The term "publisher" means different things in different contexts. In general in messaging
+a publisher (also called "producer") is an application (or application instance)
+that publishes (produces) messages. The same application can also consume messages
+and thus be a <a href="/consumers.html">consumer</a> at the same time.</p>
+<p>Messaging protocols also have the concept of a lasting subscription for message delivery.
+Subscription is one term commonly used to describe such entity. Consumer is another.
+Messaging protocols supported by RabbitMQ use both terms but RabbitMQ documentation tends to
+prefer the latter.</p>
+<h2><a id="basics" class="anchor" href="#basics">The Basics</a></h2>
+<p>RabbitMQ is a messaging broker. It accepts messages from publishers, routes them
+and, if there were queues to route to, stores them for consumption or immediately
+delivers to consumers, if any.</p>
+<p>Publishers publish to a destination that varies from protocol to protocol. In AMQP 0-9-1,
+publishers publish to exchanges. In AMQP 1.0, publishing happens on a link.
+In <a href="/mqtt.html">MQTT</a>, publishers publish to topics. Finally, <a href="/stomp.html">STOMP</a> supports
+a variety of destination types: topics, queues, AMQP 0-9-1 exchanges. This is covered
+in more details in the <a href="#protocols">protocol-specific differences</a> section.</p>
+<p>A publish message has to be routed to a queue (topic, etc). The queue (topic) may have online
+<a href="/consumers.html">consumers</a>. When the message is successfully routed to a queue and there is
+a consumer online that can <a href="/confirms.html">accept more deliveries</a>, the message will be
+sent to the consumer.</p>
+<p>An attempt to publish to a non-existent queue (topic) will result in a channel-level
+exception with the code of <span class="code ">404 Not Found</span> and render the channel it was attempted
+on to be closed.</p>
+<h3><a id="lifecycle" class="anchor" href="#lifecycle">Publisher Lifecycle</a></h3>
+<p>Publishers are often long lived: that is, throughout the lifetime of a publisher it publishes
+multiple messages. Opening a connection or channel (session) to publish a single message is
+not optimal.</p>
+<p>Publishers usually open their connection(s) during application
+startup. They often would live as long as their connection or even application
+runs.</p>
+<p>Publishers can be more dynamic and begin publishing in reaction to a system event, stopping
+when they are no longer necessary. This is common with WebSocket clients
+used via <a href="/web-stomp.html">Web STOMP</a> and <a href="web-mqtt.html">Web MQTT</a> plugins,
+mobile clients and so on.</p>
+<h2><a id="protocols" class="anchor" href="#protocols">Protocol Differences</a></h2>
+<p>The process of publishing messages is quite similar in every protocol RabbitMQ supports.
+All four protocols allow the user to publish a message which has a payload (body) and
+one or more message properties (headers).</p>
+<p>All four protocols also support an <a href="/confirms.html">acknowledgement mechanism</a> for publishers
+which allows the publishing application to keep track of the messages that have or haven't been
+successfully accepted by the broker, and continue publishing the next batch or retry publishing
+the current one.</p>
+<p>The difference typically have more to do with the terminology used than the semantics.
+<a href="#message-properties">Message properties</a> also vary from protocol to protocol.</p>
+<h3>AMQP 0-9-1</h3>
+<p>In AMQP 0-9-1, publishing happens on a <a href="/channels.html">channel</a> to an exchange.
+The exchange uses a routing topology set up by defining bindings between
+one or more queues and the exchange, or <a href="/e2e.html">source exchange and destination exchange</a>.
+Successfully routed messages are stored in <a href="/queues.html">queues</a>.</p>
+<p>The role of each entity is covered in the <a href="/tutorials/amqp-concepts.html">AMQP 0-9-1 concepts guide</a>.</p>
+<p><a href="/confirms.html">Publisher confirms</a> is the publisher acknowledgement mechanism.</p>
+<p>There are several common types of publisher errors that are handled using different protocol features:</p>
+<ul>
+<li>Publishing to a non-existent exchange results in a <a href="/channels.html">channel error</a>, which closes the channel
+   so that no further publishing (or any other operation) is allowed on it.</li>
+<li>When a published message cannot be routed to any queue (e.g. because there are no bindings defined for the
+   target exchange), and the publisher set the <span class="code ">mandatory</span> message property to <span class="code ">false</span> (this is the default), the message is discarded or republished to an <a href="/ae.html">alternate exchange</a>, if any.</li>
+<li>When a published message cannot be routed to any queue, and the publisher set the <span class="code ">mandatory</span>
+   message property to <span class="code ">true</span>, the message will be returned to it. The publisher must have a returned
+   message handler set up in order to handle the return (e.g. by logging an error or retrying with
+   a different exchange)</li>
+</ul>
+<h3>AMQP 1.0</h3>
+<p>In AMQP 1.0 publishing happens within a context of a link.</p>
+<h3>MQTT 3.1</h3>
+<p>In MQTT 3.1.1, messages are published on a connection to a topic. Topics perform both routing and storage.
+In RabbitMQ, a topic is backed by a <a href="/queue.html">queue</a> internally.</p>
+<p>When publisher chooses to use QoS 1, published messages are acknowledged by the routing node
+using a <a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718043">PUBACK frame</a>,
+the publisher acknowledgement mechanism in MQTT 3.1.</p>
+<p>Publishers can provide a hint to the server that the published message on the topic
+must be retained (stored for future delivery to new subscribers). Only the latest published message for each topic
+can be retained.</p>
+<p>Other than closing the connection, there is no mechanism by which the server can communicate
+a publishing error to the client.</p>
+<p>See the <a href="/mqtt.html">MQTT</a> and <a href="/web-mqtt.html">MQTT-over-WebSockets</a> guides to learn more.</p>
+<h3>STOMP</h3>
+<p>STOMP clients publish on a connection to one or more destinations which can have different
+semantics in case of RabbitMQ.</p>
+<p>STOMP provides a way for the server to <a href="http://stomp.github.io/stomp-specification-1.2.html#SEND">communicate an error in message processing</a> back to the publisher.
+Its variation of <a href="/confirms.html">publisher acknowledgements</a> is called <a href="http://stomp.github.io/stomp-specification-1.2.html#RECEIPT">receipts</a>, which is a feature <a href="http://stomp.github.io/stomp-specification-1.2.html#Standard_Headers">clients enable when publishing</a>.</p>
+<p>See the <a href="/stomp.html">STOMP guide</a>, <a href="/web-stomp.html">STOMP-over-WebSockets</a> and the <a href="http://stomp.github.io/stomp-specification-1.2.html">STOMP 1.2 spec</a> to learn more.</p>
+<h2><a id="routing" class="anchor" href="#routing">Routing</a></h2>
+<h3>AMQP 0-9-1</h3>
+<p>Routing in AMQP 0-9-1 is performed by exchanges. Exchanges are named routing tables. Table entries
+are called bindings. This is covered in more detail in the <a href="/tutorials/amqp-concepts.html">AMQP 0-9-1 concepts guide</a>.</p>
+<p>There are several built-in exchange types:</p>
+<ul>
+<li>Topic</li>
+<li>Fanout</li>
+<li>Direct (including the default exchange)</li>
+<li>Headers</li>
+</ul>
+<p>The first three types are covered with examples in the <a href="/getstarted.html">tutorials</a>.</p>
+<p>More exchange types can be provided by <a href="/plugins.html">plugins</a>.
+<a href="https://github.com/rabbitmq/rabbitmq-consistent-hash-exchange/">Consistent hashing exchange</a>, <a href="https://github.com/rabbitmq/rabbitmq-random-exchange/">random routing exchange</a>,
+<a href="https://github.com/rabbitmq/rabbitmq-event-exchange/">internal event exchange</a> and <a href="https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/">delayed message exchange</a> are
+exchange plugins that ship with RabbitMQ. Like all plugins they must be enabled
+before they can be used.</p>
+<h2><a id="unroutable" class="anchor" href="#unroutable">Unroutable Message Handling</a></h2>
+<p>Clients might attempt to publish messages to destinations (exchanges, topics, queues) that do not exist.
+This section covers on how different protocols different in handling of such cases.</p>
+<p>RabbitMQ collects and exposes <a href="#metrics">metrics</a> that can be used to detect publishers that publish
+unroutable messages.</p>
+<h3>AMQP 0-9-1</h3>
+<p>When a published message cannot be routed to any queue (e.g. because there are no bindings defined for the
+target exchange), and the publisher set the <span class="code ">mandatory</span> message property to <span class="code ">false</span> (this is the default),
+the message is discarded or republished to an <a href="/ae.html">alternate exchange</a>, if any.</p>
+<p>When a published message cannot be routed to any queue, and the publisher set the <span class="code ">mandatory</span>
+message property to <span class="code ">true</span>, the message will be returned to it. The publisher must have a returned
+message handler set up in order to handle the return (e.g. by logging an error or retrying with
+a different exchange).</p>
+<p><a href="/ae.html">Alternate Exchanges</a> is an AMQP 0-9-1 exchange feature that lets clients handle messages
+that an exchange was unable to route (i.e. either because there were no bound queues or no matching bindings).
+Typical examples of this are detecting when clients accidentally or maliciously publish messages that
+cannot be routed "or else" routing semantics where some messages are handled specially and
+the rest by a generic handler.</p>
+<h3>MQTT</h3>
+<p>Publishing to a new topic would set up a queue for it. Different topic/QoS level combinations will
+use different queues with different properties. Publishers and consumers therefore must use the same QoS level.</p>
+<h3>STOMP</h3>
+<p>STOMP supports multiple different destinations, including those that assume pre-existing topology.</p>
+<ul>
+<li><span class="code ">/topic</span>: publishing to a topic that has not had a consumer will result in dropped messages. First subscriber on
+   the topic will declare a queue for it.</li>
+<li><span class="code ">/exchange</span>: target exchange must exist, otherwise the server would report an error</li>
+<li><span class="code ">/amq/queue</span>: target queue must exist, otherwise the server would report an error</li>
+<li><span class="code ">/queue</span>: publishing to a non-existent queue would set it up</li>
+<li><span class="code ">/temp-queue</span>: publishing to a non-existent temporary queue would set it up</li>
+</ul>
+<h3>Metrics</h3>
+<p>Starting with RabbitMQ 3.8, there's a new metric for unroutable dropped messages:</p>
+<p><img class="screenshot" src="img/monitoring/publishers/mgmt-ui-unroutable-message-metrics.png" alt="Unroutable message metrics" title="Unroutable message metrics" /></p>
+<p>In the example above, all published messages are dropped as unroutable (and non-mandatory).</p>
+<h2><a id="message-properties" class="anchor" href="#message-properties">Message Properties</a></h2>
+<h3>AMQP 0-9-1</h3>
+<p>Every delivery combines message metadata and delivery information. Different client
+libraries use slightly different ways of providing access to those properties. Typically
+delivery handlers have access to a delivery data structure.</p>
+<p>The following properties are delivery and routing details; they are not message properties per se
+and set by RabbitMQ at routing and delivery time:</p>
+<table>
+  <thead>
+    <tr>
+      <td>Property</td>
+      <td>Type</td>
+      <td>Description</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Delivery tag</td>
+      <td>Positive integer</td>
+      <td>
+        Delivery identifier, see <a href="/confirms.html">Confirms</a>.
+      </td>
+    </tr>
+    <tr>
+      <td>Redelivered</td>
+      <td>Boolean</td>
+      <td>Set to `true` if this message was previously <a href="/confirms.html#consumer-nacks-requeue">delivered and requeued</a></td>
+    </tr>
+    <tr>
+      <td>Exchange</td>
+      <td>String</td>
+      <td>Exchange which routed this message</td>
+    </tr>
+    <tr>
+      <td>Routing key</td>
+      <td>String</td>
+      <td>Routing key used by the publisher</td>
+    </tr>
+    <tr>
+      <td>Consumer tag</td>
+      <td>String</td>
+      <td>Consumer (subscription) identifier</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The following are message properties. Most of them are optional. They are set by publishers
+at the time of publishing:</p>
+<table>
+  <thead>
+    <tr>
+      <td>Property</td>
+      <td>Type</td>
+      <td>Description</td>
+      <td>Required?</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Delivery mode</td>
+      <td>Enum (1 or 2)</td>
+      <td>
+        2 for "persistent", 1 for "transient". Some client libraries expose this property
+        as a boolean or enum.
+      </td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Type</td>
+      <td>String</td>
+      <td>Application-specific message type, e.g. "orders.created"</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Headers</td>
+      <td>Map (string =&gt; any)</td>
+      <td>An arbitrary map of headers with string header names</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Content type</td>
+      <td>String</td>
+      <td>Content type, e.g. "application/json". Used by applications, not core RabbitMQ</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Content encoding</td>
+      <td>String</td>
+      <td>Content encoding, e.g. "gzip". Used by applications, not core RabbitMQ</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Message ID</td>
+      <td>String</td>
+      <td>Arbitrary message ID</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Correlation ID</td>
+      <td>String</td>
+      <td>Helps correlate requests with responses, see <a href="/getstarted.html">tutorial 6</a></td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Reply To</td>
+      <td>String</td>
+      <td>Carries response queue name, see <a href="/getstarted.html">tutorial 6</a></td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Expiration</td>
+      <td>String</td>
+      <td><a href="/ttl.html">Per-message TTL</a></td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>Timestamp</td>
+      <td>Timestamp</td>
+      <td>Application-provided timestamp</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>User ID</td>
+      <td>String</td>
+      <td>User ID, <a href="/validated-user-id.html">validated</a> if set</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>App ID</td>
+      <td>String</td>
+      <td>Application name</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>Message Types</h4>
+<p>The type property on messages is an arbitrary string that helps applications communicate what kind
+of message that is. It is set by the publishers at the time of publishing.
+The value can be any domain-specific string that publishers and consumers agree on.</p>
+<p>RabbitMQ does not validate or use this field, it exists for applications and plugins to use
+and interpret.</p>
+<p>Message types in practice naturally fall into groups, a dot-separated naming convention is
+common (but not required by RabbitMQ or clients), e.g. <span class="code ">orders.created</span> or <span class="code ">logs.line</span> or <span class="code ">profiles.image.changed</span>.</p>
+<p>If a consumer gets a delivery of an unknown type it is highly advised to log such events to make troubleshooting
+easier.</p>
+<h4>Content Type and Encoding</h4>
+<p>The content (MIME media) type and content encoding fields allow publishers communicate how message payload
+should be deserialized and decoded by consumers.</p>
+<p>RabbitMQ does not validate or use these fields, it exists for applications and plugins to use
+and interpret.</p>
+<p>For example, messages with JSON payload <a href="http://www.ietf.org/rfc/rfc4627.txt">should use <span class="code ">application/json</span></a>.
+If the payload is compressed with the LZ77 (GZip) algorithm, its content encoding should be <span class="code ">gzip</span>.</p>
+<p>Multiple encodings can be specified by separating them with commas.</p>
+<h2><a id="data-safety" class="anchor" href="#data-safety">Publisher Acknowledgements (Confirms) and Data Safety</a></h2>
+<p>Ensuring data safety is a collective responsibility of applications, client libraries and RabbitMQ cluster
+nodes. This section covers a number of data safety-related topics.</p>
+<p>Networks can fail in less-than-obvious ways and detecting some failures <a href="/heartbeats.html">takes time</a>.
+Therefore a client that's written a protocol frame or a set of frames (e.g. a published message) to
+its socket cannot assume that the message has reached the server and was successfully processed.
+It could have been lost along the way or its delivery can be significantly delayed.</p>
+<p>To remedy this, a <a href="/confirms.html#publisher-confirms">publisher-side confirmation mechanism</a> was developed.
+It mimics the <a href="/confirms.html#consumer-acknowledgements">consumer acknowledgements mechanism</a> already
+present in the protocol.</p>
+<h3><a id="publisher-confirm-strategies" class="anchor" href="#publisher-confirm-strategies">Strategies for Using Publisher Confirms</a></h3>
+<p><a href="/confirms.html#publisher-confirms">Publisher confirms</a> provide a mechanism for application developers to keep track of what messages have been successfully accepted by RabbitMQ. There are several commonly used strategies
+for using publisher confirms:</p>
+<ul>
+<li>Publish messages individually and use streaming confirms (asynchronous API elements: confirm event handlers, futures/promises and so on)</li>
+<li>Publish a batch of messages and wait for all outstanding confirms</li>
+<li>Publish messages individually and wait for it to be confirmed before proceeding with publishing.
+   This option is highly discouraged due to its strong negative effects on publisher throughput</li>
+</ul>
+<p>They vary in throughput effects and ease of use.</p>
+<h4>Streaming Confirms</h4>
+<p>Most client libraries usually provide a way for developers to handle individual confirmations
+as they arrive from the server. The confirms will arrive asynchronously. Since publishing is
+also inherently asynchronous in AMQP 0-9-1, this option allows for safe publishing with
+very little overhead. The algorithm is usually similar to this:</p>
+<ul>
+<li>Enable publisher confirms on a channel</li>
+<li>For every published message, add a map entry that maps current sequence number to the message</li>
+<li>When a positive ack arrives, remove the entry</li>
+<li>When a negative ack arrives, remove the entry and schedule its message for republishing (or something else that's suitable)</li>
+</ul>
+<p>In RabbitMQ Java client, confirm handler is exposed via the <a href="https://rabbitmq.github.io/rabbitmq-java-client/api/current/com/rabbitmq/client/ConfirmCallback.html">ConfirmCallback</a> and <a href="https://rabbitmq.github.io/rabbitmq-java-client/api/current/com/rabbitmq/client/ConfirmListener.html">ConfirmListener</a> interfaces.
+One or more listeners have to be <a href="https://rabbitmq.github.io/rabbitmq-java-client/api/current/com/rabbitmq/client/Channel.html#addConfirmListener(com.rabbitmq.client.ConfirmCallback,com.rabbitmq.client.ConfirmCallback)">added to a channel</a>.</p>
+<h4>Batch Publishing</h4>
+<p>This strategy involves publishing batches of messages and awaiting for the entire batch to be confirmed.
+Retries are performed on batches.</p>
+<ul>
+<li>Enable publisher confirms on a channel</li>
+<li>For every published message batch, await for all outstanding confirms</li>
+<li>When all confirms come in positive, publish the next batch</li>
+<li>If there are negative confirms or timeout hits, republish the entire batch or only the relevant messages</li>
+</ul>
+<p>Some clients provide convenience API elements for waiting for all outstanding confirms.
+For example, in the Java client there is <a href="https://rabbitmq.github.io/rabbitmq-java-client/api/current/com/rabbitmq/client/Channel.html#waitForConfirms(long)">Channel#waitForConfirms(timeout)</a>.</p>
+<p>Since this approach involves waiting for confirms, it will have negative effects on publisher
+throughput. The larger the batch, the smaller the effect will be.</p>
+<h4>Publish-and-Wait</h4>
+<p>This strategy can be considered an anti-pattern and is documented primarily for completeness.
+It involves publishing a message and immediately waiting for the outstanding acknowledgement to arrive.
+It can be thought of as the above strategy with batch publishing where batch size equals to one.</p>
+<p>This approach will have a <strong>very significant negative effect on throughput</strong> and is not recommended.</p>
+<h3><a id="connection-recovery" class="anchor" href="#connection-recovery">Recovery from Connection Failures</a></h3>
+<p>Network connection between clients and RabbitMQ nodes can fail. How applications handle such failures
+directly contributes to the data safety of the overall system.</p>
+<p>Several RabbitMQ clients support automatic recovery of connections
+and topology (queues, exchanges, bindings, and consumers): Java, .NET, Bunny are some examples.</p>
+<p>Other clients do not provide automatic recovery as a feature but do provide examples
+of how application developers can implement recovery.</p>
+<p>The automatic recovery process for many applications follows the following steps:</p>
+<ol>
+<li>Reconnect to a reachable node</li>
+<li>Restore connection listeners</li>
+<li>Re-open channels</li>
+<li>Restore channel listeners</li>
+<li>Restore channel <span class="code ">basic.qos</span> setting, publisher confirms and transaction settings</li>
+</ol>
+<p>After connections and channels are recovered, topology recovery can start.
+Topology recovery includes the following actions, performed for every channel</p>
+<ol>
+<li>Re-declare exchanges (except for predefined ones)</li>
+<li>Re-declare queues</li>
+<li>Recover all bindings</li>
+<li>Recover all consumers</li>
+</ol>
+<h3><a id="exception-handling" class="anchor" href="#exception-handling">Exception Handling</a></h3>
+<p>Publishers generally can expect two types of exception:</p>
+<ul>
+<li>A network I/O exception due to a failed write or timeout</li>
+<li>An <a href="#data-safety">acknowledgement</a> delivery timeout</li>
+</ul>
+<p>Note that "exception" here means an error in the general sense; some programming languages
+do not have exceptions at all so clients there would communicate the error differently.
+The discussion and recommendations in this section should apply equally to most client libraries
+and programming languages.</p>
+<p>The former type of exception can occur immediately during a write or with a certain delay.
+This is because certain types of I/O failures (e.g. to high network congestion or packet drop rate)
+can <a href="/heartbeats.html">take time to detect</a>. Publishing can continue after the <a href="#connection-recovery">connection recovers</a> but if the connection is blocked due to an alarm, all further attempts
+will fail until the alarm clears. This is covered in more details below in the <a href="#alarms">Effects of Resource Alarms</a> section.</p>
+<p>The latter type of exception can only happen when the application developer provides a timeout.
+What timeout value is reasonable for a given application is decided by the developer.
+It should not be lower than the effective <a href="/heartbeats.html">heartbeat timeout</a>.</p>
+<h2><a id="alarms" class="anchor" href="#alarms">Effects of Resource Alarms</a></h2>
+<p>When a cluster node has <a href="/alarms.html">a resource alarm</a> in effect, all connections in the cluster
+that attempt to publish a message will be blocked until all alarms across the cluster clear.</p>
+<p>When a connection is blocked, no more data sent by this connection will be read, parsed or processed on
+the connection. When a connection is unblocked, all client traffic processing resumes.</p>
+<p>Compatible AMQP 0-9-1 clients will be <a href="#client-notifications">notified</a>
+when they are blocked and unblocked.</p>
+<p>Writes on a blocked connection will time out or fail with an I/O write exception.</p>
+<h2><a id="metrics" class="anchor" href="#metrics">Metrics</a></h2>
+<p><a href="/monitoring.html">Metric collection and monitoring</a> are as important for publishers as they
+are for any other application or component in an application. Several metrics collected
+by RabbitMQ are of particular interest when it comes to publishers:</p>
+<ul>
+<li>Outgoing message rate</li>
+<li><a href="#data-safety">Publisher confirmation</a> rate</li>
+<li><a href="/connections.html#monitoring">Connection churn</a> rate</li>
+<li><a href="/channels.html#monitoring">Channel churn</a> rate</li>
+<li>Unroutable dropped message rate</li>
+<li>Unroutable returned message rate</li>
+</ul>
+<p>The publishing and confirmation rates are mostly self-explanatory. The churn rates are so important
+because they help detect applications that do not use connections or channels optimally and thus
+offer sub-optimal publishing rates and waste resources.</p>
+<p>Unroutable message rates can help detect applications that publish messages that cannot be
+routed to any queue. For example, this may suggest a misconfiguration.</p>
+<p>Client libraries may also collect metrics. <a href="/api-guide.html#metrics">RabbitMQ Java client</a> is one
+example. These metrics can provide insight into application-specific architecture (e.g. what publishing
+component publishes unroutable messages) that RabbitMQ nodes cannot infer.</p>
+<h2><a id="concurrency" class="anchor" href="#concurrency">Concurrency Considerations</a></h2>
+<p>Concurrency topics are all about client library implementation specifics but some
+general recommendations can be provided. In general, publishing on a shared "publishing context"
+(channel in AMQP 0-9-1, connection in STOMP, session in AMQP 1.0 and so on) should be avoided
+and considered unsafe.</p>
+<p>Doing so can result in incorrect framing of data frames on the wire. That leads to connection
+closure.</p>
+<p>With a small number of concurrent publishers in a single application using one thread (or similar)
+per publisher is the optimal solution. With a large number (say, hundreds or thousands),
+use a thread pool.</p>
+<h2><a id="disable-publishing" class="anchor" href="#disable-publishing">Temporarily Blocking Publishing</a></h2>
+<p>It is possible to effectively disable all publishing in a cluster by setting the <a href="/memory.html">memory high watermark</a>
+to <span class="code ">0</span>, thus making <a href="/alarms.html">a resource alarm</a> to go off immediately:</p>
+<pre class="lang-bash">
+rabbitmqctl set_vm_memory_high_watermark 0
+</pre>
+
+<h2><a id="troubleshooting" class="anchor" href="#troubleshooting">Troubleshooting Publishers</a></h2>
+<p>This section covers a number of common issues with publishers, how to identify and address them.
+Failures in distributed systems come in <a href="/reliability.html">many shapes and forms</a>, so this
+list is by no means extensive.</p>
+<h3>Connectivity Failures</h3>
+<p>Like any client, a publisher has to successfully <a href="/connections.html">connect</a> and successfully authenticate first.</p>
+<p>The number of potential connectivity issues is pretty broad and has a <a href="/troubleshooting-networking.html">dedicated guide</a>.</p>
+<h3>Authentication and Authorisation</h3>
+<p>Like any client, a publisher can fail to authenticate or don't have the permissions
+to access their target virtual host, or publish to the target exchange.</p>
+<p>Such failures are <a href="/logging.html">logged</a> by RabbitMQ as errors.</p>
+<p>See the sections on troubleshooting of <a href="/access-control.html#troubleshooting-authn">authentication</a> and <a href="/access-control.html#troubleshooting-authz">authorisation</a>
+in the <a href="/access-control.html">Access Control guide</a>.</p>
+<h3>Connection Churn</h3>
+<p>Some applications open a new connection for every message published. This is highly inefficient
+and not how messaging protocols were designed to be used. Such condition can be
+<a href="/connections.html#monitoring">detected using connection metrics</a>.</p>
+<p>Prefer long lived connections when possible.</p>
+<h3>Connection Interruption</h3>
+<p>Network connections can fail. Some client libraries support automatic connection and topology
+recovery, others make it easy to implement connection recovery in application code.</p>
+<p>When connection is down, no publishes will go through or be internally enqueued (delayed)
+by clients. In addition, messages that were previously serialised and written to the socket
+are not guaranteed to reach the target node. It is therefore <strong>critically important</strong> for publishers
+that need reliable publishing and data safety to <a href="/confirms.html">use Publisher Confirms</a> to keep track of what
+publishes were confirmed by RabbitMQ. Messages that were not confirmed should be considered undelivered
+after a period of time. Those messages can be republished if it's safe to do so for the application.
+This is covered in <a href="/getstarted.html">tutorial 7</a> and the <a href="#data-safety">Data Safety</a> section
+in this guide.</p>
+<p>See <a href="/connections.html#automatic-recovery">Recovery from Network Connection Failures</a> for details.</p>
+<h3>Routing Issues</h3>
+<p>A publisher can be successfully connected, authenticated and granted the permissions to publish
+to an exchange (topic, destination). However, it is possible that such messages would not be
+routed to any queues or consumers. This can be due to</p>
+<ul>
+<li>A configuration mismatch between applications, e.g. topics used by the publishers and consumers do not match</li>
+<li>Publisher misconfiguration (exchange, topic, routing key are not what they should be)</li>
+<li>For AMQP 0-9-1, missing <a href="/amqp-concepts.html">bindings</a> on the target exchange</li>
+<li>A resource alarm is in effect: see the section below</li>
+<li>Network connection has failed and the client did not recover: see the section above</li>
+</ul>
+<p>Inspecting the topology and metrics usually helps narrow the problem quickly. For example,
+the individual exchange page in <a href="/management.html">management UI</a>  can be used to confirm
+that there is inbound message activity (ingress rate above zero) and what the bindings are.</p>
+<p>In the following example the exchange has no bindings, so no messages will be routed anywhere:</p>
+<p><img class="screenshot" src="img/monitoring/publishers/mgmt-ui-exchange-without-bindings.png" alt="An exchange without bindings" title="An exchange without bindings" /></p>
+<p>Bindings can also be listed using <a href="/cli.html">rabbitmq-diagnostics</a>:</p>
+<pre class="lang-ini">
+# note that the implicit default exchange bindings won't
+# be listed as of RabbitMQ 3.8
+rabbitmq-diagnostics list_bindings --vhost "/"
+=&gt; Listing bindings for vhost /...
+</pre>
+
+<p>In the example above the command yields no results.</p>
+<p>Starting with RabbitMQ 3.8, there's a new metric for unroutable dropped messages:</p>
+<p><img class="screenshot" src="img/monitoring/publishers/mgmt-ui-unroutable-message-metrics.png" alt="Unroutable message metrics" title="Unroutable message metrics" /></p>
+<p>In the example above, all published messages are dropped as unroutable (and non-mandatory).
+See the <a href="#unroutable">Unroutable Message Handling</a> section in this guide.</p>
+<p><a href="/monitoring.html">Cluster-wide and connection metrics</a> as well as server logs
+will help spot a resource alarm in effect.</p>
+<h3>Resource Alarms</h3>
+<p>When a resource alarm is in effect, all connections that publish will be blocked
+until the alarm clears. Clients can opt-in to <a href="/connection-blocked.html">receive a notification</a> when they
+are blocked. Learn more in the <a href="/alarm.shtml">Resource Alarms guide</a>.</p>
+<h3>Protocol Exceptions</h3>
+<p>With some protocols, such as AMQP 0-9-1 and STOMP, publishers can run into a condition known
+as a protocol error (exception). For example, publishing to a non-existent exchange or binding
+an exchange to a non-existent exchange will result in a <a href="/channels.html#error-handling">channel exception</a>
+and will render the channel closed. Publishing is not possible on a closed channel. Such events
+are logged by the RabbitMQ node the publisher was connected to. Failed publishing attempts
+will also result in client-side exceptions or errors returned, depending on the client library used.</p>
+<h3>Concurrent Publishing on a Shared Channel</h3>
+<p>Concurrent publishing on a shared channel is not supported by client libraries. Learn more in the
+<a href="#concurrency">Concurrency Considerations</a> section.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

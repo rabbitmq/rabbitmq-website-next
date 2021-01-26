@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>Troubleshooting Guidance — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>Troubleshooting Guidance</h1>
+
+
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>This guide provides an overview of several topics related to troubleshooting of RabbitMQ installations and
+messaging-based systems:</p>
+<ul>
+<li><a href="#monitoring">Monitoring and health checks</a></li>
+<li><a href="#logging">Logging</a></li>
+<li><a href="#configuration">Node configuration</a></li>
+<li><a href="#networking">Client connectivity</a></li>
+<li><a href="#authentication">Client authentication</a> and authorisation</li>
+<li><a href="#cli">CLI tool connectivity</a> and authentication</li>
+<li><a href="#crash-dumps">Runtime crash dumps</a></li>
+<li><a href="#cluster-formation">Cluster formation</a></li>
+<li><a href="#memory-usage">Node memory usage</a></li>
+<li><a href="#connections">Connections</a> and connection leaks</li>
+<li><a href="#channels">Channels</a> and channel leaks</li>
+<li><a href="#tls">TLS</a></li>
+<li><a href="#ldap">LDAP</a></li>
+<li><a href="#capturing-traffic">Traffic captures</a></li>
+</ul>
+<p>node memory usage, metrics and monitoring,
+TLS, and more.</p>
+<h2><a id="monitoring" class="anchor" href="#monitoring">Monitoring, Metrics, Health Checks</a></h2>
+<p>A very important aspect of troubleshooting a production system is <a href="/monitoring.html">monitoring and health checks</a>.
+They collect data that can be inspected and analysed, helping identify and detect anomalies.</p>
+<h2><a id="logging" class="anchor" href="#logging">Logging</a></h2>
+<p>Logs is another important source of information for troubleshooting. Separate <a href="/logging.html">guide on logging</a>
+explains where to find log files, how to adjust log levels, what log categories exist, connection
+lifecycle events that can be detected using log files, and more.</p>
+<h2><a id="configuration" class="anchor" href="#configuration">Node Configuration</a></h2>
+<p><a href="/configuration.html">Configuration guide</a> contains a section on <a href="/configure.html#verify-configuration-config-file-location">locating config file</a>.</p>
+<p>Effective node configuration can be inspected using <span class="code "><a href="/cli.html">rabbitmqctl</a> environment</span> as
+well as a number of <a href="/cli.html">rabbitmq-diagnostics</a> commands.</p>
+<h2><a id="cli" class="anchor" href="#cli">CLI Tools Connectivity and Authentication</a></h2>
+<p><a href="/cli.html#erlang-cookie">CLI Tools guide</a> explains how CLI tools authenticate to nodes, what the Erlang
+cookie file is, and most common reasons why CLI tools fail to perform operations on server nodes.</p>
+<h2><a id="cluster-formation" class="anchor" href="#cluster-formation">Cluster Formation</a></h2>
+<p><a href="/cluster-formation.html">Cluster Formation guide</a> contains a <a href="/cluster-formation.html#troubleshooting-cluster-formation">troubleshooting section</a>.</p>
+<h2><a id="memory-usage" class="anchor" href="#memory-usage">Memory Usage Analysis</a></h2>
+<p><a href="/memory-use.html">Reasoning About Memory Use</a> is a dedicated guide on the topic.</p>
+<h2><a id="networking" class="anchor" href="#networking">Networking and Connectivity</a></h2>
+<p><a href="/troubleshooting-networking.html">Troubleshooting Networking</a> is a dedicated guide on the topic of networking and connectivity.</p>
+<h2><a id="authentication" class="anchor" href="#authentication">Authentication and Authorisation</a></h2>
+<p><a href="/access-control.html">Access Control guide</a> contains sections on <a href="/access-control.html#troubleshooting-authn">troubleshooting client authentication</a>
+and <a href="/access-control.html#troubleshooting-authz">troubleshooting authorisation</a>.</p>
+<h2><a id="crash-dumps" class="anchor" href="#crash-dumps">Runtime Crash Dump Files</a></h2>
+<p>When the Erlang runtime system exits abnormally, a file named <span class="code ">erl_crash.dump</span>
+is written to the directory where RabbitMQ was started from. This file contains
+the state of the runtime at the time of the abnormal exit. The termination
+reason will be available within the first few lines, starting with <span class="code ">Slogan</span>, e.g.:</p>
+<pre class="lang-bash">
+head -n 3 ./erl_crash.dump
+# =&gt; =erl_crash_dump:0.5
+# =&gt; Sun Aug 25 00:57:34 2019
+# =&gt; Slogan: Kernel pid terminated (application_controller) ({application_start_failure,rabbit,{{timeout_waiting_for_tables,[rabbit_user,rabbit_user_permission,rabbit_topic_permission,rabbit_vhost,rabbit_durable_r
+</pre>
+
+<p>In this specific example, the slogan (uncaught exception message) says that a started node
+timed out <a href="/clustering.html#restarting">syncing schema metadata from its peers</a>, likely because they did not come online
+in the configured window of time.</p>
+<p>To better understand the state of the Erlang runtime from a <a href="http://erlang.org/doc/apps/erts/crash_dump.html" target="_blank">crash dump file</a>, it
+helps to visualise it. The Crash Dump Viewer tool, <span class="code ">cdv</span>, is part of the Erlang installation.
+The <span class="code ">cdv</span> binary path is dependent on the Erlang version and the location where it was installed.</p>
+<p>This is an example of how to invoke it:</p>
+<pre class="lang-bash">
+/usr/local/lib/erlang/lib/observer-2.9.1/priv/bin/cdv ./erl_crash.dump
+</pre>
+
+<p>A successful result of the above command will open a new application window similar to this:</p>
+<p><img alt="Erlang Crash Dump Viewer" src="/img/erlang-crash-dump-viewer.png" /></p>
+<p>For the above to work, the system must have a graphical user interface, and
+Erlang must have been complied with both observer &amp; Wx support.</p>
+<h2><a id="connections" class="anchor" href="#connections">Connections</a></h2>
+<p><a href="/connections.html">Connections guide</a> explains how to identify application connection leaks and other
+relevant topics.</p>
+<h2><a id="channels" class="anchor" href="#channels">Channels</a> (AMQP 0-9-1)</h2>
+<p><a href="/channels.html">Channels guide</a> explains what <a href="/channels.html#error-handling">channel-level exceptions</a> mean,
+how to identify application channel leaks and other relevant topics.</p>
+<h2><a id="tls" class="anchor" href="#tls">TLS</a></h2>
+<p><a href="/troubleshooting-ssl.html">Troubleshooting TLS</a> is a dedicated guide on the topic of TLS.</p>
+<h2><a id="ldap" class="anchor" href="#ldap">LDAP</a></h2>
+<p><a href="/ldap.html#troubleshooting">LDAP guide</a> explains how to enable LDAP decision and query logging.</p>
+<h2><a id="capturing-traffic" class="anchor" href="#capturing-traffic">Capturing Traffic</a></h2>
+<p>A <a href="/amqp-wireshark.html">traffic capture</a> can provide a lot of information useful when troubleshooting network connectivity, application behaviour,
+connection leaks, channel leaks and more. tcpdump and Wireshark and industry standard open source tools
+for capturing and analyzing network traffic.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>Using Git and GitHub — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>Using Git and GitHub</h1>
+
+
+<p>This page describes the way we work with Git on the
+RabbitMQ project.</p>
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>Git is a fast, powerful distributed source control management system.
+It has numerous <a href="https://git-scm.com/doc">tutorials</a>.</p>
+<p>Team RabbitMQ uses Git to manage almost all of our source code.</p>
+<p>RabbitMQ source code repositories are <a href="https://github.com/rabbitmq">hosted on GitHub</a>.
+Individual project pages on this website will generally point
+you in the direction of the specific combinations of modules
+you'll need to check out.</p>
+<p>This website is <a href="https://github.com/rabbitmq/rabbitmq-website/">open source and hosted on GitHub</a>
+as well.</p>
+<h2><a id="branch-per-bug" class="anchor" href="#branch-per-bug">Branching policy: Branch per issue</a></h2>
+<p>RabbitMQ uses the technique of <span class="code ">branch per issue</span> when
+developing RabbitMQ code, where each feature or bug fix is
+developed on a branch of its own using</p>
+<p><span class="code ">git checkout -b</span></p>
+<p>and merged into the <span class="code ">master</span> or
+<span class="code ">stable</span> branches only when it passes QA. Branches
+follow the pattern <span class="code "><i>repository-name</i>-<i>NN</i></span>,
+where <i>repository-name</i> is the name of the GitHub project
+where the issue was filed (eg. <span class="code ">rabbitmq-dotnet-client</span>)
+and <i>NN</i> is the GitHub issue number. The purpose of
+prepending the repository owning the issue is that an issue
+may require changes to several projects. There are also
+branches named <span class="code ">bug<i>NNNNN</i></span> for issues in the
+original Bugzilla tracker (which is not public).</p>
+<h2><a id="pull-requests" class="anchor" href="#pull-requests">Pull Requests and the Review/QA Process</a></h2>
+<p>Branches that are ready to be reviewed and/or QA'ed should
+be submitted as pull requests. Feedback is then given in
+the comments. After receiving feedback, update the original
+branch and push it: GitHub will take care of updating the pull
+request. Then the process goes on until the pull request is
+merged or closed (e.g. because a feature is rejected after an
+attempt to implement it).</p>
+<p>The pull request must be made against the <span class="code ">stable</span>
+branch if it is a bugfix involving no incompatible changes
+with the latest stable release (ie. no changes to the Mnesia
+schema or the inter-node communication), or the <span class="code ">master</span>
+branch for everything else.</p>
+<h2><a id="default-branch" class="anchor" href="#default-branch">The master branch</a></h2>
+<p>The <span class="code ">master</span> branch contains all the work that
+has been QA'd so far that is scheduled to appear in the next
+release. The <span class="code ">master</span> branch of each RabbitMQ
+repository is usually roughly in sync with the
+<span class="code ">master</span> branches of the others. Generally, you
+can track QA'd development work by tracking the
+<span class="code ">master</span> branches of the RabbitMQ repositories
+of interest.</p>
+<h2><a id="maintenance-branches" class="anchor" href="#maintenance-branches">Maintenance branch</a></h2>
+<p>There's a separate branch for maintenance work,
+named after the current stable release series. Currently it is <span class="code ">v3.7.x</span>.
+It plays the same role as the <span class="code ">master</span> branch except that it carries merged,
+QA'd code intended for the next bug-fix release rather than
+the next general release.</p>
+<h2><a id="tags" class="anchor" href="#tags">Tags</a></h2>
+<p>We also use tags to give names to snapshots of the state of
+the code. Generally, both the core repositories and the
+repositories of plugins intended to work with the named
+snapshot are tagged.</p>
+<p>For example, if you are using RabbitMQ server version 3.8.9,
+then examining the output of <span class="code ">git tag</span> yields:</p>
+<pre class="lang-bash">
+git tag
+# omitted for brevity
+# =&gt; v3.8.5
+# =&gt; v3.8.5-rc.1
+# =&gt; v3.8.5-rc.2
+# =&gt; v3.8.6
+# =&gt; v3.8.6-beta.1
+# =&gt; v3.8.6-rc.1
+# =&gt; v3.8.6-rc.2
+# =&gt; v3.8.7
+# =&gt; v3.8.8
+# =&gt; v3.8.9
+</pre>
+
+<p>It's important to make sure that all the repositories you
+are using are on the same tag as each other. Continuing with
+our example of server version 3.8.9, make sure
+your checkout of <span class="code ">rabbitmq-stomp</span> was at the
+<span class="code ">v3.8.9</span> tag using
+<span class="code ">git checkout</span>:</p>
+<pre class="lang-bash">
+git checkout v3.8.9
+</pre>
+
+<p>At this point, you could proceed with compiling the plugin
+as explained in the plugin's documentation.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"><div id="in-this-section"><h4>In This Section</h4><ul>
+     <li><a href="/admin-guide.html">Server Documentation</a></li>
+     <li><a href="/clients.html">Client Documentation</a></li>
+     <li><a href="/plugins.html">Plugins</a></li>
+     <li><a href="/news.html">News</a></li>
+     <li><a href="/protocol.html">Protocol</a></li>
+     <li><a href="/extensions.html">Our Extensions</a></li>
+     <li><a href="/build.html" class="selected">Building</a><ul>
+       <li><a href="/build-server.html">Building the Server</a></li>
+       <li><a href="/build-java-client.html">Building the Java Client</a></li>
+       <li><a href="/build-dotnet-client.html">Building the .NET Client</a></li>
+       <li><a href="/build-erlang-client.html">Building the Erlang Client</a></li>
+       <li><a href="/github.html" class="selected">Our use of Git and GitHub</a></li>
+       
+     </ul></li>
+     
+     <li><a href="/mpl.html">License</a></li>
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

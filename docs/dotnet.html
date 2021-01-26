@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>.NET/C# RabbitMQ Client Library — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>.NET/C# RabbitMQ Client Library</h1>
+
+
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>The RabbitMQ .NET client is an implementation of an AMQP 0-9-1 client
+library for C# (and, implicitly, other .NET languages).</p>
+<h3><a id="series" class="anchor" href="#series">Release Series</a></h3>
+<p>The following table explains what RabbitMQ .NET client release series
+targets what .NET standard (or .NET framework) version.</p>
+<table>
+  <thead>
+    <td><strong>Library Release Series</strong></td>
+    <td><strong>Required .NET Framework/Standard/Flavor Versions</strong></td>
+  </thead>
+
+  <tr>
+    <td>
+      6.x (in development)
+    </td>
+    <td>
+      .NET 4.6.1+ or a .NET Standard 2.0+ implementation (e.g. .NET Core 3.x)
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      5.x
+    </td>
+    <td>
+      .NET 4.5.1+ or a .NET Standard 1.5+ implementation (e.g. .NET Core 2.x)
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      4.x
+    </td>
+    <td>
+      .NET 4.5.1+ or a .NET Standard 1.5+ implementation (e.g. .NET Core 2.x)
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      3.4.x
+    </td>
+    <td>
+      .NET 3.5
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      3.3.x
+    </td>
+    <td>
+      .NET 2.0
+    </td>
+  </tr>
+</table>
+
+<h3><a id="licensing" class="anchor" href="#licensing">Licensing</a></h3>
+<p>The library is <a href="https://github.com/rabbitmq/rabbitmq-dotnet-client">open-source</a>,
+and is dual-licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">the Apache License v2</a> and <a href="mpl.html">the Mozilla Public License v2.0</a>.</p>
+<p>This means that the user can consider the library to be licensed under any of the licenses from the list above.
+For example, the user may choose the Apache Public License 2.0 and include this client into
+a commercial product. Codebases that are licensed under the GPLv2 may choose GPLv2, and so on.</p>
+<h2><a id="distribution" class="anchor" href="#distribution">NuGet</a></h2>
+<p>Recent versions of the library are exclusively <a href="https://www.nuget.org/packages/RabbitMQ.Client">distributed via NuGet</a>.</p>
+<p>The most recent release is <a href="https://www.nuget.org/packages/RabbitMQ.Client">available via NuGet</a>.
+Release notes can be found <a href="https://github.com/rabbitmq/rabbitmq-dotnet-client/releases">on GitHub</a>.</p>
+<h2><a id="documentation" class="anchor" href="#documentation">Documentation</a></h2>
+<p>Please refer to the <a href="/getstarted.html">RabbitMQ tutorials</a> and <a href="/dotnet-api-guide.html">.NET client user guide</a>.</p>
+<p>There's also <a href="https://rabbitmq.github.io/rabbitmq-dotnet-client/index.html">an online API reference</a>.</p>
+<h2><a id="changelog" class="anchor" href="#changelog">Change log</a></h2>
+<p>4.x and later release notes are <a href="https://github.com/rabbitmq/rabbitmq-dotnet-client/releases">published to GitHub</a>.</p>
+<h2><a id="binary-builds" class="anchor" href="#binary-builds">Binary Downloads</a></h2>
+<p>Modern versions of this library (e.g. <span class="code ">6.x</span>) are distributed as a <a href="https://www.nuget.org/packages/RabbitMQ.Client">NuGet package</a>.</p>
+<table>
+  <thead>
+    <td><strong>Description</strong></td>
+    <td><strong>Download</strong></td>
+  </thead>
+
+  <tr>
+    <td class="desc">6.x NuGet package</td>
+    <td><a href="https://www.nuget.org/packages/RabbitMQ.Client">RabbitMQ.Client NuGet package</a></td>
+  </tr>
+  <tr>
+    <td class="desc">5.x NuGet package</td>
+    <td><a href="https://www.nuget.org/packages/RabbitMQ.Client">RabbitMQ.Client NuGet package</a></td>
+  </tr>
+  <tr>
+    <td class="desc">4.x NuGet package</td>
+    <td><a href="https://www.nuget.org/packages/RabbitMQ.Client">RabbitMQ.Client NuGet package</a></td>
+  </tr>
+  <tr>
+    <td class="desc">3.x Series Binary Builds</td>
+    <td><a href="/releases/rabbitmq-dotnet-client">3.x builds</a></td>
+  </tr>
+</table>
+
+<h2><a id="source-repository" class="anchor" href="#source-repository">Source Repository on GitHub</a></h2>
+<p>The .NET RabbitMQ client library is <a href="https://github.com/rabbitmq/rabbitmq-dotnet-client">hosted and developed on GitHub</a>.</p>
+<p>Please see the <a href="/build-dotnet-client.html">.NET client build guide</a> for
+instructions on compiling from source.</p>
+<p>To clone the repo from GitHub:</p>
+<pre class="lang-bash">
+git clone https://github.com/rabbitmq/rabbitmq-dotnet-client
+</pre>
+
+<p>In order to compile or run the RabbitMQ .NET/C# client library,
+please follow the <a href="/build-dotnet-client.html">build instructions</a>.</p>
+<h2><a id="signing" class="anchor" href="#signing">Strong Naming</a></h2>
+<p>The client assembly is strong named. The public key token is 89e7d7c5feba84ce
+and the public part of the signing key is</p>
+<pre class="lang-ini">
+00240000048000009400000006020000002400005253413100040000010001008d20ec856aeeb8
+c3153a77faa2d80e6e43b5db93224a20cc7ae384f65f142e89730e2ff0fcc5d578bbe96fa98a71
+96c77329efdee4579b3814c0789e5a39b51df6edd75b602a33ceabdfcf19a3feb832f31d825416
+8cd7ba5700dfbca301fbf8db614ba41ba18474de0a5f4c2d51c995bc3636c641c8cbe76f45717b
+fcb943b5.
+</pre><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"><div id="related-links"><h4>Related Links</h4><ul><li><a href="/dotnet-api-guide.html">.NET Guide</a></li></ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

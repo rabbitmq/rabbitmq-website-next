@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title># RabbitMQ 3.7.9 — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1># RabbitMQ 3.7.9</h1>
+<p>RabbitMQ <span class="code ">3.7.9</span> is a maintenance release. It focuses on bug fixes and minor usability improvements.</p>
+<h3>Compatibility Notes</h3>
+<p>CLI tools in this release will often produce an extra line of output, as they did in <span class="code ">3.6.x</span> releases,
+when <span class="code ">-q</span> is not provided. Tools that parse CLI command output should use <span class="code ">-q --no-table-headers</span> to suppress all additional output meant for interactive use or
+avoid parsing output entirely (e.g. use the HTTP API).</p>
+<h4>Upgrading to Erlang 21.0</h4>
+<p>When upgrading to this release <strong>and upgrading Erlang to 21.0</strong> at the same time, extra care has to be taken.
+Since CLI tools from RabbitMQ releases older than 3.7.7 will fail on Erlang 21, RabbitMQ <strong>must be upgraded before Erlang</strong>.</p>
+<h4>Documentation Guides and Change Log</h4>
+<p>See <a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.7.0">3.7.0 release notes</a> upgrade and
+compatibility notes if upgrading from an earlier release.</p>
+<p>See the <a href="https://www.rabbitmq.com/upgrade.html">Upgrading guide</a> for general documentation on upgrades and
+<a href="https://www.rabbitmq.com/changelog.html">RabbitMQ change log</a> for release notes of other releases.</p>
+<h2>Changes</h2>
+<h3>Core Server</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Queue deletion loaded bindings in an inefficient way.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1690">rabbitmq/rabbitmq-server#1690</a></p>
+<ul>
+<li>Heartbeat monitor now correctly sends heartbeats at half the negotiated timeout interval.
+   It previously could fail to do so because it considered its own traffic to be on-the-wire
+   activity from the peer.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-common/pull/278">rabbitmq/rabbitmq-common#278</a></p>
+<ul>
+<li>Nodes were using a [client] Syslog UDP socket even when <a href="https://www.rabbitmq.com/logging.html#logging-to-syslog">logging to Syslog</a> was not enabled.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1718">rabbitmq/rabbitmq-server#1718</a></p>
+<ul>
+<li><span class="code ">ERL_EPMD_PORT</span> was ignored when configured in <span class="code ">rabbitmq-env.conf</span>.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1709">rabbitmq/rabbitmq-server#1709</a></p>
+<ul>
+<li>Proxy Protocol dependency is now compatible with Erlang/OTP 21.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-common/issues/269">rabbitmq/rabbitmq-common#269</a></p>
+<h4>Enhancements</h4>
+<ul>
+<li>It is now possible to configure <a href="https://www.rabbitmq.com/ssl.html#configuring-ciphers">cipher suites</a> using new style config format.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1712">rabbitmq/rabbitmq-server#1712</a></p>
+<ul>
+<li>When a listener fails to start (bind to a server socket), error messages involve less context and are
+   easier to read.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1711">rabbitmq/rabbitmq-server#1711</a></p>
+<ul>
+<li>Improved error reporting for when <span class="code ">erl</span> or <span class="code ">erl.exe</span> are no in node's <span class="code ">PATH</span>.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-common/pull/275">rabbitmq/rabbitmq-common#275</a></p>
+<ul>
+<li>10 TLS connection acceptors are now used by default.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1729">rabbitmq/rabbitmq-server#1729</a></p>
+<h3>CLI Tools</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li><span class="code ">rabbitmqctl list_*</span> commands did not include table column headers.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/264">rabbitmq/rabbitmq-cli#264</a></p>
+<ul>
+<li>If <span class="code ">RABBITMQ_NODENAME</span> is configured, CLI tools will use its hostname part when generating its own
+   Erlang node name.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/270">rabbitmq/rabbitmq-cli#270</a></p>
+<ul>
+<li>On Windows CLI tool batch scripts exited with a 0 exit code when it failed to connect to the node.</li>
+</ul>
+<p>Contributed by Artem Zinenko.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1735">rabbitmq/rabbitmq-server#1735</a>.</p>
+<h4>Enhancements</h4>
+<ul>
+<li><span class="code ">rabbitmqctl stop</span> now supports <span class="code ">--idempotent</span> that makes the command exit with a success when
+   target node is not running.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/pull/272">rabbitmq/rabbitmq-cli#272</a></p>
+<ul>
+<li><span class="code ">rabbitmqctl add_vhost</span> is now idempotent (no longer returns an error when vhost already exists)</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-cli/issues/260">rabbitmq/rabbitmq-cli#260</a></p>
+<h3>Management and Management Agent Plugins</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Logo link now works better with a non-blank API endpoint prefix.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/604">rabbitmq/rabbitmq-management#604</a></p>
+<ul>
+<li>Decimal headers and argument values are now serialised to JSON correctly.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management-agent/pull/71">rabbitmq/rabbitmq-management-agent#71</a></p>
+<h4>Enhancements</h4>
+<ul>
+<li>It is now possible to configure both HTTPS and HTTP listeners using new syntax that's consistent with
+   Web STOMP and Web MQTT plugins:</li>
+</ul>
+<p>``` ini
+   management.tcp.port = 15672</p>
+<p>management.ssl.port = 15671
+   management.ssl.cacertfile = /path/to/ca_certificate.pem
+   management.ssl.certfile = /path/to/server_certificate.pem
+   management.ssl.keyfile = /path/to/server_key.pem <br />
+   ```</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/563">rabbitmq/rabbitmq-management#563</a></p>
+<ul>
+<li>It is now possible to configure <span class="code ">Content-Security-Policy</span> (CSP) header set by the API.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/623">rabbitmq/rabbitmq-management#623</a></p>
+<ul>
+<li>It is now possible to configure <span class="code ">Strict-Transport-Policy</span> (HSTS) header set by the API.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/624">rabbitmq/rabbitmq-management#624</a></p>
+<ul>
+<li>
+<p><span class="code ">GET /api/nodes/{node}</span> endpoint aggregated data for other cluster nodes only to discard it later.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/issues/615">rabbitmq/rabbitmq-management#615</a></p>
+</li>
+<li>
+<p>When <span class="code ">Handle.exe</span> is used and returns no file handle information in its output, a warning will be logged.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management-agent/issues/67">rabbitmq/rabbitmq-management-agent#67</a></p>
+</li>
+</ul>
+<h3>LDAP Plugin</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>String matching queries now support multi-value results.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-ldap/issues/100">rabbitmq/rabbitmq-auth-backend-ldap#100</a></p>
+<ul>
+<li><span class="code ">ad_domain</span> and <span class="code ">ad_user</span> are new variables available in LDAP plugin queries. They are extracted from the username
+   when it's in <span class="code ">Domain\User</span> format, which is typically specific to ActiveDirectory.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-ldap/issues/98">rabbitmq/rabbitmq-auth-backend-ldap#98</a></p>
+<ul>
+<li>Search queries that return referrals will result in an error instead of an exception.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-ldap/issues/97">rabbitmq/rabbitmq-auth-backend-ldap#97</a></p>
+<h3>Web STOMP Plugin</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>Advanced WebSocket options now can be configured. Compression is enabled by default.
+   Compression won't be used with clients that do not support it.</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-web-stomp/pull/89">rabbitmq/rabbitmq-web-stomp#89</a>, <a href="https://github.com/rabbitmq/rabbitmq-web-stomp/issues/90">rabbitmq/rabbitmq-web-stomp#90</a></p>
+<h3>Web MQTT Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>WebSocket <span class="code ">PING</span> frames are now ignored instead of being propagated to MQTT frame handler.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-web-mqtt/pull/32">rabbitmq/rabbitmq-web-mqtt#32</a></p>
+<h4>Enhancements</h4>
+<ul>
+<li>Advanced WebSocket options now can be configured. Compression is enabled by default.
+  Compression won't be used with clients that do not support it.</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-web-mqtt/issues/34">rabbitmq/rabbitmq-web-mqtt#34</a></p>
+<h3>AWS Peer Discovery Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>EC2 API endpoint requests used an unreasonably low timeout (100 ms). The new value
+   is 10 seconds.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-aws/issues/24">rabbitmq/rabbitmq-peer-discovery-aws#24</a></p>
+<h3>Consul Peer Discovery Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>It wasn't possible to specify Consul service tags via new style config format.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-consul/issues/18">rabbitmq/rabbitmq-peer-discovery-consul#18</a></p>
+<ul>
+<li>It wasn't possible to configure lock key prefix via new style config format.</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-consul/issues/16">rabbitmq/rabbitmq-peer-discovery-consul#16</a></p>
+<h4>Enhancements</h4>
+<ul>
+<li>Lock acquisition timeout now can be configured using <span class="code ">cluster_formation.consul.lock_timeout</span> as well as <span class="code ">cluster_formation.consul.lock_wait_time</span> (an alias),
+  to be consistent with the Etcd implementation.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-consul/pull/20">rabbitmq/rabbitmq-peer-discovery-consul#20</a></p>
+<h3>Etcd Peer Discovery Plugin</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>Lock acquisition timeout now can be configured using <span class="code ">cluster_formation.etcd.lock_timeout</span> as well as <span class="code ">cluster_formation.etcd.lock_wait_time</span> (an alias),
+   to be consistent with the Consul implementation.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-etcd/pull/16">rabbitmq/rabbitmq-peer-discovery-etcd#16</a></p>
+<h3>Event Exchange Plugin</h3>
+<h4>Enhancements</h4>
+<ul>
+<li>Throughput optimizations reduce probability of high memory consumption by <span class="code ">rabbit_event</span> processes due to
+   event backlog accumulation.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1722">rabbitmq/rabbitmq-server#1722</a></p>
+<h3>RPM Package</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Post-installation script renamed <span class="code ">rabbitmq.conf</span> to <span class="code ">rabbitmq-env.conf</span>. A long time ago <span class="code ">rabbitmq.conf</span> was used to configure
+   environment variables (like <span class="code ">rabbitmq-env.conf</span> today) and old post-installation steps were not removed when <span class="code ">rabbitmq.conf</span>
+   was re-adopted for new style config files.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server-release/issues/87">rabbitmq/rabbitmq-server-release#87</a></p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

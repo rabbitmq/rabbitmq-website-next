@@ -1,0 +1,557 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>Command Line Tools  — RabbitMQ</title>
+    
+  </head>
+  <body id=""><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>Command Line Tools </h1>
+
+
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>RabbitMQ ships with multiple command line tools:</p>
+<ul>
+<li><a href="/rabbitmqctl.8.html"><span class="code ">rabbitmqctl</span></a> for service management and general operator tasks</li>
+<li><a href="/rabbitmq-diagnostics.8.html"><span class="code ">rabbitmq-diagnostics</span></a> for diagnostics and <a href="/monitoring.html">health checking</a></li>
+<li><a href="/rabbitmq-plugins.8.html"><span class="code ">rabbitmq-plugins</span></a> for <a href="/plugins.html">plugin management</a></li>
+<li><a href="/rabbitmq-queues.8.html"><span class="code ">rabbitmq-queues</span></a> for maintenance tasks on <a href="/queues.html">queues</a>, in particular <a href="/quorum-queues.html">quorum queues</a></li>
+<li><a href="/rabbitmq-upgrade.8.html"><span class="code ">rabbitmq-upgrade</span></a> for maintenance tasks related to <a href="/upgrade.html">upgrades</a></li>
+</ul>
+<p>they can be found under the <span class="code ">sbin</span> directory in installation root.</p>
+<p>On Windows, the above tool names will end with <span class="code ">.bat</span>, e.g. <span class="code ">rabbitmqctl</span> in a Windows installation will
+be named <span class="code ">rabbitmqctl.bat</span>.</p>
+<p>Additional tools are optional and can be obtained from GitHub:</p>
+<ul>
+<li><a href="/management-cli.html"><span class="code ">rabbitmqadmin</span></a> for operator tasks over <a href="/management.html">HTTP API</a></li>
+<li><a href="https://github.com/rabbitmq/support-tools"><span class="code ">rabbitmq-collect-env</span></a> which collects relevant cluster and environment information
+    as well as server logs. This tool is specific to Linux and UNIX-like operating systems.</li>
+</ul>
+<p>Different tools cover different usage scenarios. For example, <span class="code ">rabbitmqctl</span> is usually
+only available to RabbitMQ administrator given that it provides full control over a node,
+including virtual host, user and permission management, destructive operations
+on node's data and so on.</p>
+<p><span class="code ">rabbitmqadmin</span> is built on top of the HTTP API and uses a different mechanism, and only
+requires that the <a href="/management.html">HTTP API</a> port is open for outside connections.</p>
+<p>Even though CLI tools ship with the server, most commands <a href="#remote-nodes">can be used to operate on remote nodes</a>.</p>
+<h2><a id="requirements" class="anchor" href="#requirements">System and Environment Requirements</a></h2>
+<p>RabbitMQ CLI tools require a <a href="/which-erlang.html">compatible Erlang/OTP</a> version to be installed.</p>
+<p>The tools assume that system locale is a UTF-8 one (e.g. <span class="code ">en_GB.UTF-8</span> or <span class="code ">en_US.UTF-8</span>). If that's
+not the case, the tools may still function correctly but it cannot be guaranteed.
+A warning will be emitted in non-UTF-8 locales.</p>
+<h2><a id="installation" class="anchor" href="#installation">Installation</a></h2>
+<p>Except for <span class="code ">rabbitmqadmin</span>, all of the tools above ship with RabbitMQ and can be found under the <span class="code ">sbin</span>
+directory in installation root. With most package types that directory is added to <span class="code ">PATH</span> at installation time.
+This means that core tools such as <span class="code ">rabbitmq-diagnostics</span> and <span class="code ">rabbitmqctl</span> are available on every node
+that has RabbitMQ installed.</p>
+<p><a href="/install-generic-unix.html">Generic UNIX package</a> users have to make sure that the <span class="code ">sbin</span> directory under installation
+root is added to <span class="code ">PATH</span> for simpler interactive use. Non-interactive use cases can use full or relative paths without
+modifications to the <span class="code ">PATH</span> environment variable.</p>
+<p><a href="/management-cli.html"><span class="code ">rabbitqadmin</span></a> is a standalone tool (no dependencies other than Python 3)
+that can be downloaded from a running node or <a href="https://github.com/rabbitmq/rabbitmq-management/blob/v3.8.x/bin/rabbitmqadmin">directly from GitHub</a>.</p>
+<p>If interaction from a remote node is required, download and extract the <a href="/install-generic-unix.html">generic UNIX package</a>
+or use the <a href="/install-windows.html">Windows installer</a>.</p>
+<p>Besides <a href="#authentication">authentication</a>, all configuration for core CLI tools is optional.</p>
+<p>Commands that require specific arguments list them in the usage section and will report
+any missing arguments when executed.</p>
+<h2><a id="help" class="anchor" href="#help">Discovering Commands Using the Help Command</a></h2>
+<p>To find out what commands are available, use the <span class="code ">help</span> command:</p>
+<pre class="lang-bash">
+rabbitmqctl help
+</pre>
+
+<pre class="lang-bash">
+rabbitmq-diagnostics help
+</pre>
+
+<p>The command can display usage information for a particular command:</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics help status
+</pre>
+
+<p>Alternatively a <span class="code ">--help</span> option can be used:</p>
+<pre class="lang-bash">
+rabbitmqctl --help
+</pre>
+
+<p>including for individual commands:</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics status --help
+</pre>
+
+<h2><a id="rabbitmqctl" class="anchor" href="#rabbitmqctl">rabbitmqctl</a></h2>
+<p><a href="/rabbitmqctl.8.html">rabbitmqctl</a> is the original CLI tool that ships with RabbitMQ.
+It supports a wide range of operations, mostly administrative (operational) in nature.</p>
+<p>This includes</p>
+<ul>
+<li>Stopping node</li>
+<li>Access to node status, effective configuration, health checks</li>
+<li>Virtual host management</li>
+<li>User and permission management</li>
+<li>Policy management</li>
+<li>Listing queues, connections, channels, exchanges, consumers</li>
+<li>Cluster membership management</li>
+</ul>
+<p>and more.</p>
+<p><span class="code ">rabbitmqctl</span> uses a <a href="#erlang-cookie">shared secret authentication mechanism</a> (described below) with server nodes.</p>
+<h2><a id="rabbitmq-plugins" class="anchor" href="#rabbitmq-plugins">rabbitmq-plugins</a></h2>
+<p><a href="/rabbitmq-plugins.8.html">rabbitmq-plugins</a> is a tool that manages plugins:
+lists, enables and disables them. It ships with RabbitMQ.</p>
+<p>It supports both online (when target node is running) and offline mode (changes
+take effect on node restart).</p>
+<p><span class="code ">rabbitmq-plugins</span> uses shared secret authentication (described below) with server nodes.</p>
+<h2><a id="authentication" class="anchor" href="#authentication">Authentication</a></h2>
+<p>With the exception of <span class="code ">rabbitmqadmin</span>, RabbitMQ tools use a <a href="#erlang-cookie">shared secret authentication mechanism</a>.
+This requires that <a href="/networking.html">inter-node and CLI communication ports</a> (by default)
+is open for external connections on the target node.</p>
+<h2><a id="remote-nodes" class="anchor" href="#remote-nodes">Using CLI Tools against Remote Server Nodes</a></h2>
+<p>CLI tools can be used to talk to remote nodes as well as the local ones. Nodes are identified by <a href="#node-names">node names</a>.
+If no node name is specified, <span class="code ">rabbit@{local hostname}</span> is assumed to be the target. When contacting remote nodes,
+the same <a href="#authentication">authentication requirements</a> apply.</p>
+<p>To contact a remote node, use the <span class="code ">--node</span> (<span class="code ">-n</span>) option that <span class="code ">rabbitmqctl</span>, <span class="code ">rabbitmq-diagnostics</span> and other core CLI tools
+accept. The following example contact the node <span class="code ">rabbit@remote-host.local</span> to find out its status:</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics status -n rabbit@remote-host.local
+</pre>
+
+<p>Some commands, such as</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics status
+</pre>
+
+<p>can be used against any node. Others, such as</p>
+<pre class="lang-bash">
+rabbitmqctl shutdown
+</pre>
+
+<p>or</p>
+<pre class="lang-bash">
+rabbitmqctl wait
+</pre>
+
+<p>can only be run on the same host or in the same container as their target node. These commands typically
+rely on or modify something in the local environment, e.g. the local <a href="/plugins.html">enabled plugins file</a>.</p>
+<h3><a id="node-names" class="anchor" href="#node-names">Node Names</a></h3>
+<p>RabbitMQ nodes are identified by node names. A node name consists of two parts,
+a prefix (usually <span class="code ">rabbit</span>) and hostname. For example, <span class="code ">rabbit@node1.messaging.svc.local</span>
+is a node name with the prefix of <span class="code ">rabbit</span> and hostname of <span class="code ">node1.messaging.svc.local</span>.</p>
+<p>Node names in a cluster must be unique. If more than one node is running on a given host
+(this is usually the case in development and QA environments), they must use
+different prefixes, e.g. <span class="code ">rabbit1@hostname</span> and <span class="code ">rabbit2@hostname</span>.</p>
+<p>CLI tools identify and address server nodes using node names.
+Most CLI commands are invoked against a node called target node. To specify a target node,
+use the <span class="code ">--node</span> (<span class="code ">-n</span>) option. For example, to run a <a href="/monitoring.html">health check</a>
+on node <span class="code ">rabbit@warp10.local</span>:</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics -n rabbit@warp10 check_alarms
+</pre>
+
+<p>Some commands accept both a target node and another node name. For example,
+<span class="code ">rabbitmqctl forget_cluster_node</span> accepts both a target node (that will perform the action)
+and a name of the node to be removed.</p>
+<p>In a cluster, nodes identify and contact each other using node names. See <a href="/clustering.html#node-names">Clustering guide</a>
+for details.</p>
+<p>When a node starts up, it checks whether it has been assigned a node name. This is done
+via the <span class="code ">RABBITMQ_NODENAME</span> <a href="/configure.html#supported-environment-variables">environment variable</a>.
+If no value was explicitly configured, the node resolves its hostname and prepends <span class="code ">rabbit</span> to it to compute its node name.</p>
+<p>If a system uses fully qualified domain names (FQDNs) for hostnames, RabbitMQ nodes
+and CLI tools must be configured to use so called long node names.
+For server nodes this is done by setting the <span class="code ">RABBITMQ_USE_LONGNAME</span> <a href="/configure.html#supported-environment-variables">environment variable</a>
+to <span class="code ">true</span>.</p>
+<p>For CLI tools, either <span class="code ">RABBITMQ_USE_LONGNAME</span> must be set or the <span class="code ">--longnames</span> option
+must be specified:</p>
+<pre class="lang-bash">
+# this example assumes that host1.messaging.eng.coolcorporation.banana is a hostname
+# that successfully resolves
+rabbitmq-diagnostics -n rabbit@host1.messaging.eng.coolcorporation.banana check_alarms --longnames
+</pre>
+
+<h2><a id="passing-arguments" class="anchor" href="#passing-arguments">Options and Positional Arguments</a></h2>
+<p>RabbitMQ CLI tools largely follow existing, long established command line argument parsing conventions.
+This section provides some examples and focuses on edge cases and lesser known features.</p>
+<p>Different commands take different arguments. Some are named options such as <span class="code ">--node</span> (aliased as <span class="code ">-n</span>),
+others are positional arguments, such as the username and password arguments in</p>
+<pre class="lang-bash">
+rabbitmqctl add_user &lt;username&gt; &lt;password&gt;
+</pre>
+
+<p>A specific example:</p>
+<pre class="lang-bash">
+rabbitmqctl add_user "a-user" "a-pa$$w0rd"
+</pre>
+
+<p>Options can be provided before or after positional arguments with one exception: anything
+that follows a double hyphen (<span class="code ">--</span>) will be treated as positional arguments:</p>
+<pre class="lang-bash">
+# all values after the double hyphen (--) will be treated as positional arguments,
+# even if they begin with a hyphen or a double hyphen
+rabbitmqctl add_user --node rabbit@host1.messaging.eng.coolcorporation.banana -- "a-user" "a-pa$$w0rd"
+</pre>
+
+<p>The explicit positional argument separator must be used when positional arguments begin with a hyphen or a double
+hyphen (such as generated passwords), to make sure they are not parsed as options:</p>
+<pre class="lang-bash">
+# Since "--!a-pa$$w0rd" is explicitly provided as a positional argument, it won't
+# be mistakenly considered for an unsupported option, even though it starts with a double hyphen
+rabbitmqctl add_user --node rabbit@host1.messaging.eng.coolcorporation.banana -- "a-user" "--!a-pa$$w0rd"
+</pre>
+
+<p>Option values can be passed as <span class="code ">--option &lt;value&gt;</span> or <span class="code ">--option=&lt;value&gt;</span>. The latter variant must be used
+when the value begins with a hyphen (<span class="code ">-</span>), otherwise it would be treated as an option:</p>
+<pre class="lang-bash">
+# an alternative way of providing an option value
+rabbitmqctl add_user --node=rabbit@host1.messaging.eng.coolcorporation.banana -- "a-user" "a-pa$$w0rd"
+</pre>
+
+<p><span class="code ">rabbitmqctl</span>, <span class="code ">rabbitmq-diagnostics</span>, <span class="code ">rabbitmq-plugins</span>, and <span class="code ">rabbitmq-queues</span> support <a href="#aliases">command aliases</a>.</p>
+<h2><a id="erlang-cookie" class="anchor" href="#erlang-cookie">How CLI Tools Authenticate to Nodes (and Nodes to Each Other): the Erlang Cookie</a></h2>
+<p>RabbitMQ nodes and CLI tools (with the exception of <span class="code ">rabbitmqadmin</span>) use a
+cookie to determine whether they are allowed to communicate with
+each other. For a CLI tool and a node to be able to communicate they must have
+the same shared secret called the Erlang cookie. The cookie is
+just a string of alphanumeric characters up to 255 characters in size.
+It is usually stored in a local file. The file
+must be only accessible to the owner (e.g. have UNIX permissions of <span class="code ">600</span> or similar).
+Every cluster node must have the same cookie.</p>
+<p>If the file does not exist, Erlang VM will automatically create
+one with a randomly generated value when the RabbitMQ server
+starts up.</p>
+<p>Erlang cookie generation should be done at cluster deployment stage, ideally using automation
+and orchestration tools.</p>
+<h3><a id="cookie-file-locations" class="anchor" href="#cookie-file-locations">Cookie File Locations</a></h3>
+<h4>Linux, MacOS, *BSD</h4>
+<p>On UNIX systems, the cookie will be typically
+located in <span class="code ">/var/lib/rabbitmq/.erlang.cookie</span> (used by the server)
+and <span class="code ">$HOME/.erlang.cookie</span> (used by CLI tools). Note that since the value
+of <span class="code ">$HOME</span> varies from user to user, it's necessary to place a copy of
+the cookie file for each user that will be using the CLI tools.
+This applies to both non-privileged users and <span class="code ">root</span>.</p>
+<p>RabbitMQ nodes will log its effective user's home directory location early on boot.</p>
+<h4>Community Docker Image and Kubernetes</h4>
+<p><a href="https://github.com/docker-library/rabbitmq/">Docker community RabbitMQ image</a> uses <span class="code ">RABBITMQ_ERLANG_COOKIE</span> environment variable value
+to populate the cookie file.</p>
+<p>Configuration management and container orchestration tools that use this image
+must make sure that every RabbitMQ node container in a cluster uses the same value.</p>
+<p>In the context of Kubernetes, the value must be specified in the
+<a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">deployment file</a>.
+For instance, this can be seen in the <a href="https://github.com/rabbitmq/diy-kubernetes-examples">RabbitMQ on Kubernetes examples repository</a>.</p>
+<h4>Windows</h4>
+<p>On Windows, the cookie location depends on a few factors:</p>
+<ul>
+<li>Whether the <span class="code ">HOMEDRIVE</span> and <span class="code ">HOMEPATH</span> environment variables are both set</li>
+<li>Erlang version: prior to 20.2 or 20.2 and later</li>
+</ul>
+<h5>Erlang 20.2 or later</h5>
+<p>With Erlang versions starting with 20.2, the cookie file locations are:</p>
+<ul>
+<li><span class="code ">%HOMEDRIVE%%HOMEPATH%\.erlang.cookie</span> (usually <span class="code ">C:\Users\%USERNAME%\.erlang.cookie</span> for user <span class="code ">%USERNAME%</span>) if both the <span class="code ">HOMEDRIVE</span> and <span class="code ">HOMEPATH</span> environment variables are set</li>
+<li><span class="code ">%USERPROFILE%\.erlang.cookie</span> (usually <span class="code ">C:\Users\%USERNAME%\.erlang.cookie</span>) if <span class="code ">HOMEDRIVE</span> and <span class="code ">HOMEPATH</span> are not both set</li>
+<li>For the RabbitMQ Windows service - <span class="code ">%USERPROFILE%\.erlang.cookie</span> (usually <span class="code ">C:\WINDOWS\system32\config\systemprofile</span>)</li>
+</ul>
+<p>If the Windows service is used, the cookie should be copied from
+<span class="code ">C:\Windows\system32\config\systemprofile\.erlang.cookie</span> to the expected
+location for users running commands like <span class="code ">rabbitmqctl.bat</span>.</p>
+<h5>Erlang 19.3 through 20.2</h5>
+<p>With Erlang versions prior to 20.2, the cookie file locations are:</p>
+<ul>
+<li><span class="code ">%HOMEDRIVE%%HOMEPATH%\.erlang.cookie</span> (usually <span class="code ">C:\Users\%USERNAME%\.erlang.cookie</span> for user <span class="code ">%USERNAME%</span>) if both the <span class="code ">HOMEDRIVE</span> and <span class="code ">HOMEPATH</span> environment variables are set</li>
+<li><span class="code ">%USERPROFILE%\.erlang.cookie</span> (usually <span class="code ">C:\Users\%USERNAME%\.erlang.cookie</span>) if <span class="code ">HOMEDRIVE</span> and <span class="code ">HOMEPATH</span> are not both set</li>
+<li>For the RabbitMQ Windows service - <span class="code ">%WINDIR%\.erlang.cookie</span> (usually <span class="code ">C:\Windows\.erlang.cookie</span>)</li>
+</ul>
+<p>If the Windows service is used, the cookie should be copied from
+<span class="code ">C:\Windows\.erlang.cookie</span> to the expected location for users
+running commands like <span class="code ">rabbitmqctl.bat</span>.</p>
+<h3>Overriding Using CLI and Runtime Command Line Arguments</h3>
+<p>As an alternative, the option "<span class="code ">-setcookie &lt;value&gt;</span>" can be added
+to <span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span> <a href="/configure.html">environment variable value</a>
+to override the cookie value used by a RabbitMQ node:</p>
+<pre class="lang-bash">
+RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="-setcookie cookie-value"
+</pre>
+
+<p>CLI tools can take a cookie value using a command line flag:</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics status --erlang-cookie "cookie-value"
+</pre>
+
+<p>Both are <strong>the least secure options</strong> and generally <strong>not recommended</strong>.</p>
+<h3><a id="cookie-file-troubleshooting" class="anchor" href="#cookie-file-troubleshooting">Troubleshooting</a> Cookie-based Authentication</h3>
+<h4>CLI Tools</h4>
+<p>Starting with <a href="/changelog.html">version <span class="code ">3.8.6</span></a>, <span class="code ">rabbitmq-diagnostics</span> includes a command
+that provides relevant information on the Erlang cookie file used by CLI tools:</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics erlang_cookie_sources
+</pre>
+
+<p>The command will report on the effective user, user home directory and the expected location
+of the cookie file:</p>
+<pre class="lang-plaintext">
+Cookie File
+
+Effective user: antares
+Effective home directory: /home/cli-user
+Cookie file path: /home/cli-user/.erlang.cookie
+Cookie file exists? true
+Cookie file type: regular
+Cookie file access: read
+Cookie file size: 20
+
+Cookie CLI Switch
+
+--erlang-cookie value set? false
+--erlang-cookie value length: 0
+
+Env variable  (Deprecated)
+
+RABBITMQ_ERLANG_COOKIE value set? false
+RABBITMQ_ERLANG_COOKIE value length: 0
+</pre>
+
+<h4>Server Nodes</h4>
+<p>When a node starts, it will <a href="/logging.html">log</a> the home directory location of its effective user:</p>
+<pre class="lang-plaintext">
+node           : rabbit@cdbf4de5f22d
+home dir       : /var/lib/rabbitmq
+</pre>
+
+<p>Unless any <a href="/relocate.html">server directories</a> were overridden, that's the directory where
+the cookie file will be looked for, and created by the node on first boot if it does not already exist.</p>
+<p>In the example above, the cookie file location will be <span class="code ">/var/lib/rabbitmq/.erlang.cookie</span>.</p>
+<h4>Hostname Resolution</h4>
+<p>Starting with <a href="/changelog.html">RabbitMQ <span class="code ">3.8.6</span></a>, CLI tools provide two commands that help verify
+that hostname resolution on a node works as expected. The commands are not meant to replace
+<a href="https://en.wikipedia.org/wiki/Dig_(command)"><span class="code ">dig</span></a> and other specialised DNS tools but rather
+provide a way to perform most basic checks while taking <a href="https://erlang.org/doc/apps/erts/inet_cfg.html">Erlang runtime hostname resolver features</a>
+into account.</p>
+<p>The commands are covered in the <a href="/networking.html#dns-verify-resolution">Networking guide</a>.</p>
+<h2><a id="cli-authentication-failures" class="anchor" href="#cli-authentication-failures">Authentication Failures</a></h2>
+<p>When the cookie is misconfigured (for example, not identical), RabbitMQ nodes will log errors
+such as "Connection attempt from disallowed node", "", "Could not auto-cluster".</p>
+<p>For example, when a CLI tool connects and tries to authenticate using a mismatching secret value:</p>
+<pre class="lang-plaintext">
+2020-06-15 13:03:33 [error] &lt;0.1187.0&gt; ** Connection attempt from node 'rabbitmqcli-99391-rabbit@warp10' rejected. Invalid challenge reply. **
+</pre>
+
+<p>When a CLI tool such as <span class="code ">rabbitmqctl</span> fails to authenticate with RabbitMQ,
+the message usually says</p>
+<pre class="lang-plaintext">
+* epmd reports node 'rabbit' running on port 25672
+* TCP connection succeeded but Erlang distribution failed
+* suggestion: hostname mismatch?
+* suggestion: is the cookie set correctly?
+* suggestion: is the Erlang distribution using TLS?
+</pre>
+
+<p>This means that TCP connection from a CLI tool to a RabbitMQ node
+succeeded but authentication attempt was rejected by the server. The
+message also mentions several most common reasons for that, which are
+covered next.</p>
+<h4>Possible Reason 1: Misplaced or Missing Cookie File</h4>
+<p>An incorrectly placed cookie file or cookie value mismatch are most
+common scenarios for such failures.</p>
+<p>RabbitMQ node logs its cookie hash on start. CLI tools print their
+cookie hash value when they fail to authenticate with the target node.</p>
+<p>When a recent Erlang/OTP version is used, authentication failures contain
+more information and cookie mismatches can be identified better:</p>
+<pre class="lang-plaintext">
+rabbit@warp10:
+  * connected to epmd (port 4369) on warp10
+  * epmd reports node 'rabbit' running on port 25672
+  * TCP connection succeeded but Erlang distribution failed
+
+  * Authentication failed (rejected by the remote node), please check the Erlang cookie
+
+current node details:
+- node name: 'rabbitmq-cli-63@warp10'
+- home dir: /home/username
+- cookie hash: Sg08R8+G85EYHZ3H/9NUfg==
+</pre>
+
+<h4>Possible Reason 2: Node Name Type Mismatch</h4>
+<p>If RabbitMQ nodes are configured to use long node names (<span class="code ">RABBITMQ_USE_LONGNAME</span> is exported to <span class="code ">true</span>),
+so should CLI tools via the same environment variable or the <span class="code ">--longnames</span> command line flag introduced in 3.7.0.</p>
+<h4>Possible Reason 3: Inter-node Connections Require TLS</h4>
+<p>If RabbitMQ is set up to <a href="https://www.rabbitmq.com/clustering-ssl.html">encrypt inter-node and CLI connections using TLS</a>,
+CLI tools also must use TLS and therefore require additional options.
+Non-TLS connections from other nodes and CLI tools will fail.</p>
+<h4>Possible Reason 4: Hostname Mismatch</h4>
+<p>Other reasons include a hostname mismatch in node name used by the target RabbitMQ node and that provided
+to the CLI tool (e.g. via the <span class="code ">-n</span> flag). For example, if a node runs using <span class="code ">rabbit@rmq1.eng.megacorp.local</span>
+as its name but <span class="code ">rabbitmqctl</span> is invoked as</p>
+<pre class="lang-bash">
+rabbitmqctl status -n rabbit@rmq-dev.eng.megacorp.local
+</pre>
+
+<p>then even if <span class="code ">rmq-dev.eng.megacorp.local</span> and <span class="code ">rmq1.eng.megacorp.local</span> resolve to the same IP address,
+the server will reject <span class="code ">rabbitmqctl</span>'s authentication attempt. This scenario is relatively
+rare.</p>
+<p>When a recent Erlang/OTP version is used, authentication failures contain
+more information and hostname mismatches can be identified better:</p>
+<pre class="lang-plaintext">
+rabbit@localhost:
+  * connected to epmd (port 4369) on localhost
+  * epmd reports node 'rabbit' running on port 25672
+  * TCP connection succeeded but Erlang distribution failed
+
+  * Hostname mismatch: node "rabbit@warp10" believes its host is different. Please ensure that hostnames resolve the same way locally and on "rabbit@warp10"
+
+
+current node details:
+- node name: 'rabbitmq-cli-30@warp10'
+- home dir: /Users/antares
+- cookie hash: Sg08R8+G85EYHZ3H/9NUfg==
+</pre>
+
+<h4>Other Possible Reasons</h4>
+<p>Just like with any network connection, CLI-to-node connections can fail due to</p>
+<ul>
+<li>Hostname resolution failures</li>
+<li>Incorrect IP routing</li>
+<li>TCP port access blocked (firewalls, etc)</li>
+</ul>
+<p>and so on.</p>
+<p><a href="/networking.html">RabbitMQ Networking guide</a> contains a section on troubleshooting of networking-related issues.</p>
+<h2><a id="http-api-cli" class="anchor" href="#http-api-cli">rabbitmqadmin</a></h2>
+<p><a href="/management-cli.html">rabbitmqadmin</a> is a command line tool that's built on top of <a href="/management.html">RabbitMQ HTTP API</a>.
+It is not a replacement for <span class="code ">rabbitmqctl</span> and provides access to a subset of most commonly
+performed operations provided by the <a href="/management.html">management UI</a>.</p>
+<p>The tool requires Python 2.7.9 or a more recent version.</p>
+<p><span class="code ">rabbitmqadmin</span> uses HTTP API authentication mechanism (basic HTTP authentication). It has to be
+downloaded separately from a running node or <a href="https://github.com/rabbitmq/rabbitmq-management/blob/stable/bin/rabbitmqadmin">GitHub</a>.</p>
+<h2><a id="cli-and-clustering" class="anchor" href="#cli-and-clustering">"Node-local" and "Clusterwide" Commands</a></h2>
+<p>Client connections, channels and queues will be distributed across cluster nodes.
+Operators need to be able to inspect and <a href="/monitoring.html">monitor</a> such resources
+across all cluster nodes.</p>
+<p>CLI tools such as <a href="/rabbitmqctl.8.html">rabbitmqctl</a> and
+<span class="code ">rabbitmq-diagnostics</span> provide commands that inspect resources and
+cluster-wide state. Some commands focus on the state of a single node
+(e.g. <span class="code ">rabbitmq-diagnostics environment</span> and <span class="code ">rabbitmq-diagnostics
+status</span>), others inspect cluster-wide state. Some examples of the
+latter include <span class="code ">rabbitmqctl list_connections</span>, <span class="code ">rabbitmqctl
+list_mqtt_connections</span>, <span class="code ">rabbitmqctl list_stomp_connections</span>,
+<span class="code ">rabbitmqctl list_users</span>, <span class="code ">rabbitmqctl list_vhosts</span> and so on.</p>
+<p>Such "cluster-wide" commands will often contact one node
+first, discover cluster members and contact them all to
+retrieve and combine their respective state. For example,
+<span class="code ">rabbitmqctl list_connections</span> will contact all
+nodes, retrieve their AMQP 0-9-1 and AMQP 1.0 connections,
+and display them all to the user. The user doesn't have
+to manually contact all nodes.</p>
+<p>Assuming a non-changing
+state of the cluster (e.g. no connections are closed or
+opened), two CLI commands executed against two different
+nodes one after another will produce identical or
+semantically identical results. "Node-local" commands, however, likely will not produce
+identical results since two nodes rarely have entirely identical state.</p>
+<h2><a id="aliases" class="anchor" href="#aliases">Command Aliases</a></h2>
+<p><span class="code ">rabbitmqctl</span>, <span class="code ">rabbitmq-diagnostics</span> and <span class="code ">rabbitmq-plugins</span> support command aliases. Aliases provide
+a way to define abbreviated versions of certain commands and their arguments. For example,
+instead of typing <span class="code ">rabbitmqctl environment</span> it may be more convenient to define an alias,
+<span class="code ">rabbitmqctl env</span>, that would expand to <span class="code ">rabbitmqctl environment</span>.</p>
+<p>Aliases are loaded from a file specified via the <span class="code ">RABBITMQ_CLI_ALIASES_FILE</span> environment
+variable:</p>
+<pre class="lang-bash">
+export RABBITMQ_CLI_ALIASES_FILE=/path/to/cli_aliases.conf
+</pre>
+
+<p>The aliases file uses a very minimalistic ini-style <span class="code ">alias = command</span> format, for
+example:</p>
+<pre class="lang-ini">
+env = environment
+st  = status --quiet
+
+lp  = list_parameters --quiet
+lq  = list_queues --quiet
+lu  = list_users --quiet
+
+cs  = cipher_suites --openssl-format --quiet
+</pre>
+
+<p>With this alias file in place it will be possible to use</p>
+<pre class="lang-bash">
+rabbitmqctl env
+</pre>
+
+<p>which would expand to</p>
+<pre class="lang-bash">
+rabbitmqctl environment
+</pre>
+
+<p>or</p>
+<pre class="lang-bash">
+rabbitmqctl lq
+</pre>
+
+<p>which would expand to</p>
+<pre class="lang-bash">
+rabbitmqctl list_queues --quiet
+</pre>
+
+<p>The last alias in the example above configures a <span class="code ">rabbitmq-diagnostics</span> command:</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics cs
+</pre>
+
+<p>would expand to</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics cipher_suites --openssl-format --quiet
+</pre>
+
+<p>All tools process aliases the same way. As long as the expanded command is recognized,
+aliases can be used with any tool or even more than one. For example,
+both <span class="code ">rabbitmqctl</span> and <span class="code ">rabbitmq-diagnostics</span> provide the <span class="code ">environment</span> command
+so the <span class="code ">env</span> alias works for both of them exactly the same way:</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics env
+</pre>
+
+<p>would expand to</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics environment
+</pre>
+
+<p>The file will be consulted only if the command invoked is not provided by the tool.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>
