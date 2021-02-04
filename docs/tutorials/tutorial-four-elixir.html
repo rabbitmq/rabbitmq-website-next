@@ -231,17 +231,17 @@ end
 {:ok, connection} = AMQP.Connection.open
 {:ok, channel} = AMQP.Channel.open(connection)
 
-{severities, raw_message, _} = 
+{severities, raw_message, _} =
   System.argv
   |&gt; OptionParser.parse(strict: [info:    :boolean,
-                                 warning: :boolean, 
+                                 warning: :boolean,
                                  error:   :boolean])
   |&gt; case do
     {[], msg, _} -&gt; {[info: true], msg, []}
     other -&gt; other
   end
 
-message = 
+message =
   case raw_message do
     []    -&gt; "Hello World!"
     words -&gt; Enum.join(words, " ")
@@ -274,7 +274,7 @@ end
 {:ok, connection} = AMQP.Connection.open
 {:ok, channel} = AMQP.Channel.open(connection)
 
-{severities, _, _} = 
+{severities, _, _} =
   System.argv
   |&gt; OptionParser.parse(strict: [info:    :boolean,
                                  warning: :boolean,

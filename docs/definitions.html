@@ -13,16 +13,14 @@
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>Nodes and clusters store information that can be thought of schema, metadata or topology.
-Users, vhosts, queues, exchanges, bindings, runtime parameters all fall into this category.</p>
+Users, vhosts, queues, exchanges, bindings, runtime parameters all fall into this category.
+This metadata is called <strong>definitions</strong> in RabbitMQ parlance.</p>
+<p>Definitions can be <a href="#export">exported</a> to a file and then <a href="#import">imported</a> into another cluster or
+used for schema <a href="/backup.html">backup</a> or data seeding.</p>
 <p>Definitions are stored in an internal database and replicated across all cluster nodes.
 Every node in a cluster has its own replica of all definitions. When a part of definitions changes,
 the update is performed on all nodes in a single transaction. This means that
 in practice, definitions can be exported from any cluster node with the same result.</p>
-<p>A definition file contains definitions of all broker objects (queues,
-exchanges, bindings, users, virtual hosts, permissions and
-parameters).</p>
-<p>Definitions can be <a href="#export">exported</a> to a file and then <a href="#import">imported</a> into another cluster or
-used for schema backup.</p>
 <p><a href="/tanzu/">VMware Tanzu RabbitMQ</a> supports <a href="/definitions-standby.html">continuous schema definition replication</a> to a remote cluster,
 which makes it easy to run a hot standby cluster for disaster recovery.</p>
 <p>Definition import on node boot is the recommended way of <a href="#import-on-boot">pre-configuring nodes at deployment time</a>.</p>
@@ -74,21 +72,19 @@ curl -H "Accept:application/json" -u guest:guest "http://localhost:15672/api/def
 </pre>
 
 <h2><a id="import-on-boot" class="anchor" href="#import-on-boot">Definition Import at Node Boot Time</a></h2>
-<p>Most recent releases support definition import directly in the core,
+<p>Modern releases support definition import directly in the core,
 without the need to <a href="/plugins.html#enabled-plugins-file">preconfigure</a> the <a href="/management.html">management plugin</a>.</p>
-<p>As of RabbitMQ <span class="code ">3.8.6</span>, definition import happens after plugin activation.
-This means that definitions related to plugins (e.g. dynamic Shovels, exchanges of a custom type, and so on)
-can be imported at boot time.</p>
 <p>To import definitions from a local file on node boot,
-set the <span class="code ">load_definitions</span>config key
-to the path of a previously exported JSON file containing
-the definitions that should be imported on node boot:</p>
+set the <span class="code ">load_definitions</span> config key to a path of a previously exported JSON file with definitions:</p>
 <pre class="lang-ini">
 # New in RabbitMQ 3.8.2.
 # Does not require management plugin to be enabled.
 load_definitions = /path/to/definitions/file.json
 </pre>
 
+<p>As of RabbitMQ <span class="code ">3.8.6</span>, definition import happens after plugin activation.
+This means that definitions related to plugins (e.g. dynamic Shovels, exchanges of a custom type, and so on)
+can be imported at boot time.</p>
 <p>The definitions in the file will not overwrite anything already in the broker.
 However, if a blank (uninitialised) node imports a definition file, it will
 not create the default virtual host and user.</p>

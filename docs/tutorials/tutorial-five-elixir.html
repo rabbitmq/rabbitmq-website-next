@@ -144,7 +144,7 @@ have two words: "<span class="code ">&lt;facility&gt;.&lt;severity&gt;</span>".<
 {:ok, connection} = AMQP.Connection.open
 {:ok, channel} = AMQP.Channel.open(connection)
 
-{topic, message} = 
+{topic, message} =
   System.argv
   |&gt; case do
     []            -&gt; {"anonymous.info", "Hello World!"}

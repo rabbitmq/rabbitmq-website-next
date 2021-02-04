@@ -5,42 +5,40 @@
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Erlang distribution compression
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Inter-node and CLI Traffic Compression
  — RabbitMQ</title></head>
-  <body id="erlang-distribution-compression"><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Erlang distribution compression
+  <body id="clustering-compression"><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Inter-node and CLI Traffic Compression
 </h1>
-<p><a href="/tanzu/">VMware Tanzu RabbitMQ</a> introduced a feature called <em>Erlang
-distribution compression</em>.</p>
-<p>Erlang distribution allows several RabbitMQ nodes to communicate and create a
-cluster. This is built into Erlang, the language and runtime used by RabbitMQ.
-This is based on TCP/IP connections and the exchanged data can be plain or
-ciphered if <a href="clustering-ssl.html">SSL is configured</a>.</p>
-<p>As the name suggests, Erlang distribution compression adds a third transport
-solution: compression. It allows inter-node communication to be reduced by up to
-96%, depending on the nature of the data being compressed.</p>
+<p><a href="/tanzu/">VMware Tanzu RabbitMQ</a> supports compression for <a href="/clustering.html">inter-node</a>
+and <a href="/cli.html">CLI tool</a> traffic.</p>
+<p>RabbitMQ nodes communicate with their peers and CLI tools using dedicated TCP connections,
+optionally <a href="/clustering-ssl.html">protected with TLS</a>.</p>
+<p>In heavily loaded system, inter-node traffic flows can be substantial, approaching
+or even saturating the bandwidth provided by network links. Compression of this traffic
+helps reduce the load on bandwidth available, up to 96%, depending on the nature of
+the workload.</p>
 <p class="box-info">
-Erlang distribution compression is <strong>available in VMware Tanzu RabbitMQ
+Inter-node traffic compression is <strong>available in VMware Tanzu RabbitMQ
 only</strong>, not in the standard FOSS RabbitMQ.
 <a href="/tanzu/">Learn more about VMware Tanzu RabbitMQ</a>
 </p>
 
 <h2><a id="how-to-use-it" class="anchor" href="#how-to-use-it">How to use it</a></h2>
-<p>Erlang distribution compression is enabled out-of-the-box: if two RabbitMQ
-nodes connect to each other, they will try to use compression.</p>
+<p>Inter-node traffic compression is enabled out-of-the-box in VMware Tanzu RabbitMQ:
+if two RabbitMQ nodes <a href="/cluster-formation.html">form a cluster</a>, they will try to use compression.</p>
 <p>For the data to be compressed, the following conditions MUST be met:</p>
 <ul>
 <li>
-<p>Both RabbitMQ nodes must support Erlang distribution compression. In other
-  words, both nodes must run VMware Tanzu RabbitMQ. The FOSS edition does not
-  support this feature.</p>
+<p>Both RabbitMQ nodes must support inter-node traffic compression. In other
+  words, both nodes must run VMware Tanzu RabbitMQ. The open source edition <strong>does not support this feature</strong>.</p>
 </li>
 <li>
-<p>Both RabbitMQ nodes must have at least one compression algorithm in common.</p>
+<p>Both nodes must share at least one compression algorithm in common.</p>
 </li>
 </ul>
-<p>If the conditions are not met, standard non-compressed Erlang distribution is
-used. This means that RabbitMQ for VMware Tanzu remains compatible with the
-standard RabbitMQ edition. It is therefore possible to switch from one edition
+<p>If the conditions are not met, nodes will communicate as they otherwise would without
+traffic compression. This means that RabbitMQ for VMware Tanzu remains compatible with the
+open source RabbitMQ edition. It is therefore possible to switch from one edition
 to the other without stopping the entire cluster.</p>
 <h2><a id="how-it-works" class="anchor" href="#how-it-works">How it works</a></h2>
 <div style="float: right;">
@@ -51,17 +49,16 @@ to the other without stopping the entire cluster.</p>
 following things:</p>
 <ol>
 <li>
-<p>After the TCP connection is open, it is as if the regular Erlang
-   distribution uncompressed was used.</p>
+<p>After the TCP connection is open, compression will not be used at first.</p>
 </li>
 <li>
-<p>The node initiating the connection <strong>detects if the remote node has Erlang
+<p>The node initiating the connection <strong>detects if the remote peer has Erlang
    distribution compression support</strong>. If it does not, then the connection
    remains uncompressed and following steps are skipped.</p>
 </li>
 <li>
 <p>Once the node is sure the remote node supports compression, it <strong>negotiates
-   the algorithm to use</strong>. To start this process, it sends a message to the
+   the compression algorithm to use</strong>. To start this process, it sends a message to the
    remote node and specifies the list of algorithms it supports.</p>
 </li>
 <li>
@@ -83,13 +80,13 @@ following things:</p>
 <h2><a id="limitations" class="anchor" href="#limitations">Limitations</a></h2>
 <ul>
 <li>
-<p>Erlang distribution <strong>compression and SSL can't be used at the same time</strong>:
-    the user must choose between them.</p>
-<p>The reason is that the Erlang node is configured with a specific
+<p>Inter-node traffic <strong>compression and TLS can't be used at the same time</strong>:
+    they are mutually exclusive at the moment.</p>
+<p>This is because RabbitMQ node is configured with a specific
 distribution module provided with VMware Tanzu RabbitMQ, plus a small
-Erlang application to deal with the algorithm negotiation. The distribution
+add-on to deal with the algorithm negotiation. The distribution
 module is a replacement to the default module (<span class="code ">inet_tcp_dist</span>) or the
-SSL-based one (<span class="code ">inet_tls_dist</span>). It is impossible to use two modules
+TLS-enabled one (<span class="code ">inet_tls_dist</span>). It is impossible to use two modules
 simultaneously.</p>
 </li>
 <li>
@@ -121,7 +118,7 @@ simultaneously.</p>
          <li><a href="/partitions.html">Network Partitions</a></li>
          <li><a href="/nettick.html">Net Tick Time</a></li>
          <li><a href="/clustering-ssl.html">TLS for Inter-node (Clustering) Traffic</a></li>
-         <li><a href="/erlang-distribution-compression.html" class="selected">Inter-node Traffic Compression</a></li>
+         <li><a href="/clustering-compression.html" class="selected">Inter-node Traffic Compression</a></li>
        </ul></li>
        <li><a href="/reliability.html">Reliable Delivery</a></li>
        <li><a href="/definitions.html">Schema Definition Export and Import</a></li>

@@ -118,7 +118,7 @@ routed to the queue with the name specified as first parameter, if it exists.</p
 channel.publish('logs', '', Buffer.from('Hello World!'));
 </pre>
 
-<p>The empty string as second parameter means that we don't want to send 
+<p>The empty string as second parameter means that we don't want to send
 the message to any specific queue. We want only to publish it to our
 'logs' exchange.</p>
 <h2>Temporary queues</h2>
@@ -249,9 +249,9 @@ amqp.connect('amqp://localhost', function(error0, connection) {
     console.log(" [x] Sent %s", msg);
   });
 
-  setTimeout(function() { 
-    connection.close(); 
-    process.exit(0); 
+  setTimeout(function() {
+    connection.close();
+    process.exit(0);
   }, 500);
 });
 </pre>

@@ -7,8 +7,8 @@
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
       <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>(Untitled) — RabbitMQ</title></head>
   <body id="release-notes/3.8.12"><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>(Untitled)</h1>
-<h2>RabbitMQ 3.8.12-beta.1</h2>
-<p>RabbitMQ <span class="code ">3.8.12-beta.1</span> is a preview of a maintenance release that contains bug fixes.</p>
+<h2>RabbitMQ 3.8.12-rc.1</h2>
+<p>RabbitMQ <span class="code ">3.8.12-rc.1</span> is a preview of a maintenance release that contains bug fixes.</p>
 <h3>Erlang/OTP Compatibility Notes</h3>
 <p>This release <a href="https://www.rabbitmq.com/which-erlang.html">requires Erlang 22</a> or
 <a href="http://blog.erlang.org/OTP-23-Highlights/">Erlang 23</a>.</p>
@@ -30,6 +30,48 @@ then Erlang 22.x or 23.x, then RabbitMQ to the most recent 3.8.x release.</p>
 <p>Any questions about this release, upgrades or RabbitMQ in general are welcome on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>
 and <a href="https://rabbitmq-slack.herokuapp.com/">RabbitMQ community Slack</a>.</p>
 <h2>Changes Worth Mentioning</h2>
+<h3>Core Server</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li><a href="https://www.rabbitmq.com/upgrade.html#maintenance-mode">Maintenance mode</a> no longer transfers leaders of classic mirrored queue.</li>
+</ul>
+<p>The original transfer implementation was not guaranteed to be safe when only a
+   subset of cluster nodes hosted replicas. In addition, the process could take
+   a lot of time in environments with a lot of classic mirrored queues, more
+   than in case of node shutdown.</p>
+<p>Quorum queue leadership transfer is still performed as it is dramatically more
+   efficient and never suffered from any downsides of leadership transfer of CMQs.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/2749">#2749</a></p>
+<ul>
+<li>Default replica count for quorum queues was using an incorrect configuration key name.
+   The default value is now <span class="code ">3</span>, so in a cluster of five or seven nodes, only three
+   will host replicas for newly declared quorum queues. One replica is the node to which
+   the declaring client is connected to, two others are selected randomly.</li>
+</ul>
+<p>Declaring connections can control the number of replicas using the <span class="code ">x-quorum-initial-group-size</span>
+   optional queue argument at declaration time.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2759">#2759</a></p>
+<ul>
+<li>Memory monitor could run into an exception if queried very early on node boot
+   before it was fully initialized.</li>
+</ul>
+<p>Contribute @tomyouyou.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2733">#2733</a></p>
+<h4>Enhancements</h4>
+<ul>
+<li><span class="code ">rabbitmq.conf</span> validation of TLS certificate and private key paths is now more thorough:
+   it checks if the files have read or read/write permissions instead of checking if it can read
+   the file's metadata.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/2685">#2685</a></p>
+<h3>CLI Tools</h3>
+<h4>Enhancements</h4>
+<ul>
+<li><span class="code ">rabbitmqctl close_all_user_connections</span> is a new command that closes all connections that
+   authenticated using a specific username:</li>
+</ul>
+<p><span class="code ">rabbitmqctl close_all_user_connections "user-99fc15d3f" "closed to force reconnection"</span></p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/2715">#2715</a></p>
 <h3>Prometheus Plugin</h3>
 <h4>Bug Fixes</h4>
 <ul>
@@ -39,9 +81,18 @@ and <a href="https://rabbitmq-slack.herokuapp.com/">RabbitMQ community Slack</a>
 <p>Some metrics were renamed to avoid duplication. The new names are <span class="code ">auth_attempts_detailed_total</span>,
    <span class="code ">auth_attempts_detailed_succeeded_total</span>, and <span class="code ">auth_attempts_detailed_failed_total</span>.</p>
 <p>This issue is specific to RabbitMQ <span class="code ">3.8.10</span> and <span class="code ">3.8.11</span>.</p>
-<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/2740">rabbitmq/rabbitmq-server#2740</a></p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/2740">#2740</a></p>
+<h2>RabbitMQ Erlang Client</h2>
+<h4>Bug Fixes</h4>
+<ul>
+<li>The client performed hostname resolution twice even if IP version preference was specified by the user.</li>
+</ul>
+<p>Contributed by Pawel @haljin Antemijczuk.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/2748">#2748</a></p>
 <h2>Dependency Upgrades</h2>
-<p>No dependency changes.</p>
+<ul>
+<li>jose has been upgraded <a href="https://github.com/potatosalad/erlang-jose/blob/master/CHANGELOG.md">from <span class="code ">1.10.1</span> to <span class="code ">1.11.1</span></a></li>
+</ul>
 <h2>Source Code Archives</h2>
 <p>To obtain source code of the entire distribution, please download the archive named <span class="code ">rabbitmq-server-3.8.12.tar.xz</span>
 instead of the source tarball produced by GitHub.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>

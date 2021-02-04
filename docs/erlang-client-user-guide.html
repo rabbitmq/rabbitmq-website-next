@@ -58,7 +58,7 @@ dep_rabbit_common = hex 3.8.7
    declaring exchanges and queues, defining bindings between them, publishing messages,
    registering consumers (subscribing), and so on</li>
 <li>Register optional event handlers such as <a href="#returns">returned message handler</a></li>
-<li>When no longer required, close the channel and the connection </li>
+<li>When no longer required, close the channel and the connection</li>
 </ol>
 <h3><a id="amqp-client-app" class="anchor" href="#amqp-client-app">The amqp_client Application</a></h3>
 <p>RabbitMQ Erlang client is an Erlang application named <span class="code ">amqp_client</span>.</p>
@@ -496,7 +496,7 @@ will be no further deliveries to its handling process.</p>
 behaviour to determine how it should handle consumer events.
 Effectively, this module handles client-side
 consumer registration and ensures routing of deliveries to the appropriate consumers.</p>
-<p>For instance, the default consumer module, <span class="code ">amqp_selective_consumer</span>, 
+<p>For instance, the default consumer module, <span class="code ">amqp_selective_consumer</span>,
 keeps track of which processes are subscribed to which queues and routes deliveries appropriately;
 in addition, if the channel gives it a delivery for an unknown
 consumer, it will pass it to a default consumer, should one be registered.</p>
@@ -545,7 +545,7 @@ amqp_channel:call(Channel, #'basic.qos'{prefetch_count = Prefetch})
 <h2><a id="blocked" class="anchor" href="#blocked">Blocked Connections</a></h2>
 <p>When a node detects that it is below a certain available resource threshold,
 it may <a href="alarms.html">choose to stop reading from publishers' network sockets</a>.</p>
-<p>RabbitMQ supports <a href="connection-blocked.html">a mechanism to allow clients to be told this has taken place</a>. </p>
+<p>RabbitMQ supports <a href="connection-blocked.html">a mechanism to allow clients to be told this has taken place</a>.</p>
 <p>Use <span class="code ">amqp_connection:register_blocked_handler/2</span> giving the
 pid of a process to which <span class="code ">#'connection.blocked'{}</span> and
 <span class="code ">#'connection.unblocked'{}</span> should may be sent.</p>

@@ -473,22 +473,27 @@ Queries can be nested and combined using boolean operators.</p>
 <table>
   <thead>
     <td>Query</td>
+    <td>Purpose</td>
     <td>Default Expression</td>
   </thead>
   <tr>
     <td><span class="code ">rabbitmq_auth_backend_ldap.vhost_access_query</span></td>
+    <td>Verifies that user is allowed to access a virtual host</td>
     <td><span class="code ">{constant, true}</span></td>
   </tr>
   <tr>
     <td><span class="code ">rabbitmq_auth_backend_ldap.resource_access_query</span></td>
+    <td>Verifies that user is allowed to access a resource (queue, exchange, etc)</td>
     <td><span class="code ">{constant, true}</span></td>
   </tr>
   <tr>
     <td><span class="code ">rabbitmq_auth_backend_ldap.topic_access_query</span></td>
+    <td>Verifies that user is allowed to publish to a topic</td>
     <td><span class="code ">{constant, true}</span></td>
   </tr>
   <tr>
     <td><span class="code ">rabbitmq_auth_backend_ldap.tag_queries</span></td>
+    <td>Checks if a well-known tag is applicable to a user</td>
     <td><span class="code ">[{administrator, {constant, false}}]</span></td>
   </tr>
 </table>
@@ -518,7 +523,8 @@ different variables.</p>
 <ul>
 <li><span class="code ">${username}</span>: the user name provided at authentication</li>
 <li><span class="code ">${user_dn}</span>: the distinguished name of the user</li>
-<li><span class="code ">${vhost}</span>: can be used for additional context, e.g. to group applications or users</li>
+<li><span class="code ">${vhost}</span>: <strong>virtual host information will not be available in every scenario</strong>. It can be used for additional context,
+    e.g. to group applications or users</li>
 </ul>
 <p>The <span class="code ">topic_access_query</span> supports:</p>
 <ul>

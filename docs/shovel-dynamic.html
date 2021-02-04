@@ -49,7 +49,7 @@ rabbitmqctl set_parameter shovel my-shovel \
 different:</p>
 <pre class="lang-powershell">
 rabbitmqctl.bat set_parameter shovel my-shovel ^
-  "{""src-protocol"": ""amqp091"", ""src-uri"":""amqp://localhost"", ""src-queue"": ""source-queue"", ^ 
+  "{""src-protocol"": ""amqp091"", ""src-uri"":""amqp://localhost"", ""src-queue"": ""source-queue"", ^
    ""dest-protocol"": ""amqp091"", ""dest-uri"": ""amqp://remote.rabbitmq.local"", ^
    ""dest-queue"": ""target-queue""}"
 </pre>
@@ -136,7 +136,7 @@ rabbitmqctl.bat set_parameter shovel my-shovel ^
             it will be declared as a classic durable queue with no optional arguments.
           </p>
       </td>
-    </tr>                    
+    </tr>
   </tbody>
 </table>
 

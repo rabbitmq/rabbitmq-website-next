@@ -257,7 +257,6 @@ and will try to transfer as many of its responsibilities as practically possible
 <ul>
 <li>Suspend all client connection listeners (no new client connections will be accepted)</li>
 <li>Close all existing client connections: applications are expected to reconnect to other nodes and recover</li>
-<li>Transfer primary replicas of all classic mirrored queues hosted on the target node</li>
 <li>Transfer primary replicas of all quorum queues hosted on the target node, and prevent them from participating
     in the subsequently triggered Raft elections</li>
 <li>Mark the node as down for maintenance</li>

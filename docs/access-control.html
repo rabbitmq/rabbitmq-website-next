@@ -106,7 +106,7 @@ often involving non-alphanumeric characters. This practice is perfectly
 applicable to RabbitMQ users.</p>
 <p>Shells (<span class="code ">bash</span>, <span class="code ">zsh</span>, and so on) interpret certain characters
 (<span class="code ">!</span>, <span class="code ">?</span>, <span class="code ">&amp;</span>, <span class="code ">^</span>, <span class="code ">"</span>, <span class="code ">'</span>, <span class="code ">*</span>, <span class="code ">~</span>, and others) as control characters.</p>
-<p>When a password is specified on the command line for <span class="code ">rabbitmqctl add_user</span>, <span class="code ">rabbitmqctl change_password</span>, 
+<p>When a password is specified on the command line for <span class="code ">rabbitmqctl add_user</span>, <span class="code ">rabbitmqctl change_password</span>,
 and other commands that accept a password, such control characters must be escaped appropriately
 for the shell used.
 With inappropriate escaping the command will fail or RabbitMQ CLI tools will receive a different value

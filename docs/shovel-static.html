@@ -387,7 +387,7 @@ are available to static shovels, such as TLS certificate and private key.</p>
 </pre>
           <p>
             By default the original properties of the message are preserved, but
-            this clause can be used to change or set any known property: 
+            this clause can be used to change or set any known property:
 
             <ul>
               <li><span class="code ">content_type</span></li>
@@ -417,7 +417,7 @@ are available to static shovels, such as TLS certificate and private key.</p>
             instead of message properties that are accessible to consumers. It takes the form of
           </p>
 <pre class="lang-erlang">
-{publish_fields, [ 
+{publish_fields, [
                     {exchange, &lt;&lt;"my_exchange"&gt;&gt;},
                     {routing_key, &lt;&lt;"from_shovel"&gt;&gt;}
                   ]}
@@ -432,7 +432,7 @@ are available to static shovels, such as TLS certificate and private key.</p>
            exchange name and routing key. By specifying
          </p>
 <pre class="lang-erlang">
-{publish_fields, [ 
+{publish_fields, [
                     {exchange, &lt;&lt;"my_exchange"&gt;&gt;},
                     {routing_key, &lt;&lt;"from_shovel"&gt;&gt;}
                   ]}

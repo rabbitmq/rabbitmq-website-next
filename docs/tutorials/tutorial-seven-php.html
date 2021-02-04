@@ -136,7 +136,7 @@ $channel-&gt;set_nack_handler(
 <p>There are 2 callbacks: one for confirmed messages and one for nack-ed messages
 (messages that can be considered lost by the broker). Each callback has
 <span class="code ">AMQPMessage $message</span> parameter with returned message, so you don't need to
-handle sequence numbers (delivery tag) to understand which message this callback belongs to.  </p>
+handle sequence numbers (delivery tag) to understand which message this callback belongs to.</p>
 <h3>Summary</h3>
 <p>Making sure published messages made it to the broker can be essential in some applications.
 Publisher confirms are a RabbitMQ feature that helps to meet this requirement. Publisher
