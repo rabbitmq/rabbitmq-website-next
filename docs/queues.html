@@ -33,11 +33,11 @@ Some queue features, namely priorities and <a href="/confirms.html">requeueing</
 the ordering as observed by consumers.</p>
 <h2><a id="names" class="anchor" href="#names">Names</a></h2>
 <p>Queues have names so that applications can reference them.</p>
-<p>Applications may pick queue names or ask the broker to generate a name
+<p>Applications may pick queue names or ask the broker to <a href="#server-named-queues">generate a name</a>
 for them. Queue names may be up to 255 bytes of UTF-8 characters.</p>
 <p>Queue names starting with "amq." are reserved for internal
 use by the broker. Attempts to declare a queue with a name that
-violates this rule will result in a channel-level exception
+violates this rule will result in a <a href="/channels.html">channel-level exception</a>
 with reply code 403 (<span class="code ">ACCESS_REFUSED</span>).</p>
 <h3><a id="server-named-queues" class="anchor" href="#server-named-queues">Server-named Queues</a></h3>
 <p>In AMQP 0-9-1, the broker can generate a unique queue name on behalf of
@@ -46,6 +46,14 @@ argument: The same generated name may be obtained by subsequent
 methods in the same channel by using the empty string where a queue
 name is expected. This works because the channel remembers the last
 server-generated queue name.</p>
+<p>Server-named queues are meant to be used for state that is transient
+in nature and specific to a particular consumer (application instance).
+Applications can share such names in message metadata to let other applications respond
+to them (as demonstrated in <a href="/getstarted.html">tutorial six</a>).
+Otherwise, the names of server-named queues should be known and used only by the
+declaring application instance. The instance should also set up appropriate
+bindings (routing) for the queue, so that publishers can use well-known
+exchanges instead of the server-generated queue name directly.</p>
 <h2><a id="properties" class="anchor" href="#properties">Properties</a></h2>
 <p>Queues have properties that define how they behave. There is a set
 of mandatory properties and a map of optional ones:</p>

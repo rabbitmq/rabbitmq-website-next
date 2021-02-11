@@ -149,8 +149,8 @@ kind: Namespace
 metadata:
   annotations:
 ...
-openshift.io/sa.scc.supplemental-groups: 1000/1
-openshift.io/sa.scc.uid-range: 1000/1
+    openshift.io/sa.scc.supplemental-groups: 1000/1
+    openshift.io/sa.scc.uid-range: 1000/1
 </pre></p>
 </li>
 <li>
@@ -189,6 +189,7 @@ requiredDropCapabilities:
 allowedCapabilities:
   - "FOWNER"
   - "CHOWN"
+  - "DAC_OVERRIDE"
 volumes:
   - "configMap"
   - "secret"
@@ -217,6 +218,24 @@ metadata:
 <p>For every RabbitMQ cluster (here we assume the name <span class="code ">my-rabbitmq</span>) assign the previously created security context constraint to the cluster's service account.</p>
 <p><pre class="lang-bash">
 oc adm policy add-scc-to-user rabbitmq-cluster -z my-rabbitmq-server
+</pre></p>
+</li>
+<li>
+<p>(optional) If the cluster operator fails to create with the below error:</p>
+<p><pre class="lang-bash">
+Events:
+Type     Reason        Age                 From                   Message
+----     ------        ----                ----                   -------
+Warning  FailedCreate  74s (x107 over 9h)  replicaset-controller  Error creating: pods "rabbitmq-cluster-operator-79888fd8c8-" is forbidden: unable to validate against any security context constraint: []
+</pre></p>
+<p>This could be a result of the default SELinuxContext in the Openshift project is not compatible with the cluster operator. To fix this issue, add an additional annotation in the <span class="code ">rabbitmq-system</span> namespace:</p>
+<p><pre class="lang-yaml">
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+...
+    openshift.io/sa.scc.mcs: 's0:c26,c5'
 </pre></p>
 </li>
 </ol><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>

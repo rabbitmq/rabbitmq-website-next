@@ -49,8 +49,8 @@ that has RabbitMQ installed.</p>
 <p><a href="/install-generic-unix.html">Generic UNIX package</a> users have to make sure that the <span class="code ">sbin</span> directory under installation
 root is added to <span class="code ">PATH</span> for simpler interactive use. Non-interactive use cases can use full or relative paths without
 modifications to the <span class="code ">PATH</span> environment variable.</p>
-<p><a href="/management-cli.html"><span class="code ">rabbitqadmin</span></a> is a standalone tool (no dependencies other than Python 3)
-that can be downloaded from a running node or <a href="https://github.com/rabbitmq/rabbitmq-management/blob/v3.8.x/bin/rabbitmqadmin">directly from GitHub</a>.</p>
+<p><a href="/management-cli.html"><span class="code ">rabbitmqadmin</span></a> is a standalone tool (no dependencies other than Python 3)
+that can be downloaded from a running node or <a href="https://github.com/rabbitmq/rabbitmq-server/blob/master/deps/rabbitmq_management/bin/rabbitmqadmin">directly from GitHub</a>.</p>
 <p>If interaction from a remote node is required, download and extract the <a href="/install-generic-unix.html">generic UNIX package</a>
 or use the <a href="/install-windows.html">Windows installer</a>.</p>
 <p>Besides <a href="#authentication">authentication</a>, all configuration for core CLI tools is optional.</p>
@@ -419,7 +419,7 @@ It is not a replacement for <span class="code ">rabbitmqctl</span> and provides 
 performed operations provided by the <a href="/management.html">management UI</a>.</p>
 <p>The tool requires Python 2.7.9 or a more recent version.</p>
 <p><span class="code ">rabbitmqadmin</span> uses HTTP API authentication mechanism (basic HTTP authentication). It has to be
-downloaded separately from a running node or <a href="https://github.com/rabbitmq/rabbitmq-management/blob/stable/bin/rabbitmqadmin">GitHub</a>.</p>
+downloaded separately from a running node or <a href="https://github.com/rabbitmq/rabbitmq-server/blob/master/deps/rabbitmq_management/bin/rabbitmqadmin">GitHub</a>.</p>
 <h2><a id="cli-and-clustering" class="anchor" href="#cli-and-clustering">"Node-local" and "Clusterwide" Commands</a></h2>
 <p>Client connections, channels and queues will be distributed across cluster nodes.
 Operators need to be able to inspect and <a href="/monitoring.html">monitor</a> such resources

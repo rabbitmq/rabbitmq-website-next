@@ -31,8 +31,7 @@ must be downloaded. The key can be obtained directly or using <a href="https://k
 or the <a href="https://sks-keyservers.net/overview-of-pools.php">SKS keyservers pool</a>.
 The direct download method is recommended because most key servers are prone to overload, abuse and attacks.</p>
 <h4>Direct Download</h4>
-<p>The key is distributed via <a href="https://github.com/rabbitmq/signing-keys/releases/">GitHub</a>,
-<a href="https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc">Bintray</a>, and
+<p>The key is distributed via <a href="https://github.com/rabbitmq/signing-keys/releases/">GitHub</a> and
 <a href="https://www.rabbitmq.com/rabbitmq-release-signing-key.asc">rabbitmq.com</a>:</p>
 <pre class="lang-bash">
 curl -L https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc --output rabbitmq-release-signing-key.asc
@@ -67,8 +66,7 @@ gpg --keyserver "pgp.mit.edu" --recv-keys "0x0A9AF2115F4687BD29803A206B73A36E602
 <p>On Debian and Ubuntu systems, assuming that <a href="/install-debian.html">apt repositories</a> are used for installation,
 <span class="code ">apt-key</span> should be used to import the key. The direct download method is recommended because SKS servers are prone to overload.</p>
 <h4>Direct Download</h4>
-<p>The key is distributed via <a href="https://github.com/rabbitmq/signing-keys/releases/">GitHub</a>,
-<a href="https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc">Bintray</a>, and
+<p>The key is distributed via <a href="https://github.com/rabbitmq/signing-keys/releases/">GitHub</a> and
 <a href="https://www.rabbitmq.com/rabbitmq-release-signing-key.asc">rabbitmq.com</a>:</p>
 <pre class="lang-bash">
 curl -fsSL https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | sudo apt-key add -
@@ -89,8 +87,7 @@ apt-key adv --keyserver "hkps.pool.sks-keyservers.net" --recv-keys 0x0A9AF2115F4
 <p>On RPM-based systems (RHEL, Fedora, CentOS), assuming that <a href="/install-rpm.html">yum repositories</a> are used for installation,
 <span class="code ">rpm --import</span> should be used to import the key.</p>
 <h4>Direct Download</h4>
-<p>The key is distributed via <a href="https://github.com/rabbitmq/signing-keys/releases/">GitHub</a>,
-<a href="https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc">Bintray</a>, and
+<p>The key is distributed via <a href="https://github.com/rabbitmq/signing-keys/releases/">GitHub</a> and
 <a href="https://www.rabbitmq.com/rabbitmq-release-signing-key.asc">rabbitmq.com</a>:</p>
 <pre class="lang-bash">
 rpm --import https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc

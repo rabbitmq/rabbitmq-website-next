@@ -29,9 +29,9 @@ are not its primary focus.</p>
 <p>Potential solution to resolve this issue:</p>
 <ul>
 <li>Correct the <span class="code ">imagePullSecrets</span> and <span class="code ">storageClassName</span>
-   configurations. See <a href="/using-cluster-operator.html#image-pull-secrets">imagePullSecrets</a>,
-   <a href="/using-cluster-operator.html#persistence">Persistence</a>, and
-   <a href="/using.html#update">Update a RabbitMQ Instance</a>.</li>
+   configurations. See <a href="/kubernetes/operator/using-operator.html#image-pull-secrets">imagePullSecrets</a>,
+   <a href="/kubernetes/operator/using-operator.html#persistence">Persistence</a>, and
+   <a href="/kubernetes/operator/using-operator.html#update">Update a RabbitMQ Instance</a>.</li>
 <li>If the issue persists after updating the above configurations, view the status
    of your RabbitMQ cluster resources by following in the procedure in
    <a href="#check-instance-status">Check the Status of an Instance</a></li>
@@ -48,7 +48,7 @@ event of the underlying <span class="code ">StatefulSet</span> of the <span clas
 Kubernetes cluster, but you have not created the necessary <span class="code ">PodSecurityPolicy</span> and
 corresponding role-based access control (RBAC) resources.</p>
 <p>Potential solution is to create the PodSecurityPolicy and RBAC resources by following the procedure in
-<a href="/using-cluster-operator.html#psp">Pod Security Policies</a></p>
+<a href="/using-operator.html#psp">Pod Security Policies</a></p>
 <h3><a id="pods-stuck-in-terminating-state" class="anchor" href="#pods-stuck-in-terminating-state">Pods Are Stuck in the Terminating State</a></h3>
 <p>symptom: "After deleting a RabbitmqCluster instance, some Pods
 are stuck in the terminating state. RabbitMQ is still running in the affected Pods."</p>
