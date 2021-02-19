@@ -18,6 +18,7 @@ are not its primary focus.</p>
 <li><a href="#cluster-fails-to-deploy">RabbitMQ cluster fails to deploy</a></li>
 <li><a href="#pods-are-not-created">Pods are not being created</a></li>
 <li><a href="#pods-stuck-in-terminating-state">Pods are stuck in the terminating state</a></li>
+<li><a href="#operator-failure-on-startup">Cluster Operator fails on startup</a></li>
 </ul>
 <h3><a id="cluster-fails-to-deploy" class="anchor" href="#cluster-fails-to-deploy">RabbitMQ Cluster Fails to Deploy</a></h3>
 <p>After creating a RabbitMQ instance, it is not available within a few minutes and RabbitMQ Pods do not run.</p>
@@ -88,7 +89,24 @@ kubectl -n rmq-instance-1 get all
 <br />
 # NAME                             READY   AGE
 # statefulset.apps/example-server  1/1     2m28s
-</pre><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+</pre>
+
+<h3><a id="operator-failure-on-startup" class="anchor" href="#operator-failure-on-startup">Cluster Operator Fails on Startup</a></h3>
+<p>After deploying RabbitMQ Cluster Operator, it fails during startup and its pod is restarted.</p>
+<p>Common reasons for such failure are:</p>
+<ul>
+<li>The Operator can't connect to the Kubernetes API.</li>
+</ul>
+<p>Potential solution to resolve this issue:</p>
+<ul>
+<li>Check whether the Operator is still crashing. Pod restarts solve many interim issues and therefore a restart is a symptom, not a problem.</li>
+<li>Check the Operator logs (<span class="code ">kubectl -n rabbitmq-system logs -l app.kubernetes.io/name=rabbitmq-cluster-operator</span>)</li>
+<li>You may see an error such as:</li>
+<li><span class="code ">Failed to get API Group-Resources</span></li>
+<li><span class="code ">Get https://ADDRESS:443/api: connect: connection refused</span></li>
+<li>Check whether your Kubernetes cluster is healthy, specifically the <span class="code ">kube-apiserver</span> component</li>
+<li>Check whether any security network policies could prevent the Operator from reaching the Kubernetes API server</li>
+</ul><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.

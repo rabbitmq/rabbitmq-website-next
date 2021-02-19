@@ -317,12 +317,12 @@ they arrive in the queue.</p>
 would be dispatched to all consumers using round-robin.</p>
 <p>Single active consumer can be enabled when declaring a queue, with the
 <span class="code ">x-single-active-consumer</span> argument set to <span class="code ">true</span>, e.g. with the Java client:</p>
-<div class="highlight"><pre><span></span>Channel ch = ...;
+<pre class="lang-java">
+Channel ch = ...;
 Map&lt;String, Object&gt; arguments = new HashMap&lt;String, Object&gt;();
 arguments.put("x-single-active-consumer", true);
 ch.queueDeclare("my-queue", false, false, false, arguments);
-</pre></div>
-
+</pre>
 
 <p>Compared to <a href="#exclusivity">AMQP exclusive consumer</a>, single active consumer puts
 less pressure on the application side to maintain consumption continuity.

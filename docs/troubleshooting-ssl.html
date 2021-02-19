@@ -278,10 +278,22 @@ This provides some confidence that the client TLS configuration is correct indep
 In the discussion that follows it is assumed that stunnel will only be used temporarily. It is also possible to use stunnel to
 perform TLS termination but that is out of scope for this guide.</p>
 <p>In this example <span class="code ">stunnel</span> will connect to the unencrypted port of the broker (5672) and accept
-TLS connections from TLS-capable clients on port 5679:</p>
+TLS connections from TLS-capable clients on port 5679.</p>
+<p>Parameters are passed via a config file named <span class="code ">stunnel.conf</span>. It has the following content:</p>
+<pre class="lang-ini">
+foreground = yes
+
+[rabbit-amqp]
+connect = localhost:5672
+accept = 5679
+cert = client/key-cert.pem
+debug = 7
+</pre>
+
+<p><span class="code ">stunnel</span> is started as follows:</p>
 <pre class="lang-bash">
 cat client_key.pem client_certificate.pem &gt; client/key-cert.pem
-stunnel -r localhost:5672 -d 5679 -f -p client/key-cert.pem -D 7
+stunnel stunnel.conf
 </pre>
 
 <p><span class="code ">stunnel</span> requires a certificate and its corresponding private key. The certificate
