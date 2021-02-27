@@ -55,6 +55,15 @@ channel.basicQos(10); // Per consumer limit
 channel.basicConsume("my-queue", false, consumer);
 </pre>
 
+<p>A value of <span class="code ">0</span> is treated as infinite, allowing any number of unacknowledged
+messages.</p>
+<pre class="lang-java">
+Channel channel = ...;
+Consumer consumer = ...;
+channel.basicQos(0); // No limit for this consumer
+channel.basicConsume("my-queue", false, consumer);
+</pre>
+
 <h2><a id="independent-consumers" class="anchor" href="#independent-consumers">Independent Consumers</a></h2>
 <p>This example starts two consumers on the same channel, each of
 which will independently receive a maximum of 10 unacknowledged

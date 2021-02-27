@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>(Untitled) — RabbitMQ</title></head>
+  <body id="release-notes/3.8.13"><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>(Untitled)</h1>
+<h2>RabbitMQ 3.8.13</h2>
+<p>RabbitMQ <span class="code ">3.8.13-beta.1</span> is a preview of a maintenance release.</p>
+<h3>Erlang/OTP Compatibility Notes</h3>
+<p>This release <a href="https://www.rabbitmq.com/which-erlang.html">requires Erlang 22</a> or
+<a href="http://blog.erlang.org/OTP-23-Highlights/">Erlang 23</a>.</p>
+<p><a href="https://www.rabbitmq.com/which-erlang.html#erlang-repositories">Provisioning Latest Erlang Releases</a> explains
+what package repositories and tools can be used to provision latest patch versions of Erlang <span class="code ">22.3.x</span>.</p>
+<h2>Upgrade and Compatibility Notes</h2>
+<h3>Upgrade Doc Guides and Change Log</h3>
+<p>See <a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.8.0">3.8.0 release notes</a> upgrade and
+compatibility notes first if upgrading from an earlier release series (e.g. <span class="code ">3.7.x</span>).</p>
+<p>See the <a href="https://www.rabbitmq.com/upgrade.html">Upgrading guide</a> for general documentation on upgrades and
+<a href="https://www.rabbitmq.com/changelog.html">RabbitMQ change log</a> for release notes of other releases.</p>
+<h3>Upgrading to Erlang 22.x or Later Versions</h3>
+<p>When upgrading to this release from <span class="code ">3.7.15</span> or an older version, extra care has to be taken.</p>
+<p>Because older RabbitMQ CLI tools can be incompatible with Erlang 22+ releases,
+RabbitMQ <strong>must be upgraded at the same time as Erlang</strong>.</p>
+<p>Alternatively the node can be upgraded to <span class="code ">3.7.18</span> on Erlang 21.3 first,
+then Erlang 22.x or 23.x, then RabbitMQ to the most recent 3.8.x release.</p>
+<h3>Getting Help</h3>
+<p>Any questions about this release, upgrades or RabbitMQ in general are welcome on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>
+and <a href="https://rabbitmq-slack.herokuapp.com/">RabbitMQ community Slack</a>.</p>
+<h2>Changes Worth Mentioning</h2>
+<h2>Shovel Plugin</h2>
+<h4>Enhancements</h4>
+<ul>
+<li>Exchange federation now supports a new option, <span class="code ">channel_use_mode</span>, which allows a single
+   channel to be used for all federation link activity if set to <span class="code ">single</span>:</li>
+</ul>
+<p><span class="code ">shell
+   rabbitmqctl set_parameter federation-upstream dc-2 '{"uri":"amqp://dc2.messaging.coolcorp.local:5672", "channel-use-mode": "single"}'</span></p>
+<p>This helps avoid a race condition between topology changes and message flow
+   and the cost of topology operations reducing message transfer rates and increasing
+   rate variability.</p>
+<p>The default value is <span class="code ">multiple</span>. It means that every link will use multiple channels (one for message transfer,
+   one for topology changes, etc), which has been the case since rabbitmq/rabbitmq-federation#97.
+   This is the recommended mode for most environments, and all environments with a mostly static topology.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2829">#2829</a></p>
+<h2>Dependency Upgrades</h2>
+<ul>
+<li><span class="code ">cuttlefish</span> was <a href="https://github.com/kyorai/cuttlefish/compare/v2.4.0..v2.6.0">upgraded to 2.6.0</a></li>
+<li><span class="code ">credentials_obfuscation</span> was <a href="https://github.com/rabbitmq/credentials-obfuscation/blob/master/ChangeLog.md#changes-between-230-and-240-february-18-2021">upgraded to 2.4.0</a></li>
+</ul>
+<h2>Source Code Archives</h2>
+<p>To obtain source code of the entire distribution, please download the archive named <span class="code ">rabbitmq-server-3.8.13.tar.xz</span>
+instead of the source tarball produced by GitHub.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://pivotal.io/legal">Terms of Use</a>,
+          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

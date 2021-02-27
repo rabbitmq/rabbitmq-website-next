@@ -357,7 +357,9 @@ by setting a "prefetch count" value using the
 number of unacknowledged deliveries that are permitted on a
 channel. Once the number reaches the configured count,
 RabbitMQ will stop delivering more messages on the channel
-unless at least one of the outstanding ones is acknowledged.</p>
+unless at least one of the outstanding ones is acknowledged.
+(A value of <span class="code ">0</span> is treated as infinite, allowing any number
+of unacknowledged messages.)</p>
 <p>For example, given that there are delivery tags 5, 6, 7, and
 8 unacknowledged on channel <span class="code ">Ch</span> and channel
 <span class="code ">Ch</span>'s prefetch count is set to 4, RabbitMQ will

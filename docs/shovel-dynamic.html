@@ -31,12 +31,12 @@ They control connection parameters, protocol used, message transfer source and d
 to not only a different virtual host but an entirely different cluster, so
 virtual host selection primarily acts as a way of organising shovels and access to them,
 much like with the rest of <a href="/access-control.html">permission in RabbitMQ</a>.</p>
-<p>Every shovel is also named. The name is used to identify shovels when looking
-at their status and when deleting them.</p>
+<p>Every shovel is also named. The name is used to identify shovels when <a href="#status">inspecting their status</a>,
+<a href="#deleting">deleting them</a> or <a href="#restarting">restarting them</a>.</p>
 <h2><a id="declaring" class="anchor" href="#declaring">Declaring a Dynamic Shovel</a></h2>
 <p>In this example we will set up a dynamic shovel that will move messages from the queue <span class="code ">"source-queue"</span> in the
 local RabbitMQ cluster to the queue <span class="code ">"target-queue"</span> on a remote RabbitMQ node, using AMQP 0-9-1.</p>
-<h3><a id="cli" class="anchor" href="#cli">Using CLI Tools</a></h3>
+<h3>Using CLI Tools</h3>
 <p>A shovel is declared using the <span class="code ">rabbitmqctl set_parameter</span> command with component name <span class="code ">shovel</span>, a shovel
 name and a definition body which is a JSON document:</p>
 <pre class="lang-bash">
@@ -141,7 +141,7 @@ rabbitmqctl.bat set_parameter shovel my-shovel ^
 </table>
 
 <p>There are other Shovel definition keys that will be covered later in this guide.</p>
-<h3><a id="http-api" class="anchor" href="#http-api">Using HTTP API</a></h3>
+<h3>Using HTTP API</h3>
 <p>To declare a shovel using the HTTP API, make sure that the <a href="/management.html">management</a> plugin
 is enabled, then use the following endpoint:</p>
 <pre class="lang-ini">
@@ -189,7 +189,7 @@ curl -v -u guest:guest -X PUT http://localhost:15672/api/parameters/shovel/%2f/m
 EOF
 </pre>
 
-<h3><a id="management-ui" class="anchor" href="#management-ui">Using Management UI</a></h3>
+<h3>Using Management UI</h3>
 <p>To declare a shovel using the management UI, first make sure that the <a href="/management.html">management</a> plugin
 is enabled.</p>
 <p>Then</p>
@@ -198,25 +198,91 @@ is enabled.</p>
 <li>Fill out the form with shovel parameters covered earlier in this guide</li>
 <li>Click Add shovel</li>
 </ul>
-<h2><a id="deleting" class="anchor" href="#deleting">Deleting a Shovel</a></h2>
+<h2><a id="status" class="anchor" href="#status">Inspecting Status of Dynamic Shovels</a></h2>
 <h3>Using CLI Tools</h3>
-<p>To delete a Shovel using CLI tools, use <span class="code ">rabbitmqctl clear_parameter</span> and pass <span class="code ">shovel</span> for
-component name and a shovel name:</p>
+<p>Use <span class="code ">rabbitmqctl shovel_status</span> to inspect dynamic shovels in a cluster. The <span class="code ">rabbitmq_shovel</span>
+plugin must be enabled on the host where this command is executed.</p>
 <pre class="lang-bash">
-rabbitmqctl clear_parameter shovel my-shovel
+rabbitmqctl shovel_status --formatter=pretty_table
+</pre>
+
+<p>The output can be formatted as JSON and redirected to a tool such as <a href="https://stedolan.github.io/jq/"><span class="code ">jq</span></a>:</p>
+<pre class="lang-bash">
+rabbitmqctl shovel_status --formatter=json | jq
 </pre>
 
 <h3>Using HTTP API</h3>
-<p>To delete a shovel using the HTTP API, use the following endpoint:</p>
+<p><span class="code ">GET /api/shovels</span> is an endpoint that can be used to list dynamic
+shovels in a cluster. The endpoint is provided by the <span class="code ">rabbitmq_shovel_management</span> plugin
+which must be enabled on the target node.</p>
 <pre class="lang-ini">
-DELETE /api/parameters/shovel/{vhost}/{name}
+# Note: this user's access is limited to localhost!
+ curl -v -u guest:guest -X GET http://localhost:15672/api/shovels/
 </pre>
 
-<p>where <span class="code ">{vhost}</span> is the virtual host in which the Shovel is running and <span class="code ">{name}</span>
-is the name of the new shovel. Note that this exact command would fail if invoked against
-a remote node. Please <a href="/access-control.html">add a new user</a> tagged as <span class="code ">policymaker</span>
-for your own experiments.</p>
-<p>A <span class="code ">curl</span> example:</p>
+<p>To inspect shovels in a specific virtual host, use <span class="code ">GET /api/shovels/{vhost}</span>
+<span class="code ">{vhost}</span> is the virtual host name. The value must be percent-encoded.</p>
+<pre class="lang-ini">
+# Note: this user's access is limited to localhost!
+ curl -v -u guest:guest -X GET http://localhost:15672/api/shovels/%2f
+</pre>
+
+<p>To inspect status of a specific shovels, use <span class="code ">GET /api/shovels/vhost/{vhost}/{name}</span>
+<span class="code ">{vhost}</span> is the virtual host in which the Shovel is running and <span class="code ">{name}</span>
+is the name of the shovel.  Both values must be percent-encoded.</p>
+<pre class="lang-ini">
+# Note: this user's access is limited to localhost!
+ curl -v -u guest:guest -X GET http://localhost:15672/api/shovels/vhost/%2f/my-shovel
+</pre>
+
+<h3>Using Management UI</h3>
+<ul>
+<li>Navigate to <span class="code ">Admin</span> &gt; <span class="code ">Shovel Status</span></li>
+<li>Locate the shovel of interest in the table</li>
+</ul>
+<h2><a id="restarting" class="anchor" href="#restarting">Restarting a Shovel</a></h2>
+<p>A dynamic Shovel can be restarted. Restarting a shovel briefly interrupts its operations
+and makes it reconnect to both source and destination. When an appropriate <a href="/confirms.html">acknowledgement mode</a> is
+used by a shovel, the interruption is safe: any unacknowledged or unconfirmed ("in flight") messages
+consumed from the source or published to the destination will be automatically requeued
+when the shovel is stopped, and consumed again after the restart.</p>
+<h3>Using CLI Tools</h3>
+<p>Use <span class="code ">rabbitmqctl restart_shovel</span> to restart a shovel using its name. The <span class="code ">rabbitmq_shovel</span>
+plugin must be enabled on the host where this command is executed.</p>
+<pre class="lang-bash">
+rabbitmqctl restart_shovel "my-shovel"
+</pre>
+
+<h3>Using HTTP API</h3>
+<p><span class="code ">DELETE /api/shovels/vhost/{vhost}/{name}/restart</span> is an endpoint that restarts
+a dynamic shovel. The endpoint is provided by the <span class="code ">rabbitmq_shovel_management</span> plugin
+which must be enabled on the target node.</p>
+<p><span class="code ">{vhost}</span> is the virtual host in which the Shovel is running and <span class="code ">{name}</span>
+is the name of the shovel to be restarted.  Both values must be percent-encoded.</p>
+<pre class="lang-ini">
+# Note: this user's access is limited to localhost!
+ curl -v -u guest:guest -X DELETE http://localhost:15672/api/shovels/vhost/%2f/my-shovel/restart
+</pre>
+
+<h3>Using Management UI</h3>
+<ul>
+<li>Navigate to <span class="code ">Admin</span> &gt; <span class="code ">Shovel Status</span></li>
+<li>Locate the shovel of interest in the table</li>
+<li>Click Restart and wait for the next UI refresh</li>
+</ul>
+<h2><a id="deleting" class="anchor" href="#deleting">Deleting a Shovel</a></h2>
+<h3>Using CLI Tools</h3>
+<p>To delete a Shovel using CLI tools, use <span class="code ">rabbitmqctl clear_parameter</span> and pass <span class="code ">shovel</span> for
+component name and the name of the shovel that should be deleted:</p>
+<pre class="lang-bash">
+rabbitmqctl clear_parameter shovel "my-shovel"
+</pre>
+
+<h3>Using HTTP API</h3>
+<p><span class="code ">DELETE /api/parameters/shovel/{vhost}/{name}</span> is the endpoint that can be used
+to delete a shovel.</p>
+<p><span class="code ">{vhost}</span> is the virtual host in which the Shovel is running and <span class="code ">{name}</span>
+is the name of the shovel to be deleted. Both values must be percent-encoded.</p>
 <pre class="lang-bash">
 # Note: this user's access is limited to localhost!
 curl -v -u guest:guest -X DELETE http://localhost:15672/api/parameters/shovel/%2f/my-shovel

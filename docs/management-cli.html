@@ -21,17 +21,12 @@ you may want to consider using an HTTP API client library instead.</p>
 <a href="/man/rabbitmq-plugins.8.html">rabbitmq-plugins</a>.
 HTTP API intentionally doesn't expose certain operations.</p>
 <h2>Obtaining <span class="code ">rabbitmqadmin</span></h2>
-<p>With the management plugin installed, browse to
-<span class="code ">http://{hostname}:15672/cli/rabbitmqadmin</span>
-to download. The tool supports</p>
-<ul>
-<li>Python <span class="code ">3.x</span></li>
-<li>Python <span class="code ">2.6</span> or later for HTTP connections</li>
-<li>Python <span class="code ">2.7.9</span> or later for HTTPS connections</li>
-</ul>
-<p>Alternatively, you can download the version of rabbitmqadmin which
+<p><span class="code ">rabbitmqadmin</span> can be downloaded from any RabbitMQ node that has
+the management plugin enabled. Navigate to <span class="code ">http://{hostname}:15672/cli/rabbitmqadmin</span> to download it.
+The tool requires a supported version of Python to be installed.</p>
+<p>Alternatively, the version of <span class="code ">rabbitmqadmin</span> which
 corresponds with the management plugin version 3.8.12
-<a href="https://raw.githubusercontent.com/rabbitmq/rabbitmq-management/v3.8.12/bin/rabbitmqadmin">from GitHub</a>.</p>
+can be downloaded <a href="https://raw.githubusercontent.com/rabbitmq/rabbitmq-server/v3.8.12/deps/rabbitmq_management/bin/rabbitmqadmin">from GitHub</a>.</p>
 <h2>Getting Started</h2>
 <p>UNIX-like operating system users need to copy <span class="code ">rabbitmqadmin</span> to a directory in <span class="code ">PATH</span>, e.g. <span class="code ">/usr/local/bin</span>.</p>
 <p>Windows users will need to ensure Python is on their <span class="code ">PATH</span>, and invoke
