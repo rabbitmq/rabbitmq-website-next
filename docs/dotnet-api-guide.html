@@ -97,7 +97,8 @@ and configure it to use desired hostname, virtual host, credentials, <a href="/s
 and any other parameters as needed.</p>
 <p>Then call the <span class="code ">ConnectionFactory.CreateConnection()</span> method to open a connection.
 Successful and unsuccessful client connection events can be <a href="/networking.html#logging">observed in server logs</a>.</p>
-<p>The following two code snippets connect to a RabbitMQ node on <span class="code ">hostName</span>:</p>
+<p>The following two code snippets connect to a RabbitMQ node using a hostname configured
+using the <span class="code ">hostName</span> property:</p>
 <pre class="lang-csharp">
 ConnectionFactory factory = new ConnectionFactory();
 // "guest"/"guest" by default, limited to localhost connections
@@ -116,6 +117,26 @@ factory.Uri = "amqp://user:pass@hostName:port/vhost";
 IConnection conn = factory.CreateConnection();
 </pre>
 
+<h3><a id="endpoints-list" class="anchor" href="#endpoints-list">Using Lists of Endpoints</a></h3>
+<p>It is possible to specify a list of endpoints to use when connecting. The first
+reachable endpoint will be used. In case of <a href="#recovery">connection failures</a>, using
+a list of endpoints makes it possible for the application to connect to a different
+node if the original one is down.</p>
+<p>To use multiple of endpoint, provide a list of <span class="code ">AmqpTcpEndpoint</span>s to <span class="code ">ConnectionFactory#CreateConnection</span>.
+An <span class="code ">AmqpTcpEndpoint</span> represents a hostname and port pair.</p>
+<pre class="lang-csharp">
+ConnectionFactory factory = new ConnectionFactory();
+factory.UserName = "username";
+factory.Password = "s3Kre7";
+
+var endpoints = new System.Collections.Generic.List&lt;AmqpTcpEndpoint&gt; {
+  new AmqpTcpEndpoint("hostname"),
+  new AmqpTcpEndpoint("localhost")
+};
+IConnection conn = factory.CreateConnection(endpoints);
+</pre>
+
+<h3><a id="connecting-uri" class="anchor" href="#connecting-uri"></a></h3>
 <p>Since the .NET client uses a stricter interpretation of the <a href="/uri-spec.html">AMQP 0-9-1 URI spec</a>
 than the other clients, care must be taken when using URIs.
 In particular, the host part must not be omitted and virtual hosts with

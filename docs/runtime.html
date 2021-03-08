@@ -196,7 +196,7 @@ RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+MHlmbcs 8192"
 </pre>
 
 <p>For some workloads a larger preallocated area reduce allocation rate and memory fragmentation.
-To configure the node to use a preallocated area of 1 GB, add <span class="code ">+MMscs 4096</span> to VM startup arguments
+To configure the node to use a preallocated area of 1 GB, add <span class="code ">+MMscs 1024</span> to VM startup arguments
 using <span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span>:</p>
 <pre class="lang-bash">
 RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+MMscs 1024"

@@ -20,6 +20,7 @@
 <li><a href="#acknowledgement-modes">Acknowledgement modes</a></li>
 <li><a href="#message-properties">Message properties</a> and delivery metadata</li>
 <li><a href="#prefetch">How to limit number of outstanding deliveries with prefetch</a></li>
+<li><a href="#metrics-capacity">Consumer capacity</a> metric</li>
 <li><a href="#unsubscribing">How to cancel a consumer</a></li>
 <li><a href="#exclusivity">Consumer exclusivity</a></li>
 <li><a href="#single-active-consumer">Single active consumer</a></li>
@@ -264,6 +265,23 @@ publisher confirms, a closely related concept for publishers.</p>
 <p>With manual acknowledgement mode consumers have a way of limiting how many deliveries can be "in flight" (in transit
 over the network or delivered but unacknowledged). This can avoid consumer overload.</p>
 <p>This feature, together with consumer acknowledgements are a subject of a <a href="/confirms.html">separate documentation guide</a>.</p>
+<h2><a id="metrics-capacity" class="anchor" href="#metrics-capacity">The Consumer Capacity Metric</a></h2>
+<p>RabbitMQ <a href="/management.html">management UI</a> as well as <a href="/monitoring.html">monitoring data</a> endpoints such as that for <a href="/prometheus.html">Prometheus scraping</a>
+display a metric called consumer capacity (previously consumer utilisation) for individual queues.</p>
+<p>The metric is computed as a fraction of the time that the queue is able to immediately deliver messages to consumers.
+It helps the operator notice conditions where it <strong>may</strong> be worthwhile adding more consumers (application instances)
+to the queue.</p>
+<p>If this number is less than 100%, the queue leader replica may be able to deliver messages faster if:</p>
+<ul>
+<li>There were more consumers or</li>
+<li>The consumers spent less time processing deliveries or</li>
+<li>The consumer channels used a higher <a href="#prefetch">prefetch value</a></li>
+</ul>
+<p>Consumer capacity will be 0% for queues that have no consumers. For queues that have online consumers but
+no message flow, the value will be 100%: the idea is that any number of consumers can sustain this
+kind of delivery rate.</p>
+<p>Note that consumer capacity is merely a hint. Consumer applications can and should collect more specific
+metrics about their operations to help with sizing and any possible capacity changes.</p>
 <h2><a id="unsubscribing" class="anchor" href="#unsubscribing">Cancelling a Consumer (Unsubscribing)</a></h2>
 <p>To cancel a consumer its identifier (consumer tag) must be known.</p>
 <p>After a consumer is cancelled there will be no future deliveries dispatched
