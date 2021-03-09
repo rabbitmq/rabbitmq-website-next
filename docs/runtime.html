@@ -126,7 +126,7 @@ RABBITMQ_SCHEDULER_BIND_TYPE="nnts"
 <p>See <a href="http://erlang.org/doc/man/erl.html">VM flag documentation</a> for more detailed descriptions.</p>
 <h3><a id="cpu-reduce-idle-usage" class="anchor" href="#cpu-reduce-idle-usage">Reducing CPU Usage</a> for "Moderately Idle" Nodes and Clusters</h3>
 <p>CPU usage is by definition very workload-dependent metric. Some workloads naturally use more CPU resources.
-Others use <a href="https://www.rabbitmq.com/blog/2020/04/21/quorum-queues-and-why-disks-matter/">disk-heavy features such as quorum queues</a>,
+Others use <a href="https://blog.rabbitmq.com/posts/2020/04/quorum-queues-and-why-disks-matter/">disk-heavy features such as quorum queues</a>,
 and if disk I/O throughput is insufficient, CPU resources will be wasted while nodes are busy waiting for I/O operations to complete.</p>
 <p>A couple of general recommendations can be applied to "moderately loaded" systems where a large percentage or
 most connections and queues can go idle from time to time. Put differently, in this section we consider
