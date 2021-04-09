@@ -29,8 +29,8 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 <h2>Kubernetes</h2>
 <ul>
 <li>Open source <a href="/kubernetes/operator/install-operator.html">RabbitMQ Cluster Kubernetes Operator</a> by VMware (developed <a href="https://github.com/rabbitmq/cluster-operator">on GitHub</a>)</li>
+<li>Kubernetes Operator <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples">examples</a></li>
 <li>A <a href="/cluster-formation.html">peer discovery</a> mechanism <a href="/cluster-formation.html#peer-discovery-k8s">for Kubernetes</a></li>
-<li>GKE-, Minikube-, or Kind-based <a href="https://github.com/rabbitmq/diy-kubernetes-examples">examples</a> that demonstrate a <a href="https://blog.rabbitmq.com/posts/2020/08/deploying-rabbitmq-to-kubernetes-whats-involved/">DIY RabbitMQ on Kubernetes deployment</a></li>
 </ul>
 <h2>Docker</h2>
 <ul>
@@ -42,18 +42,14 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 <li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.14/rabbitmq-server_3.8.14-1_all.deb">Debian, Ubuntu</a></li>
 <li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.14/rabbitmq-server-3.8.14-1.el8.noarch.rpm">RHEL/CentOS 8.x</a> |
     <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.14/rabbitmq-server-3.8.14-1.el7.noarch.rpm">RHEL/CentOS 7.x</a> |
-    <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.14/rabbitmq-server-3.8.14-1.el6.noarch.rpm">RHEL/CentOS 6.x</a> |
     <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.14/rabbitmq-server-3.8.14-1.suse.noarch.rpm">OpenSUSE</a> |
-    <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.14/rabbitmq-server-3.8.14-1.sles11.noarch.rpm">SLES 11.x</a> |
-    <a href="https://github.com/rabbitmq/erlang-rpm">Erlang RPM</a></li>
+    zero dependency <a href="https://github.com/rabbitmq/erlang-rpm">Erlang 23 RPM</a></li>
 <li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.14/rabbitmq-server-generic-unix-3.8.14.tar.xz">Generic UNIX binary</a></li>
 <li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.14/rabbitmq-server-windows-3.8.14.zip">Windows binary</a></li>
 </ul>
 <h2>Debian (Apt) and RPM (Yum) Repositories</h2>
 <ul>
 <li><a href="https://packagecloud.io/rabbitmq/">Package Cloud</a></li>
-<li><a href="https://bintray.com/rabbitmq/debian">Bintray</a> (Apt)</li>
-<li><a href="https://bintray.com/rabbitmq/rpm">Bintray</a> (Yum)</li>
 </ul>
 <h2>Cloud</h2>
 <ul>
@@ -73,16 +69,12 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 <li><a href="/signatures.html">How to Verify Release Artifact Signatures</a></li>
 <li><a href="/rabbitmq-release-signing-key.asc">Release Signing Key</a> (alternative download location on rabbitmq.com)</li>
 </ul>
-<h2>Older Versions</h2>
-<ul>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases">3.5.x</a></li>
-</ul>
 <h2>Client Libraries</h2>
 <h3>Java Client</h3>
 <ul>
 <li>On Maven Central: <a href="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.rabbitmq%22%20AND%20a%3A%22amqp-client%22">RabbitMQ Java client</a></li>
-<li>Quick download: <a href="http://repo1.maven.org/maven2/com/rabbitmq/amqp-client/5.11.0/amqp-client-5.11.0.jar">Maven.org</a> |
-   <a href="http://repo1.maven.org/maven2/com/rabbitmq/amqp-client/5.11.0/amqp-client-5.11.0-sources.jar">Source</a></li>
+<li>Quick download: <a href="http://repo1.maven.org/maven2/com/rabbitmq/amqp-client/5.12.0/amqp-client-5.12.0.jar">Maven.org</a> |
+   <a href="http://repo1.maven.org/maven2/com/rabbitmq/amqp-client/5.12.0/amqp-client-5.12.0-sources.jar">Source</a></li>
 <li><a href="/api-guide.html">API guide</a></li>
 <li><a href="https://rabbitmq.github.io/rabbitmq-java-client/api/current/">API reference</a> (JavaDoc)</li>
 <li><a href="/java-client.html">License and other information</a></li>
@@ -130,7 +122,7 @@ the <a href="snapshots.html">snapshots page</a>.</p><div id="help-and-feedback">
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
                   </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2007-2021 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://pivotal.io/legal">Terms of Use</a>,
           <a href="https://pivotal.io/privacy-policy">Privacy</a> and
           <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">

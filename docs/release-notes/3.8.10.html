@@ -105,10 +105,10 @@ and <a href="https://rabbitmq-slack.herokuapp.com/">RabbitMQ community Slack</a>
 </ul>
 <p>The limits are controlled using CLI tools or the HTTP API:</p>
 <p>``` sh
-   # limits user "user-e8d3f85c" to up to five connections, ten channels and a fifty queues
-   rabbitmqctl set_user_limits "user-e8d3f85c" '{"max-connections": 5, "max-channels": 10, "max-queues": 50}'</p>
-<p># clears the maximum number of queues limit for the user
-   rabbitmqctl clear_user_limits "user-e8d3f85c" "max-queues"</p>
+   # limits user "user-e8d3f85c" to up to five connections and ten channels
+   rabbitmqctl set_user_limits "user-e8d3f85c" '{"max-connections": 5, "max-channels": 10}'</p>
+<p># clears the maximum number of connections limit for the user
+   rabbitmqctl clear_user_limits "user-e8d3f85c" "max-connections"</p>
 <p># clears all limits for the user
    rabbitmqctl clear_user_limits "user-e8d3f85c" "all"
    ```</p>
@@ -290,7 +290,7 @@ Please download the archive named <span class="code ">rabbitmq-server-3.8.10.tar
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
                   </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2007-2021 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://pivotal.io/legal">Terms of Use</a>,
           <a href="https://pivotal.io/privacy-policy">Privacy</a> and
           <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">

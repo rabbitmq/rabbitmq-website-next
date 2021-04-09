@@ -6,47 +6,54 @@
       })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
       <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>(Untitled) — RabbitMQ</title></head>
-  <body id="release-notes/3.7.28"><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>(Untitled)</h1>
-<h2>RabbitMQ 3.7.28</h2>
-<p>RabbitMQ <span class="code ">3.7.28</span> is a security patch release.</p>
-<p>RabbitMQ <span class="code ">3.7.x</span> series are out of general support and covered by the <a href="https://www.rabbitmq.com/versions.html">limited extended support policy</a>
-through October 1st, 2020.
-Please consider <a href="https://www.rabbitmq.com/upgrade.html">upgrading</a> to <a href="https://www.rabbitmq.com/changelog.html">RabbitMQ <span class="code ">3.8.x</span></a>.</p>
-<p>RabbitMQ Core team would like to thank Ofir Hamam and Tomer Hadad at Ernst &amp; Young's Hacktics Advanced Security Center
-for researching and responsibly disclosing the vulnerability addressed in this release.</p>
+  <body id="release-notes/3.8.15"><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>(Untitled)</h1>
+<h2>RabbitMQ 3.8.15-beta.1</h2>
+<p>RabbitMQ <span class="code ">3.8.15-beta.1</span> is a preview of a maintenance release.</p>
 <h3>Erlang/OTP Compatibility Notes</h3>
-<p>This release <a href="https://groups.google.com/d/msg/rabbitmq-users/G4UJ9zbIYHs/qCeyjkjyCQAJ"><strong>no longer supports Erlang/OTP 20.3</strong></a>.
-Erlang <span class="code ">21.3+</span> is now a <strong>hard requirement</strong> checked on node startup.</p>
-<p>Make sure a <a href="https://www.rabbitmq.com/which-erlang.html">supported Erlang version</a> is used before upgrading.
-<a href="https://www.rabbitmq.com/which-erlang.html#erlang-repositories">Provisioning Latest Erlang Releases</a> explains
-what package repositories and tools can be used to provision latest patch versions of Erlang <span class="code ">21.3.x</span> and <span class="code ">22.x</span>.</p>
-<h3>Compatibility Notes</h3>
-<h4>Upgrading to Erlang 21.x or Later Versions</h4>
-<p>When upgrading to this release <strong>and upgrading Erlang to 21.x or later</strong> at the same time, extra care has to be taken.
-Since CLI tools from RabbitMQ releases older than 3.7.7 will fail on Erlang 21 or later,
-RabbitMQ <strong>must be upgraded before Erlang</strong>.</p>
-<h4>Upgrade Doc Guides and Change Log</h4>
-<p>See <a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.7.0">3.7.0 release notes</a> upgrade
-and compatibility notes first if upgrading from an earlier release.</p>
-<p>See the <a href="https://www.rabbitmq.com/upgrade.html">Upgrading guide</a> for general documentation on upgrades
-and <a href="https://www.rabbitmq.com/changelog.html">RabbitMQ change log</a> for release notes of other releases.</p>
+<p>This release <a href="https://www.rabbitmq.com/which-erlang.html">requires Erlang 22.3</a>.
+<a href="http://blog.erlang.org/OTP-23-Highlights/">Erlang 23</a> is highly recommended
+for best forward compatibility with future RabbitMQ versions.</p>
+<p><a href="https://www.rabbitmq.com/which-erlang.html#erlang-repositories">Provisioning Latest Erlang Releases</a> explains
+what package repositories and tools can be used to provision a recent version of Erlang <span class="code ">23.x</span>.</p>
+<h2>Upgrade and Compatibility Notes</h2>
+<h3>Upgrade Doc Guides and Change Log</h3>
+<p>See <a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.8.0">3.8.0 release notes</a> upgrade and
+compatibility notes first if upgrading from an earlier release series (e.g. <span class="code ">3.7.x</span>).</p>
+<p>See the <a href="https://www.rabbitmq.com/upgrade.html">Upgrading guide</a> for general documentation on upgrades and
+<a href="https://www.rabbitmq.com/changelog.html">RabbitMQ change log</a> for release notes of other releases.</p>
+<h3>Upgrading to Erlang 22.x or Later Versions</h3>
+<p>When upgrading to this release from <span class="code ">3.7.15</span> or an older version, extra care has to be taken.</p>
+<p>Because older RabbitMQ CLI tools can be incompatible with Erlang 22+ releases,
+RabbitMQ <strong>must be upgraded at the same time as Erlang</strong>.</p>
+<p>Alternatively the node can be upgraded to <span class="code ">3.7.18</span> on Erlang 21.3 first,
+then Erlang 23.x, then RabbitMQ to the most recent 3.8.x release.</p>
 <h3>Getting Help</h3>
-<p>Any questions about this release, upgrades or RabbitMQ in general are welcome on the
-<a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.</p>
-<h2>Changes</h2>
+<p>Any questions about this release, upgrades or RabbitMQ in general are welcome on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>
+and <a href="https://rabbitmq-slack.herokuapp.com/">RabbitMQ community Slack</a>.</p>
+<h2>Changes Worth Mentioning</h2>
 <h3>Core Server</h3>
 <h4>Bug Fixes</h4>
 <ul>
-<li>Addressed a Windows-specific binary planting security vulnerability <a href="https://tanzu.vmware.com/security/cve-2020-5419">CVE-2020-5419</a> that allowed for arbitrary code execution.
-   The vulnerability requires the attacker to have local access and elevated privileges,
-   and cannot be executed remotely.</li>
+<li>Deleting a quorum queue would leave some of its internal metrics data around.</li>
 </ul>
-<p><a href="https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:H">CVSS score</a>: <span class="code ">6.7</span> (medium severity).</p>
-<p>This vulnerability was researched and <a href="https://www.rabbitmq.com/contact.html#security">responsibly disclosed</a> by
-   Ofir Hamam and Tomer Hadad at Ernst &amp; Young's Hacktics Advanced Security Center.</p>
-<h2>Source code archives</h2>
-<p><strong>Warning</strong>: The source code archive provided by GitHub only contains the source of the broker,
-not the plugins or the client libraries. Please download the archive named <span class="code ">rabbitmq-server-3.7.28.tar.xz</span>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2846">#2846</a></p>
+<h3>CLI Tools</h3>
+<h4>Enhancements</h4>
+<ul>
+<li><span class="code ">rabbitmq-diagnostics remote_shell</span> is a new command that opens a remote Erlang shell
+   to the target node. This simplifies troubleshooting of a running node.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2860">#2860</a></p>
+<ul>
+<li><span class="code ">rabbitmq-queues await_online_quorum_plus_one</span> is now a no-op in a single node cluster.</li>
+</ul>
+<p>Since the command does not make sense when there is only one node.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2890">#2890</a></p>
+<h2>Dependency Upgrades</h2>
+<p>There were no dependency changes.</p>
+<h2>Source Code Archives</h2>
+<p>To obtain source code of the entire distribution, please download the archive named <span class="code ">rabbitmq-server-3.8.15.tar.xz</span>
+instead of the source tarball produced by GitHub.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.

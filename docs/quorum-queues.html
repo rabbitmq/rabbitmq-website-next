@@ -12,17 +12,40 @@
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>The quorum queue is a queue type for RabbitMQ implementing a durable,
+<p>The quorum queue is a modern queue type for RabbitMQ implementing a durable,
 replicated FIFO queue based on the <a href="https://raft.github.io/">Raft consensus algorithm</a>.
 It is available as of RabbitMQ 3.8.0.</p>
-<p>The quorum queue type is an alternative to durable <a href="/ha.html">mirrored queues</a>
-(a.k.a. HA queues) purpose built for a <a href="#use-cases">set of use cases</a> where <a href="#data-safety">data safety</a> is
-a top priority. This is covered in <a href="#motivation">Motivation</a>.</p>
+<p>The quorum queue type is a alternative to durable <a href="/ha.html">mirrored queues</a>
+purpose built for a <a href="#use-cases">set of use cases</a> where <a href="#data-safety">data safety</a> is
+a top priority. This is covered in <a href="#motivation">Motivation</a>.
+They should be considered the default option for a replicated queue type.</p>
 <p>Quorum queues also have important <a href="#behaviour">differences in behaviour</a>
 and some <a href="#feature-comparison">limitations</a> compared to classic mirrored queues,
 including workload-specific ones, e.g. when consumers <a href="#repeated-requeues">repeatedly requeue the same message</a>.</p>
 <p>Some features, such as <a href="#poison-message-handling">poison message handling</a>, are specific
 to quorum queues.</p>
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>Topics covered in this guide include</p>
+<ul>
+<li><a href="#motivation">What are quorum queues</a> and why they were introduced</li>
+<li><a href="#feature-comparison">How are they different</a> from classic queues</li>
+<li>Primary <a href="#use-cases">use cases</a> of quorum queues and when not to use them</li>
+<li>How to <a href="#usage">declare a quorum queue</a></li>
+<li><a href="#replication">Replication</a>-related topics: replica management, <a href="#replica-rebalancing">replica leader rebalancing</a>, optimal number of replicas, etc</li>
+<li>What guarantees quorum queues offer in terms of <a href="#leader-election">leader failure handling</a>, <a href="#data-safety">data safety</a> and <a href="#availability">availability</a></li>
+<li><a href="#performance">Performance</a> characteristics</li>
+<li><a href="#poison-message-handling">Poison message handling</a> provided by quorum queues</li>
+<li><a href="#configuration">Configurable settings</a> of quorum queues</li>
+<li>Resource use of quorum queues, most importantly their <a href="#resource-use">memory footprint</a></li>
+</ul>
+<p>and more.</p>
+<p>This guide assumes general familiarity with <a href="/clustering.html">RabbitMQ clustering</a>.</p>
+<h2><a id="motivation" class="anchor" href="#motivation">Motivation</a></h2>
+<p>Quorum queues are designed to be safer and provide simpler, well defined failure handling semantics
+that users should find easier to reason about when designing and operating their systems.</p>
+<p>These design choices come with constraints. To reach this goal, quorum queues adopt a different replication
+and consensus protocol and give up support for certain "transient" in nature features.
+These constraints and limitations are covered later in this guide.</p>
 <h3><a id="what-is-quorum" class="anchor" href="#what-is-quorum">What is a Quorum?</a></h3>
 <p>If intentionally simplified, <a href="https://en.wikipedia.org/wiki/Quorum">quorum</a> in a distributed system can
 be defined as an agreement between the majority of nodes (<span class="code ">(N/2)+1</span> where <span class="code ">N</span> is the total number of
@@ -30,20 +53,15 @@ system participants).</p>
 <p>When applied to queue mirroring in RabbitMQ <a href="/clustering.html">clusters</a>
 this means that the majority of replicas (including the currently elected queue master/leader)
 agree on the state of the queue and its contents.</p>
-<h3>Differences from Classic Queues</h3>
-<p>Quorum queues share most of the fundamentals with <a href="/queues.html">queues</a> in RabbitMQ.
-They are more purpose-built and currently have limitations (do not support certain features).
-The differences will be covered in this guide.</p>
-<h3><a id="motivation" class="anchor" href="#motivation">Motivation</a></h3>
+<h3>Differences from Classic Mirrored Queues</h3>
+<p>Quorum queues share many of the fundamentals with <a href="/queues.html">queues</a> of other types in RabbitMQ.
+However, they are more purpose-built, focus on data safety and predictable recovery,
+and do not support certain feature.</p>
+<p>The differences is covered <a href="#feature-comparison">is covered</a> in this guide.</p>
 <p>Classic mirrored queues in RabbitMQ have technical limitations that makes it difficult to provide
 comprehensible guarantees and clear failure handling semantics.</p>
 <p>Certain failure scenarios can result in mirrored queues
 confirming messages too early, potentially resulting in a data loss.</p>
-<p>Quorum queues are designed to be safer and provide simpler, well defined failure handling semantics
-that users should find easier to reason about when designing and operating their systems.</p>
-<p>These design choices come with constraints. To reach this goal, quorum queues adopt a different replication
-and consensus protocol and give up support for certain "transient" in nature features.
-These constraints and limitations are covered later in this guide.</p>
 <h2><a id="feature-comparison" class="anchor" href="#feature-comparison">Feature Comparison with Regular Queues</a></h2>
 <p>Quorum queues share most of the fundamentals with other <a href="/queues.html">queue</a> types.
 A client library that can use regular mirrored queues will be able to use quorum queues.</p>
@@ -152,8 +170,10 @@ A client library that can use regular mirrored queues will be able to use quorum
 <p>Regular queues can be <a href="/queues.html">non-durable</a>. Quorum queues are always durable per their
 assumed <a href="#use-cases">use cases</a>.</p>
 <h4>Exclusivity</h4>
-<p>Regular queues can be <a href="/queues.html#exclusive-queues">exclusive</a>. Quorum queues are always durable per their
-assumed <a href="#use-cases">use cases</a>. They are not meant to be used as <a href="/queues.html#temporary-queues">temporary queues</a>.</p>
+<p><a href="queues.html#exclusive-queues">Exclusive queues</a> are tied to the lifecycle of their declaring connection.
+Quorum queues by design are replicated and durable, therefore the exclusive property makes
+no sense in their context. Therefore quorum queues cannot be exclusive.</p>
+<p>Quorum queues are not meant to be used as <a href="/queues.html#temporary-queues">temporary queues</a>.</p>
 <h4>TTL</h4>
 <p>Quorum queues do not currently support TTL, neither for queues nor messages.</p>
 <h4>Length Limit</h4>
@@ -200,22 +220,6 @@ another consumer can re-attempt processing.</p>
 <li>When data safety is not a priority (e.g. applications do not use <a href="/confirms.html">manual acknowledgements and publisher confirms</a> are not used)</li>
 <li>Very long queue backlogs (quorum queues currently keep all messages in memory at all times, up to a <a href="#memory-limit">limit</a>)</li>
 </ul>
-<h2><a id="performance" class="anchor" href="#performance">Performance Characteristics</a></h2>
-<p>Quorum queues are designed to trade latency for throughput and have been tested
-and compared against <a href="/ha.html">mirrored queues</a> in 3, 5 and 7 node configurations at several
-message sizes. In scenarios using both consumer acks and publisher confirms
- quorum queues have been observed to have equal or greater throughput to
-classic mirrored queues.</p>
-<p>As quorum queues persist all data to disks before doing anything it is recommended
-to use the fastest disks possible. Quorum queues also benefit from consumers
-using higher prefetch values to ensure consumers aren't starved whilst
-acknowledgements are flowing through the system and allowing messages
-to be delivered in a timely fashion.</p>
-<p>Due to the disk I/O-heavy nature of quorum queues, their throughput decreases
-as message sizes increase.</p>
-<p>Just like mirrored queues, quorum queues are also affected by cluster sizes.
-The more replicas a quorum queue has, the lower its throughput generally will
-be since more work has to be done to replicate data and achieve consensus.</p>
 <h2><a id="usage" class="anchor" href="#usage">Usage</a></h2>
 <p>As stated earlier, quorum queues share most of the fundamentals with other <a href="/queues.html">queue</a> types.
 A client library that can specify <a href="/queues.html#optional-arguments">optional queue arguments</a> will be able to use quorum queues.</p>
@@ -248,11 +252,20 @@ the queue type drop down menu.</p>
 <li><a href="#declaring">Declaration</a> (covered above)</li>
 <li>Setting <a href="#global-qos">QoS prefetch</a> for consumers</li>
 </ul>
+<h2><a id="replication" class="anchor" href="#replication">Replication and Data Locality</a></h2>
+<p>When a quorum queue is declared, an initial number of replicas for it must be started in the cluster.
+By default the number of replicas to be started is up to three, one per RabbitMQ node in the cluster.</p>
+<p>Three nodes is the practical minimum of replicas for a quorum queue. In RabbitMQ clusters with a larger
+number of nodes, adding more replicas than a <a href="#what-is-quorum">quorum</a> (majority) will not provide
+any improvements in terms of <a href="#quorum-requirements">quorum queue availability</a> but it will consume
+more cluster resources.</p>
+<p>Therefore the <strong>recommended number of replicas</strong> for a quorum queue is the quorum of cluster nodes
+(but no fewer than three).</p>
 <h3><a id="replication-factor" class="anchor" href="#replication-factor">Controlling the Initial Replication Factor</a></h3>
-<p>By default a quorum queue will start up to five replicas (Raft group members), one per RabbitMQ node in the cluster.</p>
 <p>For example, a cluster of three nodes will have three replicas, one on each node.
-In a cluster of seven nodes, five nodes will have one replica each but two nodes won't host any replicas.</p>
-<p>Like with mirrored queues, the replication factor (number of replicas a queue has) can be configured for quorum queues.</p>
+In a cluster of seven nodes, three nodes will have one replica each but four more nodes won't host any replicas
+of the newly declared queue.</p>
+<p>Like with classic mirrored queues, the replication factor (number of replicas a queue has) can be configured for quorum queues.</p>
 <p>The minimum factor value that makes practical sense is three.
 It is highly recommended for the factor to be an odd number.
 This way a clear quorum (majority) of nodes can be computed. For example, there is no "majority" of
@@ -264,6 +277,18 @@ nodes. To control the number of quorum queue members set the
 group size argument provided should be an integer that is greater than zero and smaller or
 equal to the current RabbitMQ cluster size. The quorum queue will be
 launched to run on a random subset of the RabbitMQ cluster.</p>
+<h3><a id="leader-placement" class="anchor" href="#leader-placement">Queue Leader Location</a></h3>
+<p>Every quorum queue has a primary replica. That replica is called
+<em>queue leader</em> (originally "queue master"). All queue operations go through the leader
+first and then are replicated to followers (mirrors). This is necessary to
+guarantee FIFO ordering of messages.</p>
+<p>To avoid some nodes in a cluster hosting the majority of queue leader
+replicas and thus handling most of the load, queue leaders should
+be reasonably evenly distributed across cluster nodes.</p>
+<p>When a new quorum queue is declared, the set of nodes that will host it
+replicas is randomly picked. Which replica becomes the leader is decided
+by a <a href="#leader-election">leader election</a> process which is is also
+based on randomization.</p>
 <h3><a id="replica-management" class="anchor" href="#replica-management">Managing Replicas</a> (Quorum Group Members)</h3>
 <p>Replicas of a quorum queue are explicitly managed by the operator. When a new node is added
 to the cluster, it will host no quorum queue replicas unless the operator explicitly adds it
@@ -290,7 +315,24 @@ it replaces.</p>
 <p>Once declared, the RabbitMQ nodes a quorum queue resides on won't change even if the
 members of the RabbitMQ cluster change (e.g. a node is decomissioned or added).
 To re-balance after a RabbitMQ cluster change quorum queues will have to be manually adjusted using the <span class="code ">rabbitmq-queues</span>
-<a href="/cli.html">command line tool</a>.</p>
+<a href="/cli.html">command line tool</a>:</p>
+<pre class="lang-bash">
+# rebalances all quorum queues
+rabbitmq-queues rebalance quorum
+</pre>
+
+<p>it is possible to rebalance a subset of queues selected by name:</p>
+<pre class="lang-bash">
+# rebalances a subset of quorum queues
+rabbitmq-queues rebalance quorum --queue-pattern "orders.*"
+</pre>
+
+<p>or quorum queues in a particular set of virtual hosts:</p>
+<pre class="lang-bash">
+# rebalances a subset of quorum queues
+rabbitmq-queues rebalance quorum --vhost-pattern "production.*"
+</pre>
+
 <h2><a id="behaviour" class="anchor" href="#behaviour">Behaviour</a></h2>
 <p>A quorum queue relies on a consensus protocol called Raft to ensure data consistency and safety.</p>
 <p>Every quorum queue has a primary replica (a <em>leader</em> in Raft parlance) and zero or more
@@ -308,7 +350,7 @@ In contrast to classic mirrored queues, a temporary replica failure
 does not require a full re-synchronization from the currently elected leader. Only the delta
 will be transferred if a re-joining replica is behind the leader. This "catching up" process
 does not affect leader availability.</p>
-<p>Replicas must be explicitly added to
+<p>Except for the initial replica set selection, replicas must be explicitly added to a quorum queue.
 When a new replica is <a href="#replica-management">added</a>, it will synchronise the entire queue state
 from the leader, similarly to classic mirrored queues.</p>
 <h3><a id="quorum-requirements" class="anchor" href="#quorum-requirements">Fault Tolerance and Minimum Number of Replicas Online</a></h3>
@@ -411,27 +453,65 @@ There will be warnings in the log (<span class="code ">received unhandled msg</s
 As soon as the replica discovers a newly elected leader, it will sync the queue operation
 log entries it does not have from the leader, including the dropped ones. Quorum queue state
 will therefore remain consistent.</p>
+<h2><a id="performance" class="anchor" href="#performance">Performance Characteristics</a></h2>
+<p>Quorum queues are designed to trade latency for throughput and have been tested
+and compared against durable <a href="/ha.html">classic mirrored queues</a> in 3, 5 and 7 node configurations at several
+message sizes. In scenarios using both consumer acks and publisher confirms
+ quorum queues have been observed to have equal or greater throughput to
+classic mirrored queues.</p>
+<p>As quorum queues persist all data to disks before doing anything it is recommended
+to use the fastest disks possible. Quorum queues also benefit from consumers
+using higher prefetch values to ensure consumers aren't starved whilst
+acknowledgements are flowing through the system and allowing messages
+to be delivered in a timely fashion.</p>
+<p>Due to the disk I/O-heavy nature of quorum queues, their throughput decreases
+as message sizes increase.</p>
+<p>Just like mirrored queues, quorum queues are also affected by cluster sizes.
+The more replicas a quorum queue has, the lower its throughput generally will
+be since more work has to be done to replicate data and achieve consensus.</p>
 <h2><a id="configuration" class="anchor" href="#configuration">Configuration</a></h2>
 <p>There are a few new configuration parameters that can be tweaked using
 the <a href="configure.html#advanced-config-file">advanced</a> config file.</p>
+<p>Note that all settings related to <a href="#resource-use">resource footprint</a> are documented
+in a separate section.</p>
 <p>The <span class="code ">ra</span> application (which is the Raft library that quorum
 queues use) has <a href="https://github.com/rabbitmq/ra#configuration">its own set of tunable parameters</a>.</p>
-<p>The <span class="code ">rabbit</span> application has a couple of quorum queue related configuration items:</p>
-<ul>
-<li><span class="code ">quorum_cluster_size</span></li>
-</ul>
-<p>Sets the default quorum queue cluster size (can be over-ridden by the <span class="code ">x-quorum-initial-group-size</span>
-queue argument at declaration time. Default value is 5.</p>
-<ul>
-<li><span class="code ">quorum_commands_soft_limit</span></li>
-</ul>
-<p>This is a flow control related parameter defining
-the maximum number of unconfirmed messages a channel accepts before entering flow.
-Default: 256</p>
-<p>Example:</p>
+<p>The <span class="code ">rabbit</span> application has several quorum queue related configuration items available.</p>
+<table>
+  <thead>
+    <tr>
+      <td><span class="code ">advanced.config</span> Configuration Key</td>
+      <td>Description</td>
+      <td>Default value</td>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>rabbit.quorum_cluster_size</td>
+      <td>
+        Sets the default quorum queue cluster size (can be over-ridden by the <span class="code ">x-quorum-initial-group-size</span>
+        queue argument at declaration time.
+      </td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>rabbit.quorum_commands_soft_limit</td>
+      <td>
+        This is a flow control related parameter defining
+        the maximum number of unconfirmed messages a channel accepts before entering flow.
+      </td>
+      <td>256</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Example</h3>
+<p>The following <span class="code ">advanced.config</span> example modifies all values listed above:</p>
 <pre class="lang-erlang">
 [
- {rabbit, [{quorum_cluster_size, 7},
+ %% five replicas by default, only makes sense for nine node clusters
+ {rabbit, [{quorum_cluster_size, 5},
            {quorum_commands_soft_limit, 512}]}
 ]
 </pre>
@@ -501,7 +581,7 @@ at this point.</p><div id="help-and-feedback"><h2>Getting Help and Providing Fee
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
                   </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2007-2021 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://pivotal.io/legal">Terms of Use</a>,
           <a href="https://pivotal.io/privacy-policy">Privacy</a> and
           <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">

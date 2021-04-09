@@ -28,7 +28,8 @@
 </ul>
 <p>and more. <a href="/cluster-formation.html">Cluster Formation and Peer Discovery</a> is a closely related guide
 that focuses on peer discovery and cluster formation automation-related topics. For queue contents
-(message) replication, see <a href="/quorum-queues.html">Quorum Queues</a> and <a href="/ha.html">Classic Mirrored Queues</a> guides.</p>
+(message) replication, see the <a href="/quorum-queues.html">Quorum Queues</a> guide.</p>
+<p><a href="tanzu">Tanzu RabbitMQ</a> provides an <a href="clustering-compression.html">inter-node traffic compression</a> feature.</p>
 <p>A RabbitMQ cluster is a logical grouping of one or
 several nodes, each  sharing users, virtual hosts,
 queues, exchanges, bindings, runtime parameters and other distributed state.</p>
@@ -129,13 +130,12 @@ are message queues, which by default reside on one node,
 though they are visible and reachable from all nodes. To
 replicate queues across nodes in a cluster, use a queue type
 that supports replication. This topic is covered in
-the <a href="/quorum-queues.html">Quorum Queues</a> and <a href="/ha.html">Classic Mirrored Queues</a>
-guides.</p>
+the <a href="/quorum-queues.html">Quorum Queues</a> guide.</p>
 <h3><a id="peer-equality" class="anchor" href="#peer-equality">Nodes are Equal Peers</a></h3>
 <p>Some distributed systems
 have leader and follower nodes. This is generally not true for RabbitMQ.
 All nodes in a RabbitMQ cluster are equal peers: there are no special nodes in RabbitMQ core.
-This topic becomes more nuanced when <a href="ha.html">queue mirroring</a> and plugins
+This topic becomes more nuanced when <a href="quorum-queues.html">quorum queues</a> and plugins
 are taken into consideration but for most intents and purposes,
 all cluster nodes should be considered equal.</p>
 <p>Many <a href="/cli.html">CLI tool</a> operations can be executed against any node.
@@ -371,10 +371,11 @@ the HTTP API to collect data about the state of the cluster. There is no need to
 nodes. Nodes can be started and stopped at will,
 as long as they can contact a cluster member node
 known at the time of shutdown.</p>
-<p><a href="/ha.html">Queue mirroring</a> allows queue contents to be replicated
-across multiple cluster nodes.</p>
-<p>Non-mirrored queues can also be used in clusters. Non-mirrored queue <a href="/ha.html#non-mirrored-queue-behavior-on-node-failure">behaviour in case of node failure</a>
-depends on queue durability.</p>
+<p><a href="quorum-queues.html">Quorum queue</a> allows queue contents to be replicated
+across multiple cluster nodes with parallel replication and a predictable <a href="#quorum-queues.html#leader-election">leader election</a>
+and <a href="quorum-queues.html#data-safety">data safety</a> behavior as long as a majority of replicas are online.</p>
+<p>Non-replicated classic queues can also be used in clusters. Non-mirrored queue <a href="/ha.html#non-mirrored-queue-behavior-on-node-failure">behaviour in case of node failure</a>
+depends on <a href="queues.html#durability">queue durability</a>.</p>
 <p>RabbitMQ clustering has several modes of dealing with <a href="partitions.html">network partitions</a>,
 primarily consistency oriented. Clustering is meant to be used across LAN. It is
 not recommended to run clusters that span WAN.
@@ -896,11 +897,9 @@ For nodes that fail to start this is already the case. Then <a href="/relocate.h
 the node's data directory location or [re]move the existing data store. This will make the node
 start as a blank one. It will have to be instructed to <a href="#cluster-formation">rejoin its original cluster</a>, if any.</p>
 <p>A node that's been reset and rejoined its original cluster will sync all virtual hosts, users, permissions
-and topology (queues, exchanges, bindings), runtime parameters and policies. It may sync <a href="/ha.html">mirrored
-queue</a> contents if elected to host a replica. Non-mirrored queue contents on a reset node will be lost.</p>
-<p>Restoring queue data directories on a reset node that has synchronised its schema from a peer
-is not guaranteed to make that data available to clients because <a href="/ha.html#master-migration-data-locality">queue master location</a>
-might have changed for the affected queues.</p>
+and topology (queues, exchanges, bindings), runtime parameters and policies. <a href="quorum-queues.html">Quorum queue</a>
+contents will be replicated if the node will be selected to host a replica.
+Non-replicated queue contents on a reset node will be lost.</p>
 <h2><a id="upgrading" class="anchor" href="#upgrading">Upgrading clusters</a></h2>
 <p>You can find instructions for upgrading a cluster in
 <a href="/upgrade.html#rabbitmq-cluster-configuration">the upgrade guide</a>.</p>
@@ -1150,7 +1149,7 @@ rabbitmqctl start_app
      
      <li><a href="/mpl.html">License</a></li>
    </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2007-2021 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://pivotal.io/legal">Terms of Use</a>,
           <a href="https://pivotal.io/privacy-policy">Privacy</a> and
           <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">

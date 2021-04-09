@@ -347,15 +347,14 @@ auto delete queue. As such, there is no need for explicit clean up of
 reply queues.</p>
 <h3><a id="d.ugqn" class="anchor" href="#d.ugqn">User generated queue names for Topic and Exchange destinations</a></h3>
 <p>When subscribing to an <span class="code ">exchange</span> or <span class="code ">topic</span> destination, RabbitMQ would generate
-a queue name by default. Starting with version 3.5.7, is it possible to provide
+a queue name by default. It is possible to provide
 a custom name using the <span class="code ">x-queue-name</span> header:</p>
 <pre><span class="code ">SUBSCRIBE
 destination:/topic/alarms
 x-queue-name:my-alarms-queue
 </span></pre>
 <h2><a id="queue-parameters" class="anchor" href="#queue-parameters">Controlling RabbitMQ Queue Parameters with STOMP</a></h2>
-<p>As of RabbitMQ 3.6.0, it is possible to control queue parameters via STOMP
-headers:</p>
+<p><a href="queues.html">Queue properties</a> can be controlled via STOMP headers:</p>
 <ul>
 <li><span class="code ">durable</span> (aliased as <span class="code ">persistent</span>)</li>
 <li><span class="code ">auto-delete</span></li>
@@ -466,7 +465,7 @@ rules apply:</p>
   (see below).</li>
 </ul>
 <h3>Optional Queue Properties</h3>
-<p>As of RabbitMQ 3.5.5, SEND and SUBSCRIBE frames accepts a set of headers to configure the queue behaviour,
+<p>With RabbitMQ, <span class="code ">SEND</span> and <span class="code ">SUBSCRIBE</span> frames can include a set of headers to configure the queue behaviour,
 for example, use <a href="/ttl.html">TTL</a> or similar extensions.</p>
 <p>The list of supported headers is</p>
 <ul>
@@ -519,7 +518,7 @@ and re-declared. This is true for STOMP clients as well as AMQP 0-9-1.</p><div i
      
      <li><a href="/mpl.html">License</a></li>
    </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2020 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2007-2021 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://pivotal.io/legal">Terms of Use</a>,
           <a href="https://pivotal.io/privacy-policy">Privacy</a> and
           <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
