@@ -443,6 +443,30 @@ the message will be requeued or discarded/dead lettered. Default value is <span 
 <p>The prefetch count for all subscriptions is set to unlimited by
 default. This can be controlled by setting the <span class="code ">prefetch-count</span> header
 on <span class="code ">SUBSCRIBE</span> frames to the desired integer count.</p>
+<h3><a id="stream-support" class="anchor" href="#stream-support">Stream Support</a></h3>
+<p>The <span class="code ">SUBSCRIBE</span> frame supports a <span class="code ">x-stream-offset</span> header to specify the offset
+to start consuming from in a <a href="/streams.html">stream</a>. A typical subscription frame
+for a stream will look like the following:</p>
+<pre><span class="code ">SUBSCRIBE
+destination:/amq/queue/my-stream
+ack:client
+prefetch-count:10
+x-stream-offset:next
+</span></pre>
+<p>Note the <span class="code ">ack</span> and <span class="code ">prefetch-count</span> headers are also necessary. The <span class="code ">x-stream-offset</span> header
+has the same semantics as in <a href="/streams.html#consuming">AMQP 0.9.1</a>, the possible values are:</p>
+<ul>
+<li><span class="code ">first</span> to start consuming from the first available message in the stream</li>
+<li><span class="code ">last</span> to start consuming from the last written chunk of messages</li>
+<li><span class="code ">next</span> to start consuming from the end of the stream (note the consumer will not receive
+ messages until someone is publishing to the stream)</li>
+<li><span class="code ">offset=&lt;offset-value&gt;</span> to start from a specific offset, e.g. <span class="code ">offset=40000</span></li>
+<li><span class="code ">timestamp=&lt;unix-time&gt;</span> to start from a given time, e.g. <span class="code ">timestamp=1619432061</span> for
+ <span class="code ">2021-04-26T10:14:21+00:00</span></li>
+</ul>
+<p>The default value is <span class="code ">next</span>.</p>
+<p>When delivering messages from a stream, the message offset (that is the position of the
+message in the stream) is included in the <span class="code ">x-stream-offset</span> header of the <span class="code ">MESSAGE</span> frame.</p>
 <h3><a id="pear.hpos" class="anchor" href="#pear.hpos">Header prohibited on <span class="code ">SEND</span></a></h3>
 <p>It is not permitted to set a <span class="code ">message-id</span> header on a <span class="code ">SEND</span> frame.
 The header and its value is set by the server on a <span class="code ">MESSAGE</span> frame sent
