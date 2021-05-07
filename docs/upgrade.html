@@ -1,13 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
       <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Upgrading RabbitMQ
  — RabbitMQ</title></head>
-  <body id="upgrade"><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Upgrading RabbitMQ
+  <body id="upgrade"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Upgrading RabbitMQ
 </h1>
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>This guide covers topics related to RabbitMQ installation upgrades.</p>
@@ -231,8 +227,9 @@ It's not recommended to perform rolling upgrades under high load.</p>
 shutdown during rolling upgrades.</p>
 <h2><a id="maintenance-mode" class="anchor" href="#maintenance-mode">Maintenance Mode</a></h2>
 <h3>What is Maintenance Mode?</h3>
-<p>Maintenance mode. This is a new node operation mode for RabbitMQ nodes.
-The mode is explicitly turned on and off by the operator using a bunch of new CLI commands covered below. For mixed-version cluster compatibility, this feature must be <a href="/feature-flags.html">enabled using a feature flag</a>
+<p>Maintenance mode is a special node operation mode introduced in latest RabbitMQ releases.
+The mode is explicitly turned on and off by the operator using a bunch of new CLI commands covered below.
+For mixed-version cluster compatibility, this feature must be <a href="/feature-flags.html">enabled using a feature flag</a>
 once all cluster members have been upgraded to a version that supports it:</p>
 <pre class="lang-bash">
 rabbitmqctl enable_feature_flag maintenance_mode_status
@@ -264,7 +261,7 @@ and will try to transfer as many of its responsibilities as practically possible
     responsibilities</li>
 </ul>
 <p>A node in maintenance mode will not be considered for new primary queue replica placement, regardless
-of queue type and the <a href="/ha.html#master-migration-data-locality">queue master locator policy</a> used.</p>
+of queue type and the <a href="/ha.html#leader-migration-data-locality">queue leader locator policy</a> used.</p>
 <p>This feature is expected to evolve based on the feedback from RabbitMQ operators, users,
 and RabbitMQ core team's own experience with it.</p>
 <p>A node in maintenance mode is expected to be shut down, upgraded or reconfigured, and restarted in a short
@@ -387,15 +384,15 @@ rabbitmq-queues -n rabbit@to-be-stopped quorum_status &lt;queue name&gt;
 <h3><a id="mirrored-queues-synchronisation" class="anchor" href="#mirrored-queues-synchronisation">Mirrored Queues Replica Synchronisation</a></h3>
 <p>In environments that use <a href="/ha.html">classic mirrored queues</a>, it is important to make sure that all mirrored queues on a node
 have a synchronised follower replica (mirror) <strong>before stopping that node</strong>.</p>
-<p>RabbitMQ will not promote unsynchronised queue mirrors on controlled queue master shutdown when
+<p>RabbitMQ will not promote unsynchronised queue mirrors on controlled queue leader shutdown when
 <a href="/ha.html#promotion-while-down">default promotion settings</a> are used.
-However if a queue master encounters any errors during shutdown, an <a href="/ha.html#unsynchronised-mirrors">unsynchronised queue mirror</a>
+However if a queue leader encounters any errors during shutdown, an <a href="/ha.html#unsynchronised-mirrors">unsynchronised queue mirror</a>
 might still be promoted. It is generally safer option to synchronise all classic mirrored queues
 with replicas on a node before shutting the node down.</p>
 <p>Latest RabbitMQ releases provide a <a href="/monitoring.html#health-checks">health check</a> command that would fail
 should any classic mirrored queues on the target node have no synchronised mirrors:</p>
 <pre class="lang-bash">
-# Exits with a non-zero code if target node hosts master replica of at least one queue
+# Exits with a non-zero code if target node hosts leader replica of at least one queue
 # that has out-of-sync mirror.
 rabbitmq-diagnostics check_if_node_is_mirror_sync_critical
 </pre>
@@ -415,13 +412,13 @@ rabbitmqctl -n rabbit@to-be-stopped list_queues --local name slave_pids synchron
 automatic synchronisation or <a href="ha.html#unsynchronised-mirrors">trigger it using <span class="code ">rabbitmqctl</span></a> manually.</p>
 <p>RabbitMQ shutdown process will not wait for queues to be synchronised
 if a synchronisation operation is in progress.</p>
-<h3><a id="mirrored-queue-masters-rebalance" class="anchor" href="#mirrored-queue-masters-rebalance">Mirrored queue masters rebalancing</a></h3>
-<p>Some upgrade scenarios can cause mirrored queue masters to be unevenly distributed
-between nodes in a cluster. This will put more load on the nodes with more queue masters.
-For example a full-stop upgrade will make all queue masters migrate to the "upgrader" node -
+<h3><a id="mirrored-queue-masters-rebalance" class="anchor" href="#mirrored-queue-masters-rebalance">Mirrored queue leaders rebalancing</a></h3>
+<p>Some upgrade scenarios can cause mirrored queue leaders to be unevenly distributed
+between nodes in a cluster. This will put more load on the nodes with more queue leaders.
+For example a full-stop upgrade will make all queue leaders migrate to the "upgrader" node -
 the one stopped last and started first.
-A rolling upgrade of three nodes with two mirrors will also cause all queue masters to be on the same node.</p>
-<p>You can move a queue master for a queue using a temporary <a href="/parameters.html">policy</a> with
+A rolling upgrade of three nodes with two mirrors will also cause all queue leaders to be on the same node.</p>
+<p>You can move a queue leader for a queue using a temporary <a href="/parameters.html">policy</a> with
 <span class="code ">ha-mode: nodes</span> and <span class="code ">ha-params: [&lt;node&gt;]</span>
 The policy can be created via management UI or rabbitmqctl command:</p>
 <pre class="lang-bash">
@@ -429,14 +426,14 @@ rabbitmqctl set_policy --apply-to queues --priority 100 move-my-queue '^&lt;queu
 rabbitmqctl clear_policy move-my-queue
 </pre>
 
-<p>A <a href="https://github.com/rabbitmq/support-tools/blob/master/scripts/rebalance-queue-masters">queue master rebalancing script</a>
-is available. It rebalances queue masters for all queues.</p>
+<p>A <a href="https://github.com/rabbitmq/support-tools/blob/master/scripts/rebalance-queue-masters">queue leader rebalancing script</a>
+is available. It rebalances queue leaders for all queues.</p>
 <p>The script has certain assumptions (e.g. the default node name) and can fail to run on
 some installations. The script should be considered
 experimental. Run it in a non-production environment first.</p>
-<p>A <a href="https://www.rabbitmq.com/rabbitmq-queues.8.html">queue master rebalance command</a> is available. It rebalances queue masters for all queues, or those that match the given name pattern. Queue masters for mirrored queues and leaders for quorum queues are also rebalanced in the <a href="https://www.rabbitmq.com/rabbitmq-upgrade.8.html">post-upgrade command</a>.</p>
+<p>A <a href="https://www.rabbitmq.com/rabbitmq-queues.8.html">queue leader rebalance command</a> is available. It rebalances queue leaders for all queues, or those that match the given name pattern. queue leaders for mirrored queues and leaders for quorum queues are also rebalanced in the <a href="https://www.rabbitmq.com/rabbitmq-upgrade.8.html">post-upgrade command</a>.</p>
 <p>There is also a <a href="https://github.com/Ayanda-D/rabbitmq-queue-master-balancer">third-party plugin</a>
-that rebalances queue masters. The plugin has some additional configuration and reporting tools,
+that rebalances queue leaders. The plugin has some additional configuration and reporting tools,
 but is not supported or verified by the RabbitMQ team. Use at your own risk.</p>
 <h2><a id="rabbitmq-restart-handling" class="anchor" href="#rabbitmq-restart-handling">Handling Node Restarts in Applications</a></h2>
 <p>In order to reduce or eliminate the downtime, applications (both producers
@@ -638,9 +635,11 @@ documentation</a>.</p>
                     Simply fork the repository and submit a pull request. Thank you!
                   </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2021 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
-          <a href="https://pivotal.io/legal">Terms of Use</a>,
-          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+          <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
+          <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
+          <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting
         window.addEventListener("load", function() {
           const selectors = "pre.lang-bash, \

@@ -1,104 +1,68 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
       <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Monitoring RabbitMQ in Kubernetes
  — RabbitMQ</title></head>
-  <body id="kubernetes/operator/operator-monitoring"><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Monitoring RabbitMQ in Kubernetes
+  <body id="kubernetes/operator/operator-monitoring"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Monitoring RabbitMQ in Kubernetes
 </h1>
 <p>This guide describes how to <a href="/monitoring.html">monitor</a> RabbitMQ instances deployed by the <a href="/kubernetes/operator/operator-overview.html">Kubernetes Cluster Operator</a>.</p>
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>Cluster Operator deploys RabbitMQ clusters with the <a href="/prometheus.html"><span class="code ">rabbitmq_prometheus</span> plugin</a>, which is enabled
-for all nodes deployed by the Operator by default. The plugin exposes a Prometheus-compatible metrics endpoint.</p>
-<p>For information on configuring Prometheus to scrape Kubernetes targets, check the
-<a href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config">Prometheus configuration</a>
-documentation.
-For a detailed guide on RabbitMQ Prometheus configuration, check the <a href="/prometheus.html">Prometheus guide</a>.</p>
-<p>The following sections assume Prometheus is deployed and functional.</p>
-<h2><a id="prom-annotations" class="anchor" href="#prom-annotations">Monitor RabbitMQ Using Scraping Annotations</a></h2>
-<p>Prometheus can be configured to scrape all Pods with the <span class="code ">prometheus.io/scrape: true</span> annotation. The
-<a href="https://github.com/helm/charts/tree/master/stable/prometheus#scraping-pod-metrics-via-annotations">Prometheus Helm chart</a>,
-for example, is configured by default to scrape all pods in a cluster with this annotation. All RabbitMQ pods created
-by the Cluster Operator have this annotation, and so will be automatically scraped if Prometheus
-was deployed through the Helm chart.</p>
-<p>If Prometheus was deployed through some other means, it is still possible to set up scraping of all pods with this annotation.
-This can be achieved through the <a href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config">Kubernetes Service Discovery</a>
-configuration. A bare-minimum Prometheus configuration which can provide this functionality is included below for reference.</p>
-<pre class="hljs lang-yaml">
-global:
-  scrape_interval: 1m
-  scrape_timeout: 10s
-  evaluation_interval: 1m
-scrape_configs:
-- job_name: kubernetes-pods
-  honor_timestamps: true
-  scrape_interval: 1m
-  scrape_timeout: 10s
-  metrics_path: /metrics
-  scheme: http
-  kubernetes_sd_configs:
-  - role: pod
-  relabel_configs:
-  - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
-    separator: ;
-    regex: "true"
-    replacement: $1
-    action: keep
-  - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
-    separator: ;
-    regex: ([^:]+)(?::\d+)?;(\d+)
-    target_label: __address__
-    replacement: $1:$2
-    action: replace
-</pre>
-
-<h2><a id="prom-operator" class="anchor" href="#prom-operator">Monitor RabbitMQ Using the Prometheus Operator</a></h2>
-<p>The Prometheus Operator defines scraping configuration through a more flexible custom resource called <span class="code ">PodMonitor</span>.
-For more information, see the <a href="https://github.com/coreos/prometheus-operator">Prometheus Operator</a> in GitHub.</p>
-<p>To use the Prometheus Operator to monitor RabbitMQ clusters:</p>
-<p>First, deploy the Prometheus Operator. There are several ways to do so. Guidance is provided in the
-<a href="https://github.com/coreos/kube-prometheus/#quickstart">kube-prometheus</a> documentation in GitHub.</p>
-<p>Next, verify that you have deployed the Prometheus <span class="code ">PodMonitor</span> Custom Resource Definition (CRD) by running:</p>
+<p>Cluster Operator deploys RabbitMQ clusters with the <a href="/prometheus.html">rabbitmq_prometheus plugin</a> enabled.
+The plugin exposes a Prometheus-compatible metrics endpoint.</p>
+<p>For a detailed guide on RabbitMQ Prometheus configuration, check the <a href="/prometheus.html">Prometheus guide</a>.</p>
+<p>The following sections assume Prometheus is deployed and functional.
+How to configure Prometheus to monitor RabbitMQ depends on whether Prometheus is installed by Prometheus Operator or by other means.</p>
+<h2><a id="prom-operator" class="anchor" href="#prom-operator">Monitor RabbitMQ with Prometheus Operator</a></h2>
+<p>The <a href="https://github.com/coreos/prometheus-operator">Prometheus Operator</a> defines the custom resource definitions (CRDs) <span class="code ">ServiceMonitor</span>, <span class="code ">PodMonitor</span>, and <span class="code ">PrometheusRule</span>.
+<span class="code ">ServiceMonitor</span> and <span class="code ">PodMonitor</span> CRDs allow to declaratively define how a dynamic set of services and pods should be monitored.</p>
+<p>Check if the Kubernetes cluster has Prometheus Operator deployed:
 <pre class="lang-bash">
-kubectl get customresourcedefinitions.apiextensions.k8s.io podmonitors.monitoring.coreos.com
+kubectl get customresourcedefinitions.apiextensions.k8s.io servicemonitors.monitoring.coreos.com
 </pre>
-
-<p>If this command returns an error, the Kubernetes cluster does not have the Prometheus Operator deployed.</p>
-<p>Next, create a YAML file named <span class="code ">rabbitmq-podmonitor.yaml</span> with the following contents:</p>
-<pre class="lang-yaml">
-apiVersion: monitoring.coreos.com/v1
-kind: PodMonitor
-metadata:
-  name: rabbitmq
-spec:
-  podMetricsEndpoints:
-  - interval: 15s
-    port: prometheus
-  selector:
-    matchLabels:
-      app.kubernetes.io/component: rabbitmq
-  namespaceSelector:
-    any: true
-</pre>
-
-<p>This defines the <span class="code ">PodMonitor</span> resource, which is needed to configure the automatic discovery of RabbitMQ clusters.</p>
-<p>Next, apply the <span class="code ">PodMonitor</span> resource by running</p>
+If this command returns an error, Prometheus Operator is not deployed.</p>
+<p>To monitor all RabbitMQ clusters, run:
 <pre class="lang-bash">
-kubectl apply -f rabbitmq-podmonitor.yaml
-</pre>
-
-<p><span class="code ">PodMonitor</span> can be created in any namespace, as long as the Prometheus Operator has permissions to find it.
+kubectl apply --filename https://raw.githubusercontent.com/rabbitmq/cluster-operator/main/observability/prometheus/monitors/rabbitmq-servicemonitor.yml
+</pre></p>
+<p>To monitor RabbitMQ Cluster Operator, run:
+<pre class="lang-bash">
+kubectl apply --filename https://raw.githubusercontent.com/rabbitmq/cluster-operator/main/observability/prometheus/monitors/rabbitmq-cluster-operator-podmonitor.yml
+</pre></p>
+<p><span class="code ">ServiceMonitor</span> and <span class="code ">PodMonitor</span> can be created in any namespace, as long as the Prometheus Operator has permissions to find it.
 For more information about these permissions, see <a href="#config-perm">Configure Permissions for the Prometheus Operator</a> below.</p>
+<p>Prometheus Operator will detect <span class="code ">ServiceMonitor</span> and <span class="code ">PodMonitor</span> objects and automatically configure and reload Prometheus' <a href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config">scrape config</a>.</p>
+<p>To validate whether Prometheus successfully scrapes metrics, open the Prometheus web UI in your browser and navigate to the <span class="code ">Status -&gt; Targets</span> page where you should see
+an entry for the Cluster Operator (e.g. <span class="code ">podMonitor/&lt;podMonitorNamespace&gt;/rabbitmq-cluster-operator/0 (1/1 up)</span>) and one entry for each deployed RabbitMQ cluster (e.g. <span class="code ">serviceMonitor/&lt;serviceMonitorNamespace&gt;/rabbitmq/0 (1/1 up)</span>).</p>
+<h3>Prometheus Alerts</h3>
+<p>The custom resource <span class="code ">PrometheusRule</span> allows to declaratively define <a href="https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/">alerting rules</a>.
+To install RabbitMQ alerting rules, first ensure that <a href="https://github.com/kubernetes/kube-state-metrics">kube-state-metrics</a> is installed.
+To deploy Prometheus rules for RabbitMQ, <span class="code ">kubectl apply</span> all YAML files in directory <a href="https://github.com/rabbitmq/cluster-operator/tree/main/observability/prometheus/rules/rabbitmq">rules/rabbitmq</a>.
+To deploy Prometheus rules for Cluster Operator, <span class="code ">kubectl apply</span> the YAML files in directory <a href="https://github.com/rabbitmq/cluster-operator/tree/main/observability/prometheus/rules/rabbitmq-cluster-operator">rules/rabbitmq-cluster-operator</a>.</p>
+<p>The <span class="code ">ruleSelector</span> from the <span class="code ">Prometheus</span> custom resource must match the labels of the deployed <span class="code ">PrometheusRules</span>.
+For example, if the Prometheus custom resource contains below <span class="code ">ruleSelector</span>, a label <span class="code ">release: my-prometheus</span> needs to be added to the <span class="code ">PrometheusRules</span>.
+<pre class="hljs lang-yaml">
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+   ...
+spec:
+  ...
+  ruleNamespaceSelector: {}
+  ruleSelector:
+    matchLabels:
+      release: my-prometheus
+  ...
+  version: v2.26.0
+</pre></p>
+<p>To get notified on firing alerts (e.g. via Email or PagerDuty) configure a notification receiver in <a href="https://prometheus.io/docs/alerting/latest/overview/">Alertmanager</a>.
+To receive Slack notifications, deploy the Kubernetes <span class="code ">Secret</span> in directory <a href="https://github.com/rabbitmq/cluster-operator/tree/main/observability/prometheus/alertmanager">alertmanager</a>.</p>
 <h3><a id="config-perm" class="anchor" href="#config-perm">(Optional) Configure Permissions for the Prometheus Operator</a></h3>
 <p>If no RabbitMQ clusters appear in Prometheus, it might be necessary to <a href="https://github.com/coreos/prometheus-operator/blob/master/Documentation/rbac.md">adjust permissions for the Prometheus Operator</a>.</p>
 <p>The following steps have been tested with a <span class="code ">kube-prometheus</span> deployment.</p>
 <p>To configure permissions for the Prometheus Operator, first create a file named <span class="code ">prometheus-roles.yaml</span>
 with the following contents:</p>
 <pre class="lang-yaml">
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: prometheus
@@ -117,7 +81,7 @@ rules:
 - nonResourceURLs: ["/metrics"]
   verbs: ["get"]
 ---
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: prometheus
@@ -136,10 +100,20 @@ subjects:
 kubectl apply -f prometheus-roles.yaml
 </pre>
 
+<h2><a id="prom-annotations" class="anchor" href="#prom-annotations">Monitor RabbitMQ Without Prometheus Operator</a></h2>
+<p>If Prometheus is not installed by Prometheus Operator, but by other means, the CRDs <span class="code ">ServiceMonitor</span>, <span class="code ">PodMonitor</span>, and <span class="code ">PrometheusRule</span> are not available.
+Therefore, Prometheus needs to be <a href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/">configured via a config file</a>.
+To monitor all RabbitMQ clusters and RabbitMQ Cluster Operator, use the scrape targets defined in <a href="https://github.com/rabbitmq/cluster-operator/blob/main/observability/prometheus/config-file.yml">Prometheus config file for RabbitMQ</a>.</p>
+<p>To set up RabbitMQ alerting rules, first configure Prometheus to receive metrics from the <a href="https://github.com/kubernetes/kube-state-metrics">kube-state-metrics</a> agent.
+Thereafter, configure Prometheus to use the <a href="https://github.com/rabbitmq/cluster-operator/blob/main/observability/prometheus/rule-file.yml">Prometheus rule file</a>.
+To receive Slack notifications, use the same <span class="code ">alertmanager.yaml</span> as provided in <a href="https://github.com/rabbitmq/cluster-operator/blob/main/observability/prometheus/alertmanager/slack.yml">alertmanager/slack.yml</a>
+for the <a href="https://prometheus.io/docs/alerting/latest/configuration/#configuration-file">Alertmanager configuration file</a>.</p>
 <h2><a id="grafana" class="anchor" href="#grafana">Import Dashboards to Grafana</a></h2>
 <p>RabbitMQ provides Grafana dashboards to visualize the metrics scraped by Prometheus.</p>
-<p>Follow the instructions in the <a href="/prometheus.html#grafana-configuration">Prometheus guide</a>
-to import dashboards to Grafana.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+<p>Follow the instructions in the <a href="/prometheus.html#grafana-configuration">Prometheus guide</a> to import dashboards to Grafana.</p>
+<p>Alternatively, if Grafana is deployed by the <a href="https://github.com/grafana/helm-charts/tree/main/charts/grafana">Grafana Helm chart</a>, <span class="code ">kubectl apply</span> the <span class="code ">ConfigMaps</span> in directory <a href="https://github.com/rabbitmq/cluster-operator/tree/main/observability/grafana/dashboards">grafana/dashboards</a>
+to import RabbitMQ Grafana dashboards <a href="https://github.com/grafana/helm-charts/tree/main/charts/grafana#sidecar-for-dashboards">using a sidecar container</a>.</p>
+<p>The <a href="https://github.com/rabbitmq/cluster-operator/blob/main/observability/grafana/dashboards/rabbitmq-alerts.yml">RabbitMQ-Alerts dashboard</a> provides a history of all past RabbitMQ alerts across all RabbitMQ clusters in Kubernetes.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
@@ -149,9 +123,11 @@ to import dashboards to Grafana.</p><div id="help-and-feedback"><h2>Getting Help
                     Simply fork the repository and submit a pull request. Thank you!
                   </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2021 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
-          <a href="https://pivotal.io/legal">Terms of Use</a>,
-          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+          <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
+          <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
+          <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting
         window.addEventListener("load", function() {
           const selectors = "pre.lang-bash, \

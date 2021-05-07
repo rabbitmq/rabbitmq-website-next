@@ -1,13 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&amp;l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-NSPM4RC');</script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
       <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> TLS Support
  — RabbitMQ</title></head>
-  <body id="ssl"><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NSPM4RC" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> TLS Support
+  <body id="ssl"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> TLS Support
 </h1>
 
 
@@ -23,7 +19,7 @@ connections:</p>
 <li><a href="#enabling-tls">Enabling TLS</a> in RabbitMQ</li>
 <li>How to generate self-signed certificates for development and QA environments <a href="#automated-certificate-generation">with tls-gen</a> or <a href="#manual-certificate-generation">manually</a></li>
 <li>TLS configuration in <a href="#java-client">Java</a> and <a href="#dotnet-client">.NET</a> clients</li>
-<li><a href="#peer-verification">Peer (certificate chain) verification</a></li>
+<li><a href="#peer-verification">Peer (certificate chain) verification</a> of client connections or mutual ("mTLS")</li>
 <li>Public <a href="#key-usage">key usage extensions</a> relevant to RabbitMQ</li>
 <li>How to control what <a href="#tls-versions">TLS version</a> and <a href="#cipher-suites">cipher suite</a> are enabled</li>
 <li><a href="#tls1.3">TLSv1.3</a> support</li>
@@ -114,7 +110,9 @@ a certificate (public key) file and a private key file. The files will be read f
 of the RabbitMQ node process.</p>
 <p>Both ends of a TLS-enabled connection can optionally verify
 the other end of the connection. While doing so, they try to locate a trusted Certificate Authority in the certificate list
-presented by the peer. More on this in the <a href="#peer-verification">Peer Verification</a> section.</p>
+presented by the peer. When both sides perform this verification process, this is known
+as <em>mutual TLS authentication</em> or <em>mTLS</em>.
+More on this in the <a href="#peer-verification">Peer Verification</a> section.</p>
 <p>This guides assumes the user has access to a Certificate Authority and two certificate/key pairs
 in a number of formats for different client libraries to use.
 This is best done using <a href="#automated-certificate-generation">existing tools</a>
@@ -132,8 +130,7 @@ The certificate/key pairs are used by RabbitMQ and clients that connect to the s
 TLS-enabled port. The process of generating a Certificate Authority and two key pairs is fairly labourious
 and can be error-prone. An easier way of generating all that
 stuff on MacOS or Linux is with <a href="https://github.com/michaelklishin/tls-gen">tls-gen</a>:
-you will need <span class="code ">Python 3.5+</span>, <span class="code ">make</span> and <span class="code ">openssl</span>
-in <span class="code ">PATH</span>.</p>
+it requires <span class="code ">Python 3.5+</span>, <span class="code ">make</span> and <span class="code ">openssl</span> in <span class="code ">PATH</span>.</p>
 <p>Note that <span class="code ">tls-gen</span> and the certificate/key pairs
 it generates are self-signed and only suitable for development
 and test environments. The vast majority of production environments
@@ -312,7 +309,8 @@ The first step is when the peers <em>optionally</em> exchange their <a href="#ce
 Having exchanged certificates, the peers can <em>optionally</em> attempt
 to establish a chain of trust between their CA certificates and the certificates presented.
 This acts to verify that the peer is who it claims to be (provided the private key hasn't been
-stolen). The process is known as peer verification or peer validation
+stolen).</p>
+<p>The process is known as peer verification or peer validation
 and follows an algorithm known as the <a href="https://en.wikipedia.org/wiki/Certification_path_validation_algorithm">Certification path validation algorithm</a>.
 Understanding the entire algorithm is not necessary in order to use peer verification,
 so this section provides an oversimplified explanation of the key parts.</p>
@@ -329,9 +327,20 @@ to as the <em>root CA</em> for the chain. Root CAs can be issued by well-known C
 <p><img class="figure" src="/img/root_intermediate_ca_and_leaf.png" alt="Root CA, intermediate and leaf certificates" /></p>
 <p>During peer verification TLS connection client (or server) traverses
 the chain of certificates presented by the peer
-and if a trusted certificate is found, considers the peer trusted.
-If no trusted and otherwise valid certificate is found, peer verification fails and client connection is closed
-with an error ("alert" in OpenSSL parlance) that says "Unknown CA" or similar. The alert
+and if a trusted certificate is found, considers the peer trusted.</p>
+<h3>Mutual Peer Verification (Mutual TLS Authentication or mTLS)</h3>
+<p>When both sides perform this peer verification process, this is known
+as <em>mutual TLS authentication</em> or <em>mTLS</em>.</p>
+<p>Enabling mutual peer verification involves two things:</p>
+<ul>
+<li><a href="#peer-verification-configuration">Enabling peer verification for client connections</a> on the RabbitMQ side</li>
+<li><a href="#peer-verification-clients">Enabling peer verification of the server</a> in application code</li>
+</ul>
+<p>In other words, mutual peer verification ("mTLS") is a joint responsibility of RabbitMQ nodes
+and client connections. Enabling peer verification on just one end is not enough.</p>
+<h3>When Peer Verification Fails</h3>
+<p>If no trusted and otherwise valid certificate is found, peer verification fails and client's TLS (TCP) connection is
+closed with a fatal error ("alert" in OpenSSL parlance) that says "Unknown CA" or similar. The alert
 will be logged by the server with a message similar to this:</p>
 <pre class="lang-ini">
 2018-09-10 18:10:46.502 [info] &lt;0.902.0&gt; TLS server generated SERVER ALERT: Fatal - Unknown CA
@@ -344,7 +353,7 @@ like this:</p>
 2018-09-10 18:11:05.168 [info] &lt;0.923.0&gt; TLS server generated SERVER ALERT: Fatal - Certificate Expired
 </pre>
 
-<p>The examples above demonstrate TLS alert messages logged by RabbitMQ running on Erlang/OTP 21.
+<p>The examples above demonstrate TLS alert messages logged by a RabbitMQ node.
 Clients that perform peer verification will also raise alerts but may use different
 error messages. <a href="https://tools.ietf.org/html/rfc8446#section-6.2">RFC 8446 section 6.2</a>
 provides an overview of various alerts and what they mean.</p>
@@ -1896,9 +1905,11 @@ list them with <span class="code ">openssl ecparam -list_curves</span>.</p><div 
      <li><a href="/mpl.html">License</a></li>
    </ul></div><div id="related-links"><h4>Related Links</h4><ul><li><a href="/clustering-ssl.html">TLS for Inter-node (Clustering) Traffic</a></li></ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2021 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
-          <a href="https://pivotal.io/legal">Terms of Use</a>,
-          <a href="https://pivotal.io/privacy-policy">Privacy</a> and
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+          <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
+          <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
+          <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting
         window.addEventListener("load", function() {
           const selectors = "pre.lang-bash, \

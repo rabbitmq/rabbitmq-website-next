@@ -2,68 +2,62 @@
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
       <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>(Untitled) — RabbitMQ</title></head>
-  <body id="release-notes/3.7.7"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>(Untitled)</h1>
-<h2>RabbitMQ 3.7.7</h2>
-<p>RabbitMQ <span class="code ">3.7.7</span> a maintenance release. This release introduces
-compatibility with <a href="http://www.erlang.org/news/123">Erlang/OTP 21</a>.</p>
-<h3>Upgrades and Compatibility</h3>
-<p>This release has no known incompatibilities with earlier <span class="code ">3.7.x</span> releases.</p>
-<h4>Upgrading to Erlang 21.0</h4>
-<p>When upgrading to this release <strong>and upgrading Erlang to 21.0</strong> at the same time, extra care has to be taken.
-Since CLI tools from any earlier RabbitMQ release will fail on Erlang 21, RabbitMQ <strong>must be upgraded before Erlang</strong>.</p>
-<h4>Documentation Guides and Change Log</h4>
-<p>See <a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.7.0">3.7.0 release notes</a> upgrade and
-compatibility notes if upgrading from an earlier release.</p>
+  <body id="release-notes/3.8.16"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>(Untitled)</h1>
+<h2>RabbitMQ 3.8.16</h2>
+<p>RabbitMQ <span class="code ">3.8.16</span> is a maintenance release.</p>
+<p>It reintroduces <span class="code ">rabbitmq_peer_discovery_aws</span> plugin that was unintentionally removed
+from <span class="code ">3.8.15</span> due to release pipeline changes.</p>
+<p>This is the first release to drop support for Erlang 22.3 and introduce support for the <a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap/">upcoming Erlang 24</a> release.</p>
+<h3>Obtaining Packages</h3>
+<p>This release is distributed via GitHub, <a href="https://cloudsmith.io/~rabbitmq/repos/">Cloudsmith</a>,
+and <a href="https://packagecloud.io/rabbitmq">PackageCloud</a>.</p>
+<h3>Erlang/OTP Compatibility Notes</h3>
+<p>This is the <a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap/">first release to require Erlang 23.2 or later and support upcoming Erlang 24</a>.</p>
+<p><a href="https://www.rabbitmq.com/which-erlang.html#erlang-repositories">Provisioning Latest Erlang Releases</a> explains
+what package repositories and tools can be used to provision a recent version of Erlang <span class="code ">23.3</span>.</p>
+<h2>Upgrade and Compatibility Notes</h2>
+<h3>Upgrade Doc Guides and Change Log</h3>
+<p>See <a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.8.0">3.8.0 release notes</a> upgrade and
+compatibility notes first if upgrading from an earlier release series (e.g. <span class="code ">3.7.x</span>).</p>
 <p>See the <a href="https://www.rabbitmq.com/upgrade.html">Upgrading guide</a> for general documentation on upgrades and
 <a href="https://www.rabbitmq.com/changelog.html">RabbitMQ change log</a> for release notes of other releases.</p>
-<h2>Changes</h2>
+<h3>Getting Help</h3>
+<p>Any questions about this release, upgrades or RabbitMQ in general are welcome on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>
+and <a href="https://rabbitmq-slack.herokuapp.com/">RabbitMQ community Slack</a>.</p>
+<h2>Changes Worth Mentioning</h2>
 <h3>Core Server</h3>
-<h4>Enhancements</h4>
+<h4>Erlang Release Series Support</h4>
 <ul>
-<li>This release is compatible with <a href="http://www.erlang.org/news/123">Erlang/OTP 21</a>, the newest major
-   Erlang runtime release.</li>
+<li>This release <a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap/">introduces Erlang 24 support and drops support for Erlang 22</a>. Erlang 24 offers non-trivial real world throughput improvements for many
+   RabbitMQ installations and workloads. It is expected to ship in May 2021.</li>
 </ul>
-<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/1616">rabbitmq/rabbitmq-server#1616</a></p>
+<p>In the meantime, see <a href="https://www.rabbitmq.com/which-erlang.html#erlang-repositories">Provisioning Latest Erlang Releases</a> to
+   learn how to provision a recent version of Erlang <span class="code ">23.3</span>.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2900">#2900</a></p>
+<h3>AWS Peer Discovery Plugin</h3>
+<h4>Bug Fixes</h4>
 <ul>
-<li>Windows installer will now take default <a href="https://www.rabbitmq.com/cli.html#erlang-cookie">Erlang cookie</a> location differences between Erlang versions into account.</li>
+<li>This plugin was unintentionally excluded from the distribution in <span class="code ">3.8.15</span> and has now been
+   added back.</li>
 </ul>
-<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server-release/pull/82">rabbitmq/rabbitmq-server-release#82</a></p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/issues/3023">#3023</a></p>
 <h3>Management Plugin</h3>
 <h4>Enhancements</h4>
 <ul>
-<li>It is now possible to configure Web browser session timeout. Default is still 8 hours.</li>
+<li>Messaging polling HTTP API endpoint leaked temporary connections it used in case of a polling timeout.
+   Note that <strong>this endpoint is not recommended to be used</strong> outside of QA environments.
+   Use a <a href="https://www.rabbitmq.com/consumers.html">long-lived consumer</a> via one of the supported messaging protocols.</li>
 </ul>
-<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-management/pull/584">rabbitmq/rabbitmq-management#584</a></p>
-<h3>Federation Plugin</h3>
-<h4>Bug Fixes</h4>
+<p>Contributed by @luos.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3024">#3024</a></p>
+<h2>Dependency Upgrades</h2>
 <ul>
-<li>Direct connections downstream were not closed in some cases.</li>
+<li>Cuttlefish has been upgraded from <a href="https://github.com/kyorai/cuttlefish/compare/v2.6.0..v3.0.0"><span class="code ">2.6.0</span> to <span class="code ">3.0.0</span></a></li>
+<li>Lager has been upgraded from <a href="https://github.com/erlang-lager/lager/compare/3.8.2..3.9.1"><span class="code ">3.8.2</span> to <span class="code ">3.9.1</span></a></li>
 </ul>
-<p>Contributed by Ricardo Gonçalves.</p>
-<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-federation/issues/76">rabbitmq/rabbitmq-federation#76</a></p>
-<h3>LDAP Plugin</h3>
-<h4>Bug Fixes</h4>
-<ul>
-<li>It wasn't possible to set <span class="code ">auth_ldap.dn_lookup_bind</span> to the value of <span class="code ">anon</span> in the new style config format.</li>
-</ul>
-<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-ldap/issues/94">rabbitmq/rabbitmq-auth-backend-ldap#94</a> </p>
-<h3>Consul Peer Discovery Plugin</h3>
-<h4>Bug Fixes</h4>
-<ul>
-<li>
-<p>The following combination of settings was rejected by the plugin, even though they are reasonable
-    and were recommended by the docs:</p>
-<p>``` ini
-cluster_formation.consul.svc_addr_auto = true</p>
-<h1>en0 is just an example, it could be any other NIC name</h1>
-<p>cluster_formation.consul.svc_addr_nic = en0
-```</p>
-<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-consul/issues/12">rabbitmq/rabbitmq-peer-discovery-consul#12</a></p>
-</li>
-</ul>
-<h2>Source code archives</h2>
-<p><strong>Warning</strong>: The source code archive provided by GitHub only contains the source of the broker,
-not the plugins or the client libraries. Please download the archive named <span class="code ">rabbitmq-3.7.7.tar.gz</span>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+<h2>Source Code Archives</h2>
+<p>To obtain source code of the entire distribution, please download the archive named <span class="code ">rabbitmq-server-3.8.16.tar.xz</span>
+instead of the source tarball produced by GitHub.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
