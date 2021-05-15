@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Using RabbitMQ Messaging Topology Kubernetes Operator
+ — RabbitMQ</title></head>
+  <body id="kubernetes/operator/using-topology-operator"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Using RabbitMQ Messaging Topology Kubernetes Operator
+</h1>
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>This guide covers how to deploy Custom Resource objects that will be managed by the Messaging Topology Operator.
+If RabbitMQ Cluster Kubernetes Operator is not installed, see the <a href="quickstart-operator.html">quickstart guide</a>.</p>
+<p>This guide has the following sections:</p>
+<ul>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#queue-policy">Queue and policy</a></li>
+<li><a href="#user">User and permission</a></li>
+<li><a href="#exchange-binding">Binding and bindings</a></li>
+<li><a href="#vhosts">Virtual hosts</a></li>
+<li><a href="#update">Update a resource</a></li>
+<li><a href="#delete">Delete a resource</a></li>
+<li><a href="#limitations">Limitations</a></li>
+<li><a href="#tls">TLS</a></li>
+</ul>
+<h2><a id="requirements" class="anchor" href="requirements">Requirements</a></h2>
+<ul>
+<li>Messaging Topology Operator can only be used with RabbitMQ clusters deployed using the Kubernetes <a href="https://github.com/rabbitmq/cluster-operator">Cluster Operator</a>.
+The minimal version required for Cluster Operator is <span class="code ">1.7.0</span>.</li>
+<li>Messaging Topology Operator custom resources can only be created in the same namespace as the RabbitMQ cluster is deployed. For a RabbitmqCluster deployed in namespace
+"my-test-namespace", all Messaging Topology custom resources for this RabbitMQ cluster, such as <span class="code ">queues.rabbitmq.com</span> and <span class="code ">users.rabbitmq.com</span>, can only be created in namespace "my-test-namespace".</li>
+</ul>
+<h2><a id="queue-policy" class="anchor" href="#queue-policy">Queue and policy</a></h2>
+<p>Messaging Topology Operator can declare <a href="../../queues.html">queues</a> and
+<a href="../../parameters.html#how-policies-work">policies</a> in a RabbitMQ cluster.</p>
+<p>The following manifest will create a queue named 'test' in the default vhost:</p>
+<pre class="lang-bash">
+apiVersion: rabbitmq.com/v1beta1
+kind: Queue
+metadata:
+  name: test # name of this custom resource; does not have to the same as the actual queue name
+  namespace: rabbitmq-system
+spec:
+  name: test # name of the queue
+  autoDelete: false
+  durable: true
+  rabbitmqClusterReference:
+    name: example-rabbit
+</pre>
+
+<p>The following manifest will create a policy named 'lazy-queue' in default virtual host:</p>
+<pre class="lang-bash">
+apiVersion: rabbitmq.com/v1beta1
+kind: Policy
+metadata:
+  name: policy-example # name of this custom resource
+  namespace: rabbitmq-system
+spec:
+  name: lazy-queue
+  pattern: "^lazy-queue-" # matches any queue begins with "lazy-queue-"
+  applyTo: "queues"
+  definition:
+    queue-mode: lazy
+  rabbitmqClusterReference:
+    name: example-rabbit
+</pre>
+
+<p>The Messaging Topology repo has more examples on <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/queues">queues</a>
+and <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/policies">policies</a>. </p>
+<h3><a id="binding" class="anchor" href="#binding"> Exchanges and bindings</a></h3>
+<p>Messaging Topology Operator can manage <a href="../../publishers.html#basics">exchanges and bindings</a>.
+The following manifest will create a fanout exchange:</p>
+<pre class="lang-bash">
+apiVersion: rabbitmq.com/v1beta1
+kind: Exchange
+metadata:
+  name: fanout
+  namespace: rabbitmq-system
+spec:
+  name: fanout-exchange # name of the exchange
+  type: fanout # default to 'direct' if not provided; can be set to 'direct', 'fanout', 'headers', and 'topic'
+  autoDelete: false
+  durable: true
+  rabbitmqClusterReference:
+    name: example-rabbit
+</pre>
+
+<p>The following manifest will create a binding between an exchange and a queue:</p>
+<pre class="lang-bash">
+apiVersion: rabbitmq.com/v1beta1
+kind: Binding
+metadata:
+  name: binding
+  namespace: rabbitmq-system
+spec:
+  source: test # an existing exchange
+  destination: test # an existing queue
+  destinationType: queue # can be 'queue' or 'exchange'
+  rabbitmqClusterReference:
+    name: example-rabbit
+</pre>
+
+<p>More examples on <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/exchanges">exchanges</a>
+and <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/bindings">bindings</a>. </p>
+<h3><a id="user-permission" class="anchor" href="#user-permission">User and permission</a></h3>
+<p>You can use Messaging Topology Operator to create RabbitMQ users and assign user permissions.
+Learn more about user management in the <a href="../../access-control.html#user-management">Access Control guide</a>.</p>
+<p>Messaging Topology Operator creates users with generated credentials by default.</p>
+<p>The following manifest will create a user with generated username and password and the generated username and password can be
+accessed via a Kubernetes secret object:</p>
+<pre class="lang-bash"> 
+apiVersion: rabbitmq.com/v1beta1
+kind: User
+metadata:
+  name: user-example
+  namespace: rabbitmq-system
+spec:
+  tags:
+  - policymaker
+  rabbitmqClusterReference:
+    name: example-rabbitmq
+</pre>
+
+<p>To get the name of the kubernetes secret object that contains the generated username and password, run the following command:</p>
+<pre class="lang-bash"> 
+kubectl get users.rabbitmq.com user-example -o jsonpath='{.status.credentials.name}'
+</pre>
+
+<p>The Operator also supports creating RabbitMQ users with provided credentials. When creating a user with provided username and password, create a kubernetes
+secret object contains keys <span class="code ">username</span> and <span class="code ">password</span> in its Data field.</p>
+<p>The following manifest will create a user with username and password provided from secret 'my-rabbit-user' :</p>
+<pre class="lang-bash">
+apiVersion: rabbitmq.com/v1beta1
+kind: User
+metadata:
+  name: import-user-sample
+spec:
+  tags:
+  - policymaker
+  - monitoring # other available tags are 'management' and 'administrator'
+  rabbitmqClusterReference:
+    name: rabbit-example
+  importCredentialsSecret:
+    name: my-rabbit-user # name of the secret
+</pre>
+
+<p>To set user permissions on an existing user, create <span class="code ">permissions.rabbitmq.com</span> resources.
+The following example will assign permissions to user <span class="code ">rabbit-user-1</span>:</p>
+<pre class="lang-bash"> 
+apiVersion: rabbitmq.com/v1beta1
+kind: Permission
+metadata:
+  name: rabbit-user-1-permission
+  namespace: rabbitmq-system
+spec:
+  vhost: "/"
+  user: "rabbit-user-1" # name of the RabbitMQ user
+  permissions:
+    write: ".*"
+    configure: ".*"
+    read: ".*"
+  rabbitmqClusterReference:
+    name: sample
+</pre>
+
+<p>More examples on <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/users">users</a>
+and <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/permissions">permissions</a>.</p>
+<h2><a id="vhosts" class="anchor" href="#vhosts">Virtual Hosts</a></h2>
+<p>Messaging Topology Operator can create <a href="../../vhosts.html">virtual hosts</a>.</p>
+<p>The following manifest will create a vhost named 'test' in a RabbitmqCluster named 'example-rabbit':</p>
+<pre class="lang-bash">
+apiVersion: rabbitmq.com/v1beta1
+kind: Queue
+metadata:
+  name: test-vhost # name of this custom resource
+  namespace: rabbitmq-system
+spec:
+  name: test # name of the vhost
+  rabbitmqClusterReference:
+    name: example-rabbit
+</pre>
+
+<h2><a id="updates" class="anchor" href="#updates">Update Resources</a></h2>
+<p>Some custom resource properties are immutable. Messaging Topology Operator implements <a href="https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#validatingadmissionwebhook">validating webhooks</a>
+to prevent updates on immutable fields. Forbidden updates will be rejected. For example:</p>
+<pre class="lang-bash">
+kubectl apply -f test-queue.yaml
+Error from server (Forbidden):
+...
+Resource: "rabbitmq.com/v1beta1, Resource=queues", GroupVersionKind: "rabbitmq.com/v1beta1, Kind=Queue"
+Name: "example", Namespace: "rabbitmq-system"
+for: "test-queue.yaml": admission webhook "vqueue.kb.io" denied the request: Queue.rabbitmq.com "example" is forbidden: spec.name: Forbidden: updates on name, vhost, and rabbitmqClusterReference are all forbidden
+</pre>
+
+<p>Properties that cannot be updated is documented in the <a href="https://github.com/rabbitmq/messaging-topology-operator/blob/main/docs/api/rabbitmq.com.ref.asciidoc">Messaging Topology Operator API docs</a>.</p>
+<h2><a id="delete" class="anchor" href="delete">Delete a resource</a></h2>
+<p>Deleting custom resources will delete the corresponding resources in the RabbitMQ cluster. Messaging Topology Operator sets kubernetes
+<a href="https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers">finalizers</a> on all custom
+resources. If the object has already been deleted in the RabbitMQ cluster, or the RabbitMQ cluster has been deleted, Messaging Topology
+Operator will delete the custom without trying to delete the RabbitMQ object.</p>
+<h2><a id="limitations" class="anchor" href="#limitations">Limitations</a></h2>
+<p>Messaging Topology Operator does not work for RabbitmqCluster deployed with importing definitions. The Operator reads the default user secret
+set in RabbitmqCluster status <span class="code ">status.binding</span>, if the RabbitmqCluster is deployed with imported definitions, definitions will overwrite the
+default user credentials and may cause Messaging Topology Operator not be able to access the RabbitmqCluster. To get around this issue, either
+you can create a RabbitmqCluster without importing definitions, or you can manually update the default user kubernetes secret to the actual
+user credentials set in the definitions.</p>
+<h2><a id="tls" class="anchor" href="tls">TLS</a></h2>
+<p>If the RabbitmqClusters managed by the Messaging Topology Operator are configured to serve the Management over HTTPS, there are some additional
+steps required to configure Messaging Topology Operator. Follow this <a href="/kubernetes/operator/tls-topology-operator.html">TLS dedicated guide</a> to configure
+the Operator.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2021 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
+          <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
+          <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

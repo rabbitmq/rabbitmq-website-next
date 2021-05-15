@@ -16,6 +16,7 @@
 <li><a href="#acknowledgement-modes">Acknowledgement modes</a></li>
 <li><a href="#message-properties">Message properties</a> and delivery metadata</li>
 <li><a href="#prefetch">How to limit number of outstanding deliveries with prefetch</a></li>
+<li><a href="#acknowledgement-timeout">Delivery acknowledgement timeout</a></li>
 <li><a href="#metrics-capacity">Consumer capacity</a> metric</li>
 <li><a href="#unsubscribing">How to cancel a consumer</a></li>
 <li><a href="#exclusivity">Consumer exclusivity</a></li>
@@ -300,6 +301,26 @@ can stay empty for prolonged periods of time.</p>
 <p>See <a href="/api-guide.html#getting">Java client guide</a> for examples.</p>
 <h3>.NET Client</h3>
 <p>See <a href="/dotnet-api-guide.html#basic-get">.NET client guide</a> for examples.</p>
+<h2><a id="acknowledgement-timeout" class="anchor" href="#acknowledgement-timeout">Delivery Acknowledgement Timeout</a></h2>
+<p>In modern RabbitMQ versions, a timeout is enforced on consumer delivery acknowledgement.
+This helps detect buggy (stuck) consumers that never acknowledge deliveries.
+Such consumers can affect node's on disk data compaction and potentially drive
+nodes out of disk space.</p>
+<p>If a consumer does not ack its delivery for more than the timeout value (15 minutes by default),
+its channel will be closed with a <span class="code ">PRECONDITION_FAILED</span> channel exception.
+The error will be <a href="logging.html">logged</a> by the node that the consumer was
+connected to.</p>
+<p>The timeout value is configurable in [<span class="code ">rabbitmq.conf</span>] (in milliseconds):</p>
+<pre class="lang-ini">
+# 15 minutes in milliseconds
+consumer_timeout = 900000
+</pre>
+
+<pre class="lang-ini">
+# one hour in milliseconds
+consumer_timeout = 3600000
+</pre>
+
 <h2><a id="exclusivity" class="anchor" href="#exclusivity">Exclusivity</a></h2>
 <p>When registering a consumer with an AMQP 0-9-1 client, <a href="amqp-0-9-1-reference.html#basic.consume">the <span class="code ">exclusive</span> flag</a>
 can be set to true to request the consumer to be the only one

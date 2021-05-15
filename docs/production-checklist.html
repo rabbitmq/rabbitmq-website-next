@@ -248,25 +248,47 @@ tuning, for example, to sustain a high number of concurrent clients.
 Please refer to the <a href="/networking.html">Networking Guide</a> for details.</p>
 <h2><a id="distribution-considerations" class="anchor" href="#distribution-considerations">Clustering Considerations</a></h2>
 <h3><a id="distribution-considerations-cluster-size" class="anchor" href="#distribution-considerations-cluster-size">Cluster Size</a></h3>
-<p>When determining cluster size, it is important to take several factors into
-consideration:</p>
-<ul>
-<li>Expected throughput</li>
-<li>Expected replication (number of mirrors)</li>
-<li>Data locality</li>
-</ul>
-<p>Since clients can connect to any node, RabbitMQ may need to perform inter-cluster
-routing of messages and internal operations. Try making consumers and producers
-connect to the same node, if possible: this will reduce inter-node traffic.
-Equally helpful would be making consumers connect to the node that currently hosts
-queue leader (can be inferred using <a href="/management.html">HTTP API</a>).
-When data locality is taken into consideration, total cluster throughput
-can reach <a href="http://blog.pivotal.io/pivotal/products/rabbitmq-hits-one-million-messages-per-second-on-google-compute-engine">non-trivial</a> volumes.</p>
-<p>For most environments, mirroring to more than half of cluster nodes is sufficient.
-It is recommended to use clusters with an odd number of nodes (3, 5, and so on).</p>
-<h3><a id="distribution-considerations-partition-handling-strategy" class="anchor" href="#distribution-considerations-partition-handling-strategy">Partition Handling Strategy</a></h3>
-<p>It is important to pick a <a href="/partitions.html">partition handling strategy</a>
-before going into production. When in doubt, use the <span class="code ">autoheal</span> strategy.</p>
+<p>The number of queues, queue replication factor, number of connections, maximum
+message backlog and sometimes message throughput are factors that determine how
+large should a cluster be.</p>
+<p>Single node clusters can be sufficient when simplicity is
+preferred over everything else: development, integration testing and certain QA environments.</p>
+<p>Three node clusters are the next step up. They can tolerate a single node
+failure (or unavailability) and still <a href="quorum-queues.html">maintain quorum</a>.
+Simplicity is traded off for availability, resiliency and, in certain cases, throughput.</p>
+<p>It is recommended to use clusters with an odd
+number of nodes (3, 5, 7, etc) so that when one node becomes unavailable, the
+service remains available and a clear majority of nodes can be identified.</p>
+<p>For most environments, configuring queue replication to more than half — but not all —
+cluster nodes is sufficient.</p>
+<h4>Uneven Numbers of Nodes and Cluster Majority</h4>
+<p>It is important to pick a <a href="/partitions.html">partition handling strategy</a> before going into production.
+When in doubt, use the <span class="code ">pause_minority</span> strategy with an odd number of nodes (3, 5, 7, and so on).</p>
+<p>Uneven number of nodes make network partition recovery more predictable, with the common option
+of the minority automatically refusing to service commands.</p>
+<h4>Data Locality Considerations</h4>
+<p>With multi-node clusters, data locality becomes an important consideration.
+Since <a href="clustering.html">clients can connect to any node</a>, RabbitMQ nodes may need to perform
+inter-cluster routing of messages and internal operations. Data locality will be best
+when producers (publishers) connect to RabbitMQ nodes where queue leaders are running.
+Such topology is difficult to achieve in practice.</p>
+<p>With classic queues, all deliveries are performed from the leader replica.
+Quorum queues can deliver messages from queue replicas as well,
+so as long as consumers connect to a node where a
+quorum queue replica is hosted, messages delivered to those consumers will be
+performed from the local node.</p>
+<h4>Growing Node Count to Sustain More Concurrent Clients</h4>
+<p>Environments that have to sustain a <a href="networking.html#tuning-for-large-number-of-connections">large number of concurrent client connections</a>
+will benefit from more cluster nodes as long as the connections are distributed
+across them. This can be achieved using a load balancer or making clients
+randomly pick a node to connect to from the provided node list.</p>
+<h4>Increasing Node Counts vs. Deploying Separate Clusters for Separate Purposes</h4>
+<p>All metadata (<a href="definitions.html">definitions</a>: virtual hosts, users, queues, exchanges, bindings, etc.) is replicated
+across all nodes in the cluster, and most metadata changes are synchronous in nature.</p>
+<p>The cost of propagating such changes goes up with the number of cluster nodes,
+both during operations and node restarts. Users who find themselves in need of
+clusters with node counts in double digits should
+<strong>consider using independent clusters for separate parts of the system</strong> where possible.</p>
 <h3><a id="distribution-considerations-ntp" class="anchor" href="#distribution-considerations-ntp">Node Time Synchronization</a></h3>
 <p>A RabbitMQ cluster will typically function well without clocks
 of participating servers being synchronized. However some plugins,

@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Using TLS with Messaging Topology Kubernetes Operator
+ — RabbitMQ</title></head>
+  <body id="kubernetes/operator/tls-topology-operator"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Using TLS with Messaging Topology Kubernetes Operator
+</h1>
+<p>If the RabbitmqClusters managed by the Messaging Topology Operator are configured to serve the HTTP API
+and management UI over HTTPS, it will be necessary for the Topology Operator to <a href="../../ssl.html#peer-verification">trust the Certificate Authority</a> (CA)
+that signed the TLS certificates that the RabbitmqClusters use.</p>
+<p>One or more trusted certificates must be mounted as volumes to the trust store
+of the Topology Operator Pod located at <span class="code ">/etc/ssl/certs/</span></p>
+<h3>Prerequisites</h3>
+<p>This guide assumes you have the following:</p>
+<ol>
+<li>The <a href="operator-overview.html">RabbitMQ Cluster Operator</a> and <a href="install-topology-operator.html">Messaging Topology Operator</a> are installed on the Kubernetes cluster</li>
+<li>A signed TLS certificate and private key to be used by a RabbitmqCluster to serve traffic</li>
+<li>A TLS certificate of a CA which signed the server certificate and key, whose path is exported as $CA_PATH</li>
+</ol>
+<h3>Steps</h3>
+<ol>
+<li>Create a RabbitmqCluster serving traffic over TLS by following the documented example in the Cluster Operator examples.</li>
+<li>Create a Kubernetes Secret containing the certificate of the CA that signed the RabbitMQ server's certificate.</li>
+</ol>
+<p>For example:</p>
+<pre class="lang-bash">
+kubectl -n rabbitmq-system create secret generic rabbitmq-ca --from-file=ca.crt=$CA_PATH
+</pre>
+
+<ol>
+<li>Mount this secret into the Messaging Topology Operator Pod's trust store. Do this by either editing the Deployment manifest,
+or by applying a patch through kubectl:</li>
+</ol>
+<pre class="lang-bash">
+kubectl -n rabbitmq-system patch deployment messaging-topology-operator --patch "spec:
+  template:
+    spec:
+      containers:
+      - name: manager
+        volumeMounts:
+        - mountPath: /etc/ssl/certs/rabbitmq-ca.crt
+          name: rabbitmq-ca
+          subPath: ca.crt
+      volumes:
+      - name: rabbitmq-ca
+        secret:
+          defaultMode: 420
+          secretName: rabbitmq-ca"
+</pre>
+
+<p>The Topology Operator Pod will be recreated, and will now trust the certificates signed by the newly mounted CA.
+Any  communication the Pod performs with the RabbitmqCluster will be done over HTTPS.</p>
+<h3>Limitations</h3>
+<ul>
+<li>Messaging Topology Operator will not be able to manage RabbitmqClusters that have not mounted their CA as described above:
+  such nodes won't accept client connections over HTTPS</li>
+<li>Messaging Topology Operator will not attempt to connect to the RabbitmqCluster over HTTP if HTTPS is available (even if the
+certificate is not trusted)</li>
+<li>RabbitmqClusters with TLS disabled (i.e. nothing is configured under .spec.tls) will always be managed over HTTP</li>
+</ul><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2021 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
+          <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
+          <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

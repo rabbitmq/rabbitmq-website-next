@@ -281,9 +281,9 @@ guarantee FIFO ordering of messages.</p>
 <p>To avoid some nodes in a cluster hosting the majority of queue leader
 replicas and thus handling most of the load, queue leaders should
 be reasonably evenly distributed across cluster nodes.</p>
-<p>When a new quorum queue is declared, the set of nodes that will host it
+<p>When a new quorum queue is declared, the set of nodes that will host its
 replicas is randomly picked. Which replica becomes the leader is decided
-by a <a href="#leader-election">leader election</a> process which is is also
+by a <a href="#leader-election">leader election</a> process which is also
 based on randomization.</p>
 <h3><a id="replica-management" class="anchor" href="#replica-management">Managing Replicas</a> (Quorum Group Members)</h3>
 <p>Replicas of a quorum queue are explicitly managed by the operator. When a new node is added

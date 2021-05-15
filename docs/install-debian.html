@@ -53,7 +53,7 @@ This option will require manual installation of all RabbitMQ package dependencie
 <h2><a id="supported-debian-distributions" class="anchor" href="#supported-debian-distributions">Supported Distributions</a></h2>
 <p>Below is a list Debian-based distributions supported by recent RabbitMQ releases:</p>
 <ul>
-<li>Ubuntu 16.04 through 20.10</li>
+<li>Ubuntu 18.04 through 21.04</li>
 <li>Debian Buster (10), Bullseye (11), and Sid ("unstable")</li>
 </ul>
 <p>The package may work on other Debian-based distributions
@@ -111,7 +111,7 @@ sudo apt-key adv --keyserver "hkps://keys.openpgp.org" --recv-keys "0x0A9AF2115F
 ## Launchpad PPA that provides modern Erlang releases
 sudo apt-key adv --keyserver "keyserver.ubuntu.com" --recv-keys "F77F1EDA57EBB1CC"
 ## PackageCloud RabbitMQ repository
-curl -1sLf 'https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey' | apt-key add -
+curl -1sLf 'https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey' | sudo apt-key add -
 </pre>
 
 <p>See the <a href="/signatures.html">guide on signatures</a> to learn more.</p>
@@ -127,7 +127,7 @@ sudo apt-key adv --keyserver "hkps://keys.openpgp.org" --recv-keys "0x0A9AF2115F
 ## Launchpad PPA that provides modern Erlang releases
 sudo apt-key adv --keyserver "keyserver.ubuntu.com" --recv-keys "F77F1EDA57EBB1CC"
 ## PackageCloud RabbitMQ repository
-curl -1sLf 'https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey' | apt-key add -
+curl -1sLf 'https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey' | sudo apt-key add -
 
 ## Add apt repositories maintained by Team RabbitMQ
 sudo tee /etc/apt/sources.list.d/rabbitmq.list &lt;&lt;EOF
@@ -200,7 +200,6 @@ matches the Debian or Ubuntu release used:</p>
 <ul>
 <li><span class="code ">focal</span> for Ubuntu 20.04</li>
 <li><span class="code ">bionic</span> for Ubuntu 18.04</li>
-<li><span class="code ">xenial</span> for Ubuntu 16.04</li>
 <li><span class="code ">buster</span> for Debian Buster</li>
 </ul>
 <p>However, not all distributions are covered (indexed).
@@ -225,10 +224,6 @@ with the RabbitMQ apt repository on PackageCloud.</p>
 <tr>
 <td>Ubuntu 18.04</td>
 <td><span class="code ">bionic</span></td>
-</tr>
-<tr>
-<td>Ubuntu 16.04</td>
-<td><span class="code ">xenial</span></td>
 </tr>
 <tr>
 <td>Debian Buster</td>
@@ -310,21 +305,6 @@ deb-src https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ bionic main
 EOF
 </pre>
 
-<p>On Ubuntu 16.04, use</p>
-<pre class="lang-bash">
-sudo tee /etc/apt/sources.list.d/rabbitmq.list &lt;&lt;EOF
-## Provides modern Erlang/OTP releases
-##
-deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu xenial main
-deb-src http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu xenial main
-
-## Provides RabbitMQ
-##
-deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ xenial main
-deb-src https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ xenial main
-EOF
-</pre>
-
 <h4>Install Packages</h4>
 <p>After updating the list of <span class="code ">apt</span> sources it is necessary to run <span class="code ">apt-get update</span>:</p>
 <pre class="lang-bash">
@@ -367,9 +347,9 @@ sudo apt-get install curl gnupg debian-keyring debian-archive-keyring apt-transp
 ## Team RabbitMQ's main signing key
 sudo apt-key adv --keyserver "hkps://keys.openpgp.org" --recv-keys "0x0A9AF2115F4687BD29803A206B73A36E6026DFCA"
 ## Cloudsmith: modern Erlang repository
-curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key | apt-key add -
+curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key | sudo apt-key add -
 ## Cloudsmith: RabbitMQ repository
-curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key | apt-key add -
+curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key | sudo apt-key add -
 </pre>
 
 <p>See the <a href="/signatures.html">guide on signatures</a> to learn more.</p>
@@ -383,9 +363,9 @@ sudo apt-get install curl gnupg debian-keyring debian-archive-keyring apt-transp
 ## Team RabbitMQ's main signing key
 sudo apt-key adv --keyserver "hkps://keys.openpgp.org" --recv-keys "0x0A9AF2115F4687BD29803A206B73A36E6026DFCA"
 ## Cloudsmith: modern Erlang repository
-curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key | apt-key add -
+curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key | sudo apt-key add -
 ## Cloudsmith: RabbitMQ repository
-curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key | apt-key add -
+curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key | sudo apt-key add -
 
 ## Add apt repositories maintained by Team RabbitMQ
 sudo tee /etc/apt/sources.list.d/rabbitmq.list &lt;&lt;EOF
@@ -460,7 +440,6 @@ matches the Debian or Ubuntu release used:</p>
 <ul>
 <li><span class="code ">focal</span> for Ubuntu 20.04</li>
 <li><span class="code ">bionic</span> for Ubuntu 18.04</li>
-<li><span class="code ">xenial</span> for Ubuntu 16.04</li>
 <li><span class="code ">buster</span> for Debian Buster</li>
 </ul>
 <p>However, not all distributions are covered (indexed).
@@ -485,10 +464,6 @@ with the RabbitMQ apt repository on PackageCloud.</p>
 <tr>
 <td>Ubuntu 18.04</td>
 <td><span class="code ">bionic</span></td>
-</tr>
-<tr>
-<td>Ubuntu 16.04</td>
-<td><span class="code ">xenial</span></td>
 </tr>
 <tr>
 <td>Debian Buster</td>
@@ -566,21 +541,6 @@ deb-src https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu bion
 ##
 deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu bionic main
 deb-src https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu bionic main
-EOF
-</pre>
-
-<p>On Ubuntu 16.04, use</p>
-<pre class="lang-bash">
-sudo tee /etc/apt/sources.list.d/rabbitmq.list &lt;&lt;EOF
-## Provides modern Erlang/OTP releases
-##
-deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu xenial main
-deb-src https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu xenial main
-
-## Provides RabbitMQ
-##
-deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu xenial main
-deb-src https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu xenial main
 EOF
 </pre>
 
@@ -862,7 +822,7 @@ Redirecting to /bin/systemctl status rabbitmq-server.service
    Loaded: loaded (/usr/lib/systemd/system/rabbitmq-server.service; enabled; vendor preset: disabled)
   Drop-In: /etc/systemd/system/rabbitmq-server.service.d
            └─limits.conf
-   Active: active (running) since Wed 2021-01-22 10:21:32 UTC; 25s ago
+   Active: active (running) since Wed 2021-05-07 10:21:32 UTC; 25s ago
  Main PID: 957 (beam.smp)
    Status: "Initialized"
    CGroup: /system.slice/rabbitmq-server.service
@@ -873,7 +833,7 @@ Redirecting to /bin/systemctl status rabbitmq-server.service
            └─2861 inet_gethost 4
 
 Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##  ##
-Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##  ##      RabbitMQ 3.8.11. Copyright (c) 2007-2021 VMware, Inc. or its affiliates.
+Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##  ##      RabbitMQ 3.8.16. Copyright (c) 2007-2021 VMware, Inc. or its affiliates.
 Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##########  Licensed under the MPL 2.0. Website: https://www.rabbitmq.com/
 Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ######  ##
 Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##########  Logs: /var/log/rabbitmq/rabbit@localhost.log
@@ -922,7 +882,7 @@ sudo journalctl --system | grep rabbitmq
 <p>The output will look similar to this:</p>
 <pre class="lang-ini">
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##
-Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##      RabbitMQ 3.8.11. Copyright (c) 2007-2021 VMware, Inc. or its affiliates.
+Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##      RabbitMQ 3.8.16. Copyright (c) 2007-2021 VMware, Inc. or its affiliates.
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##########  Licensed under the MPL 2.0. Website: https://www.rabbitmq.com/
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ######  ##
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##########  Logs: /var/log/rabbitmq/rabbit@localhost.log
@@ -953,17 +913,17 @@ on Launchpad.</p>
 <ul>
 <li>Ubuntu 20.04 (Focal)</li>
 <li>Ubuntu 18.04 (Bionic)</li>
-<li>Ubuntu 16.04 (Xenial)</li>
 </ul>
 <p>The following Debian releases can use the same apt repository:</p>
 <ul>
 <li>Debian 10 (Buster)</li>
 <li>Debian 11 (Bullseye)</li>
 </ul>
-<p>Debian 9 (Stretch() is no longer supported as it does not provide a minimum required OpenSSL version
- and is <a href="https://wiki.debian.org/LTS/Using">out of general support</a>.</p>
+<p>Debian 9 (Stretch) and Ubuntu 16.04 are no longer supported as they do not provide a minimum required OpenSSL version.
+ Both versions are <a href="https://wiki.debian.org/LTS/Using">out of general support</a> as well.</p>
 <p>The repo currently provides most recent patch releases in the following Erlang series:</p>
 <ul>
+<li>24.x</li>
 <li>23.x</li>
 </ul>
 <p>In order to use the repository, it is necessary to</p>
@@ -1023,7 +983,6 @@ supported (indexed) by the Erlang Debian packages maintained by Team RabbitMQ:</
 <ul>
 <li><span class="code ">focal</span> for Ubuntu 20.04</li>
 <li><span class="code ">bionic</span> for Ubuntu 18.04</li>
-<li><span class="code ">xenial</span> for Ubuntu 16.04</li>
 <li><span class="code ">bionic</span> for Debian Buster and later versions</li>
 </ul>
 <p>However, not all distributions are covered (indexed).
@@ -1048,10 +1007,6 @@ with the Launchpad repository.</p>
 <tr>
 <td>Ubuntu 18.04</td>
 <td><span class="code ">bionic</span></td>
-</tr>
-<tr>
-<td>Ubuntu 16.04</td>
-<td><span class="code ">xenial</span></td>
 </tr>
 <tr>
 <td>Debian Buster</td>
