@@ -22,7 +22,7 @@
 <h2><a id="basics" class="anchor" href="#basics">The Basics</a></h2>
 <p>RabbitMQ supports plugins. Plugins extend core broker functionality in a variety of ways: with support
 for more protocols, system state <a href="/monitoring.html">monitoring</a>, additional AMQP 0-9-1 exchange types,
-node <a href="/federation.html">federation</a>, and more. A number of features are implemented as plugins
+node <a href="federation.html">federation</a>, and more. A number of features are implemented as plugins
 that ship in the core distribution.</p>
 <p>This guide covers the plugin mechanism and plugins that ship in the <a href="/changelog.html">latest release</a> of the RabbitMQ distribution.
 3rd party plugins can be installed separately. A set of <a href="#plugin-tiers">curated plugins</a> is also available.</p>
@@ -58,7 +58,7 @@ This option is often optimal for node provisioning automation.</p>
 <p>The <span class="code ">enabled_plugins</span> file is usually <a href="/relocate.html">located</a> in the node
 data directory or under <span class="code ">/etc</span>, together with configuration files. The file contains
 a list of plugin names ending with a dot. For example, when <a href="/management.html">rabbitmq_management</a> and
-<a href="/shovel.html">rabbitmq_shovel</a> plugins are enabled,
+<a href="shovel.html">rabbitmq_shovel</a> plugins are enabled,
 the file contents will look like this:</p>
 <pre class="lang-erlang">
 [rabbitmq_management,rabbitmq_management_agent,rabbitmq_shovel].
@@ -122,7 +122,7 @@ installed RabbitMQ version changes between upgrades.</p>
 <p>The list of currently enabled plugins on a node is stored in a file.
 The file is commonly known as the enabled plugins file. Depending on the package type
 it is usually located under the <span class="code ">etc</span> directory or under the node's
-data directory. Its path can be <a href="/configure.html">overridden</a> using the <span class="code ">RABBITMQ_ENABLED_PLUGINS_FILE</span>
+data directory. Its path can be <a href="configure.html">overridden</a> using the <span class="code ">RABBITMQ_ENABLED_PLUGINS_FILE</span>
 environment variable. As a user you don't usually have to think about that file as it is
 managed by the node and <span class="code ">rabbitmq-plugins</span> (when used in <span class="code ">--offline</span> mode).</p>
 <p>Deployment automation tools must make sure that the file is readable and writeable by the local RabbitMQ node.

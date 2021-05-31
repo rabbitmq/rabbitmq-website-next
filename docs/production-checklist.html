@@ -81,7 +81,7 @@ OS swapping, and can even result in RabbitMQ process termination.</p>
 <span class="code ">vm_memory_high_watermark</span>:</p>
 <ul>
 <li>Nodes hosting RabbitMQ should have at least <strong>256 MiB</strong> of
-   memory available at all times. Deployments that use <a href="/quorum-queues.html">quorum queues</a>, <a href="/shovel.html">Shovel</a> and <a href="/federation.html">Federation</a> may need more.</li>
+   memory available at all times. Deployments that use <a href="/quorum-queues.html">quorum queues</a>, <a href="shovel.html">Shovel</a> and <a href="federation.html">Federation</a> may need more.</li>
 <li>The recommended <span class="code ">vm_memory_high_watermark.relative</span> range is <span class="code ">0.4 to 0.7</span></li>
 <li>Values above <span class="code ">0.7</span> should be used with care and with solid <a href="/memory-use.html">memory usage</a> and infrastructure-level <a href="/monitoring.html">monitoring</a> in place.
    The OS and file system must be left with at least 30% of the memory, otherwise performance may degrade severely due to paging.</li>
@@ -143,7 +143,7 @@ by 2 and add total number of queues to calculate recommended open file handle li
 Values as high as 500K are not inadequate and
 won't consume a lot of hardware resources, and therefore are recommended for production
 setups.</p>
-<p>See <a href="/networking.html">Networking guide</a> for more information.</p>
+<p>See <a href="networking.html">Networking guide</a> for more information.</p>
 <h3><a id="logging" class="anchor" href="#logging">Log Collection</a></h3>
 <p>It is highly recommended that logs of all RabbitMQ nodes and applications (when possible) are collected
 and aggregated. Logs can be crucially important in investigating unusual system behaviour.</p>
@@ -245,7 +245,7 @@ including CPU usage of both RabbitMQ and applications that use it.</p>
 <h2><a id="networking" class="anchor" href="#networking">Networking Configuration</a></h2>
 <p>Production environments may require network configuration
 tuning, for example, to sustain a high number of concurrent clients.
-Please refer to the <a href="/networking.html">Networking Guide</a> for details.</p>
+Please refer to the <a href="networking.html">Networking Guide</a> for details.</p>
 <h2><a id="distribution-considerations" class="anchor" href="#distribution-considerations">Clustering Considerations</a></h2>
 <h3><a id="distribution-considerations-cluster-size" class="anchor" href="#distribution-considerations-cluster-size">Cluster Size</a></h3>
 <p>The number of queues, queue replication factor, number of connections, maximum

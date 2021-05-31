@@ -79,7 +79,7 @@ all held under the installation directory <span class="code ">rabbitmq_server-3.
 which is in the <span class="envvar">$RABBITMQ_HOME</span>
 variable in the scripts.</p>
 <p>The node can be <a href="/relocate.html">instructed</a> to use more
-conventional system directories for <a href="/configure.html">configuration</a>,
+conventional system directories for <a href="configure.html">configuration</a>,
 node data directory, <a href="/logging.html">log</a> files, <a href="/plugins.html">plugins</a> and so on.
 In order to make the node use operating system defaults, locate the following line</p>
 <pre class="lang-bash">
@@ -114,11 +114,11 @@ Make sure the following ports are accessible:</p>
 <li>25672: used for inter-node and CLI tools communication (Erlang distribution server port)
    and is allocated from a dynamic range (limited to a single port by default,
    computed as AMQP port + 20000). Unless external connections on these ports are really necessary (e.g.
-   the cluster uses <a href="/federation.html">federation</a> or CLI tools are used on machines outside the subnet),
-   these ports should not be publicly exposed. See <a href="/networking.html">networking guide</a> for details.</li>
+   the cluster uses <a href="federation.html">federation</a> or CLI tools are used on machines outside the subnet),
+   these ports should not be publicly exposed. See <a href="networking.html">networking guide</a> for details.</li>
 <li>35672-35682: used by CLI tools (Erlang distribution client ports) for communication with nodes
    and is allocated from a dynamic range (computed as server distribution port + 10000 through
-   server distribution port + 10010). See <a href="/networking.html">networking guide</a> for details.</li>
+   server distribution port + 10010). See <a href="networking.html">networking guide</a> for details.</li>
 <li>15672: <a href="/management.html">HTTP API</a> clients, <a href="/management.html">management UI</a> and <a href="/management-cli.html">rabbitmqadmin</a>
    (only if the <a href="/management.html">management plugin</a> is enabled)</li>
 <li>61613, 61614: <a href="https://stomp.github.io/stomp-specification-1.2.html">STOMP clients</a> without and with TLS (only if the <a href="/stomp.html">STOMP plugin</a> is enabled)</li>
@@ -127,8 +127,8 @@ Make sure the following ports are accessible:</p>
 <li>15675: MQTT-over-WebSockets clients (only if the <a href="/web-mqtt.html">Web MQTT plugin</a> is enabled)</li>
 <li>15692: Prometheus metrics (only if the <a href="/prometheus.html">Prometheus plugin</a> is enabled)</li>
 </ul>
-<p>It is possible to <a href="/configure.html">configure RabbitMQ</a>
-to use <a href="/networking.html">different ports and specific network interfaces</a>.</p>
+<p>It is possible to <a href="configure.html">configure RabbitMQ</a>
+to use <a href="networking.html">different ports and specific network interfaces</a>.</p>
 <h2><a id="default-user-access" class="anchor" href="#default-user-access">Default User Access</a></h2>
 <p>The broker creates a user <span class="code ">guest</span> with password
 <span class="code ">guest</span>. Unconfigured clients will in general use these

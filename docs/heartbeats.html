@@ -52,7 +52,7 @@ but the TCP connection will be closed. When a client detects
 that RabbitMQ node is unreachable due to a heartbeat, it needs
 to re-connect.</p>
 <p>It is important to not confuse the timeout value with the interval one.
-RabbitMQ <a href="/configure.html">configuration</a> exposes the timeout value,
+RabbitMQ <a href="configure.html">configuration</a> exposes the timeout value,
 so do the officially supported client libraries. However some clients might expose
 the interval, potentially causing confusion.</p>
 <p>Any traffic (e.g. protocol operations, published messages, <a href="/confirms.html">acknowledgements</a>) counts for a valid
@@ -118,7 +118,7 @@ feature.</p>
 <span class="code ">keepalive</span> interval when connecting. Please
 consult your MQTT client's documentation for examples.</p>
 <h2><a id="shovel-and-federation" class="anchor" href="#shovel-and-federation">Heartbeats in Shovel and Federation Plugins</a></h2>
-<p><a href="/shovel.html">Shovel</a> and <a href="/federation.html">Federation</a> plugins open Erlang client
+<p><a href="shovel.html">Shovel</a> and <a href="federation.html">Federation</a> plugins open Erlang client
 connections to RabbitMQ nodes under the hood. As such, they can be configured
 to use a desired heartbeat value.</p>
 <p>Please refer to the <a href="/uri-query-parameters.html">AMQP 0-9-1 URI query parameters reference</a>
@@ -138,13 +138,13 @@ not have a heartbeat mechanism of some kind), TCP keepalives must
 be configured to use a reasonably low timeout value.</p>
 <p>TCP keepalives cover all TCP connections on a host, both inbound
 and outgoing. This makes them useful in scenarios with a high outgoing
-connection churn, e.g. <a href="/shovel.html">Shovel</a> or <a href="/federation.html">Federation</a> plugin
+connection churn, e.g. <a href="shovel.html">Shovel</a> or <a href="federation.html">Federation</a> plugin
 links that are often disabled and reenabled or interrupted.</p>
 <p>TCP keepalives can also be used instead of heartbeats by configuring them to lower system-specific
 values. In that case <a href="#disabling">heartbeats can be disabled</a>. The main benefit
 of this approach is that all TCP connections on a machine will use identical values
 regardless of the protocol and client library used.</p>
-<p>See the <a href="/networking.html">Networking guide</a> for details.</p>
+<p>See the <a href="networking.html">Networking guide</a> for details.</p>
 <h2><a id="tcp-proxies" class="anchor" href="#tcp-proxies">Heartbeats and TCP Proxies</a></h2>
 <p>Certain networking tools (HAproxy, AWS ELB) and equipment
 (hardware load balancers) may terminate "idle" TCP

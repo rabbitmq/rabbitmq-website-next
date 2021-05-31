@@ -489,7 +489,7 @@ ssl_options.fail_if_no_peer_cert = false
 ].
 </pre>
 
-<p>When using RabbitMQ plugins such as <a href="/federation.html">Federation</a> or <a href="/shovel.html">Shovel</a> with TLS,
+<p>When using RabbitMQ plugins such as <a href="federation.html">Federation</a> or <a href="shovel.html">Shovel</a> with TLS,
 it may be necessary to configure verification depth for the Erlang client that those plugins use under the hood,
 as <a href="#erlang-client">explained below</a>.</p>
 <h2><a id="java-client" class="anchor" href="#java-client">Using TLS in the Java Client</a></h2>
@@ -559,7 +559,7 @@ public class Example1 {
 <p>This simple example is an echo client and server. It creates a channel
 and publishes to the default direct exchange, then
 fetches back what has been published and echoes it out. It uses
-an <a href="/queues.html">exclusive, non-durable, auto-delete queue</a> that will be deleted shortly
+an <a href="queues.html">exclusive, non-durable, auto-delete queue</a> that will be deleted shortly
 after the connection is closed.</p>
 <h3><a id="java-client-connecting-with-peer-verification" class="anchor" href="#java-client-connecting-with-peer-verification">Connecting with Peer Verification Enabled</a></h3>
 <p>For a Java client to trust a server, the server certificate must be added
@@ -897,7 +897,7 @@ disabled, not available or otherwise cannot be relied on.</p>
 creates a channel and publishes to
 the default direct exchange, then reads back what has been
 published and echoes it out. Note that we use an
-<a href="/queues.html">exclusive, non-durable, auto-delete queue</a> so we don't have
+<a href="queues.html">exclusive, non-durable, auto-delete queue</a> so we don't have
 to worry about manually cleaning up after ourselves</p>
 <pre class="lang-csharp">
 using System;
@@ -1214,7 +1214,7 @@ rabbitmq-diagnostics cipher_suites --format erlang -q
 that's only accepted in the <a href="/configure.html#erlang-term-config-file">classic config format</a>. The OpenSSL format is accepted
 by both config formats. Note that cipher suites are not enquoted in the new style config format
 but double quotes are required in the classic format.</p>
-<p>The cipher suites listed by the above command are in formats that can be used for inbound and outgoing (e.g. <a href="/shovel.html">Shovel</a>, <a href="/federation.html">Federation</a>)
+<p>The cipher suites listed by the above command are in formats that can be used for inbound and outgoing (e.g. <a href="shovel.html">Shovel</a>, <a href="federation.html">Federation</a>)
 client TLS connections. They are different from those used by <a href="/configure.html#configuration-encryption">configuration value encryption</a>.</p>
 <p>When overriding cipher suites, it is highly recommended
 that server-preferred <a href="#cipher-suite-order">cipher suite ordering is enforced</a>.</p>

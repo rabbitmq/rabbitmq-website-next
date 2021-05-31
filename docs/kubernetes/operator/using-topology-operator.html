@@ -167,7 +167,7 @@ and <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/d
 <p>The following manifest will create a vhost named 'test' in a RabbitmqCluster named 'example-rabbit':</p>
 <pre class="lang-bash">
 apiVersion: rabbitmq.com/v1beta1
-kind: Queue
+kind: Vhost
 metadata:
   name: test-vhost # name of this custom resource
   namespace: rabbitmq-system

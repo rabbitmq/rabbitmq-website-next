@@ -13,7 +13,7 @@
 <li><a href="/rabbitmqctl.8.html"><span class="code ">rabbitmqctl</span></a> for service management and general operator tasks</li>
 <li><a href="/rabbitmq-diagnostics.8.html"><span class="code ">rabbitmq-diagnostics</span></a> for diagnostics and <a href="/monitoring.html">health checking</a></li>
 <li><a href="/rabbitmq-plugins.8.html"><span class="code ">rabbitmq-plugins</span></a> for <a href="/plugins.html">plugin management</a></li>
-<li><a href="/rabbitmq-queues.8.html"><span class="code ">rabbitmq-queues</span></a> for maintenance tasks on <a href="/queues.html">queues</a>, in particular <a href="/quorum-queues.html">quorum queues</a></li>
+<li><a href="/rabbitmq-queues.8.html"><span class="code ">rabbitmq-queues</span></a> for maintenance tasks on <a href="queues.html">queues</a>, in particular <a href="/quorum-queues.html">quorum queues</a></li>
 <li><a href="/rabbitmq-upgrade.8.html"><span class="code ">rabbitmq-upgrade</span></a> for maintenance tasks related to <a href="/upgrade.html">upgrades</a></li>
 </ul>
 <p>they can be found under the <span class="code ">sbin</span> directory in installation root.</p>
@@ -100,7 +100,7 @@ take effect on node restart).</p>
 <p><span class="code ">rabbitmq-plugins</span> uses shared secret authentication (described below) with server nodes.</p>
 <h2><a id="authentication" class="anchor" href="#authentication">Authentication</a></h2>
 <p>With the exception of <span class="code ">rabbitmqadmin</span>, RabbitMQ tools use a <a href="#erlang-cookie">shared secret authentication mechanism</a>.
-This requires that <a href="/networking.html">inter-node and CLI communication ports</a> (by default)
+This requires that <a href="networking.html">inter-node and CLI communication ports</a> (by default)
 is open for external connections on the target node.</p>
 <h2><a id="remote-nodes" class="anchor" href="#remote-nodes">Using CLI Tools against Remote Server Nodes</a></h2>
 <p>CLI tools can be used to talk to remote nodes as well as the local ones. Nodes are identified by <a href="#node-names">node names</a>.
@@ -408,7 +408,7 @@ current node details:
 <li>TCP port access blocked (firewalls, etc)</li>
 </ul>
 <p>and so on.</p>
-<p><a href="/networking.html">RabbitMQ Networking guide</a> contains a section on troubleshooting of networking-related issues.</p>
+<p><a href="networking.html">RabbitMQ Networking guide</a> contains a section on troubleshooting of networking-related issues.</p>
 <h2><a id="http-api-cli" class="anchor" href="#http-api-cli">rabbitmqadmin</a></h2>
 <p><a href="/management-cli.html">rabbitmqadmin</a> is a command line tool that's built on top of <a href="/management.html">RabbitMQ HTTP API</a>.
 It is not a replacement for <span class="code ">rabbitmqctl</span> and provides access to a subset of most commonly

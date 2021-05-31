@@ -9,7 +9,7 @@
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>RabbitMQ allows you to set TTL (time to live) for both messages and queues.
-This can be done using <a href="/queues.html">optional queue arguments</a> or
+This can be done using <a href="queues.html">optional queue arguments</a> or
 <a href="/parameters.html">policies</a> (the latter option is recommended).</p>
 <p>Message TTL can be applied to a single queue, a group of
 queues or applied on the message-by-message basis.</p>
@@ -143,7 +143,7 @@ purging, or queue deletion).</p>
 <p>TTL can also be set on queues, not just queue contents.
 Queues will expire after a period of time only when they
 are not used (e.g. do not have consumers). This feature
-can be used together with the <a href="/queues.html">auto-delete queue property</a>.</p>
+can be used together with the <a href="queues.html">auto-delete queue property</a>.</p>
 <p>Expiry time can be set for a given queue by setting the
 <span class="code ">x-expires</span> argument to <span class="code ">queue.declare</span>,
 or by setting the <span class="code ">expires</span> <a href="parameters.html#policies">policy</a>. This controls for

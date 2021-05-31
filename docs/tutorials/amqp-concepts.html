@@ -58,7 +58,7 @@ entities and routing schemes are primarily defined by applications
 themselves, not a broker administrator. Accordingly,
 provision is made for protocol operations that declare
 queues and exchanges, define bindings between them,
-subscribe to <a href="/queues.html">queues</a> and so on.</p>
+subscribe to <a href="queues.html">queues</a> and so on.</p>
 <p>This gives application developers a lot of freedom but
 also requires them to be aware of potential definition
 conflicts. In practice, definition conflicts are rare and
@@ -213,7 +213,7 @@ hash (dictionary) for example.</p>
 <p>Note that headers beginning with the string <span class="code ">x-</span>
 will not be used to evaluate matches.</p>
 <h2><a id="queues" class="anchor" href="#queues">Queues</a></h2>
-<p><a href="/queues.html">Queues</a> in the AMQP 0-9-1 model are very similar to queues in
+<p><a href="queues.html">Queues</a> in the AMQP 0-9-1 model are very similar to queues in
 other message- and task-queueing systems: they store
 messages that are consumed by applications. Queues share
 some properties with exchanges, but also have some additional
@@ -463,7 +463,7 @@ broker. However, it is undesirable to keep many TCP
 connections open at the same time because doing so consumes
 system resources and makes it more difficult to configure
 firewalls. AMQP 0-9-1 connections are multiplexed with
-<em><a href="/channels.html">channels</a></em> that can be thought of as "lightweight
+<em><a href="channels.html">channels</a></em> that can be thought of as "lightweight
 connections that share a single TCP connection".</p>
 <p>Every protocol operation performed by a client happens on a channel.
 Communication on a particular channel is completely separate

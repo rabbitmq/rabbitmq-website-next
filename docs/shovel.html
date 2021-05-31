@@ -43,7 +43,7 @@ different geographic or administrative domains that</p>
 <li>may have different users and virtual hosts</li>
 </ul>
 <h3>WAN-friendly</h3>
-<p>The Shovel plugin uses <a href="/connections.html">client connections</a> under the hood.
+<p>The Shovel plugin uses <a href="connections.html">client connections</a> under the hood.
 <a href="/confirms.html">Acknowledgements and publisher confirms</a> are used to ensure data safety in case of connection
 and node failures.</p>
 <h3>Cross-protocol and Product Message Transfers</h3>
@@ -58,12 +58,12 @@ it needs.</p>
 <p>There is no requirement to run the shovel on the same broker
 (or cluster) as its source or destination, although that's the most typical approach;
 the shovel can run on an entirely separate node or cluster.</p>
-<p>A comparison between <a href="/clustering.html">clustering</a>, <a href="/federation.html">federation</a>
+<p>A comparison between <a href="/clustering.html">clustering</a>, <a href="federation.html">federation</a>
 is provided in the <a href="distributed.html">Distributed Messaging</a> guide.</p>
 <h2><a id="what-it-does" class="anchor" href="#what-it-does">What Does a Shovel Do?</a></h2>
 <p>In essence, a shovel is a minimalistic message pump. Each shovel:</p>
 <ul>
-<li><a href="/connections.html">Connects</a> to the source and destination clusters</li>
+<li><a href="connections.html">Connects</a> to the source and destination clusters</li>
 <li><a href="/consumers.html">Consumes</a> messages from a queue</li>
 <li><a href="/publishers.html">Re-publishes</a> to a destination</li>
 <li>Uses <a href="/confirms.html">data safety features</a> on both ends and handles failures</li>
@@ -98,7 +98,7 @@ rabbitmq-plugins enable rabbitmq_shovel
 <p><a href="/management.html">Management UI</a> users may also wish to enable the <span class="code ">rabbitmq_shovel_management</span> plugin
 for <a href="#status">Shovel status monitoring</a>.</p>
 <p>There are two distinct ways to define shovels: <a href="shovel-dynamic.html">dynamic shovels</a> are defined using
-<a href="/parameters.html">runtime parameters</a> and <a href="shovel-static.html">static shovels</a> are defined in the <a href="/configure.html"><span class="code ">advanced.config</span> file</a>.</p>
+<a href="/parameters.html">runtime parameters</a> and <a href="shovel-static.html">static shovels</a> are defined in the <a href="configure.html"><span class="code ">advanced.config</span> file</a>.</p>
 <p>The pros and cons with each approach are covered below. Most users should consider
 dynamic shovels first for their ease of reconfiguration and management.</p>
 <table>
@@ -140,7 +140,7 @@ creation.</p>
 <h2><a id="authn-authz-for-shovels" class="anchor" href="#authn-authz-for-shovels">Authentication and authorisation for Shovels</a></h2>
 <p>The plugin uses <a href="/erlang-client-user-guide.html">Erlang AMQP 0-9-1</a> and <a href="https://github.com/rabbitmq/rabbitmq-amqp1.0-client">Erlang AMQP 1.0</a>
 clients under the hood to open connections to its source and/or destination. Just like any other
-<a href="/connections.html">client library connection</a>, a Shovel connection must <a href="/access-control.html">successfully authenticate</a>
+<a href="connections.html">client library connection</a>, a Shovel connection must <a href="/access-control.html">successfully authenticate</a>
 and be <a href="/access-control.html">authorized to access</a> the virtual host and resources it is trying to use.
 This is true for both sources and destinations.</p>
 <p>Authentication and authorisation failures of shovel connections will be

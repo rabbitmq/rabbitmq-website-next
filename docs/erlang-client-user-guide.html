@@ -10,7 +10,7 @@
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>This guide covers an Erlang client for RabbitMQ (<a href="/tutorials/amqp-concepts.html">AMQP 0-9-1</a>).</p>
 <p>This user guide assumes that the reader is familiar with <a href="/tutorials/amqp-concepts.html">basic concepts of AMQP 0-9-1</a>.</p>
-<p>Refer to guides on <a href="/connections.html">connections</a>, <a href="/channels.html">channels</a>, <a href="/queues.html">queues</a>,
+<p>Refer to guides on <a href="connections.html">connections</a>, <a href="channels.html">channels</a>, <a href="queues.html">queues</a>,
 <a href="/publishers.html">publishers</a>, and <a href="/consumers.html">consumers</a> to learn about those
 key RabbitMQ concepts in more details.</p>
 <p>Some topics covered in this guide include</p>
@@ -48,7 +48,7 @@ dep_rabbit_common = hex 3.8.7
 <p>The basic usage of the client follows these broad steps:</p>
 <ol>
 <li>Make sure the <span class="code ">amqp_client</span> Erlang application is started</li>
-<li>Establish a <a href="/connections.html">connection</a> to a RabbitMQ node</li>
+<li>Establish a <a href="connections.html">connection</a> to a RabbitMQ node</li>
 <li>Open a new channel on the connection</li>
 <li>Execute <a href="/amqp-0-9-1-quickref.html">AMQP 0-9-1 commands</a> with a channel such as
    declaring exchanges and queues, defining bindings between them, publishing messages,
@@ -98,7 +98,7 @@ parameter set to an <span class="code ">#amqp_params_network</span> record.</p>
 connections. This communication method assumes that the application that uses
 the client runs on the same Erlang cluster as RabbitMQ nodes.</p>
 <p>The use of direct client should be limited to applications that are deployed
-side by side with RabbitMQ. <a href="/shovel.html">Shovel</a> and <a href="/federation.thml">Federation</a>
+side by side with RabbitMQ. <a href="shovel.html">Shovel</a> and <a href="/federation.thml">Federation</a>
 plugins are two examples of such applications.</p>
 <p>In most other cases, developers should prefer the more traditional network client covered above.
 It will be easier to reason about for operators and developers not familiar with Erlang.</p>
@@ -119,7 +119,7 @@ amqp_client.hrl in every module that uses the Erlang client:</p>
 </pre>
 
 <h2><a id="connecting" class="anchor" href="#connecting">Connecting to RabbitMQ</a></h2>
-<p>The <span class="code ">amqp_connection</span> module is used to start a <a href="/connections.html">connection</a> to a RabbitMQ node.
+<p>The <span class="code ">amqp_connection</span> module is used to start a <a href="connections.html">connection</a> to a RabbitMQ node.
 In this example we will use a network connection, which is the recommended
 option for most use cases:</p>
 <pre class="lang-erlang">
@@ -257,7 +257,7 @@ password and vhost parameters, extra parameters may be specified
 via the query string (e.g. "?heartbeat=5" to configure a <a href="/heartbeats.html">heartbeat timeout</a>).</p>
 <h2><a id="channels" class="anchor" href="#channels">Creating Channels</a></h2>
 <p>Once a connection has been established, use the <span class="code ">amqp_connection</span> module
-to open one or more <a href="/channels.html">channels</a> that will be used
+to open one or more <a href="channels.html">channels</a> that will be used
 to define the topology, publish and consume messages:</p>
 <pre class="lang-erlang">
 {ok, Channel} = amqp_connection:open_channel(Connection)

@@ -83,7 +83,7 @@ discover in the library implementation. Applications cannot rely on
 any classes, interfaces, member variables etc. that appear within
 private namespaces remaining stable across releases of the library.</p>
 <h2><a id="connecting" class="anchor" href="#connecting">Connecting to RabbitMQ</a></h2>
-<p>Before an application can use RabbitMQ, it has to open a <a href="/connections.html">connection</a>
+<p>Before an application can use RabbitMQ, it has to open a <a href="connections.html">connection</a>
 to a RabbitMQ node. The connection then will be used to perform all subsequent
 operations. Connections are <strong>meant to be long-lived</strong>. Opening a connection
 for every operation (e.g. publishing a message) would be very inefficient and is
@@ -179,7 +179,7 @@ remains unassigned prior to creating a connection:</p>
 
 <p>Note that <a href="/access-control.html">user guest can only connect from localhost</a> by default.
 This is to limit well-known credential use in production systems.</p>
-<p>The <span class="code ">IConnection</span> interface can then be used to open a <a href="/channels.html">channel</a>:</p>
+<p>The <span class="code ">IConnection</span> interface can then be used to open a <a href="channels.html">channel</a>:</p>
 <pre class="lang-csharp">
 IModel channel = conn.CreateModel();
 </pre>
@@ -191,7 +191,7 @@ for every operation would be highly inefficient and is <strong>highly discourage
 however, can have a shorter life span than connections. For example, certain
 protocol errors will automatically close channels. If applications can recover
 from them, they can open a new channel and retry the operation.</p>
-<p>This is covered in more detail in the <a href="/channels.html">Channel guide</a> as well as other
+<p>This is covered in more detail in the <a href="channels.html">Channel guide</a> as well as other
 guides such as <a href="/confirms.html">Consumer Acknowledgements</a>.</p>
 <h2><a id="disconnecting" class="anchor" href="#disconnecting">Disconnecting from RabbitMQ</a></h2>
 <p>To disconnect, simply close the channel and the connection:</p>
@@ -254,7 +254,7 @@ IConnection conn = factory.CreateConnection();
 </pre>
 
 <h2><a id="exchanges-and-queues" class="anchor" href="#exchanges-and-queues">Using Exchanges and Queues</a></h2>
-<p>Client applications work with exchanges and <a href="/queues.html">queues</a>,
+<p>Client applications work with exchanges and <a href="queues.html">queues</a>,
 the high-level <a href="/tutorials/amqp-concepts.html">building blocks of the protocol</a>.
 These must be "declared" before they can be
 used. Declaring either type of object simply ensures that one of that

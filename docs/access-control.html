@@ -33,7 +33,7 @@ separated. For the sake of simplicity, we'll define
 authentication as "identifying who the user is" and
 authorisation as "determining what the user is and isn't allowed to do."</p>
 <h2><a id="basics" class="anchor" href="#basics">The Basics</a></h2>
-<p>Clients use RabbitMQ features to <a href="/connections.html">connect</a> to it. Every connection has
+<p>Clients use RabbitMQ features to <a href="connections.html">connect</a> to it. Every connection has
 an associated user which is authenticated. It also targets a <a href="/vhosts.html">virtual host</a> for which
 the user must have a certain set of permissions.</p>
 <p>User credentials, target virtual host and (optionally) client <a href="/ssl.html">certificate</a> are specified at connection
@@ -71,7 +71,7 @@ With this mechanism, any client-provided password will be ignored.</p>
 <p>By default, the <span class="code ">guest</span> user is prohibited from
 connecting from remote hosts; it can only connect over
 a loopback interface (i.e. <span class="code ">localhost</span>). This
-applies to <a href="/connections.html">connections regardless of the protocol</a>.
+applies to <a href="connections.html">connections regardless of the protocol</a>.
 Any other users will not (by default) be restricted in this way.</p>
 <p>The recommended way to address this in production systems
 is to create a new user or set of users with the permissions
@@ -83,7 +83,7 @@ in the <a href="configure.html#configuration-file">configuration file</a>.</p>
 from a remote host by setting the
 <span class="code ">loopback_users</span> configuration to
 <span class="code ">none</span>.</p>
-<p>A minimalistic <a href="/configure.html">RabbitMQ config file</a>
+<p>A minimalistic <a href="configure.html">RabbitMQ config file</a>
 which allows remote connections for <span class="code ">guest</span> looks like so:</p>
 <pre class="lang-ini">
 # DANGER ZONE!

@@ -15,7 +15,7 @@ services  and their components.</p>
 <p>In this and other Operator related guides, we use "Operator" (with a capital O) to refer to a Kubernetes Operator
 pattern implementation and "operator" (with a lowercase o) to refer to a technical operations
 engineer (administrator).</p>
-<h2>RabbitMQ Cluster Kubernetes Operator</h2>
+<h2><a id="cluster-operator" class="anchor" href="#cluster-operator">RabbitMQ Cluster Kubernetes Operator</a></h2>
 <p>RabbitMQ Cluster Kubernetes Operator provides a consistent and easy way to deploy RabbitMQ clusters to Kubernetes and
 run them, including "day two" (continuous) operations. RabbitMQ clusters deployed using the operator can be
 used by applications running on Kubernetes or outside of Kubernetes.</p>
@@ -51,7 +51,10 @@ not be deployed to the RabbitMQ cluster. For example, if the <span class="code "
 a new <span class="code ">Secret</span> will be created with new username and password, but those will not be reflected in the RabbitMQ cluster.
 It works the same way for any <span class="code ">Secret</span> value, e.g. the value of the <a href="/clustering.html#erlang-cookie">shared inter-node authentication secret</a>
 known as the Erlang cookie.</p>
-<h2>RabbitMQ Messaging Topology Operator</h2>
+<h4>RabbitMQ Cluster Feature Flags</h4>
+<p>Cluster Operator does not support disabling any <a href="https://www.rabbitmq.com/feature-flags.html#how-to-disable-feature-flags">RabbitMQ feature flags</a>.
+The Operator lists all available feature flags and enables all of them at cluster start.</p>
+<h2><a id="topology-operator" class="anchor" href="#topology-operator">RabbitMQ Messaging Topology Operator</a></h2>
 <p>RabbitMQ Messaging Topology Operator supports managing RabbitMQ messaging topologies objects through kubernetes declarative API.</p>
 <p>Documentation of Messaging Topology Operator structured as following:</p>
 <ul>

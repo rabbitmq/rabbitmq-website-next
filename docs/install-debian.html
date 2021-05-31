@@ -16,7 +16,7 @@ Older distributions, in fact, provide RabbitMQ versions that are already <a href
 <p>Key sections of this guide are</p>
 <ul>
 <li><a href="#installation-methods">Ways of installing</a> the latest RabbitMQ version on Debian and Ubuntu</li>
-<li><a href="#supported-debian-distributions">Supported Ubuntu and Debian distributions</a></li>
+<li><a href="#supported-distributions">Supported Ubuntu and Debian distributions</a></li>
 <li><a href="#sudo-requirements">Privilege requirements</a></li>
 <li>Quick start installation snippet that <a href="#apt-quick-start-cloudsmith">uses Cloudsmith</a> repositories</li>
 <li>Quick start installation snippets that <a href="#apt-quick-start-packagecloud">uses PackageCloud</a> and Launchpad repositories</li>
@@ -50,8 +50,14 @@ on Cloudsmith or Launchpad.</p>
 <h3>Manually Using Dpkg</h3>
 <p>Alternatively, the package can be downloaded manually and <a href="#manual-installation">installed </a> with <span class="code ">dpkg -i</span>.
 This option will require manual installation of all RabbitMQ package dependencies and is <strong>highly discouraged</strong>.</p>
-<h2><a id="supported-debian-distributions" class="anchor" href="#supported-debian-distributions">Supported Distributions</a></h2>
-<p>Below is a list Debian-based distributions supported by recent RabbitMQ releases:</p>
+<h2><a id="supported-distributions" class="anchor" href="#supported-distributions">Supported Distributions</a></h2>
+<p>RabbitMQ is supported on several major Debian-based distributions that are still supported
+by their primary vendor or developer group.</p>
+<p>Note that modern versions of Erlang can have incompatibilities with older distributions (e.g. older than three to four years)
+or ship without much or any testing on older distributions or OS kernel versions.</p>
+<p>Older distributions can also lack a recent enough version of OpenSSL.
+Erlang 24 cannot be used on distributions that <strong>do not</strong> ship with OpenSSL 1.1 by default.</p>
+<p>Currently the list of supported Debian-based distributions includes</p>
 <ul>
 <li>Ubuntu 18.04 through 21.04</li>
 <li>Debian Buster (10), Bullseye (11), and Sid ("unstable")</li>
@@ -62,7 +68,7 @@ but their testing and support is done on a best effort basis.</p>
 <h2><a id="erlang-repositories" class="anchor" href="#erlang-repositories">Where to Get Recent Erlang Version on Debian and Ubuntu</a></h2>
 <p>RabbitMQ needs Erlang/OTP to run. Erlang/OTP packages in
 standard Debian and Ubuntu repositories can be significantly out of date
-and not <a href="/which-erlang.html">supported by modern RabbitMQ versions</a>.</p>
+and not <a href="which-erlang.html">supported by modern RabbitMQ versions</a>.</p>
 <p>Most recent Erlang/OTP release series are available from a number of alternative
 apt repositories:</p>
 <table>
@@ -74,6 +80,21 @@ apt repositories:</p>
    </tr>
  </thead>
  <tbody>
+  <tr>
+     <td>24.x</td>
+     <td>
+       <ul>
+        <li><a href="#apt-cloudsmith">Debian packages of Erlang</a> from Team RabbitMQ on Cloudsmith.io</li>
+        <li><a href="#apt-launchpad-erlang">Debian packages of Erlang</a> from Team RabbitMQ on Launchpad</li>
+         <li><a href="https://packages.erlang-solutions.com/erlang/#tabs-debian">Erlang Solutions</a></li>
+       </ul>
+     </td>
+     <td>
+       <strong>Supported <a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap/">starting with 3.8.16</a></strong>.
+       See <a href="/which-erlang.html">Erlang compatibility guide</a>.
+     </td>
+   </tr>
+
   <tr>
      <td>23.x</td>
      <td>
@@ -103,7 +124,7 @@ a privileged shell!</p>
 and installing packages.</p>
 <p>All steps covered below are <strong>mandatory</strong> unless otherwise specified.</p>
 <h3>Add Repository Signing Key</h3>
-<p>In order for <span class="code ">apt</span> to use the repository, <a href="/signatures.html">RabbitMQ signing key</a> must be added to the list of trusted keys.
+<p>In order for <span class="code ">apt</span> to use the repository, <a href="signatures.html">RabbitMQ signing key</a> must be added to the list of trusted keys.
 This will instruct apt to trust packages signed with that key.</p>
 <pre class="lang-bash">
 ## Team RabbitMQ's main signing key
@@ -114,7 +135,7 @@ sudo apt-key adv --keyserver "keyserver.ubuntu.com" --recv-keys "F77F1EDA57EBB1C
 curl -1sLf 'https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey' | sudo apt-key add -
 </pre>
 
-<p>See the <a href="/signatures.html">guide on signatures</a> to learn more.</p>
+<p>See the <a href="signatures.html">guide on signatures</a> to learn more.</p>
 <h3><a id="apt-quick-start-packagecloud" class="anchor" href="#apt-quick-start-packagecloud">PackageCloud Quick Start Script</a></h3>
 <p>Below is shell snippet that performs those steps. They are documented in more detail below.</p>
 <pre class="lang-bash">
@@ -352,7 +373,7 @@ curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49
 curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key | sudo apt-key add -
 </pre>
 
-<p>See the <a href="/signatures.html">guide on signatures</a> to learn more.</p>
+<p>See the <a href="signatures.html">guide on signatures</a> to learn more.</p>
 <h3><a id="apt-quick-start-cloudsmith" class="anchor" href="#apt-quick-start-cloudsmith">Cloudsmith Quick Start Script</a></h3>
 <p>Below is shell snippet that performs those steps. They are documented in more detail below.</p>
 <pre class="lang-bash">
@@ -673,7 +694,7 @@ that all <a href="#package-dependencies">package dependencies</a> are met.</p>
 <h2><a id="sudo-requirements" class="anchor" href="#sudo-requirements">User Privilege Requirements</a></h2>
 <p>RabbitMQ Debian package will require <span class="code ">sudo</span> privileges to install and manage.
 In environments where <span class="code ">sudo</span> isn't available, consider using the
-<a href="/install-generic-unix.html">generic binary build</a> instead.</p>
+<a href="install-generic-unix.html">generic binary build</a> instead.</p>
 <h2><a id="running-debian" class="anchor" href="#running-debian">Run RabbitMQ Server</a></h2>
 <h4>Start the Server</h4>
 <p>The server is started as a daemon by default when the
@@ -687,10 +708,10 @@ service rabbitmq-server start
 <h2><a id="configuration" class="anchor" href="#configuration">Configuring RabbitMQ</a></h2>
 <p>On most systems, a node should be able to start and run with all defaults.
 Please refer to the <a href="configure.html">Configuration guide</a> to learn more
-and <a href="/production-checklist.html">Production Checklist</a> for guidelines beyond
+and <a href="production-checklist.html">Production Checklist</a> for guidelines beyond
 development environments.</p>
 <p>Note: the node is set up to run as system user <span class="code ">rabbitmq</span>.
-If <a href="/relocate.html">location of the node database or the logs</a> is changed,
+If <a href="relocate.html">location of the node database or the logs</a> is changed,
 the files and directories must be owned by this user.</p>
 <h2><a id="ports" class="anchor" href="#ports">Port Access</a></h2>
 <p>RabbitMQ nodes bind to ports (open server TCP sockets) in order to accept client and CLI tool connections.
@@ -705,21 +726,21 @@ Make sure the following ports are accessible:</p>
 <li>25672: used for inter-node and CLI tools communication (Erlang distribution server port)
    and is allocated from a dynamic range (limited to a single port by default,
    computed as AMQP port + 20000). Unless external connections on these ports are really necessary (e.g.
-   the cluster uses <a href="/federation.html">federation</a> or CLI tools are used on machines outside the subnet),
-   these ports should not be publicly exposed. See <a href="/networking.html">networking guide</a> for details.</li>
+   the cluster uses <a href="federation.html">federation</a> or CLI tools are used on machines outside the subnet),
+   these ports should not be publicly exposed. See <a href="networking.html">networking guide</a> for details.</li>
 <li>35672-35682: used by CLI tools (Erlang distribution client ports) for communication with nodes
    and is allocated from a dynamic range (computed as server distribution port + 10000 through
-   server distribution port + 10010). See <a href="/networking.html">networking guide</a> for details.</li>
-<li>15672: <a href="/management.html">HTTP API</a> clients, <a href="/management.html">management UI</a> and <a href="/management-cli.html">rabbitmqadmin</a>
-   (only if the <a href="/management.html">management plugin</a> is enabled)</li>
-<li>61613, 61614: <a href="https://stomp.github.io/stomp-specification-1.2.html">STOMP clients</a> without and with TLS (only if the <a href="/stomp.html">STOMP plugin</a> is enabled)</li>
-<li>1883, 8883: <a href="http://mqtt.org/">MQTT clients</a> without and with TLS, if the <a href="/mqtt.html">MQTT plugin</a> is enabled</li>
-<li>15674: STOMP-over-WebSockets clients (only if the <a href="/web-stomp.html">Web STOMP plugin</a> is enabled)</li>
-<li>15675: MQTT-over-WebSockets clients (only if the <a href="/web-mqtt.html">Web MQTT plugin</a> is enabled)</li>
-<li>15692: Prometheus metrics (only if the <a href="/prometheus.html">Prometheus plugin</a> is enabled)</li>
+   server distribution port + 10010). See <a href="networking.html">networking guide</a> for details.</li>
+<li>15672: <a href="management.html">HTTP API</a> clients, <a href="management.html">management UI</a> and <a href="management-cli.html">rabbitmqadmin</a>
+   (only if the <a href="management.html">management plugin</a> is enabled)</li>
+<li>61613, 61614: <a href="https://stomp.github.io/stomp-specification-1.2.html">STOMP clients</a> without and with TLS (only if the <a href="stomp.html">STOMP plugin</a> is enabled)</li>
+<li>1883, 8883: <a href="http://mqtt.org/">MQTT clients</a> without and with TLS, if the <a href="mqtt.html">MQTT plugin</a> is enabled</li>
+<li>15674: STOMP-over-WebSockets clients (only if the <a href="web-stomp.html">Web STOMP plugin</a> is enabled)</li>
+<li>15675: MQTT-over-WebSockets clients (only if the <a href="web-mqtt.html">Web MQTT plugin</a> is enabled)</li>
+<li>15692: Prometheus metrics (only if the <a href="prometheus.html">Prometheus plugin</a> is enabled)</li>
 </ul>
-<p>It is possible to <a href="/configure.html">configure RabbitMQ</a>
-to use <a href="/networking.html">different ports and specific network interfaces</a>.</p>
+<p>It is possible to <a href="configure.html">configure RabbitMQ</a>
+to use <a href="networking.html">different ports and specific network interfaces</a>.</p>
 <h2><a id="default-user-access" class="anchor" href="#default-user-access">Default User Access</a></h2>
 <p>The broker creates a user <span class="code ">guest</span> with password
 <span class="code ">guest</span>. Unconfigured clients will in general use these
@@ -845,7 +866,7 @@ Dec 26 10:21:32 localhost.localdomain rabbitmq-server[957]: completed with 6 plu
 </pre>
 
 <p><span class="code ">rabbitmqctl</span>, <span class="code ">rabbitmq-diagnostics</span>,
-and other <a href="/cli.html">CLI tools</a> will be available in <span class="code ">PATH</span> and can be invoked by a <span class="code ">sudo</span>-enabled user:</p>
+and other <a href="cli.html">CLI tools</a> will be available in <span class="code ">PATH</span> and can be invoked by a <span class="code ">sudo</span>-enabled user:</p>
 <pre class="lang-bash">
 # checks if the local node is running and CLI tools can successfully authenticate with it
 sudo rabbitmq-diagnostics ping
@@ -862,11 +883,11 @@ sudo rabbitmq-diagnostics environment
 </pre>
 
 <p>All <span class="code ">rabbitmqctl</span> commands will report an error if no node is running.
-See the <a href="/cli.html">CLI tools</a> and <a href="/monitoring.html">Monitoring</a> guides to learn more.</p>
+See the <a href="cli.html">CLI tools</a> and <a href="monitoring.html">Monitoring</a> guides to learn more.</p>
 <h2><a id="server-logs" class="anchor" href="#server-logs">Log Files and Management</a></h2>
-<p><a href="/logging.html">Server logs</a> can be found under the <a href="/relocate.html">configurable</a> directory, which usually
+<p><a href="logging.html">Server logs</a> can be found under the <a href="relocate.html">configurable</a> directory, which usually
 defaults to <span class="code ">/var/log/rabbitmq</span> when RabbitMQ is installed via a Linux package manager.</p>
-<p><span class="code ">RABBITMQ_LOG_BASE</span> can be used to override <a href="/relocate.html">log directory location</a>.</p>
+<p><span class="code ">RABBITMQ_LOG_BASE</span> can be used to override <a href="relocate.html">log directory location</a>.</p>
 <p>Assuming a <span class="code ">systemd</span>-based distribution, system service logs can be
 inspected using</p>
 <pre class="lang-bash">
@@ -893,7 +914,7 @@ Dec 26 11:03:06 localhost rabbitmq-server[968]: completed with 6 plugins.
 </pre>
 
 <h3>Log Rotation</h3>
-<p>The broker always appends to the <a href="/logging.html">log files</a>, so a complete log history is retained.</p>
+<p>The broker always appends to the <a href="logging.html">log files</a>, so a complete log history is retained.</p>
 <p><a href="https://linux.die.net/man/8/logrotate">logrotate</a> is the recommended way of log file rotation and compression.
 By default, the package will set up <span class="code ">logrotate</span> to run weekly on files located in default
 <span class="code ">/var/log/rabbitmq</span> directory. Rotation configuration can be found in
@@ -942,7 +963,7 @@ sudo apt-get install curl gnupg debian-keyring debian-archive-keyring -y
 </pre>
 
 <h3><a id="erlang-apt-repo-signing-key" class="anchor" href="#erlang-apt-repo-signing-key">Add Repository Signing Key</a></h3>
-<p>In order to use the repository, add <a href="/signatures.html">RabbitMQ signing key</a> to <span class="code ">apt-key</span>.
+<p>In order to use the repository, add <a href="signatures.html">RabbitMQ signing key</a> to <span class="code ">apt-key</span>.
 This will instruct apt to trust packages signed by that key.</p>
 <pre class="lang-bash">
 # primary RabbitMQ signing key
@@ -952,7 +973,7 @@ curl -fsSL https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbit
 sudo apt-key adv --keyserver "keyserver.ubuntu.com" --recv-keys "F77F1EDA57EBB1CC"
 </pre>
 
-<p>See the <a href="/signatures.html">guide on signatures</a> to learn more.</p>
+<p>See the <a href="signatures.html">guide on signatures</a> to learn more.</p>
 <h3><a id="erlang-apt-https-transport" class="anchor" href="#erlang-apt-https-transport">Enable apt HTTPS Transport</a></h3>
 <p>In order for apt to be able to download RabbitMQ and Erlang packages from services such as PackageCloud, Cloudsmith.io or Launchpad, the <span class="code ">apt-transport-https</span> package must be installed:</p>
 <pre class="lang-bash">

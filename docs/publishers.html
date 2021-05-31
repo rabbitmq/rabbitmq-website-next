@@ -73,15 +73,15 @@ the current one.</p>
 <p>The difference typically have more to do with the terminology used than the semantics.
 <a href="#message-properties">Message properties</a> also vary from protocol to protocol.</p>
 <h3>AMQP 0-9-1</h3>
-<p>In AMQP 0-9-1, publishing happens on a <a href="/channels.html">channel</a> to an exchange.
+<p>In AMQP 0-9-1, publishing happens on a <a href="channels.html">channel</a> to an exchange.
 The exchange uses a routing topology set up by defining bindings between
 one or more queues and the exchange, or <a href="/e2e.html">source exchange and destination exchange</a>.
-Successfully routed messages are stored in <a href="/queues.html">queues</a>.</p>
+Successfully routed messages are stored in <a href="queues.html">queues</a>.</p>
 <p>The role of each entity is covered in the <a href="/tutorials/amqp-concepts.html">AMQP 0-9-1 concepts guide</a>.</p>
 <p><a href="/confirms.html">Publisher confirms</a> is the publisher acknowledgement mechanism.</p>
 <p>There are several common types of publisher errors that are handled using different protocol features:</p>
 <ul>
-<li>Publishing to a non-existent exchange results in a <a href="/channels.html">channel error</a>, which closes the channel
+<li>Publishing to a non-existent exchange results in a <a href="channels.html">channel error</a>, which closes the channel
    so that no further publishing (or any other operation) is allowed on it.</li>
 <li>When a published message cannot be routed to any queue (e.g. because there are no bindings defined for the
    target exchange), and the publisher set the <span class="code ">mandatory</span> message property to <span class="code ">false</span> (this is the default), the message is discarded or republished to an <a href="/ae.html">alternate exchange</a>, if any.</li>
@@ -457,7 +457,7 @@ rabbitmqctl set_vm_memory_high_watermark 0
 Failures in distributed systems come in <a href="/reliability.html">many shapes and forms</a>, so this
 list is by no means extensive.</p>
 <h3>Connectivity Failures</h3>
-<p>Like any client, a publisher has to successfully <a href="/connections.html">connect</a> and successfully authenticate first.</p>
+<p>Like any client, a publisher has to successfully <a href="connections.html">connect</a> and successfully authenticate first.</p>
 <p>The number of potential connectivity issues is pretty broad and has a <a href="/troubleshooting-networking.html">dedicated guide</a>.</p>
 <h3>Authentication and Authorisation</h3>
 <p>Like any client, a publisher can fail to authenticate or don't have the permissions

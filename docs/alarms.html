@@ -25,7 +25,7 @@ OS (out-of-memory killer) or exhausting all available free disk space:</p>
 <li>When <a href="/disk-alarms.html">free disk space</a> drops below the configured watermark (limit)</li>
 </ul>
 <p>Nodes will temporarily <em>block</em> publishing connections
-by suspending reading from <a href="/connections.html">client connection</a>.
+by suspending reading from <a href="connections.html">client connection</a>.
 Connections that are only used to <em>consume</em> messages will not be blocked.</p>
 <p>Connection <a href="/heartbeats.html">heartbeat monitoring</a> will be disabled, too.
 All network connections will show in <span class="code ">rabbitmqctl</span> and the
@@ -60,7 +60,7 @@ to keep track of what messages have been successfully handled and processed by R
 <h2><a id="file-descriptors" class="anchor" href="#file-descriptors">Running Out of File Descriptors</a></h2>
 <p>When the server is close to using all the file descriptors
 that the OS has made available to it, it will refuse client
-connections. See <a href="/networking.html">Networking guide</a> to learn more.</p>
+connections. See <a href="networking.html">Networking guide</a> to learn more.</p>
 <h2><a id="transient-flow-control" class="anchor" href="#transient-flow-control">Transient Flow Control</a></h2>
 <p>When clients attempt to publish faster than the server can
 accept their messages, they go into transient <a href="/flow-control.html">flow control</a>.</p>

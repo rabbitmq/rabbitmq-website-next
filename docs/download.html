@@ -22,17 +22,46 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 <li>MacOS: <a href="install-homebrew.html">Homebrew</a> | <a href="install-generic-unix.html">Generic binary build</a></li>
 <li><a href="/which-erlang.html">Erlang/OTP for RabbitMQ</a></li>
 </ul>
-<h2>Kubernetes</h2>
+<h3>Preview Releases (Betas, Release Candidates)</h3>
+<p>You can contribute to RabbitMQ by helping the community test preview releases.</p>
+<p>Preview releases currently available for testing:</p>
 <ul>
-<li>Open source <a href="kubernetes/operator/operator-overview.html">RabbitMQ Cluster Kubernetes Operator</a> by VMware (developed <a href="https://github.com/rabbitmq/cluster-operator">on GitHub</a>)</li>
-<li>Kubernetes Operator <a href="kubernetes/operator/quickstart-operator.html">quickstart guide</a></li>
-<li>Kubernetes Operator <a href="kubernetes/operator/using-operator.html">usage guide</a></li>
-<li>Kubernetes Operator <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples">examples</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.8.17-rc.1">3.8.17-rc.1</a></li>
+</ul>
+<h2>VMware Tanzu™ RabbitMQ® (Commercial Edition)</h2>
+<ul>
+<li><a href="https://tanzu.vmware.com/rabbitmq">Tanzu™ RabbitMQ®</a></li>
+<li><a href="kubernetes/tanzu/installation.html">Tanzu™ RabbitMQ® on Kubernetes</a></li>
+</ul>
+<h2>Kubernetes</h2>
+<h3>RabbitMQ Cluster Kubernetes Operator</h3>
+<p>Open source <a href="kubernetes/operator/operator-overview.html">RabbitMQ Cluster Kubernetes Operator</a> by VMware (developed <a href="https://github.com/rabbitmq/cluster-operator">on GitHub</a>):</p>
+<ul>
+<li><a href="kubernetes/operator/quickstart-operator.html">quickstart guide</a></li>
+<li><a href="kubernetes/operator/using-operator.html">usage guide</a></li>
+<li><a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples">examples</a></li>
+</ul>
+<h3>RabbitMQ Topology Kubernetes Operator</h3>
+<p>Open source <a href="kubernetes/operator/using-topology-operator.html">RabbitMQ Topology Kubernetes Operator</a> by VMware (developed <a href="https://github.com/rabbitmq/messaging-topology-operator">on GitHub</a>):</p>
+<ul>
+<li><a href="kubernetes/operator/install-topology-operator.html">installation guide</a></li>
+<li><a href="kubernetes/operator/using-topology-operator.html">usage guide</a></li>
+</ul>
+<p>Other guides related to Kubernetes:</p>
+<ul>
 <li>A <a href="/cluster-formation.html">peer discovery</a> mechanism <a href="/cluster-formation.html#peer-discovery-k8s">for Kubernetes</a></li>
 </ul>
 <h2>Docker</h2>
 <ul>
 <li>Docker community-maintained <a href="https://registry.hub.docker.com/_/rabbitmq/">RabbitMQ Docker image</a> (<a href="https://github.com/docker-library/rabbitmq/">on GitHub</a>)</li>
+</ul>
+<h2>Cloud</h2>
+<ul>
+<li><a href="https://tanzu.vmware.com/rabbitmq">Tanzu™ RabbitMQ®</a></li>
+<li><a href="/kubernetes/operator/install-operator.html">RabbitMQ Cluster Kubernetes Operator</a> by VMware (developed <a href="https://github.com/rabbitmq/cluster-operator">on GitHub</a>)</li>
+<li><a href="kubernetes/tanzu/installation.html">Tanzu™ RabbitMQ® on Kubernetes</a></li>
+<li><a href="https://www.cloudamqp.com">CloudAMQP</a>: RabbitMQ-as-a-Service available in multiple clouds</li>
+<li><a href="ec2.html">Amazon EC2</a></li>
 </ul>
 <h2>Downloads <a href="https://github.com/rabbitmq/rabbitmq-server/releases">on GitHub</a></h2>
 <ul>
@@ -48,13 +77,7 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 <h2>Debian (Apt) and RPM (Yum) Repositories</h2>
 <ul>
 <li><a href="https://packagecloud.io/rabbitmq/">Package Cloud</a></li>
-</ul>
-<h2>Cloud</h2>
-<ul>
-<li><a href="https://tanzu.vmware.com/rabbitmq">Tanzu™ RabbitMQ®</a></li>
-<li><a href="/kubernetes/operator/install-operator.html">RabbitMQ Cluster Kubernetes Operator</a> by VMware (developed <a href="https://github.com/rabbitmq/cluster-operator">on GitHub</a>)</li>
-<li><a href="https://www.cloudamqp.com">CloudAMQP</a>: RabbitMQ-as-a-Service available in multiple clouds</li>
-<li><a href="/ec2.html">Amazon EC2</a></li>
+<li><a href="https://cloudsmith.io/~rabbitmq/repos/">Cloudsmith.io</a></li>
 </ul>
 <h2>Provisioning Tools (Chef, Puppet, etc)</h2>
 <ul>

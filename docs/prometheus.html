@@ -92,11 +92,11 @@ docker info &amp;&amp; docker-compose version
 
 <p>on the command line to verify that the necessary tools are available.</p>
 <h3>Clone a Repository with Manifests</h3>
-<p>First step is to clone a Git repository, <a href="https://github.com/rabbitmq/rabbitmq-prometheus" target="_blank">rabbitmq-prometheus</a>, with the manifests and other components required to run
+<p>First step is to clone a Git repository, <a href="https://github.com/rabbitmq/rabbitmq-server" target="_blank">rabbitmq-server</a>, with the manifests and other components required to run
 a RabbitMQ cluster, Prometheus and a set of applications:</p>
 <pre class="lang-bash">
-git clone https://github.com/rabbitmq/rabbitmq-prometheus.git
-cd rabbitmq-prometheus/docker
+git clone https://github.com/rabbitmq/rabbitmq-server.git
+cd rabbitmq-server/deps/rabbitmq_prometheus/docker
 </pre>
 
 <h3>Run Docker Compose</h3>
@@ -181,7 +181,7 @@ exceeded. This may be acceptable, especially if the metric recovers. A metric th
 comes close to the orange area is considered to be in healthy state.</p>
 <p>Metric values in the <strong>red</strong> area need attention and may identify some form of service degradation.
 For example, metrics in the red area can indicate that an <a href="/alarms.html">alarm</a> in effect
-or when the node is <a href="/networking.html">out of file descriptors</a> and cannot accept any more connections or open new files.</p>
+or when the node is <a href="networking.html">out of file descriptors</a> and cannot accept any more connections or open new files.</p>
 <p>In the example above, we have a RabbitMQ cluster that runs at optimal memory
 capacity, which is just above the warning threshold. If there is a spike in published messages that should
 be stored in RAM, the amount of memory used by the node go up and the metric on the graph will
@@ -216,7 +216,7 @@ and should be avoided where possible.</p>
 <p>It is a lot more and efficient to have RabbitMQ <a href="/consumers.html">push messages to the consumer</a>.</p>
 <p><img alt="RabbitMQ Overview Dashboard Antipatterns" src="/img/rabbitmq-overview-dashboard-antipattern.png" /></p>
 <h3><a id="example-workloads" class="anchor" href="#example-workloads">Example Workloads</a></h3>
-<p>The <a href="https://github.com/rabbitmq/rabbitmq-prometheus/tree/master/docker">Prometheus plugin repository</a> contains example workloads that use <a href="https://rabbitmq.github.io/rabbitmq-perf-test/stable/htmlsingle/">PerfTest</a>
+<p>The <a href="https://github.com/rabbitmq/rabbitmq-server/tree/master/deps/rabbitmq_prometheus/docker">Prometheus plugin repository</a> contains example workloads that use <a href="https://rabbitmq.github.io/rabbitmq-perf-test/stable/htmlsingle/">PerfTest</a>
 to simulate different workloads.
 Their goal is to exercise all metrics in the RabbitMQ Overview dashboard. These examples are meant to be
 edited and extended as developers and operators see fit when exploring various metrics, their thresholds and behaviour.</p>
@@ -233,7 +233,7 @@ visualise metrics related to the Raft consensus algorithm (used by <a href="/quo
 as more nitty-gritty <a href="/runtime.html">runtime metrics</a> such as inter-node communication buffers.</p>
 <p>The dashboards have corresponding RabbitMQ clusters and PerfTest instances which are started and stopped the same
 as the Overview one. Feel free to experiment with the other workloads
-that are included in <a href="https://github.com/rabbitmq/rabbitmq-prometheus/tree/master/docker">the same <span class="code ">docker</span> directory</a>.</p>
+that are included in <a href="https://github.com/rabbitmq/rabbitmq-server/tree/master/deps/rabbitmq_prometheus/docker">the same <span class="code ">docker</span> directory</a>.</p>
 <p>For example, the <span class="code ">docker-compose-dist-tls.yml</span> Compose manifest is meant to stress
 the <a href="/clustering.html">inter-node communication links</a>. This workload uses a lot of system resources.
 <span class="code ">docker-compose-qq.yml</span> contains a quorum queue workload.</p>
@@ -418,7 +418,7 @@ Prometheus, please follow the <a href="https://prometheus.io/docs/visualization/
 RabbitMQ metrics, it is time to import the Grafana dashboards that Team RabbitMQ
 maintains. Please refer to the <a href="https://grafana.com/docs/reference/export_import/#importing-a-dashboard" target="_blank">the official Grafana tutorial</a>
 on importing dashboards in Grafana.</p>
-<p>Grafana dashboards for RabbitMQ and Erlang are open source and publicly from the <a href="https://github.com/rabbitmq/rabbitmq-prometheus/tree/master/docker/grafana/dashboards" target="_blank">rabbitmq-prometheus</a> GitHub repository.</p>
+<p>Grafana dashboards for RabbitMQ and Erlang are open source and publicly from the <a href="https://github.com/rabbitmq/rabbitmq-server/tree/master/deps/rabbitmq_prometheus/docker/grafana/dashboards" target="_blank">rabbitmq-server</a> GitHub repository.</p>
 <p>To import <strong>RabbitMQ-Overview</strong> dashboard to Grafana:</p>
 <ol>
 <li>Go to the <a href="https://grafana.com/orgs/rabbitmq">Grafana website</a> to view the list of official RabbitMQ Grafana

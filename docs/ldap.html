@@ -207,7 +207,7 @@ auth_ldap.use_ssl   = true
 ].
 </pre>
 
-<p>An example that uses both of the above and uses the <a href="/configure.html">advanced.config format</a>:</p>
+<p>An example that uses both of the above and uses the <a href="configure.html">advanced.config format</a>:</p>
 <pre class="lang-erlang">
 [
   {rabbitmq_auth_backend_ldap, [
@@ -432,7 +432,7 @@ or the <span class="code ">anon</span> option.</p>
 The <span class="code ">group_lookup_base</span> setting controls what base DN will be used to search for nested groups. It is used by
 the <span class="code ">{in_group_nested, ...}</span> query only. For more info see the <a href="#query-reference">section on queries</a>.</p>
 <p>In the following example <span class="code ">ou=groups,dc=example,dc=com</span> is the directory that contains all groups.
-Note that it uses the <a href="/configure.html">classic config format</a>:</p>
+Note that it uses the <a href="configure.html">classic config format</a>:</p>
 <pre class="lang-erlang">
 [
   {rabbitmq_auth_backend_ldap, [

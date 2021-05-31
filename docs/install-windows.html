@@ -126,12 +126,12 @@ and other CLI tools are used.</p>
    to <span class="code ">%HOMEDRIVE%%HOMEPATH%</span>.</li>
 </ul>
 <h2><a id="configure" class="anchor" href="#configure">Node Configuration</a></h2>
-<p>The service starts using its default <a href="/configure.html">settings</a>, listening
+<p>The service starts using its default <a href="configure.html">settings</a>, listening
 for connections on <a href="/networking.html#interfaces">default interfaces</a> and <a href="#ports">ports</a>.</p>
 <p>Node configuration is primarily done using a <a href="/configure.html#configuration-file">configuration file</a>.
 A number of available <a href="/configure.html#customise-windows-environment">environment variables</a> can be used
 to control node's <a href="/relocate.html">data location</a>, configuration file path and so on.</p>
-<p>This is covered in more detail in the <a href="/configure.html">Configuration guide</a></p>
+<p>This is covered in more detail in the <a href="configure.html">Configuration guide</a></p>
 <h3>Environment Variable Changes on Windows</h3>
 <p><strong>Important</strong>: after setting environment variables, it is necessary to <a href="/configure.html#rabbitmq-env-file-windows"><strong>re-install</strong> the Windows service</a>. Restarting the service will not be sufficient.</p>
 <h2><a id="managing" class="anchor" href="#managing">Managing a RabbitMQ Node</a></h2>
@@ -194,11 +194,11 @@ Make sure the following ports are accessible:</p>
 <li>25672: used for inter-node and CLI tools communication (Erlang distribution server port)
    and is allocated from a dynamic range (limited to a single port by default,
    computed as AMQP port + 20000). Unless external connections on these ports are really necessary (e.g.
-   the cluster uses <a href="/federation.html">federation</a> or CLI tools are used on machines outside the subnet),
-   these ports should not be publicly exposed. See <a href="/networking.html">networking guide</a> for details.</li>
+   the cluster uses <a href="federation.html">federation</a> or CLI tools are used on machines outside the subnet),
+   these ports should not be publicly exposed. See <a href="networking.html">networking guide</a> for details.</li>
 <li>35672-35682: used by CLI tools (Erlang distribution client ports) for communication with nodes
    and is allocated from a dynamic range (computed as server distribution port + 10000 through
-   server distribution port + 10010). See <a href="/networking.html">networking guide</a> for details.</li>
+   server distribution port + 10010). See <a href="networking.html">networking guide</a> for details.</li>
 <li>15672: <a href="/management.html">HTTP API</a> clients, <a href="/management.html">management UI</a> and <a href="/management-cli.html">rabbitmqadmin</a>
    (only if the <a href="/management.html">management plugin</a> is enabled)</li>
 <li>61613, 61614: <a href="https://stomp.github.io/stomp-specification-1.2.html">STOMP clients</a> without and with TLS (only if the <a href="/stomp.html">STOMP plugin</a> is enabled)</li>
@@ -206,8 +206,8 @@ Make sure the following ports are accessible:</p>
 <li>15674: STOMP-over-WebSockets clients (only if the <a href="/web-stomp.html">Web STOMP plugin</a> is enabled)</li>
 <li>15675: MQTT-over-WebSockets clients (only if the <a href="/web-mqtt.html">Web MQTT plugin</a> is enabled)</li>
 </ul>
-<p>It is possible to <a href="/configure.html">configure RabbitMQ</a>
-to use <a href="/networking.html">different ports and specific network interfaces</a>.</p>
+<p>It is possible to <a href="configure.html">configure RabbitMQ</a>
+to use <a href="networking.html">different ports and specific network interfaces</a>.</p>
 <h2><a id="upgrading-erlang" class="anchor" href="#upgrading-erlang">Upgrading Erlang VM</a></h2>
 <p>If you have an existing installation and are planning to upgrade
 the Erlang VM from a 32-bit to a 64-bit version then you must uninstall

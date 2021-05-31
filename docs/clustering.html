@@ -33,7 +33,7 @@ queues, exchanges, bindings, runtime parameters and other distributed state.</p>
 <h3><a id="cluster-formation-options" class="anchor" href="#cluster-formation-options">Ways of Forming a Cluster</a></h3>
 <p>A RabbitMQ cluster can formed in a number of ways:</p>
 <ul>
-<li>Declaratively by listing cluster nodes in <a href="/configure.html">config file</a></li>
+<li>Declaratively by listing cluster nodes in <a href="configure.html">config file</a></li>
 <li>Declaratively using DNS-based discovery</li>
 <li>Declaratively using <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-aws">AWS (EC2) instance discovery</a> (via a plugin)</li>
 <li>Declaratively using <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-k8s">Kubernetes discovery</a> (via a plugin)</li>
@@ -103,11 +103,11 @@ Make sure the following ports are accessible:</p>
 <li>25672: used for inter-node and CLI tools communication (Erlang distribution server port)
    and is allocated from a dynamic range (limited to a single port by default,
    computed as AMQP port + 20000). Unless external connections on these ports are really necessary (e.g.
-   the cluster uses <a href="/federation.html">federation</a> or CLI tools are used on machines outside the subnet),
-   these ports should not be publicly exposed. See <a href="/networking.html">networking guide</a> for details.</li>
+   the cluster uses <a href="federation.html">federation</a> or CLI tools are used on machines outside the subnet),
+   these ports should not be publicly exposed. See <a href="networking.html">networking guide</a> for details.</li>
 <li>35672-35682: used by CLI tools (Erlang distribution client ports) for communication with nodes
    and is allocated from a dynamic range (computed as server distribution port + 10000 through
-   server distribution port + 10010). See <a href="/networking.html">networking guide</a> for details.</li>
+   server distribution port + 10010). See <a href="networking.html">networking guide</a> for details.</li>
 <li>15672: <a href="/management.html">HTTP API</a> clients, <a href="/management.html">management UI</a> and <a href="/management-cli.html">rabbitmqadmin</a>
    (only if the <a href="/management.html">management plugin</a> is enabled)</li>
 <li>61613, 61614: <a href="https://stomp.github.io/stomp-specification-1.2.html">STOMP clients</a> without and with TLS (only if the <a href="/stomp.html">STOMP plugin</a> is enabled)</li>
@@ -116,8 +116,8 @@ Make sure the following ports are accessible:</p>
 <li>15675: MQTT-over-WebSockets clients (only if the <a href="/web-mqtt.html">Web MQTT plugin</a> is enabled)</li>
 <li>15692: Prometheus metrics (only if the <a href="/prometheus.html">Prometheus plugin</a> is enabled)</li>
 </ul>
-<p>It is possible to <a href="/configure.html">configure RabbitMQ</a>
-to use <a href="/networking.html">different ports and specific network interfaces</a>.</p>
+<p>It is possible to <a href="configure.html">configure RabbitMQ</a>
+to use <a href="networking.html">different ports and specific network interfaces</a>.</p>
 <h2><a id="cluster-membership" class="anchor" href="#cluster-membership">Nodes in a Cluster</a></h2>
 <h3><a id="overview-what-is-replicated" class="anchor" href="#overview-what-is-replicated">What is Replicated?</a></h3>
 <p>All data/state required for the operation of a RabbitMQ
@@ -137,7 +137,7 @@ all cluster nodes should be considered equal.</p>
 <p>Many <a href="/cli.html">CLI tool</a> operations can be executed against any node.
 An <a href="/management.html">HTTP API</a> client can target any cluster node.</p>
 <p>Individual plugins can designate (elect)
-certain nodes to be "special" for a period of time. For example, <a href="/federation.html">federation links</a>
+certain nodes to be "special" for a period of time. For example, <a href="federation.html">federation links</a>
 are colocated on a particular cluster node. Should that node fail, the links will
 be restarted on a different node.</p>
 <p>In versions older than 3.6.7, <a href="/management.html">RabbitMQ management plugin</a> used
@@ -927,7 +927,7 @@ rabbitmqctl -n hare start_app
 </pre>
 
 <p>will set up a two node cluster, both nodes as disc nodes.
-Note that if the node <a href="/networking.html">listens on any ports</a> other
+Note that if the node <a href="networking.html">listens on any ports</a> other
 than AMQP 0-9-1 and AMQP 1.0 ones, those must be configured to avoid a collision as
 well. This can be done via command line:</p>
 <pre class="lang-bash">
@@ -963,7 +963,7 @@ you may want to investigate setting the environment variable
 <p>Nodes can have a firewall enabled on them. In such case, traffic on certain ports must be
 allowed by the firewall in both directions, or nodes won't be able to join each other and
 perform all the operations they expect to be available on cluster peers.</p>
-<p>Learn more in the <a href="#ports">section on ports</a> above and dedicated <a href="/networking.html">RabbitMQ Networking guide</a>.</p>
+<p>Learn more in the <a href="#ports">section on ports</a> above and dedicated <a href="networking.html">RabbitMQ Networking guide</a>.</p>
 <h2><a id="erlang" class="anchor" href="#erlang">Erlang Versions Across the Cluster</a></h2>
 <p>All nodes in a cluster are <em>highly recommended</em> to run the same major <a href="/which-erlang.html">version of Erlang</a>: <span class="code ">22.2.0</span>
 and <span class="code ">22.2.8</span> can be mixed but <span class="code ">21.3.6</span> and <span class="code ">22.2.6</span> can potentially introduce breaking changes in

@@ -31,7 +31,7 @@ state of the system.</p>
 <p>Before version 3.7.0 there were two log files: for regular messages and unhandled exceptions.
 Starting with 3.7.0, RabbitMQ uses a single log file by default.</p>
 <p>Please see the <a href="/relocate.html">File and Directory Location</a> guide to find default log file location for various platforms.</p>
-<p>There are two ways to configure log file location. One is the <a href="/configure.html">configuration file</a>.
+<p>There are two ways to configure log file location. One is the <a href="configure.html">configuration file</a>.
 The other is the <span class="code ">RABBITMQ_LOGS</span> environment variable.</p>
 <p>Use <a href="/management.html">RabbitMQ management UI</a> or <a href="/cli.html"><span class="code ">rabbitmq-diagnostics status</span></a>
 to find when a node stores its log file(s).</p>
@@ -43,7 +43,7 @@ overriding log file location via the config file.</p>
 <h2><a id="configuration" class="anchor" href="#configuration">Configuration</a></h2>
 <p>As of 3.7.0 RabbitMQ uses the <a href="https://github.com/erlang-lager/lager">Lager</a> logging
 library under the hood. Lager supports logging to different sources and is highly configurable.</p>
-<p>RabbitMQ starts logging early on node start. See the <a href="/configure.html">Configuration guide</a>
+<p>RabbitMQ starts logging early on node start. See the <a href="configure.html">Configuration guide</a>
 for a general overview of how to configure RabbitMQ.</p>
 <h3><a id="log-outputs" class="anchor" href="#log-outputs">Log Outputs</a></h3>
 <p>Default RabbitMQ logging configuration will direct log messages to a log file. Standard output is
@@ -54,7 +54,7 @@ messages including debug information  while the file output can only log error a
 messages.</p>
 <h3><a id="logging-to-a-file" class="anchor" href="#logging-to-a-file">Logging to a File</a></h3>
 <ul>
-<li><span class="code ">log.file</span>: log file path or <span class="code ">false</span> to disable the file output. Default value is taken from the <span class="code ">RABBITMQ_LOGS</span> <a href="/configure.html">environment variable or configuration file</a>.</li>
+<li><span class="code ">log.file</span>: log file path or <span class="code ">false</span> to disable the file output. Default value is taken from the <span class="code ">RABBITMQ_LOGS</span> <a href="configure.html">environment variable or configuration file</a>.</li>
 <li><span class="code ">log.file.level</span>: log level for the file output. Default level is <span class="code ">info</span>.</li>
 <li><span class="code ">log.file.rotation.date</span>, <span class="code ">log.file.rotation.size</span>, <span class="code ">log.file.rotation.count</span> for log file rotation settings.</li>
 </ul>
@@ -323,7 +323,7 @@ it will get them from all categories, unless a category level is configured.</p>
 <h4><a id="changing-log-level" class="anchor" href="#changing-log-level">Changing Log Level</a></h4>
 <p>There are two ways of changing effective log levels:</p>
 <ul>
-<li>Via <a href="/configure.html">configuration file(s)</a>: this is more flexible but requires
+<li>Via <a href="configure.html">configuration file(s)</a>: this is more flexible but requires
    a node restart between changes</li>
 <li>Using <a href="/cli.html">CLI tools</a>, <span class="code ">rabbitmqctl set_log_level &lt;level&gt;</span>: this option sets the same level for all
    sinks, the changes are transient (will not survive node restart) but can be used to
@@ -445,7 +445,7 @@ that is also logged:</p>
 <p>The examples above include two values that can be used as connection identifiers
 in various scenarios: connection name (<span class="code ">127.0.0.1:57919 -&gt; 127.0.0.1:5672</span>) and an Erlang process ID of the connection (<span class="code ">&lt;0.620.0&gt;</span>).
 The latter is used by <a href="./cli.html">rabbitmqctl</a> and the former is used by the <a href="/management.html">HTTP API</a>.</p>
-<p>A <a href="/connections.html">client connection</a> can be closed cleanly or abnormally. In the
+<p>A <a href="connections.html">client connection</a> can be closed cleanly or abnormally. In the
 former case the client closes AMQP 0-9-1 (or 1.0, or STOMP, or
 MQTT) connection gracefully using a dedicated library function
 (method). In the latter case the client closes TCP connection
@@ -498,7 +498,7 @@ with a plugin, <a href="https://github.com/rabbitmq/rabbitmq-event-exchange/">ra
 message metadata (properties, headers).</p>
 <p>Below is a list of published events.</p>
 <h3>Core Broker</h3>
-<p><a href="/queues.html">Queue</a>, Exchange and Binding events:</p>
+<p><a href="queues.html">Queue</a>, Exchange and Binding events:</p>
 <ul>
 <li><span class="code ">queue.deleted</span></li>
 <li><span class="code ">queue.created</span></li>
@@ -507,7 +507,7 @@ message metadata (properties, headers).</p>
 <li><span class="code ">binding.created</span></li>
 <li><span class="code ">binding.deleted</span></li>
 </ul>
-<p><a href="/connections.html">Connection</a> and <a href="/channels.html">Channel</a> events:</p>
+<p><a href="connections.html">Connection</a> and <a href="channels.html">Channel</a> events:</p>
 <ul>
 <li><span class="code ">connection.created</span></li>
 <li><span class="code ">connection.closed</span></li>
@@ -555,13 +555,13 @@ message metadata (properties, headers).</p>
 <li><span class="code ">alarm.set</span></li>
 <li><span class="code ">alarm.cleared</span></li>
 </ul>
-<h3><a href="/shovel.html">Shovel Plugin</a></h3>
+<h3><a href="shovel.html">Shovel Plugin</a></h3>
 <p>Worker events:</p>
 <ul>
 <li><span class="code ">shovel.worker.status</span></li>
 <li><span class="code ">shovel.worker.removed</span></li>
 </ul>
-<h3><a href="/federation.html">Federation Plugin</a></h3>
+<h3><a href="federation.html">Federation Plugin</a></h3>
 <p>Link events:</p>
 <ul>
 <li><span class="code ">federation.link.status</span></li>
@@ -701,7 +701,7 @@ the default sink.</p>
 <h3>Custom Handler Examples</h3>
 <p>To create an additional log file for errors only, create an
 additional handler with the <span class="code ">error</span> level. This has to be done using the
-<a href="/configure.html">advanced config file</a>:</p>
+<a href="configure.html">advanced config file</a>:</p>
 <pre class="lang-erlang">
 [{lager, [
     {handlers, [

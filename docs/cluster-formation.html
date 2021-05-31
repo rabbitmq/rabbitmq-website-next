@@ -13,7 +13,7 @@ peer discovery features. For a general overview of RabbitMQ clustering,
 please refer to the <a href="/clustering.html">Clustering Guide</a>.</p>
 <p>This guide assumes general familiarity with <a href="/clustering.html">RabbitMQ clustering</a>
 and focuses on the peer discovery subsystem.
-For example, it will not cover what <a href="/networking.html">ports must be open</a> for inter-node communication, how nodes authenticate to each other, and so on.
+For example, it will not cover what <a href="networking.html">ports must be open</a> for inter-node communication, how nodes authenticate to each other, and so on.
 Besides discovery mechanisms and <a href="#configuring">their configuration</a>,
 this guide also covers a closely related topic of <a href="#rejoining">rejoining nodes</a>,
 the problem of <a href="#initial-formation-race-condition">initial cluster formation</a> with nodes booting in parallel as well as <a href="#node-health-checks-and-cleanup">additional health checks</a> offered
@@ -59,7 +59,7 @@ rabbitmq-plugins --offline enable rabbitmq_peer_discovery_k8s
 <p>A node with configuration settings that belong a non-enabled peer discovery plugin will fail
 to start and report those settings as unknown.</p>
 <h3><a id="peer-discovery-configuring-mechanism" class="anchor" href="#peer-discovery-configuring-mechanism">Specifying the Peer Discovery Mechanism</a></h3>
-<p>The discovery mechanism to use is specified in the <a href="/configure.html">config file</a>,
+<p>The discovery mechanism to use is specified in the <a href="configure.html">config file</a>,
 as are various mechanism-specific settings, for example, discovery service hostnames, credentials, and so
 on. <span class="code ">cluster_formation.peer_discovery_backend</span> is the key
 that controls what discovery module (implementation) is used:</p>
@@ -153,7 +153,7 @@ Node 'rabbit@node1.local' thinks it's clustered with node 'rabbit@node2.local', 
 can be reset and will successfully join B.</p>
 <h2><a id="configuring" class="anchor" href="#configuring">How to Configure Peer Discovery</a></h2>
 <p>Peer discovery plugins are configured just like the core server and other
-plugins: using a <a href="/configure.html">config file</a>.</p>
+plugins: using a <a href="configure.html">config file</a>.</p>
 <p><span class="code ">cluster_formation.peer_discovery_backend</span> is the key that <a href="#peer-discovery-configuring-mechanism">controls what peer discovery backend will be used</a>.
 Each backend will also have a number of configuration settings specific to it.
 The rest of the guide will cover configurable settings specific to a particular mechanism
@@ -235,7 +235,7 @@ probability of a <a href="#initial-formation-race-condition">race condition duri
 <p>Before a node can perform any operations on AWS, it needs to have a set of
 AWS account credentials configured. This can be done in a couple of ways:</p>
 <ol>
-<li>Via <a href="/configure.html">config file</a></li>
+<li>Via <a href="configure.html">config file</a></li>
 <li>Using environment variables <span class="code ">AWS_ACCESS_KEY_ID</span> and <span class="code ">AWS_SECRET_ACCESS_KEY</span></li>
 </ol>
 <p><a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">EC2 Instance Metadata service</a> for the region will also be consulted.</p>
@@ -662,7 +662,7 @@ cluster_formation.consul.use_longname = true
 
 <h4>Service Port</h4>
 <p>Service port as registered in Consul can be overridden. This is only
-necessary if RabbitMQ uses a <a href="/networking.html">non-standard port</a>
+necessary if RabbitMQ uses a <a href="networking.html">non-standard port</a>
 for client (technically AMQP 0-9-1 and AMQP 1.0) connections since default value is 5672.</p>
 <pre class="lang-ini">
 cluster_formation.peer_discovery_backend = consul

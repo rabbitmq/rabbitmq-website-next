@@ -102,11 +102,11 @@ of durability for exchanges, queues and of persistent messages,
 requiring that a durable object or persistent message will survive a
 restart. More details about specific flags pertaining to durability
 and persistence can be found in the
-<a href="/queues.html">Queues guide</a>.</p>
+<a href="queues.html">Queues guide</a>.</p>
 <h2><a id="clustering" class="anchor" href="#clustering">Clustering and Message Replication</a></h2>
 <p><a href="/clustering.html">Clusters of nodes</a> offer redundancy and can tolerate failure of a single node.
 In a RabbitMQ cluster, all definitions (of exchanges, bindings, users, etc) are replicated across the entire
-cluster. <a href="/queues.html">Queues</a> behave differently, by default residing only on a
+cluster. <a href="queues.html">Queues</a> behave differently, by default residing only on a
 single node, but can be configured to be replicated (mirrored) across multiple
 nodes. Queues remain visible and reachable from all nodes regardless
 of what node their leader replica is located.</p>
@@ -187,7 +187,7 @@ or connection has to happen over a load balancer with sufficient availability ch
 <p>Shovels can use multiple source and destination endpoints; first reachable endpoint will be used.
 A failed Shovel will be restarted after a configurable delay and retry.</p>
 <h2><a id="monitoring" class="anchor" href="#monitoring">Monitoring and Health Checks</a></h2>
-<p>Some failure scenarios are subtle and hard to observe or detect. For example, a slow <a href="/connections.html">connection leak</a>
+<p>Some failure scenarios are subtle and hard to observe or detect. For example, a slow <a href="connections.html">connection leak</a>
 can build up over time and like a chronic disease, go unnoticed for a period of time. <a href="/monitoring.html">Monitoring and metrics</a>
 is the way to detect many types of failures. Longer-term metric data collected using tools such as <a href="/prometheus.html">Prometheus</a>
 can help spot irregularities and problematic patterns in system behaviour.</p>

@@ -98,7 +98,7 @@ e.g. <span class="code ">C:\Documents and Settings\<span class="envvar">%USERNAM
 <span class="code ">C:\Users\<span class="envvar">%USERNAME%</span>\AppData\Roaming</span>.</p>
 <p>Execute <span class="code ">echo %APPDATA%</span> at a Command Prompt
 to find this directory. Alternatively, Start &gt; Run <span class="code ">%APPDATA%</span> will open this folder.</p>
-<p>A node can be <a href="/configure.html">configured</a> to use a <a href="/relocate.html">different data directory</a>
+<p>A node can be <a href="configure.html">configured</a> to use a <a href="/relocate.html">different data directory</a>
 using one of these environment variables: <span class="code ">RABBITMQ_BASE</span>, <span class="code ">RABBITMQ_MNESIA_BASE</span> or
 <span class="code ">RABBITMQ_MNESIA_DIR</span>. Please read <a href="/relocate.html">the relocation guide</a> for a description
 of how each of these variables works.</p>
@@ -223,11 +223,11 @@ Make sure the following ports are accessible:</p>
 <li>25672: used for inter-node and CLI tools communication (Erlang distribution server port)
    and is allocated from a dynamic range (limited to a single port by default,
    computed as AMQP port + 20000). Unless external connections on these ports are really necessary (e.g.
-   the cluster uses <a href="/federation.html">federation</a> or CLI tools are used on machines outside the subnet),
-   these ports should not be publicly exposed. See <a href="/networking.html">networking guide</a> for details.</li>
+   the cluster uses <a href="federation.html">federation</a> or CLI tools are used on machines outside the subnet),
+   these ports should not be publicly exposed. See <a href="networking.html">networking guide</a> for details.</li>
 <li>35672-35682: used by CLI tools (Erlang distribution client ports) for communication with nodes
    and is allocated from a dynamic range (computed as server distribution port + 10000 through
-   server distribution port + 10010). See <a href="/networking.html">networking guide</a> for details.</li>
+   server distribution port + 10010). See <a href="networking.html">networking guide</a> for details.</li>
 <li>15672: <a href="/management.html">HTTP API</a> clients, <a href="/management.html">management UI</a> and <a href="/management-cli.html">rabbitmqadmin</a>
    (only if the <a href="/management.html">management plugin</a> is enabled)</li>
 <li>61613, 61614: <a href="https://stomp.github.io/stomp-specification-1.2.html">STOMP clients</a> without and with TLS (only if the <a href="/stomp.html">STOMP plugin</a> is enabled)</li>
@@ -235,8 +235,8 @@ Make sure the following ports are accessible:</p>
 <li>15674: STOMP-over-WebSockets clients (only if the <a href="/web-stomp.html">Web STOMP plugin</a> is enabled)</li>
 <li>15675: MQTT-over-WebSockets clients (only if the <a href="/web-mqtt.html">Web MQTT plugin</a> is enabled)</li>
 </ul>
-<p>It is possible to <a href="/configure.html">configure RabbitMQ</a>
-to use <a href="/networking.html">different ports and specific network interfaces</a>.</p>
+<p>It is possible to <a href="configure.html">configure RabbitMQ</a>
+to use <a href="networking.html">different ports and specific network interfaces</a>.</p>
 <h2><a id="windows-quirks" class="anchor" href="#windows-quirks">Windows-specific Issues</a></h2>
 <p>We aim to make RabbitMQ a first-class citizen on Windows. However, sometimes there are circumstances beyond our
 control. Please consult the <a href="windows-quirks.html">Windows-specific Issues</a> page.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>

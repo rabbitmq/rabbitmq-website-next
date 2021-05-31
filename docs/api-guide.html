@@ -189,11 +189,11 @@ conn.close();
 automatically anyway when the underlying connection is closed.</p>
 <p>Client disconnection events can be <a href="/networking.html#logging">observed in server node logs</a>.</p>
 <h2><a id="connection-and-channel-lifspan" class="anchor" href="#connection-and-channel-lifspan">Connection and Channel Lifespan</a></h2>
-<p>Client <a href="/connections.html">connections</a> are meant to be long-lived. The underlying protocol is designed and optimized for
+<p>Client <a href="connections.html">connections</a> are meant to be long-lived. The underlying protocol is designed and optimized for
 long running connections. That means that opening a new connection per operation,
 e.g. a message published, is unnecessary and strongly discouraged as it will introduce a lot of
 network roundtrips and overhead.</p>
-<p><a href="/channels.html">Channels</a> are also meant to be long-lived but since many recoverable protocol errors will
+<p><a href="channels.html">Channels</a> are also meant to be long-lived but since many recoverable protocol errors will
 result in channel closure, channel lifespan could be shorter than that of its connection.
 Closing and opening new channels per operation is usually unnecessary but can be
 appropriate. When in doubt, consider reusing channels first.</p>
@@ -227,7 +227,7 @@ Connection conn = factory.newConnection("app:audit component:event-consumer");
 </pre>
 
 <h2><a id="exchanges-and-queues" class="anchor" href="#exchanges-and-queues">Using Exchanges and Queues</a></h2>
-<p>Client applications work with [exchanges] and <a href="/queues.html">queues</a>,
+<p>Client applications work with [exchanges] and <a href="queues.html">queues</a>,
 the high-level <a href="/tutorials/amqp-concepts.html">building blocks of the protocol</a>.
 These must be declared before they can be used. Declaring either type of object
 simply ensures that one of that name exists, creating it if necessary.</p>
@@ -840,7 +840,7 @@ and topology (queues, exchanges, bindings, and consumers).</p>
 by default (and thus topology recovery as well).</p>
 <p>Topology recovery relies on a per-connection cache of entities (queues, exchanges,
 bindings, consumers). When, say, a queue is declared on a connection, it will be added to the cache.
-When it is deleted or is scheduled for deletion (e.g. because it is <a href="/queues.html">auto-deleted</a>)
+When it is deleted or is scheduled for deletion (e.g. because it is <a href="queues.html">auto-deleted</a>)
 it will be removed. This model has some limitations covered below.</p>
 <p>To disable or enable automatic connection recovery, use
 the <span class="code ">factory.setAutomaticRecoveryEnabled(boolean)</span>
@@ -940,7 +940,7 @@ factory.setTopologyRecoveryEnabled(false);
 design decisions that applications developers need to be aware of.</p>
 <p>Topology recovery relies on a per-connection cache of entities (queues, exchanges,
 bindings, consumers). When, say, a queue is declared on a connection, it will be added to the cache.
-When it is deleted or is scheduled for deletion (e.g. because it is <a href="/queues.html">auto-deleted</a>)
+When it is deleted or is scheduled for deletion (e.g. because it is <a href="queues.html">auto-deleted</a>)
 it will be removed. This makes it possible to declare and delete entities on different
 channels without having unexpected results. It also means that consumer tags (a channel-specific identifier)
 must be unique across all channels on connections that use automatic connection recovery.</p>
@@ -960,7 +960,7 @@ default. This design assumes that even though a lot of
 network failures are transient and generally short
 lived, they do not go away in an instant. Having a delay
 also avoids an inherent race condition between server-side resource
-cleanup (such as <a href="/queues.html">exclusive or auto-delete queue</a> deletion)
+cleanup (such as <a href="queues.html">exclusive or auto-delete queue</a> deletion)
 and operations performed on a newly opened connection on the same resources.</p>
 <p>Connection recovery attempts by default will continue at identical time intervals until
 a new connection is successfully opened.
