@@ -327,7 +327,8 @@ as message sizes increase.</p>
 The more replicas a stream has, the lower its throughput generally will
 be since more work has to be done to replicate data and achieve consensus.</p>
 <h3><a id="replication-factor" class="anchor" href="#replication-factor">Controlling the Initial Replication Factor</a></h3>
-<p>TODO</p>
+<p>The <span class="code ">x-initial-cluster-size</span> queue argument controls how many rabbit nodes the initial
+stream cluster should span.</p>
 <h3><a id="replica-management" class="anchor" href="#replica-management">Managing Stream Replicas</a></h3>
 <p>Replicas of a stream are explicitly managed by the operator. When a new node is added
 to the cluster, it will host no stream replicas unless the operator explicitly adds it
@@ -335,7 +336,7 @@ to a replica set of a stream.</p>
 <p>When a node has to be decommissioned (permanently removed from the cluster), it must be explicitly
 removed from the replica list of all streams it currently hosts replicas for.</p>
 <p>Two <a href="/cli.html">CLI commands</a> are provided to perform the above operations,
-<span class="code ">rabbitmq-streams add_member</span> and <span class="code ">rabbitmq-streams delete_member</span>:</p>
+<span class="code ">rabbitmq-streams add_replica</span> and <span class="code ">rabbitmq-streams delete_replica</span>:</p>
 <pre class="lang-bash">
 rabbitmq-streams add_replica [-p &lt;vhost&gt;] &lt;stream-name&gt; &lt;node&gt;
 </pre>
@@ -348,10 +349,16 @@ rabbitmq-streams delete_replica [-p &lt;vhost&gt;] &lt;stream-name&gt; &lt;node&
 available in the cluster.</p>
 <p>Care needs to be taken not to accidentally make a stream unavailable by losing
 the quorum whilst performing maintenance operations that involve membership changes.</p>
-<p>When replacing a cluster node, it is safer to first add a new node and then decomission the node
-it replaces.</p>
-<h3><a id="replica-rebalancing" class="anchor" href="#replica-rebalancing">Rebalancing Replicas</a></h3>
-<p>TODO</p>
+<p>Because the stream membership isn't embedded in the stream itself adding a replica
+cannot be made entirely safe at the current time. Hence if there at any time is an
+out of sync replica another replica cannot be added and an error will be returned.</p>
+<p>When replacing a cluster node, it is safer to first add a new node, wait for it
+to become in-sync and then de-comission the node it replaces.</p>
+<p>The replication status of a stream can be queried using the following command:</p>
+<pre class="lang-bash">
+rabbitmq-streams stream_status [-p &lt;vhost&gt;] &lt;stream-name&gt;
+</pre>
+
 <h2><a id="behaviour" class="anchor" href="#behaviour">Behaviour</a></h2>
 <p>Every stream has a primary writer and zero or more replicas.</p>
 <p>A leader is elected when the cluster is first formed and later if the leader
@@ -465,7 +472,12 @@ will most likely need operator involvement to be recovered.</p>
 <h2><a id="configuration" class="anchor" href="#configuration">Configuration</a></h2>
 <h2><a id="resource-use" class="anchor" href="#resource-use">Resource Use</a></h2>
 <p>Streams are typically more light-weight than mirrored and quorum queues.</p>
-<p>All data is stored on disk with only unwritten data stored in memory.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+<p>All data is stored on disk with only unwritten data stored in memory.</p>
+<h2><a id="resource-use" class="anchor" href="#offset-tracking">Offset Tracking</a></h2>
+<p>When using the broker provided offset tracking features (currently only available
+when using the <a href="/stream.html">Stream plugin</a> offsets are persisted in the stream
+itself as non-message data. This means that as offset persistence is requested the
+stream will grow on disk by some small amount per offset persistence request.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
