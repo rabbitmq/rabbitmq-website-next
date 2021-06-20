@@ -12,9 +12,11 @@ If RabbitMQ Cluster Kubernetes Operator is not installed, see the <a href="quick
 <ul>
 <li><a href="#requirements">Requirements</a></li>
 <li><a href="#queue-policy">Queue and policy</a></li>
-<li><a href="#user">User and permission</a></li>
-<li><a href="#exchange-binding">Binding and bindings</a></li>
+<li><a href="#user-permission">User and permission</a></li>
+<li><a href="#exchange-binding">Exchanges and bindings</a></li>
 <li><a href="#vhosts">Virtual hosts</a></li>
+<li><a href="#federation">Federation</a></li>
+<li><a href="#shovel">Shovel</a></li>
 <li><a href="#update">Update a resource</a></li>
 <li><a href="#delete">Delete a resource</a></li>
 <li><a href="#limitations">Limitations</a></li>
@@ -64,7 +66,7 @@ spec:
 
 <p>The Messaging Topology repo has more examples on <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/queues">queues</a>
 and <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/policies">policies</a>. </p>
-<h3><a id="binding" class="anchor" href="#binding"> Exchanges and bindings</a></h3>
+<h3><a id="exchange-binding" class="anchor" href="#binding"> Exchanges and bindings</a></h3>
 <p>Messaging Topology Operator can manage <a href="../../publishers.html#basics">exchanges and bindings</a>.
 The following manifest will create a fanout exchange:</p>
 <pre class="lang-bash">
@@ -177,7 +179,53 @@ spec:
     name: example-rabbit
 </pre>
 
-<h2><a id="updates" class="anchor" href="#updates">Update Resources</a></h2>
+<h2><a id="federation" class="anchor" href="#federation">Federation</a></h2>
+<p>Messaging Topology Operator can define <a href="../../federation.html">Federation upstreams</a>.</p>
+<p>Because a Federation upstream URI contains credentials, it is provided through a Kubernetes Secret object.
+The 'uri' key is mandatory for the Secret object. Its value can be either a single URI or a comma-separated list of URIs.</p>
+<p>The following manifest will define an upstream named 'origin' in a RabbitmqCluster named 'example-rabbit':</p>
+<pre class="lang-bash">
+apiVersion: rabbitmq.com/v1beta1
+kind: Federation
+metadata:
+  name: federation-example
+  namespace: rabbitmq-system
+spec:
+  name: "origin"
+  uriSecret:
+    # secret must be created in the same namespace as this Federation object; in this case 'rabbitmq-system'
+    name: {secret-name}
+  ackMode: "on-confirm"
+  rabbitmqClusterReference:
+    name: example-rabbit
+</pre>
+
+<p>More <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/federations">federation examples</a>.</p>
+<h2><a id="shovel" class="anchor" href="#shovel">Shovel</a></h2>
+<p>Messaging Topology Operator can declare <a href="../../shovel-dynamic.html">dynamic Shovels</a>.</p>
+<p>Shovel source and destination URIs are provided through a Kubernetes Secret object.
+The Secret Object must contain two keys, 'srcUri' and 'destUri', and the value of each key can be either a single URI
+or a comma-separated list of URIs.</p>
+<p>The following manifest will create a Shovel named 'my-shovel' in a RabbitmqCluster named 'example-rabbit':</p>
+<pre class="lang-bash">
+apiVersion: rabbitmq.com/v1beta1
+kind: Shovel
+metadata:
+  name: shovel-example
+  namespace: rabbitmq-system
+spec:
+  name: "my-shovel"
+  uriSecret:
+    # secret must be created in the same namespace as this Shovel object; in this case 'rabbitmq-system'
+    name: {secret-name}
+  srcQueue: "the-source-queue"
+  destQueue: "the-destination-queue"
+  rabbitmqClusterReference:
+    name: example-rabbit
+</pre>
+
+<p>More <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/shovels">shovelsexaples </a>.</p>
+<h2><a id="update" class="anchor" href="#update">Update Resources</a></h2>
 <p>Some custom resource properties are immutable. Messaging Topology Operator implements <a href="https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#validatingadmissionwebhook">validating webhooks</a>
 to prevent updates on immutable fields. Forbidden updates will be rejected. For example:</p>
 <pre class="lang-bash">

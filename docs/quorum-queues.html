@@ -11,7 +11,7 @@
 <p>The quorum queue is a modern queue type for RabbitMQ implementing a durable,
 replicated FIFO queue based on the <a href="https://raft.github.io/">Raft consensus algorithm</a>.
 It is available as of RabbitMQ 3.8.0.</p>
-<p>The quorum queue type is a alternative to durable <a href="/ha.html">mirrored queues</a>
+<p>The quorum queue type is an alternative to durable <a href="/ha.html">mirrored queues</a>
 purpose built for a <a href="#use-cases">set of use cases</a> where <a href="#data-safety">data safety</a> is
 a top priority. This is covered in <a href="#motivation">Motivation</a>.
 They should be considered the default option for a replicated queue type.</p>
@@ -47,7 +47,7 @@ These constraints and limitations are covered later in this guide.</p>
 be defined as an agreement between the majority of nodes (<span class="code ">(N/2)+1</span> where <span class="code ">N</span> is the total number of
 system participants).</p>
 <p>When applied to queue mirroring in RabbitMQ <a href="/clustering.html">clusters</a>
-this means that the majority of replicas (including the currently elected queue leader/leader)
+this means that the majority of replicas (including the currently elected queue leader)
 agree on the state of the queue and its contents.</p>
 <h3>Differences from Classic Mirrored Queues</h3>
 <p>Quorum queues share many of the fundamentals with <a href="queues.html">queues</a> of other types in RabbitMQ.
@@ -61,7 +61,7 @@ confirming messages too early, potentially resulting in a data loss.</p>
 <h2><a id="feature-comparison" class="anchor" href="#feature-comparison">Feature Comparison with Regular Queues</a></h2>
 <p>Quorum queues share most of the fundamentals with other <a href="queues.html">queue</a> types.
 A client library that can use regular mirrored queues will be able to use quorum queues.</p>
-<p>The following operations works the same way for quorum queues as they do for regular queues:</p>
+<p>The following operations work the same way for quorum queues as they do for regular queues:</p>
 <ul>
 <li>Consumption (subscription)</li>
 <li><a href="/confirms.html">Consumer acknowledgements</a> (except for global <a href="#global-qos">QoS and prefetch</a>)</li>
@@ -173,7 +173,7 @@ no sense in their context. Therefore quorum queues cannot be exclusive.</p>
 <h4>TTL</h4>
 <p>Quorum queues do not currently support Message TTL, but they do support <a href="/ttl.html#queue-ttl">Queue TTL</a>.</p>
 <h4>Length Limit</h4>
-<p>Quorum queues has support support for <a href="/maxlength.html">queue length limits</a>.</p>
+<p>Quorum queues has support for <a href="/maxlength.html">queue length limits</a>.</p>
 <p>The <span class="code ">drop-head</span> and <span class="code ">reject-publish</span> overflow behaviours are supported but they
 do not support <span class="code ">reject-publish-dlx</span> configurations as Quorum queues take a different 
 implementation approach than classic queues.</p>

@@ -102,7 +102,7 @@ as long as compatible versions are available. When that's not the case, dependen
 <p>However, when installing a local RPM file via <span class="code ">yum</span> dependencies must be installed
 manually. The dependencies are:</p>
 <ul>
-<li><span class="code ">erlang</span>: a <a href="which-erlang.html">supported version of Erlang</a> can installed from a number of <a href="#install-erlang">repositories</a></li>
+<li><span class="code ">erlang</span>: a <a href="which-erlang.html">supported version of Erlang</a> can be installed from a number of <a href="#install-erlang">repositories</a></li>
 <li><span class="code ">socat</span></li>
 <li><span class="code ">logrotate</span></li>
 </ul>
@@ -501,7 +501,7 @@ yum install socat logrotate -y
 # Red Hat 8, CentOS 8 and modern Fedora releases.
 #
 # For Red Hat 7 or CentOS 7, replace "el8" with "el7".
-yum install rabbitmq-server-3.8.16-1.el8.noarch.rpm
+yum install rabbitmq-server-3.8.17-1.el8.noarch.rpm
 </pre>
 
 <p><a href="signatures.html">RabbitMQ public signing key</a> can also be <a href="https://www.rabbitmq.com/rabbitmq-release-signing-key.asc">downloaded from rabbitmq.com</a>:</p>
@@ -515,11 +515,11 @@ yum install socat logrotate -y
 # Red Hat 8, CentOS 8 and modern Fedora releases.
 #
 # For Red Hat 7 or CentOS 7, replace "el8" with "el7".
-yum install rabbitmq-server-3.8.16-1.el8.noarch.rpm
+yum install rabbitmq-server-3.8.17-1.el8.noarch.rpm
 </pre>
 
 <h2><a id="downloads" class="anchor" href="#downloads">Download the Server</a></h2>
-<p>In some cases it may easier to download the package and install it manually. The package can be downloaded
+<p>In some cases it may be easier to download the package and install it manually. The package can be downloaded
 from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>.</p>
 <table>
   <thead>
@@ -533,10 +533,10 @@ from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>.<
       RPM for RHEL Linux 8.x, CentOS 8.x, Fedora 31+ (supports systemd)
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.16/rabbitmq-server-3.8.16-1.el8.noarch.rpm">rabbitmq-server-3.8.16-1.el8.noarch.rpm</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.17/rabbitmq-server-3.8.17-1.el8.noarch.rpm">rabbitmq-server-3.8.17-1.el8.noarch.rpm</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.16/rabbitmq-server-3.8.16-1.el8.noarch.rpm.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.17/rabbitmq-server-3.8.17-1.el8.noarch.rpm.asc">Signature</a>
     </td>
   </tr>
 
@@ -545,10 +545,10 @@ from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>.<
       RPM for openSUSE Linux
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.16/rabbitmq-server-3.8.16-1.suse.noarch.rpm">rabbitmq-server-3.8.16-1.suse.noarch.rpm</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.17/rabbitmq-server-3.8.17-1.suse.noarch.rpm">rabbitmq-server-3.8.17-1.suse.noarch.rpm</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.16/rabbitmq-server-3.8.16-1.suse.noarch.rpm.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.17/rabbitmq-server-3.8.17-1.suse.noarch.rpm.asc">Signature</a>
     </td>
   </tr>
 </table>
@@ -732,7 +732,7 @@ Redirecting to /bin/systemctl status rabbitmq-server.service
            └─2861 inet_gethost 4
 
 Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##  ##
-Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##  ##      RabbitMQ 3.8.16. Copyright (c) 2007-2021 VMware, Inc. or its affiliates.
+Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##  ##      RabbitMQ 3.8.17. Copyright (c) 2007-2021 VMware, Inc. or its affiliates.
 Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##########  Licensed under the MPL 2.0. Website: https://www.rabbitmq.com/
 Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ######  ##
 Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##########  Logs: /var/log/rabbitmq/rabbit@localhost.log
@@ -781,7 +781,7 @@ sudo journalctl --system | grep rabbitmq
 <p>The output will look similar to this:</p>
 <pre class="lang-ini">
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##
-Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##      RabbitMQ 3.8.16. Copyright (c) 2007-2021 VMware, Inc. or its affiliates.
+Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##      RabbitMQ 3.8.17. Copyright (c) 2007-2021 VMware, Inc. or its affiliates.
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##########  Licensed under the MPL 2.0. Website: https://www.rabbitmq.com/
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ######  ##
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##########  Logs: /var/log/rabbitmq/rabbit@localhost.log
@@ -890,7 +890,7 @@ yum update -y
 ## install these dependencies from standard OS repositories
 yum install socat logrotate -y
 
-yum install --repo rabbitmq_erlang --repo rabbitmq_server erlang rabbitmq-server -y
+yum install erlang rabbitmq-server -y
 </pre><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them

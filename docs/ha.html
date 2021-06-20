@@ -16,7 +16,8 @@ Classic mirrored queues will be <strong>removed in a future version</strong> of 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>Topics covered in this guide include</p>
 <ul>
-<li><a href="#what-is-mirroring">Classic queue mirroring</a> and how it works</li>
+<li><a href="#interstitial">Next generation replicated queue type</a> and why it should be preferred over classic queue mirroring</li>
+<li>What is <a href="#what-is-mirroring">classic queue mirroring</a> and how it works</li>
 <li>How to <a href="#ways-to-configure">enable it</a></li>
 <li>What <a href="#mirroring-arguments">mirroring settings are available</a></li>
 <li>What <a href="#replication-factor">replication factor</a> is recommended</li>
@@ -442,7 +443,7 @@ clients consuming from a mirrored queue are in fact
 consuming from the leader.</p>
 <p>Should a mirror fail, there is little to be done other than
 some bookkeeping: the leader remains the leader and no
-client need take any action or be informed of the failure.
+client need to take any action or be informed of the failure.
 Note that mirror failures may not be detected immediately and
 the interruption of the per-connection flow control mechanism
 can delay message publication. The details are described

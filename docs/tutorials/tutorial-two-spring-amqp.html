@@ -247,7 +247,7 @@ instance 2 [x] Received 'Hello..5'
 <h3>Message acknowledgment</h3>
 <p>Doing a task can take a few seconds. You may wonder what happens if
 one of the consumers starts a long task and dies with it only partly done.
-Spring AMQP by default takes a conservative approach to <a href="/confirms.html">message acknowledgement</a>.
+Spring AMQP by default takes a conservative approach to <a href="../confirms.html">message acknowledgement</a>.
 If the listener throws an exception the container
 calls:</p>
 <pre class="lang-java">
@@ -269,7 +269,7 @@ channel.basicAck()
 
 <p>Acknowledgement must be sent on the same channel the delivery
 was received on. Attempts to acknowledge using a different channel
-will result in a channel-level protocol exception. See the <a href="/confirms.html">doc guide on confirmations</a> to learn more.
+will result in a channel-level protocol exception. See the <a href="../confirms.html">doc guide on confirmations</a> to learn more.
 Spring AMQP generally takes care of this but when used in combination with code
 that uses RabbitMQ Java client directly, this is something to keep in mind.</p>
 <blockquote>
@@ -309,7 +309,7 @@ hasn't saved it yet. Also, RabbitMQ doesn't do <span class="code ">fsync(2)</spa
 message -- it may be just saved to cache and not really written to the
 disk. The persistence guarantees aren't strong, but it's more than enough
 for our simple task queue. If you need a stronger guarantee then you can use
-<a href="https://www.rabbitmq.com/confirms.html">publisher confirms</a>.</p>
+<a href="../confirms.html">publisher confirms</a>.</p>
 </blockquote>
 <h3>Fair dispatch vs Round-robin dispatching</h3>
 <p>By default, RabbitMQ will send each message to the next consumer,
@@ -359,7 +359,7 @@ set to 1 the behavior would be the round robin delivery as described above.</p>
 <p>In most of the cases <span class="code ">prefetchCount</span> equal to 1 would be too conservative and severely
 limit consumer throughput.
 A couple of cases where this configuration is applicable can be found in <a href="https://docs.spring.io/spring-amqp/reference/#async-consumer">Spring AMQP Consumer Documentation</a></p>
-<p>For more details on prefetch, please refer to the <a href="/confirms.html#channel-qos-prefetch">Consumer Acknowledgements guide</a>.</p>
+<p>For more details on prefetch, please refer to the <a href="../confirms.html#channel-qos-prefetch">Consumer Acknowledgements guide</a>.</p>
 </blockquote>
 <p>However, with the <span class="code ">prefetchCount</span> set to 250 by default,
 this tells RabbitMQ not to give more than 250 messages to a worker
@@ -393,7 +393,7 @@ to deliver the same message to many consumers.</p>
   </p>
   <p>
     Please take a look at the rest of the <a href="/documentation.html">documentation</a> before going live with your app.
-    We particularly recommend the following guides: <a href="/confirms.html">Publisher Confirms and Consumer Acknowledgements</a>,
+    We particularly recommend the following guides: <a href="../confirms.html">Publisher Confirms and Consumer Acknowledgements</a>,
     <a href="/production-checklist.html">Production Checklist</a> and <a href="/monitoring.html">Monitoring</a>.
   </p>
 </div>

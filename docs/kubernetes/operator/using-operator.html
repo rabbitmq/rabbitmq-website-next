@@ -476,9 +476,9 @@ spec:
 <p><strong>Description:</strong> Configure RabbitMQ to use the certificates provided by Secret <span class="code ">spec.tls.secretName</span>. The Secret must
 already exist in the same Namespace as the <span class="code ">RabbitmqCluster</span> object. It is expected that the Secret contains <span class="code ">tls.key</span>
 and <span class="code ">tls.crt</span> for the private key and public certificate respectively.</p>
-<p>By default, enabling <a href="/ssl.html">TLS for client connections</a> does not disable non-TLS listeners. Therefore, unencrypted connections will stil lbe accepted.
+<p>By default, enabling <a href="/ssl.html">TLS for client connections</a> does not disable non-TLS listeners. Therefore, unencrypted connections will still be accepted.
 To disable non-TLS listeners and only accept TLS connections, set <span class="code ">spec.tls.disableNonTLSListeners: true</span>.</p>
-<p>It is also possible to make RabbitMQ <a href="/ssl.html#peer-verification">verify peer certificates</a> against a provided a CA certificate.
+<p>It is also possible to make RabbitMQ <a href="/ssl.html#peer-verification">verify peer certificates</a> against a provided CA certificate.
 The same can be done by clients, so peer verification can be mutual ("mTLS").
 This certificate must be stored in a Secret of name <span class="code ">spec.tls.caSecretName</span>, in the same Namespace as the <span class="code ">RabbitmqCluster</span>
 object. Note that this can be the same Secret as <span class="code ">spec.tls.secretName</span>. This Secret <strong>must</strong> have a key <span class="code ">ca.crt</span> containing
@@ -846,7 +846,7 @@ kubectl apply -f rabbitmq-pdb.yaml
 
 <h2><a id="tls" class="anchor" href="#tls">(Optional) Configure TLS</a></h2>
 <p>Transport Layer Security (TLS) is a protocol for encrypting network traffic. <a href="/ssl.html">RabbitMQ supports TLS</a>, and the cluster operator simplifies the process of configuring a RabbitMQ cluster with <a href="#one-way-tls">TLS</a> or
-<a href="#mutual-tls">mutual TLS (mTLS)</a> encrypted traffic between clients and the cluter, as well
+<a href="#mutual-tls">mutual TLS (mTLS)</a> encrypted traffic between clients and the cluster, as well
 as supporting <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/mtls-inter-node">encrypting RabbitMQ inter-node traffic with mTLS</a>.
 A <a href="/ssl.html#certificates-and-keys">basic overview of TLS</a> is helpful for understanding this guide.</p>
 <h3><a id="one-way-tls" class="anchor" href="#one-way-tls">TLS encrypting traffic between clients and RabbitMQ</a></h3>
@@ -885,13 +885,13 @@ spec:
 <p>Mutual TLS (mTLS) enhances TLS by requiring that the server verify the identity of the client, in addition to the client verifying the server, which already occurs in TLS encryption. In order for this mutual verification to occur, both the client and server must be configured with certificate and key pairs, with the client pair signed by a CA trusted by the server and the server pair signed by a CA trusted by the client. The mutual verification process is shown in the following diagram:</p>
 <p><img src="/img/mTLS.png" /></p>
 <p>In addition to the <a href="#one-way-tls">configuration required to support TLS</a>, configuring mutual TLS requires the RabbitMQ cluster to be configured with the CA certificate
-used to sign the client certificate and key pair, <span class="code ">ca.pem</span>. Create a Kuberntes secret with key <span class="code ">ca.crt</span> containing this secret</p>
+used to sign the client certificate and key pair, <span class="code ">ca.pem</span>. Create a Kubernetes secret with key <span class="code ">ca.crt</span> containing this secret</p>
 <pre class="lang-bash">
 kubectl create secret generic ca-secret --from-file=ca.crt=ca.pem
 </pre>
 
 <p>or create this secret using a tool such as <a href="https://cert-manager.io/">Cert Manager</a>.</p>
-<p>Once this secret and the <span class="code ">tls-secret</span> exist, a RabbitMQ cluster cluster can be deployed following the <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/mtls">mTLS example</a>.</p>
+<p>Once this secret and the <span class="code ">tls-secret</span> exist, a RabbitMQ cluster can be deployed following the <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/mtls">mTLS example</a>.</p>
 <pre class="lang-yaml">
 apiVersion: rabbitmq.com/v1beta1
 kind: RabbitmqCluster

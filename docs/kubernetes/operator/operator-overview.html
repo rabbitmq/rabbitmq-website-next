@@ -5,7 +5,7 @@
  — RabbitMQ</title></head>
   <body id="kubernetes/operator/operator-overview"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> RabbitMQ Cluster Operator for Kubernetes
 </h1>
-<p>The RabbitMQ team develop and maintain two <a href="(https://kubernetes.io/docs/concepts/extend-kubernetes/operator/)">kubernetes operators</a>:</p>
+<p>The RabbitMQ team develop and maintain two <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/operator/">kubernetes operators</a>:</p>
 <ul>
 <li>RabbitMQ Cluster Kubernetes Operator automates provisioning, management, and operations of RabbitMQ clusters running on Kubernetes.</li>
 <li>RabbitMQ Messaging Topology Operator manages RabbitMQ messaging topologies within a RabbitMQ cluster deployed via the RabbitMQ Cluster Kubernetes Operator.</li>
@@ -41,18 +41,29 @@ It is covered in the following guides:</p>
 <ul>
 <li>Provisioning of single-node and multi-node RabbitMQ clusters</li>
 <li>Automatic reconciliation of deployed clusters whenever their actual state does not match the expected state</li>
-<li>Monitoring of RabbitMQ clusters using <a href="/prometheus.html">Prometheus and Grafana</a></li>
-<li>Scaling up and automated <a href="/upgrade.html">rolling upgrades</a> of RabbitMQ clusters</li>
+<li>Monitoring of RabbitMQ clusters using <a href="../../prometheus.html">Prometheus and Grafana</a></li>
+<li>Scaling up and automated <a href="../../upgrade.html">rolling upgrades</a> of RabbitMQ clusters</li>
 </ul>
+<h3><a id="op-design-principles" class="anchor" href="#op-design-principles">Design principles</a></h3>
+<p>RabbitMQ Cluster Kubernetes Operator was designed with the following ideas and concepts in mind:</p>
+<ul>
+<li>It should provide <a href="../../configure.html">RabbitMQ node configuration</a> flexibility</li>
+<li>It should provide reasonably safe defaults where possible</li>
+<li>It should simplify RabbitMQ operations</li>
+</ul>
+<p>Following these ideas, the Operator will not modify an existing <span class="code ">RabbitmqCluster</span> spec.
+This implies that, when the Operator is upgraded, it will not automatically update
+existing instances of <span class="code ">RabbitmqCluster</span> with new defaults, if any, or to the latest version of RabbitMQ.</p>
+<p>The only exception to this, is when a field is removed from the spec, by user action, the Operator will set the default value.</p>
 <h3><a id="limitations" class="anchor" href="#limitations">Limitations</a></h3>
 <h4>RabbitMQ Cluster Reconciliation</h4>
 <p>Deleted <span class="code ">Secret</span> objects will be recreated by the Kubernetes Operator but the newly generated secret value will
 not be deployed to the RabbitMQ cluster. For example, if the <span class="code ">Secret</span> with administrator credentials is deleted,
 a new <span class="code ">Secret</span> will be created with new username and password, but those will not be reflected in the RabbitMQ cluster.
-It works the same way for any <span class="code ">Secret</span> value, e.g. the value of the <a href="/clustering.html#erlang-cookie">shared inter-node authentication secret</a>
+It works the same way for any <span class="code ">Secret</span> value, e.g. the value of the <a href="../../clustering.html#erlang-cookie">shared inter-node authentication secret</a>
 known as the Erlang cookie.</p>
 <h4>RabbitMQ Cluster Feature Flags</h4>
-<p>Cluster Operator does not support disabling any <a href="https://www.rabbitmq.com/feature-flags.html#how-to-disable-feature-flags">RabbitMQ feature flags</a>.
+<p>Cluster Operator does not support disabling any <a href="../../feature-flags.html#how-to-disable-feature-flags">RabbitMQ feature flags</a>.
 The Operator lists all available feature flags and enables all of them at cluster start.</p>
 <h2><a id="topology-operator" class="anchor" href="#topology-operator">RabbitMQ Messaging Topology Operator</a></h2>
 <p>RabbitMQ Messaging Topology Operator supports managing RabbitMQ messaging topologies objects through kubernetes declarative API.</p>

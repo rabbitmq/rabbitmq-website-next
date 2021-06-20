@@ -58,7 +58,7 @@ entities and routing schemes are primarily defined by applications
 themselves, not a broker administrator. Accordingly,
 provision is made for protocol operations that declare
 queues and exchanges, define bindings between them,
-subscribe to <a href="queues.html">queues</a> and so on.</p>
+subscribe to <a href="../queues.html">queues</a> and so on.</p>
 <p>This gives application developers a lot of freedom but
 also requires them to be aware of potential definition
 conflicts. In practice, definition conflicts are rare and
@@ -213,7 +213,7 @@ hash (dictionary) for example.</p>
 <p>Note that headers beginning with the string <span class="code ">x-</span>
 will not be used to evaluate matches.</p>
 <h2><a id="queues" class="anchor" href="#queues">Queues</a></h2>
-<p><a href="queues.html">Queues</a> in the AMQP 0-9-1 model are very similar to queues in
+<p><a href="../queues.html">Queues</a> in the AMQP 0-9-1 model are very similar to queues in
 other message- and task-queueing systems: they store
 messages that are consumed by applications. Queues share
 some properties with exchanges, but also have some additional
@@ -299,7 +299,7 @@ messages or will sometimes just crash. There is also the possibility
 of network issues causing problems. This raises a question:
 when should the broker remove messages from queues? The
 AMQP 0-9-1 specification gives consumers control over this. There are
-two <a href="/confirms.html">acknowledgement modes</a>:</p>
+two <a href="../confirms.html">acknowledgement modes</a>:</p>
 <ul>
 <li>After broker sends a message to an application (using either <span class="code ">basic.deliver</span> or <span class="code ">basic.get-ok</span> method).</li>
 <li>After the application sends back an acknowledgement (using the <span class="code ">basic.ack</span> method).</li>
@@ -334,7 +334,7 @@ there is no way to reject multiple messages as you can do
 with acknowledgements. However, if you are using RabbitMQ,
 then there is a solution. RabbitMQ provides an AMQP 0-9-1
 extension known as <em>negative acknowledgements</em> or <em>nacks</em>. For
-more information, please refer to the <a href="/confirms.html">Confirmations</a>
+more information, please refer to the <a href="../confirms.html">Confirmations</a>
 and <a href="/nack.html">basic.nack extension</a> guides.</p>
 <h3><a id="messages-prefetch" class="anchor" href="#messages-prefetch">Prefetching Messages</a></h3>
 <p>For cases when multiple consumers share a queue, it is useful

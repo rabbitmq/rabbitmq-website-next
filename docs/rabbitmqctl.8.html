@@ -29,10 +29,13 @@
 <section class="Sh">
 <h2 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
 RabbitMQ is an open source multi-protocol messaging broker.
-<p class="Pp"><span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span> is a command line tool for
-    managing a RabbitMQ server node. It performs all actions by connecting to
-    the target RabbitMQ node on a dedicated CLI tool communication port and
-    authenticating using a shared secret (known as the cookie file).</p>
+<p class="Pp"><span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span> is the main command line tool
+    for managing a RabbitMQ server node, together with
+    <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">rabbitmq-diagnostics</span> ,
+    <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">rabbitmq-upgrade</span> , and others.</p>
+<p class="Pp">It performs all actions by connecting to the target RabbitMQ node
+    on a dedicated CLI tool communication port and authenticating using a shared
+    secret (known as the cookie file).</p>
 <p class="Pp">Diagnostic information is displayed if connection failed, the
     target node was not running, or <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl</span> could
     not authenticate to the target node successfully. To learn more, see the
@@ -139,18 +142,16 @@ RabbitMQ is an open source multi-protocol messaging broker.
   <dd>
     <p class="Pp">Instructs the RabbitMQ node to perform internal log
       rotation.</p>
-    <p class="Pp">Log rotation is performed according to lager settings
-        specified in configuration file.</p>
+    <p class="Pp">Log rotation is performed according to the logging settings
+        specified in the configuration file. The rotation operation is
+        asynchronous, there is no guarantee that it has completed when this
+        command returns.</p>
     <p class="Pp">Note that there is no need to call this command in case of
-        external log rotation (e.g. from logrotate(8)), because lager detects
-        renames and automatically reopens log files.</p>
-    <p class="Pp">For example, this command starts internal log rotation
-        process:</p>
+        external log rotation (e.g. from logrotate(8)).</p>
+    <p class="Pp">For example, to initial log rotation:</p>
     <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl
       rotate_logs</span></div>
-    <p class="Pp">Rotation is performed asynchronously, so there is no guarantee
-        that it will be completed when this command returns.</p>
   </dd>
   <dt><a class="permalink" href="#shutdown"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">shutdown</span></a></dt>
   <dd>
@@ -640,10 +641,10 @@ Note that all user management commands <span xmlns="http://www.w3.org/1999/xhtml
     <p class="Pp"></p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl set_user_tags janeway
       administrator</span></div>
-    <p class="Pp">This has no effect when the user logs in via AMQP, but can be
-        used to permit the user to manage users, virtual hosts and permissions
-        when the user logs in via some other means (for example with the
-        management plugin).</p>
+    <p class="Pp">This has no effect when the user authenticates using a
+        messaging protocol, but can be used to permit the user to manage users,
+        virtual hosts and permissions when the user logs in via some other means
+        (for example with the management plugin).</p>
     <p class="Pp">This command instructs the RabbitMQ broker to remove any tags
         from the user named "janeway":</p>
     <p class="Pp"></p>
@@ -1801,7 +1802,7 @@ Note that <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl
       <li>none</li>
     </ul>
     <p class="Pp">Example:</p>
-    <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl log_level
+    <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl set_log_level
       debug</span></div>
   </dd>
   <dt><a class="permalink" href="#set_vm_memory_high_watermark"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">set_vm_memory_high_watermark</span></a>
@@ -1853,10 +1854,11 @@ Note that <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmqctl
     <p class="Pp">Enables a feature flag on the target node.</p>
     <p class="Pp">Example:</p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl enable_feature_flag
-          quorum_queue</span></div>
-    <p class="Pp">You can also enable all feature flags by specifying "all":</p>
+      quorum_queue</span></div>
+    <p class="Pp">You can also enable all feature flags by specifying
+        "all":</p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmqctl enable_feature_flag
-          all</span></div>
+      all</span></div>
   </dd>
   <dt><a class="permalink" href="#list_feature_flags"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_feature_flags</span></a>
     [<var class="Ar">column ...</var>]</dt>

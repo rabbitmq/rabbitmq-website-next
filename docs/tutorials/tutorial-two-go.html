@@ -205,7 +205,7 @@ yet handled.</p>
 <p>But we don't want to lose any tasks. If a worker dies, we'd like the
 task to be delivered to another worker.</p>
 <p>In order to make sure a message is never lost, RabbitMQ supports
-<a href="/confirms.html">message <em>acknowledgments</em></a>. An ack(nowledgement) is sent back by the
+<a href="../confirms.html">message <em>acknowledgments</em></a>. An ack(nowledgement) is sent back by the
 consumer to tell RabbitMQ that a particular message has been received,
 processed and that RabbitMQ is free to delete it.</p>
 <p>If a consumer dies (its channel is closed, connection is closed, or
@@ -255,7 +255,7 @@ CTRL+C while it was processing a message, nothing will be lost. Soon
 after the worker dies all unacknowledged messages will be redelivered.</p>
 <p>Acknowledgement must be sent on the same channel that received the
 delivery. Attempts to acknowledge using a different channel will result
-in a channel-level protocol exception. See the <a href="/confirms.html">doc guide on confirmations</a>
+in a channel-level protocol exception. See the <a href="../confirms.html">doc guide on confirmations</a>
 to learn more.</p>
 <blockquote>
 <h4>Forgotten acknowledgment</h4>
@@ -340,7 +340,7 @@ hasn't saved it yet. Also, RabbitMQ doesn't do <span class="code ">fsync(2)</spa
 message -- it may be just saved to cache and not really written to the
 disk. The persistence guarantees aren't strong, but it's more than enough
 for our simple task queue. If you need a stronger guarantee then you can use
-<a href="https://www.rabbitmq.com/confirms.html">publisher confirms</a>.</p>
+<a href="../confirms.html">publisher confirms</a>.</p>
 </blockquote>
 <h2>Fair dispatch</h2>
 <p>You might have noticed that the dispatching still doesn't work exactly
@@ -552,7 +552,7 @@ to deliver the same message to many consumers.</p>
   </p>
   <p>
     Please take a look at the rest of the <a href="/documentation.html">documentation</a> before going live with your app.
-    We particularly recommend the following guides: <a href="/confirms.html">Publisher Confirms and Consumer Acknowledgements</a>,
+    We particularly recommend the following guides: <a href="../confirms.html">Publisher Confirms and Consumer Acknowledgements</a>,
     <a href="/production-checklist.html">Production Checklist</a> and <a href="/monitoring.html">Monitoring</a>.
   </p>
 </div>
