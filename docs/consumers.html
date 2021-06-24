@@ -321,8 +321,8 @@ consumer_timeout = 900000
 consumer_timeout = 3600000
 </pre>
 
-<p>The timeout can be disabled using [<span class="code ">advanced.config</span>]. This is <strong>highly discouraged</strong>:</p>
-<pre class="lang-erl">
+<p>The timeout can be disabled using <a href="configure.html#advanced-config-file"><span class="code ">advanced.config</span></a>. This is <strong>highly discouraged</strong>:</p>
+<pre class="lang-erlang">
 %% advanced.config
 [
   {rabbit, [
@@ -331,6 +331,7 @@ consumer_timeout = 3600000
 ].
 </pre>
 
+<p>Instead of disabling the timeout entirely, consider using a high value (for example, a few hours).</p>
 <h2><a id="exclusivity" class="anchor" href="#exclusivity">Exclusivity</a></h2>
 <p>When registering a consumer with an AMQP 0-9-1 client, <a href="amqp-0-9-1-reference.html#basic.consume">the <span class="code ">exclusive</span> flag</a>
 can be set to true to request the consumer to be the only one

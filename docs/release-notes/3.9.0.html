@@ -7,16 +7,16 @@
 <p>RabbitMQ <span class="code ">3.9.0-beta.1</span> is a preview of a feature release. It contains new features,
 <a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap/">support for Erlang 24</a>,
 a <a href="https://blog.rabbitmq.com/posts/2020/11/rabbitmq-kubernetes-operator-reaches-1-0/">RabbitMQ Kubernetes Operator</a> developed by the RabbitMQ Core team,
-and important internal changes in a number of important subsystems.</p>
+and important internal changes in a number of subsystems.</p>
 <p>It also includes all bug fixes and minor incremental improvements from the <a href="https://www.rabbitmq.com/changelog.html"><span class="code ">3.8.x</span> release series</a>
 unless stated otherwise.</p>
 <h2>Highlights</h2>
-<h3>Stream Queues</h3>
-<p><a href="http://next.rabbitmq.com/streams.html">Stream Queues</a> are a new persistent and replicated data structure ("queue type") in RabbitMQ
+<h3>Streams</h3>
+<p><a href="http://next.rabbitmq.com/streams.html">Streams</a> are a new persistent and replicated data structure ("queue type") in RabbitMQ
 which models an append-only log with non-destructive consumer semantics.</p>
 <p>They can be used as a regular AMQP 0.9.1 queue or through a new <a href="http://next.rabbitmq.com/stream.html">binary protocol plugin</a>
 and associated client(s).</p>
-<p>Stream queues enable messaging patterns that were not possible or practical before, for example,
+<p>Streams enable messaging patterns that were not possible or practical before, for example,
 repeatable non-destructive consumption and mass fanouts to a very large number of consumers.</p>
 <h3>Erlang 24 Support</h3>
 <p><a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap/">Erlang 24</a> provides substantial throughput
@@ -36,8 +36,8 @@ as Kubernetes objects.
 This Operator is also <a href="https://github.com/rabbitmq/messaging-topology-operator">open source</a> and
 can be used with latest 3.8.x release series.</p>
 <h3>Logging in JSON</h3>
-<p><a href="https://github.com/rabbitmq/rabbitmq-server/pull/2861">Switch from Lager to the new Erlang Logger API for logging #2861</a> introduces an option for structured logs
-through JSON formatting of log messages.</p>
+<p><a href="https://github.com/rabbitmq/rabbitmq-server/pull/2861">Switch from Lager to the new Erlang Logger API for logging #2861</a> introduces
+an option for structured logging in JSON.</p>
 <h2>Obtaining Packages</h2>
 <p>RabbitMQ releases are distributed via <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>, <a href="https://cloudsmith.io/~rabbitmq/repos/">Cloudsmith</a>,
 and <a href="https://packagecloud.io/rabbitmq">PackageCloud</a>.</p>
@@ -47,7 +47,8 @@ as it <a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap
 <p><a href="https://www.rabbitmq.com/which-erlang.html#erlang-repositories">Provisioning Latest Erlang Releases</a> explains what package repositories and tools
 can be used to provision latest patch versions of Erlang 23.3.x and 24.x.</p>
 <h2>Upgrading to 3.9</h2>
-<p>See the <a href="https://www.rabbitmq.com/upgrade.html">Upgrading guide</a> for documentation on upgrades and <a href="https://www.rabbitmq.com/changelog.html">RabbitMQ change log</a> for release notes of other releases.</p>
+<p>See the <a href="https://www.rabbitmq.com/upgrade.html">Upgrading guide</a> for documentation on upgrades and <a href="https://www.rabbitmq.com/changelog.html">RabbitMQ change log</a>
+for release notes of other releases.</p>
 <p>RabbitMQ 3.9.0 nodes can run alongside <span class="code ">3.8.x</span> nodes. However, <span class="code ">3.8.16+</span> as well as <span class="code ">3.9.x</span> both require Erlang 23.2 or later (and support 24).
 No 3.9.0-specific features would be available in a mixed version cluster.</p>
 <p>While operating in mixed version mode, some aspects of the system may not behave as expected. The list of known behavior changes is covered below.
@@ -68,8 +69,8 @@ or metrics for a limited number of queues (for operations such as <span class="c
 <p>Client libraries that were compatible with RabbitMQ <span class="code ">3.8.x</span> will be compatible with <span class="code ">3.9.0</span>.</p>
 <h3>Upgrading to Erlang 24.x</h3>
 <p>RabbitMQ <span class="code ">3.8.16</span> and later require Erlang <span class="code ">23.2</span> and support Erlang <span class="code ">24</span>. 24 is recommended.
-Users of versions that <a href="https://www.rabbitmq.com/which-erlang.html">do not support Erlang 23.2</a> should first upgrade to the latest <span class="code ">3.8.x</span> patch release pn Erlang 23.2,
-then upgrade to <span class="code ">3.9.0</span> on Erlang 24.</p>
+Users of versions that <a href="https://www.rabbitmq.com/which-erlang.html">do not support Erlang 23.2</a> should
+first upgrade to the latest <span class="code ">3.8.x</span> patch release pn Erlang 23.2, then upgrade to <span class="code ">3.9.0</span> on Erlang 24.</p>
 <h3>Getting Help</h3>
 <p>Any questions about this release, upgrades or RabbitMQ in general are welcome on the
 <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.</p>
@@ -77,8 +78,8 @@ then upgrade to <span class="code ">3.9.0</span> on Erlang 24.</p>
 <h3>Core Server</h3>
 <h4>Enhancements</h4>
 <ul>
-<li><a href="http://next.rabbitmq.com/streams.html">Stream Queues</a>, a new durable replicated queue type that allows for repeatable (non-destructive)
-   consumption. This queue type introduces a new binary protocol supported by RabbitMQ. While it can be used by AMQP 0-9-1 clients,
+<li><a href="http://next.rabbitmq.com/streams.html">Streams</a>, a new durable replicated data structure that allows for repeatable (non-destructive)
+   consumption. RabbitMQ 3.9 introduces a new binary protocol for working with streams. While streams can be used by AMQP 0-9-1 clients,
    in most cases it will be used via a <a href="http://next.rabbitmq.com/stream.html">RabbitMQ stream binary protocol</a> client. The new protocol exposes all the operations
    specific to this queue type and is heavily optimized for them, resulting in much higher read and write throughput.</li>
 </ul>

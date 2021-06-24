@@ -3,8 +3,8 @@
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
       <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>(Untitled) — RabbitMQ</title></head>
   <body id="release-notes/3.8.18"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>(Untitled)</h1>
-<h2>RabbitMQ 3.8.18-beta.2</h2>
-<p>RabbitMQ <span class="code ">3.8.18-beta.2</span> is a preview of a maintenance release.</p>
+<h2>RabbitMQ 3.8.18-rc.1</h2>
+<p>RabbitMQ <span class="code ">3.8.18-rc.1</span> is a maintenance release candidate.</p>
 <h3>Obtaining Packages</h3>
 <p>RabbitMQ releases are distributed via <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>, <a href="https://cloudsmith.io/~rabbitmq/repos/">Cloudsmith</a>,
 and <a href="https://packagecloud.io/rabbitmq">PackageCloud</a>.</p>
@@ -93,6 +93,19 @@ and <a href="https://rabbitmq-slack.herokuapp.com/">RabbitMQ community Slack</a>
 <p><span class="code ">cluster_formation.randomized_startup_delay_range.min</span> and <span class="code ">cluster_formation.randomized_startup_delay_range.max</span> configuration keys
    will no longer have any effect.</p>
 <p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3075">#3075</a></p>
+<h3>Federation Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>
+<p>Queue federation will now declare queues on the upstream side only if it does not already
+    exist. This makes it possible to federate pre-declared queues of different types.</p>
+<p>Note that such setups should be considered edge cases. Queue federation was never meant
+to federated queues of different types under the same name in different clusters.
+Such setups could be useful in <a href="https://www.rabbitmq.com/blue-green-upgrade.html">Blue/Green deployment upgrade</a> scenarios but
+otherwise should be avoided.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3107">#3107</a></p>
+</li>
+</ul>
 <h2>Dependency Upgrades</h2>
 <ul>
 <li><span class="code ">jose</span> was updated <a href="https://github.com/potatosalad/erlang-jose/commit/2b1d66b5f4fbe33cb198149a8cb23895a2c877ea">from <span class="code ">1.11.1</span> to <span class="code ">2b1d66b5f4</span></a></li>
