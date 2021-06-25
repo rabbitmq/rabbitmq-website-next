@@ -3,8 +3,12 @@
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
       <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>(Untitled) — RabbitMQ</title></head>
   <body id="release-notes/3.8.18"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>(Untitled)</h1>
-<h2>RabbitMQ 3.8.18-rc.1</h2>
-<p>RabbitMQ <span class="code ">3.8.18-rc.1</span> is a maintenance release candidate.</p>
+<h2>RabbitMQ 3.8.18</h2>
+<p>RabbitMQ <span class="code ">3.8.18</span> is a maintenance release that includes a security patch.</p>
+<p>This release addresses an undisclosed vulnerability with CVSS 3.1 <a href="https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:L/I:L/A:N/E:P/RL:O/RC:C">score of 3.1</a> (low).
+This section will be updated when the details are made public.</p>
+<p>Our team would like to thank Fahimhusain Raydurg for <a href="https://www.rabbitmq.com/contact.html#security">responsibly disclosing</a>
+the vulnerability and Patrik Ragnarsson from CloudAMQP for contributing a fix.</p>
 <h3>Obtaining Packages</h3>
 <p>RabbitMQ releases are distributed via <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>, <a href="https://cloudsmith.io/~rabbitmq/repos/">Cloudsmith</a>,
 and <a href="https://packagecloud.io/rabbitmq">PackageCloud</a>.</p>
@@ -38,6 +42,11 @@ and <a href="https://rabbitmq-slack.herokuapp.com/">RabbitMQ community Slack</a>
 <p><span class="code ">cluster_formation.randomized_startup_delay_range.min</span> and <span class="code ">cluster_formation.randomized_startup_delay_range.max</span> configuration keys
    will no longer have any effect.</p>
 <p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3075">#3075</a></p>
+<ul>
+<li>Node startup banner now includes Erlang version, runtime operation mode (JIT vs. emulator),
+   and underlying crypto library version (e.g. OpenSSL 1.1.1k)  it was built against.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2777">#2777</a></p>
 <ul>
 <li>Build system targets now use <span class="code ">hostname(1)</span> in a way that is compatible with Solaris.</li>
 </ul>
@@ -106,6 +115,15 @@ otherwise should be avoided.</p>
 <p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3107">#3107</a></p>
 </li>
 </ul>
+<h3>AuthN/AuthZ Backend HTTP Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li><span class="code ">auth_http.connection_timeout</span> and <span class="code ">auth_http.request_timeout</span> are two new configuration parameters that control HTTP client connection
+    and overall request timeouts. They both default to 15 seconds. The value can be increased for services that can occasionally slow down
+    significantly.</li>
+</ul>
+<p>Contributed by Miłosz @SzumiecM Szumiec.</p>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3140">#3140</a></p>
 <h2>Dependency Upgrades</h2>
 <ul>
 <li><span class="code ">jose</span> was updated <a href="https://github.com/potatosalad/erlang-jose/commit/2b1d66b5f4fbe33cb198149a8cb23895a2c877ea">from <span class="code ">1.11.1</span> to <span class="code ">2b1d66b5f4</span></a></li>
