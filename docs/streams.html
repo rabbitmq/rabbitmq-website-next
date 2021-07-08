@@ -288,7 +288,7 @@ they cannot be <a href="/queues.html#properties">non-durable</a> like regular qu
 They are not meant to be used as <a href="/queues.html#temporary-queues">temporary queues</a>.</p>
 <h4>Lazy Mode</h4>
 <p>Streams store all data directly on disk, after a message has been written
-it does not use any memory until it is read. Streams are inherently <a href="/lazy-queues.html, so to speak">lazy</a>.</p>
+it does not use any memory until it is read. Streams are inherently <a href="/lazy-queues.html">lazy</a>, so to speak.</p>
 <h4><a id="global-qos" class="anchor" href="#global-qos">Global QoS</a></h4>
 <p>Streams do not support global <a href="/confirms.html#channel-qos-prefetch">QoS prefetch</a> where a channel sets a single
 prefetch limit for all consumers using that channel. If an attempt
