@@ -10,11 +10,16 @@
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>Streams are a new persistent and replicated data structure in RabbitMQ which models
 an append-only log with non-destructive consumer semantics.
-They can be used as a regular AMQP 0.9.1 queue or through a new binary protocol
+They can be used as a regular AMQP 0.9.1 queue or through a
+<a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.9.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc">dedicated binary protocol</a>
 plugin and associated client(s).</p>
-<p>This page covers the Stream plugin, which allows to interact with streams using this new binary protocol.
+<p>This page covers the Stream plugin, which allows to interact with streams using this
+<a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.9.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc">new binary protocol</a>.
 For an overview of the concepts and the ways to operate streams, please see the
 <a href="streams.html">streams page</a>.</p>
+<p>The current known client libraries for the stream protocol are the
+<a href="https://github.com/rabbitmq/rabbitmq-stream-java-client">RabbitMQ Stream Java Client</a>
+and the <a href="https://github.com/rabbitmq/rabbitmq-stream-go-client">RabbitMQ Stream Go Client</a>.</p>
 <h2><a id="enabling-plugin" class="anchor" href="#enabling-plugin">Enabling the Plugin</a></h2>
 <p>The Stream plugin is included in the RabbitMQ distribution. Before clients can successfully
 connect, it must be enabled using <a href="/cli.html">rabbitmq-plugins</a>:</p>
