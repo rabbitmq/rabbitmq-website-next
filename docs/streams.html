@@ -318,7 +318,9 @@ can be dynamically updated.</p>
 <p>NB: retention is evaluated on per segment basis so there is one more parameter
 that comes into effect and that is the segment size of the stream. The stream will
 always leave at least one segment in place as long as the segment contains at least
-one message.</p>
+one message.
+When using broker-provided <a href="#offset-tracking">offset-tracking</a>, offsets for each consumer
+are persisted in the stream itself as non-message data.</p>
 <h2><a id="performance" class="anchor" href="#performance">Performance Characteristics</a></h2>
 <p>As streams persist all data to disks before doing anything it is recommended
 to use the fastest disks possible.</p>
