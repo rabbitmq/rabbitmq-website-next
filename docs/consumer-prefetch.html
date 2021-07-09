@@ -95,7 +95,19 @@ channel.basicConsume("my-queue2", false, consumer2);
 messages between them, with a maximum of 10 messages for each
 consumer. This will be slower than the above examples, due to
 the additional overhead of coordinating between the channel and
-the queues to enforce the global limit.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+the queues to enforce the global limit.</p>
+<h2><a id="default-limit" class="anchor" href="#default-limit">Configurable Default Prefetch</a></h2>
+<p>RabbitMQ can use a default prefetch that will be applied if the consumer doesn't specify one.
+The value can be configured as <span class="code ">rabbit.default_consumer_prefetch</span> in the <a href="configure.html#advanced-config-file">advanced configuration file</a>:</p>
+<pre class="lang-erlang">
+%% advanced.config file
+[
+ {rabbit, [
+       {default_consumer_prefetch, 250}
+     ]
+ }
+].
+</pre><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.

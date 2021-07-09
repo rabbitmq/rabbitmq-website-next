@@ -8,8 +8,7 @@
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>This guide covers the installation of the <a href="/kubernetes/operator/operator-overview.html">RabbitMQ Cluster Kubernetes Operator</a> in a Kubernetes cluster.
-If you are installing in OpenShift, follow the instructions in <a href="#openshift">Installation on OpenShift</a> section.</p>
+<p>This guide covers the installation of the <a href="/kubernetes/operator/operator-overview.html">RabbitMQ Cluster Kubernetes Operator</a> in a Kubernetes cluster.</p>
 <h2><a id="compatibility" class="anchor" href="#compatibility">Compatibility</a></h2>
 <p>The Operator requires</p>
 <ul>
@@ -131,112 +130,7 @@ kubectl -n rabbitmq-system patch serviceaccount \
 rabbitmq-cluster-operator -p '{"imagePullSecrets": [{"name": "rabbitmq-cluster-registry-access"}]}'
 </pre>
 
-<p>Please note that the name of the Operator Service Account is not configurable and it must be <span class="code ">rabbitmq-cluster-operator</span>.</p>
-<h3><a id="openshift" class="anchor" href="#openshift">Installation on OpenShift</a></h3>
-<p>The RabbitMQ cluster operator runs as user ID <span class="code ">1000</span>.
-The RabbitMQ pod runs the RabbitMQ container as user ID <span class="code ">999</span> and an init container as user ID <span class="code ">0</span>.
-By default OpenShift has security context constraints which disallow to create pods running with these user IDs.
-To install the RabbitMQ cluster operator on OpenShift, you need to perform the following steps:</p>
-<ol>
-<li>
-<p>Download the installation manifest from the <a href="https://github.com/rabbitmq/cluster-operator/releases">release page in GitHub</a>.</p>
-<p>Edit the <span class="code ">Namespace</span> object named <span class="code ">rabbitmq-system</span> to include the following annotations:</p>
-<p><pre class="lang-yaml">
-apiVersion: v1
-kind: Namespace
-metadata:
-  annotations:
-...
-    openshift.io/sa.scc.supplemental-groups: 1000/1
-    openshift.io/sa.scc.uid-range: 1000/1
-</pre></p>
-</li>
-<li>
-<p>Run the installation command.
-  <pre class="lang-yaml">
-  kubectl create -f cluster-operator.yml
-  # namespace/rabbitmq-system created
-  # customresourcedefinition.apiextensions.k8s.io/rabbitmqclusters.rabbitmq.com created
-  # serviceaccount/rabbitmq-cluster-operator created
-  # role.rbac.authorization.k8s.io/rabbitmq-cluster-leader-election-role created
-  # clusterrole.rbac.authorization.k8s.io/rabbitmq-cluster-operator-role created
-  # rolebinding.rbac.authorization.k8s.io/rabbitmq-cluster-leader-election-rolebinding created
-  # clusterrolebinding.rbac.authorization.k8s.io/rabbitmq-cluster-operator-rolebinding created
-  # deployment.apps/rabbitmq-cluster-operator created</pre></p>
-</li>
-<li>
-<p>Create a Security Context Constraint that allows the RabbitMQ pod to have the capabilities <span class="code ">FOWNER</span> and <span class="code ">CHOWN</span>:
-    <pre class="lang-bash">oc apply -f rabbitmq-scc.yml</pre></p>
-<p>where <span class="code ">rabbitmq-scc.yml</span> contains:</p>
-<p><pre class="lang-yaml">
-kind: SecurityContextConstraints
-apiVersion: security.openshift.io/v1
-metadata:
-  name: rabbitmq-cluster
-allowPrivilegedContainer: false
-runAsUser:
-  type: MustRunAsRange
-seLinuxContext:
-  type: MustRunAs
-fsGroup:
-  type: MustRunAs
-supplementalGroups:
-  type: RunAsAny
-requiredDropCapabilities:
-  - "ALL"
-allowedCapabilities:
-  - "FOWNER"
-  - "CHOWN"
-  - "DAC_OVERRIDE"
-volumes:
-  - "configMap"
-  - "secret"
-  - "persistentVolumeClaim"
-  - "downwardAPI"
-  - "emptyDir"
-  - "projected"
-</pre></p>
-</li>
-<li>
-<p>For every namespace where RabbitMQ cluster custom resources will be created (here we assume <span class="code ">default</span> namespace), change the following fields:</p>
-<p><pre class="lang-bash">
-oc edit namespace default
-</pre></p>
-<p><pre class="lang-yaml">
-apiVersion: v1
-kind: Namespace
-metadata:
-  annotations:
-    ...
-    openshift.io/sa.scc.supplemental-groups: 999/1
-    openshift.io/sa.scc.uid-range: 0-999
-</pre></p>
-</li>
-<li>
-<p>For every RabbitMQ cluster (here we assume the name <span class="code ">my-rabbitmq</span>) assign the previously created security context constraint to the cluster's service account.</p>
-<p><pre class="lang-bash">
-oc adm policy add-scc-to-user rabbitmq-cluster -z my-rabbitmq-server
-</pre></p>
-</li>
-<li>
-<p>(optional) If the cluster operator fails to create with the below error:</p>
-<p><pre class="lang-bash">
-Events:
-Type     Reason        Age                 From                   Message
-----     ------        ----                ----                   -------
-Warning  FailedCreate  74s (x107 over 9h)  replicaset-controller  Error creating: pods "rabbitmq-cluster-operator-79888fd8c8-" is forbidden: unable to validate against any security context constraint: []
-</pre></p>
-<p>This could be a result of the default SELinuxContext in the Openshift project is not compatible with the cluster operator. To fix this issue, add an additional annotation in the <span class="code ">rabbitmq-system</span> namespace:</p>
-<p><pre class="lang-yaml">
-apiVersion: v1
-kind: Namespace
-metadata:
-  annotations:
-...
-    openshift.io/sa.scc.mcs: 's0:c26,c5'
-</pre></p>
-</li>
-</ol><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+<p>Please note that the name of the Operator Service Account is not configurable and it must be <span class="code ">rabbitmq-cluster-operator</span>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.

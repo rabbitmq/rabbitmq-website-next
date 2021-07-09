@@ -1,15 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>(Untitled) — RabbitMQ</title></head>
-  <body id="release-notes/3.9.0"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>(Untitled)</h1>
-<h2>RabbitMQ 3.9.0-beta.1</h2>
-<p>RabbitMQ <span class="code ">3.9.0-beta.1</span> is a preview of a feature release. It contains new features,
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> RabbitMQ 3.9.0-rc.1
+ — RabbitMQ</title></head>
+  <body id="release-notes/3.9.0"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> RabbitMQ 3.9.0-rc.1
+</h1>
+<p>RabbitMQ <span class="code ">3.9.0-rc.1</span> is a candidate of a minor (feature) release. It contains new features,
 <a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap/">support for Erlang 24</a>,
-a <a href="https://blog.rabbitmq.com/posts/2020/11/rabbitmq-kubernetes-operator-reaches-1-0/">RabbitMQ Kubernetes Operator</a> developed by the RabbitMQ Core team,
+improved integration with our <a href="https://blog.rabbitmq.com/posts/2020/11/rabbitmq-kubernetes-operator-reaches-1-0/">RabbitMQ Kubernetes Operator</a>,
 and important internal changes in a number of subsystems.</p>
-<p>It also includes all bug fixes and minor incremental improvements from the <a href="https://www.rabbitmq.com/changelog.html"><span class="code ">3.8.x</span> release series</a>
-unless stated otherwise.</p>
 <h2>Highlights</h2>
 <h3>Streams</h3>
 <p><a href="http://next.rabbitmq.com/streams.html">Streams</a> are a new persistent and replicated data structure ("queue type") in RabbitMQ
@@ -19,11 +18,12 @@ and associated client(s).</p>
 <p>Streams enable messaging patterns that were not possible or practical before, for example,
 repeatable non-destructive consumption and mass fanouts to a very large number of consumers.</p>
 <h3>Erlang 24 Support</h3>
-<p><a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap/">Erlang 24</a> provides substantial throughput
-gains for many workloads tested by the RabbitMQ core team and community members.</p>
-<p>Erlang 24 is now used by default in the <a href="https://github.com/docker-library/rabbitmq">community Docker image for RabbitMQ</a>.</p>
-<p>It also allowed RabbitMQ to replace a few external dependencies with libraries now provided
-by the runtime.</p>
+<p><a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap/">Erlang 24</a>
+provides 20%-50% higher throughput for many workloads tested by the RabbitMQ
+core team and community members.</p>
+<p>Erlang 24 is now used by default in the <a href="https://github.com/docker-library/rabbitmq">RabbitMQ community Docker image</a>.</p>
+<p>Supporting the latest runtime version also allowed RabbitMQ to replace a few
+external dependencies with libraries now provided by the runtime.</p>
 <h3>Kubernetes</h3>
 <p><a href="https://www.rabbitmq.com/kubernetes/operator/operator-overview.html">RabbitMQ Cluster Operator</a>
 automates provisioning, management, and operations of RabbitMQ clusters running on Kubernetes.
@@ -43,14 +43,14 @@ an option for structured logging in JSON.</p>
 and <a href="https://packagecloud.io/rabbitmq">PackageCloud</a>.</p>
 <h3>Erlang/OTP Compatibility Notes</h3>
 <p>This release <a href="https://www.rabbitmq.com/which-erlang.html">requires Erlang 23.2</a> or later. Erlang 24 is recommended
-as it <a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap/">offers substantial throughput improvements</a> for many workloads.</p>
+as it <a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap/">offers 20%-50% throughput improvements</a> for many workloads.</p>
 <p><a href="https://www.rabbitmq.com/which-erlang.html#erlang-repositories">Provisioning Latest Erlang Releases</a> explains what package repositories and tools
 can be used to provision latest patch versions of Erlang 23.3.x and 24.x.</p>
 <h2>Upgrading to 3.9</h2>
 <p>See the <a href="https://www.rabbitmq.com/upgrade.html">Upgrading guide</a> for documentation on upgrades and <a href="https://www.rabbitmq.com/changelog.html">RabbitMQ change log</a>
 for release notes of other releases.</p>
 <p>RabbitMQ 3.9.0 nodes can run alongside <span class="code ">3.8.x</span> nodes. However, <span class="code ">3.8.16+</span> as well as <span class="code ">3.9.x</span> both require Erlang 23.2 or later (and support 24).
-No 3.9.0-specific features would be available in a mixed version cluster.</p>
+<span class="code ">3.9.x</span>-specific features can only be made available when all nodes in the cluster upgrade to 3.9.0 (or a later <span class="code ">3.9.x</span> release).</p>
 <p>While operating in mixed version mode, some aspects of the system may not behave as expected. The list of known behavior changes is covered below.
 Once all nodes are upgraded to 3.9.0, these irregularities will go away.</p>
 <p>Mixed version clusters are a mechanism that allows rolling upgrade and
@@ -95,6 +95,11 @@ first upgrade to the latest <span class="code ">3.8.x</span> patch release pn Er
 </ul>
 <p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3075">#3075</a></p>
 <ul>
+<li>Binding recovery on node startup is now more efficient. This means in clusters with a lot of
+   queues and/or bindings, nodes start quicker.</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3137">#3137</a></p>
+<ul>
 <li>Classic mirrored queue replcas are now started synchronously.</li>
 </ul>
 <p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2751">#2751</a></p>
@@ -103,8 +108,14 @@ first upgrade to the latest <span class="code ">3.8.x</span> patch release pn Er
 </ul>
 <p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2940">#2940</a></p>
 <ul>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/pull/2247">Some properties of the product banner can be customized</a></li>
+<li>Startup banner now provides more information some of which can be customised.</li>
 </ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2247">#2247</a>, <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2777">#2777</a></p>
+<ul>
+<li>Per-protocol and queue type message rates are now available as Prometheus metrics, as well as Streams-specific errors.
+   This also addresses a long-standing 3.8.x counters issue for most metrics of this type, as captured in <a href="https://github.com/rabbitmq/rabbitmq-server/issues/2783">#2783</a>.</li>
+</ul>
+<p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3127">#3127</a>, <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3136">#3136</a>, <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3157">#3157</a></p>
 <h4>Internal API and Other Changes</h4>
 <ul>
 <li>Standard runtime logger is now used for logging instead of Lager, a 3rd party dependency.
@@ -192,6 +203,8 @@ first upgrade to the latest <span class="code ">3.8.x</span> patch release pn Er
 <li>lager has been removed</li>
 <li>jsx has been upgraded from <span class="code ">2.9.0</span> to <span class="code ">3.1.0</span></li>
 <li>observer_cli has been upgraded from <span class="code ">1.5.2</span> to <span class="code ">1.6.2</span></li>
+<li>prometheus has been upgraded from <span class="code ">4.6.0</span> to <span class="code ">4.8.1</span></li>
+<li>ra has been upgraded from <span class="code ">1.1.9</span> to <span class="code ">2.0.0</span></li>
 <li>ranch has been upgraded from <span class="code ">1.7.1</span> to <span class="code ">2.0.0</span></li>
 <li>recon has been upgraded from <span class="code ">2.5.0</span> to <span class="code ">2.5.1</span></li>
 <li>socat has been removed</li>

@@ -468,7 +468,7 @@ same location as the real file should be placed (see
 above). On Debian and RPM distributions
 policy forbids doing so; instead find the file
 under <span class="code ">/usr/share/doc/rabbitmq-server/</span>
-or <span class="code ">/usr/share/doc/rabbitmq-server-3.8.18/</span>,
+or <span class="code ">/usr/share/doc/rabbitmq-server-3.8.19/</span>,
 respectively.</p>
 <h3><a id="config-items" class="anchor" href="#config-items">Core Server Variables Configurable in rabbitmq.conf</a></h3>
 <p>These variables are the most common. The list is not complete, as
@@ -1791,9 +1791,10 @@ More variables are covered in the <a href="/relocate.html">File and Directory Lo
     <td>
       When set to <span class="code ">true</span> this will cause RabbitMQ
       to use fully qualified names to identify nodes. This
-      may prove useful in environments that use fully-qualified domain names.
-      Note that it is not possible to switch between using short and long names without
-      resetting the node.
+      may prove useful in environments that use fully-qualified domain names or use IP addresses
+      as hostnames or part of node names.
+      Note that it is not possible to switch a node from short name to long name without
+      resetting it.
 
       <p>
         <strong>Default</strong>: <span class="code ">false</span>

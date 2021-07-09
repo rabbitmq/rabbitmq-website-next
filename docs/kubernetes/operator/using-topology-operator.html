@@ -11,9 +11,9 @@ If RabbitMQ Cluster Kubernetes Operator is not installed, see the <a href="quick
 <p>This guide has the following sections:</p>
 <ul>
 <li><a href="#requirements">Requirements</a></li>
-<li><a href="#queue-policy">Queue and policy</a></li>
-<li><a href="#user-permission">User and permission</a></li>
-<li><a href="#exchange-binding">Exchanges and bindings</a></li>
+<li><a href="#queues-policies">Queues and policies</a></li>
+<li><a href="#users-permissions">Users and user permissions</a></li>
+<li><a href="#exchanges-bindings">Exchanges and bindings</a></li>
 <li><a href="#vhosts">Virtual hosts</a></li>
 <li><a href="#federation">Federation</a></li>
 <li><a href="#shovel">Shovel</a></li>
@@ -29,7 +29,7 @@ The minimal version required for Cluster Operator is <span class="code ">1.7.0</
 <li>Messaging Topology Operator custom resources can only be created in the same namespace as the RabbitMQ cluster is deployed. For a RabbitmqCluster deployed in namespace
 "my-test-namespace", all Messaging Topology custom resources for this RabbitMQ cluster, such as <span class="code ">queues.rabbitmq.com</span> and <span class="code ">users.rabbitmq.com</span>, can only be created in namespace "my-test-namespace".</li>
 </ul>
-<h2><a id="queue-policy" class="anchor" href="#queue-policy">Queue and policy</a></h2>
+<h2><a id="queues-policies" class="anchor" href="#queues-policies">Queues and Policies</a></h2>
 <p>Messaging Topology Operator can declare <a href="../../queues.html">queues</a> and
 <a href="../../parameters.html#how-policies-work">policies</a> in a RabbitMQ cluster.</p>
 <p>The following manifest will create a queue named 'test' in the default vhost:</p>
@@ -64,9 +64,11 @@ spec:
     name: example-rabbit
 </pre>
 
+<p>Note that it's not recommended setting <a href="../../queues.html#optional-arguments">optional queue arguments</a> on queues directly. Once set,
+queue properties cannot be changed. Use <a href="../../parameters.html#policies">policies</a> instead.</p>
 <p>The Messaging Topology repo has more examples on <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/queues">queues</a>
 and <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/policies">policies</a>. </p>
-<h3><a id="exchange-binding" class="anchor" href="#binding"> Exchanges and bindings</a></h3>
+<h3><a id="exchanges-bindings" class="anchor" href="#exchanges-bindings"> Exchanges and Bindings</a></h3>
 <p>Messaging Topology Operator can manage <a href="../../publishers.html#basics">exchanges and bindings</a>.
 The following manifest will create a fanout exchange:</p>
 <pre class="lang-bash">
@@ -101,7 +103,7 @@ spec:
 
 <p>More examples on <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/exchanges">exchanges</a>
 and <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/bindings">bindings</a>. </p>
-<h3><a id="user-permission" class="anchor" href="#user-permission">User and permission</a></h3>
+<h3><a id="users-permissions" class="anchor" href="#users-permissions">Users and User Permissions</a></h3>
 <p>You can use Messaging Topology Operator to create RabbitMQ users and assign user permissions.
 Learn more about user management in the <a href="../../access-control.html#user-management">Access Control guide</a>.</p>
 <p>Messaging Topology Operator creates users with generated credentials by default.</p>

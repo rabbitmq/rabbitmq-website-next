@@ -31,14 +31,16 @@ of the queue (i.e. the oldest messages in the queue). To modify
 this behaviour, use the <span class="code ">overflow</span> setting described below.</p>
 <h2><a id="overflow-behaviour" class="anchor" href="#overflow-behaviour">Queue Overflow Behaviour</a></h2>
 <p>Use the <span class="code ">overflow</span> setting to configure queue overflow
-behaviour. If <span class="code ">overflow</span> is set to <span class="code ">reject-publish</span>,
+behaviour. If <span class="code ">overflow</span> is set to <span class="code ">reject-publish</span> or <span class="code ">reject-publish-dlx</span>,
 the most recently published messages will be discarded. In addition, if
 <a href="confirms.html#publisher-confirms">publisher confirms</a>
 are enabled, the publisher will be informed of the reject via a
 <span class="code ">basic.nack</span> message. If a message is routed to multiple
 queues and rejected by at least one of them, the channel will inform
 the publisher via <span class="code ">basic.nack</span>. The message will still be
-published to all other queues which can enqueue it.</p>
+published to all other queues which can enqueue it.
+The difference between <span class="code ">reject-publish</span> and <span class="code ">reject-publish-dlx</span> is that
+<span class="code ">reject-publish-dlx</span> also <a href="dlx.html">dead-letters</a> rejected messages.</p>
 <h2><a id="definition" class="anchor" href="#definition">Define Max Queue Length Using a Policy</a></h2>
 <p>To specify a maximum length using policy, add the key
 <span class="code ">max-length</span> and / or <span class="code ">max-length-bytes</span>
@@ -113,8 +115,8 @@ non-negative integer value.</p>
 is hit first will be enforced.</p>
 <p>Overflow behaviour can be set by supplying the
 <span class="code ">x-overflow</span> queue declaration argument with a
-string value. Possible values are <span class="code ">drop-head</span> (default) or
-<span class="code ">reject-publish</span></p>
+string value. Possible values are <span class="code ">drop-head</span> (default),
+<span class="code ">reject-publish</span> or <span class="code ">reject-publish-dlx</span>.</p>
 <p>This example in Java declares a queue with a maximum length
 of 10 messages:</p>
 <pre class="lang-java">

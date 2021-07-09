@@ -196,7 +196,7 @@ See <a href="/parameters.html#policies">Runtime Parameters and Policies</a> to l
 <h2><a id="leader-migration-data-locality" class="anchor" href="#leader-migration-data-locality">Queue Leader Replicas, Leader Migration, Data Locality</a></h2>
 <h3><a id="queue-leader-location" class="anchor" href="#queue-leader-location">Queue Leader Location</a></h3>
 <p>Every queue in RabbitMQ has a primary replica. That replica is called
-<em>queue leader</em> (originally "queue leader"). All queue operations go through the leader
+<em>queue leader</em> (originally "queue master"). All queue operations go through the leader
 replica first and then are replicated to followers (mirrors). This is necessary to
 guarantee FIFO ordering of messages.</p>
 <p>To avoid some nodes in a cluster hosting the majority of queue leader

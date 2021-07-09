@@ -85,7 +85,7 @@ thinking the other has crashed. This scenario is known as split-brain.
 Queues, bindings, exchanges can
 be created or deleted separately.</p>
 <p><a href="ha.html">Classic mirrored queues</a> which are split across the partition will end up with
-one master on each side of the partition, again with both sides
+one leader on each side of the partition, again with both sides
 acting independently. <a href="/quorum-queues.html">Quorum queues</a> will elect a new leader on the
 majority side. Quorum queue replicas on the minority side will no longer
 make progress (i.e. accept new messages, deliver to consumers, etc), all this work will be
