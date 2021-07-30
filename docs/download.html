@@ -7,11 +7,18 @@
 </h1>
 
 
-<p>The latest <a href="https://github.com/rabbitmq/rabbitmq-server/releases">release</a> of RabbitMQ is <strong>3.8.19</strong>. See <a href="changelog.html">change log</a> for release notes.
+<p>The latest <a href="https://github.com/rabbitmq/rabbitmq-server/releases">release</a> of RabbitMQ is <strong>3.9.0</strong>. See <a href="changelog.html">change log</a> for release notes.
 See <a href="/versions.html">RabbitMQ support timeline</a> to find out what release series are supported.</p>
 <p>Experimenting with RabbitMQ on your workstation? Try the <a href="https://registry.hub.docker.com/_/rabbitmq/">community Docker image</a>:</p>
 <pre class="lang-bash">
-docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+# for RabbitMQ 3.9, the latest series
+docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.9-management
+</pre>
+
+<pre class="lang-bash">
+# for RabbitMQ 3.8,
+# 3.8.x support timeline: https://www.rabbitmq.com/versions.html
+docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.8-management
 </pre>
 
 <h2>Open Source RabbitMQ Server</h2>
@@ -24,10 +31,8 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 </ul>
 <h3>Preview Releases (Betas, Release Candidates)</h3>
 <p>You can contribute to RabbitMQ by helping the community test preview releases.</p>
-<p>Preview releases available for testing:</p>
-<ul>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.8.18-beta.1"><span class="code ">3.8.18-beta.1</span></a></li>
-</ul>
+<p>Preview releases are <a href="https://github.com/rabbitmq/rabbitmq-server/releases">distributed via GitHub</a> and marked
+as pre-release.</p>
 <h2>VMware Tanzu™ RabbitMQ® (Commercial Edition)</h2>
 <ul>
 <li><a href="https://tanzu.vmware.com/rabbitmq">Tanzu™ RabbitMQ®</a></li>
@@ -65,14 +70,14 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 </ul>
 <h2>Downloads <a href="https://github.com/rabbitmq/rabbitmq-server/releases">on GitHub</a></h2>
 <ul>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.19/rabbitmq-server-3.8.19.exe">Windows installer</a></li>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.19/rabbitmq-server_3.8.19-1_all.deb">Debian, Ubuntu</a></li>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.19/rabbitmq-server-3.8.19-1.el8.noarch.rpm">RHEL/CentOS 8.x</a> |
-    <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.19/rabbitmq-server-3.8.19-1.el7.noarch.rpm">RHEL/CentOS 7.x</a> |
-    <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.19/rabbitmq-server-3.8.19-1.suse.noarch.rpm">OpenSUSE</a> |
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.0/rabbitmq-server-3.9.0.exe">Windows installer</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.0/rabbitmq-server_3.9.0-1_all.deb">Debian, Ubuntu</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.0/rabbitmq-server-3.9.0-1.el8.noarch.rpm">RHEL/CentOS 8.x</a> |
+    <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.0/rabbitmq-server-3.9.0-1.el7.noarch.rpm">RHEL/CentOS 7.x</a> |
+    <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.0/rabbitmq-server-3.9.0-1.suse.noarch.rpm">OpenSUSE</a> |
     zero dependency <a href="https://github.com/rabbitmq/erlang-rpm">Erlang 23 RPM</a></li>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.19/rabbitmq-server-generic-unix-3.8.19.tar.xz">Generic UNIX binary</a></li>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.19/rabbitmq-server-windows-3.8.19.zip">Windows binary</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.0/rabbitmq-server-generic-unix-3.9.0.tar.xz">Generic UNIX binary</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.0/rabbitmq-server-windows-3.9.0.zip">Windows binary</a></li>
 </ul>
 <h2>Debian (Apt) and RPM (Yum) Repositories</h2>
 <ul>
@@ -94,8 +99,8 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 <h3>Java Client</h3>
 <ul>
 <li>On Maven Central: <a href="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.rabbitmq%22%20AND%20a%3A%22amqp-client%22">RabbitMQ Java client</a></li>
-<li>Quick download: <a href="http://repo1.maven.org/maven2/com/rabbitmq/amqp-client/5.12.0/amqp-client-5.12.0.jar">Maven.org</a> |
-   <a href="http://repo1.maven.org/maven2/com/rabbitmq/amqp-client/5.12.0/amqp-client-5.12.0-sources.jar">Source</a></li>
+<li>Quick download: <a href="http://repo1.maven.org/maven2/com/rabbitmq/amqp-client/5.13.0/amqp-client-5.13.0.jar">Maven.org</a> |
+   <a href="http://repo1.maven.org/maven2/com/rabbitmq/amqp-client/5.13.0/amqp-client-5.13.0-sources.jar">Source</a></li>
 <li><a href="/api-guide.html">API guide</a></li>
 <li><a href="https://rabbitmq.github.io/rabbitmq-java-client/api/current/">API reference</a> (JavaDoc)</li>
 <li><a href="/java-client.html">License and other information</a></li>
@@ -111,14 +116,11 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 <li><a href="/dotnet-api-guide.html">API guide</a></li>
 <li><a href="https://rabbitmq.github.io/rabbitmq-dotnet-client/">API reference</a></li>
 <li><a href="/dotnet.html">License and other information</a></li>
-<li><a href="/releases/releases/rabbitmq-dotnet-client">Older versions</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-dotnet-client/releases">Older versions</a></li>
 </ul>
 <h3>Erlang Client</h3>
 <ul>
-<li>Quick download: Binary <a href="/releases/rabbitmq-erlang-client/v3.8.19/amqp_client-3.8.19.ez">client.ez</a>, <a href="/releases/rabbitmq-erlang-client/v3.8.19/rabbit_common-3.8.19.ez">common.ez</a> |
-   Source <a href="/releases/rabbitmq-erlang-client/v3.8.19/amqp_client-3.8.19-src.tar.xz">.tar.xz</a></li>
-<li><a href="/erlang-client.html">All Erlang client downloads</a></li>
-<li><a href="/releases/rabbitmq-erlang-client/">Older versions</a></li>
+<li>On Hex.pm: <a href="https://hex.pm/packages/amqp_client">amqp_client</a></li>
 </ul>
 <h3>Clients for Other Languages</h3>
 <p>The RabbitMQ community has created a large number of <a href="devtools.html">clients and developer tools</a>
@@ -128,7 +130,6 @@ covering a variety of platforms and languages.</p>
 plugins developed by the community.</p>
 <ul>
 <li><a href="community-plugins.html">Description of available plugins</a></li>
-<li><a href="/community-plugins">Plugin downloads</a></li>
 </ul>
 <h2>Snapshot (Alpha) Builds</h2>
 <p>Snapshot releases of the RabbitMQ broker

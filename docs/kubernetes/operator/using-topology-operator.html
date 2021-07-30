@@ -22,7 +22,7 @@ If RabbitMQ Cluster Kubernetes Operator is not installed, see the <a href="quick
 <li><a href="#limitations">Limitations</a></li>
 <li><a href="#tls">TLS</a></li>
 </ul>
-<h2><a id="requirements" class="anchor" href="requirements">Requirements</a></h2>
+<h2><a id="requirements" class="anchor" href="#requirements">Requirements</a></h2>
 <ul>
 <li>Messaging Topology Operator can only be used with RabbitMQ clusters deployed using the Kubernetes <a href="https://github.com/rabbitmq/cluster-operator">Cluster Operator</a>.
 The minimal version required for Cluster Operator is <span class="code ">1.7.0</span>.</li>
@@ -226,7 +226,7 @@ spec:
     name: example-rabbit
 </pre>
 
-<p>More <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/shovels">shovelsexaples </a>.</p>
+<p>More <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/shovels">shovels examples</a>.</p>
 <h2><a id="update" class="anchor" href="#update">Update Resources</a></h2>
 <p>Some custom resource properties are immutable. Messaging Topology Operator implements <a href="https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#validatingadmissionwebhook">validating webhooks</a>
 to prevent updates on immutable fields. Forbidden updates will be rejected. For example:</p>
@@ -240,7 +240,7 @@ for: "test-queue.yaml": admission webhook "vqueue.kb.io" denied the request: Que
 </pre>
 
 <p>Properties that cannot be updated is documented in the <a href="https://github.com/rabbitmq/messaging-topology-operator/blob/main/docs/api/rabbitmq.com.ref.asciidoc">Messaging Topology Operator API docs</a>.</p>
-<h2><a id="delete" class="anchor" href="delete">Delete a resource</a></h2>
+<h2><a id="delete" class="anchor" href="#delete">Delete a resource</a></h2>
 <p>Deleting custom resources will delete the corresponding resources in the RabbitMQ cluster. Messaging Topology Operator sets kubernetes
 <a href="https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers">finalizers</a> on all custom
 resources. If the object has already been deleted in the RabbitMQ cluster, or the RabbitMQ cluster has been deleted, Messaging Topology
@@ -251,7 +251,7 @@ set in RabbitmqCluster status <span class="code ">status.binding</span>, if the 
 default user credentials and may cause Messaging Topology Operator not be able to access the RabbitmqCluster. To get around this issue, either
 you can create a RabbitmqCluster without importing definitions, or you can manually update the default user kubernetes secret to the actual
 user credentials set in the definitions.</p>
-<h2><a id="tls" class="anchor" href="tls">TLS</a></h2>
+<h2><a id="tls" class="anchor" href="#tls">TLS</a></h2>
 <p>If the RabbitmqClusters managed by the Messaging Topology Operator are configured to serve the Management over HTTPS, there are some additional
 steps required to configure Messaging Topology Operator. Follow this <a href="/kubernetes/operator/tls-topology-operator.html">TLS dedicated guide</a> to configure
 the Operator.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>

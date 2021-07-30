@@ -14,7 +14,7 @@ This package is recommended in environments where more opinionated installation 
 (the <a href="/install-debian.html">Debian</a> or <a href="/install-rpm.html">RPM packages</a>, <a href="/install-homebrew.html">Homebrew</a>, BSD ports) cannot be used.
 It is also the most convenient option for running multiple versions on the same machine
 in development environments, e.g. <a href="/snapshots.html">preview release</a> testing.
-There's a separate <a href="/install-windows-manually.html">binary package for Windows</a>.</p>
+There's a separate <a href="/install-windows-manual.html">binary package for Windows</a>.</p>
 <h2><a id="downloads" class="anchor" href="#downloads">Downloads</a></h2>
 <table>
   <thead>
@@ -28,10 +28,10 @@ There's a separate <a href="/install-windows-manually.html">binary package for W
       Generic UNIX binary build (tar.xz, from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>, recommended)
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.19/rabbitmq-server-generic-unix-3.8.19.tar.xz">rabbitmq-server-generic-unix-3.8.19.tar.xz</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.19/rabbitmq-server-generic-unix-3.9.0.tar.xz">rabbitmq-server-generic-unix-3.9.0.tar.xz</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.19/rabbitmq-server-generic-unix-3.8.19.tar.xz.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.19/rabbitmq-server-generic-unix-3.9.0.tar.xz.asc">Signature</a>
     </td>
   </tr>
 </table>
@@ -41,8 +41,8 @@ There's a separate <a href="/install-windows-manually.html">binary package for W
 <p>This package requires a <a href="/which-erlang.html">supported version of Erlang</a> to be installed
 in order to run.</p>
 <h3><a id="install" class="anchor" href="#install">Install the Server</a></h3>
-<p><a href="#downloads">Download</a> a <span class="code ">rabbitmq-server-generic-unix-3.8.19.tar.xz</span> archive and extract it.</p>
-<p>Contained in the tarball is a directory named <span class="code ">rabbitmq_server-3.8.19</span>. This directory is the node base directory. It should be
+<p><a href="#downloads">Download</a> a <span class="code ">rabbitmq-server-generic-unix-3.9.0.tar.xz</span> archive and extract it.</p>
+<p>Contained in the tarball is a directory named <span class="code ">rabbitmq_server-3.9.0</span>. This directory is the node base directory. It should be
 moved to a suitable application directory on the system, such as <span class="code ">/usr/local</span>.
 The <span class="code ">sbin</span> directory in that directory contains server and <a href="/cli.html">CLI tool</a> scripts.
 It is a good candidate for including into <span class="code ">PATH</span>.</p>
@@ -75,7 +75,7 @@ The recommended way of doing that is using the <span class="code ">$RABBITMQ_HOM
 <h3><a id="file-locations" class="anchor" href="#file-locations">File Locations</a></h3>
 <p>The generic binary build is designed to run without granted
 permissions to directories outside of its base one. The <a href="/relocate.html">directories and files</a> used by default are
-all held under the installation directory <span class="code ">rabbitmq_server-3.8.19</span>
+all held under the installation directory <span class="code ">rabbitmq_server-3.9.0</span>
 which is in the <span class="envvar">$RABBITMQ_HOME</span>
 variable in the scripts.</p>
 <p>The node can be <a href="/relocate.html">instructed</a> to use more

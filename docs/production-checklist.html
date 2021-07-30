@@ -13,21 +13,23 @@ parameters. Some configurations make a lot of sense for
 development but are not really suitable for production.  No
 single configuration fits every use case. It is, therefore,
 important to assess system configuration and have a plan for "day two operations"
-activities such as <a href="/upgrade.html">upgrades</a> before going into production.</p>
+activities such as <a href="upgrade.html">upgrades</a> before going into production.</p>
 <p>Production systems have concerns that go beyond configuration:
 a certain degree of system observability (<a href="#monitoring-and-resource-usage">monitoring</a>, metrics),
 <a href="#apps">application resource usage</a> and
 <a href="#security-considerations">security</a>
 (e.g. firewalls, credentials and shared secret generation) are essential. This guide provides an
 overview of such topics as well.</p>
-<p><a href="/monitoring.html">Monitoring</a> and metrics are the foundation of a production-grade system.
+<p><a href="monitoring.html">Monitoring</a> and metrics are the foundation of a production-grade system.
 Besides helping detect issues, it provides the operator data that can be used
 to size and configure both RabbitMQ nodes and applications.</p>
-<p>Operators also should keep <a href="/versions.html">RabbitMQ support timelines</a> in mind
+<p>Operators also should keep <a href="versions.html">RabbitMQ support timelines</a> in mind
 when picking a version to deploy.</p>
 <h2><a id="users-and-permissions" class="anchor" href="#users-and-permissions">Virtual Hosts, Users, Permissions</a></h2>
 <p>It is often necessary to seed a cluster with virtual hosts, users, permissions, topologies, policies
-and so on. The recommended way of doing this at deployment time is <a href="/definitions.html">via definition file import</a>.</p>
+and so on. The recommended way of doing this at deployment time is <a href="definitions.html">via definition import</a>.
+Definitions can be imported on node boot or at any point after cluster deployment
+using <span class="code ">rabbitmqadmin</span> or the <span class="code ">POST /api/definitions</span> <a href="management.html">HTTP API endpoint</a>.</p>
 <h3><a id="virtual-hosts" class="anchor" href="#virtual-hosts">Virtual Hosts</a></h3>
 <p>In a single-tenant environment, for example, when your RabbitMQ
 cluster is dedicated to power a single system in production,
@@ -46,14 +48,14 @@ have a mobile app, a Web app, and a data aggregation system, you'd have 3
 separate users. This makes a number of things easier:</p>
 <ul>
 <li>Correlating client connections with applications</li>
-<li>Using <a href="/access-control.html">fine-grained permissions</a></li>
+<li>Using <a href="access-control.html">fine-grained permissions</a></li>
 <li>Credentials roll-over (e.g. periodically or in case of a breach)</li>
 </ul>
 <p>In case there are many instances of the same application, there's a trade-off
 between better security (having a set of credentials per instance) and convenience
 of provisioning (sharing a set of credentials between some or all instances).</p>
 <p>For IoT applications that involve many clients performing the same or similar
-function and having fixed IP addresses, it may make sense to <a href="/ssl.html">authenticate using x509 certificates</a> or
+function and having fixed IP addresses, it may make sense to <a href="ssl.html">authenticate using x509 certificates</a> or
 <a href="https://github.com/gotthardp/rabbitmq-auth-backend-ip-range">source IP address ranges</a>.</p>
 <h2><a id="monitoring-and-resource-usage" class="anchor" href="#monitoring-and-resource-usage">Monitoring and Resource Limits</a></h2>
 <p>RabbitMQ nodes are limited by various resources, both physical
@@ -61,12 +63,12 @@ function and having fixed IP addresses, it may make sense to <a href="/ssl.html"
 It is important to evaluate resource limit configurations before
 going into production and continuously monitor resource usage after that.</p>
 <h3><a id="monitoring" class="anchor" href="#monitoring">Monitoring</a></h3>
-<p><a href="/monitoring.html">Monitoring</a> several aspects of the system, from
+<p><a href="monitoring.html">Monitoring</a> several aspects of the system, from
 infrastructure and kernel metrics to RabbitMQ to application-level metrics is essential.
 While monitoring requires an upfront investment in terms of time, it is very effective
 at catching issues and noticing potentially problematic trends early (or at all).</p>
 <h3><a id="resource-limits-ram" class="anchor" href="#resource-limits-ram">Memory</a></h3>
-<p>RabbitMQ uses <a href="/alarms.html">Resource-driven alarms</a>
+<p>RabbitMQ uses <a href="alarms.html">Resource-driven alarms</a>
 to throttle publishers when consumers do not keep up.</p>
 <p>By default, RabbitMQ will not accept any new messages when it detects
 that it's using more than 40% of the available memory (as reported by the OS):
@@ -81,18 +83,18 @@ OS swapping, and can even result in RabbitMQ process termination.</p>
 <span class="code ">vm_memory_high_watermark</span>:</p>
 <ul>
 <li>Nodes hosting RabbitMQ should have at least <strong>256 MiB</strong> of
-   memory available at all times. Deployments that use <a href="/quorum-queues.html">quorum queues</a>, <a href="shovel.html">Shovel</a> and <a href="federation.html">Federation</a> may need more.</li>
+   memory available at all times. Deployments that use <a href="quorum-queues.html">quorum queues</a>, <a href="shovel.html">Shovel</a> and <a href="federation.html">Federation</a> may need more.</li>
 <li>The recommended <span class="code ">vm_memory_high_watermark.relative</span> range is <span class="code ">0.4 to 0.7</span></li>
-<li>Values above <span class="code ">0.7</span> should be used with care and with solid <a href="/memory-use.html">memory usage</a> and infrastructure-level <a href="/monitoring.html">monitoring</a> in place.
+<li>Values above <span class="code ">0.7</span> should be used with care and with solid <a href="memory-use.html">memory usage</a> and infrastructure-level <a href="monitoring.html">monitoring</a> in place.
    The OS and file system must be left with at least 30% of the memory, otherwise performance may degrade severely due to paging.</li>
 </ul>
 <p>These are some very broad-stroked guidelines.
 As with every tuning scenario, monitoring, benchmarking and measuring are required to find
 the best setting for the environment and workload.</p>
-<p>Learn more about <a href="/memory.html">RabbitMQ and system memory</a> in a separate guide.</p>
+<p>Learn more about <a href="memory.html">RabbitMQ and system memory</a> in a separate guide.</p>
 <h3><a id="resource-limits-disk-space" class="anchor" href="#resource-limits-disk-space">Disk Space</a></h3>
 <p>The current 50MB <span class="code ">disk_free_limit</span> default works very well for
-development and <a href="/getstarted.html">tutorials</a>.
+development and <a href="getstarted.html">tutorials</a>.
 Production deployments require a much greater safety margin.
 Insufficient disk space will lead to node failures and may result in data loss
 as all disk writes will fail.</p>
@@ -158,7 +160,7 @@ manifest themselves in more complex scenarios, e.g those collectively
 known as the thundering herd problem.</p>
 <p>This section covers a number of most common problems. Most of these problems
 are generally not protocol-specific or new. They can be hard to detect, however.
-Adequate <a href="/monitoring.html">monitoring</a> of the system is critically
+Adequate <a href="monitoring.html">monitoring</a> of the system is critically
 important as it is the only way to spot problematic trends
 (e.g. channel leaks, growing file descriptor usage from poor connection management) early.</p>
 <h3><a id="apps-connection-management" class="anchor" href="#apps-connection-management">Connection Management</a></h3>
@@ -167,7 +169,7 @@ connect to RabbitMQ on start and only close the connection(s) when they have to 
 Others open and close connections more dynamically. For the latter group it is important to close
 them when they are no longer used.</p>
 <p>Connections can be closed for reasons outside of application developer's control.
-Messaging protocols supported by RabbitMQ use a feature called <a href="/heartbeats.html">heartbeats</a> (the name
+Messaging protocols supported by RabbitMQ use a feature called <a href="heartbeats.html">heartbeats</a> (the name
 may vary but the concept does not) to detect such connections quicker than the TCP stack.
 Developers should be careful about using heartbeat timeout that are too low (less than 5 seconds)
 as that may produce false positives when network congestion or system load goes up.</p>
@@ -177,15 +179,15 @@ will cover this in more detail.</p>
 <p>As mentioned above, messaging protocols generally assume long-lived connections. Some applications
 may open a new connection to perform a single operation (e.g. publish a message) and then close it.
 This is highly inefficient as opening a connection is an expensive operation (compared to reusing
-an existing one). Such workload also leads to <a href="/networking.html#dealing-with-high-connection-churn">connection churn</a>.
+an existing one). Such workload also leads to <a href="networking.html#dealing-with-high-connection-churn">connection churn</a>.
 Nodes experiencing high connection churn must be tuned to release TCP connections much quicker than
 kernel defaults, otherwise they will eventually run out of file handles or memory and will stop
 accepting new connections.</p>
 <p>If a small number of long lived connections is not an option, connection pooling can help
 reduce peak resource usage.</p>
 <h3><a id="apps-automatic-recovery" class="anchor" href="#apps-automatic-recovery">Recovery from Connection Failures</a></h3>
-<p>Some client libraries, for example, <a href="/api-guide.html">Java</a>,
-<a href="/dotnet-api-guide.html">.NET</a> and
+<p>Some client libraries, for example, <a href="api-guide.html">Java</a>,
+<a href="dotnet-api-guide.html">.NET</a> and
 <a href="http://rubybunny.info">Ruby</a>, support
 automatic connection recovery after network failures. If the
 client used provides this feature, it is recommended to use
@@ -198,15 +200,15 @@ the number of channels they use when possible and close channels that are no lon
 Channels, like connections, are meant to be long lived.</p>
 <p>Note that closing a connection automatically closes all channels on it.</p>
 <h3><a id="apps-polling-consumers" class="anchor" href="#apps-polling-consumers">Polling Consumers</a></h3>
-<p><a href="/consumers.html#fetching">Polling consumers</a> (consumption with <span class="code ">basic.get</span>) is a feature that application developers
+<p><a href="consumers.html#fetching">Polling consumers</a> (consumption with <span class="code ">basic.get</span>) is a feature that application developers
 should avoid in most cases as polling is inherently inefficient.</p>
 <h2><a id="security-considerations" class="anchor" href="#security-considerations">Security Considerations</a></h2>
 <h3><a id="security-considerations-users-and-permissions" class="anchor" href="#security-considerations-users-and-permissions">Users and Permissions</a></h3>
 <p>See the section on vhosts, users, and credentials above.</p>
 <h3><a id="inter-node-authentication" class="anchor" href="#inter-node-authentication">Inter-node and CLI Tool Authentication</a></h3>
-<p>RabbitMQ nodes authenticate to each other using a <a href="/clustering.html#erlang-cookie">shared secret</a>
+<p>RabbitMQ nodes authenticate to each other using a <a href="clustering.html#erlang-cookie">shared secret</a>
 stored in a file. On Linux and other UNIX-like systems, it is necessary to restrict cookie file
-access only to the OS users that will run RabbitMQ and <a href="/cli.html">CLI tools</a>.</p>
+access only to the OS users that will run RabbitMQ and <a href="cli.html">CLI tools</a>.</p>
 <p>It is important that the value is generated in a reasonably secure way
 (e.g. not computed from an easy to guess value). This is usually done using deployment
 automation tools at the time of initial deployment. Those tools can use default or
@@ -214,12 +216,12 @@ placeholder values: don't rely on them. Allowing the runtime to generate a cooki
 on one node and copying it to all other nodes is also a poor practice: it makes the generated value
 more predictable since the generation algorithm is known.</p>
 <p>CLI tools use the same authentication mechanism. It is recommended that
-<a href="/clustering.html#ports">inter-node and CLI communication port</a>
+<a href="clustering.html#ports">inter-node and CLI communication port</a>
 access is limited to the hosts that run RabbitMQ nodes or CLI tools.</p>
-<p><a href="/clustering-ssl.html">Securing inter-node communication with TLS</a> is recommended.
+<p><a href="clustering-ssl.html">Securing inter-node communication with TLS</a> is recommended.
 It implies that CLI tools are also configured to use TLS.</p>
 <h3><a id="security-firewall-rules" class="anchor" href="#security-firewall-rules">Firewall Configuration</a></h3>
-<p><a href="/networking.html#ports">Ports used by RabbitMQ</a> can be broadly put into
+<p><a href="networking.html#ports">Ports used by RabbitMQ</a> can be broadly put into
 one of two categories:</p>
 <ul>
   <li>Ports used by client libraries (AMQP 0-9-1, AMQP 1.0, MQTT, STOMP, HTTP API)</li>
@@ -230,7 +232,7 @@ one of two categories:</p>
 or CLI tools. Ports in the former category should be accessible to hosts that run applications,
 which in some cases can mean public networks, for example, behind a load balancer.</p>
 <h3><a id="security-considerations-tls" class="anchor" href="#security-considerations-tls">TLS</a></h3>
-<p>We recommend using <a href="/ssl.html">TLS connections</a> when possible,
+<p>We recommend using <a href="ssl.html">TLS connections</a> when possible,
 at least to encrypt traffic. Peer verification (authentication) is also recommended.
 Development and QA environments can use <a href="https://github.com/michaelklishin/tls-gen/">self-signed TLS certificates</a>.
 Self-signed certificates can be appropriate in production environments when
@@ -239,7 +241,7 @@ such as VMware NSX.</p>
 <p>While RabbitMQ tries to offer a secure TLS configuration by
 default (e.g. SSLv3 is disabled), we recommend evaluating
 TLS configuration (versions cipher suites and so on) using tools such as <a href="https://testssl.sh/">testssl.sh</a>.
-Please refer to the <a href="/ssl.html">TLS guide</a> to learn more.</p>
+Please refer to the <a href="ssl.html">TLS guide</a> to learn more.</p>
 <p>Note that TLS can have significant impact on overall system throughput,
 including CPU usage of both RabbitMQ and applications that use it.</p>
 <h2><a id="networking" class="anchor" href="#networking">Networking Configuration</a></h2>
@@ -262,7 +264,7 @@ service remains available and a clear majority of nodes can be identified.</p>
 <p>For most environments, configuring queue replication to more than half — but not all —
 cluster nodes is sufficient.</p>
 <h4>Uneven Numbers of Nodes and Cluster Majority</h4>
-<p>It is important to pick a <a href="/partitions.html">partition handling strategy</a> before going into production.
+<p>It is important to pick a <a href="partitions.html">partition handling strategy</a> before going into production.
 When in doubt, use the <span class="code ">pause_minority</span> strategy with an odd number of nodes (3, 5, 7, and so on).</p>
 <p>Uneven number of nodes make network partition recovery more predictable, with the common option
 of the minority automatically refusing to service commands.</p>

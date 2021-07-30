@@ -1,5 +1,30 @@
 <?xml version="1.0"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><id>https://www.rabbitmq.com/news.atom</id><link rel="self" href="https://www.rabbitmq.com/news.atom"/><link rel="alternate" type="text/html" href="https://www.rabbitmq.com/news.html"/><title type="text">RabbitMQ Project Announcements</title><updated>2021-07-05T14:00:00+00:00</updated><entry><id>tag:rabbitmq.com,2007:2021-07-05T14:00:00+00:00</id><title type="text">RabbitMQ 3.8.19 release</title><updated>2021-07-05T14:00:00+00:00</updated><author><name>RabbitMQ</name><uri>https://www.rabbitmq.com/</uri><email>info@rabbitmq.com</email></author><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+<feed xmlns="http://www.w3.org/2005/Atom"><id>https://www.rabbitmq.com/news.atom</id><link rel="self" href="https://www.rabbitmq.com/news.atom"/><link rel="alternate" type="text/html" href="https://www.rabbitmq.com/news.html"/><title type="text">RabbitMQ Project Announcements</title><updated>2021-07-23T12:00:00+00:00</updated><entry><id>tag:rabbitmq.com,2007:2021-07-23T12:00:00+00:00</id><title type="text">RabbitMQ 3.9.0 release</title><updated>2021-07-23T12:00:00+00:00</updated><author><name>RabbitMQ</name><uri>https://www.rabbitmq.com/</uri><email>info@rabbitmq.com</email></author><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+        <p>
+          The RabbitMQ team is pleased to announce the release of RabbitMQ 3.9.0.
+        </p>
+        <p>
+          This release has new features as well as bug fixes.
+          Release highlights and notes can be found in the <a href="changelog.html">change log</a>.
+        </p>
+        <p>
+          Binary and source distributions of the new release can be found in the
+          <a href="https://rabbitmq.com/download.html">installation guide</a>.
+        </p>
+        <p>
+          We encourage all users of earlier versions of RabbitMQ to upgrade to this latest release.
+        </p>
+        <p>
+          A webinar recording that covers what's new in this release is also <a href="https://content.pivotal.io/webinars/may-23-what-s-new-in-rabbitmq-3-8-webinar">available</a>.
+        </p>
+        <p>
+          As always, we welcome any questions, bug reports, and other feedback
+          on this release, as well as general suggestions for features and
+          enhancements in future releases. Contact us via the
+          <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">rabbitmq-users</a>
+          Google group.
+        </p>
+      </div></content></entry><entry><id>tag:rabbitmq.com,2007:2021-07-05T14:00:00+00:00</id><title type="text">RabbitMQ 3.8.19 release</title><updated>2021-07-05T14:00:00+00:00</updated><author><name>RabbitMQ</name><uri>https://www.rabbitmq.com/</uri><email>info@rabbitmq.com</email></author><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
         <p>
           The RabbitMQ team is pleased to announce the release of RabbitMQ 3.8.19.
         </p>
@@ -4250,13 +4275,13 @@ or directly at <a href="mailto:info@rabbitmq.com">info@rabbitmq.com</a>.</p>
       <ul class="plain">
     <li><a href="http://gojko.net/2009/03/11/qcon-london-2009-mom-interoperability-finally/">Gojko Adzic's review</a></li>
   </ul>
-  <p>If you're looking for a place to start <a href="/how">try here</a>.</p>
+  <p>If you're looking for a place to start <a href="/how.html">try here</a>.</p>
 
     </div></content></entry><entry><id>tag:rabbitmq.com,2007:2009-03-11T00:00:00Z</id><title type="text">
    RabbitMQ team is at Qcon London
     </title><updated>2009-03-11T00:00:00Z</updated><author><name>RabbitMQ</name><uri>https://www.rabbitmq.com/</uri><email>info@rabbitmq.com</email></author><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
       <p>The LShift/RabbitMQ team is pleased to announce its second visit to Qcon London, please do come and say hello.</p>
-      <p>In honour of the event, and while we work on a new website, we produced this overview of <a href="https://www.rabbitmq.com/how">how to use RabbitMQ</a>.</p>
+      <p>In honour of the event, and while we work on a new website, we produced this overview of <a href="https://www.rabbitmq.com/how.html">how to use RabbitMQ</a>.</p>
 
     </div></content></entry><entry><id>tag:rabbitmq.com,2007:2009-02-24T00:00:00Z</id><title type="text">
       The RabbitMQ team is pleased to announce the release of RabbitMQ 1.5.3.

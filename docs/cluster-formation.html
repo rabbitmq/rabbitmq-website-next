@@ -105,7 +105,7 @@ will be performed. This is true for all backends.</p>
 <p>A new node joining a cluster is just one possible case. Another common scenario
 is when an existing cluster member temporarily leaves and then rejoins the cluster.
 While the peer discovery subsystem does not affect the behavior described in this section,
-it important to understand how nodes behave when they rejoin their cluster after a restart or failure.</p>
+it's important to understand how nodes behave when they rejoin their cluster after a restart or failure.</p>
 <p>Existing cluster members <strong>will not perform peer discovery</strong>. Instead they will try to
 contact their previously known peers.</p>
 <p>If a node previously was a cluster member, when it boots it will try to contact
@@ -1025,7 +1025,7 @@ forming the cluster (seeding) or joining a peer. What locks are used varies from
 <h2><a id="node-health-checks-and-cleanup" class="anchor" href="#node-health-checks-and-cleanup">Node Health Checks and Forced Removal</a></h2>
 <p>Nodes in clusters formed using peer discovery can fail, become unavailable or be permanently
 removed (decomissioned). Some operators may want such nodes to be automatically removed
-from the cluster after a period of time. Such automated forced removal also can produced
+from the cluster after a period of time. Such automated forced removal also can produce
 unforeseen side effects, so RabbitMQ does not enforce this behavior. It <strong>should be used
 with great care</strong> and only if the side effects are fully understood and considered.</p>
 <p>For example, consider a cluster that uses the AWS backend configured to use autoscaling group membership.

@@ -1,87 +1,52 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> RabbitMQ 3.9.0-rc.1
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> RabbitMQ 3.9.0
  — RabbitMQ</title></head>
-  <body id="release-notes/3.9.0"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> RabbitMQ 3.9.0-rc.1
+  <body id="release-notes/3.9.0"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> RabbitMQ 3.9.0
 </h1>
-<p>RabbitMQ <span class="code ">3.9.0-rc.1</span> is a candidate of a minor (feature) release. It contains new features,
-<a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap/">support for Erlang 24</a>,
-improved integration with our <a href="https://blog.rabbitmq.com/posts/2020/11/rabbitmq-kubernetes-operator-reaches-1-0/">RabbitMQ Kubernetes Operator</a>,
-and important internal changes in a number of subsystems.</p>
+<p>The most important changes are <a href="https://blog.rabbitmq.com/posts/2021/07/rabbitmq-streams-overview/">Streams</a>, support for <a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap/">Erlang 24</a>, and improved integration with our <a href="https://blog.rabbitmq.com/posts/2020/11/rabbitmq-kubernetes-operator-reaches-1-0/">RabbitMQ Kubernetes Operator</a>. Other changes worth mentioning are JSON logging, per-protocol and queue type message rates as Prometheus metrics and faster initial cluster formation on Kubernetes.</p>
+<p>Find blog posts that expand on the previously mentioned topics: https://blog.rabbitmq.com/tags/v3.9.x/</p>
 <h2>Highlights</h2>
 <h3>Streams</h3>
-<p><a href="http://next.rabbitmq.com/streams.html">Streams</a> are a new persistent and replicated data structure ("queue type") in RabbitMQ
-which models an append-only log with non-destructive consumer semantics.</p>
-<p>They can be used as a regular AMQP 0.9.1 queue or through a new <a href="http://next.rabbitmq.com/stream.html">binary protocol plugin</a>
-and associated client(s).</p>
-<p>Streams enable messaging patterns that were not possible or practical before, for example,
-repeatable non-destructive consumption and mass fanouts to a very large number of consumers.</p>
+<p><a href="http://rabbitmq.com/streams.html">Streams</a> are a new persistent and replicated data structure ("queue type") in RabbitMQ which models an append-only log with non-destructive consumer semantics.</p>
+<p>They can be used as a regular AMQP 0.9.1 queue or through a new <a href="http://rabbitmq.com/stream.html">binary protocol plugin</a> and associated client(s).</p>
+<p>Streams enable messaging patterns that were not possible or practical before, for example, repeatable non-destructive consumption and mass fanouts to a very large number of consumers.</p>
 <h3>Erlang 24 Support</h3>
-<p><a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap/">Erlang 24</a>
-provides 20%-50% higher throughput for many workloads tested by the RabbitMQ
-core team and community members.</p>
-<p>Erlang 24 is now used by default in the <a href="https://github.com/docker-library/rabbitmq">RabbitMQ community Docker image</a>.</p>
-<p>Supporting the latest runtime version also allowed RabbitMQ to replace a few
-external dependencies with libraries now provided by the runtime.</p>
+<p><a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap/">Erlang 24</a> provides 20%-50% higher throughput for many workloads tested by the RabbitMQ core team and community members. Supporting the latest runtime version also allowed RabbitMQ to replace a few external dependencies with libraries now provided by the runtime.</p>
+<p>Erlang 24 is now used by default in the <a href="https://github.com/docker-library/rabbitmq">community RabbitMQ Docker image</a>.</p>
 <h3>Kubernetes</h3>
-<p><a href="https://www.rabbitmq.com/kubernetes/operator/operator-overview.html">RabbitMQ Cluster Operator</a>
-automates provisioning, management, and operations of RabbitMQ clusters running on Kubernetes.
-It is <a href="https://github.com/rabbitmq/cluster-operator">open source</a> and is developed by the
-RabbitMQ Core team at VMware, Inc.</p>
-<p>This Operator is not specific to 3.9 and can be used with latest 3.8.x release series.</p>
-<p><a href="https://www.rabbitmq.com/kubernetes/operator/operator-overview.html#topology-operator">Messaging Topology Operator</a>
-makes it possible to define RabbitMQ resources (virtual hosts, users, permissions, topologies, policies, etc)
-as Kubernetes objects.
-This Operator is also <a href="https://github.com/rabbitmq/messaging-topology-operator">open source</a> and
-can be used with latest 3.8.x release series.</p>
+<p><a href="https://www.rabbitmq.com/kubernetes/operator/operator-overview.html">RabbitMQ Cluster Operator</a> automates provisioning, management, and operations of RabbitMQ clusters running on Kubernetes. It is <a href="https://github.com/rabbitmq/cluster-operator">open source</a> and is developed by the RabbitMQ Core team at VMware, Inc. This Operator is not specific to 3.9 and can be used with latest 3.8.x release series.</p>
+<p><a href="https://www.rabbitmq.com/kubernetes/operator/operator-overview.html#topology-operator">Messaging Topology Operator</a> makes it possible to define RabbitMQ resources (virtual hosts, users, permissions, topologies, policies, etc) as Kubernetes objects. This Operator is also <a href="https://github.com/rabbitmq/messaging-topology-operator">open source</a> and can be used with latest 3.8.x release series.</p>
 <h3>Logging in JSON</h3>
-<p><a href="https://github.com/rabbitmq/rabbitmq-server/pull/2861">Switch from Lager to the new Erlang Logger API for logging #2861</a> introduces
-an option for structured logging in JSON.</p>
+<p><a href="https://github.com/rabbitmq/rabbitmq-server/pull/2861">Switch from Lager to the new Erlang Logger API for logging</a> introduces an option for structured logging in JSON. This is relevant for the Prometheus-based alerting feature that we have been investing in this year: <a href="https://blog.rabbitmq.com/posts/2021/05/alerting/">Notify me when RabbitMQ has a problem</a>.</p>
 <h2>Obtaining Packages</h2>
-<p>RabbitMQ releases are distributed via <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>, <a href="https://cloudsmith.io/~rabbitmq/repos/">Cloudsmith</a>,
-and <a href="https://packagecloud.io/rabbitmq">PackageCloud</a>.</p>
+<p>RabbitMQ releases are distributed via <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>, <a href="https://cloudsmith.io/~rabbitmq/repos/">Cloudsmith</a>, and <a href="https://packagecloud.io/rabbitmq">PackageCloud</a>.</p>
 <h3>Erlang/OTP Compatibility Notes</h3>
-<p>This release <a href="https://www.rabbitmq.com/which-erlang.html">requires Erlang 23.2</a> or later. Erlang 24 is recommended
-as it <a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap/">offers 20%-50% throughput improvements</a> for many workloads.</p>
-<p><a href="https://www.rabbitmq.com/which-erlang.html#erlang-repositories">Provisioning Latest Erlang Releases</a> explains what package repositories and tools
-can be used to provision latest patch versions of Erlang 23.3.x and 24.x.</p>
+<p>This release <a href="https://www.rabbitmq.com/which-erlang.html">requires Erlang 23.2</a> or later. Erlang 24 is recommended as it <a href="https://blog.rabbitmq.com/posts/2021/03/erlang-24-support-roadmap/">offers 20%-50% throughput improvements</a> for many workloads.</p>
+<p><a href="https://www.rabbitmq.com/which-erlang.html#erlang-repositories">Provisioning Latest Erlang Releases</a> explains what package repositories and tools can be used to provision latest patch versions of Erlang 23.3.x and 24.x.</p>
 <h2>Upgrading to 3.9</h2>
-<p>See the <a href="https://www.rabbitmq.com/upgrade.html">Upgrading guide</a> for documentation on upgrades and <a href="https://www.rabbitmq.com/changelog.html">RabbitMQ change log</a>
-for release notes of other releases.</p>
-<p>RabbitMQ 3.9.0 nodes can run alongside <span class="code ">3.8.x</span> nodes. However, <span class="code ">3.8.16+</span> as well as <span class="code ">3.9.x</span> both require Erlang 23.2 or later (and support 24).
-<span class="code ">3.9.x</span>-specific features can only be made available when all nodes in the cluster upgrade to 3.9.0 (or a later <span class="code ">3.9.x</span> release).</p>
-<p>While operating in mixed version mode, some aspects of the system may not behave as expected. The list of known behavior changes is covered below.
-Once all nodes are upgraded to 3.9.0, these irregularities will go away.</p>
-<p>Mixed version clusters are a mechanism that allows rolling upgrade and
-are not meant to be run for longer periods of time.</p>
+<p>See the <a href="https://www.rabbitmq.com/upgrade.html">Upgrading guide</a> for documentation on upgrades and <a href="https://www.rabbitmq.com/changelog.html">RabbitMQ change log</a> for release notes of other releases.</p>
+<p>RabbitMQ 3.9.0 nodes can run alongside <span class="code ">3.8.x</span> nodes. However, <span class="code ">3.8.16+</span> as well as <span class="code ">3.9.x</span> both require Erlang 23.2 or later (and support 24). <span class="code ">3.9.x</span>-specific features can only be made available when all nodes in the cluster upgrade to 3.9.0 or any other patch release in the series.</p>
+<p>While operating in mixed version mode, some aspects of the system may not behave as expected. The list of known behavior changes is covered below. Once all nodes are upgraded to 3.9.0, these irregularities will go away.</p>
+<p>Mixed version clusters are a mechanism that allows rolling upgrade and are not meant to be run for extended periods of time (no more than a few hours).</p>
 <h3>Quorum Queue Declaration</h3>
-<p>In a mixed version cluster, declaration of new quorum queues will fail if executed
-on a node in the version minority. For example, in a five node cluster with two nodes
-running 3.8, the three 3.9 nodes are in the version majority and the remaining are in
-the version minority.</p>
+<p>In a mixed version cluster, declaration of new quorum queues will fail if executed on a node in the version minority. For example, in a five node cluster with two nodes running 3.8, the three 3.9 nodes are in the version majority and the remaining are in the version minority.</p>
 <p>Existing quorum queues will operate just like before.</p>
 <h3>Classic Queue Metrics</h3>
-<p>HTTP API responses will provide a <a href="https://github.com/rabbitmq/rabbitmq-server/issues/3080">limited number of metrics</a>
-or metrics for a limited number of queues (for operations such as <span class="code ">GET /api/queues/{vhost}</span>) when operating in mixed version mode.</p>
+<p>HTTP API responses will provide a <a href="https://github.com/rabbitmq/rabbitmq-server/issues/3080">limited number of metrics</a> or metrics for a limited number of queues (for operations such as <span class="code ">GET /api/queues/{vhost}</span>) when operating in mixed version mode.</p>
 <h2>Compatibility Notes</h2>
 <h3>Client Library Compatibility</h3>
 <p>Client libraries that were compatible with RabbitMQ <span class="code ">3.8.x</span> will be compatible with <span class="code ">3.9.0</span>.</p>
 <h3>Upgrading to Erlang 24.x</h3>
-<p>RabbitMQ <span class="code ">3.8.16</span> and later require Erlang <span class="code ">23.2</span> and support Erlang <span class="code ">24</span>. 24 is recommended.
-Users of versions that <a href="https://www.rabbitmq.com/which-erlang.html">do not support Erlang 23.2</a> should
-first upgrade to the latest <span class="code ">3.8.x</span> patch release pn Erlang 23.2, then upgrade to <span class="code ">3.9.0</span> on Erlang 24.</p>
+<p>RabbitMQ <span class="code ">3.8.16</span> and later require Erlang <span class="code ">23.2</span> and support Erlang <span class="code ">24</span> (recommended). Users of RabbitMQ versions that <a href="https://www.rabbitmq.com/which-erlang.html">do not support Erlang 23.2</a> should first upgrade to the latest <span class="code ">3.8.x</span> patch release on Erlang 23.2, then upgrade to <span class="code ">3.9.0</span>, and ideally Erlang 24.</p>
 <h3>Getting Help</h3>
-<p>Any questions about this release, upgrades or RabbitMQ in general are welcome on the
-<a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.</p>
+<p>Any questions about this release, upgrades or RabbitMQ in general are welcome on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.</p>
 <h2>Changes Worth Mentioning</h2>
 <h3>Core Server</h3>
 <h4>Enhancements</h4>
 <ul>
-<li><a href="http://next.rabbitmq.com/streams.html">Streams</a>, a new durable replicated data structure that allows for repeatable (non-destructive)
-   consumption. RabbitMQ 3.9 introduces a new binary protocol for working with streams. While streams can be used by AMQP 0-9-1 clients,
-   in most cases it will be used via a <a href="http://next.rabbitmq.com/stream.html">RabbitMQ stream binary protocol</a> client. The new protocol exposes all the operations
-   specific to this queue type and is heavily optimized for them, resulting in much higher read and write throughput.</li>
+<li><a href="http://rabbitmq.com/streams.html">Streams</a>, a new durable replicated data structure that allows for repeatable (non-destructive) consumption. RabbitMQ 3.9 introduces a new binary protocol for working with streams. While streams can be used by AMQP 0-9-1 clients, in most cases it will be used via a <a href="http://rabbitmq.com/stream.html">RabbitMQ stream binary protocol</a> client. The new protocol exposes all the operations specific to this queue type and is heavily optimized for them, resulting in much higher read and write throughput.</li>
 </ul>
 <p><a href="https://github.com/rabbitmq/rabbitmq-stream-java-client">Java</a> and <a href="https://github.com/rabbitmq/rabbitmq-stream-go-client">Go</a> clients</p>
 <ul>
@@ -89,14 +54,11 @@ first upgrade to the latest <span class="code ">3.8.x</span> patch release pn Er
 </ul>
 <p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2861">#2861</a></p>
 <ul>
-<li><a href="https://www.rabbitmq.com/cluster-formation.html">Peer discovery</a> no longer uses randomized startup delay to ensure only one node starts
-   as a seed one during initial (parallel) cluster formation. Instead it relies on an internal
-   runtime locking library.</li>
+<li><a href="https://www.rabbitmq.com/cluster-formation.html">Peer discovery</a> no longer uses randomized startup delay to ensure only one node starts as a seed one during initial (parallel) cluster formation. Instead it relies on an internal runtime locking library.</li>
 </ul>
 <p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3075">#3075</a></p>
 <ul>
-<li>Binding recovery on node startup is now more efficient. This means in clusters with a lot of
-   queues and/or bindings, nodes start quicker.</li>
+<li>Binding recovery on node startup is now more efficient. This means in clusters with a lot of queues and/or bindings, nodes start quicker.</li>
 </ul>
 <p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3137">#3137</a></p>
 <ul>
@@ -112,79 +74,65 @@ first upgrade to the latest <span class="code ">3.8.x</span> patch release pn Er
 </ul>
 <p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2247">#2247</a>, <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2777">#2777</a></p>
 <ul>
-<li>Per-protocol and queue type message rates are now available as Prometheus metrics, as well as Streams-specific errors.
-   This also addresses a long-standing 3.8.x counters issue for most metrics of this type, as captured in <a href="https://github.com/rabbitmq/rabbitmq-server/issues/2783">#2783</a>.</li>
+<li>Per-protocol and queue type message rates are now available as Prometheus metrics, as well as Streams-specific errors. This also addresses a long-standing 3.8.x counters issue for most metrics of this type, as captured in <a href="https://github.com/rabbitmq/rabbitmq-server/issues/2783">#2783</a>.</li>
 </ul>
 <p>GitHub issues: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3127">#3127</a>, <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3136">#3136</a>, <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3157">#3157</a></p>
 <h4>Internal API and Other Changes</h4>
 <ul>
-<li>Standard runtime logger is now used for logging instead of Lager, a 3rd party dependency.
-  In modern Erlang versions, the module offers at least a comparable feature set and efficiency of Lager.</li>
+<li>Standard runtime logger is now used for logging instead of Lager, a 3rd party dependency. In modern Erlang versions, the module offers at least a comparable feature set and efficiency of Lager.</li>
 </ul>
-<p>Users who relied on Lager-specific configuration, e.g. custom extensions or sinks, would
-  have to rebuild them on top of the standard Erlang <span class="code ">logger</span> module.</p>
+<p>Users who relied on Lager-specific configuration, e.g. custom extensions or sinks, would have to rebuild them on top of the standard Erlang <span class="code ">logger</span> module.</p>
 <p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2861">#2861</a></p>
 <ul>
-<li>Different Raft-based features now can have different defaults and settings, with more configurability coming at a later point.
-  For example, client ID tracking in the MQTT plugin can use settings for lower memory footprint
-  and more frequent compaction while stream and quorum queues use settings more optimal for higher throughput
-  on the same node.</li>
+<li>Different Raft-based features now can have different defaults and settings, with more configurability coming at a later point. For example, client ID tracking in the MQTT plugin can use settings for lower memory footprint and more frequent compaction while stream and quorum queues use settings more optimal for higher throughput on the same node.</li>
 </ul>
 <p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2909">#2909</a></p>
 <ul>
-<li>Continuous integration of open source RabbitMQ has switched to Bazel, GitHub Actions
-  and <a href="https://buildbuddy.io">BuildBuddy</a>, resulting in much faster and incremental test runs.</li>
+<li>Continuous integration of open source RabbitMQ has switched to Bazel, GitHub Actions and <a href="https://buildbuddy.io">BuildBuddy</a>, resulting in much faster and incremental test runs.</li>
 </ul>
-<p><a href="https://github.com/rabbitmq/bazel-erlang">Bazel support for Erlang</a> is a new project
-  open sourced by the RabbitMQ Core team as a result.</p>
+<p><a href="https://github.com/rabbitmq/bazel-erlang">Bazel support for Erlang</a> is a new project open sourced by the RabbitMQ Core team as a result.</p>
 <ul>
 <li>Process group membership now uses <span class="code ">pg</span>.</li>
 </ul>
 <p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2850">#2850</a></p>
 <h4>Bug Fixes</h4>
 <ul>
-<li><span class="code ">powershell.exe</span> now can run without profile.</li>
+<li><span class="code ">powershell.exe</span> now can run without profile</li>
 </ul>
 <p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2201">#2201</a></p>
 <ul>
-<li>Queue index recovery now can continue after a forced node shutdown during recovery
-   (e.g. killed)</li>
+<li>Queue index recovery now can continue after a forced node shutdown during recovery (e.g. killed)</li>
 </ul>
 <p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3099">#3099</a></p>
+<ul>
+<li>Correct an issue where the <span class="code ">num_acceptors.ssl</span> configuration value was applied incorrectly</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3180">#3180</a></p>
+<ul>
+<li>Correct an issue where the <span class="code ">--tags</span> flag was ignored if <span class="code ">--description</span> was not specified in the <span class="code ">rabbitmqctl add_vhost</span> command</li>
+</ul>
 <h3>Kubernetes</h3>
 <h4>Enhancements</h4>
 <ul>
 <li>
-<p><a href="https://www.rabbitmq.com/kubernetes/operator/operator-overview.html">RabbitMQ Cluster Operator</a>
-   automates provisioning, management, and operations of RabbitMQ clusters running on Kubernetes.</p>
+<p><a href="https://www.rabbitmq.com/kubernetes/operator/operator-overview.html">RabbitMQ Cluster Operator</a> automates provisioning, management, and operations of RabbitMQ clusters running on Kubernetes.</p>
 </li>
 <li>
-<p><a href="https://www.rabbitmq.com/kubernetes/operator/operator-overview.html#topology-operator">Messaging Topology Operator</a>
-   makes it possible to define RabbitMQ resources (virtual hosts, users, permissions, topologies, policies, etc)
-   as Kubernetes objects.</p>
+<p><a href="https://www.rabbitmq.com/kubernetes/operator/operator-overview.html#topology-operator">Messaging Topology Operator</a> makes it possible to define RabbitMQ resources (virtual hosts, users, permissions, topologies, policies, etc) as Kubernetes objects.</p>
 </li>
 <li>
-<p>Kubernetes <a href="https://www.rabbitmq.com/cluster-formation.html">peer discovery</a> mechanism no longer uses randomized delays to avoid the inherent race condition
-   during <a href="https://www.rabbitmq.com/cluster-formation.html#initial-formation-race-condition">initial cluster formation</a>. Instead it relies on an internal
-   distributed locking mechanism available in modern Erlang releases.</p>
+<p>Kubernetes <a href="https://www.rabbitmq.com/cluster-formation.html">peer discovery</a> mechanism no longer uses randomized delays to avoid the inherent race condition during <a href="https://www.rabbitmq.com/cluster-formation.html#initial-formation-race-condition">initial cluster formation</a>. Instead it relies on an internal distributed locking mechanism available in modern Erlang releases.</p>
 </li>
 </ul>
-<p>While randomized startup delay was reasonably effective at ensuring only one cluster was formed even during parallel node
-   startup, it by definitely assumes that with some low probability more than one node can still start as seed nodes,
-   and be joined by different groups of cluster peers. The locking mechanism does not have this downside.
-   Now that RabbitMQ requires Erlang 23.2, the internal locking library becomes an option for peer discovery.</p>
-<p><span class="code ">cluster_formation.randomized_startup_delay_range.min</span> and <span class="code ">cluster_formation.randomized_startup_delay_range.max</span> configuration keys
-   will no longer have any effect.</p>
+<p>While randomized startup delay was reasonably effective at ensuring only one cluster was formed even during parallel node startup, it by definitely assumes that with some low probability more than one node can still start as seed nodes, and be joined by different groups of cluster peers. The locking mechanism does not have this downside. Now that RabbitMQ requires Erlang 23.2, the internal locking library becomes an option for peer discovery.</p>
+<p><span class="code ">cluster_formation.randomized_startup_delay_range.min</span> and <span class="code ">cluster_formation.randomized_startup_delay_range.max</span> configuration keys will no longer have any effect.</p>
 <p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3075">#3075</a></p>
 <h3>AWS Peer Discovery Plugin</h3>
 <h4>Enhancements</h4>
 <ul>
-<li><a href="https://www.rabbitmq.com/cluster-formation.html#peer-discovery-aws">AWS peer discovery mechanism</a> now supports
-   <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html">Instance Metadata Service v2</a>.
-   In case it is not available, requests will fall back to the original metadata service endpoint.</li>
+<li><a href="https://www.rabbitmq.com/cluster-formation.html#peer-discovery-aws">AWS peer discovery mechanism</a> now supports <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html">Instance Metadata Service v2</a>. In case it is not available, requests will fall back to the original metadata service endpoint.</li>
 </ul>
-<p>The v2 endpoint offers substantial security improvements and is one of
-   the <a href="https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#ec2-8-remediation">AWS best practices</a>.</p>
+<p>The v2 endpoint offers substantial security improvements and is one of the <a href="https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html#ec2-8-remediation">AWS best practices</a>.</p>
 <p>Contributed by @thuandb (AWS).</p>
 <p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2952">#2952</a></p>
 <h3>Federation Plugin</h3>
@@ -195,19 +143,31 @@ first upgrade to the latest <span class="code ">3.8.x</span> patch release pn Er
 <p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/2804">#2804</a></p>
 </li>
 </ul>
+<h3>Management Plugin</h3>
+<h4>Bug Fixes</h4>
+<ul>
+<li>Management UI now honors queue name length limits</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3202">#3202</a></p>
+<ul>
+<li>Management UI now sets a correct www-authenticate response header on authentication failures</li>
+</ul>
+<p>GitHub issue: <a href="https://github.com/rabbitmq/rabbitmq-server/pull/3205">#3205</a></p>
 <h3>Dependency Changes</h3>
 <ul>
-<li>ra has been upgraded from <span class="code ">1.1.9</span> to <span class="code ">2.0.0</span></li>
 <li>cowboy has been upgraded from <span class="code ">2.6.1</span> to <span class="code ">2.8.0</span></li>
 <li>cowlib has been upgraded from <span class="code ">2.7.0</span> to <span class="code ">2.9.1</span></li>
 <li>lager has been removed</li>
 <li>jsx has been upgraded from <span class="code ">2.9.0</span> to <span class="code ">3.1.0</span></li>
 <li>observer_cli has been upgraded from <span class="code ">1.5.2</span> to <span class="code ">1.6.2</span></li>
+<li>osiris had been introduced at <span class="code ">0.1.0</span></li>
 <li>prometheus has been upgraded from <span class="code ">4.6.0</span> to <span class="code ">4.8.1</span></li>
 <li>ra has been upgraded from <span class="code ">1.1.9</span> to <span class="code ">2.0.0</span></li>
 <li>ranch has been upgraded from <span class="code ">1.7.1</span> to <span class="code ">2.0.0</span></li>
 <li>recon has been upgraded from <span class="code ">2.5.0</span> to <span class="code ">2.5.1</span></li>
+<li>seshat had been introduced at <span class="code ">0.1.0</span></li>
 <li>socat has been removed</li>
+<li>syslog has been upgraded from <span class="code ">3.4.5</span> to <span class="code ">4.0.0</span></li>
 <li>systemd had been introduced at <span class="code ">0.6.1</span></li>
 </ul><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or

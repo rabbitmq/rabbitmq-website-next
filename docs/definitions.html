@@ -35,16 +35,36 @@ excluded from the exported file.</p>
 <p>Exported user data contains password hashes as well as <a href="/passwords.html">password hashing function</a> information. While brute forcing passwords with hashing functions such as SHA-256 or SHA-512 is not a completely trivial task,
 user records should be <strong>considered sensitive information</strong>.</p>
 <p>To export definitions using <a href="/cli.html"><span class="code ">rabbitmqctl</span></a>, use <span class="code ">rabbitmqctl export_definitions</span>:</p>
-<pre class="lang-ini">
+<pre class="lang-bash">
 # Does not require management plugin to be enabled, new in RabbitMQ 3.8.2
 rabbitmqctl export_definitions /path/to/definitions.file.json
 </pre>
 
 <p><span class="code ">rabbitmqadmin export</span> is very similar but uses the HTTP API and is compatible
 with older versions:</p>
-<pre class="lang-ini">
+<pre class="lang-bash">
 # Requires management plugin to be enabled
 rabbitmqadmin export /path/to/definitions.file.json
+</pre>
+
+<p>In this example, the <span class="code ">GET /api/definitions</span> endpoint is used directly to export
+definitions of all virtual hosts in a cluster:</p>
+<pre class="lang-bash">
+# Requires management plugin to be enabled,
+# placeholders are used for credentials and hostname.
+# Use HTTPS when possible.
+curl -u {username}:{password} -X GET http://{hostname}:15672/api/definitions
+</pre>
+
+<p>The response from the above API endpoint can be piped to <a href="https://stedolan.github.io/jq/"><span class="code ">jq</span></a> and similar tools
+for more human-friendly formatting:</p>
+<pre class="lang-bash">
+# Requires management plugin to be enabled,
+# placeholders are used for credentials and hostname.
+# Use HTTPS when possible.
+#
+# jq is a 3rd party tool that must be available in PATH
+curl -u {username}:{password} -X GET http://{hostname}:15672/api/definitions | jq
 </pre>
 
 <h2><a id="import" class="anchor" href="#import">Definition Import</a></h2>
@@ -60,14 +80,19 @@ rabbitmqctl import_definitions /path/to/definitions.file.json
 rabbitmqadmin import /path/to/definitions.file.json
 </pre>
 
-<p>It is also possible to use the HTTP API endpoint directly.
-Here's an example that contacts a local node at <span class="code ">localhost:15672</span> using <span class="code ">curl</span>
-and <a href="/access-control.html">default user credentials</a>:</p>
+<p>It is also possible to use the <span class="code ">POST /api/definitions</span> API endpoint directly:</p>
 <pre class="lang-bash">
-curl -H "Accept:application/json" -u guest:guest "http://localhost:15672/api/definitions"
+# Requires management plugin to be enabled,
+# placeholders are used for credentials and hostname.
+# Use HTTPS when possible.
+curl -u {username}:{password} -X POST -T /path/to/definitions.file.json http://{hostname}:15672/api/definitions
 </pre>
 
 <h2><a id="import-on-boot" class="anchor" href="#import-on-boot">Definition Import at Node Boot Time</a></h2>
+<p>A definition file can be imported during or after node startup time. In a multi-node cluster, at-boot-time imports
+can and in practice will result in repetitive work performed by the nodes on boot. This is of no concern with
+smaller definition files but with larger files, <a href="#import-after-boot">importing definitions after node boot</a> after
+cluster deployment (formation) is recommended.</p>
 <p>Modern releases support definition import directly in the core,
 without the need to <a href="/plugins.html#enabled-plugins-file">preconfigure</a> the <a href="/management.html">management plugin</a>.</p>
 <p>To import definitions from a local file on node boot,
