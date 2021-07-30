@@ -39,7 +39,8 @@ to find when a node stores its log file(s).</p>
 <span class="code ">RABBITMQ_LOGS=-</span> will result in all log messages being sent to standard output.
 See <a href="#logging-to-console">Logging to Console (Standard Output)</a>.</p>
 <p>The environment variable takes precedence over the configuration file. When in doubt, consider
-overriding log file location via the config file.</p>
+overriding log file location via the config file. As a consequence of the environment variable precedence,
+if the environment variable is set, the configuration key <span class="code ">log.file</span> will not have any effect.</p>
 <h2><a id="configuration" class="anchor" href="#configuration">Configuration</a></h2>
 <p>As of 3.7.0 RabbitMQ uses the <a href="https://github.com/erlang-lager/lager">Lager</a> logging
 library under the hood. Lager supports logging to different sources and is highly configurable.</p>
