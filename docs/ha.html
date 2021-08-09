@@ -7,12 +7,15 @@
 </h1>
 
 
-<h2><a id="interstitial" class="anchor" href="#interstitial">Wait, There's a Better Way: Next Generation Highly Available Queues</a></h2>
+<h2><a id="interstitial" class="anchor" href="#interstitial">Wait, There's a Better Way: Next Generation Highly Available Queues and Streams</a></h2>
 <p>This guide covers mirroring (queue contents replication) of classic queues.
-<a href="/quorum-queues.html">Quorum queues</a> is an alternative, more modern queue type
+<a href="quorum-queues.html">Quorum queues</a> is an alternative, more modern queue type
 that offers high availability via replication and focuses on data safety.</p>
+<p><a href="streams.html">Streams</a> is a messaging data structure available as of <a href="changelog.html">RabbitMQ 3.9</a>,
+and is also replicated.</p>
 <p>Quorum queues should be the <strong>default choice</strong> for a replicated queue type.
-Classic mirrored queues will be <strong>removed in a future version</strong> of RabbitMQ.</p>
+Classic queue mirroring will be <strong>removed in a future version</strong> of RabbitMQ:
+classic queues will remain a supported non-replicated queue type.</p>
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>Topics covered in this guide include</p>
 <ul>
