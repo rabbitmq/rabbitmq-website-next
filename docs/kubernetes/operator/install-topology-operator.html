@@ -31,16 +31,25 @@ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3
 kubectl apply -f https://github.com/rabbitmq/messaging-topology-operator/releases/latest/download/messaging-topology-operator-with-certmanager.yaml
 </pre>
 
-<h3>Install with generated certificates</h3>
+<h3>Install with Generated Certificates</h3>
 <p>Without cert-manager installed, you will need to generate certificates used by admission webhooks yourself and include them in the operator and webhooks manifests.</p>
 <p>Download the latest release manifest https://github.com/rabbitmq/messaging-topology-operator/releases/latest/download/messaging-topology-operator.yaml.</p>
 <p>The Messaging Topology Operator has multiple <a href="https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/">admission webhooks</a>.
-You need to generate the webhook certificate and place it in multiple places in the downloaded release manifest:</p>
-<ol>
-<li>Generate certificates for the Webhook. Certificates must be valid for webhook-service.rabbitmq-system.svc. webhook-service is the name
-of the webhook service object defined in release manifest messaging-topology-operator.yml. rabbitmq-system is the namespace of the service.</li>
-<li>Create a k8s secret object with the name webhook-server-cert in namespace rabbitmq-system. The secret object must contain following keys: ca.crt, tls.key, and tls.key, and
-it will be mounted to the operator container, where all webhooks will run from. For example:
+Their endpoints are TLS-enabled and require a webhook certificate that must be used in multiple places in the downloaded release manifest.</p>
+<p>Sections below explain the steps involved into installing certificates for webhook admission.</p>
+<h4>Generate Key/Certificate Pair</h4>
+<p>First, generate one or more key/certificate pairs for webhook admission.
+These certificates must be valid for <span class="code ">webhook-service.rabbitmq-system.svc</span>.</p>
+<h4>Create a K8S Secret</h4>
+<p>Next, create a Kubernetes secret object with the name of <span class="code ">webhook-server-cert</span> in the <span class="code ">rabbitmq-system</span> namespace.
+The secret object must contain the following keys:</p>
+<ul>
+<li><span class="code ">ca.crt</span> (CA certificate)</li>
+<li><span class="code ">tls.crt</span> (leaf/webhook certificate)</li>
+<li><span class="code ">tls.key</span> (leaf/webhook private key)</li>
+</ul>
+<p>The secret will be mounted to the Operator container, where all webhooks will run from.</p>
+<p>For example:</p>
 <pre class="lang-yaml">
 apiVersion: v1
 kind: Secret
@@ -51,16 +60,47 @@ metadata:
 data:
   ca.crt: # ca cert that can be used to validate the webhook's server certificate
   tls.crt: # generated certificate
-  tls.key: # generated key</pre></li>
-</ol>
+  tls.key: # generated private key
+</pre>
+
+<h4>Use Generated Certificates in Release Manifest</h4>
+<p>Finally, add webhook's CA certificate to the release manifest, <span class="code ">messaging-topology-operator.yaml</span>.
+There are multiple admission webhooks, one for each CRD type.</p>
+<p>Look for keyword <span class="code ">clientConfig</span> in the manifest, and paste the webhook CA certificate under <span class="code ">clientConfig.caBundle</span>.
+Because there are several webhooks, perform this action in several places.</p>
+<p>The example below shows how to add a CA certificate to the <span class="code ">queues.rabbitmq.com</span> validating webhook:</p>
+<pre class="lang-yaml">
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  annotations:
+  name: validating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    caBundle: # generated ca certificate goes in here
+    service:
+      name: webhook-service
+      namespace: rabbitmq-system
+      path: /validate-rabbitmq-com-v1beta1-queue
+  failurePolicy: Fail
+  name: vqueue.kb.io
+  rules:
+  - apiGroups:
+    - rabbitmq.com
+...</pre>
+
 <p>Then, to install the Operator, run the following command:</p>
 <pre class="lang-bash">
 kubectl apply -f messaging-topology-operator.yaml
 </pre>
 
 <p>At this point, the RabbitMQ Messaging Topology Operator is successfully installed.</p>
-<p>If you want to install a specific version of the Operator, you will have to obtain the manifest link from the
-<a href="https://github.com/rabbitmq/messaging-topology-operator/releases">Operator Releases</a>. We strongly recommend installing the latest version.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+<h3>Older Operator Versions</h3>
+<p>To install a specific version of the Operator, obtain the manifest link from the
+<a href="https://github.com/rabbitmq/messaging-topology-operator/releases">Operator Releases</a>.
+Using the latest version is strongly recommended.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.

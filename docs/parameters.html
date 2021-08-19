@@ -143,13 +143,15 @@ reapplied. Usually it happens instantaneously but for very
 busy queues can take a bit of time (say, a few seconds).</p>
 <p>Policies are matched and applied every time an exchange or
 queue is created, not just when the policy is created.</p>
-<p>Policies can be used to configure
-the <a href="federation.html">federation plugin</a>,
-<a href="/ha.html">mirroring of classic queues</a>,
-<a href="/ae.html">alternate exchanges</a>,
-<a href="/dlx.html">dead lettering</a>,
-<a href="/ttl.html">per-queue TTLs</a>,
-and <a href="/maxlength.html">queue length limit</a>.</p>
+<p>Policies can be used to configure</p>
+<ul>
+<li><a href="federation.html">federation</a></li>
+<li><a href="ae.html">alternate exchanges</a></li>
+<li><a href="dlx.html">dead lettering</a>,</li>
+<li><a href="ttl.html">per-queue TTLs</a></li>
+<li><a href="maxlength.html">queue length limit</a></li>
+</ul>
+<p>and other features.</p>
 <p>An example of defining a policy looks like:</p>
 <table>
   <tr>

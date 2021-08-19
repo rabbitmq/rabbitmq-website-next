@@ -20,7 +20,7 @@ approach.</p>
 clusters can be connected together with Federation or Shovel, or both.</p>
 <h2><a id="clustering" class="anchor" href="#clustering">Clustering</a></h2>
 <p><a href="clustering.html">Clustering</a> connects multiple
-machines together to <a href="/cluster-formation.html">form a cluster</a>.
+machines together to <a href="cluster-formation.html">form a cluster</a>.
 Inter-node communication is performed transparently to clients.
 The design of clustering assumes that network connections are reasonably reliable
 and provides a LAN-like latency.</p>
@@ -28,15 +28,16 @@ and provides a LAN-like latency.</p>
 <p>Nodes authenticate to each other using <a href="/clustering.html#erlang-cookie">a pre-shared secret</a>
 typically installed by deployment automation tools.</p>
 <p>Virtual hosts, exchanges, users, and permissions are
-<a href="/clustering.html#cluster-membership">automatically replicated</a> across all nodes in a cluster.
+<a href="clustering.html#cluster-membership">automatically replicated</a> across all nodes in a cluster.
 Queues may be located on a single node, or replicate their content for higher availability.
-<a href="/quorum-queues.html">Quorum queues</a> is a modern replicated queue type that focuses on data safety.
-Classic queues can optionally be <a href="/ha.html">mirrored</a>.</p>
+<a href="quorum-queues.html">Quorum queues</a> is a modern replicated queue type that focuses on data safety.
+<a href="streams.html">Streams</a> is another replicated messaging data type that allows for repeatable
+consumption (reads).</p>
 <p>A client connecting to any node in a
-cluster can <a href="/clustering.html#clustering-and-clients">use all non-exclusive queues in the cluster</a>, even if they are not
+cluster can <a href="clustering.html#clustering-and-clients">use all non-exclusive queues in the cluster</a>, even if they are not
 located on that node.</p>
 <p>Clustering nodes can help improve availability, data safety of queue contents and sustain
-more concurrent client connections. The <a href="/clustering.html">Clustering</a>, <a href="/quorum-queues.html">Quorum Queues</a> and <a href="/ha.html">Classic Mirrored Queues</a>
+more concurrent client connections. The <a href="clustering.html">Clustering</a>, <a href="quorum-queues.html">Quorum Queues</a> and <a href="streams.html">Streams</a>
 guides provide more details on these topics.</p>
 <h2><a id="federation" class="anchor" href="#federation">Federation</a></h2>
 <p><a href="federation.html">Federation</a> allows an exchange or
