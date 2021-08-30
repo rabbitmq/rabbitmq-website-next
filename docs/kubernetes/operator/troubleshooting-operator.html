@@ -17,14 +17,16 @@ are not its primary focus.</p>
 <li><a href="#operator-failure-on-startup">Cluster Operator fails on startup</a></li>
 </ul>
 <h3><a id="cluster-fails-to-deploy" class="anchor" href="#cluster-fails-to-deploy">RabbitMQ Cluster Fails to Deploy</a></h3>
-<p>After creating a RabbitMQ instance, it is not available within a few minutes and RabbitMQ Pods do not run.</p>
+<p>After creating a RabbitMQ instance, it is not available within a few minutes and RabbitMQ pods are not running.</p>
 <p>Common reasons for such failure are:</p>
 <ul>
+<li>Insufficient CPU or memory in the cluster</li>
 <li>Incorrect <span class="code ">imagePullSecrets</span> configuration. This prevents the image from being pulled from a Docker registry.</li>
 <li>Incorrect <span class="code ">storageClassName</span> configuration.</li>
 </ul>
 <p>Potential solution to resolve this issue:</p>
 <ul>
+<li>Run <span class="code ">kubectl describe pod POD-NAME</span> to see if there are any warnings (eg. <span class="code ">0/1 nodes are available: 1 Insufficient memory.</span>)</li>
 <li>Correct the <span class="code ">imagePullSecrets</span> and <span class="code ">storageClassName</span>
    configurations. See <a href="/kubernetes/operator/using-operator.html#image-pull-secrets">imagePullSecrets</a>,
    <a href="/kubernetes/operator/using-operator.html#persistence">Persistence</a>, and
@@ -33,6 +35,8 @@ are not its primary focus.</p>
    of your RabbitMQ cluster resources by following in the procedure in
    <a href="#check-instance-status">Check the Status of an Instance</a></li>
 </ul>
+<p>If deploying to a resource-constrained cluster (eg. local environments like <span class="code ">kind</span> or <span class="code ">minikube</span>), you may need to adjust CPU and/or memory limits of the cluster.
+Check the <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/resource-limits">resource-limits example</a> to see how to do this.</p>
 <h3><a id="pods-are-not-created" class="anchor" href="#pods-are-not-created">Pods Are Not Being Created</a></h3>
 <p>An error such as</p>
 <pre class="lang-plaintext">
