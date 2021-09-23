@@ -184,6 +184,8 @@ a different connection will result in a channel-level exception
 or gone (e.g. due to underlying TCP connection loss). They therefore
 are only suitable for client-specific transient state.</p>
 <p>It is common to make exclusive queues server-named.</p>
+<p>Exclusive queues are declared on the "client-local" node (the node that the client declaring
+the queue is connected to), regardless of the <span class="code ">queue_master_locator</span> value.</p>
 <h2><a id="distributed" class="anchor" href="#distributed">Replicated and Distributed Queues</a></h2>
 <p>Queues can be replicated to multiple cluster nodes and <a href="https://www.rabbitmq.com/federated-queues.html">federated</a>
 across loosely coupled nodes or clusters. There are two replicated queue types provided:</p>
