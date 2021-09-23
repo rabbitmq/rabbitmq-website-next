@@ -10,12 +10,13 @@
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>Streams are a new persistent and replicated data structure <em>in RabbitMQ 3.9</em> which models
 an append-only log with non-destructive consumer semantics.
-They can be used as a regular AMQP 0.9.1 queue or through a
+They can be used via a RabbitMQ client library as if  it was a queue or through a
 <a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.9.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc">dedicated binary protocol</a>
-plugin and associated client(s).</p>
-<p>This page covers the concepts of streams, their usage as AMQP 0.9.1 queues, and
+plugin and associated client(s). The latter option is recommended as it
+provides access to all stream-specific features and offers best possible throughput (performance).</p>
+<p>This page covers the concepts of streams, their usage, and
 their administration and maintenance operations. Please visit the <a href="/stream.html">Stream plugin</a>
-page to learn more about the usage of streams with the custom binary protocol.</p>
+page to learn more about the usage of streams with the binary RabbitMQ Stream protocol.</p>
 <h3><a id="use-cases" class="anchor" href="#use-cases">Use Cases</a></h3>
 <p>Streams were developed to initially cover 4 messaging use-cases that
 existing queue types either can not provide or provide with downsides:</p>
@@ -54,7 +55,7 @@ efficient manner with minimal in-memory overhead.</p>
 <h2><a id="usage" class="anchor" href="#usage">Usage</a></h2>
 <p>An AMQP 0.9.1 client library that can specify <a href="/queues.html#optional-arguments">optional queue and consumer arguments</a>
 will be able to use streams as regular AMQP 0.9.1 queues.</p>
-<p>First we will cover how to declare a stream.</p>
+<p>Just like queues, streams have to be declared first.</p>
 <h3><a id="declaring" class="anchor" href="#declaring">Declaring</a></h3>
 <p>To declare a stream, set the <span class="code ">x-queue-type</span> queue argument to <span class="code ">stream</span>
 (the default is <span class="code ">classic</span>). This argument must be provided by a client
@@ -96,7 +97,7 @@ that are best configured using a <a href="/parameters.html#policies">policy</a><
 </ul>
 <p>Unit: bytes. A stream is divided up into fixed size segment files on disk.
 This setting controls the size of these.
-Default: (500000000 bytes). </p>
+Default: (500000000 bytes).</p>
 <p>The following snippet shows how to set the maximum size of a stream to 20 GB, with
 segment files of 100 MB:</p>
 <pre class="lang-java">
@@ -299,14 +300,14 @@ a channel error will be returned.</p>
 <h2><a id="retention" class="anchor" href="#retention">Data Retention</a></h2>
 <p>Streams are implemented as an immutable append-only disk log. This means that
 the log will grow indefinitely until the disk runs out. To avoid this undesirable
-scenario it is possible to set a retention configuration per stream which will 
+scenario it is possible to set a retention configuration per stream which will
 discard the oldest data in the log based on total log data size and/or age.</p>
 <p>There are two parameters that control the retention of a stream. These can be combined.
 These are either set at declaration time using a queue argument or as a policy which
 can be dynamically updated.</p>
 <ul>
 <li>
-<p><span class="code ">max-age</span>: </p>
+<p><span class="code ">max-age</span>:</p>
 <p>valid units: Y, M, D, h, m, s</p>
 <p>e.g. <span class="code ">7D</span> for a week</p>
 </li>
@@ -463,7 +464,7 @@ the publisher confirm mechanism</em></em>. Such messages could be lost "mid-way"
 system buffer or otherwise fail to reach the stream leader.</p>
 <h3><a id="availability" class="anchor" href="#availability">Availability</a></h3>
 <p>A stream should be able to tolerate a minority of stream replicas becoming unavailable
-with no or little affect on availability.</p>
+with no or little effect on availability.</p>
 <p>Note that depending on the <a href="/partitions.html">partition handling strategy</a>
 used RabbitMQ may restart itself during recovery and reset the node but as long as that
 does not happen, this availability guarantee should hold true.</p>
@@ -473,10 +474,11 @@ A stream with five replicas can tolerate two, and so on.</p>
 permanently lost) the queue is permanently unavailable and
 will most likely need operator involvement to be recovered.</p>
 <h2><a id="configuration" class="anchor" href="#configuration">Configuration</a></h2>
+<p>For stream protocol port, TLS and other configuration, see the <a href="stream.html">Stream plugin guide</a>.</p>
 <h2><a id="resource-use" class="anchor" href="#resource-use">Resource Use</a></h2>
 <p>Streams are typically more light-weight than mirrored and quorum queues.</p>
 <p>All data is stored on disk with only unwritten data stored in memory.</p>
-<h2><a id="resource-use" class="anchor" href="#offset-tracking">Offset Tracking</a></h2>
+<h2><a id="offset-tracking" class="anchor" href="#offset-tracking">Offset Tracking</a></h2>
 <p>When using the broker provided offset tracking features (currently only available
 when using the <a href="/stream.html">Stream plugin</a>) offsets are persisted in the stream
 itself as non-message data. This means that as offset persistence is requested the
