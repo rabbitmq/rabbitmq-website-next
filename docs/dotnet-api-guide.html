@@ -469,8 +469,8 @@ yield no results. Therefore using this approach <strong>is highly discouraged</s
 The returned value is an instance of <span class="code ">BasicGetResult</span>, from which the header
 information (properties) and message body can be extracted:</p>
 <pre class="lang-csharp">
-bool noAck = false;
-BasicGetResult result = channel.BasicGet(queueName, noAck);
+bool autoAck = false;
+BasicGetResult result = channel.BasicGet(queueName, autoAck);
 if (result == null) {
     // No message available at this time.
 } else {
@@ -479,7 +479,7 @@ if (result == null) {
     ...
 </pre>
 
-<p>The above example uses <a href="/confirms.html">automatic acknowledgements</a> (<span class="code ">noAck = false</span>), so the application must also call
+<p>The above example uses <a href="/confirms.html">manual acknowledgements</a> (<span class="code ">autoAck = false</span>), so the application must also call
 <span class="code ">IModel.BasicAck</span> to acknowledge the delivery after processing:</p>
 <pre class="lang-csharp">
     ...
