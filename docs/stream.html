@@ -130,12 +130,17 @@ stream.listeners.tcp   = none
 stream.listeners.ssl.1 = 5551
 </pre>
 
-<p>Just like for <a href="#advertised-host-port">plain connections</a>, it is possible to configure
-an advertised TLS port. The plugin will use the current TLS port for TLS connections,
-but you can override this behavior with the <span class="code ">advertised_tls_port</span> setting:</p>
+<p>Just like for <a href="#advertised-host-port">plain connections</a>, it is possible to configure advertised TLS host and port.
+When TLS is used, the plugin returns the following metadata:</p>
+<ul>
+<li>hostname: if set, the <span class="code ">advertised_host</span>, or the hostname if <span class="code ">advertised_host</span> is not set</li>
+<li>port: the current TLS port</li>
+</ul>
+<p>It is possible to override this behavior by setting together or individually the <span class="code ">advertised_tls_host</span> and <span class="code ">advertised_tls_port</span> configuration entries:</p>
 <pre class="lang-ini">
-stream.advertised_host = rabbitmq-1
+stream.advertised_host = private-rabbitmq-1
 stream.advertised_port = 12345
+stream.advertised_tls_host = public-rabbitmq-1
 stream.advertised_tls_port = 12344
 </pre><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
