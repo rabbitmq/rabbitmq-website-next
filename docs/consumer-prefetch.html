@@ -103,7 +103,7 @@ The value can be configured as <span class="code ">rabbit.default_consumer_prefe
 %% advanced.config file
 [
  {rabbit, [
-       {default_consumer_prefetch, 250}
+       {default_consumer_prefetch, {false,250}}
      ]
  }
 ].

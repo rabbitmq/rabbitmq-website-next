@@ -295,7 +295,7 @@ channel.QueueDeclare(queue: "task_queue",
 and consumer code.</p>
 <p>At this point we're sure that the <span class="code ">task_queue</span> queue won't be lost
 even if RabbitMQ restarts. Now we need to mark our messages as persistent
-- by setting <span class="code ">IBasicProperties.SetPersistent</span> to <span class="code ">true</span>.</p>
+- by setting <span class="code ">IBasicProperties.Persistent</span> to <span class="code ">true</span>.</p>
 <pre class="lang-csharp">
 var properties = channel.CreateBasicProperties();
 properties.Persistent = true;

@@ -21,11 +21,14 @@ This guide is structured in the following sections:</p>
 <li><a href="#set-pdb">Set a Pod Disruption Budget</a></li>
 <li><a href="#tls">Configure TLS</a></li>
 <li><a href="#find">Find Your RabbitmqCluster Service Name and Admin Credentials</a></li>
+<li><a href="#vault">Use HashiCorp Vault</a></li>
 <li><a href="#verify-instance">Verify the Instance is Running</a></li>
 <li><a href="#use">Use the RabbitMQ Service in Your App</a></li>
 <li><a href="#monitoring">Monitor RabbitMQ Clusters</a></li>
+<li><a href="#network-policies">Restrict traffic using Network Policies</a></li>
 <li><a href="#delete">Delete a RabbitMQ Instance</a></li>
 <li><a href="#pause">Pause Reconciliation for a RabbitMQ Instance</a></li>
+<li><a href="#operator-log">Configure Log Level for the Operator</a></li>
 </ul>
 <p class="note">
   <strong>Note:</strong> Additional information about using the operator on Openshift can be found at
@@ -266,7 +269,7 @@ The available settings are:</p>
       <strong>Note:</strong> If your cluster does not have a default StorageClass, this property
       must be set, otherwise RabbitMQ Pods will not be scheduled because they require a Persistent Volume.
     </p></li>
-<li><span class="code ">storage</span>: The capacity of the persistent volume, expressed as a Kubernetes resource quantity.</li>
+<li><span class="code ">storage</span>: The capacity of the persistent volume, expressed as a Kubernetes resource quantity. Set to <span class="code ">0</span> to disable persistence altogether (this may be convenient in CI/CD and test deloyments that should always start fresh).</li>
 </ul>
 <p><strong>Default Values:</strong></p>
 <ul>
@@ -670,7 +673,7 @@ To view the default values, see <a href="#configure">Configure a RabbitMQ Instan
         <span class="code ">spec.persistence.storage</span>
       </td>
       <td>
-      The capacity of the persistent volume, expressed as a Kubernetes resource quantity.
+      The capacity of the persistent volume, expressed as a Kubernetes resource quantity. Set to `0` to disable persistence altogether (this may be convenient in CI/CD and test deloyments that should always start fresh).
       </td>
     </tr>
     <tr>
@@ -963,6 +966,43 @@ kubectl -n NAMESPACE get secret INSTANCE-default-user -o jsonpath="{.data.userna
 kubectl -n NAMESPACE get secret INSTANCE-default-user -o jsonpath="{.data.password}" | base64 --decode
 </pre>
 
+<h2><a id="vault" class="anchor" href="#vault">(Optional) Use HashiCorp Vault</a></h2>
+<p>The RabbitMQ Cluster Operator supports storing RabbitMQ admin credentials and RabbitMQ server certificates
+in <a href="https://www.vaultproject.io/">HashiCorp Vault</a>.</p>
+<h3><a id="vault-default-user" class="anchor" href="#vault-default-user">Read RabbitMQ Admin Credentials from Vault</a></h3>
+<p>Instead of having the Operator create RabbitMQ admin credentials putting them into a Kubernetes Secret object
+as described in <a href="#creds">Retrieve Your RabbitMQ Admin Credentials</a>, you can configure a RabbitmqCluster to
+read RabbitMQ admin credentials from Vault.
+To do so, follow the <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/vault-default-user">vault-default-user example</a> and configure the Vault secret backend:</p>
+<pre class="lang-yaml">
+spec:
+  secretBackend:
+    vault:
+      role: rabbitmq
+      # Optionally, set Vault annotations as listed in
+      # https://www.vaultproject.io/docs/platform/k8s/injector/annotations
+      annotations:
+        vault.hashicorp.com/template-static-secret-render-interval: "15s"
+      defaultUserPath: secret/data/rabbitmq/config
+</pre>
+
+<p>The credentials must have been written to Vault before the RabbitmqCluster is created.
+As described in the example, RabbitMQ admin password rotation is supported without the need to restart the RabbitMQ server.</p>
+<h3><a id="vault-tls" class="anchor" href="#vault-tls">Issue RabbitMQ Sever Certificates from Vault</a></h3>
+<p>To configure TLS, instead of providing a Kubernetes Secret object containing RabbitMQ server private key, certificate, and certificate authority
+as described in <a href="#tls-conf">TLS Configuration</a>, you can configure a RabbitmqCluster to request new short-lived server certificates from
+<a href="https://www.vaultproject.io/docs/secrets/pki">Vault PKI Secrets Engine</a> upon every RabbitMQ Pod (re)start.
+To do so, follow the <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/vault-tls">vault-tls example</a> and configure the vault secret backend:</p>
+<pre class="lang-yaml">
+spec:
+  secretBackend:
+    vault:
+      role: rabbitmq
+      tls:
+        pkiIssuerPath: pki/issue/cert-issuer
+</pre>
+
+<p>The RabbitMQ server private key will never be stored in Vault.</p>
 <h2><a id="verify-instance" class="anchor" href="#verify-instance">Verify the Instance is Running</a></h2>
 <p>Deploy the RabbitMQ throughput testing tool PerfTest to quickly verify that your instance is running correctly.
 For more information, see <a href="https://github.com/rabbitmq/rabbitmq-perf-test">PerfTest</a> in GitHub.</p>
@@ -1009,6 +1049,12 @@ and guides on <a href="/consumers.html">Connections</a>, <a href="/publishers.ht
 <p>For production systems, it is critically important to enable RabbitMQ cluster <a href="/monitoring.html">monitoring</a>.</p>
 <p>See <a href="/kubernetes/operator/operator-monitoring.html">Monitoring RabbitMQ in Kubernetes</a> to learn about
 the recommended monitoring options for Kubernetes-deployed clusters.</p>
+<h2><a id="network-policies" class="anchor" href="#network-policies">Restrict traffic using Network Policies</a></h2>
+<p><a href="https://kubernetes.io/docs/concepts/services-networking/network-policies/">Network Policies</a>, akin to firewalls, allow you to restrict traffic to/from Pods in your RabbitmqCluster at the IP address or port level.
+This may be worth doing on a production cluster, for example, to ensure only Pods in the RabbitmqCluster can access the <a href="clustering.html#ports">inter-node communication ports</a> (epmd and clustering), or to restrict messaging traffic to only be permitted from known
+trusted client Pods.</p>
+<p>The cluster-operator repo has <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/network-policies">a documented example</a> with several sample NetworkPolicies that you can use as guides for
+defining your own secure network topology.</p>
 <h2><a id="delete" class="anchor" href="#delete">Delete a RabbitMQ Instance</a></h2>
 <p>To delete a RabbitMQ service instance, run</p>
 <pre class="lang-bash">
@@ -1033,7 +1079,29 @@ kubectl label rabbitmqclusters INSTANCE-NAME rabbitmq.com/pauseReconciliation=tr
 <p>To resume reconciliation, remove the label by running:</p>
 <pre class="lang-bash">
 kubectl label rabbitmqclusters INSTANCE-NAME rabbitmq.com/pauseReconciliation-
-</pre><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+</pre>
+
+<h2><a id="operator-log" class="anchor" href="#operator-log">Configure Log Level for the Operator</a></h2>
+<p>The Operator logs reconciliation results and errors. Operator logs can be inspected by <span class="code ">kubectl -n rabbitmq-system logs -l app.kubernetes.io/name=rabbitmq-cluster-operator</span>.
+It uses zap logger which can be configured via passing command line flags in the Operator deployment manifest.</p>
+<p>For example, to configure the log level to 'debug':</p>
+<pre class="lang-yaml">
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-cluster-operator
+  namespace: rabbitmq-system
+spec:
+  template:
+    spec:
+      containers:
+      - args:
+        - --zap-log-level=debug
+        command:
+        - /manager
+</pre>
+
+<p>Other available command line flags for the zap logger can be found documented in <a href="https://github.com/kubernetes-sigs/controller-runtime/blob/v0.10.2/pkg/log/zap/zap.go#L240-L246">controller runtime</a>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.

@@ -22,6 +22,7 @@ If RabbitMQ Cluster Kubernetes Operator is not installed, see the <a href="quick
 <li><a href="#delete">Delete a resource</a></li>
 <li><a href="#limitations">Limitations</a></li>
 <li><a href="#tls">TLS</a></li>
+<li><a href="#operator-log">Configure Log Level for the Operator</a></li>
 </ul>
 <p class="note">
   <strong>Note:</strong> Additional information about using the operator on Openshift can be found at
@@ -304,7 +305,28 @@ user credentials set in the definitions.</p>
 <h2><a id="tls" class="anchor" href="#tls">TLS</a></h2>
 <p>If the RabbitmqClusters managed by the Messaging Topology Operator are configured to serve the Management over HTTPS, there are some additional
 steps required to configure Messaging Topology Operator. Follow this <a href="/kubernetes/operator/tls-topology-operator.html">TLS dedicated guide</a> to configure
-the Operator.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+the Operator.</p>
+<h2><a id="operator-log" class="anchor" href="#operator-log">Configure Log Level for the Operator</a></h2>
+<p>Messaging Topology Operator logs reconciliation results and errors. Operator logs can be inspected by <span class="code ">kubectl -n rabbitmq-system logs -l app.kubernetes.io/name=messaging-topology-operator</span>.
+It uses zap logger which can be configured via passing command line flags in the Operator deployment manifest.</p>
+<p>For example, to configure the log level to 'debug':</p>
+<pre class="lang-yaml">
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: messaging-topology-operator
+  namespace: rabbitmq-system
+spec:
+  template:
+    spec:
+      containers:
+      - args:
+        - --zap-log-level=debug
+        command:
+        - /manager
+</pre>
+
+<p>Other available command line flags for the zap logger can be found documented in <a href="https://github.com/kubernetes-sigs/controller-runtime/blob/v0.10.2/pkg/log/zap/zap.go#L240-L246">controller runtime</a>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.

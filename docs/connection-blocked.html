@@ -55,11 +55,8 @@ connection.addBlockedListener(new BlockedListener() {
 
 <h2><a id="dotnet" class="anchor" href="#dotnet">Using Blocked Connection Notifications with .NET Client</a></h2>
 <p>With the <a href="/dotnet-api-guide.html">official .NET client</a>, blocked connection
-notifications are handled by the
-<span class="code ">RabbitMQ.Client.Events.ConnectionBlockedEventHandler</span>
-delegate. <span class="code ">IConnection</span> provides
-<span class="code ">IConnection.ConnectionBlocked</span> and
-<span class="code ">IConnection.ConnectionUnblocked</span> events:</p>
+notifications can be received by registering for the
+<span class="code ">ConnectionBlocked</span> and <span class="code ">ConnectionUnblocked</span> events in <span class="code ">IConnection</span>:</p>
 <pre class="lang-csharp">
   public void HandleBlocked(object sender, ConnectionBlockedEventArgs args)
   {

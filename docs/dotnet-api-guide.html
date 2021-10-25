@@ -118,7 +118,7 @@ IConnection conn = factory.CreateConnection();
 reachable endpoint will be used. In case of <a href="#recovery">connection failures</a>, using
 a list of endpoints makes it possible for the application to connect to a different
 node if the original one is down.</p>
-<p>To use multiple of endpoint, provide a list of <span class="code ">AmqpTcpEndpoint</span>s to <span class="code ">ConnectionFactory#CreateConnection</span>.
+<p>To use multiple endpoints, provide a list of <span class="code ">AmqpTcpEndpoint</span>s to <span class="code ">ConnectionFactory#CreateConnection</span>.
 An <span class="code ">AmqpTcpEndpoint</span> represents a hostname and port pair.</p>
 <pre class="lang-csharp">
 ConnectionFactory factory = new ConnectionFactory();
@@ -248,7 +248,7 @@ factory.HostName = hostName;
 
 // this name will be shared by all connections instantiated by
 // this factory
-factory.ClientProvidedName = "app:audit component:event-consumer"
+factory.ClientProvidedName = "app:audit component:event-consumer";
 
 IConnection conn = factory.CreateConnection();
 </pre>
@@ -328,7 +328,7 @@ channel.QueueDelete("queue-name", true, false);
 
 <p>A queue can be purged (all of its messages deleted):</p>
 <pre class="lang-csharp">
-channel.QueuePurge("queue-name")
+channel.QueuePurge("queue-name");
 </pre>
 
 <h2><a id="publishing" class="anchor" href="#publishing">Publishing Messages</a></h2>
@@ -373,7 +373,7 @@ byte[] messageBodyBytes = System.Text.Encoding.UTF8.GetBytes("Hello, world!");
 IBasicProperties props = channel.CreateBasicProperties();
 props.ContentType = "text/plain";
 props.DeliveryMode = 2;
-props.Expiration = "36000000"
+props.Expiration = "36000000";
 
 channel.BasicPublish(exchangeName, routingKey, props, messageBodyBytes);
 </pre>
@@ -398,7 +398,7 @@ consumer.Received += (ch, ea) =&gt;
                 };
 // this consumer tag identifies the subscription
 // when it has to be cancelled
-String consumerTag = channel.BasicConsume(queueName, false, consumer);
+string consumerTag = channel.BasicConsume(queueName, false, consumer);
 </pre>
 
 <p>Another option is to subclass <span class="code ">DefaultBasicConsumer</span>,
@@ -449,13 +449,13 @@ consumer.Received += async (ch, ea) =&gt;
         // and process the message
         // ...
 
-        ch.BasicAck(ea.DeliveryTag, false);
+        channel.BasicAck(ea.DeliveryTag, false);
         await Task.Yield();
 
     };
 // this consumer tag identifies the subscription
 // when it has to be cancelled
-string tag = m.BasicConsume(queueName, false, consumer);
+string consumerTag = channel.BasicConsume(queueName, false, consumer);
 // ensure we get a delivery
 bool waitRes = latch.WaitOne(2000);
 </pre>
@@ -559,19 +559,6 @@ However, per-channel operation order is preserved. In other words, if messages A
 in this order on the same channel, they will be processed in this order. If messages A and B
 were delivered on different channels, they can be processed in any order (or in parallel).
 Consumer callbacks are invoked in tasks dispatched a <a href="https://msdn.microsoft.com/en-us/library/dd997402%28v=vs.110%29.aspx">TaskScheduler</a>.</p>
-<h3><a id="custom-task-scheduler" class="anchor" href="#custom-task-scheduler">Using a Custom Task Scheduler</a></h3>
-<p>It is possible to use a custom task scheduler by setting <span class="code ">ConnectionFactory.TaskScheduler</span>:</p>
-<pre class="lang-csharp">
-public class CustomTaskScheduler : TaskScheduler
-{
-  // ...
-}
-
-var cf = new ConnectionFactory();
-cf.TaskScheduler = new CustomTaskScheduler();
-</pre>
-
-<p>This, for example, can be used to <a href="https://msdn.microsoft.com/en-us/library/ee789351%28v=vs.110%29.aspx">limit concurrency degree with a custom TaskScheduler</a>.</p>
 <h2><a id="basic-return" class="anchor" href="#basic-return">Handling Unroutable Messages</a></h2>
 <p>If a message is published with the "mandatory" flag
 set, but cannot be delivered, the broker will return it to the sending
@@ -580,7 +567,9 @@ client (via a <span class="code ">basic.return</span> AMQP 0-9-1 command).</p>
 <span class="code ">IModel.BasicReturn</span> event. If there are no listeners attached to the
 event, then returned messages will be silently dropped.</p>
 <pre class="lang-csharp">
-model.BasicReturn += new RabbitMQ.Client.Events.BasicReturnEventHandler(...);
+channel.BasicReturn += (sender, ea) =&gt; {
+    ...
+};
 </pre>
 
 <p>The <span class="code ">BasicReturn</span> event will fire, for example, if the client
@@ -644,7 +633,7 @@ ConnectionFactory factory = new ConnectionFactory();
 // configure various connection settings
 
 try {
-  Connection conn = factory.CreateConnection();
+  IConnection conn = factory.CreateConnection();
 } catch (RabbitMQ.Client.Exceptions.BrokerUnreachableException e) {
   Thread.Sleep(5000);
   // apply retry logic
@@ -667,7 +656,7 @@ and consumers. It is enabled by default but can be disabled:</p>
 <pre class="lang-csharp">
 ConnectionFactory factory = new ConnectionFactory();
 
-Connection conn = factory.CreateConnection();
+IConnection conn = factory.CreateConnection();
 factory.AutomaticRecoveryEnabled = true;
 factory.TopologyRecoveryEnabled  = false;
 </pre>

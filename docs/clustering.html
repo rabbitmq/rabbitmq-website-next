@@ -179,8 +179,8 @@ For instance, this can be seen in the <a href="https://github.com/rabbitmq/diy-k
 <h4>Windows</h4>
 <p>On Windows, the cookie location depends on a few factors:</p>
 <ul>
-<li>Erlang version: prior to 20.2 or 20.2 and later</li>
 <li>Whether the <span class="code ">HOMEDRIVE</span> and <span class="code ">HOMEPATH</span> environment variables are both set</li>
+<li>Erlang version: prior to 20.2 (these are no longer supported by any <a href="versions.html">maintained release series of RabbitMQ</a>) or 20.2 and later</li>
 </ul>
 <h5>Erlang 20.2 or later</h5>
 <p>With Erlang versions starting with 20.2, the cookie file locations are:</p>
@@ -192,16 +192,6 @@ For instance, this can be seen in the <a href="https://github.com/rabbitmq/diy-k
 <p>If the Windows service is used, the cookie should be copied from
 <span class="code ">C:\Windows\system32\config\systemprofile\.erlang.cookie</span> to the expected
 location for users running commands like <span class="code ">rabbitmqctl.bat</span>.</p>
-<h5>Erlang 19.3 through 20.2</h5>
-<p>With Erlang versions prior to 20.2, the cookie file locations are:</p>
-<ul>
-<li><span class="code ">%HOMEDRIVE%%HOMEPATH%\.erlang.cookie</span> (usually <span class="code ">C:\Users\%USERNAME%\.erlang.cookie</span> for user <span class="code ">%USERNAME%</span>) if both the <span class="code ">HOMEDRIVE</span> and <span class="code ">HOMEPATH</span> environment variables are set</li>
-<li><span class="code ">%USERPROFILE%\.erlang.cookie</span> (usually <span class="code ">C:\Users\%USERNAME%\.erlang.cookie</span>) if <span class="code ">HOMEDRIVE</span> and <span class="code ">HOMEPATH</span> are not both set</li>
-<li>For the RabbitMQ Windows service - <span class="code ">%WINDIR%\.erlang.cookie</span> (usually <span class="code ">C:\Windows\.erlang.cookie</span>)</li>
-</ul>
-<p>If the Windows service is used, the cookie should be copied from
-<span class="code ">C:\Windows\.erlang.cookie</span> to the expected location for users
-running commands like <span class="code ">rabbitmqctl.bat</span>.</p>
 <h3>Overriding Using CLI and Runtime Command Line Arguments</h3>
 <p>As an alternative, the option "<span class="code ">-setcookie &lt;value&gt;</span>" can be added
 to <span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span> <a href="/configure.html">environment variable value</a>
@@ -226,7 +216,7 @@ home dir       : /var/lib/rabbitmq
 <p>Unless any <a href="/relocate.html">server directories</a> were overridden, that's the directory where
 the cookie file will be looked for, and created by the node on first boot if it does not already exist.</p>
 <p>In the example above, the cookie file location will be <span class="code ">/var/lib/rabbitmq/.erlang.cookie</span>.</p>
-<h3><a id="cli-authentication-failures" class="anchor" href="#cli-authentication-failures">Authentication Failures</a></h3>
+<h3><a id="peer-authentication-failures" class="anchor" href="#peer-authentication-failures">Authentication Failures</a></h3>
 <p>When the cookie is misconfigured (for example, not identical), RabbitMQ nodes will log errors
 such as "Connection attempt from disallowed node", "", "Could not auto-cluster".</p>
 <p>For example, when a CLI tool connects and tries to authenticate using a mismatching secret value:</p>

@@ -81,6 +81,11 @@ channel.basicPublish("", "rpc_queue", props, message.getBytes());
 // ... then code to read a response message from the callback_queue ...
 </pre>
 
+<p>We need this new import:</p>
+<pre class="lang-java">
+import com.rabbitmq.client.AMQP.BasicProperties;
+</pre>
+
 <blockquote>
 <h4>Message properties</h4>
 <p>The AMQP 0-9-1 protocol predefines a set of 14 properties that go with
@@ -97,11 +102,6 @@ the following:</p>
 <li><span class="code ">correlationId</span>: Useful to correlate RPC responses with requests.</li>
 </ul>
 </blockquote>
-<p>We need this new import:</p>
-<pre class="lang-java">
-import com.rabbitmq.client.AMQP.BasicProperties;
-</pre>
-
 <h3>Correlation Id</h3>
 <p>In the method presented above we suggest creating a callback queue for
 every RPC request. That's pretty inefficient, but fortunately there is
@@ -243,17 +243,6 @@ and it's probably the slowest recursive implementation possible).</p>
 <li>At the same time <span class="code ">main</span> thread is waiting for response to take it from <span class="code ">BlockingQueue</span>.</li>
 <li>Finally we return the response back to the user.</li>
 </ul>
-<p>Making the Client request:</p>
-<pre class="lang-java">
-RPCClient fibonacciRpc = new RPCClient();
-
-System.out.println(" [x] Requesting fib(30)");
-String response = fibonacciRpc.call("30");
-System.out.println(" [.] Got '" + response + "'");
-
-fibonacciRpc.close();
-</pre>
-
 <p>Now is a good time to take a look at our full example source code (which includes basic exception handling) for
 <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/java/RPCClient.java">RPCClient.java</a> and <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/java/RPCServer.java">RPCServer.java</a>.</p>
 <p>Compile and set up the classpath as usual (see <a href="tutorial-one-java.html">tutorial one</a>):</p>
