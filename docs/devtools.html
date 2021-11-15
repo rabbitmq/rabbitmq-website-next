@@ -18,6 +18,7 @@ would like to see added to this list.</p>
 <h3>Java</h3>
 <ul>
 <li><a href="java-client.html">RabbitMQ Java client</a> and its <a href="api-guide.html">developer guide</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-stream-java-client">RabbitMQ Stream Java client</a></li>
 <li><a href="jms-client.html">RabbitMQ JMS client</a></li>
 <li><a href="https://github.com/reactor/reactor-rabbitmq">Reactor RabbitMQ</a>, a reactive API for RabbitMQ based on <a href="https://projectreactor.io/">Reactor</a>
  and <a href="java-client.html">RabbitMQ Java Client</a></li>
@@ -34,6 +35,7 @@ would like to see added to this list.</p>
 <p>Client libraries:</p>
 <ul>
 <li><a href="dotnet.html">RabbitMQ .NET Client</a> (supports .NET Core and .NET 4.5.1+)</li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-stream-dotnet-client">RabbitMQ Stream .NET client</a></li>
 <li><a href="https://github.com/pardahlman/RawRabbit">RawRabbit</a>, a higher-level client that targets ASP.NET vNext and supports .NET Core.</li>
 </ul>
 <p>Higher level frameworks:</p>
@@ -61,6 +63,7 @@ would like to see added to this list.</p>
 <ul>
 <li><a href="http://pypi.python.org/pypi/pika">pika</a>, a pure-Python AMQP 0-9-1 client (<a href="https://github.com/pika/pika">source code</a>,
    <a href="http://readthedocs.org/docs/pika/en/latest/index.html">API reference</a>)</li>
+<li><a href="https://github.com/qweeze/rstream">rstream</a>: RabbitMQ Stream Python client</li>
 <li><a href="https://github.com/mosquito/aio-pika">aio-pika</a>, a pure-Python AMQP 0-9-1 client built for Python 3 and asyncio (<a href="https://github.com/mosquito/aio-pika">source code</a>,
    <a href="https://aio-pika.readthedocs.org/">API reference</a>)</li>
 <li><a href="http://docs.celeryproject.org/en/latest/">Celery</a>, a distributed task queue for Django and pure Python</li>
@@ -88,6 +91,18 @@ would like to see added to this list.</p>
    automatic error recovery, redelivery flood protection, transparent encryption and channel pooling.</li>
 <li><a href="https://github.com/cloudamqp/amqp-client.js">amqp-client.js</a> AMQP 0-9-1 client both for Node.js and browsers (using WebSocket)</li>
 </ul>
+<h2><a id="go-dev" class="anchor" href="#go-dev">Go</a></h2>
+<ul>
+<li><a href="https://github.com/rabbitmq/amqp091-go">RabbitMQ Go client</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-stream-go-client">RabbitMQ Stream Go client</a></li>
+<li>Rabbit Hole, <a href="https://github.com/michaelklishin/rabbit-hole">RabbitMQ HTTP API client for Go</a></li>
+<li><a href="https://github.com/gocardless/amqpc">amqpc</a>, a load testing tool for RabbitMQ clusters</li>
+</ul>
+<h2><a id="ios-android" class="anchor" href="#ios-android">iOS and Android</a></h2>
+<ul>
+<li><a href="https://github.com/rabbitmq/rabbitmq-objc-client/">RabbitMQ Objective-C and Swift client</a> from the RabbitMQ team</li>
+<li><a href="https://www.cloudamqp.com/blog/2014-10-28-rabbitmq-on-android.html">Get Started with RabbitMQ on Android</a></li>
+</ul>
 <h2><a id="objc-swift-dev" class="anchor" href="#objc-swift-dev">Objective-C and Swift</a></h2>
 <ul>
 <li><a href="https://github.com/rabbitmq/rabbitmq-objc-client/">RabbitMQ Objective-C and Swift client</a> from the RabbitMQ team</li>
@@ -95,6 +110,7 @@ would like to see added to this list.</p>
 <h2><a id="rust-dev" class="anchor" href="#rust-dev">Rust</a></h2>
 <ul>
 <li><a href="https://github.com/sozu-proxy/lapin">Lapin</a>, a Rust client</li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-stream-rust-client">RabbitMQ Stream Rust client</a></li>
 <li><a href="https://crates.io/crates/amiquip">amiquip</a>, a RabbitMQ client written in pure Rust</li>
 </ul>
 <h2><a id="crystal-dev" class="anchor" href="#crystal-dev">Crystal</a></h2>
@@ -133,17 +149,6 @@ would like to see added to this list.</p>
 <li><a href="https://github.com/akalend/amqpcpp">amqpcpp</a>, a C++ message library for RabbitMQ</li>
 <li><a href="https://github.com/CopernicaMarketingSoftware/AMQP-CPP">AMQP-CPP</a>, a C++ RabbitMQ client</li>
 </ul>
-<h2><a id="go-dev" class="anchor" href="#go-dev">Go</a></h2>
-<ul>
-<li><a href="https://github.com/streadway/amqp">Go RabbitMQ client</a></li>
-<li>Rabbit Hole, <a href="https://github.com/michaelklishin/rabbit-hole">RabbitMQ HTTP API client for Go</a></li>
-<li><a href="https://github.com/gocardless/amqpc">amqpc</a>, a load testing tool for RabbitMQ clusters</li>
-</ul>
-<h2><a id="ios-android" class="anchor" href="#ios-android">iOS and Android</a></h2>
-<ul>
-<li><a href="https://github.com/rabbitmq/rabbitmq-objc-client/">RabbitMQ Objective-C and Swift client</a> from the RabbitMQ team</li>
-<li><a href="https://www.cloudamqp.com/blog/2014-10-28-rabbitmq-on-android.html">Get Started with RabbitMQ on Android</a></li>
-</ul>
 <h2><a id="monitoring-tools" class="anchor" href="#monitoring-tools">Monitoring</a></h2>
 <ul>
 <li>See <a href="/monitoring.html">Monitoring</a> and <a href="/prometheus.html">Prometheus</a> guides.</li>
@@ -159,6 +164,7 @@ would like to see added to this list.</p>
 <h2><a id="erlang-dev" class="anchor" href="#erlang-dev">Erlang</a></h2>
 <ul>
 <li><a href="erlang-client-user-guide.html">RabbitMQ Erlang client guide</a></li>
+<li><a href="https://gitlab.com/evnu/lake">RabbitMQ Stream Erlang client</a></li>
 <li><a href="https://github.com/muxspace/bunny_farm">bunny_farm</a>, a simplifying wrapper for the Erlang client</li>
 <li><a href="https://github.com/videlalvaro/rmq_patterns">RabbitMQ Messaging Patterns</a>, a library of messaging patterns implemented in Erlang</li>
 </ul>

@@ -9,9 +9,12 @@
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>This guide covers RabbitMQ installation on RPM-based Linux (RedHat Enterprise Linux, CentOS, Fedora, openSUSE).</p>
-<p>RabbitMQ is included in standard Fedora and RHEL repositories. However, the versions included are
-usually outdated and <a href="versions.html">out of support</a>.</p>
-<p>There are two ways to install the most recent version of RabbitMQ on an RPM distribution:</p>
+<p>RabbitMQ is included in standard Fedora and RHEL repositories.
+However, the versions included are
+many releases behind <a href="changelog.html">latest RabbitMQ releases</a>
+and may provide RabbitMQ versions that are already <a href="versions.html">out of support</a>.</p>
+<p>Team RabbitMQ produces our own RPM packages and distributes them <a href="#apt-cloudsmith">using Cloudsmith</a> and <a href="#apt-packagecloud">PackageCloud</a>.</p>
+<p>There are two ways of installing these RPMs:</p>
 <ul>
 <li>Installing the package using Yum repositories (this option is highly recommended) on <a href="#cloudsmith">Cloudsmith.io</a> or <a href="#package-cloud">PackageCloud</a></li>
 <li><a href="#downloads">Downloading</a> the package and installing it with <span class="code ">rpm</span>. This option will require manual installation of all <a href="#package-dependencies">package dependencies</a>.</li>
@@ -502,7 +505,7 @@ yum install socat logrotate -y
 # Red Hat 8, CentOS 8 and modern Fedora releases.
 #
 # For Red Hat 7 or CentOS 7, replace "el8" with "el7".
-yum install rabbitmq-server-3.9.8-1.el8.noarch.rpm
+yum install rabbitmq-server-3.9.9-1.el8.noarch.rpm
 </pre>
 
 <p><a href="signatures.html">RabbitMQ public signing key</a> can also be <a href="https://www.rabbitmq.com/rabbitmq-release-signing-key.asc">downloaded from rabbitmq.com</a>:</p>
@@ -516,7 +519,7 @@ yum install socat logrotate -y
 # Red Hat 8, CentOS 8 and modern Fedora releases.
 #
 # For Red Hat 7 or CentOS 7, replace "el8" with "el7".
-yum install rabbitmq-server-3.9.8-1.el8.noarch.rpm
+yum install rabbitmq-server-3.9.9-1.el8.noarch.rpm
 </pre>
 
 <h2><a id="downloads" class="anchor" href="#downloads">Download the Server</a></h2>
@@ -534,10 +537,10 @@ from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>.<
       RPM for RHEL Linux 8.x, CentOS 8.x, Fedora 31+ (supports systemd)
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.8/rabbitmq-server-3.9.8-1.el8.noarch.rpm">rabbitmq-server-3.9.8-1.el8.noarch.rpm</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.9/rabbitmq-server-3.9.9-1.el8.noarch.rpm">rabbitmq-server-3.9.9-1.el8.noarch.rpm</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.8/rabbitmq-server-3.9.8-1.el8.noarch.rpm.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.9/rabbitmq-server-3.9.9-1.el8.noarch.rpm.asc">Signature</a>
     </td>
   </tr>
 
@@ -546,10 +549,10 @@ from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>.<
       RPM for openSUSE Linux
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.8/rabbitmq-server-3.9.8-1.suse.noarch.rpm">rabbitmq-server-3.9.8-1.suse.noarch.rpm</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.9/rabbitmq-server-3.9.9-1.suse.noarch.rpm">rabbitmq-server-3.9.9-1.suse.noarch.rpm</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.8/rabbitmq-server-3.9.8-1.suse.noarch.rpm.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.9/rabbitmq-server-3.9.9-1.suse.noarch.rpm.asc">Signature</a>
     </td>
   </tr>
 </table>
