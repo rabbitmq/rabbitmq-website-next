@@ -47,7 +47,8 @@ and <a href="troubleshooting-networking.html">Troubleshooting Networking</a>.</p
    to perform <a href="https://en.wikipedia.org/wiki/TLS_termination_proxy">TLS termination</a> of client connections and use plain TCP connections to RabbitMQ nodes.</li>
 </ul>
 <p>Both approaches are valid and have pros and cons. This guide will focus on the
-first option.</p>
+first option. Certain parts of this guide would still be relevant for environments
+that choose the second option.</p>
 <h3><a id="erlang-otp-requirements" class="anchor" href="#erlang-otp-requirements">Erlang/OTP Requirements for TLS Support</a></h3>
 <p>In order to support TLS connections, RabbitMQ needs TLS and
 crypto-related modules to be available in the Erlang/OTP
