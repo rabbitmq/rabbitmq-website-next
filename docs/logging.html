@@ -83,9 +83,8 @@ Log file rotation is not performed by default. <a href="install-debian.html">Deb
 log <a href="#logrotate">rotation via <span class="code ">logrotate</span></a> after package installation.</p>
 <p><span class="code ">log.file.rotation.date</span>, <span class="code ">log.file.rotation.size</span>, <span class="code ">log.file.rotation.count</span> settings control log file rotation
 for the file output.</p>
-<h4>Periodic Rotation</h4>
-<p>Use <span class="code ">log.file.rotation.date</span> to set up periodic (date and time-based) rotation.
-It uses <a href="https://github.com/basho/lager#internal-log-rotation">the same syntax as newsyslog.conf</a>:</p>
+<h4>Built-in Periodic Rotation</h4>
+<p>Use <span class="code ">log.file.rotation.date</span> to set up minimalistic periodic rotation:</p>
 <pre class="lang-ini">
 # rotate every night at midnight
 log.file.rotation.date = $D0
@@ -100,31 +99,11 @@ log.file.rotation.date = $D23
 </pre>
 
 <pre class="lang-ini">
-# rotate every hour at HH:00
-log.file.rotation.date = $H00
-</pre>
-
-<pre class="lang-ini">
-# rotate every day at 12:30 (00:30 p.m.)
-log.file.rotation.date = $D12H30
-</pre>
-
-<pre class="lang-ini">
-# rotate every week on Sunday at 00:00
-log.file.rotation.date = $W0D0H0
-</pre>
-
-<pre class="lang-ini">
-# rotate every week on Friday at 16:00 (4:00 p.m.)
-log.file.rotation.date = $W5D16
-</pre>
-
-<pre class="lang-ini">
 # rotate every night at midnight
 log.file.rotation.date = $D0
 </pre>
 
-<h4>File Size-based Rotation</h4>
+<h4>Built-in File Size-based Rotation</h4>
 <p><span class="code ">log.file.rotation.size</span> controls rotation based on the current log file size:</p>
 <pre class="lang-ini">
 # rotate when the file reaches 10 MiB
@@ -594,7 +573,6 @@ message metadata (properties, headers).</p>
        <li><a href="/memory-use.html">Memory Use</a></li>
        <li><a href="/networking.html">Networking</a></li>
        <li><a href="/vhosts.html">Virtual Hosts</a></li>
-       <li><a href="/pacemaker.html">High Availability (pacemaker)</a></li>
        <li><a href="/access-control.html">Access Control (Authorisation)</a></li>
        <li><a href="/authentication.html">Authentication Mechanisms</a></li>
        <li><a href="/ldap.html">LDAP</a></li>

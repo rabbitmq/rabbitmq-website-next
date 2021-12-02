@@ -129,6 +129,7 @@ to the log after the consumer starts. The following values are supported:</p>
 this offset does not exist it will clamp to either the start or end of the log respectively.</li>
 <li>Timestamp - a timestamp value specifying the point in time to attach to the log at. It will clamp to the closest offset, if the timestamp is out of range for the stream it will clamp either the start or end of the log respectively. With AMQP 0.9.1, the timestamp used is POSIX
  time with an accuracy of one second, that is the number of seconds since 00:00:00 UTC, 1970-01-01.</li>
+<li>Interval - a string value specifying the time interval relative to current time to attach the log at. Uses the same specification as <span class="code ">x-max-age</span> (see <a href="#retention">Retention</a>)</li>
 </ul>
 <p>The following snippet shows how to use the <span class="code ">first</span> offset specification:</p>
 <pre class="lang-java">
@@ -515,7 +516,6 @@ contain values of simple types, such as strings and numbers.</p><div id="help-an
        <li><a href="/memory-use.html">Memory Use</a></li>
        <li><a href="/networking.html">Networking</a></li>
        <li><a href="/vhosts.html">Virtual Hosts</a></li>
-       <li><a href="/pacemaker.html">High Availability (pacemaker)</a></li>
        <li><a href="/access-control.html">Access Control (Authorisation)</a></li>
        <li><a href="/authentication.html">Authentication Mechanisms</a></li>
        <li><a href="/ldap.html">LDAP</a></li>
