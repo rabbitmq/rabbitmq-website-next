@@ -90,7 +90,7 @@ all interfaces on port 15674 and have a default user login/passcode of
 <span class="code ">guest</span>/<span class="code ">guest</span>. Note that this user is only <a href="/access-control.html">allowed to connect from localhost</a> by default.
 We highly recommend creating a separate user for production systems.</p>
 <p>To change the listener port, edit your
-<a href="/configure.html#configuration-file">Advanced configuration file</a>,
+<a href="/configure.html#configuration-files">Advanced configuration file</a>,
 to contain a <span class="code ">tcp_config</span> section with a <span class="code ">port</span> variable for the <span class="code ">rabbitmq_web_stomp</span> application.</p>
 <p>For example, a complete configuration file which changes the listener
 port to 12345 would look like:</p>
@@ -161,7 +161,7 @@ HTTP authorisation header (using HTTP Basic Auth). If
 present, these credentials will be used. Otherwise, the
 default STOMP credentials are used. The credentials found
 in the CONNECT frame, if any, are ignored.</p>
-<p>This is an advanced feature that is only exposed via the <a href="/configure.html#configuration-file">advanced configuration file</a>
+<p>This is an advanced feature that is only exposed via the <a href="/configure.html#configuration-files">advanced configuration file</a>
 or the <a href="/configure.html#erlang-term-config-file">classic config format</a>:</p>
 <pre class="lang-erlang">
 [

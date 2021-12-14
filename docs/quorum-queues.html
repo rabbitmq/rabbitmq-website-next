@@ -308,12 +308,12 @@ the queue type drop down menu.</p>
 <h2><a id="replication" class="anchor" href="#replication">Replication and Data Locality</a></h2>
 <p>When a quorum queue is declared, an initial number of replicas for it must be started in the cluster.
 By default the number of replicas to be started is up to three, one per RabbitMQ node in the cluster.</p>
-<p>Three nodes is the practical minimum of replicas for a quorum queue. In RabbitMQ clusters with a larger
+<p>Three nodes is the <strong>practical minimum</strong> of replicas for a quorum queue. In RabbitMQ clusters with a larger
 number of nodes, adding more replicas than a <a href="#what-is-quorum">quorum</a> (majority) will not provide
 any improvements in terms of <a href="#quorum-requirements">quorum queue availability</a> but it will consume
 more cluster resources.</p>
 <p>Therefore the <strong>recommended number of replicas</strong> for a quorum queue is the quorum of cluster nodes
-(but no fewer than three).</p>
+(but no fewer than three). This assumes a <a href="cluster-formation.html">fully formed</a> cluster of at least three nodes.</p>
 <h3><a id="replication-factor" class="anchor" href="#replication-factor">Controlling the Initial Replication Factor</a></h3>
 <p>For example, a cluster of three nodes will have three replicas, one on each node.
 In a cluster of seven nodes, three nodes will have one replica each but four more nodes won't host any replicas
@@ -329,7 +329,11 @@ nodes. To control the number of quorum queue members set the
 <span class="code ">x-quorum-initial-group-size</span> queue argument when declaring the queue. The
 group size argument provided should be an integer that is greater than zero and smaller or
 equal to the current RabbitMQ cluster size. The quorum queue will be
-launched to run on a random subset of the RabbitMQ cluster.</p>
+launched to run on a random subset of RabbitMQ nodes present in the cluster at declaration time.</p>
+<p>In case a quorum queue is declared before all cluster nodes have joined the cluster, and the initial replica
+count is greater than the total number of cluster members, the effective value used will
+be equal to the total number of cluster nodes. When more nodes join the cluster, the replica count
+will not be automatically increased but it can be <a href="#replica-management">increased by the operator</a>.</p>
 <h3><a id="leader-placement" class="anchor" href="#leader-placement">Queue Leader Location</a></h3>
 <p>Every quorum queue has a primary replica. That replica is called
 <em>queue leader</em> (originally "queue master"). All queue operations go through the leader

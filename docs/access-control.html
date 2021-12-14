@@ -78,7 +78,7 @@ is to create a new user or set of users with the permissions
 to access the necessary virtual hosts. This can be done
 using <a href="/cli.html">CLI tools</a>, <a href="/management.html">HTTP API or definitions import</a>.</p>
 <p>This is configured via the <span class="code ">loopback_users</span> item
-in the <a href="configure.html#configuration-file">configuration file</a>.</p>
+in the <a href="configure.html#configuration-files">configuration file</a>.</p>
 <p>It is possible to allow the <span class="code ">guest</span> user to connect
 from a remote host by setting the
 <span class="code ">loopback_users</span> configuration to
@@ -575,7 +575,7 @@ variable should be a list of atoms corresponding to
 mechanism names, for example
 <span class="code ">['PLAIN', 'AMQPLAIN']</span> by default. The server-side list is not
 considered to be in any particular order. See the
-<a href="configure.html#configuration-file">configuration file</a>
+<a href="configure.html#configuration-files">configuration file</a>
 documentation.</p>
 <h3><a id="client-mechanism-configuration" class="anchor" href="#client-mechanism-configuration">Mechanism Configuration in the Client</a></h3>
 <p>Applications must opt-in to use a different authentication mechanism
