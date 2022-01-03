@@ -862,14 +862,14 @@ A <a href="/ssl.html#certificates-and-keys">basic overview of TLS</a> is helpful
 <h3><a id="one-way-tls" class="anchor" href="#one-way-tls">TLS encrypting traffic between clients and RabbitMQ</a></h3>
 <p>In order to encrypt traffic between clients and the RabbitMQ cluster, the RabbitMQ cluster must be configured with a server certificate and key pair signed by a Certificate Authority (CA) trusted by the clients. This allows clients to verify that the server is trusted, and traffic sent between the client and server are encrypted using the server's keys.</p>
 <p>The certificate's Subject Alternative Name (SAN) must contain at least the following attributes:
-<em> <span class="code ">*.&lt;RabbitMQ cluster name&gt;-nodes.&lt;namespace&gt;.svc.&lt;K8s cluster domain name&gt;</span>
-</em> <span class="code ">&lt;RabbitMQ cluster name&gt;.&lt;namespace&gt;.svc.&lt;K8s cluster domain name&gt;</span></p>
+* <span class="code ">*.&lt;RabbitMQ cluster name&gt;-nodes.&lt;namespace&gt;.svc.&lt;K8s cluster domain name&gt;</span>
+* <span class="code ">&lt;RabbitMQ cluster name&gt;.&lt;namespace&gt;.svc.&lt;K8s cluster domain name&gt;</span></p>
 <p>If wildcards are not permitted, the certificate must provide a SAN attribute for each RabbitMQ node in the RabbitMQ cluster.
 For example, if you deploy a 3-node RabbitMQ cluster named <span class="code ">myrabbit</span> in namespace <span class="code ">mynamespace</span> with the default Kubernetes cluster domain <span class="code ">cluster.local</span>, the SAN must include at least the following attributes:
-<em> <span class="code ">myrabbit-server-0.myrabbit-nodes.mynamespace.svc.cluster.local</span>
-</em> <span class="code ">myrabbit-server-1.myrabbit-nodes.mynamespace.svc.cluster.local</span>
-<em> <span class="code ">myrabbit-server-2.myrabbit-nodes.mynamespace.svc.cluster.local</span>
-</em> <span class="code ">myrabbit.mynamespace.svc.cluster.local</span></p>
+* <span class="code ">myrabbit-server-0.myrabbit-nodes.mynamespace.svc.cluster.local</span>
+* <span class="code ">myrabbit-server-1.myrabbit-nodes.mynamespace.svc.cluster.local</span>
+* <span class="code ">myrabbit-server-2.myrabbit-nodes.mynamespace.svc.cluster.local</span>
+* <span class="code ">myrabbit.mynamespace.svc.cluster.local</span></p>
 <p>Note that the last SAN attribute is the client service DNS name.
 Depending on the service type used (<span class="code ">spec.service.type</span>), further SAN attributes may be required.
 For example, if using service type <span class="code ">NodePort</span>, the SAN must include the external IP address of each Kubernetes node.</p>
