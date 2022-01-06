@@ -27,7 +27,7 @@ state of the system.</p>
 </ul>
 <p>and more.</p>
 <h2><a id="log-file-location" class="anchor" href="#log-file-location">Log File Location</a></h2>
-<p>Starting with 3.7.0, RabbitMQ uses a single log file by default.</p>
+<p>Modern RabbitMQ versions use a single log file by default.</p>
 <p>Please see the <a href="/relocate.html">File and Directory Location</a> guide to find default log file location for various platforms.</p>
 <p>There are two ways to configure log file location. One is the <a href="configure.html">configuration file</a>.
 The other is the <span class="code ">RABBITMQ_LOGS</span> environment variable.</p>
@@ -388,7 +388,7 @@ sudo journalctl --system | grep rabbitmq
 The output of <span class="code ">journalctl --system</span> will look similar to this:</p>
 <pre class="lang-plaintext">
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##
-Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##      RabbitMQ 3.8.5. Copyright (c) 2007-2021 VMware, Inc. or its affiliates.
+Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##      RabbitMQ 3.8.5. Copyright (c) 2007-2022 VMware, Inc. or its affiliates.
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##########  Licensed under the MPL.  See https://www.rabbitmq.com/
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ######  ##
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##########  Logs: /var/log/rabbitmq/rabbit@localhost.log

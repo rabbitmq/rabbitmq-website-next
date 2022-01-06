@@ -8,7 +8,7 @@
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>During operation, RabbitMQ nodes will consume varying amount of <a href="/memory-use.html">memory</a> and disk
+<p>During operation, RabbitMQ nodes will consume varying amount of <a href="memory-use.html">memory</a> and disk
 space based on the workload. When usage spikes, both memory and free disk space can reach
 potentially dangerous levels. In case of memory, the node can be killed
 by the operating system's low-on-memory process termination mechanism
@@ -22,12 +22,12 @@ publish messages in order to avoid being killed by the
 OS (out-of-memory killer) or exhausting all available free disk space:</p>
 <ul>
 <li>When <a href="memory-use.html">memory use</a> goes above the configured watermark (limit)</li>
-<li>When <a href="/disk-alarms.html">free disk space</a> drops below the configured watermark (limit)</li>
+<li>When <a href="disk-alarms.html">free disk space</a> drops below the configured watermark (limit)</li>
 </ul>
 <p>Nodes will temporarily <em>block</em> publishing connections
 by suspending reading from <a href="connections.html">client connection</a>.
 Connections that are only used to <em>consume</em> messages will not be blocked.</p>
-<p>Connection <a href="/heartbeats.html">heartbeat monitoring</a> will be disabled, too.
+<p>Connection <a href="heartbeats.html">heartbeat monitoring</a> will be disabled, too.
 All network connections will show in <span class="code ">rabbitmqctl</span> and the
 management UI as either <span class="code ">blocking</span>, meaning they
 have not attempted to publish and can thus continue, or
@@ -37,7 +37,7 @@ when they are blocked.</p>
 <p>Connections that only consume are not blocked by resource alarms; deliveries
 to them continue as usual.</p>
 <h2><a id="client-notifications" class="anchor" href="#client-notifications">Client Notifications</a></h2>
-<p>Modern client libraries support <a href="/connection-blocked.html">connection.blocked notification</a>
+<p>Modern client libraries support <a href="connection-blocked.html">connection.blocked notification</a>
 (a protocol extension), so applications can monitor when they are blocked.</p>
 <h2><a id="effects-on-clusters" class="anchor" href="#effects-on-clusters">Alarms in Clusters</a></h2>
 <p>When running RabbitMQ in a cluster, the memory and disk alarms
@@ -55,7 +55,7 @@ producing or consuming.</p>
 <h2><a id="data-safety" class="anchor" href="#data-safety">Effects on Data Safety</a></h2>
 <p>When an alarm is in effect, publishing connections will be blocked by TCP back pressure.
 In practice this means that publish operations will eventually time out of fail outright.
-Application developers must be prepared to handle such failures and use <a href="/confirms.html">publisher confirms</a>
+Application developers must be prepared to handle such failures and use <a href="confirms.html">publisher confirms</a>
 to keep track of what messages have been successfully handled and processed by RabbitMQ.</p>
 <h2><a id="file-descriptors" class="anchor" href="#file-descriptors">Running Out of File Descriptors</a></h2>
 <p>When the server is close to using all the file descriptors
@@ -63,13 +63,13 @@ that the OS has made available to it, it will refuse client
 connections. See <a href="networking.html">Networking guide</a> to learn more.</p>
 <h2><a id="transient-flow-control" class="anchor" href="#transient-flow-control">Transient Flow Control</a></h2>
 <p>When clients attempt to publish faster than the server can
-accept their messages, they go into transient <a href="/flow-control.html">flow control</a>.</p>
+accept their messages, they go into transient <a href="flow-control.html">flow control</a>.</p>
 <h2><a id="related-topics" class="anchor" href="#related-topics">Relevant Topics</a></h2>
 <ul>
-<li><a href="/memory-use.html">Determining what uses memory</a> on a running node</li>
-<li><a href="/memory.html">Memory alarms</a></li>
-<li><a href="/disk-alarms.html">Free disk space alarms</a></li>
-<li><a href="/connection-blocked.html">How clients can determine if they are blocked</a></li>
+<li><a href="memory-use.html">Determining what uses memory</a> on a running node</li>
+<li><a href="memory.html">Memory alarms</a></li>
+<li><a href="disk-alarms.html">Free disk space alarms</a></li>
+<li><a href="connection-blocked.html">How clients can determine if they are blocked</a></li>
 </ul><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them

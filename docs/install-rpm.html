@@ -505,7 +505,7 @@ yum install socat logrotate -y
 # Red Hat 8, CentOS 8 and modern Fedora releases.
 #
 # For Red Hat 7 or CentOS 7, replace "el8" with "el7".
-yum install rabbitmq-server-3.9.11-1.el8.noarch.rpm
+yum install rabbitmq-server-3.9.12-1.el8.noarch.rpm
 </pre>
 
 <p><a href="signatures.html">RabbitMQ public signing key</a> can also be <a href="https://www.rabbitmq.com/rabbitmq-release-signing-key.asc">downloaded from rabbitmq.com</a>:</p>
@@ -519,7 +519,7 @@ yum install socat logrotate -y
 # Red Hat 8, CentOS 8 and modern Fedora releases.
 #
 # For Red Hat 7 or CentOS 7, replace "el8" with "el7".
-yum install rabbitmq-server-3.9.11-1.el8.noarch.rpm
+yum install rabbitmq-server-3.9.12-1.el8.noarch.rpm
 </pre>
 
 <h2><a id="downloads" class="anchor" href="#downloads">Download the Server</a></h2>
@@ -537,10 +537,10 @@ from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>.<
       RPM for RHEL Linux 8.x, CentOS 8.x, Fedora 31+ (supports systemd)
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.11/rabbitmq-server-3.9.11-1.el8.noarch.rpm">rabbitmq-server-3.9.11-1.el8.noarch.rpm</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.12/rabbitmq-server-3.9.12-1.el8.noarch.rpm">rabbitmq-server-3.9.12-1.el8.noarch.rpm</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.11/rabbitmq-server-3.9.11-1.el8.noarch.rpm.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.12/rabbitmq-server-3.9.12-1.el8.noarch.rpm.asc">Signature</a>
     </td>
   </tr>
 
@@ -549,10 +549,10 @@ from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>.<
       RPM for openSUSE Linux
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.11/rabbitmq-server-3.9.11-1.suse.noarch.rpm">rabbitmq-server-3.9.11-1.suse.noarch.rpm</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.12/rabbitmq-server-3.9.12-1.suse.noarch.rpm">rabbitmq-server-3.9.12-1.suse.noarch.rpm</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.11/rabbitmq-server-3.9.11-1.suse.noarch.rpm.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.12/rabbitmq-server-3.9.12-1.suse.noarch.rpm.asc">Signature</a>
     </td>
   </tr>
 </table>
@@ -736,7 +736,7 @@ Redirecting to /bin/systemctl status rabbitmq-server.service
            └─2861 inet_gethost 4
 
 Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##  ##
-Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##  ##      RabbitMQ 3.8.17. Copyright (c) 2007-2021 VMware, Inc. or its affiliates.
+Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##  ##      RabbitMQ 3.8.17. Copyright (c) 2007-2022 VMware, Inc. or its affiliates.
 Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##########  Licensed under the MPL 2.0. Website: https://www.rabbitmq.com/
 Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ######  ##
 Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##########  Logs: /var/log/rabbitmq/rabbit@localhost.log
@@ -785,7 +785,7 @@ sudo journalctl --system | grep rabbitmq
 <p>The output will look similar to this:</p>
 <pre class="lang-ini">
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##
-Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##      RabbitMQ 3.8.17. Copyright (c) 2007-2021 VMware, Inc. or its affiliates.
+Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##      RabbitMQ 3.8.17. Copyright (c) 2007-2022 VMware, Inc. or its affiliates.
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##########  Licensed under the MPL 2.0. Website: https://www.rabbitmq.com/
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ######  ##
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##########  Logs: /var/log/rabbitmq/rabbit@localhost.log
