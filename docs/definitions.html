@@ -12,29 +12,29 @@
 Users, vhosts, queues, exchanges, bindings, runtime parameters all fall into this category.
 This metadata is called <strong>definitions</strong> in RabbitMQ parlance.</p>
 <p>Definitions can be <a href="#export">exported</a> to a file and then <a href="#import">imported</a> into another cluster or
-used for schema <a href="/backup.html">backup</a> or data seeding.</p>
+used for schema <a href="backup.html">backup</a> or data seeding.</p>
 <p>Definitions are stored in an internal database and replicated across all cluster nodes.
 Every node in a cluster has its own replica of all definitions. When a part of definitions changes,
 the update is performed on all nodes in a single transaction. This means that
 in practice, definitions can be exported from any cluster node with the same result.</p>
-<p><a href="/tanzu/">VMware Tanzu RabbitMQ</a> supports <a href="/definitions-standby.html">continuous schema definition replication</a> to a remote cluster,
+<p><a href="/tanzu/">VMware Tanzu RabbitMQ</a> supports <a href="definitions-standby.html">continuous schema definition replication</a> to a remote cluster,
 which makes it easy to run a hot standby cluster for disaster recovery.</p>
 <p>Definition import on node boot is the recommended way of <a href="#import-on-boot">pre-configuring nodes at deployment time</a>.</p>
 <h2><a id="export" class="anchor" href="#export">Definition Export</a></h2>
 <p>Definitions are exported as a JSON file in a number of ways.</p>
 <ul>
-<li><a href="/cli.html"><span class="code ">rabbitmqctl export_definitions</span></a> is the only option that does not require <a href="/management.html">management plugin</a> to be enabled</li>
+<li><a href="cli.html"><span class="code ">rabbitmqctl export_definitions</span></a> is the only option that does not require <a href="management.html">management plugin</a> to be enabled</li>
 <li>The <span class="code ">GET /api/definitions</span> API endpoint</li>
-<li><a href="/management-cli.html"><span class="code ">rabbitmqadmin export</span></a> which uses the above HTTP API endpoint</li>
+<li><a href="management-cli.html"><span class="code ">rabbitmqadmin export</span></a> which uses the above HTTP API endpoint</li>
 <li>There's a definitions pane on the Overview page</li>
 </ul>
-<p>Definitions can be exported for a specific <a href="/vhosts.html">virtual host</a> or the entire cluster (all virtual host).
+<p>Definitions can be exported for a specific <a href="vhosts.html">virtual host</a> or the entire cluster (all virtual host).
 When definitions are exported for just one virtual host, some information (contents of the other
 virtual hosts or users without any permissions to the target virtual host) will be
 excluded from the exported file.</p>
-<p>Exported user data contains password hashes as well as <a href="/passwords.html">password hashing function</a> information. While brute forcing passwords with hashing functions such as SHA-256 or SHA-512 is not a completely trivial task,
+<p>Exported user data contains password hashes as well as <a href="passwords.html">password hashing function</a> information. While brute forcing passwords with hashing functions such as SHA-256 or SHA-512 is not a completely trivial task,
 user records should be <strong>considered sensitive information</strong>.</p>
-<p>To export definitions using <a href="/cli.html"><span class="code ">rabbitmqctl</span></a>, use <span class="code ">rabbitmqctl export_definitions</span>:</p>
+<p>To export definitions using <a href="cli.html"><span class="code ">rabbitmqctl</span></a>, use <span class="code ">rabbitmqctl export_definitions</span>:</p>
 <pre class="lang-bash">
 # Does not require management plugin to be enabled, new in RabbitMQ 3.8.2
 rabbitmqctl export_definitions /path/to/definitions.file.json
@@ -68,7 +68,7 @@ curl -u {username}:{password} -X GET http://{hostname}:15672/api/definitions | j
 </pre>
 
 <h2><a id="import" class="anchor" href="#import">Definition Import</a></h2>
-<p>To import definitions using <a href="/cli.html"><span class="code ">rabbitmqctl</span></a>, use <span class="code ">rabbitmqctl import_definitions</span>:</p>
+<p>To import definitions using <a href="cli.html"><span class="code ">rabbitmqctl</span></a>, use <span class="code ">rabbitmqctl import_definitions</span>:</p>
 <pre class="lang-ini">
 # Does not require management plugin to be enabled, new in RabbitMQ 3.8.2
 rabbitmqctl import_definitions /path/to/definitions.file.json
@@ -94,7 +94,7 @@ can and in practice will result in repetitive work performed by the nodes on boo
 smaller definition files but with larger files, <a href="#import-after-boot">importing definitions after node boot</a> after
 cluster deployment (formation) is recommended.</p>
 <p>Modern releases support definition import directly in the core,
-without the need to <a href="/plugins.html#enabled-plugins-file">preconfigure</a> the <a href="/management.html">management plugin</a>.</p>
+without the need to <a href="plugins.html#enabled-plugins-file">preconfigure</a> the <a href="management.html">management plugin</a>.</p>
 <p>To import definitions from a local file on node boot,
 set the <span class="code ">load_definitions</span> config key to a path of a previously exported JSON file with definitions:</p>
 <pre class="lang-ini">
