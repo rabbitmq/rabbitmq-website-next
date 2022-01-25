@@ -22,6 +22,7 @@ If RabbitMQ Cluster Kubernetes Operator is not installed, see the <a href="quick
 <li><a href="#delete">Delete a resource</a></li>
 <li><a href="#limitations">Limitations</a></li>
 <li><a href="#tls">TLS</a></li>
+<li><a href="#vault">Use HashiCorp Vault</a></li>
 <li><a href="#operator-log">Configure Log Level for the Operator</a></li>
 </ul>
 <p class="note">
@@ -118,7 +119,7 @@ spec:
 <p>Note that it's not recommended setting <a href="../../queues.html#optional-arguments">optional queue arguments</a> on queues directly. Once set,
 queue properties cannot be changed. Use <a href="../../parameters.html#policies">policies</a> instead.</p>
 <p>The Messaging Topology repo has more examples on <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/queues">queues</a>
-and <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/policies">policies</a>. </p>
+and <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/policies">policies</a>.</p>
 <h3><a id="exchanges-bindings" class="anchor" href="#exchanges-bindings"> Exchanges and Bindings</a></h3>
 <p>Messaging Topology Operator can manage <a href="../../publishers.html#basics">exchanges and bindings</a>.
 The following manifest will create a fanout exchange:</p>
@@ -153,14 +154,14 @@ spec:
 </pre>
 
 <p>More examples on <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/exchanges">exchanges</a>
-and <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/bindings">bindings</a>. </p>
+and <a href="https://github.com/rabbitmq/messaging-topology-operator/tree/main/docs/examples/bindings">bindings</a>.</p>
 <h3><a id="users-permissions" class="anchor" href="#users-permissions">Users and User Permissions</a></h3>
 <p>You can use Messaging Topology Operator to create RabbitMQ users and assign user permissions.
 Learn more about user management in the <a href="../../access-control.html#user-management">Access Control guide</a>.</p>
 <p>Messaging Topology Operator creates users with generated credentials by default.</p>
 <p>The following manifest will create a user with generated username and password and the generated username and password can be
 accessed via a Kubernetes secret object:</p>
-<pre class="lang-bash"> 
+<pre class="lang-bash">
 apiVersion: rabbitmq.com/v1beta1
 kind: User
 metadata:
@@ -174,7 +175,7 @@ spec:
 </pre>
 
 <p>To get the name of the kubernetes secret object that contains the generated username and password, run the following command:</p>
-<pre class="lang-bash"> 
+<pre class="lang-bash">
 kubectl get users.rabbitmq.com user-example -o jsonpath='{.status.credentials.name}'
 </pre>
 
@@ -198,7 +199,7 @@ spec:
 
 <p>To set user permissions on an existing user, create <span class="code ">permissions.rabbitmq.com</span> resources.
 The following example will assign permissions to user <span class="code ">rabbit-user-1</span>:</p>
-<pre class="lang-bash"> 
+<pre class="lang-bash">
 apiVersion: rabbitmq.com/v1beta1
 kind: Permission
 metadata:
@@ -306,6 +307,8 @@ user credentials set in the definitions.</p>
 <p>If the RabbitmqClusters managed by the Messaging Topology Operator are configured to serve the Management over HTTPS, there are some additional
 steps required to configure Messaging Topology Operator. Follow this <a href="/kubernetes/operator/tls-topology-operator.html">TLS dedicated guide</a> to configure
 the Operator.</p>
+<h2><a id="vault" class="anchor" href="#vault">(Optional) Use HashiCorp Vault</a></h2>
+<p>If the RabbitmqClusters managed by the Messaging Topology Operator are configured to store their default user credentials in Vault, there are some additional steps requires to configure Messaging Topology Operator. Follow this <a href="/kubernetes/operator/vault-topology-operator.html">Vault dedicated guide</a> to configure the operator.</p>
 <h2><a id="operator-log" class="anchor" href="#operator-log">Configure Log Level for the Operator</a></h2>
 <p>Messaging Topology Operator logs reconciliation results and errors. Operator logs can be inspected by <span class="code ">kubectl -n rabbitmq-system logs -l app.kubernetes.io/name=messaging-topology-operator</span>.
 It uses zap logger which can be configured via passing command line flags in the Operator deployment manifest.</p>

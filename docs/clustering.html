@@ -91,15 +91,15 @@ standard OS hostname resolution methods.</p>
 <p>To use FQDNs, see <span class="code ">RABBITMQ_USE_LONGNAME</span> in the <a href="/configure.html#supported-environment-variables">Configuration guide</a>.
 See <a href="#node-names">Node Names</a> above.</p>
 <h2><a id="ports" class="anchor" href="#ports">Port Access</a></h2>
-<p>RabbitMQ nodes bind to ports (open server TCP sockets) in order to accept client and CLI tool connections.
+<p>RabbitMQ nodes <a href="networking.html#ports">bind to ports</a> (open server TCP sockets) in order to accept client and CLI tool connections.
 Other processes and tools such as SELinux may prevent RabbitMQ from binding to a port. When that happens,
 the node will fail to start.</p>
 <p>CLI tools, client libraries and RabbitMQ nodes also open connections (client TCP sockets).
 Firewalls can prevent nodes and CLI tools from communicating with each other.
-Make sure the following ports are accessible:</p>
+The following ports are most relevant to inter-node communication in a cluster:</p>
 <ul>
-<li>4369: <a href="/networking.html#epmd">epmd</a>, a helper discovery daemon used by RabbitMQ nodes and CLI tools</li>
-<li>5672, 5671: used by AMQP 0-9-1 and 1.0 clients without and with TLS</li>
+<li>4369: <a href="networking.html#epmd">epmd</a>, a helper discovery daemon used by RabbitMQ nodes and CLI tools</li>
+<li>6000 through 6500 (usually 6000, 6001, 6002, and so on through 6005): used by <a href="stream.html">RabbitMQ Stream</a> replication</li>
 <li>25672: used for inter-node and CLI tools communication (Erlang distribution server port)
    and is allocated from a dynamic range (limited to a single port by default,
    computed as AMQP port + 20000). Unless external connections on these ports are really necessary (e.g.
@@ -107,17 +107,11 @@ Make sure the following ports are accessible:</p>
    these ports should not be publicly exposed. See <a href="networking.html">networking guide</a> for details.</li>
 <li>35672-35682: used by CLI tools (Erlang distribution client ports) for communication with nodes
    and is allocated from a dynamic range (computed as server distribution port + 10000 through
-   server distribution port + 10010). See <a href="networking.html">networking guide</a> for details.</li>
-<li>15672: <a href="/management.html">HTTP API</a> clients, <a href="/management.html">management UI</a> and <a href="/management-cli.html">rabbitmqadmin</a>
-   (only if the <a href="/management.html">management plugin</a> is enabled)</li>
-<li>61613, 61614: <a href="https://stomp.github.io/stomp-specification-1.2.html">STOMP clients</a> without and with TLS (only if the <a href="/stomp.html">STOMP plugin</a> is enabled)</li>
-<li>1883, 8883: <a href="http://mqtt.org/">MQTT clients</a> without and with TLS, if the <a href="/mqtt.html">MQTT plugin</a> is enabled</li>
-<li>15674: STOMP-over-WebSockets clients (only if the <a href="/web-stomp.html">Web STOMP plugin</a> is enabled)</li>
-<li>15675: MQTT-over-WebSockets clients (only if the <a href="/web-mqtt.html">Web MQTT plugin</a> is enabled)</li>
-<li>15692: Prometheus metrics (only if the <a href="/prometheus.html">Prometheus plugin</a> is enabled)</li>
+   server distribution port + 10010).</li>
 </ul>
 <p>It is possible to <a href="configure.html">configure RabbitMQ</a>
-to use <a href="networking.html">different ports and specific network interfaces</a>.</p>
+to use different ports and specific network interfaces.
+See <a href="networking.html">RabbitMQ Networking guide</a> to learn more.</p>
 <h2><a id="cluster-membership" class="anchor" href="#cluster-membership">Nodes in a Cluster</a></h2>
 <h3><a id="overview-what-is-replicated" class="anchor" href="#overview-what-is-replicated">What is Replicated?</a></h3>
 <p>All data/state required for the operation of a RabbitMQ

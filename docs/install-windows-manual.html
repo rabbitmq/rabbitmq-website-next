@@ -28,7 +28,7 @@ The RabbitMQ batch files expect to execute <span class="code ">%ERLANG_HOME%\bin
 Create the system environment variable <span class="code ">ERLANG_HOME</span>
 and set it to the full path of the directory which contains <span class="code ">bin\erl.exe</span>.</p>
 <h2><a id="install-rabbitmq" class="anchor" href="#install-rabbitmq">Install RabbitMQ Server</a></h2>
-<p>After making sure a supported Erlang version is installed, download <span class="code ">rabbitmq-server-windows-3.9.12.zip</span>.</p>
+<p>After making sure a supported Erlang version is installed, download <span class="code ">rabbitmq-server-windows-3.9.13.zip</span>.</p>
 <h3><a id="downloads" class="anchor" href="#downloads">Direct Downloads</a></h3>
 <table>
   <thead>
@@ -42,16 +42,16 @@ and set it to the full path of the directory which contains <span class="code ">
       Installer for Windows systems (from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>)
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.12/rabbitmq-server-windows-3.9.12.zip">rabbitmq-server-windows-3.9.12.zip</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.13/rabbitmq-server-windows-3.9.13.zip">rabbitmq-server-windows-3.9.13.zip</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.12/rabbitmq-server-windows-3.9.12.zip.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.13/rabbitmq-server-windows-3.9.13.zip.asc">Signature</a>
     </td>
   </tr>
 </table>
 
 <p>From the zip file, extract the folder named
-<span class="code ">rabbitmq_server-3.9.12</span>
+<span class="code ">rabbitmq_server-3.9.13</span>
 into <span class="code ">C:\Program Files\RabbitMQ</span>
 (or somewhere suitable for application files).</p>
 <h2><a id="erlang-cookie" class="anchor" href="#erlang-cookie">Synchronise the Erlang Cookie</a></h2>
@@ -64,7 +64,7 @@ cookie value (cookie file contents).</p>
 <p>Please see <a href="/cli.html#erlang-cookie">How CLI Tools Authenticate to Nodes (and Nodes to Each Other): the Erlang Cookie</a> for details.</p>
 <h2><a id="locating-binaries-and-data" class="anchor" href="#locating-binaries-and-data">Locating CLI Tools and App Data</a></h2>
 <h3><a id="locating-binaries" class="anchor" href="#locating-binaries">CLI tools</a></h3>
-<p>Within the <span class="code ">rabbitmq_server-3.9.12\sbin</span>
+<p>Within the <span class="code ">rabbitmq_server-3.9.13\sbin</span>
 directory are some scripts which run commands to control the RabbitMQ server.</p>
 <p>The RabbitMQ server can be run as either an application or service (not both).</p>
 <ul>
@@ -82,13 +82,13 @@ in the <span class="code ">sbin</span> directory.</p>
 can be executed without using fully qualified paths.</p>
 <ul>
 <li>Create a system environment variable (e.g. <span class="code ">RABBITMQ_SERVER</span>) for
-   <span class="code ">"C:\Program Files\RabbitMQ\rabbitmq_server-3.9.12"</span>.
-   Adjust this if you put <span class="code ">rabbitmq_server-3.9.12</span> elsewhere,
+   <span class="code ">"C:\Program Files\RabbitMQ\rabbitmq_server-3.9.13"</span>.
+   Adjust this if you put <span class="code ">rabbitmq_server-3.9.13</span> elsewhere,
    or if you upgrade versions.</li>
 <li>Append the literal string "<span class="code ">;%RABBITMQ_SERVER%\sbin</span>" to your system path (aka <span class="code ">%PATH%</span>).</li>
 </ul>
 <p>Now it should be possible to run rabbitmq commands from any (administrator) Command Prompt.</p>
-<p>Navigate to <span class="code ">rabbitmq_server-3.9.12\sbin</span>
+<p>Navigate to <span class="code ">rabbitmq_server-3.9.13\sbin</span>
 to run commands if the system path does not contain the RabbitMQ <span class="code ">sbin</span>
 directory.</p>
 <h3><a id="locating-data-directory" class="anchor" href="#locating-data-directory">Node Data Directory</a></h3>

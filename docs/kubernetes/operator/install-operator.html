@@ -12,7 +12,7 @@
 <h2><a id="compatibility" class="anchor" href="#compatibility">Compatibility</a></h2>
 <p>The Operator requires</p>
 <ul>
-<li>Kubernetes 1.18 or above</li>
+<li>Kubernetes 1.19 or above</li>
 <li><a href="https://hub.docker.com/_/rabbitmq">RabbitMQ DockerHub image</a> 3.8.8+</li>
 </ul>
 <hr />
@@ -102,7 +102,7 @@ grep -C3 image: releases/cluster-operator.yml
 #           limits:
 </pre>
 
-<h3><a id="private-images" class="anchor" href="#private-images">(Optional) Configure Kubernetes Cluster Access to Private Images</a></h3>
+<h4><a id="private-images" class="anchor" href="#private-images">Configure Kubernetes Cluster Access to Private Images</a></h4>
 <p>If you relocated the image to a private registry and your registry requires authentication, you need to follow these steps to allow Kubernetes to pull the image.</p>
 <p>First, create the Service Account that the Operator will use to run and to pull images:</p>
 <pre class="lang-yaml">
@@ -143,7 +143,11 @@ kubectl -n rabbitmq-system patch serviceaccount \
 rabbitmq-cluster-operator -p '{"imagePullSecrets": [{"name": "rabbitmq-cluster-registry-access"}]}'
 </pre>
 
-<p>Please note that the name of the Operator Service Account is not configurable and it must be <span class="code ">rabbitmq-cluster-operator</span>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+<p>Please note that the name of the Operator Service Account is not configurable and it must be <span class="code ">rabbitmq-cluster-operator</span>.</p>
+<h4><a id="custom-configuration" class="anchor" href="#custom-configuration">Configure operator to use private registry</a></h4>
+<p>You will need to modify the configuration of the operator to use the relocated images by default for new RabbitmqCluster instances.
+T set the values of <span class="code ">DEFAULT_RABBITMQ_IMAGE</span>, <span class="code ">DEFAULT_USER_UPDATER_IMAGE</span> and <span class="code ">DEFAULT_IMAGE_PULL_SECRETS</span>
+at Operator deployment time, see <a href="./configure-operator-defaults.html">Configuring Defaults for RabbitMQ Cluster Operator</a>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.

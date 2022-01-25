@@ -234,15 +234,13 @@ a <span class="code ">nodes</span> policy telling it to be on
 mirrors <span class="code ">[C D]</span>, the leader on <span class="code ">A</span>
 will shut down.</p>
 <h3><a id="exclusive-queues-are-not-mirrored" class="anchor" href="#exclusive-queues-are-not-mirrored">Mirroring of Exclusive Queues</a></h3>
-<p>Exclusive queues will be deleted when the connection that
-declared them is closed. For this reason, it is not useful
-for an exclusive queue to be mirrored (or durable for that
-matter) since when the node hosting it goes down, the
-connection will close and the queue will need to be deleted
-anyway.</p>
-<p>For this reason, exclusive queues are never mirrored (even
-if they match a policy stating that they should be). They
-are also never durable (even if declared as such).</p>
+<p>Exclusive queues will be deleted when the connection that declared them is
+closed. For this reason, it is not useful for an exclusive queue to be mirrored
+(or a non-durable queue, for that matter) since when the node hosting it goes
+down, the connection will close and the queue will need to be deleted anyway.</p>
+<p>For this reason, exclusive queues are never mirrored (even if they match a
+policy stating that they should be). They are also never durable (even if
+declared as such).</p>
 <h2><a id="non-mirrored-queue-behavior-on-node-failure" class="anchor" href="#non-mirrored-queue-behavior-on-node-failure">Non-mirrored Queue Behavior in a Cluster</a></h2>
 <p>This guide focuses on mirrored queues, however, it is important
 to briefly explain how non-mirrored queues behave in a cluster in contrast
@@ -267,7 +265,7 @@ mirrors can be configured to be <a href="#unsynchronised-mirrors">promoted to le
 <h2><a id="examples" class="anchor" href="#examples">Examples</a></h2>
 <p>Below is a policy where queues whose names begin with
 "<span class="code ">two.</span>" are mirrored to any two nodes in the
-cluster, with <a href="#eager-synchronisation">automatic synchronisation</a>:</p>
+cluster, with <a href="#configuring-synchronisation">automatic synchronisation</a>:</p>
 <table>
   <tr>
     <th>rabbitmqctl</th>
