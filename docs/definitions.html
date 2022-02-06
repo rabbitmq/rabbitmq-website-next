@@ -36,7 +36,7 @@ excluded from the exported file.</p>
 user records should be <strong>considered sensitive information</strong>.</p>
 <p>To export definitions using <a href="cli.html"><span class="code ">rabbitmqctl</span></a>, use <span class="code ">rabbitmqctl export_definitions</span>:</p>
 <pre class="lang-bash">
-# Does not require management plugin to be enabled, new in RabbitMQ 3.8.2
+# Does not require management plugin to be enabled
 rabbitmqctl export_definitions /path/to/definitions.file.json
 </pre>
 
@@ -70,7 +70,7 @@ curl -u {username}:{password} -X GET http://{hostname}:15672/api/definitions | j
 <h2><a id="import" class="anchor" href="#import">Definition Import</a></h2>
 <p>To import definitions using <a href="cli.html"><span class="code ">rabbitmqctl</span></a>, use <span class="code ">rabbitmqctl import_definitions</span>:</p>
 <pre class="lang-ini">
-# Does not require management plugin to be enabled, new in RabbitMQ 3.8.2
+# Does not require management plugin to be enabled
 rabbitmqctl import_definitions /path/to/definitions.file.json
 </pre>
 
@@ -98,17 +98,58 @@ without the need to <a href="plugins.html#enabled-plugins-file">preconfigure</a>
 <p>To import definitions from a local file on node boot,
 set the <span class="code ">load_definitions</span> config key to a path of a previously exported JSON file with definitions:</p>
 <pre class="lang-ini">
-# New in RabbitMQ 3.8.2.
 # Does not require management plugin to be enabled.
 load_definitions = /path/to/definitions/file.json
 </pre>
 
-<p>As of RabbitMQ <span class="code ">3.8.6</span>, definition import happens after plugin activation.
+<p>In modern RabbitMQ versions, definition import happens after plugin activation.
 This means that definitions related to plugins (e.g. dynamic Shovels, exchanges of a custom type, and so on)
 can be imported at boot time.</p>
 <p>The definitions in the file will not overwrite anything already in the broker.
 However, if a blank (uninitialised) node imports a definition file, it will
 not create the default virtual host and user.</p>
+<h3><a id="import-on-boot-skip-if-unchanged" class="anchor" href="#import-on-boot-skip-if-unchanged">Avoid Boot Time Import if Definition Contents Have Not Changed</a></h3>
+<p>By default definitions are imported by every cluster node, unconditionally.
+In many environments definition file rarely changes. In that case it makes
+sense to only perform an import when definition file contents actually change.
+Starting with RabbitMQ 3.10, this can be done by setting the <span class="code ">definitions.skip_if_unchanged</span> configuration key
+to <span class="code ">true</span>:</p>
+<pre class="lang-ini">
+# when set to true, definition import will only happen
+# if definition file contents change
+definitions.skip_if_unchanged = true
+
+definitions.import_backend = local_filesystem
+definitions.local.path = /path/to/definitions/defs.json
+</pre>
+
+<p>This feature works for both individual files and directories:</p>
+<pre class="lang-ini">
+# when set to true, definition import will only happen
+# if definition file contents change
+definitions.skip_if_unchanged = true
+
+definitions.import_backend = local_filesystem
+definitions.local.path = /path/to/definitions/conf.d/
+</pre>
+
+<p>It is also supported by the HTTPS endpoint import mechanism:</p>
+<pre class="lang-ini">
+# when set to true, definition import will only happen
+# if definition file contents change
+definitions.skip_if_unchanged = true
+
+definitions.import_backend = https
+definitions.https.url = https://some.endpoint/path/to/rabbitmq.definitions.json
+
+definitions.tls.verify     = verify_peer
+definitions.tls.fail_if_no_peer_cert = true
+
+definitions.tls.cacertfile = /path/to/ca_certificate.pem
+definitions.tls.certfile   = /path/to/client_certificate.pem
+definitions.tls.keyfile    = /path/to/client_key.pem
+</pre>
+
 <h2><a id="import-after-boot" class="anchor" href="#import-after-boot">Definition Import After Node Boot</a></h2>
 <p>Installations that use earlier versions that do not provide the built-in definition import
 can import definitions immediately after node boot using a combination of two CLI commands:</p>
