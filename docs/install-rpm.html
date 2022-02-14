@@ -50,9 +50,10 @@ Erlang 24 <strong>cannot be used on distributions that do not provide OpenSSL 1.
 CentOS 7 and Fedora releases older than 26 are examples of such distributions.</p>
 <p>Currently the list of supported RPM-based distributions includes</p>
 <ul>
-<li>CentOS Linux 8.x and <a href="https://centos.org/centos-stream/">CentOS Stream</a> 8.x</li>
+<li><a href="https://centos.org/centos-stream/">CentOS Stream</a> 9.x</li>
+<li>CentOS Linux 8.x</li>
 <li>RedHat Enterprise Linux 8.x</li>
-<li>Fedora 32 through 34 (use the CentOS 8.x package)</li>
+<li>Fedora 32 through 35 (use the CentOS 8.x package)</li>
 </ul>
 <p>The packages may work on other RPM-based distributions
 if <a href="#package-dependencies">dependencies</a> are satisfied but their testing and support
@@ -137,10 +138,10 @@ rpm --import https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
 <h3>Add Yum Repositories for RabbitMQ and Modern Erlang</h3>
 <p>In order to use the Yum repository, a <span class="code ">.repo</span> file (e.g. <span class="code ">rabbitmq.repo</span>) has to be
 added under the <span class="code ">/etc/yum.repos.d/</span> directory. The contents of the file will vary slightly
-between distributions (e.g. CentOS 8 and 7 vs. OpenSUSE).</p>
-<h4>Red Hat 8, CentOS 8, Modern Fedora Releases</h4>
+between distributions (e.g. CentOS Stream, CentOS 8, CentOS 7 or OpenSUSE).</p>
+<h4>Red Hat 8, CentOS Stream 9, CentOS 8, Modern Fedora Releases</h4>
 <p>The following example sets up a repository that will install RabbitMQ and its Erlang dependency from PackageCloud,
-and targets <strong>CentOS 8</strong>. The same repository definition <strong>can be used by recent Fedora releases</strong>.</p>
+and targets <strong>CentOS Stream and CentOS 8</strong>. The same repository definition <strong>can be used by recent Fedora releases</strong>.</p>
 <pre class="lang-ini">
 # In /etc/yum.repos.d/rabbitmq.repo
 
@@ -230,7 +231,7 @@ type=rpm-md
 </pre>
 
 <h3>Install Packages with Yum</h3>
-<h4>CentOS 8, RHEL 8, Modern Fedora</h4>
+<h4>Red Hat 8, CentOS Stream, CentOS 8, Modern Fedora</h4>
 <p>Update Yum package metadata:</p>
 <pre class="lang-bash">
 yum update -y
@@ -291,7 +292,7 @@ rpm --import 'https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F458
 <h3>Add Yum Repositories for RabbitMQ and Modern Erlang</h3>
 <p>In order to use the Yum repository, a <span class="code ">.repo</span> file (e.g. <span class="code ">rabbitmq.repo</span>) has to be
 added under the <span class="code ">/etc/yum.repos.d/</span> directory. The contents of the file will vary slightly
-between distributions (e.g. CentOS 8 and 7 vs. OpenSUSE).</p>
+between distributions (e.g. CentOS Stream, CentOS 8, CentOS 7 or OpenSUSE).</p>
 <h4>Red Hat 8, CentOS 8, Modern Fedora Releases</h4>
 <p>The following example sets up a repository that will install RabbitMQ and its Erlang dependency from Cloudsmith,
 and targets <strong>CentOS 8</strong>. The same repository definition <strong>can be used by recent Fedora releases</strong>.</p>
@@ -452,7 +453,7 @@ type=rpm-md
 </pre>
 
 <h3>Install Packages with Yum</h3>
-<h4>CentOS 8, RHEL 8, modern Fedora</h4>
+<h4>Red Hat 8, CentOS Stream 9, CentOS 8, Modern Fedora</h4>
 <p>Update Yum package metadata:</p>
 <pre class="lang-bash">
 yum update -y
@@ -502,7 +503,7 @@ rpm --import https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabb
 yum install socat logrotate -y
 
 # This example assumes the CentOS 8 version of the package, suitable for
-# Red Hat 8, CentOS 8 and modern Fedora releases.
+# Red Hat 8, CentOS Stream 9, CentOS 8 and modern Fedora releases.
 #
 # For Red Hat 7 or CentOS 7, replace "el8" with "el7".
 yum install rabbitmq-server-3.9.13-1.el8.noarch.rpm
@@ -516,7 +517,7 @@ rpm --import https://www.rabbitmq.com/rabbitmq-release-signing-key.asc
 yum install socat logrotate -y
 
 # This example assumes the CentOS 8 version of the package, suitable for
-# Red Hat 8, CentOS 8 and modern Fedora releases.
+# Red Hat 8, CentOS Stream 9, CentOS 8 and modern Fedora releases.
 #
 # For Red Hat 7 or CentOS 7, replace "el8" with "el7".
 yum install rabbitmq-server-3.9.13-1.el8.noarch.rpm
@@ -534,7 +535,7 @@ from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>.<
 
   <tr>
     <td>
-      RPM for RHEL Linux 8.x, CentOS 8.x, Fedora 31+ (supports systemd)
+      RPM for RHEL Linux 8.x, CentOS Stream 9, CentOS 8.x, Fedora 32+ (supports systemd)
     </td>
     <td>
       <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.13/rabbitmq-server-3.9.13-1.el8.noarch.rpm">rabbitmq-server-3.9.13-1.el8.noarch.rpm</a>
@@ -673,7 +674,7 @@ RabbitMQ on distributions that do not use systemd is to edit the <span class="co
 (provided by the RabbitMQ Debian package) or <a href="https://www.rabbitmq.com/configure.html">rabbitmq-env.conf</a>
 to invoke <span class="code ">ulimit</span> before the service is started.</p>
 <pre class="lang-bash">
-ulimit -S -n 4096
+ulimit -S -n 64000
 </pre>
 
 <p>This <em>soft</em> limit cannot go higher than the <em>hard</em> limit (which defaults to 4096 in many distributions).
@@ -686,7 +687,7 @@ with <span class="code ">sysctl</span>, please refer to the excellent
 <h3><a id="verifying-limits" class="anchor" href="#verifying-limits">Verifying the Limit</a></h3>
 <p><a href="management.html">RabbitMQ management UI</a> displays the number of file descriptors available
 for it to use on the Overview tab.</p>
-<pre class="lang-bash">rabbitmqctl status</pre>
+<pre class="lang-bash">rabbitmq-diagnostics status</pre>
 
 <p>includes the same value.</p>
 <p>The following command</p>
@@ -695,7 +696,7 @@ cat /proc/$RABBITMQ_BEAM_PROCESS_PID/limits
 </pre>
 
 <p>can be used to display effective limits of a running process. <span class="code ">$RABBITMQ_BEAM_PROCESS_PID</span>
-is the OS PID of the Erlang VM running RabbitMQ, as returned by <span class="code ">rabbitmqctl status</span>.</p>
+is the OS PID of the Erlang VM running RabbitMQ, as returned by <span class="code ">rabbitmq-diagnostics status</span>.</p>
 <h3><a id="chef-puppet-bosh" class="anchor" href="#chef-puppet-bosh">Configuration Management Tools</a></h3>
 <p>Configuration management tools (e.g. Chef, Puppet, BOSH) provide assistance
 with system limit tuning. Our <a href="devtools.html#devops-tools">developer tools</a> guide
@@ -904,7 +905,7 @@ yum install erlang rabbitmq-server -y
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
                   </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2021 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
