@@ -10,8 +10,9 @@
 If RabbitMQ Cluster Kubernetes Operator is not installed, see the <a href="quickstart-operator.html">quickstart guide</a>.</p>
 <p>This guide has the following sections:</p>
 <ul>
-<li><a href="#requirements">Requirements</a></li>
+<li><a href="#requirements">Cluster Operator Requirements</a></li>
 <li><a href="#namespace-scope">Scope across multiple namespaces</a></li>
+<li><a href="#non-operator">Non Operator managed RabbitMQ</a></li>
 <li><a href="#queues-policies">Queues and policies</a></li>
 <li><a href="#users-permissions">Users and user permissions</a></li>
 <li><a href="#exchanges-bindings">Exchanges and bindings</a></li>
@@ -30,9 +31,9 @@ If RabbitMQ Cluster Kubernetes Operator is not installed, see the <a href="quick
   [Using the RabbitMQ Kubernetes Operators on Openshift](using-on-openshift.html).
 </p>
 
-<h2><a id="requirements" class="anchor" href="#requirements">Requirements</a></h2>
+<h2><a id="requirements" class="anchor" href="#requirements"> Cluster Operator Requirements</a></h2>
 <ul>
-<li>Messaging Topology Operator can only be used with RabbitMQ clusters deployed using the Kubernetes <a href="https://github.com/rabbitmq/cluster-operator">Cluster Operator</a>.
+<li>Messaging Topology Operator can be used with RabbitMQ clusters deployed using the Kubernetes <a href="https://github.com/rabbitmq/cluster-operator">Cluster Operator</a>.
 The minimal version required for Cluster Operator is <span class="code ">1.7.0</span>.</li>
 <li>Messaging Topology Operator custom resources can only be created in the same namespace as the RabbitMQ cluster is deployed. For a RabbitmqCluster deployed in namespace
 "my-test-namespace", all Messaging Topology custom resources for this RabbitMQ cluster, such as <span class="code ">queues.rabbitmq.com</span> and <span class="code ">users.rabbitmq.com</span>, can only be created in namespace "my-test-namespace".</li>
@@ -81,6 +82,36 @@ and the object <strong>will not be reconciled</strong>, until it is updated.</p>
 <span class="code ">RabbitmqCluster</span>, Messaging Topology Operator will log an error message, update a status condition in the <span class="code ">Queue</span> object, and give up reconciling the
 <span class="code ">Queue</span> object. If the <span class="code ">RabbitmqCluster</span> object is updated to allow topology objects from namespace <span class="code ">not-allowed</span>, the <span class="code ">Queue</span> object <strong>must be manually
 updated</strong> to trigger a reconciliation; for example, by adding a label to the <span class="code ">Queue</span> object.</p>
+<h2><a id="non-operator" class="anchor" href="#non-operator">Non Operator managed RabbitMQ</a></h2>
+<ul>
+<li>For any RabbitMQ that's not deployed by <a href="https://github.com/rabbitmq/cluster-operator">Cluster Operator</a>, a connection secret can be provided to create RabbitMQ topology objects.</li>
+<li>This feature is released since Messaging Topology Operator <span class="code ">1.4.0</span>.</li>
+<li>The following manifest creates a queue and uses credentials in kubernetes secret <span class="code ">my-rabbit-creds</span> to connect to the RabbitMQ server:</li>
+</ul>
+<pre class="lang-bash">
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-rabbit-creds
+type: Opaque
+stringData:
+  username: a-user # has to be an existing user
+  password: a-secure-password
+  uri: https://my.rabbit:15672 # uri for the management api; when scheme is not provided in uri, operator defalts to 'http'
+---
+apiVersion: rabbitmq.com/v1beta1
+kind: Queue
+metadata:
+  name: qq-example
+spec:
+  name: my-queue
+  rabbitmqClusterReference:
+    connectionSecret:
+      name: my-rabbit-creds # has to an existing secret in the same namespace as this Queue object
+</pre>
+
+<p>Note that <span class="code ">spec.rabbitmqClusterReference</span> is an immutable field. You cannot update the connectionSecret name after creation.</p>
 <h2><a id="queues-policies" class="anchor" href="#queues-policies">Queues and Policies</a></h2>
 <p>Messaging Topology Operator can declare <a href="../../queues.html">queues</a> and
 <a href="../../parameters.html#how-policies-work">policies</a> in a RabbitMQ cluster.</p>

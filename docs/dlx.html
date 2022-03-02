@@ -159,7 +159,7 @@ message was dead-lettered and is one of the following:</p>
 <li><span class="code ">rejected</span>: the message was rejected with <span class="code ">requeue</span> parameter set to <span class="code ">false</span></li>
 <li><span class="code ">expired</span>: the <a href="/ttl.html">message TTL</a> has expired</li>
 <li><span class="code ">maxlen</span>: the <a href="/maxlength.html">maximum allowed queue length</a> was exceeded</li>
-<li><span class="code ">delivery-limit</span>: the message has been returned more times than the limit (set by policy argument <a href="/quorum-queues.html#poison-message-handling">delivery-limit</a> of quorum queues).</li>
+<li><span class="code ">delivery_limit</span>: the message has been returned more times than the limit (set by policy argument <a href="/quorum-queues.html#poison-message-handling">delivery-limit</a> of quorum queues).</li>
 </ul>
 <p>Three top-level headers are added for the very first dead-lettering
 event. They are</p>

@@ -1212,7 +1212,7 @@ the Java client (especially the peer verification and trust manager parts),
 read <a href="ssl.html#java-client">the appropriate section</a> of the TLS guide.</p>
 <h2><a id="oauth2-support" class="anchor" href="#oauth2-support">OAuth 2 Support</a></h2>
 <p>The client can authenticate against an OAuth 2 server like <a href="https://github.com/cloudfoundry/uaa">UAA</a>.
-The <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-oauth2">OAuth 2 plugin</a>
+The <a href="https://github.com/rabbitmq/rabbitmq-server/tree/master/deps/rabbitmq_auth_backend_oauth2">OAuth 2 plugin</a>
 must be enabled on the server side and configured to use the same
 OAuth 2 server as the client.</p>
 <h3><a id="oauth2-getting-token" class="anchor" href="#oauth2-getting-token">Getting the OAuth 2 Token</a></h3>
@@ -1226,7 +1226,7 @@ virtual host.</p>
 to create an <span class="code ">OAuth2ClientCredentialsGrantCredentialsProvider</span> instance and
 then set it up on the <span class="code ">ConnectionFactory</span>. The
 following snippet shows how to configure and create an instance of the OAuth 2 credentials provider
-for the <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-oauth2#examples">example setup of the OAuth 2 plugin</a>:</p>
+for the <a href="https://github.com/rabbitmq/rabbitmq-server/tree/master/deps/rabbitmq_auth_backend_oauth2#examples">example setup of the OAuth 2 plugin</a>:</p>
 <pre class="lang-java">
 import com.rabbitmq.client.impl.OAuth2ClientCredentialsGrantCredentialsProvider.
         OAuth2ClientCredentialsGrantCredentialsProviderBuilder;
