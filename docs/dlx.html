@@ -116,12 +116,14 @@ dead-letter routing key.  Messages in such cycles (i.e.
 messages that reach the same queue twice) will be
 dropped <em>if there was no rejections in the entire cycle</em>.</p>
 <h2><a id="safety" class="anchor" href="#safety">Safety</a></h2>
-<p>Dead-lettered messages are re-published <em>without</em> publisher
+<p>By default, dead-lettered messages are re-published <em>without</em> publisher
 <a href="confirms.html">confirms</a> turned on internally. Therefore using DLX in a clustered
 RabbitMQ environment is not guaranteed to be safe. Messages are removed from the
 original queue immediately after publishing to the DLX target queue. This ensures
 that there is no chance of excessive message buildup that could exhaust broker
 resources, but messages can be lost if the target queue isn't available to accept messages.</p>
+<p>Since RabbitMQ 3.10 quorum queues support <a href="/quorum-queues.html#dead-lettering">at-least-once dead-lettering</a>
+where messages are re-published with publisher confirms turned on internally.</p>
 <h2><a id="effects" class="anchor" href="#effects">Dead-Lettered Effects on Messages</a></h2>
 <p>Dead-lettering a message modifies its headers:</p>
 <ul>
