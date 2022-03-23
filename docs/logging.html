@@ -24,6 +24,7 @@ state of the system.</p>
 <li>How to <a href="#service-logs">inspect service logs</a> on systemd-based Linux systems</li>
 <li><a href="#log-rotation">Log rotation</a></li>
 <li><a href="#logging-to-syslog">Logging to Syslog</a></li>
+<li><a href="#log-exchange">Logging to a system topic exchange</a>, <span class="code ">amq.rabbitmq.log</span></li>
 </ul>
 <p>and more.</p>
 <h2><a id="log-file-location" class="anchor" href="#log-file-location">Log File Location</a></h2>
@@ -541,7 +542,30 @@ message metadata (properties, headers).</p>
 <ul>
 <li><span class="code ">federation.link.status</span></li>
 <li><span class="code ">federation.link.removed</span></li>
-</ul><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+</ul>
+<h2><a id="log-exchange" class="anchor" href="#log-exchange">Consuming Log Entries Using a System Log Exchange</a></h2>
+<p>RabbitMQ can forward log entries to a system exchange, <span class="code ">amq.rabbitmq.log</span>, which
+will be declared in the default <a href="vhosts.html">virtual host</a>.</p>
+<p>This feature is disabled by default.
+To enable this logging, set the <span class="code ">log.exchange</span> configuration key to <span class="code ">true</span>:</p>
+<pre class="lang-ini">
+# enable log forwarding to amq.rabbitmq.log, a topic exchange
+log.exchange = true
+</pre>
+
+<p><span class="code ">log.exchange.level</span> can be used to control the <a href="#log-levels">log level</a> that
+will be used by this logging target:</p>
+<pre class="lang-ini">
+log.exchange = true
+log.exchange.level = warning
+</pre>
+
+<p><span class="code ">amq.rabbitmq.log</span> is a regular topic exchange and can be used as such.
+Log entries are published as messages. Message body contains the logged message
+and routing key is set to the log level.</p>
+<p>Application that would like to consume log entries need to declare a queue
+and bind it to the exchange, using a routing key to filter a specific log level,
+or <span class="code ">#</span> to consume all log entries allowed by the configured log level.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.

@@ -83,11 +83,11 @@ rabbitmq-plugins enable rabbitmq_web_stomp_examples
 <li>"echo" - shows how to use STOMP to do simple message broadcasting</li>
 <li>"bunny" - example of a simple collaboration canvas painting app</li>
 </ul>
-<p>We encourage you to take a look <a href="https://github.com/rabbitmq/rabbitmq-web-stomp-examples/tree/master/priv">at the source code</a>.</p>
+<p>We encourage you to take a look <a href="https://github.com/rabbitmq/rabbitmq-server/tree/master/deps/rabbitmq_web_stomp_examples/priv">at the source code</a>.</p>
 <h2><a id="configuration" class="anchor" href="#configuration">Configuration</a></h2>
 <p>When no configuration is specified the Web STOMP plugin will listen on
 all interfaces on port 15674 and have a default user login/passcode of
-<span class="code ">guest</span>/<span class="code ">guest</span>. Note that this user is only <a href="/access-control.html">allowed to connect from localhost</a> by default.
+<span class="code ">guest</span>/<span class="code ">guest</span>. Note that this user is only <a href="access-control.html#loopback-users">allowed to connect from localhost</a> by default.
 We highly recommend creating a separate user for production systems.</p>
 <p>To change the listener port, edit your
 <a href="/configure.html#configuration-files">Advanced configuration file</a>,

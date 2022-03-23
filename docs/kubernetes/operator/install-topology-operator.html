@@ -97,6 +97,45 @@ kubectl apply -f messaging-topology-operator.yaml
 </pre>
 
 <p>At this point, the RabbitMQ Messaging Topology Operator is successfully installed.</p>
+<h3><a id="non-default-k8s-domain" class="anchor" href="#non-default-k8s-domain">Using a non-default Kubernetes internal domain</a></h3>
+<p>By default, Kubernetes internal domain name is <span class="code ">.cluster.local</span>. This can be configured
+in <span class="code ">kubeadm</span> to be something else e.g. <span class="code ">my.cluster.domain</span>. In such cases, the Messaging
+Topology Operator can append the domain name to the connection strings it uses to interact
+with RabbitMQ.</p>
+<p>To configure the Messaging Topology Operator to append the domain name in the connection string,
+set the environment variable <span class="code ">MESSAGING_DOMAIN_NAME</span> to your domain name e.g. <span class="code ">".my.cluster.domain"</span>.</p>
+<p>To set this environment variable:</p>
+<ul>
+<li>Download the installation manifest from the <a href="https://github.com/rabbitmq/messaging-topology-operator/releases">releases</a></li>
+<li>Open the manifest and search for the Deployment with name <span class="code ">messaging-topology-operator</span></li>
+<li>Add a new element to the <span class="code ">env</span> list, with name <span class="code ">MESSAGING_DOMAIN_NAME</span> and value your domain name</li>
+</ul>
+<p>The manifest related to the <span class="code ">Deployment</span> should look similar to this:</p>
+<pre class="lang-yaml">
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  [...]
+  name: messaging-topology-operator
+  namespace: rabbitmq-system
+spec:
+  template:
+    [...]
+    spec:
+      containers:
+      - command:
+        - /manager
+        env:
+        - name: OPERATOR_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: MESSAGING_DOMAIN_NAME
+          value: "my.cluster.domain"
+</pre>
+
+<p>Apply the edited manifest. Once the Pod has applied the changes, subsequent HTTP API requests to
+RabbitMQ will append the domain name to the connection string.</p>
 <h3>Older Operator Versions</h3>
 <p>To install a specific version of the Operator, obtain the manifest link from the
 <a href="https://github.com/rabbitmq/messaging-topology-operator/releases">Operator Releases</a>.

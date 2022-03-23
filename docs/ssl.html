@@ -130,7 +130,7 @@ configured the same way. The section on <a href="#peer-verification">peer verifi
 The certificate/key pairs are used by RabbitMQ and clients that connect to the server on a
 TLS-enabled port. The process of generating a Certificate Authority and two key pairs is fairly labourious
 and can be error-prone. An easier way of generating all that
-stuff on MacOS or Linux is with <a href="https://github.com/michaelklishin/tls-gen">tls-gen</a>:
+stuff on MacOS or Linux is with <a href="https://github.com/rabbitmq/tls-gen">tls-gen</a>:
 it requires <span class="code ">Python 3.5+</span>, <span class="code ">make</span> and <span class="code ">openssl</span> in <span class="code ">PATH</span>.</p>
 <p>Note that <span class="code ">tls-gen</span> and the certificate/key pairs
 it generates are self-signed and only suitable for development
@@ -143,7 +143,7 @@ algorithms for key generation.</p>
 <p>Below is an example that generates a CA and uses it to produce two certificate/key pairs, one
 for the server and another for clients. This is the setup that is expected by the rest of this guide.</p>
 <pre class="lang-bash">
-git clone https://github.com/michaelklishin/tls-gen tls-gen
+git clone https://github.com/rabbitmq/tls-gen tls-gen
 cd tls-gen/basic
 # private key password
 make PASSWORD=bunnies

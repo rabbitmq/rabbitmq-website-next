@@ -240,8 +240,8 @@ The value can be any domain-specific string that publishers and consumers agree 
 and interpret.</p>
 <p>Message types in practice naturally fall into groups, a dot-separated naming convention is
 common (but not required by RabbitMQ or clients), e.g. <span class="code ">orders.created</span> or <span class="code ">logs.line</span> or <span class="code ">profiles.image.changed</span>.</p>
-<p>If a consumer gets a delivery of an unknown type it is highly advised to log such events to make troubleshooting
-easier.</p>
+<p>If a consumer gets a delivery of a type it cannot handle, it is highly advised to log
+such events to make troubleshooting easier.</p>
 <h3>Content Type and Encoding</h3>
 <p>The content (MIME media) type and content encoding fields allow publishers communicate how message payload
 should be deserialized and decoded by consumers.</p>

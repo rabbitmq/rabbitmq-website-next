@@ -211,9 +211,11 @@ be able to. In this case it may be desired to requeue it and let another consume
 and handle it. <span class="code ">basic.reject</span> and <span class="code ">basic.nack</span> are two protocol
 methods that are used for that.</p>
 <p>The methods are generally used to negatively acknowledge a delivery. Such deliveries can
-be discarded by the broker or requeued. This behaviour is controlled by the <span class="code ">requeue</span> field.
+be discarded or dead-lettered or requeued by the broker. This behaviour is controlled by the <span class="code ">requeue</span> field.
 When the field is set to <span class="code ">true</span>, the broker will requeue the delivery (or multiple
-deliveries, as will be explained shortly) with the specified delivery tag.</p>
+deliveries, as will be explained shortly) with the specified delivery tag.
+Alternatively, when this field is set to <span class="code ">false</span>, the message will be routed to a <a href="/dlx.html">Dead Letter Exchange</a> if it
+is configured, otherwise it will be discarded.</p>
 <p>Both methods are usually exposed as operations on a channel in client libraries. Java
 client users will use <span class="code ">Channel#basicReject</span> and <span class="code ">Channel#basicNack</span>
 to perform a <span class="code ">basic.reject</span> and <span class="code ">basic.nack</span>, respectively:</p>
