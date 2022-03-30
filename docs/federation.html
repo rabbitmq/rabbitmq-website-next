@@ -76,10 +76,10 @@ are three levels of configuration involved in federation:</p>
 <p>In practice, for simple use cases you can almost ignore the
 existence of upstream sets, since there is an implicitly-defined upstream set called <span class="code ">all</span>
 to which all upstreams are added.</p>
-<p>Upstreams and upstream sets are both instances of <a href="/parameters.html">runtime parameters</a>.
+<p>Upstreams and upstream sets are both instances of <a href="parameters.html">runtime parameters</a>.
 Like exchanges and queues, each virtual host has its own distinct set of parameters and policies. For more
 generic information on parameters and policies, see the guide on
-<a href="/parameters.html">parameters and policies</a>.
+<a href="parameters.html">parameters and policies</a>.
 For full details on the parameters used by federation, see the <a href="federation-reference.html">federation reference</a>.</p>
 <p>Parameters and policies can be set in three ways - either with
 an invocation of <span class="code ">rabbitmqctl</span>, a call to the
@@ -97,7 +97,7 @@ to one hour (3600000ms).</p>
     <th>rabbitmqctl</th>
     <td>
 <pre class="lang-bash">
-rabbitmqctl set_parameter federation-upstream my-upstream \<br />'{"uri":"amqp://server-name","expires":3600000}'
+rabbitmqctl set_parameter federation-upstream my-upstream \<br />'{"uri":"amqp://target.hostname","expires":3600000}'
 </pre>
     </td>
   </tr>
@@ -105,7 +105,7 @@ rabbitmqctl set_parameter federation-upstream my-upstream \<br />'{"uri":"amqp:/
     <th>rabbitmqctl.bat (Windows)</th>
     <td>
 <pre class="lang-powershell">
-rabbitmqctl.bat set_parameter federation-upstream my-upstream ^<br />"{""uri"":""amqp://server-name"",""expires"":3600000}"
+rabbitmqctl.bat set_parameter federation-upstream my-upstream ^<br />"{""uri"":""amqp://target.hostname"",""expires"":3600000}"
 </pre>
     </td>
   </tr>
@@ -114,7 +114,7 @@ rabbitmqctl.bat set_parameter federation-upstream my-upstream ^<br />"{""uri"":"
     <td>
 <pre class="lang-bash">
 PUT /api/parameters/federation-upstream/%2f/my-upstream
-{"value":{"uri":"amqp://server-name","expires":3600000}}
+{"value":{"uri":"amqp://target.hostname","expires":3600000}}
 </pre>
     </td>
   </tr>
@@ -123,7 +123,7 @@ PUT /api/parameters/federation-upstream/%2f/my-upstream
     <td>
       Navigate to <span class="code ">Admin</span> &gt; <span class="code ">Federation Upstreams</span> &gt;
       <span class="code ">Add a new upstream</span>. Enter "my-upstream" next to Name,
-      "amqp://server-name" next to URI, and 36000000 next to
+      "amqp://target.hostname" next to URI, and 36000000 next to
       Expiry. Click Add upstream.
     </td>
   </tr>
@@ -242,14 +242,14 @@ can. To summarise how clustering and federation interact:</p>
 <h2><a id="tls-connections" class="anchor" href="#tls-connections">Securing Federation Connections with TLS</a></h2>
 <p>Federation connections (links) can be secured with TLS. Because Federation uses
 a RabbitMQ client under the hood, it is necessary to both configure
-source broker to <a href="/ssl.html">listen for TLS connections</a>
+source broker to <a href="ssl.html">listen for TLS connections</a>
 and Federation/Erlang client to use TLS.</p>
 <p>To configure Federation to use TLS, one needs to</p>
 <ul>
 <li>Use the <span class="code ">amqps</span> URI scheme instead of <span class="code ">amqp</span></li>
-<li>Specify CA certificate and client certificate/key pair via <a href="/uri-query-parameters.html">URI query parameters</a>
+<li>Specify CA certificate and client certificate/key pair via <a href="uri-query-parameters.html">URI query parameters</a>
    when configuring upstream(s)</li>
-<li><a href="/ssl.html">Configure Erlang client to use TLS</a></li>
+<li><a href="ssl.html">Configure Erlang client to use TLS</a></li>
 </ul>
 <p>Just like with "regular" client connections, server's CA should be
 trusted on the node where federation link(s) runs, and vice versa.</p>
@@ -260,7 +260,7 @@ and republishes them downstream. You can monitor the status of
 federation links using <span class="code ">rabbitmqctl</span> and the management
 plugin.</p>
 <h3>Using CLI Tools</h3>
-<p>Federation link status can be inspected using <a href="/cli.html">RabbitMQ CLI tools</a>.</p>
+<p>Federation link status can be inspected using <a href="cli.html">RabbitMQ CLI tools</a>.</p>
 <p>Invoke:</p>
 <pre class="lang-bash">
 # This command will be available only if federation plugin is enabled
@@ -349,8 +349,8 @@ rabbitmqctl federation_status
 # =&gt; ...done.</pre>
 
 <h3>Using the Management UI</h3>
-<p>Enable the <span class="code ">rabbitmq_federation_management</span> <a href="/plugins.html">plugin</a> that extends
-<a href="/management.html">management UI</a> with a new page that displays federation links in the cluster.
+<p>Enable the <span class="code ">rabbitmq_federation_management</span> <a href="plugins.html">plugin</a> that extends
+<a href="management.html">management UI</a> with a new page that displays federation links in the cluster.
 It can be found under <span class="code ">Admin</span> &gt; <span class="code ">Federation Status</span>, or by using the
 <span class="code ">GET /api/federation-links</span> HTTP API endpoint.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or

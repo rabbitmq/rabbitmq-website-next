@@ -32,7 +32,7 @@ messages from local consumers. The upstream queues do not
 need to be reconfigured. They are assumed to be located on a separate node or in a separate
 cluster.</p>
 <p>An upstream definition is a URI with certain recognised query parameters that
-control link connection parameters. Upstreams can be managed using <a href="/cli.html">CLI tools</a>
+control link connection parameters. Upstreams can be managed using <a href="cli.html">CLI tools</a>
 or the HTTP API with <a href="https://github.com/rabbitmq/rabbitmq-federation-management">an additional plugin</a>.</p>
 <p>The following diagram demonstrates several federated and unfederated
 queues in two RabbitMQ nodes connected using queue federation:</p>
@@ -70,7 +70,7 @@ In order for RabbitMQ to recognize that a queue needs to be federated,
 and what other nodes messages should be consumed from, <em>downstream</em>
 (consuming) nodes need to be configured.</p>
 <p><img src="/img/federation/federated_queues01.png" width="700" alt="Federated queue policies" /></p>
-<p>Federation configuration uses <a href="/parameters.html">runtime parameters and policies</a>, which means it can be configured
+<p>Federation configuration uses <a href="parameters.html">runtime parameters and policies</a>, which means it can be configured
 and reconfigured on the fly as system topology changes. There are two key pieces of configuration involved:</p>
 <ul>
 <li>Upstreams: these are remote endpoints in a federated system</li>
@@ -96,12 +96,10 @@ rabbitmqctl.bat set_parameter federation-upstream origin "{""uri"":""amqp://loca
 </pre>
 
 <p>Once an upstream has been specified, a policy that controls federation can be added.
-It is added just like any other <a href="/parameters.html#policies">policy</a>, using <span class="code ">rabbitmqctl set_policy</span>:</p>
+It is added just like any other <a href="parameters.html#policies">policy</a>, using <span class="code ">rabbitmqctl set_policy</span>:</p>
 <pre class="lang-bash">
 # Adds a policy named "queue-federation"
-rabbitmqctl set_policy queue-federation \
-    "^federated\." \
-    '{"federation-upstream-set":"all"}' \
+rabbitmqctl set_policy queue-federation "^federated\." '{"federation-upstream-set":"all"}' \
     --priority 10 \
     --apply-to queues
 </pre>
@@ -109,9 +107,7 @@ rabbitmqctl set_policy queue-federation \
 <p>Here's a Windows version of the above example:</p>
 <pre class="lang-powershell">
 # Adds a policy named "queue-federation"
-rabbitmqctl.bat set_policy queue-federation ^
-    "^federated\." ^
-    "{""federation-upstream-set"":""all""}" ^
+rabbitmqctl.bat set_policy queue-federation "^federated\." "{""federation-upstream-set"":""all""}" ^
     --priority 10 ^
     --apply-to queues
 </pre>
@@ -122,7 +118,7 @@ The name of the policy is <span class="code ">queue-federation</span>. As with a
 the one with the highest priority will be used. Multiple policy definitions will not be combined, even if their
 priorities are equal.</p>
 <p>Once configured, a federation link (connection) will be opened for every matching queue and upstream pair.
-By "matching queue" here we mean a queue that is matched by the <a href="/parameters.html#policies">federation policy pattern</a>.
+By "matching queue" here we mean a queue that is matched by the <a href="parameters.html#policies">federation policy pattern</a>.
 If no queues matched, no links will be started.</p>
 <p>To disable federation for the matching queues, delete the policy using its name:</p>
 <pre class="lang-bash">

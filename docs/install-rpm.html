@@ -71,7 +71,7 @@ and cannot be used to run latest RabbitMQ releases.</p>
 <li>Team RabbitMQ produces <a href="https://github.com/rabbitmq/erlang-rpm">a package</a> stripped
    down to only provide those components needed to run
    RabbitMQ. This is the recommended option.</li>
-<li><a href="https://www.opensuse.org/">openSUSE</a> produces <a href="https://software.opensuse.org/download.html?project=devel%3Alanguages%3Aerlang%3AFactory&amp;package=erlang">Erlang packages</a> for both openSUSE and SLES</li>
+<li><a href="https://www.opensuse.org/">openSUSE</a> produces <a href="https://software.opensuse.org/download.html?project=devel%3Alanguages%3Aerlang%3AFactory&amp;package=erlang">Erlang packages</a> for openSUSE Leap</li>
 <li><a href="https://www.erlang-solutions.com/resources/download.html">Erlang Solutions</a> produces packages that are usually reasonably up to
    date and involve installation of a potentially excessive list of dependencies</li>
 </ul>
@@ -138,7 +138,7 @@ rpm --import https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
 <h3>Add Yum Repositories for RabbitMQ and Modern Erlang</h3>
 <p>In order to use the Yum repository, a <span class="code ">.repo</span> file (e.g. <span class="code ">rabbitmq.repo</span>) has to be
 added under the <span class="code ">/etc/yum.repos.d/</span> directory. The contents of the file will vary slightly
-between distributions (e.g. CentOS Stream, CentOS 8, CentOS 7 or OpenSUSE).</p>
+between distributions (e.g. CentOS Stream 9, CentOS Stream 8, or OpenSUSE).</p>
 <h4>Red Hat 8, CentOS Stream 9, CentOS 8, Modern Fedora Releases</h4>
 <p>The following example sets up a repository that will install RabbitMQ and its Erlang dependency from PackageCloud,
 and targets <strong>CentOS Stream and CentOS 8</strong>. The same repository definition <strong>can be used by recent Fedora releases</strong>.</p>
@@ -292,10 +292,11 @@ rpm --import 'https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F458
 <h3>Add Yum Repositories for RabbitMQ and Modern Erlang</h3>
 <p>In order to use the Yum repository, a <span class="code ">.repo</span> file (e.g. <span class="code ">rabbitmq.repo</span>) has to be
 added under the <span class="code ">/etc/yum.repos.d/</span> directory. The contents of the file will vary slightly
-between distributions (e.g. CentOS Stream, CentOS 8, CentOS 7 or OpenSUSE).</p>
+between distributions (e.g. CentOS Stream 9, CentOS Stream 8, or OpenSUSE).</p>
 <h4>Red Hat 8, CentOS 8, Modern Fedora Releases</h4>
 <p>The following example sets up a repository that will install RabbitMQ and its Erlang dependency from Cloudsmith,
-and targets <strong>CentOS 8</strong>. The same repository definition <strong>can be used by recent Fedora releases</strong>.</p>
+and targets <strong>CentOS Stream 8</strong>. The same repository definition <strong>can be used by recent Fedora releases</strong>
+and CentOS Stream 9.</p>
 <pre class="lang-ini">
 # In /etc/yum.repos.d/rabbitmq.repo
 
@@ -502,10 +503,8 @@ rpm --import https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabb
 ## install these dependencies from standard OS repositories
 yum install socat logrotate -y
 
-# This example assumes the CentOS 8 version of the package, suitable for
-# Red Hat 8, CentOS Stream 9, CentOS 8 and modern Fedora releases.
-#
-# For Red Hat 7 or CentOS 7, replace "el8" with "el7".
+# This example assumes the CentOS Stream 8 version of the package, suitable for
+# Red Hat 8, CentOS Stream 9, CentOS Stream 8 and modern Fedora releases.
 yum install rabbitmq-server-3.9.14-1.el8.noarch.rpm
 </pre>
 
@@ -517,9 +516,7 @@ rpm --import https://www.rabbitmq.com/rabbitmq-release-signing-key.asc
 yum install socat logrotate -y
 
 # This example assumes the CentOS 8 version of the package, suitable for
-# Red Hat 8, CentOS Stream 9, CentOS 8 and modern Fedora releases.
-#
-# For Red Hat 7 or CentOS 7, replace "el8" with "el7".
+# Red Hat 8, CentOS Stream 9, CentOS Stream 8 and modern Fedora releases.
 yum install rabbitmq-server-3.9.14-1.el8.noarch.rpm
 </pre>
 
@@ -801,102 +798,7 @@ Dec 26 11:03:06 localhost rabbitmq-server[968]: completed with 6 plugins.
 <p><a href="https://linux.die.net/man/8/logrotate">logrotate</a> is the recommended way of log file rotation and compression.
 By default, the package will set up <span class="code ">logrotate</span> to run weekly on files located in default
 <span class="code ">/var/log/rabbitmq</span> directory. Rotation configuration can be found in
-<span class="code ">/etc/logrotate.d/rabbitmq-server</span>.</p>
-<h2><a id="yum-legacy" class="anchor" href="#yum-legacy">Install on Older Distributions (CentOS 7, RHEL 7) Using PackageCloud Yum Repository</a></h2>
-<p>This section covers installation on RHEL 7 and CentOS 7. CentOS 7 has
-reached the <a href="https://wiki.centos.org/About/Product">end of general support</a> and is no
-longer supported. Its use is therefore <strong>highly discouraged</strong>.</p>
-<p>Yum will verify signatures of any packages it installs, therefore the first step
-in the process is to import the signing key</p>
-<pre class="lang-bash">
-## primary RabbitMQ signing key
-rpm --import https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-## modern Erlang repository
-rpm --import https://packagecloud.io/rabbitmq/erlang/gpgkey
-## RabbitMQ server repository
-rpm --import https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
-</pre>
-
-<h3>Add Yum Repositories for RabbitMQ and Modern Erlang</h3>
-<p>In order to use the Yum repository, a <span class="code ">.repo</span> file (e.g. <span class="code ">rabbitmq.repo</span>) has to be
-added under the <span class="code ">/etc/yum.repos.d/</span> directory.</p>
-<h4>Red Hat 7, CentOS 7</h4>
-<p>The following example sets up a repository that will install RabbitMQ and its Erlang dependency from PackageCloud,
-and targets <strong>CentOS 7</strong>. There are slight differences to CentOS 8 instructions.</p>
-<pre class="lang-ini">
-# In /etc/yum.repos.d/rabbitmq.repo
-
-##
-## Zero dependency Erlang
-##
-
-[rabbitmq_erlang]
-name=rabbitmq_erlang
-baseurl=https://packagecloud.io/rabbitmq/erlang/el/7/$basearch
-repo_gpgcheck=1
-gpgcheck=1
-enabled=1
-# PackageCloud's repository key and RabbitMQ package signing key
-gpgkey=https://packagecloud.io/rabbitmq/erlang/gpgkey
-       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-
-[rabbitmq_erlang-source]
-name=rabbitmq_erlang-source
-baseurl=https://packagecloud.io/rabbitmq/erlang/el/7/SRPMS
-repo_gpgcheck=1
-gpgcheck=0
-enabled=1
-gpgkey=https://packagecloud.io/rabbitmq/erlang/gpgkey
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-
-##
-## RabbitMQ server
-##
-
-[rabbitmq_server]
-name=rabbitmq_server
-baseurl=https://packagecloud.io/rabbitmq/rabbitmq-server/el/7/$basearch
-repo_gpgcheck=1
-gpgcheck=1
-enabled=1
-# PackageCloud's repository key and RabbitMQ package signing key
-gpgkey=https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
-       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-
-[rabbitmq_server-source]
-name=rabbitmq_server-source
-baseurl=https://packagecloud.io/rabbitmq/rabbitmq-server/el/7/SRPMS
-repo_gpgcheck=1
-gpgcheck=0
-enabled=1
-gpgkey=https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-</pre>
-
-<h3>Install Packages with Yum</h3>
-<h4>CentOS 7</h4>
-<p>Update Yum package metadata:</p>
-<pre class="lang-bash">
-yum update -y
-</pre>
-
-<p>Next, install the packages:</p>
-<pre class="lang-bash">
-## install these dependencies from standard OS repositories
-yum install socat logrotate -y
-
-yum install erlang rabbitmq-server -y
-</pre><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+<span class="code ">/etc/logrotate.d/rabbitmq-server</span>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.

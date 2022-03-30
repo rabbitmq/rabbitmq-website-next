@@ -100,8 +100,8 @@ queues and exchanges in RabbitMQ have optional parameters
 (arguments), sometimes referred to as
 <span class="code ">x-arguments</span>. Those are provided by clients when
 they declare queues (exchanges) and control various optional
-features, such as <a href="/maxlength.html">queue length limit</a> or
-<a href="/ttl.html">TTL</a>.</p>
+features, such as <a href="maxlength.html">queue length limit</a> or
+<a href="ttl.html">TTL</a>.</p>
 <p>Client-controlled properties in some of the protocols RabbitMQ supports
 generally work well but they can be inflexible: updating TTL values
 or mirroring parameters that way required application changes, redeployment
@@ -126,17 +126,16 @@ arguments.</p>
   Any regular expression can be used.</li>
 <li>definition: a set of key/value pairs (think a JSON document) that will be injected
   into the map of optional arguments of the matching queues and exchanges</li>
-<li>priority: see below</li>
+<li><a href="#policy-priorities">policy priority</a> used to determine which policy should be
+  applied to a queue or exchange if multiple policies match its name</li>
 </ul>
 <p>Policies automatically match against exchanges and queues,
 and help determine how they behave. Each exchange or queue
-will have at most one policy matching (see <a href="#combining-policy-definitions">Combining Policy
-Definitions</a> below), and each policy then injects a set
-of key-value pairs (policy definition) on to the matching
+will have at most one policy matching (see <a href="#combining-policy-definitions">Combining Policy Definitions</a> below),
+and each policy then injects a set of key-value pairs (policy definition) on to the matching
 queues (exchanges).</p>
 <p>Policies can match only queues, only exchanges, or both.
-This is controlled using the <span class="code ">apply-to</span> flag
-when a policy is created.</p>
+This is controlled using the <span class="code ">apply-to</span> flag when a policy is created.</p>
 <p>Policies can change at any time. When a policy definition is
 updated, its effect on matching exchanges and queues will be
 reapplied. Usually it happens instantaneously but for very
@@ -224,6 +223,19 @@ exchange or queue, the policy with the greatest priority applies.</p>
 <span class="code ">"queues"</span> or <span class="code ">"all"</span>. The <span class="code ">"apply-to"</span>
 and <span class="code ">"priority"</span> settings are optional, in which case the
 defaults are <span class="code ">"all"</span> and <span class="code ">"0"</span> respectively.</p>
+<h3><a id="policy-priorities" class="anchor" href="#policy-priorities">Policy Priorities</a></h3>
+<p>Policy <strong>patterns</strong> are matched against exchange and queue <strong>names</strong> to determine what policy (if any)
+should then inject a set of key-value pairs (the definition of that policy) into the <a href="queues.html#optional-arguments">optional arguments</a>
+of matching queues (exchanges).</p>
+<p><strong>At most one policy matches</strong> a queue or exchange. Since multiple policies can match a single
+name, a mechanism is needed to resolve such policy conflicts. This mechanism is called policy priorities.
+Every policy has a a numeric priority associated with it. This priority can be specified when declaring
+a policy. If not explicitly provided, the priority of 1 will be used.</p>
+<p>Matching policies are then sorted by priority and the one with the highest priority will take
+effect.</p>
+<p>When multiple policies match an entity and they all have equal priorities, the effective one
+will be chosen undeterministically. <strong>Such cases should be avoided</strong> by paying attention
+to what priorities various policies use.</p>
 <h3><a id="combining-policy-definitions" class="anchor" href="#combining-policy-definitions">Combining Policy Definitions</a></h3>
 <p>In some cases we might want to apply more than one policy
 definition to a resource.  For example we might need a queue to

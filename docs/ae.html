@@ -19,7 +19,11 @@ bindings). Typical examples of this are</p>
 <p>Alternate Exchange ("AE") is a feature that addresses these use cases.</p>
 <h2><a id="define" class="anchor" href="#define">How to Define an Alternate Exchange</a></h2>
 <p>For any given exchange, an AE can be defined by clients using
-<a href="/parameters.html#policies">policies</a> or the exchange's client-provided options arguments ("x-args").
+<a href="parameters.html#policies">policies</a>. This is the recommended option
+as policies are significantly simplify changes to such options (e.g. during
+upgrades).</p>
+<p>Alternatively, optional exchange arguments can be provided by client
+at exchange declaration time.
 In the case where both policy and arguments specify an AE, the one
 specified in arguments overrules the one specified in policy.</p>
 <h3><a id="define-using-policy" class="anchor" href="#define-using-policy">Configuration Using a Policy</a></h3>
@@ -28,12 +32,12 @@ specified in arguments overrules the one specified in policy.</p>
 to a policy definition and make sure that the policy matches the exchange(s)
 that need the AE defined. For example:</p>
 <pre class="lang-bash">
-rabbitmqctl set_policy AE "^my-direct$" '{"alternate-exchange":"my-ae"}'
+rabbitmqctl set_policy AE "^my-direct$" '{"alternate-exchange":"my-ae"}' --apply-to exchanges
 </pre>
 
 <p>Or, on Windows:</p>
 <pre class="lang-powershell">
-rabbitmqctl.bat set_policy AE "^my-direct$" "{""alternate-exchange"":""my-ae""}"
+rabbitmqctl.bat set_policy AE "^my-direct$" "{""alternate-exchange"":""my-ae""}" --apply-to exchanges
 </pre>
 
 <p>This will apply an AE of "my-ae" to the exchange called
