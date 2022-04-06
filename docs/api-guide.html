@@ -488,15 +488,18 @@ pool separate from the thread that instantiated its
 can safely call blocking methods on the
 <span class="code ">Connection</span> or <span class="code ">Channel</span>, such as
 <span class="code ">Channel#queueDeclare</span> or <span class="code ">Channel#basicCancel</span>.</p>
-<p>Each <span class="code ">Channel</span> has its own dispatch thread. For the
-most common use case of one <span class="code ">Consumer</span> per
+<p>Each <span class="code ">Channel</span> will dispatch all deliveries to its <span class="code ">Consumer</span> handler methods on it
+in order they were sent by RabbitMQ.
+Ordering of deliveries between channels is not guaranteed: those
+deliveries can be dispatched in parallel.</p>
+<p>For the most common use case of one <span class="code ">Consumer</span> per
 <span class="code ">Channel</span>, this means <span class="code ">Consumer</span>s do
-not hold up other <span class="code ">Consumer</span>s. If you have multiple
-<span class="code ">Consumer</span>s per <span class="code ">Channel</span> be aware that
+not hold up other <span class="code ">Consumer</span>s.
+With multiple <span class="code ">Consumer</span>s per <span class="code ">Channel</span> be aware that
 a long-running <span class="code ">Consumer</span> may hold up dispatch of
 callbacks to other <span class="code ">Consumer</span>s on that
 <span class="code ">Channel</span>.</p>
-<p>Please refer to the Concurrency Considerations (Thread Safety)
+<p>Please refer to the <a href="#concurrency">Concurrency Considerations</a> (Thread Safety)
 section for other topics related to concurrency and
 concurrency hazard safety.</p>
 <h2><a id="getting" class="anchor" href="#getting">Retrieving Individual Messages ("Pull API")</a></h2>

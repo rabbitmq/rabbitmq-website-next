@@ -478,8 +478,9 @@ is true for negative acknowledgements (<span class="code ">basic.nack</span>).</
 <p>For routable messages, the <span class="code ">basic.ack</span> is sent when a
 message has been accepted by all the queues. For persistent
 messages routed to durable queues, this <strong>means persisting
-to disk</strong>. For mirrored queues, this means that all
-mirrors have accepted the message.</p>
+to disk</strong>. For <a href="quorum-queues.html">quorum queues</a>,
+this means that a quorum replicas have accepted and confirmed
+the message to the elected leader.</p>
 <h3><a id="publisher-confirms-latency" class="anchor" href="#publisher-confirms-latency">Ack Latency for Persistent Messages</a></h3>
 <p><span class="code ">basic.ack</span> for a persistent message routed to a
 durable queue will be sent after persisting the message to

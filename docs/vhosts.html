@@ -36,7 +36,7 @@ when an application connects to two vhosts at the same time. For example, an
 application can consume from one vhost then republishes into the other. This scenario
 can involve vhosts in different clusters or the same cluster (or a single node).
 <a href="shovel.html">RabbitMQ Shovel plugin</a> is one example of such application.</p>
-<h2><a id="creating" class="anchor" href="#creating">Creating a Virtual Hosts</a></h2>
+<h2><a id="creating" class="anchor" href="#creating">Creating a Virtual Host</a></h2>
 <p>A virtual host can be created using CLI tools or an <a href="/management.html">HTTP API</a> endpoint.</p>
 <p>A newly created vhost will have a default set of <a href="/tutorials/amqp-concepts.html">exchanges</a>
 but no other entities and no <a href="/access-control.html">user permissions</a>. For a user to be able to connect
@@ -68,8 +68,8 @@ rate of virtual host creation and experience timeouts. If that's the case operat
 and delays should be introduced between operations.</p>
 <p><a href="/definitions.html">Definition export and import</a> is the recommended
 way of pre-configuring many virtual hosts at deployment time.</p>
-<h2><a id="deleting" class="anchor" href="#deleting">Deleting a Virtual Hosts</a></h2>
-<p>A virtual host can be created using CLI tools or an <a href="/management.html">HTTP API</a> endpoint.</p>
+<h2><a id="deleting" class="anchor" href="#deleting">Deleting a Virtual Host</a></h2>
+<p>A virtual host can be deleted using CLI tools or an <a href="/management.html">HTTP API</a> endpoint.</p>
 <p>Deleting a virtual host will permanently delete all entities (queues, exchanges, bindings, policies, permissions, etc) in it.</p>
 <h3>Using CLI Tools</h3>
 <p>A virtual host can be deleted using <a href="/cli.html">rabbitmqctl</a>'s <span class="code ">delete_vhost</span> command

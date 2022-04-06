@@ -60,7 +60,10 @@ heartbeat. Clients may choose to send heartbeat frames
 regardless of whether there was any other traffic on the
 connection but some only do it when necessary.</p>
 <h2><a id="disabling" class="anchor" href="#disabling">How to Disable Heartbeats</a></h2>
-<p>Heartbeats can be disabled by setting the timeout interval to <span class="code ">0</span> on the client side at connection time.</p>
+<p>Heartbeats can be disabled by setting the timeout interval to <span class="code ">0</span> on the client side at connection time,
+providing the server heartbeat has also been set to zero.</p>
+<p>Disabling heartbeats is <strong>highly recommended against</strong>
+unless the environment is known to use <a href="#tcp-keepalives">TCP keepalives</a> on every host (both RabbitMQ nodes and applications).</p>
 <p>Alternatively a very high (say, 1800 seconds) value can be used on both ends to effectively disable heartbeats
 as frame delivery will be too infrequent to make a practical difference.</p>
 <p>Unless <a href="#tcp-keepalives">TCP keepalives</a> are used instead with an adequately low inactivity detection period,

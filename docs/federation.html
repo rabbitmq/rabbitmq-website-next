@@ -67,9 +67,9 @@ cluster should have the federation plugin enabled.</p>
 database, along with users, permissions, queues, etc. There
 are three levels of configuration involved in federation:</p>
 <ul>
-<li><strong>Upstreams</strong>: each upstream defines how to connect to another broker.</li>
-<li><strong>Upstream sets</strong>: each upstream set groups together a set of upstreams to use for federation.</li>
-<li><strong>Policies</strong>: each <a href="/parameters.html#policies">policy</a> selects a set of exchanges,
+<li><strong>Upstreams</strong>: each <a href="federation-reference.html#upstreams">upstream</a> defines a remote connection endpoint.</li>
+<li><strong>Upstream sets</strong>: each <a href="federation-reference.html#upstream-sets">upstream set groups</a> together a set of upstreams to use for federation.</li>
+<li><strong>Policies</strong>: each <a href="parameters.html#policies">policy</a> selects a set of exchanges,
   queues or both, and applies a single upstream or an upstream
   set to those objects.</li>
 </ul>

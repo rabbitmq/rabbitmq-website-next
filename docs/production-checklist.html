@@ -9,22 +9,26 @@
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>Data services such as RabbitMQ often have many tunable
-parameters. Some configurations make a lot of sense for
+parameters. Some configurations or practices make a lot of sense for
 development but are not really suitable for production.  No
 single configuration fits every use case. It is, therefore,
 important to assess system configuration and have a plan for "day two operations"
 activities such as <a href="upgrade.html">upgrades</a> before going into production.</p>
-<p>Production systems have concerns that go beyond configuration:
-a certain degree of system observability (<a href="#monitoring-and-resource-usage">monitoring</a>, metrics),
-<a href="#apps">application resource usage</a> and
-<a href="#security-considerations">security</a>
-(e.g. firewalls, credentials and shared secret generation) are essential. This guide provides an
-overview of such topics as well.</p>
+<h2><a id="toc" class="anchor" href="#overview">Overview</a></h2>
+<p>Production systems have concerns that go beyond configuration: system observability,
+security, application development practices, resource usage, <a href="versions.html">release support timeline</a>, and more.</p>
 <p><a href="monitoring.html">Monitoring</a> and metrics are the foundation of a production-grade system.
 Besides helping detect issues, it provides the operator data that can be used
 to size and configure both RabbitMQ nodes and applications.</p>
-<p>Operators also should keep <a href="versions.html">RabbitMQ support timelines</a> in mind
-when picking a version to deploy.</p>
+<p>This guide provides recommendations in a few areas:</p>
+<ul>
+<li>Recommendations related to <a href="#users-and-permissions">virtual hosts, users and permissions</a></li>
+<li><a href="#monitoring-and-resource-usage">Monitoring and resource usage</a></li>
+<li><a href="#security">Security</a></li>
+<li><a href="#clustering">Clustering</a> and multi-node deployments</li>
+<li><a href="#apps">Application-level</a> practices and considerations</li>
+</ul>
+<p>and more.</p>
 <h2><a id="users-and-permissions" class="anchor" href="#users-and-permissions">Virtual Hosts, Users, Permissions</a></h2>
 <p>It is often necessary to seed a cluster with virtual hosts, users, permissions, topologies, policies
 and so on. The recommended way of doing this at deployment time is <a href="definitions.html">via definition import</a>.
@@ -149,6 +153,102 @@ setups.</p>
 <h3><a id="logging" class="anchor" href="#logging">Log Collection</a></h3>
 <p>It is highly recommended that logs of all RabbitMQ nodes and applications (when possible) are collected
 and aggregated. Logs can be crucially important in investigating unusual system behaviour.</p>
+<h2><a id="security" class="anchor" href="#security">Security Considerations</a></h2>
+<h3><a id="security-users-and-permissions" class="anchor" href="#security-users-and-permissions">Users and Permissions</a></h3>
+<p>See the section on vhosts, users, and credentials above.</p>
+<h3><a id="inter-node-authentication" class="anchor" href="#inter-node-authentication">Inter-node and CLI Tool Authentication</a></h3>
+<p>RabbitMQ nodes authenticate to each other using a <a href="clustering.html#erlang-cookie">shared secret</a>
+stored in a file. On Linux and other UNIX-like systems, it is necessary to restrict cookie file
+access only to the OS users that will run RabbitMQ and <a href="cli.html">CLI tools</a>.</p>
+<p>It is important that the value is generated in a reasonably secure way
+(e.g. not computed from an easy to guess value). This is usually done using deployment
+automation tools at the time of initial deployment. Those tools can use default or
+placeholder values: don't rely on them. Allowing the runtime to generate a cookie file
+on one node and copying it to all other nodes is also a poor practice: it makes the generated value
+more predictable since the generation algorithm is known.</p>
+<p>CLI tools use the same authentication mechanism. It is recommended that
+<a href="clustering.html#ports">inter-node and CLI communication port</a>
+access is limited to the hosts that run RabbitMQ nodes or CLI tools.</p>
+<p><a href="clustering-ssl.html">Securing inter-node communication with TLS</a> is recommended.
+It implies that CLI tools are also configured to use TLS.</p>
+<h3><a id="security-firewall-rules" class="anchor" href="#security-firewall-rules">Firewall Configuration</a></h3>
+<p><a href="networking.html#ports">Ports used by RabbitMQ</a> can be broadly put into
+one of two categories:</p>
+<ul>
+  <li>Ports used by client libraries (AMQP 0-9-1, AMQP 1.0, MQTT, STOMP, HTTP API)</li>
+  <li>All other ports (inter node communication, CLI tools and so on)</li>
+</ul>
+
+<p>Access to ports from the latter category generally should be restricted to hosts running RabbitMQ nodes
+or CLI tools. Ports in the former category should be accessible to hosts that run applications,
+which in some cases can mean public networks, for example, behind a load balancer.</p>
+<h3><a id="security-tls" class="anchor" href="#security-tls">TLS</a></h3>
+<p>We recommend using <a href="ssl.html">TLS connections</a> when possible,
+at least to encrypt traffic. Peer verification (authentication) is also recommended.
+Development and QA environments can use <a href="https://github.com/rabbitmq/tls-gen/">self-signed TLS certificates</a>.
+Self-signed certificates can be appropriate in production environments when
+RabbitMQ and all applications run on a trusted network or isolated using technologies
+such as VMware NSX.</p>
+<p>While RabbitMQ tries to offer a secure TLS configuration by
+default (e.g. SSLv3 is disabled), we recommend evaluating
+TLS configuration (versions cipher suites and so on) using tools such as <a href="https://testssl.sh/">testssl.sh</a>.
+Please refer to the <a href="ssl.html">TLS guide</a> to learn more.</p>
+<p>Note that TLS can have significant impact on overall system throughput,
+including CPU usage of both RabbitMQ and applications that use it.</p>
+<h2><a id="networking" class="anchor" href="#networking">Networking Configuration</a></h2>
+<p>Production environments may require network configuration
+tuning, for example, to sustain a high number of concurrent clients.
+Please refer to the <a href="networking.html">Networking Guide</a> for details.</p>
+<h2><a id="clustering" class="anchor" href="#clustering">Clustering Considerations</a></h2>
+<h3><a id="clustering-cluster-size" class="anchor" href="#clustering-cluster-size">Cluster Size</a></h3>
+<p>The number of queues, queue replication factor, number of connections, maximum
+message backlog and sometimes message throughput are factors that determine how
+large should a cluster be.</p>
+<p>Single node clusters can be sufficient when simplicity is
+preferred over everything else: development, integration testing and certain QA environments.</p>
+<p>Three node clusters are the next step up. They can tolerate a single node
+failure (or unavailability) and still <a href="quorum-queues.html">maintain quorum</a>.
+Simplicity is traded off for availability, resiliency and, in certain cases, throughput.</p>
+<p>It is recommended to use clusters with an odd
+number of nodes (3, 5, 7, etc) so that when one node becomes unavailable, the
+service remains available and a clear majority of nodes can be identified.</p>
+<p>For most environments, configuring queue replication to more than half — but not all —
+cluster nodes is sufficient.</p>
+<h4>Uneven Numbers of Nodes and Cluster Majority</h4>
+<p>It is important to pick a <a href="partitions.html">partition handling strategy</a> before going into production.
+When in doubt, use the <span class="code ">pause_minority</span> strategy with an odd number of nodes (3, 5, 7, and so on).</p>
+<p>Uneven number of nodes make network partition recovery more predictable, with the common option
+of the minority automatically refusing to service commands.</p>
+<h4>Data Locality Considerations</h4>
+<p>With multi-node clusters, data locality becomes an important consideration.
+Since <a href="clustering.html">clients can connect to any node</a>, RabbitMQ nodes may need to perform
+inter-cluster routing of messages and internal operations. Data locality will be best
+when producers (publishers) connect to RabbitMQ nodes where queue leaders are running.
+Such topology is difficult to achieve in practice.</p>
+<p>With classic queues, all deliveries are performed from the leader replica.
+Quorum queues can deliver messages from queue replicas as well,
+so as long as consumers connect to a node where a
+quorum queue replica is hosted, messages delivered to those consumers will be
+performed from the local node.</p>
+<h4>Growing Node Count to Sustain More Concurrent Clients</h4>
+<p>Environments that have to sustain a <a href="networking.html#tuning-for-large-number-of-connections">large number of concurrent client connections</a>
+will benefit from more cluster nodes as long as the connections are distributed
+across them. This can be achieved using a load balancer or making clients
+randomly pick a node to connect to from the provided node list.</p>
+<h4>Increasing Node Counts vs. Deploying Separate Clusters for Separate Purposes</h4>
+<p>All metadata (<a href="definitions.html">definitions</a>: virtual hosts, users, queues, exchanges, bindings, etc.) is replicated
+across all nodes in the cluster, and most metadata changes are synchronous in nature.</p>
+<p>The cost of propagating such changes goes up with the number of cluster nodes,
+both during operations and node restarts. Users who find themselves in need of
+clusters with node counts in double digits should
+<strong>consider using independent clusters for separate parts of the system</strong> where possible.</p>
+<h3><a id="clustering-ntp" class="anchor" href="#clustering-ntp">Node Time Synchronization</a></h3>
+<p>A RabbitMQ cluster will typically function well without clocks
+of participating servers being synchronized. However some plugins,
+such as the management one, make use of local timestamps for metrics
+processing and may display incorrect statistics when the current
+time of nodes drift apart. It is therefore recommended that servers
+use NTP or similar to ensure clocks remain in sync.</p>
 <h2><a id="apps" class="anchor" href="#apps">Application Considerations</a></h2>
 <p>The way applications are designed and use RabbitMQ client libraries
 is a major contributor to the overall system resilience. Applications
@@ -201,103 +301,7 @@ Channels, like connections, are meant to be long lived.</p>
 <p>Note that closing a connection automatically closes all channels on it.</p>
 <h3><a id="apps-polling-consumers" class="anchor" href="#apps-polling-consumers">Polling Consumers</a></h3>
 <p><a href="consumers.html#fetching">Polling consumers</a> (consumption with <span class="code ">basic.get</span>) is a feature that application developers
-should avoid in most cases as polling is inherently inefficient.</p>
-<h2><a id="security-considerations" class="anchor" href="#security-considerations">Security Considerations</a></h2>
-<h3><a id="security-considerations-users-and-permissions" class="anchor" href="#security-considerations-users-and-permissions">Users and Permissions</a></h3>
-<p>See the section on vhosts, users, and credentials above.</p>
-<h3><a id="inter-node-authentication" class="anchor" href="#inter-node-authentication">Inter-node and CLI Tool Authentication</a></h3>
-<p>RabbitMQ nodes authenticate to each other using a <a href="clustering.html#erlang-cookie">shared secret</a>
-stored in a file. On Linux and other UNIX-like systems, it is necessary to restrict cookie file
-access only to the OS users that will run RabbitMQ and <a href="cli.html">CLI tools</a>.</p>
-<p>It is important that the value is generated in a reasonably secure way
-(e.g. not computed from an easy to guess value). This is usually done using deployment
-automation tools at the time of initial deployment. Those tools can use default or
-placeholder values: don't rely on them. Allowing the runtime to generate a cookie file
-on one node and copying it to all other nodes is also a poor practice: it makes the generated value
-more predictable since the generation algorithm is known.</p>
-<p>CLI tools use the same authentication mechanism. It is recommended that
-<a href="clustering.html#ports">inter-node and CLI communication port</a>
-access is limited to the hosts that run RabbitMQ nodes or CLI tools.</p>
-<p><a href="clustering-ssl.html">Securing inter-node communication with TLS</a> is recommended.
-It implies that CLI tools are also configured to use TLS.</p>
-<h3><a id="security-firewall-rules" class="anchor" href="#security-firewall-rules">Firewall Configuration</a></h3>
-<p><a href="networking.html#ports">Ports used by RabbitMQ</a> can be broadly put into
-one of two categories:</p>
-<ul>
-  <li>Ports used by client libraries (AMQP 0-9-1, AMQP 1.0, MQTT, STOMP, HTTP API)</li>
-  <li>All other ports (inter node communication, CLI tools and so on)</li>
-</ul>
-
-<p>Access to ports from the latter category generally should be restricted to hosts running RabbitMQ nodes
-or CLI tools. Ports in the former category should be accessible to hosts that run applications,
-which in some cases can mean public networks, for example, behind a load balancer.</p>
-<h3><a id="security-considerations-tls" class="anchor" href="#security-considerations-tls">TLS</a></h3>
-<p>We recommend using <a href="ssl.html">TLS connections</a> when possible,
-at least to encrypt traffic. Peer verification (authentication) is also recommended.
-Development and QA environments can use <a href="https://github.com/rabbitmq/tls-gen/">self-signed TLS certificates</a>.
-Self-signed certificates can be appropriate in production environments when
-RabbitMQ and all applications run on a trusted network or isolated using technologies
-such as VMware NSX.</p>
-<p>While RabbitMQ tries to offer a secure TLS configuration by
-default (e.g. SSLv3 is disabled), we recommend evaluating
-TLS configuration (versions cipher suites and so on) using tools such as <a href="https://testssl.sh/">testssl.sh</a>.
-Please refer to the <a href="ssl.html">TLS guide</a> to learn more.</p>
-<p>Note that TLS can have significant impact on overall system throughput,
-including CPU usage of both RabbitMQ and applications that use it.</p>
-<h2><a id="networking" class="anchor" href="#networking">Networking Configuration</a></h2>
-<p>Production environments may require network configuration
-tuning, for example, to sustain a high number of concurrent clients.
-Please refer to the <a href="networking.html">Networking Guide</a> for details.</p>
-<h2><a id="distribution-considerations" class="anchor" href="#distribution-considerations">Clustering Considerations</a></h2>
-<h3><a id="distribution-considerations-cluster-size" class="anchor" href="#distribution-considerations-cluster-size">Cluster Size</a></h3>
-<p>The number of queues, queue replication factor, number of connections, maximum
-message backlog and sometimes message throughput are factors that determine how
-large should a cluster be.</p>
-<p>Single node clusters can be sufficient when simplicity is
-preferred over everything else: development, integration testing and certain QA environments.</p>
-<p>Three node clusters are the next step up. They can tolerate a single node
-failure (or unavailability) and still <a href="quorum-queues.html">maintain quorum</a>.
-Simplicity is traded off for availability, resiliency and, in certain cases, throughput.</p>
-<p>It is recommended to use clusters with an odd
-number of nodes (3, 5, 7, etc) so that when one node becomes unavailable, the
-service remains available and a clear majority of nodes can be identified.</p>
-<p>For most environments, configuring queue replication to more than half — but not all —
-cluster nodes is sufficient.</p>
-<h4>Uneven Numbers of Nodes and Cluster Majority</h4>
-<p>It is important to pick a <a href="partitions.html">partition handling strategy</a> before going into production.
-When in doubt, use the <span class="code ">pause_minority</span> strategy with an odd number of nodes (3, 5, 7, and so on).</p>
-<p>Uneven number of nodes make network partition recovery more predictable, with the common option
-of the minority automatically refusing to service commands.</p>
-<h4>Data Locality Considerations</h4>
-<p>With multi-node clusters, data locality becomes an important consideration.
-Since <a href="clustering.html">clients can connect to any node</a>, RabbitMQ nodes may need to perform
-inter-cluster routing of messages and internal operations. Data locality will be best
-when producers (publishers) connect to RabbitMQ nodes where queue leaders are running.
-Such topology is difficult to achieve in practice.</p>
-<p>With classic queues, all deliveries are performed from the leader replica.
-Quorum queues can deliver messages from queue replicas as well,
-so as long as consumers connect to a node where a
-quorum queue replica is hosted, messages delivered to those consumers will be
-performed from the local node.</p>
-<h4>Growing Node Count to Sustain More Concurrent Clients</h4>
-<p>Environments that have to sustain a <a href="networking.html#tuning-for-large-number-of-connections">large number of concurrent client connections</a>
-will benefit from more cluster nodes as long as the connections are distributed
-across them. This can be achieved using a load balancer or making clients
-randomly pick a node to connect to from the provided node list.</p>
-<h4>Increasing Node Counts vs. Deploying Separate Clusters for Separate Purposes</h4>
-<p>All metadata (<a href="definitions.html">definitions</a>: virtual hosts, users, queues, exchanges, bindings, etc.) is replicated
-across all nodes in the cluster, and most metadata changes are synchronous in nature.</p>
-<p>The cost of propagating such changes goes up with the number of cluster nodes,
-both during operations and node restarts. Users who find themselves in need of
-clusters with node counts in double digits should
-<strong>consider using independent clusters for separate parts of the system</strong> where possible.</p>
-<h3><a id="distribution-considerations-ntp" class="anchor" href="#distribution-considerations-ntp">Node Time Synchronization</a></h3>
-<p>A RabbitMQ cluster will typically function well without clocks
-of participating servers being synchronized. However some plugins,
-such as the Management UI, make use of local timestamps for metrics
-processing and may display incorrect statistics when the current
-time of nodes drift apart. It is therefore recommended that servers
-use NTP or similar to ensure clocks remain in sync.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+should avoid in most cases as polling is inherently inefficient.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
