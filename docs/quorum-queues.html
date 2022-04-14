@@ -385,7 +385,7 @@ the queue type drop down menu.</p>
 <ul>
 <li><a href="/consumers.html">Consumption</a> (subscription)</li>
 <li><a href="/confirms.html">Consumer acknowledgements</a> (keep <a href="#global-qos">QoS Prefetch Limitations</a> in mind)</li>
-<li>Cancelation of consumers</li>
+<li>Cancellation of consumers</li>
 <li>Purging of queue messages</li>
 <li>Queue deletion</li>
 </ul>
@@ -439,7 +439,7 @@ based on randomization.</p>
 <p>Replicas of a quorum queue are explicitly managed by the operator. When a new node is added
 to the cluster, it will host no quorum queue replicas unless the operator explicitly adds it
 to a member (replica) list of a quorum queue or a set of quorum queues.</p>
-<p>When a node has to be decomissioned (permanently removed from the cluster), it must be explicitly
+<p>When a node has to be decommissioned (permanently removed from the cluster), it must be explicitly
 removed from the member list of all quorum queues it currently hosts replicas for.</p>
 <p>Several <a href="/cli.html">CLI commands</a> are provided to perform the above operations:</p>
 <pre class="lang-bash">
@@ -466,7 +466,7 @@ the quorum whilst performing maintenance operations that involve membership chan
 it replaces.</p>
 <h3><a id="replica-rebalancing" class="anchor" href="#replica-rebalancing">Rebalancing Replicas</a></h3>
 <p>Once declared, the RabbitMQ nodes a quorum queue resides on won't change even if the
-members of the RabbitMQ cluster change (e.g. a node is decomissioned or added).
+members of the RabbitMQ cluster change (e.g. a node is decommissioned or added).
 To re-balance after a RabbitMQ cluster change quorum queues will have to be manually adjusted using the <span class="code ">rabbitmq-queues</span>
 <a href="/cli.html">command line tool</a>:</p>
 <pre class="lang-bash">
