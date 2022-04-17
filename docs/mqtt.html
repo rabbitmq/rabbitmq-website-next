@@ -17,6 +17,7 @@
 <li><a href="#authentication">Users and authentication</a>, <a href="#local-vs-remote">remote connection</a> limitations of the default user</li>
 <li><a href="#implementation">Implementation overview</a></li>
 <li><a href="#durability">Subscription durability</a> and <a href="#stickiness">session stickiness</a></li>
+<li>How to <a href="#quorum-queues">use quorum queues</a> for durable subscriptions and when not to do it</li>
 <li><a href="#consensus">Consensus-based Features</a></li>
 <li><a href="#config">Key configurable settings</a> of the plugin</li>
 <li><a href="#tls">TLS support</a></li>
@@ -124,7 +125,7 @@ mqtt.allow_anonymous = false
 <p>The use of anonymous connections is highly discouraged and it is a subject
 to certain limitations (see above) enforced for a reasonable level of security
 by default.</p>
-<h3><a id="durability" class="anchor" href="#durability"> Subscription Durability</a></h3>
+<h3><a id="durability" class="anchor" href="#durability">Subscription Durability</a></h3>
 <p>MQTT 3.1 assumes two primary usage scenarios:</p>
 <ul>
 <li>Transient clients that use transient (non-persistent) messages</li>
@@ -141,7 +142,7 @@ clean sessions use auto-deleted queues, others use non-auto-deleted ones.</p>
 (non-persistent). Naturally, for durable (QoS1) publishes, persistent
 messages will be used internally.</p>
 <p>Queues created for MQTT subscribers will have names starting with <span class="code ">mqtt-subscription-</span>,
-one per subscription QoS level. The queues will have <a href="/ttl.html">queue TTL</a> depending
+one per subscription QoS level. The queues will have <a href="ttl.html">queue TTL</a> depending
 on MQTT plugin configuration, 24 hours by default.</p>
 <p><strong>RabbitMQ does not support QoS2 subscriptions</strong>. RabbitMQ
 automatically downgrades QoS 2 publishes and subscribes to QoS
@@ -149,6 +150,27 @@ automatically downgrades QoS 2 publishes and subscribes to QoS
 Subscriptions with QoS 2 will be downgraded to QoS1 during SUBSCRIBE
 request (SUBACK responses will contain the actually provided QoS
 level).</p>
+<h3><a id="quorum-queues" class="anchor" href="#quorum-queues">Using Quorum Queues</a></h3>
+<p>Starting with RabbitMQ 3.10, it is possible to opt in to use <a href="quorum-queues.html">quorum queues</a> for durable subscriptions
+using the  <span class="code ">mqtt.durable_queue_type</span> option.</p>
+<p><strong>This value must only be enabled for new clusters</strong>, before any clients declare durable subscriptions.
+Because queue type cannot be changed after
+declaration, if the value of this setting is changed for
+an existing cluster, clients with existing durable state would run into a queue type mismatch
+error and <strong>fail to subscribe</strong>.</p>
+<p>Below is a <span class="code ">rabbitmq.conf</span> example that opts in to use quorum queues for durable subscriptions:</p>
+<pre class="">
+# must ONLY be enabled for new clusters before any clients declare durable
+# subscriptions
+mqtt.durable_queue_type = quorum
+</pre>
+
+<p>While quorum queues are designed for data safety and predictable efficient recovery
+from replica failures, they also have downsides. A quorum queue by definition requires
+at least three replicas in the cluster. Therefore quorum queues take longer to declare
+and delete, and are not a good fit for environments with <a href="networking.html#dealing-with-high-connection-">high client connection churn</a>.</p>
+<p>Quorum queues are a great fit for longer lived clients that actually care a great deal
+about the durability of their state.</p>
 <h2><a id="consensus" class="anchor" href="#consensus">Consensus Features</a></h2>
 <p>As of RabbitMQ 3.8, this plugin requires a quorum (majority) of nodes to be online.
 This is because client ID tracking now uses a consensus protocol which requires
