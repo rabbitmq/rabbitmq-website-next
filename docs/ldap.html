@@ -14,6 +14,8 @@ server. This functionality is provided by a
 plugin that ships with RabbitMQ but <a href="#enabling-the-plugin">has to be enabled</a>.
 Authentication and authorisation operations are
 translated into <a href="#authorisation">LDAP queries</a> configured by the user.</p>
+<p>LDAP queries can be <a href="#query-caching">cached</a> for a period of time for efficiency and reduced
+load on LDAP servers.</p>
 <p><a href="#ldap-operation-flow">LDAP Operation Flow</a> section
 provides a more detailed overview of how the plugin works.</p>
 <p>The plugin primarily targets OpenLDAP and Microsoft Active Directory. Other
@@ -221,7 +223,14 @@ auth_ldap.use_ssl   = true
 ].
 </pre>
 
-<h3><a id="ldap-essentials-and-terminology" class="anchor" href="#ldap-essentials-and-terminology">LDAP Essentials and Terminology</a></h3>
+<h2><a id="query-caching" class="anchor" href="#query-caching">LDAP Query Caching for Efficiency and Reduced Load</a></h2>
+<p>A special <a href="https://github.com/rabbitmq/rabbitmq-server/tree/v3.9.x/deps/rabbitmq_auth_backend_cache">cache backend</a>
+can be used in <a href="access-control.html#combined-backends">combination</a> with other backends to significantly
+reduce the load they generate on LDAP servers.</p>
+<p>It is recommended that production clusters that rely on LDAP for authentication and authorization
+use it in combination with the caching backend. Caching intervals in the range of 15 to 60 seconds
+strike a good security and efficiency balance for most systems.</p>
+<h2><a id="ldap-essentials-and-terminology" class="anchor" href="#ldap-essentials-and-terminology">LDAP Essentials and Terminology</a></h2>
 <p>This section covers some basic LDAP terminology used in this document. For an LDAP primer, please
 refer to <a href="https://www.digitalocean.com/community/tutorials/understanding-the-ldap-protocol-data-hierarchy-and-entry-components">this overview</a> by Digital Ocean and the <a href="https://www.ldap.com/glossary-of-ldap-terms">LDAP glossary</a> from ldap.com.</p>
 <table>

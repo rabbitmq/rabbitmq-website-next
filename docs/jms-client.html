@@ -8,7 +8,7 @@
 
 
 <h2><a id="introduction" class="anchor" href="#introduction">Introduction</a></h2>
-<p>RabbitMQ is not a JMS provider but includes <a href="https://github.com/rabbitmq/rabbitmq-jms-topic-exchange">a plugin</a>
+<p>RabbitMQ is not a JMS provider but includes <a href="https://github.com/rabbitmq/rabbitmq-server/tree/v3.9.x/deps/rabbitmq_jms_topic_exchange">a plugin</a>
 needed to support the JMS Queue and Topic messaging models. JMS Client
 for RabbitMQ implements the JMS 1.1 specification on top of the
 <a href="/api-guide.html">RabbitMQ Java client</a>, thus allowing new and
@@ -20,7 +20,7 @@ of the RabbitMQ JMS Client library.</p>
 <p>To fully leverage JMS with RabbitMQ, you need the following components:</p>
 <ul>
 <li>the <a href="https://github.com/rabbitmq/rabbitmq-jms-client">JMS client library</a> and its dependent libraries.</li>
-<li><a href="https://github.com/rabbitmq/rabbitmq-jms-topic-exchange">RabbitMQ JMS topic selector plugin</a> that is included
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/tree/v3.9.x/deps/rabbitmq_jms_topic_exchange">RabbitMQ JMS topic selector plugin</a> that is included
    with RabbitMQ starting with version 3.6.3. To support message selectors for JMS
    topics, the RabbitMQ Topic Selector plugin must be installed on the
    RabbitMQ server. Message selectors allow a JMS application to filter

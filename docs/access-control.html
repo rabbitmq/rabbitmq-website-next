@@ -20,6 +20,11 @@ as well as several <a href="#backends">authentication and authorisation backends
 <li><a href="#default-state">Default virtual host and user</a></li>
 <li><a href="#loopback-users">Connectivity limitations</a> imposed on the default user</li>
 <li>How to <a href="#user-management">manage users and permissions</a> using CLI tools</li>
+<li>How to change an authentication or authorization <a href="#backends">backend used</a>, or use a combination of backends</li>
+<li>How to <a href="#certificate-authentication">authenticate clients using their TLS certificate information</a></li>
+<li>How to limit <a href="#topic-authorisation">access to topics on a topic exchange</a></li>
+<li><a href="#user-tags">User tags</a> and how they are used</li>
+<li>How to <a href="#revoke">revoke access</a> for a user</li>
 <li><a href="#passwords-and-shell-escaping">Shell escaping</a> of characters in generated passwords</li>
 <li>How to <a href="#seeding">pre-create users</a> and their permissions</li>
 <li>Troubleshooting of <a href="#troubleshooting-authn">authentication</a> and <a href="#troubleshooting-authz">authorisation failures</a></li>
@@ -63,6 +68,7 @@ such as <a href="/vhosts.html">virtual hosts</a>, queues, exchanges, and so on.<
 and <a href="https://en.wikipedia.org/wiki/X.509">X.509 certificates</a>. Username/password pairs
 can be used with a variety of <a href="#backends">authentication backends</a> that verify the credentials.</p>
 <p>Connections that fail to authenticate will be closed with an error message in the <a href="/logging.html">server log</a>.</p>
+<h3><a id="certificate-authentication" class="anchor" href="#certificate-authentication">Authentication using Client TLS (x.509) Certificate Data</a></h3>
 <p>To authenticate client connections using X.509 certificate a built-in plugin,
 <a href="https://github.com/rabbitmq/rabbitmq-auth-mechanism-ssl">rabbitmq-auth-mechanism-ssl</a>,
 must be enabled and clients must be <a href="#mechanisms">configured to use the EXTERNAL mechanism</a>.
@@ -185,7 +191,7 @@ rabbitmqctl set_permissions -p "custom-vhost" "username" ".*" ".*" ".*"
 rabbitmqctl.bat set_permissions -p 'custom-vhost' 'username' '.*' '.*' '.*'
 </pre>
 
-<h3>Revoking Permissions of a User in a Virtual Host</h3>
+<h3>Clearing Permissions of a User in a Virtual Host</h3>
 <p>To revoke <a href="#authorisation">permissions</a> from a user in a <a href="/vhosts.html">virtual host</a>, use <span class="code ">rabbitmqctl clear_permissions</span>:</p>
 <pre class="lang-bash">
 # Revokes permissions in a virtual host
@@ -360,7 +366,7 @@ Newly created users do not have any tags set on them by default.</p>
 <p>Please refer to the <a href="/management.html#permissions">management plugin guide</a> to learn
 more about what tags are supported and how they limit management UI access.</p>
 <h2><a id="topic-authorisation" class="anchor" href="#topic-authorisation">Topic Authorisation</a></h2>
-<p>As of version 3.7.0, RabbitMQ supports topic authorisation for topic exchanges. The routing key of a message
+<p>RabbitMQ supports topic authorisation for topic exchanges. The routing key of a message
 published to a topic exchange is taken into account when
 publishing authorisation is enforced (e.g. in RabbitMQ default authorisation backend,
 the routing key is matched against a regular expression to decide whether the message can be
@@ -380,7 +386,7 @@ and thus the standard resource permissions apply. In addition for AMQP 0-9-1,
 binding routing keys between an AMQP 0-9-1 topic exchange and
 a queue/exchange are checked against the topic permissions configured, if any.
 For more information about how RabbitMQ handles authorisation for topics, please see
-the <a href="/stomp.html">STOMP</a> and <a href="/mqtt.html">MQTT</a>
+the <a href="stomp.html">STOMP</a> and <a href="mqtt.html">MQTT</a>
 documentation guides.</p>
 <p>When default authorisation backend is used, publishing to a
 topic exchange or consuming from a topic is always authorised
@@ -390,7 +396,7 @@ installation). With this authorisation backend, topic
 authorisation is optional: you don't need to whitelist any
 exchanges. To use topic authorisation therefore you need to opt in
 and define topic permissions for one or more exchanges. For details please see
-the <a href="/rabbitmqctl.8.html">rabbitmqctl man page</a>.</p>
+the <a href="man/rabbitmqctl.8.html">rabbitmqctl man page</a>.</p>
 <p>Internal (default) authorisation backend supports variable expansion
 in permission patterns.
 Three variables are supported: <span class="code ">username</span>, <span class="code ">vhost</span>,
@@ -406,6 +412,14 @@ to the documentation of those backends.</p>
 authorisation is enforced by implementing the
 <span class="code ">check_topic_access</span> callback of the
 <span class="code ">rabbit_authz_backend</span> behavior.</p>
+<h2><a id="revoke" class="anchor" href="#revoke">Revoking User Access</a></h2>
+<p>To revoke user access, the recommended procedure is <a href="#user-management">deleting the user</a>.
+All open connections that belong to a deleted user will be closed.</p>
+<p>It is also possible to clear user permissions but that will not affect
+any currently open connections. Connections
+use an authorization operation cache, so client operations
+will be refused eventually. The period of time depends on the
+<a href="#backends">authorization backend</a> used.</p>
 <h2><a id="backends" class="anchor" href="#backends">Alternative Authentication and Authorisation Backends</a></h2>
 <p>Authentication and authorisation are pluggable. Plugins can provide implementations
 of</p>
@@ -414,12 +428,14 @@ of</p>
 <li>authorisation ("authz") backends</li>
 </ul>
 <p>It is possible for a plugin to provide both.
-For example the internal, <a href="/ldap.html">LDAP</a>
+For example the internal, <a href="ldap.html">LDAP</a>
 and <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-http">HTTP</a>
 backends do so.</p>
-<p>Some plugins, for example, the <a href="https://github.com/gotthardp/rabbitmq-auth-backend-ip-range">Source
-IP range one</a>, only provide an authorisation backend. Authentication
-is supposed to be handled by the internal database, LDAP, etc.</p>
+<p>Some plugins, for example, the <a href="https://github.com/gotthardp/rabbitmq-auth-backend-ip-range">Source IP range one</a>,
+only provide an authorisation backend. Authentication is supposed to be handled by the internal database, LDAP, etc.</p>
+<p>A special <a href="https://github.com/rabbitmq/rabbitmq-server/tree/v3.9.x/deps/rabbitmq_auth_backend_cache">cache backend</a>
+can be used in <a href="#combined-backends">combination</a> with other backends to significantly
+reduce the load they generate on external services, such as LDAP or HTTP servers.</p>
 <h3><a id="combined-backends" class="anchor" href="#combined-backends">Combining Backends</a></h3>
 <p>It is possible to use multiple backends for
 <span class="code ">authn</span> or <span class="code ">authz</span> using the
