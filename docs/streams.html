@@ -365,10 +365,20 @@ rabbitmq-streams stream_status [-p &lt;vhost&gt;] &lt;stream-name&gt;
 </pre>
 
 <h2><a id="behaviour" class="anchor" href="#behaviour">Behaviour</a></h2>
-<p>Every stream has a primary writer and zero or more replicas.</p>
-<p>A leader is elected when the cluster is first formed and later if the leader
-becomes unavailable.</p>
+<p>Every stream has a primary writer (the leader) and zero or more replicas.</p>
 <h3><a id="leader-election" class="anchor" href="#leader-election">Leader Election and Failure Handling</a></h3>
+<p>When a new stream is declared, the set of nodes that will host its
+replicas is randomly picked, but will always include the node the client that declares the stream is connected to.</p>
+<p>Which replica becomes the initial leader is controlled in three ways,
+namely, using the <span class="code ">x-queue-leader-locator</span> <a href="queues.html#optional-arguments">optional queue argument</a>, setting the <span class="code ">queue-leader-locator</span>
+policy key or by defining the <span class="code ">queue_leader_locator</span>
+key in <a href="configure.html#configuration-files">the configuration file</a>. Here are the possible values:</p>
+<ul>
+<li><span class="code ">client-local</span>: Pick the node the client that declares the stream is connected to. This is the default value.</li>
+<li><span class="code ">balanced</span>: If there are overall less than 1000 queues (classic queues, quorum queues, and streams),
+ pick the node hosting the minimum number of stream leaders.
+ If there are overall more than 1000 queues, pick a random node.</li>
+</ul>
 <p>A stream requires a quorum of the declared nodes to be available
 to function. When a RabbitMQ node hosting a stream's
 <em>leader</em> fails or is stopped another node hosting one of that

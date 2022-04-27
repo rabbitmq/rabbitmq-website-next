@@ -425,16 +425,27 @@ be equal to the total number of cluster nodes. When more nodes join the cluster,
 will not be automatically increased but it can be <a href="#replica-management">increased by the operator</a>.</p>
 <h3><a id="leader-placement" class="anchor" href="#leader-placement">Queue Leader Location</a></h3>
 <p>Every quorum queue has a primary replica. That replica is called
-<em>queue leader</em> (originally "queue master"). All queue operations go through the leader
+<em>queue leader</em>. All queue operations go through the leader
 first and then are replicated to followers (mirrors). This is necessary to
 guarantee FIFO ordering of messages.</p>
 <p>To avoid some nodes in a cluster hosting the majority of queue leader
 replicas and thus handling most of the load, queue leaders should
 be reasonably evenly distributed across cluster nodes.</p>
 <p>When a new quorum queue is declared, the set of nodes that will host its
-replicas is randomly picked. Which replica becomes the leader is decided
-by a <a href="#leader-election">leader election</a> process which is also
-based on randomization.</p>
+replicas is randomly picked, but will always include the node the client that declares the queue is connected to.</p>
+<p>Which replica becomes the initial leader can controlled using three options:</p>
+<ol>
+<li>Setting the <span class="code ">queue-leader-locator</span> <a href="parameters.html#policies">policy</a> key (recommended)</li>
+<li>By defining the <span class="code ">queue_leader_locator</span> key in <a href="configure.html#configuration-files">the configuration file</a> (recommended)</li>
+<li>Using the <span class="code ">x-queue-leader-locator</span> <a href="queues.html#optional-arguments">optional queue argument</a></li>
+</ol>
+<p>Supported queue leader locator values are</p>
+<ul>
+<li><span class="code ">client-local</span>: Pick the node the client that declares the queue is connected to. This is the default value.</li>
+<li><span class="code ">balanced</span>: If there are overall less than 1000 queues (classic queues, quorum queues, and streams),
+   pick the node hosting the minimum number of quorum queue leaders.
+   If there are overall more than 1000 queues, pick a random node.</li>
+</ul>
 <h3><a id="replica-management" class="anchor" href="#replica-management">Managing Replicas</a> (Quorum Group Members)</h3>
 <p>Replicas of a quorum queue are explicitly managed by the operator. When a new node is added
 to the cluster, it will host no quorum queue replicas unless the operator explicitly adds it
