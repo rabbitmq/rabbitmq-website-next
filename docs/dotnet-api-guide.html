@@ -16,7 +16,7 @@ and the reader is familiar with <a href="/getstarted.html">the basics</a>.</p>
 <li><a href="#dependencies">Dependencies</a></li>
 <li><a href="#major-api-elements">Important interfaces and classes</a> in the public API</li>
 <li><a href="#connecting">Connecting to RabbitMQ</a></li>
-<li><a href="#connection-and-channel-lifspan">Connection and Channel Lifespan</a></li>
+<li><a href="#connection-and-channel-lifespan">Connection and Channel Lifespan</a></li>
 <li><a href="#client-provided-names">Client-provided connection name</a></li>
 <li><a href="#exchanges-and-queues">Using Exchanges and Queues</a></li>
 <li><a href="#publishing">Publishing Messages</a></li>
@@ -205,7 +205,7 @@ with the API methods from the example above.</p>
 <p>Note that closing the channel may be considered good practice, but isn’t strictly necessary here - it will be done
 automatically anyway when the underlying connection is closed.</p>
 <p>Client disconnection events can be <a href="/networking.html#logging">observed in server node logs</a>.</p>
-<h2><a id="connection-and-channel-lifspan" class="anchor" href="#connection-and-channel-lifspan">Connection and Channel Lifespan</a></h2>
+<h2><a id="connection-and-channel-lifespan" class="anchor" href="#connection-and-channel-lifespan">Connection and Channel Lifespan</a></h2>
 <p>Connections are meant to be long-lived. The underlying protocol is designed and optimized for
 long running connections. That means that opening a new connection per operation,
 e.g. a message published, is unnecessary and strongly discouraged as it will introduce a lot of

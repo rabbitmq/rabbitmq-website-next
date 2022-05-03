@@ -27,12 +27,12 @@ core RabbitMQ features and do not require or rely on this plugin.</p>
 <li>How this plugin <a href="#clustering">operates in multi-node clusters</a></li>
 <li>How to <a href="#disable-stats">disable metric collection</a> to use <a href="prometheus.html">Prometheus</a> exclusively for monitoring</li>
 <li><a href="#oauth2-authentication">OAuth 2</a> support</li>
-<li><a href="#http-logging">HTTP API request logging</a></li>
 <li><a href="#hsts">Strict transport security</a>, <a href="#csp">Content security policy</a> and <a href="#cors">cross-origin resource sharing</a> settings</li>
-<li>How to <a href="#reset-stats">reset statistics database</a> used by this plugin</li>
-<li>How to set a <a href="login-session-timeout">management UI login session timeout</a></li>
 <li><a href="#statistics-interval">Statistics collection interval</a></li>
-<li><a href="#rates-mode">Message rate mode</a> (rate fidelity)</li>
+<li><a href="#rates-mode">Message rate mode</a> (rate fidelity) and <a href="#sample-retention">data retention intervals</a></li>
+<li><a href="#http-logging">HTTP API request logging</a></li>
+<li>How to set a <a href="login-session-timeout">management UI login session timeout</a></li>
+<li>How to <a href="#reset-stats">reset statistics database</a> used by this plugin</li>
 </ul>
 <p>as well as other related topics.</p>
 <p>The plugin also provides extension points that other plugins, such as
@@ -283,7 +283,7 @@ endpoints require the token to be passed in the <span class="code ">token</span>
 <p>When activated, the management plugin provides an HTTP API at
 <span class="code ">http://<i>server-name</i>:15672/api/</span> by default. Browse to that
 location for more information on the API. For convenience the same API reference is
-<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.9.15/deps/rabbitmq_management/priv/www/api/index.html">available on GitHub</a>.</p>
+<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.9.16/deps/rabbitmq_management/priv/www/api/index.html">available on GitHub</a>.</p>
 <h3><a id="http-api-monitoring" class="anchor" href="#http-api-monitoring">HTTP API and Monitoring</a></h3>
 <p>The API is intended to be used for basic observability tasks. <a href="prometheus.html">Prometheus and Grafana</a>
 are recommended for long term metric storage, alerting, anomaly detection, and so on.</p>
@@ -302,7 +302,7 @@ has the management plugin enabled at <span class="code ">http://<i>{node-hostnam
 see <a href="/devtools.html">Developer Tools</a>.</p>
 <p>Some API endpoints return a lot of information. The volume can be reduced
 by filtering what columns are returned by <span class="code ">HTTP GET</span> requests. See
-<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.9.15/deps/rabbitmq_management/priv/www/api/index.html">latest HTTP API documentation</a> for details.</p>
+<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.9.16/deps/rabbitmq_management/priv/www/api/index.html">latest HTTP API documentation</a> for details.</p>
 <h2><a id="configuration" class="anchor" href="#configuration">Configuration</a></h2>
 <p>There are several configuration options which affect the
 management plugin. These are managed through the main

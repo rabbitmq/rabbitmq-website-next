@@ -10,8 +10,9 @@
       <div xmlns="" class="manual-text" xml:base="man/rabbitmq-diagnostics.8.html">
 <section class="Sh">
 <h2 class="Sh" id="NAME"><a class="permalink" href="#NAME">NAME</a></h2>
-<span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmq-diagnostics</span> —
-<div class="Nd">RabbitMQ diagnostics, monitoring and health checks tools</div>
+<p class="Pp"><span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmq-diagnostics</span> —
+    <span class="Nd">RabbitMQ diagnostics, monitoring and health checks
+    tools</span></p>
 </section>
 <section class="Sh">
 <h2 class="Sh" id="SYNOPSIS"><a class="permalink" href="#SYNOPSIS">SYNOPSIS</a></h2>
@@ -28,12 +29,12 @@
 </section>
 <section class="Sh">
 <h2 class="Sh" id="DESCRIPTION"><a class="permalink" href="#DESCRIPTION">DESCRIPTION</a></h2>
-<span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmq-diagnostics</span> is a command line tool that
-  provides commands used for diagnostics, monitoring and health checks of
-  RabbitMQ nodes. See the
-  <a class="Lk" href="https://rabbitmq.com/documentation.html">RabbitMQ
-  documentation guides</a> to learn more about RabbitMQ diagnostics, monitoring
-  and health checks.
+<p class="Pp"><span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmq-diagnostics</span> is a command line
+    tool that provides commands used for diagnostics, monitoring and health
+    checks of RabbitMQ nodes. See the
+    <a class="Lk" href="https://rabbitmq.com/documentation.html">RabbitMQ
+    documentation guides</a> to learn more about RabbitMQ diagnostics,
+    monitoring and health checks.</p>
 <p class="Pp"><span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmq-diagnostics</span> allows the operator
     to inspect node and cluster state. A number of health checks are available
     to be used interactively and by monitoring tools.</p>
@@ -47,38 +48,37 @@
 <section class="Sh">
 <h2 class="Sh" id="OPTIONS"><a class="permalink" href="#OPTIONS">OPTIONS</a></h2>
 <dl class="Bl-tag">
-  <dt><a class="permalink" href="#n"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-n</span></a>
+  <dt id="n"><a class="permalink" href="#n"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-n</span></a>
     <var class="Ar">node</var></dt>
-  <dd>Default node is
-      "rabbit@<var class="Ar">target-hostname</var>", where
-      <var class="Ar">target-hostname</var> is the local host. On a host named
-      "myserver.example.com", the node name will usually be
+  <dd>Default node is "rabbit@<var class="Ar">target-hostname</var>",
+      where <var class="Ar">target-hostname</var> is the local host. On a host
+      named "myserver.example.com", the node name will usually be
       "rabbit@myserver" (unless
       <span xmlns="http://www.w3.org/1999/xhtml" class="code Ev">RABBITMQ_NODENAME</span> has been overridden). The output
-      of "hostname -s" is usually the correct suffix to use after
-      the "@" sign. See
+      of "hostname -s" is usually the correct suffix to use after the
+      "@" sign. See
       <a class="Xr" href="rabbitmq-server.8.html">rabbitmq-server(8)</a> for
       details of configuring a RabbitMQ node.</dd>
-  <dt><a class="permalink" href="#q"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-q</span></a>,
+  <dt id="q"><a class="permalink" href="#q"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-q</span></a>,
     <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--quiet</span></dt>
   <dd>Quiet output mode is selected. Informational messages are reduced when
       quiet mode is in effect.</dd>
-  <dt><a class="permalink" href="#s"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-s</span></a>,
+  <dt id="s"><a class="permalink" href="#s"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-s</span></a>,
     <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--silent</span></dt>
   <dd>Silent output mode is selected. Informational messages are reduced and
       table headers are suppressed when silent mode is in effect.</dd>
-  <dt><a class="permalink" href="#t"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-t</span></a>
+  <dt id="t"><a class="permalink" href="#t"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-t</span></a>
     <var class="Ar">timeout</var>, <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--timeout</span>
     <var class="Ar">timeout</var></dt>
   <dd>Operation timeout in seconds. Not all commands support timeouts. Default
       is <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">infinity</span>.</dd>
-  <dt><a class="permalink" href="#l"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-l</span></a>,
+  <dt id="l"><a class="permalink" href="#l"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-l</span></a>,
     <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--longnames</span></dt>
   <dd>Must be specified when the cluster is configured to use long (FQDN) node
       names. To learn more, see the
       <a class="Lk" href="https://rabbitmq.com/clustering.html">RabbitMQ
       Clustering guide</a></dd>
-  <dt><a class="permalink" href="#-erlang-cookie"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--erlang-cookie</span></a>
+  <dt id="erlang-cookie"><a class="permalink" href="#erlang-cookie"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--erlang-cookie</span></a>
     <var class="Ar">cookie</var></dt>
   <dd>Shared secret to use to authenticate to the target node. Prefer using a
       local file or the <span xmlns="http://www.w3.org/1999/xhtml" class="code Ev">RABBITMQ_ERLANG_COOKIE</span>
@@ -90,8 +90,9 @@
 </section>
 <section class="Sh">
 <h2 class="Sh" id="COMMANDS"><a class="permalink" href="#COMMANDS">COMMANDS</a></h2>
-Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmq-diagnostics</span> inspect
-  node and cluster state or perform health checks.
+<p class="Pp">Most commands provided by
+    <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmq-diagnostics</span> inspect node and cluster state
+    or perform health checks.</p>
 <p class="Pp">Commands that list topology entities (e.g. queues) use tab as
     column delimiter. These commands and their arguments are delegated to
     rabbitmqctl(8).</p>
@@ -108,19 +109,19 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
 <section class="Ss">
 <h3 class="Ss" id="Help"><a class="permalink" href="#Help">Help</a></h3>
 <dl class="Bl-tag">
-  <dt><a class="permalink" href="#help"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">help</span></a>
+  <dt id="help"><a class="permalink" href="#help"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">help</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-l</span>] [<var class="Ar">command_name</var>]</dt>
   <dd>
     <p class="Pp">Prints usage for all available commands.</p>
     <dl class="Bl-tag">
-      <dt><a class="permalink" href="#l_2"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-l</span></a>,
+      <dt id="l~2"><a class="permalink" href="#l~2"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-l</span></a>,
         <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--list-commands</span></dt>
       <dd>List command usages only, without parameter explanation.</dd>
       <dt><var class="Ar">command_name</var></dt>
       <dd>Prints usage for the specified command.</dd>
     </dl>
   </dd>
-  <dt><a class="permalink" href="#version"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">version</span></a></dt>
+  <dt id="version"><a class="permalink" href="#version"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">version</span></a></dt>
   <dd>
     <p class="Pp">Displays CLI tools version</p>
   </dd>
@@ -131,7 +132,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
 <section class="Ss">
 <h3 class="Ss" id="Nodes"><a class="permalink" href="#Nodes">Nodes</a></h3>
 <dl class="Bl-tag">
-  <dt><a class="permalink" href="#wait"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">wait</span></a></dt>
+  <dt id="wait"><a class="permalink" href="#wait"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">wait</span></a></dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">wait</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
@@ -141,7 +142,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
 <section class="Ss">
 <h3 class="Ss" id="Cluster"><a class="permalink" href="#Cluster">Cluster</a></h3>
 <dl class="Bl-tag">
-  <dt><a class="permalink" href="#cluster_status"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">cluster_status</span></a></dt>
+  <dt id="cluster_status"><a class="permalink" href="#cluster_status"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">cluster_status</span></a></dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">cluster_status</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
@@ -151,7 +152,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
 <section class="Ss">
 <h3 class="Ss" id="Users"><a class="permalink" href="#Users">Users</a></h3>
 <dl class="Bl-tag">
-  <dt><a class="permalink" href="#list_users"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_users</span></a></dt>
+  <dt id="list_users"><a class="permalink" href="#list_users"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_users</span></a></dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_users</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
@@ -162,31 +163,31 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
 <h3 class="Ss" id="Access_Control"><a class="permalink" href="#Access_Control">Access
   Control</a></h3>
 <dl class="Bl-tag">
-  <dt><a class="permalink" href="#list_permissions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_permissions</span></a>
+  <dt id="list_permissions"><a class="permalink" href="#list_permissions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_permissions</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]</dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_permissions</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#list_topic_permissions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_topic_permissions</span></a>
+  <dt id="list_topic_permissions"><a class="permalink" href="#list_topic_permissions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_topic_permissions</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]</dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_topic_permissions</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#list_user_permissions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_user_permissions</span></a>
+  <dt id="list_user_permissions"><a class="permalink" href="#list_user_permissions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_user_permissions</span></a>
     <var class="Ar">username</var></dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_user_permissions</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#list_user_topic_permissions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_user_topic_permissions</span></a>
+  <dt id="list_user_topic_permissions"><a class="permalink" href="#list_user_topic_permissions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_user_topic_permissions</span></a>
     <var class="Ar">username</var></dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_user_topic_permissions</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#list_vhosts"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_vhosts</span></a>
+  <dt id="list_vhosts"><a class="permalink" href="#list_vhosts"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_vhosts</span></a>
     [<var class="Ar">vhostinfoitem ...</var>]</dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_vhosts</span> in
@@ -198,7 +199,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
 <h3 class="Ss" id="Monitoring,_observability_and_health_checks"><a class="permalink" href="#Monitoring,_observability_and_health_checks">Monitoring,
   observability and health checks</a></h3>
 <dl class="Bl-tag">
-  <dt><a class="permalink" href="#alarms"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">alarms</span></a></dt>
+  <dt id="alarms"><a class="permalink" href="#alarms"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">alarms</span></a></dt>
   <dd>
     <p class="Pp">Lists resource alarms, if any, in the cluster.</p>
     <p class="Pp">See
@@ -208,7 +209,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       alarms</span></div>
   </dd>
-  <dt><a class="permalink" href="#certificates"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">certificates</span></a></dt>
+  <dt id="certificates"><a class="permalink" href="#certificates"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">certificates</span></a></dt>
   <dd>
     <p class="Pp">Displays the node certificates for every listener on target
         node that is configured to use TLS.</p>
@@ -217,7 +218,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       certificates</span></div>
   </dd>
-  <dt><a class="permalink" href="#check_alarms"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_alarms</span></a></dt>
+  <dt id="check_alarms"><a class="permalink" href="#check_alarms"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_alarms</span></a></dt>
   <dd>
     <p class="Pp">Health check that fails (returns with a non-zero code) if
         there are alarms in effect on any of the cluster nodes.</p>
@@ -228,7 +229,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       check_alarms</span></div>
   </dd>
-  <dt><a class="permalink" href="#check_certificate_expiration"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_certificate_expiration</span></a>
+  <dt id="check_certificate_expiration"><a class="permalink" href="#check_certificate_expiration"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_certificate_expiration</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--unit</span> <var class="Ar">time_unit</var>]
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--within</span> <var class="Ar">seconds</var>]</dt>
   <dd>
@@ -245,7 +246,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       check_certificate_expiration --unit weeks --within 6</span></div>
   </dd>
-  <dt><a class="permalink" href="#check_local_alarms"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_local_alarms</span></a></dt>
+  <dt id="check_local_alarms"><a class="permalink" href="#check_local_alarms"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_local_alarms</span></a></dt>
   <dd>
     <p class="Pp">Health check that fails (returns with a non-zero code) if
         there are alarms in effect on the target node.</p>
@@ -256,7 +257,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       check_local_alarms</span></div>
   </dd>
-  <dt><a class="permalink" href="#check_port_connectivity"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_port_connectivity</span></a></dt>
+  <dt id="check_port_connectivity"><a class="permalink" href="#check_port_connectivity"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_port_connectivity</span></a></dt>
   <dd>
     <p class="Pp">Health check that fails (returns with a non-zero code) if any
         listener ports on the target node cannot accept a new TCP connection
@@ -270,7 +271,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       check_port_connectivity</span></div>
   </dd>
-  <dt><a class="permalink" href="#check_port_listener"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_port_listener</span></a>
+  <dt id="check_port_listener"><a class="permalink" href="#check_port_listener"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_port_listener</span></a>
     <var class="Ar">port</var></dt>
   <dd>
     <p class="Pp">Health check that fails (returns with a non-zero code) if the
@@ -283,7 +284,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       check_port_listener 5672</span></div>
   </dd>
-  <dt><a class="permalink" href="#check_protocol_listener"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_protocol_listener</span></a>
+  <dt id="check_protocol_listener"><a class="permalink" href="#check_protocol_listener"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_protocol_listener</span></a>
     <var class="Ar">protocol</var></dt>
   <dd>
     <p class="Pp">Health check that fails (returns with a non-zero code) if the
@@ -295,7 +296,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       check_protocol_listener mqtt</span></div>
   </dd>
-  <dt><a class="permalink" href="#check_running"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_running</span></a></dt>
+  <dt id="check_running"><a class="permalink" href="#check_running"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_running</span></a></dt>
   <dd>
     <p class="Pp">Health check that fails (returns with a non-zero code) if the
         RabbitMQ application is not running on the target node.</p>
@@ -305,7 +306,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       check_running</span></div>
   </dd>
-  <dt><a class="permalink" href="#check_virtual_hosts"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_virtual_hosts</span></a></dt>
+  <dt id="check_virtual_hosts"><a class="permalink" href="#check_virtual_hosts"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_virtual_hosts</span></a></dt>
   <dd>
     <p class="Pp">Health check that checks if all vhosts are running in the
         target node</p>
@@ -313,7 +314,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       check_virtual_hosts --timeout 60</span></div>
   </dd>
-  <dt><a class="permalink" href="#cipher_suites"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">cipher_suites</span></a></dt>
+  <dt id="cipher_suites"><a class="permalink" href="#cipher_suites"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">cipher_suites</span></a></dt>
   <dd>
     <p class="Pp">Lists cipher suites enabled by default. To list all available
         cipher suites, add the --all argument.</p>
@@ -321,7 +322,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       cipher_suites --format openssl --all</span></div>
   </dd>
-  <dt><a class="permalink" href="#command_line_arguments"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">command_line_arguments</span></a></dt>
+  <dt id="command_line_arguments"><a class="permalink" href="#command_line_arguments"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">command_line_arguments</span></a></dt>
   <dd>
     <p class="Pp">Displays target node's command-line arguments and flags as
         reported by the runtime.</p>
@@ -329,7 +330,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       command_line_arguments -n rabbit@hostname</span></div>
   </dd>
-  <dt><a class="permalink" href="#consume_event_stream"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">consume_event_stream</span></a>
+  <dt id="consume_event_stream"><a class="permalink" href="#consume_event_stream"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">consume_event_stream</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--duration</span> <var class="Ar">seconds</var> |
     <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-d</span> <var class="Ar">seconds</var>]
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--pattern</span> <var class="Ar">pattern</var>]
@@ -342,7 +343,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
       consume_event_stream -n rabbit@hostname --duration 20 --pattern
       queue_.*</span></div>
   </dd>
-  <dt><a class="permalink" href="#discover_peers"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">discover_peers</span></a></dt>
+  <dt id="discover_peers"><a class="permalink" href="#discover_peers"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">discover_peers</span></a></dt>
   <dd>
     <p class="Pp">Runs a peer discovery on the target node and prints the
         discovered nodes, if any.</p>
@@ -353,10 +354,10 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       discover_peers --timeout 60</span></div>
   </dd>
-  <dt><a class="permalink" href="#environment"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">environment</span></a></dt>
+  <dt id="environment"><a class="permalink" href="#environment"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">environment</span></a></dt>
   <dd>See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">environment</span> in
       <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></dd>
-  <dt><a class="permalink" href="#erlang_cookie_hash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">erlang_cookie_hash</span></a></dt>
+  <dt id="erlang_cookie_hash"><a class="permalink" href="#erlang_cookie_hash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">erlang_cookie_hash</span></a></dt>
   <dd>
     <p class="Pp">Outputs a hashed value of the shared secret used by the target
         node to authenticate CLI tools and peers. The value can be compared with
@@ -368,14 +369,14 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       erlang_cookie_hash -q</span></div>
   </dd>
-  <dt><a class="permalink" href="#erlang_version"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">erlang_version</span></a></dt>
+  <dt id="erlang_version"><a class="permalink" href="#erlang_version"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">erlang_version</span></a></dt>
   <dd>
     <p class="Pp">Reports target node's Erlang/OTP version.</p>
     <p class="Pp">Example:</p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       erlang_version -q</span></div>
   </dd>
-  <dt><a class="permalink" href="#is_booting"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">is_booting</span></a></dt>
+  <dt id="is_booting"><a class="permalink" href="#is_booting"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">is_booting</span></a></dt>
   <dd>
     <p class="Pp">Reports if RabbitMQ application is currently booting (not
         booted/running or stopped) on the target node.</p>
@@ -383,7 +384,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       is_booting</span></div>
   </dd>
-  <dt><a class="permalink" href="#is_running"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">is_running</span></a></dt>
+  <dt id="is_running"><a class="permalink" href="#is_running"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">is_running</span></a></dt>
   <dd>
     <p class="Pp">Reports if RabbitMQ application is fully booted and running
         (that is, not stopped) on the target node.</p>
@@ -391,49 +392,49 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       is_running</span></div>
   </dd>
-  <dt><a class="permalink" href="#list_bindings"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_bindings</span></a>
+  <dt id="list_bindings"><a class="permalink" href="#list_bindings"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_bindings</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
     [<var class="Ar">bindinginfoitem ...</var>]</dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_bindings</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#list_channels"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_channels</span></a>
+  <dt id="list_channels"><a class="permalink" href="#list_channels"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_channels</span></a>
     [<var class="Ar">channelinfoitem ...</var>]</dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_channels</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#list_ciphers"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_ciphers</span></a></dt>
+  <dt id="list_ciphers"><a class="permalink" href="#list_ciphers"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_ciphers</span></a></dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_ciphers</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#list_connections"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_connections</span></a>
+  <dt id="list_connections"><a class="permalink" href="#list_connections"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_connections</span></a>
     [<var class="Ar">connectioninfoitem ...</var>]</dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_connections</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#list_consumers"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_consumers</span></a>
+  <dt id="list_consumers"><a class="permalink" href="#list_consumers"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_consumers</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]</dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_consumers</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#list_exchanges"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_exchanges</span></a>
+  <dt id="list_exchanges"><a class="permalink" href="#list_exchanges"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_exchanges</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
     [<var class="Ar">exchangeinfoitem ...</var>]</dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_exchanges</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#list_hashes"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_hashes</span></a></dt>
+  <dt id="list_hashes"><a class="permalink" href="#list_hashes"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_hashes</span></a></dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_hashes</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#list_queues"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_queues</span></a>
+  <dt id="list_queues"><a class="permalink" href="#list_queues"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_queues</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--offline</span> | <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--online</span> |
     <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--local</span>] [<var class="Ar">queueinfoitem
@@ -442,7 +443,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_queues</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#list_unresponsive_queues"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_unresponsive_queues</span></a>
+  <dt id="list_unresponsive_queues"><a class="permalink" href="#list_unresponsive_queues"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_unresponsive_queues</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--local</span>] [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--queue-timeout</span>
     <var class="Ar">milliseconds</var>] [<var class="Ar">column ...</var>]
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--no-table-headers</span>]</dt>
@@ -450,7 +451,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_unresponsive_queues</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#listeners"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">listeners</span></a></dt>
+  <dt id="listeners"><a class="permalink" href="#listeners"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">listeners</span></a></dt>
   <dd>
     <p class="Pp">Lists listeners (bound sockets) on this node. Use this to
         inspect what protocols and ports the node is listening on for client,
@@ -462,7 +463,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       listeners</span></div>
   </dd>
-  <dt><a class="permalink" href="#log_tail"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">log_tail</span></a>
+  <dt id="log_tail"><a class="permalink" href="#log_tail"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">log_tail</span></a>
     <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--number</span> <var class="Ar">number</var> |
     <a class="permalink" href="#N"><span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-N</span></a>
     <var class="Ar">number</var> [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--timeout</span>
@@ -473,7 +474,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics log_tail
       -number 100</span></div>
   </dd>
-  <dt><a class="permalink" href="#log_tail_stream"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">log_tail_stream</span></a>
+  <dt id="log_tail_stream"><a class="permalink" href="#log_tail_stream"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">log_tail_stream</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--duration</span> <var class="Ar">seconds</var> |
     <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-d</span> <var class="Ar">seconds</var>]
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--timeout</span> <var class="Ar">milliseconds</var>]</dt>
@@ -483,7 +484,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       log_tail_stream --duration 60</span></div>
   </dd>
-  <dt><a class="permalink" href="#maybe_stuck"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">maybe_stuck</span></a></dt>
+  <dt id="maybe_stuck"><a class="permalink" href="#maybe_stuck"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">maybe_stuck</span></a></dt>
   <dd>
     <p class="Pp">Periodically samples stack traces of all Erlang processes
         ("lightweight threads") on the node. Reports the processes for
@@ -494,7 +495,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics maybe_stuck
       -q</span></div>
   </dd>
-  <dt><a class="permalink" href="#memory_breakdown"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">memory_breakdown</span></a>
+  <dt id="memory_breakdown"><a class="permalink" href="#memory_breakdown"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">memory_breakdown</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--unit</span> <var class="Ar">memory_unit</var>]</dt>
   <dd>
     <p class="Pp">Displays node's memory usage by category. Supported memory
@@ -513,7 +514,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       memory_breakdown --unit gigabytes</span></div>
   </dd>
-  <dt><a class="permalink" href="#observer"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">observer</span></a>
+  <dt id="observer"><a class="permalink" href="#observer"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">observer</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--interval</span> <var class="Ar">seconds</var>]</dt>
   <dd>
     <p class="Pp">Starts a CLI observer interface on the target node</p>
@@ -521,18 +522,18 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics observer
       --interval 10</span></div>
   </dd>
-  <dt><a class="permalink" href="#ping"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">ping</span></a></dt>
+  <dt id="ping"><a class="permalink" href="#ping"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">ping</span></a></dt>
   <dd>
     <p class="Pp">Most basic health check. Succeeds if target node (runtime) is
         running and <span xmlns="http://www.w3.org/1999/xhtml" class="code Nm">rabbitmq-diagnostics</span> can
         authenticate with it successfully.</p>
   </dd>
-  <dt><a class="permalink" href="#report"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">report</span></a></dt>
+  <dt id="report"><a class="permalink" href="#report"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">report</span></a></dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">report</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#runtime_thread_stats"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">runtime_thread_stats</span></a>
+  <dt id="runtime_thread_stats"><a class="permalink" href="#runtime_thread_stats"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">runtime_thread_stats</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--sample-interval</span>
     <var class="Ar">interval</var>]</dt>
   <dd>
@@ -545,7 +546,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       runtime_thread_stats --sample-interval 15</span></div>
   </dd>
-  <dt><a class="permalink" href="#schema_info"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">schema_info</span></a>
+  <dt id="schema_info"><a class="permalink" href="#schema_info"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">schema_info</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--no_table_headers</span>] [<var class="Ar">column
     ...</var>] [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--timeout</span>
     <var class="Ar">milliseconds</var>]</dt>
@@ -553,19 +554,19 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">schema_info</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#server_version"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">server_version</span></a></dt>
+  <dt id="server_version"><a class="permalink" href="#server_version"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">server_version</span></a></dt>
   <dd>
     <p class="Pp">Reports target node's version.</p>
     <p class="Pp">Example:</p>
     <div class="Bd Bd-indent lang-bash"><span xmlns="http://www.w3.org/1999/xhtml" class="code Li">rabbitmq-diagnostics
       server_version -q</span></div>
   </dd>
-  <dt><a class="permalink" href="#status"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">status</span></a></dt>
+  <dt id="status"><a class="permalink" href="#status"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">status</span></a></dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">status</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#tls_versions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">tls_versions</span></a></dt>
+  <dt id="tls_versions"><a class="permalink" href="#tls_versions"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">tls_versions</span></a></dt>
   <dd>
     <p class="Pp">Lists all TLS versions supported by the runtime on the target
         node. Note that RabbitMQ can be configured to only accept a subset of
@@ -582,12 +583,12 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
 <section class="Ss">
 <h3 class="Ss" id="Parameters"><a class="permalink" href="#Parameters">Parameters</a></h3>
 <dl class="Bl-tag">
-  <dt><a class="permalink" href="#list_global_parameters"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_global_parameters</span></a></dt>
+  <dt id="list_global_parameters"><a class="permalink" href="#list_global_parameters"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_global_parameters</span></a></dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_global_parameters</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#list_parameters"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_parameters</span></a>
+  <dt id="list_parameters"><a class="permalink" href="#list_parameters"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_parameters</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]</dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_parameters</span> in
@@ -598,13 +599,13 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
 <section class="Ss">
 <h3 class="Ss" id="Policies"><a class="permalink" href="#Policies">Policies</a></h3>
 <dl class="Bl-tag">
-  <dt><a class="permalink" href="#list_operator_policies"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_operator_policies</span></a>
+  <dt id="list_operator_policies"><a class="permalink" href="#list_operator_policies"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_operator_policies</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]</dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_operator_policies</span> in
         <a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#list_policies"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_policies</span></a>
+  <dt id="list_policies"><a class="permalink" href="#list_policies"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_policies</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-p</span> <var class="Ar">vhost</var>]</dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_policies</span> in
@@ -616,7 +617,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
 <h3 class="Ss" id="Virtual_hosts"><a class="permalink" href="#Virtual_hosts">Virtual
   hosts</a></h3>
 <dl class="Bl-tag">
-  <dt><a class="permalink" href="#list_vhost_limits"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_vhost_limits</span></a>
+  <dt id="list_vhost_limits"><a class="permalink" href="#list_vhost_limits"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_vhost_limits</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--vhost</span> <var class="Ar">vhost</var>]
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--global</span>]
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--no-table-headers</span>]</dt>
@@ -630,7 +631,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
 <h3 class="Ss" id="Node_configuration"><a class="permalink" href="#Node_configuration">Node
   configuration</a></h3>
 <dl class="Bl-tag">
-  <dt><a class="permalink" href="#log_location"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">log_location</span></a>
+  <dt id="log_location"><a class="permalink" href="#log_location"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">log_location</span></a>
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--all</span> | <span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">-a</span>]
     [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--timeout</span> <var class="Ar">milliseconds</var>]</dt>
   <dd>
@@ -645,7 +646,7 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
 <h3 class="Ss" id="Feature_flags"><a class="permalink" href="#Feature_flags">Feature
   flags</a></h3>
 <dl class="Bl-tag">
-  <dt><a class="permalink" href="#list_feature_flags"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_feature_flags</span></a>
+  <dt id="list_feature_flags"><a class="permalink" href="#list_feature_flags"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">list_feature_flags</span></a>
     [<var class="Ar">column ...</var>] [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--timeout</span>
     <var class="Ar">milliseconds</var>]</dt>
   <dd>
@@ -657,20 +658,20 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
 <section class="Ss">
 <h3 class="Ss" id="Queues"><a class="permalink" href="#Queues">Queues</a></h3>
 <dl class="Bl-tag">
-  <dt><a class="permalink" href="#quorum_status"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">quorum_status</span></a>
+  <dt id="quorum_status"><a class="permalink" href="#quorum_status"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">quorum_status</span></a>
     <var class="Ar">queue</var> [<span xmlns="http://www.w3.org/1999/xhtml" class="code Fl">--vhost</span>
     <var class="Ar">vhost</var>]</dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">quorum_status</span> in
         <a class="Xr" href="rabbitmq-queues.8.html">rabbitmq-queues(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#check_if_node_is_mirror_sync_critical"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_if_node_is_mirror_sync_critical</span></a></dt>
+  <dt id="check_if_node_is_mirror_sync_critical"><a class="permalink" href="#check_if_node_is_mirror_sync_critical"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_if_node_is_mirror_sync_critical</span></a></dt>
   <dd>
     <p class="Pp">See
         <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_if_node_is_mirror_sync_critical</span> in
         <a class="Xr" href="rabbitmq-queues.8.html">rabbitmq-queues(8)</a></p>
   </dd>
-  <dt><a class="permalink" href="#check_if_node_is_quorum_critical"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_if_node_is_quorum_critical</span></a></dt>
+  <dt id="check_if_node_is_quorum_critical"><a class="permalink" href="#check_if_node_is_quorum_critical"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_if_node_is_quorum_critical</span></a></dt>
   <dd>
     <p class="Pp">See <span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">check_if_node_is_quorum_critical</span>
         in
@@ -682,18 +683,18 @@ Most commands provided by <span xmlns="http://www.w3.org/1999/xhtml" class="code
 <section class="Sh">
 <h2 class="Sh" id="SEE_ALSO"><a class="permalink" href="#SEE_ALSO">SEE
   ALSO</a></h2>
-<a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a>,
-  <a class="Xr" href="rabbitmq-server.8.html">rabbitmq-server(8)</a>,
-  <a class="Xr" href="rabbitmq-queues.8.html">rabbitmq-queues(8)</a>,
-  <a class="Xr" href="rabbitmq-upgrade.8.html">rabbitmq-upgrade(8)</a>,
-  <a class="Xr" href="rabbitmq-service.8.html">rabbitmq-service(8)</a>,
-  <a class="Xr" href="rabbitmq-env.conf.5.html">rabbitmq-env.conf(5)</a>,
-  <a class="Xr" href="rabbitmq-echopid.8.html">rabbitmq-echopid(8)</a>
+<p class="Pp"><a class="Xr" href="rabbitmqctl.8.html">rabbitmqctl(8)</a>,
+    <a class="Xr" href="rabbitmq-server.8.html">rabbitmq-server(8)</a>,
+    <a class="Xr" href="rabbitmq-queues.8.html">rabbitmq-queues(8)</a>,
+    <a class="Xr" href="rabbitmq-upgrade.8.html">rabbitmq-upgrade(8)</a>,
+    <a class="Xr" href="rabbitmq-service.8.html">rabbitmq-service(8)</a>,
+    <a class="Xr" href="rabbitmq-env.conf.5.html">rabbitmq-env.conf(5)</a>,
+    <a class="Xr" href="rabbitmq-echopid.8.html">rabbitmq-echopid(8)</a></p>
 </section>
 <section class="Sh">
 <h2 class="Sh" id="AUTHOR"><a class="permalink" href="#AUTHOR">AUTHOR</a></h2>
-<span class="An">The RabbitMQ Team</span>
-  &lt;<a class="Mt" href="mailto:info@rabbitmq.com">info@rabbitmq.com</a>&gt;
+<p class="Pp"><span class="An">The RabbitMQ Team</span>
+    &lt;<a class="Mt" href="mailto:info@rabbitmq.com">info@rabbitmq.com</a>&gt;</p>
 </section>
 </div>
     </div>

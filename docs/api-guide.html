@@ -17,7 +17,7 @@ and the reader is familiar with <a href="/getstarted.html">the basics</a>.</p>
 <li><a href="#jdk-versions">JDK and Android versions</a> supported</li>
 <li><a href="#support-timeline">Support Timeline</a></li>
 <li><a href="#connecting">Connecting to RabbitMQ</a></li>
-<li><a href="#connection-and-channel-lifspan">Connection and Channel Lifespan</a></li>
+<li><a href="#connection-and-channel-lifespan">Connection and Channel Lifespan</a></li>
 <li><a href="#client-provided-names">Client-provided connection name</a></li>
 <li><a href="#exchanges-and-queues">Using Exchanges and Queues</a></li>
 <li><a href="#publishing">Publishing Messages</a></li>
@@ -188,7 +188,7 @@ conn.close();
 <p>Note that closing the channel may be considered good practice, but is not strictly necessary here - it will be done
 automatically anyway when the underlying connection is closed.</p>
 <p>Client disconnection events can be <a href="/networking.html#logging">observed in server node logs</a>.</p>
-<h2><a id="connection-and-channel-lifspan" class="anchor" href="#connection-and-channel-lifspan">Connection and Channel Lifespan</a></h2>
+<h2><a id="connection-and-channel-lifespan" class="anchor" href="#connection-and-channel-lifespan">Connection and Channel Lifespan</a></h2>
 <p>Client <a href="connections.html">connections</a> are meant to be long-lived. The underlying protocol is designed and optimized for
 long running connections. That means that opening a new connection per operation,
 e.g. a message published, is unnecessary and strongly discouraged as it will introduce a lot of

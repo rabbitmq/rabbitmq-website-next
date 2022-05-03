@@ -8,12 +8,10 @@
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>RabbitMQ can use LDAP to perform <a href="/access-control.html">authentication and
-authorisation</a> by deferring to an external LDAP
-server. This functionality is provided by a
-plugin that ships with RabbitMQ but <a href="#enabling-the-plugin">has to be enabled</a>.
-Authentication and authorisation operations are
-translated into <a href="#authorisation">LDAP queries</a> configured by the user.</p>
+<p>RabbitMQ can use LDAP to perform <a href="access-control.html">authentication and authorisation</a> by deferring to external LDAP
+servers. This functionality is provided by a built-in plugin that <a href="#enabling-the-plugin">has to be enabled</a>.</p>
+<p>Authentication and authorisation operations are translated into <a href="#authorisation">LDAP queries</a> using
+templates configured by the RabbitMQ operator.</p>
 <p>LDAP queries can be <a href="#query-caching">cached</a> for a period of time for efficiency and reduced
 load on LDAP servers.</p>
 <p><a href="#ldap-operation-flow">LDAP Operation Flow</a> section
@@ -29,14 +27,16 @@ LDAP primers are available elsewhere on the Web, for example, <a href="https://w
 for <a href="#troubleshooting">troubleshooting</a> and <a href="#proxies">proxying</a> of LDAP requests.</p>
 <h2><a id="prerequisites" class="anchor" href="#prerequisites">Prerequisites</a></h2>
 <p>RabbitMQ LDAP plugin depends on an LDAP client called <span class="code ">eldap</span>. The library
-ships with <a href="/which-erlang.html">Erlang/OTP</a>. On some operating systems, some Erlang
-components must be installed separately from the core runtime.</p>
+ships with <a href="which-erlang.html">Erlang/OTP</a>. On some operating systems, Erlang
+is provided as a group of packages instead of one monolithic package, so
+components such as <span class="code ">eldap</span> <strong>must be installed separately</strong> from the main runtime.</p>
 <p>On Debian and Ubuntu, <span class="code ">eldap</span> is provided by the <span class="code ">erlang-eldap</span> package:</p>
 <pre class="lang-bash">
 sudo apt-get install -y erlang-eldap
 </pre>
 
-<p>Please see the <a href="/which-erlang.html">Erlang compatibility guide</a> to learn more.</p>
+<p>LDAP support <strong>cannot</strong> be used on Erlang installations where the library is not available.</p>
+<p>Please see the <a href="which-erlang.html">Erlang compatibility guide</a> to learn more.</p>
 <h2><a id="enabling-the-plugin" class="anchor" href="#enabling-the-plugin">Enabling the Plugin</a></h2>
 <p>The LDAP plugin ships with RabbitMQ. To enable it, use
 <a href="man/rabbitmq-plugins.8.html">rabbitmq-plugins</a>:
