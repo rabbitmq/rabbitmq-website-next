@@ -107,7 +107,7 @@ with <span class="code ">green</span>.</p>
 <span class="code ">orange</span> will be routed to queue <span class="code ">Q1</span>. Messages with a routing key of <span class="code ">black</span>
 or <span class="code ">green</span> will go to <span class="code ">Q2</span>. All other messages will be discarded.</p>
 <h2>Multiple bindings</h2>
-<p><div class="diagram">
+<div class="diagram">
   <img src="/img/tutorials/direct-exchange-multiple.png" height="170" />
   <div class="diagram_source">
     digraph {
@@ -142,7 +142,8 @@ or <span class="code ">green</span> will go to <span class="code ">Q2</span>. Al
       Q2 -&gt; C2;
     }
   </div>
-</div></p>
+</div>
+
 <p>It is perfectly legal to bind multiple queues with the same binding
 key. In our example we could add a binding between <span class="code ">X</span> and <span class="code ">Q1</span> with
 binding key <span class="code ">black</span>. In that case, the <span class="code ">direct</span> exchange will behave

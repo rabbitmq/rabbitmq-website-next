@@ -39,8 +39,9 @@ sudo apt-get install -y erlang-eldap
 <p>Please see the <a href="which-erlang.html">Erlang compatibility guide</a> to learn more.</p>
 <h2><a id="enabling-the-plugin" class="anchor" href="#enabling-the-plugin">Enabling the Plugin</a></h2>
 <p>The LDAP plugin ships with RabbitMQ. To enable it, use
-<a href="man/rabbitmq-plugins.8.html">rabbitmq-plugins</a>:
-<pre class="lang-erlang">rabbitmq-plugins enable rabbitmq_auth_backend_ldap</pre></p>
+<a href="man/rabbitmq-plugins.8.html">rabbitmq-plugins</a>:</p>
+<pre class="lang-erlang">rabbitmq-plugins enable rabbitmq_auth_backend_ldap</pre>
+
 <h2><a id="essential-configuration" class="anchor" href="#essential-configuration">Enabling LDAP AuthN and AuthZ backends</a></h2>
 <p>After enabling the plugin it is necessary to configure the node to use it.</p>
 <p>This involves</p>
@@ -612,7 +613,6 @@ within <span class="code ">ou=vhosts,dc=example,dc=com</span> to all
 users.</p>
 <h3><a id="in-group-query" class="anchor" href="#in-group-query">In Group Query</a></h3>
 <pre class="lang-erlang">{in_group, Pattern}</pre>
-
 <pre class="lang-erlang">{in_group, Pattern, AttributeName}</pre>
 
 <p>Like the Exists Query, substitutes arguments into a pattern to look
@@ -627,9 +627,7 @@ object (such as a <span class="code ">groupOfNames</span>)
 within <span class="code ">ou=vhosts,dc=example,dc=com</span>.</p>
 <h3><a id="in-nested-group-query" class="anchor" href="#in-nested-group-query">In Nested Group Query</a></h3>
 <pre class="lang-erlang">{in_group_nested, Pattern}</pre>
-
 <pre class="lang-erlang">{in_group_nested, Pattern, AttributeName}</pre>
-
 <pre class="lang-erlang">{in_group_nested, Pattern, AttributeName, Scope}</pre>
 
 <p>Similar to the <span class="code ">in_group</span> query but also traverses group hierarchy,
@@ -695,9 +693,7 @@ values (e.g. <span class="code ">name</span> might be
 delete exchanges, and allow all users to do everything else.</p>
 <h3><a id="boolean-query" class="anchor" href="#boolean-query">Boolean Queries</a></h3>
 <pre class="lang-erlang">{'not', SubQuery}</pre>
-
 <pre class="lang-erlang">{'and', [SubQuery1, SubQuery2, SubQuery3, ...]}</pre>
-
 <pre class="lang-erlang">{'or', [SubQuery1, SubQuery2, SubQuery3, ...]}</pre>
 
 <p>These can be used to combine subqueries with boolean logic. The

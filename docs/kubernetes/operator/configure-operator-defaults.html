@@ -75,11 +75,12 @@ New RabbitmqCluster Pods have no imagePullSecrets by default
 <h2><a id="configuration" class="anchor" href="#configuration">Configuration</a></h2>
 <p>In order to set these configuration parameters, you will need to edit the Deployment manifest of the operator.
 This is the YAML manifest artefact released with every new version of the RabbitMQ Cluster Operator on GitHub.</p>
-<p>If you already have the operator deployed, you can edit the manifest of the operator directly:
+<p>If you already have the operator deployed, you can edit the manifest of the operator directly:</p>
 <pre class="lang-bash">
 kubectl -n rabbitmq-system edit deployment rabbitmq-cluster-operator
-</pre></p>
-<p>In the manifest, add the environment variables you wish to change. For example, to set the namespace scope of the operator:
+</pre>
+
+<p>In the manifest, add the environment variables you wish to change. For example, to set the namespace scope of the operator:</p>
 <pre class="lang-yaml">
 apiVersion: apps/v1
 kind: Deployment
@@ -105,7 +106,7 @@ spec:
           <b>value: custom-namespace</b>
 ...
 </pre>
-Upon saving, the operator Pod will be updated to use this configuration.
+<p>Upon saving, the operator Pod will be updated to use this configuration.
 Note that future GitHub release artefacts will not have these changes that you make, and so you must remember
 to add these changes every time you update the cluster operator.</p>
 <p>You may consider using templating to add these variables in automatically; for example you can use a ytt overlay
@@ -128,11 +129,10 @@ spec:
         - name: OPERATOR_SCOPE_NAMESPACE
           value: custom-namespace
 </pre>
-
-<p>Use this overlay when upgrading the operator to ensure your custom configuration is applied for the new version:
+<p>Use this overlay when upgrading the operator to ensure your custom configuration is applied for the new version:</p>
 <pre class="lang-bash">
 ytt -f https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml -f values.yaml | kubectl apply -f -
-</pre></p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+</pre><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.

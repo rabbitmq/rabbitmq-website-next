@@ -202,10 +202,17 @@ rabbitmqctl -q --formatter pretty_table list_feature_flags
 <h2><a id="how-to-start-new-node-disabled-feature-flags" class="anchor" href="#how-to-start-new-node-disabled-feature-flags">How to Configure the List of Feature Flags to Enable on Startup</a></h2>
 <p>By default a new and unclustered node will start with all supported feature flags enabled, but this setting can be overridden. There are two ways to <a href="configure.html">configure</a> the list of feature flags to enable out-of-the-box when starting a node for the <strong>first</strong> time:</p>
 <ol>
-<li>Using the <span class="code ">RABBITMQ_FEATURE_FLAGS</span> environment variable:
-  <pre class="lang-bash">RABBITMQ_FEATURE_FLAGS=quorum_queue,implicit_default_bindings</pre></li>
-<li>Using the <span class="code ">forced_feature_flags_on_init</span> configuration parameter:
-  <pre class="lang-erlang">{rabbit, [{forced_feature_flags_on_init, [quorum_queue, implicit_default_bindings]}]}</pre></li>
+<li>
+<p>Using the <span class="code ">RABBITMQ_FEATURE_FLAGS</span> environment variable:
+<br />
+<pre class="lang-bash">RABBITMQ_FEATURE_FLAGS=quorum_queue,implicit_default_bindings</pre></p>
+</li>
+<li>
+<p>Using the <span class="code ">forced_feature_flags_on_init</span> configuration parameter:
+<br />
+<pre class="lang-erlang">{rabbit, [{forced_feature_flags_on_init, [quorum_queue, implicit_default_bindings]}]}</pre>
+</p>
+</li>
 </ol>
 <p>The environment variable has precedence over the configuration parameter.</p>
 <h2><a id="core-feature-flags" class="anchor" href="#core-feature-flags">List of Core Feature Flags</a></h2>
@@ -446,7 +453,7 @@ experience.</p>
 <li>the declaration as a module attribute</li>
 <li>the migration function</li>
 </ul>
-<p>The declaration is a module attribute which looks like this:
+<p>The declaration is a module attribute which looks like this:</p>
 <pre class="lang-erlang">
 -rabbit_feature_flag(
    {quorum_queue,
@@ -455,7 +462,8 @@ experience.</p>
       stability     =&gt; stable,
       migration_fun =&gt; {?MODULE, quorum_queue_migration}
      }}).
-</pre></p>
+</pre>
+
 <p>The migration function is a stateless function which looks like this:</p>
 <pre class="lang-erlang">
 quorum_queue_migration(FeatureName, _FeatureProps, enable) -&gt;

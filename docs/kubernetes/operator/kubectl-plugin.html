@@ -159,7 +159,7 @@ kubectl rabbitmq perf-test INSTANCE --rate 100
 </pre>
 
 <p>Runs <a href="https://rabbitmq.github.io/rabbitmq-perf-test/stable/htmlsingle/">perf-test</a> against an instance. You can pass as many perf test parameters as you like here.</p>
-<p>To monitor PerfTest, add the following ServiceMonitor:
+<p>To monitor PerfTest, add the following ServiceMonitor:</p>
 <pre class="lang-yaml">
   apiVersion: monitoring.coreos.com/v1
   kind: ServiceMonitor
@@ -172,7 +172,8 @@ kubectl rabbitmq perf-test INSTANCE --rate 100
     selector:
       matchLabels:
         app: perf-test
-</pre></p>
+</pre>
+
 <hr />
 <p>Please submit feedback and feature requests for the RabbitMQ Cluster Operator <a href="https://github.com/rabbitmq/cluster-operator">on GitHub</a>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or

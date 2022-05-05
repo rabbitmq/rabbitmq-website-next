@@ -89,11 +89,11 @@ kind: RabbitmqCluster
 metadata:
     name: hello-world
 </pre>
-
-<p>Submit this using the following command:
+<p>Submit this using the following command:</p>
 <pre class="lang-bash">
 kubectl apply -f https://raw.githubusercontent.com/rabbitmq/cluster-operator/main/docs/examples/hello-world/rabbitmq.yaml
-</pre></p>
+</pre>
+
 <p>This will create a RabbitMQ cluster called <span class="code ">hello-world</span> in the current namespace. You can see the RabbitMQ Cluster as it is being created:</p>
 <pre class="lang-bash">
 watch kubectl get all
@@ -128,12 +128,13 @@ NAME          AGE    STATUS
 hello-world   4m10s
 </pre>
 
-<p>If your Pod is stuck in the <span class="code ">Pending</span> state, most probably your cluster does not have a Physical Volume Provisioner. This can be verified as the following:
+<p>If your Pod is stuck in the <span class="code ">Pending</span> state, most probably your cluster does not have a Physical Volume Provisioner. This can be verified as the following:</p>
 <pre class="lang-bash">
 kubectl get pvc,pod
 NAME                               STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 persistence-hello-world-server-0   Pending                                                     30s
-</pre></p>
+</pre>
+
 <p>In this case, and if this is not a production environment, you might want to install the <a href="https://github.com/rancher/local-path-provisioner">Local Path Provisioner</a></p>
 <pre class="lang-bash">
 kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
@@ -184,7 +185,6 @@ echo "password: $password"
 
 kubectl port-forward "service/hello-world" 15672
 </pre>
-
 <p>Now we can open localhost:15672 in the browser and see the Management UI. The credentials are as printed in the commands above. Alternatively, you can run a <span class="code ">curl</span> command to verify access:</p>
 <pre class="lang-bash">
 curl -u$username:$password localhost:15672/api/overview

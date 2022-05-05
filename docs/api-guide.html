@@ -477,8 +477,9 @@ before any other callbacks to that <span class="code ">Consumer</span> are calle
 methods to be notified of explicit and implicit cancellations,
 respectively.</p>
 <p>You can explicitly cancel a particular <span class="code ">Consumer</span> with
-<span class="code ">Channel.basicCancel</span>:
-<pre class="lang-java">channel.basicCancel(consumerTag);</pre></p>
+<span class="code ">Channel.basicCancel</span>:</p>
+<pre class="lang-java">channel.basicCancel(consumerTag);</pre>
+
 <p>passing the consumer tag.</p>
 <p>Just like with publishers, it is important to consider concurrency
 hazard safety for consumers.</p>

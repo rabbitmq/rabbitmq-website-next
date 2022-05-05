@@ -76,10 +76,12 @@ UTF-8. The console will instead provide and expect some country-specific encodin
 <ul>
 <li>Avoid using non-ASCII characters in RabbitMQ installation and <a href="/relocate.html">node directory</a> paths</li>
 <li>On recent versions of Windows, issue the command
-   <pre class="lang-powershell">chcp 65001</pre> before using CLI tools to force
-   the console to use UTF-8</li>
-<li>Where possible, use the <a href="/management.html">management plugin</a> instead of CLI tools.</li>
+ <br />
+<pre class="lang-powershell">chcp 65001</pre></li>
 </ul>
+<p>before using CLI tools to force
+   the console to use UTF-8
+ * Where possible, use the <a href="/management.html">management plugin</a> instead of CLI tools.</p>
 <h2><a id="cookie-location" class="anchor" href="#cookie-location">Installing as a non-administrator User Leaves <span class="code ">.erlang.cookie</span> in the Wrong Place</a></h2>
 <p>If RabbitMQ is installed using a non-administrative account, a <a href="/cli.html#erlang-cookie">shared secret</a> file
 used by nodes and CLI tools will not be placed into a correct location,
