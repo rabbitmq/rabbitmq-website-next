@@ -1,27 +1,27 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="./css/rabbit.css" type="text/css" /><link rel="stylesheet" href="./css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="./css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
-      <link rel="stylesheet" href="./css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="./css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Command Line Tools 
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Command Line Tools 
  — RabbitMQ</title></head>
-  <body id="cli"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Command Line Tools 
+  <body id="cli"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Command Line Tools 
 </h1>
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>RabbitMQ ships with multiple command line tools, each with a set of related commands:</p>
 <ul>
-<li><a href="./rabbitmqctl.8.html"><span class="code ">rabbitmqctl</span></a> for service management and general operator tasks</li>
-<li><a href="./rabbitmq-diagnostics.8.html"><span class="code ">rabbitmq-diagnostics</span></a> for diagnostics and <a href="./monitoring.html">health checking</a></li>
-<li><a href="./rabbitmq-plugins.8.html"><span class="code ">rabbitmq-plugins</span></a> for <a href="./plugins.html">plugin management</a></li>
-<li><a href="./rabbitmq-queues.8.html"><span class="code ">rabbitmq-queues</span></a> for maintenance tasks on <a href="queues.html">queues</a>, in particular <a href="./quorum-queues.html">quorum queues</a></li>
-<li><a href="./rabbitmq-upgrade.8.html"><span class="code ">rabbitmq-upgrade</span></a> for maintenance tasks related to <a href="./upgrade.html">upgrades</a></li>
+<li><a href="/rabbitmqctl.8.html"><span class="code ">rabbitmqctl</span></a> for service management and general operator tasks</li>
+<li><a href="/rabbitmq-diagnostics.8.html"><span class="code ">rabbitmq-diagnostics</span></a> for diagnostics and <a href="/monitoring.html">health checking</a></li>
+<li><a href="/rabbitmq-plugins.8.html"><span class="code ">rabbitmq-plugins</span></a> for <a href="/plugins.html">plugin management</a></li>
+<li><a href="/rabbitmq-queues.8.html"><span class="code ">rabbitmq-queues</span></a> for maintenance tasks on <a href="queues.html">queues</a>, in particular <a href="/quorum-queues.html">quorum queues</a></li>
+<li><a href="/rabbitmq-upgrade.8.html"><span class="code ">rabbitmq-upgrade</span></a> for maintenance tasks related to <a href="/upgrade.html">upgrades</a></li>
 </ul>
 <p>they can be found under the <span class="code ">sbin</span> directory in installation root.</p>
 <p>On Windows, the above tool names will end with <span class="code ">.bat</span>, e.g. <span class="code ">rabbitmqctl</span> in a Windows installation will
 be named <span class="code ">rabbitmqctl.bat</span>.</p>
 <p>Additional tools are optional and can be obtained from GitHub:</p>
 <ul>
-<li><a href="./management-cli.html"><span class="code ">rabbitmqadmin</span></a> for operator tasks over <a href="./management.html">HTTP API</a></li>
+<li><a href="/management-cli.html"><span class="code ">rabbitmqadmin</span></a> for operator tasks over <a href="/management.html">HTTP API</a></li>
 <li><a href="https://github.com/rabbitmq/support-tools"><span class="code ">rabbitmq-collect-env</span></a> which collects relevant cluster and environment information
     as well as server logs. This tool is specific to Linux and UNIX-like operating systems.</li>
 </ul>
@@ -30,11 +30,11 @@ only available to RabbitMQ administrator given that it provides full control ove
 including virtual host, user and permission management, destructive operations
 on node's data and so on.</p>
 <p><span class="code ">rabbitmqadmin</span> is built on top of the HTTP API and uses a different mechanism, and only
-requires that the <a href="./management.html">HTTP API</a> port is open for outside connections.</p>
+requires that the <a href="/management.html">HTTP API</a> port is open for outside connections.</p>
 <p>Even though CLI tools ship with the server, most commands <a href="#remote-nodes">can be used to operate on remote nodes</a>.
 Plugins can <a href="#command-discovery">provide CLI commands</a> that will be discovered by CLI tools for explicitly enabled plugins.</p>
 <h2><a id="requirements" class="anchor" href="#requirements">System and Environment Requirements</a></h2>
-<p>RabbitMQ CLI tools require a <a href="./which-erlang.html">compatible Erlang/OTP</a> version to be installed.</p>
+<p>RabbitMQ CLI tools require a <a href="/which-erlang.html">compatible Erlang/OTP</a> version to be installed.</p>
 <p>The tools assume that system locale is a UTF-8 one (e.g. <span class="code ">en_GB.UTF-8</span> or <span class="code ">en_US.UTF-8</span>). If that's
 not the case, the tools may still function correctly but it cannot be guaranteed.
 A warning will be emitted in non-UTF-8 locales.</p>
@@ -43,13 +43,13 @@ A warning will be emitted in non-UTF-8 locales.</p>
 directory in installation root. With most package types that directory is added to <span class="code ">PATH</span> at installation time.
 This means that core tools such as <span class="code ">rabbitmq-diagnostics</span> and <span class="code ">rabbitmqctl</span> are available on every node
 that has RabbitMQ installed.</p>
-<p><a href="./install-generic-unix.html">Generic UNIX package</a> users have to make sure that the <span class="code ">sbin</span> directory under installation
+<p><a href="/install-generic-unix.html">Generic UNIX package</a> users have to make sure that the <span class="code ">sbin</span> directory under installation
 root is added to <span class="code ">PATH</span> for simpler interactive use. Non-interactive use cases can use full or relative paths without
 modifications to the <span class="code ">PATH</span> environment variable.</p>
-<p><a href="./management-cli.html"><span class="code ">rabbitmqadmin</span></a> is a standalone tool (no dependencies other than Python 3)
+<p><a href="/management-cli.html"><span class="code ">rabbitmqadmin</span></a> is a standalone tool (no dependencies other than Python 3)
 that can be downloaded from a running node or <a href="https://github.com/rabbitmq/rabbitmq-server/blob/master/deps/rabbitmq_management/bin/rabbitmqadmin">directly from GitHub</a>.</p>
-<p>If interaction from a remote node is required, download and extract the <a href="./install-generic-unix.html">generic UNIX package</a>
-or use the <a href="./install-windows.html">Windows installer</a>.</p>
+<p>If interaction from a remote node is required, download and extract the <a href="/install-generic-unix.html">generic UNIX package</a>
+or use the <a href="/install-windows.html">Windows installer</a>.</p>
 <p>Besides <a href="#authentication">authentication</a>, all configuration for core CLI tools is optional.</p>
 <p>Commands that require specific arguments list them in the usage section and will report
 any missing arguments when executed.</p>
@@ -79,7 +79,7 @@ rabbitmq-diagnostics status --help
 </pre>
 
 <h2><a id="rabbitmqctl" class="anchor" href="#rabbitmqctl">rabbitmqctl</a></h2>
-<p><a href="./rabbitmqctl.8.html">rabbitmqctl</a> is the original CLI tool that ships with RabbitMQ.
+<p><a href="/rabbitmqctl.8.html">rabbitmqctl</a> is the original CLI tool that ships with RabbitMQ.
 It supports a wide range of operations, mostly administrative (operational) in nature.</p>
 <p>This includes</p>
 <ul>
@@ -94,7 +94,7 @@ It supports a wide range of operations, mostly administrative (operational) in n
 <p>and more.</p>
 <p><span class="code ">rabbitmqctl</span> uses a <a href="#erlang-cookie">shared secret authentication mechanism</a> (described below) with server nodes.</p>
 <h2><a id="rabbitmq-plugins" class="anchor" href="#rabbitmq-plugins">rabbitmq-plugins</a></h2>
-<p><a href="./rabbitmq-plugins.8.html">rabbitmq-plugins</a> is a tool that manages plugins:
+<p><a href="/rabbitmq-plugins.8.html">rabbitmq-plugins</a> is a tool that manages plugins:
 lists, enables and disables them. It ships with RabbitMQ.</p>
 <p>It supports both online (when target node is running) and offline mode (changes
 take effect on node restart).</p>
@@ -129,7 +129,7 @@ rabbitmqctl wait
 </pre>
 
 <p>can only be run on the same host or in the same container as their target node. These commands typically
-rely on or modify something in the local environment, e.g. the local <a href="./plugins.html">enabled plugins file</a>.</p>
+rely on or modify something in the local environment, e.g. the local <a href="/plugins.html">enabled plugins file</a>.</p>
 <h3><a id="node-names" class="anchor" href="#node-names">Node Names</a></h3>
 <p>RabbitMQ nodes are identified by node names. A node name consists of two parts,
 a prefix (usually <span class="code ">rabbit</span>) and hostname. For example, <span class="code ">rabbit@node1.messaging.svc.local</span>
@@ -139,7 +139,7 @@ is a node name with the prefix of <span class="code ">rabbit</span> and hostname
 different prefixes, e.g. <span class="code ">rabbit1@hostname</span> and <span class="code ">rabbit2@hostname</span>.</p>
 <p>CLI tools identify and address server nodes using node names.
 Most CLI commands are invoked against a node called target node. To specify a target node,
-use the <span class="code ">--node</span> (<span class="code ">-n</span>) option. For example, to run a <a href="./monitoring.html">health check</a>
+use the <span class="code ">--node</span> (<span class="code ">-n</span>) option. For example, to run a <a href="/monitoring.html">health check</a>
 on node <span class="code ">rabbit@warp10.local</span>:</p>
 <pre class="lang-bash">
 rabbitmq-diagnostics -n rabbit@warp10 check_alarms
@@ -148,14 +148,14 @@ rabbitmq-diagnostics -n rabbit@warp10 check_alarms
 <p>Some commands accept both a target node and another node name. For example,
 <span class="code ">rabbitmqctl forget_cluster_node</span> accepts both a target node (that will perform the action)
 and a name of the node to be removed.</p>
-<p>In a cluster, nodes identify and contact each other using node names. See <a href="./clustering.html#node-names">Clustering guide</a>
+<p>In a cluster, nodes identify and contact each other using node names. See <a href="/clustering.html#node-names">Clustering guide</a>
 for details.</p>
 <p>When a node starts up, it checks whether it has been assigned a node name. This is done
-via the <span class="code ">RABBITMQ_NODENAME</span> <a href="./configure.html#supported-environment-variables">environment variable</a>.
+via the <span class="code ">RABBITMQ_NODENAME</span> <a href="/configure.html#supported-environment-variables">environment variable</a>.
 If no value was explicitly configured, the node resolves its hostname and prepends <span class="code ">rabbit</span> to it to compute its node name.</p>
 <p>If a system uses fully qualified domain names (FQDNs) for hostnames, RabbitMQ nodes
 and CLI tools must be configured to use so called long node names.
-For server nodes this is done by setting the <span class="code ">RABBITMQ_USE_LONGNAME</span> <a href="./configure.html#supported-environment-variables">environment variable</a>
+For server nodes this is done by setting the <span class="code ">RABBITMQ_USE_LONGNAME</span> <a href="/configure.html#supported-environment-variables">environment variable</a>
 to <span class="code ">true</span>.</p>
 <p>For CLI tools, either <span class="code ">RABBITMQ_USE_LONGNAME</span> must be set or the <span class="code ">--longnames</span> option
 must be specified:</p>
@@ -252,7 +252,7 @@ For instance, this can be seen in the <a href="https://github.com/rabbitmq/diy-k
 location for users running commands like <span class="code ">rabbitmqctl.bat</span>.</p>
 <h3>Overriding Using CLI and Runtime Command Line Arguments</h3>
 <p>As an alternative, the option "<span class="code ">-setcookie &lt;value&gt;</span>" can be added
-to <span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span> <a href="./configure.html">environment variable value</a>
+to <span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span> <a href="/configure.html">environment variable value</a>
 to override the cookie value used by a RabbitMQ node:</p>
 <pre class="lang-bash">
 RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="-setcookie cookie-value"
@@ -266,7 +266,7 @@ rabbitmq-diagnostics status --erlang-cookie "cookie-value"
 <p>Both are <strong>the least secure options</strong> and generally <strong>not recommended</strong>.</p>
 <h3><a id="cookie-file-troubleshooting" class="anchor" href="#cookie-file-troubleshooting">Troubleshooting</a> Cookie-based Authentication</h3>
 <h4>CLI Tools</h4>
-<p>Starting with <a href="./changelog.html">version <span class="code ">3.8.6</span></a>, <span class="code ">rabbitmq-diagnostics</span> includes a command
+<p>Starting with <a href="/changelog.html">version <span class="code ">3.8.6</span></a>, <span class="code ">rabbitmq-diagnostics</span> includes a command
 that provides relevant information on the Erlang cookie file used by CLI tools:</p>
 <pre class="lang-bash">
 rabbitmq-diagnostics erlang_cookie_sources
@@ -297,22 +297,22 @@ RABBITMQ_ERLANG_COOKIE value length: 0
 </pre>
 
 <h4>Server Nodes</h4>
-<p>When a node starts, it will <a href="./logging.html">log</a> the home directory location of its effective user:</p>
+<p>When a node starts, it will <a href="/logging.html">log</a> the home directory location of its effective user:</p>
 <pre class="lang-plaintext">
 node           : rabbit@cdbf4de5f22d
 home dir       : /var/lib/rabbitmq
 </pre>
 
-<p>Unless any <a href="./relocate.html">server directories</a> were overridden, that's the directory where
+<p>Unless any <a href="/relocate.html">server directories</a> were overridden, that's the directory where
 the cookie file will be looked for, and created by the node on first boot if it does not already exist.</p>
 <p>In the example above, the cookie file location will be <span class="code ">/var/lib/rabbitmq/.erlang.cookie</span>.</p>
 <h4>Hostname Resolution</h4>
-<p>Starting with <a href="./changelog.html">RabbitMQ <span class="code ">3.8.6</span></a>, CLI tools provide two commands that help verify
+<p>Starting with <a href="/changelog.html">RabbitMQ <span class="code ">3.8.6</span></a>, CLI tools provide two commands that help verify
 that hostname resolution on a node works as expected. The commands are not meant to replace
 <a href="https://en.wikipedia.org/wiki/Dig_(command)"><span class="code ">dig</span></a> and other specialised DNS tools but rather
 provide a way to perform most basic checks while taking <a href="https://erlang.org/doc/apps/erts/inet_cfg.html">Erlang runtime hostname resolver features</a>
 into account.</p>
-<p>The commands are covered in the <a href="./networking.html#dns-verify-resolution">Networking guide</a>.</p>
+<p>The commands are covered in the <a href="/networking.html#dns-verify-resolution">Networking guide</a>.</p>
 <h2><a id="cli-authentication-failures" class="anchor" href="#cli-authentication-failures">Authentication Failures</a></h2>
 <p>When the cookie is misconfigured (for example, not identical), RabbitMQ nodes will log errors
 such as "Connection attempt from disallowed node", "", "Could not auto-cluster".</p>
@@ -401,17 +401,17 @@ current node details:
 <p>and so on.</p>
 <p><a href="networking.html">RabbitMQ Networking guide</a> contains a section on troubleshooting of networking-related issues.</p>
 <h2><a id="http-api-cli" class="anchor" href="#http-api-cli">rabbitmqadmin</a></h2>
-<p><a href="./management-cli.html">rabbitmqadmin</a> is a command line tool that's built on top of <a href="./management.html">RabbitMQ HTTP API</a>.
+<p><a href="/management-cli.html">rabbitmqadmin</a> is a command line tool that's built on top of <a href="/management.html">RabbitMQ HTTP API</a>.
 It is not a replacement for <span class="code ">rabbitmqctl</span> and provides access to a subset of most commonly
-performed operations provided by the <a href="./management.html">management UI</a>.</p>
+performed operations provided by the <a href="/management.html">management UI</a>.</p>
 <p>The tool requires Python 2.7.9 or a more recent version.</p>
 <p><span class="code ">rabbitmqadmin</span> uses HTTP API authentication mechanism (basic HTTP authentication). It has to be
 downloaded separately from a running node or <a href="https://github.com/rabbitmq/rabbitmq-server/blob/master/deps/rabbitmq_management/bin/rabbitmqadmin">GitHub</a>.</p>
 <h2><a id="cli-and-clustering" class="anchor" href="#cli-and-clustering">"Node-local" and "Clusterwide" Commands</a></h2>
 <p>Client connections, channels and queues will be distributed across cluster nodes.
-Operators need to be able to inspect and <a href="./monitoring.html">monitor</a> such resources
+Operators need to be able to inspect and <a href="/monitoring.html">monitor</a> such resources
 across all cluster nodes.</p>
-<p>CLI tools such as <a href="./rabbitmqctl.8.html">rabbitmqctl</a> and
+<p>CLI tools such as <a href="/rabbitmqctl.8.html">rabbitmqctl</a> and
 <span class="code ">rabbitmq-diagnostics</span> provide commands that inspect resources and
 cluster-wide state. Some commands focus on the state of a single node
 (e.g. <span class="code ">rabbitmq-diagnostics environment</span> and <span class="code ">rabbitmq-diagnostics
@@ -516,11 +516,11 @@ rabbitmq-diagnostics environment
                     If you'd like to contribute an improvement to the site,
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
-                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

@@ -1,14 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="./css/rabbit.css" type="text/css" /><link rel="stylesheet" href="./css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="./css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
-      <link rel="stylesheet" href="./css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="./css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Consumer Acknowledgements and Publisher Confirms
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Consumer Acknowledgements and Publisher Confirms
  — RabbitMQ</title></head>
-  <body id="confirms"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Consumer Acknowledgements and Publisher Confirms
+  <body id="confirms"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Consumer Acknowledgements and Publisher Confirms
 </h1>
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>This guide covers two related features related to <a href="./reliability.html">data safety</a>, consumer Acknowledgements
+<p>This guide covers two related features related to <a href="/reliability.html">data safety</a>, consumer Acknowledgements
 and publisher confirms:</p>
 <ul>
 <li><a href="#basics">Why acknowledgements exist</a></li>
@@ -21,7 +21,7 @@ and publisher confirms:</p>
 </ul>
 <p>and more. Acknowledgements on both consumer and publisher side are important for
 data safety in applications that use messaging.</p>
-<p>More related topics are covered in the <a href="./publishers.html">Publisher</a> and <a href="./consumers.html">Consumer</a> guides.</p>
+<p>More related topics are covered in the <a href="/publishers.html">Publisher</a> and <a href="/consumers.html">Consumer</a> guides.</p>
 <h2><a id="basics" class="anchor" href="#basics">The Basics</a></h2>
 <p>Systems that use a messaging broker such as RabbitMQ are by
 definition distributed. Since protocol methods (messages) sent
@@ -31,9 +31,9 @@ delivery and processing confirmation. Several messaging
 protocols supported by RabbitMQ provide such features.
 This guide covers the features in AMQP 0-9-1 but the idea
 is largely the same in other supported protocols.</p>
-<p>Delivery processing acknowledgements from <a href="./consumers.html">consumers</a> to RabbitMQ
+<p>Delivery processing acknowledgements from <a href="/consumers.html">consumers</a> to RabbitMQ
 are known as acknowledgements in messaging protocols; broker
-acknowledgements to <a href="./publishers.html">publishers</a> are a protocol extension called
+acknowledgements to <a href="/publishers.html">publishers</a> are a protocol extension called
 <a href="#publisher-confirms">publisher confirms</a>.
 Both features build on the same idea and are inspired by TCP.</p>
 <p>They are essential for reliable delivery both from publishers
@@ -48,7 +48,7 @@ decision. In AMQP 0-9-1 it is made when a consumer is registered using
 the <span class="code ">basic.consume</span> method or a message is fetched on demand
 with the <span class="code ">basic.get</span> method.</p>
 <p>If you prefer a more example-oriented and step-by-step material, consumer acknowledgements are
-also covered in <a href="./getstarted.html">RabbitMQ tutorial #2</a>.</p>
+also covered in <a href="/getstarted.html">RabbitMQ tutorial #2</a>.</p>
 <h3><a id="consumer-acks-delivery-tags" class="anchor" href="#consumer-acks-delivery-tags">Delivery Identifiers: Delivery Tags</a></h3>
 <p>Before we proceed to discuss other topics it is important to
 explain how deliveries are identified (and acknowledgements
@@ -80,7 +80,7 @@ or when an explicit ("manual") client acknowledgement is received. Manually sent
 acknowledgements can be positive or negative and use one of the following protocol methods:</p>
 <ul>
 <li><span class="code ">basic.ack</span> is used for positive acknowledgements</li>
-<li><span class="code ">basic.nack</span> is used for negative acknowledgements (note: this is a <a href="./nack.html">RabbitMQ extension to AMQP 0-9-1</a>)</li>
+<li><span class="code ">basic.nack</span> is used for negative acknowledgements (note: this is a <a href="/nack.html">RabbitMQ extension to AMQP 0-9-1</a>)</li>
 <li><span class="code ">basic.reject</span> is used for negative acknowledgements but has one limitation compared to <span class="code ">basic.nack</span></li>
 </ul>
 <p>How these methods are exposed in client library APIs will be discussed below.</p>
@@ -214,7 +214,7 @@ methods that are used for that.</p>
 be discarded or dead-lettered or requeued by the broker. This behaviour is controlled by the <span class="code ">requeue</span> field.
 When the field is set to <span class="code ">true</span>, the broker will requeue the delivery (or multiple
 deliveries, as will be explained shortly) with the specified delivery tag.
-Alternatively, when this field is set to <span class="code ">false</span>, the message will be routed to a <a href="./dlx.html">Dead Letter Exchange</a> if it
+Alternatively, when this field is set to <span class="code ">false</span>, the message will be routed to a <a href="/dlx.html">Dead Letter Exchange</a> if it
 is configured, otherwise it will be discarded.</p>
 <p>Both methods are usually exposed as operations on a channel in client libraries. Java
 client users will use <span class="code ">Channel#basicReject</span> and <span class="code ">Channel#basicNack</span>
@@ -375,7 +375,7 @@ condition arises and there can temporarily be more than
 prefetch count unacknowledged messages on a channel.</p>
 <h4>Per-channel, Per-consumer and Global Prefetch</h4>
 <p>The QoS setting can be configured for a specific channel or a specific consumer.
-The <a href="./consumer-prefetch.html">Consumer Prefetch</a> guide explains
+The <a href="/consumer-prefetch.html">Consumer Prefetch</a> guide explains
 the effects of this scoping.</p>
 <h4>Prefetch and Polling Consumers</h4>
 <p>The QoS prefetch setting has no effect on messages fetched using the <span class="code ">basic.get</span>
@@ -407,7 +407,7 @@ the channel (or connection) on which the delivery happened
 is closed. This includes TCP connection loss by clients,
 consumer application (process) failures, and channel-level
 protocol exceptions (covered below).</p>
-<p>Note that it takes a period of time to <a href="./heartbeats.html">detect an unavailable client</a>.</p>
+<p>Note that it takes a period of time to <a href="/heartbeats.html">detect an unavailable client</a>.</p>
 <p>Due to this behavior, consumers must be prepared to handle redeliveries and otherwise
 be implemented with <a href="https://en.wikipedia.org/wiki/Idempotence">idempotence</a> in mind.
 Redeliveries will have a special boolean property, <span class="code ">redeliver</span>, set to <span class="code ">true</span>
@@ -422,7 +422,7 @@ an acknowledgement, whether positive or negative, is attempted on a channel diff
 that on which the delivery was received on. Deliveries must be acknowledged on the same
 channel.</p>
 <h2><a id="publisher-confirms" class="anchor" href="#publisher-confirms">Publisher Confirms</a></h2>
-<p>Networks can fail in less-than-obvious ways and detecting some failures <a href="./heartbeats.html">takes time</a>.
+<p>Networks can fail in less-than-obvious ways and detecting some failures <a href="/heartbeats.html">takes time</a>.
 Therefore a client that's written a protocol frame or a set of frames (e.g. a published message) to
 its socket cannot assume that the message has reached the server and was successfully processed.
 It could have been lost along the way or its delivery can be significantly delayed.</p>
@@ -565,11 +565,11 @@ value in practice.</p><div id="help-and-feedback"><h2>Getting Help and Providing
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

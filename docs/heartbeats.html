@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="./css/rabbit.css" type="text/css" /><link rel="stylesheet" href="./css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="./css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
-      <link rel="stylesheet" href="./css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="./css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Detecting Dead TCP Connections with Heartbeats and TCP Keepalives
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Detecting Dead TCP Connections with Heartbeats and TCP Keepalives
  — RabbitMQ</title></head>
-  <body id="heartbeats"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Detecting Dead TCP Connections with Heartbeats and TCP Keepalives
+  <body id="heartbeats"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Detecting Dead TCP Connections with Heartbeats and TCP Keepalives
 </h1>
 
 
@@ -55,7 +55,7 @@ to re-connect.</p>
 RabbitMQ <a href="configure.html">configuration</a> exposes the timeout value,
 so do the officially supported client libraries. However some clients might expose
 the interval, potentially causing confusion.</p>
-<p>Any traffic (e.g. protocol operations, published messages, <a href="./confirms.html">acknowledgements</a>) counts for a valid
+<p>Any traffic (e.g. protocol operations, published messages, <a href="/confirms.html">acknowledgements</a>) counts for a valid
 heartbeat. Clients may choose to send heartbeat frames
 regardless of whether there was any other traffic on the
 connection but some only do it when necessary.</p>
@@ -68,7 +68,7 @@ unless the environment is known to use <a href="#tcp-keepalives">TCP keepalives<
 as frame delivery will be too infrequent to make a practical difference.</p>
 <p>Unless <a href="#tcp-keepalives">TCP keepalives</a> are used instead with an adequately low inactivity detection period,
 <em>disabling heartbeats is highly discouraged</em>. If heartbeats are disabled, it will make timely peer unavailability
-detection much less likely. That <em>would pose a significant risk to data safety</em>, in particular for <a href="./publishers.html">publishers</a>.</p>
+detection much less likely. That <em>would pose a significant risk to data safety</em>, in particular for <a href="/publishers.html">publishers</a>.</p>
 <h2><a id="using-heartbeats-in-java" class="anchor" href="#using-heartbeats-in-java">Enabling Heartbeats with Java Client</a></h2>
 <p>To configure the heartbeat timeout in the Java client, set it with
 <span class="code ">ConnectionFactory#setRequestedHeartbeat</span> before
@@ -124,7 +124,7 @@ consult your MQTT client's documentation for examples.</p>
 <p><a href="shovel.html">Shovel</a> and <a href="federation.html">Federation</a> plugins open Erlang client
 connections to RabbitMQ nodes under the hood. As such, they can be configured
 to use a desired heartbeat value.</p>
-<p>Please refer to the <a href="./uri-query-parameters.html">AMQP 0-9-1 URI query parameters reference</a>
+<p>Please refer to the <a href="/uri-query-parameters.html">AMQP 0-9-1 URI query parameters reference</a>
 for details.</p>
 <h2><a id="tcp-keepalives" class="anchor" href="#tcp-keepalives">TCP Keepalives</a></h2>
 <p>TCP contains a mechanism similar in purpose to the heartbeat
@@ -162,12 +162,12 @@ network traffic roughly every 15 seconds. Activity in the 5 to 15 second range
 is enough to satisfy the defaults of most popular proxies and load balancers.
 Also see the section on low timeouts and false positives above.</p>
 <h2><a id="troubleshooting" class="anchor" href="#troubleshooting">Troubleshooting Active and Defunct Connections</a></h2>
-<p>RabbitMQ nodes will <a href="./logging.html#connection-lifecycle-events">log connections</a> closed due to missed heartbeats. So will all
+<p>RabbitMQ nodes will <a href="/logging.html#connection-lifecycle-events">log connections</a> closed due to missed heartbeats. So will all
 officially supported client libraries. Inspecting server and client logs will provide
 valuable information and should be the first troubleshooting step.</p>
 <p>It may be necessary to inspect the connections open to or from a node,
 their state, origin, username and effective heartbeat timeout value.
-<a href="./troubleshooting-networking.html">Network Troubleshooting</a> guide
+<a href="/troubleshooting-networking.html">Network Troubleshooting</a> guide
 provides an overview of the tools available to help with that.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
@@ -197,11 +197,11 @@ provides an overview of the tools available to help with that.</p><div id="help-
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

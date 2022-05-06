@@ -1,18 +1,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="./css/rabbit.css" type="text/css" /><link rel="stylesheet" href="./css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="./css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
-      <link rel="stylesheet" href="./css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="./css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Monitoring with Prometheus &amp; Grafana
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Monitoring with Prometheus &amp; Grafana
  — RabbitMQ</title></head>
-  <body id="prometheus"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Monitoring with Prometheus &amp; Grafana
+  <body id="prometheus"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Monitoring with Prometheus &amp; Grafana
 </h1>
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>This guide covers RabbitMQ monitoring with two popular tools:
 <a href="https://prometheus.io/docs/introduction/overview/" target="_blank">Prometheus</a>, a monitoring toolkit;
 and <a href="https://grafana.com/grafana" target="_blank">Grafana</a>, a metrics visualisation system.</p>
 <p>These tools together form a powerful toolkit for long-term metric collection and monitoring of RabbitMQ clusters.
-While <a href="./management.html">RabbitMQ management UI</a> also provides access to a subset of metrics, it by
+While <a href="/management.html">RabbitMQ management UI</a> also provides access to a subset of metrics, it by
 design doesn't try to be a long term metric collection solution.</p>
-<p>Please read through the main <a href="./monitoring.html">guide on monitoring</a> first. Monitoring principles and
+<p>Please read through the main <a href="/monitoring.html">guide on monitoring</a> first. Monitoring principles and
 available metrics are mostly relevant when Prometheus and Grafana are used.</p>
 <p>Some key topics covered by this guide are</p>
 <ul>
@@ -38,16 +38,16 @@ and anti-patterns easier to spot. Its design decisions are explained in a number
 <p>As of 3.8.0, RabbitMQ ships with built-in Prometheus &amp; Grafana support.</p>
 <p>Support for Prometheus metric collector ships in the <span class="code ">rabbitmq_prometheus</span> plugin.
 The plugin exposes all RabbitMQ metrics on a dedicated TCP port, in Prometheus text format.</p>
-<p>These metrics provide deep insights into the state of RabbitMQ nodes and <a href="./runtime.html">the runtime</a>.
+<p>These metrics provide deep insights into the state of RabbitMQ nodes and <a href="/runtime.html">the runtime</a>.
 They make reasoning about the behaviour of RabbitMQ, applications that use it and various infrastructure
 elements a lot more informed.</p>
 <h3><a id="overview-grafana" class="anchor" href="#overview-grafana">Grafana Support</a></h3>
 <p>Collected metrics are not very useful unless they are visualised. Team RabbitMQ provides a <a href="https://grafana.com/rabbitmq">prebuilt set of Grafana dashboards</a>
-that visualise a large number of available RabbitMQ and <a href="./runtime.html">runtime</a> metrics in context-specific ways.</p>
+that visualise a large number of available RabbitMQ and <a href="/runtime.html">runtime</a> metrics in context-specific ways.</p>
 <p>There is a number of dashboards available:</p>
 <ul>
 <li>an overview dashboard</li>
-<li>runtime <a href="./runtime.html#allocators">memory allocators</a> dashboard</li>
+<li>runtime <a href="/runtime.html#allocators">memory allocators</a> dashboard</li>
 <li>an <a href="https://www.rabbitmq.com/clustering.html#cluster-membership">inter-node communication</a>
 (Erlang distribution) dashboard</li>
 <li>a Raft metric dashboard</li>
@@ -61,7 +61,7 @@ good practices and are thus recommended.</p>
 <h3><a id="overview-example" class="anchor" href="#overview-example">An Example</a></h3>
 <p>When RabbitMQ is integrated with Prometheus and Grafana, this is what the
 RabbitMQ Overview dashboard looks like:</p>
-<p><img alt="RabbitMQ Overview Dashboard" src="./img/rabbitmq-overview-dashboard.png" /></p>
+<p><img alt="RabbitMQ Overview Dashboard" src="/img/rabbitmq-overview-dashboard.png" /></p>
 <h2><a id="quick-start" class="anchor" href="#quick-start">Quick Start</a></h2>
 <h3>Before We Start</h3>
 <p>This section explains how to set up a RabbitMQ cluster with Prometheus and Grafana dashboards, as well
@@ -119,12 +119,12 @@ instance collecting metrics from it running in a set of containers.</p>
 It will bring up a login page. Use <span class="code ">admin</span> for both the username and the password. On the very first login
 Grafana will suggest changing your password. For the sake of this example, we suggest that this step is skipped.</p>
 <p>Navigate to the <strong>RabbitMQ-Overview</strong> dashboard that will look like this:</p>
-<p><img alt="RabbitMQ Overview Dashboard Localhost" src="./img/rabbitmq-overview-dashboard-localhost.png" /></p>
+<p><img alt="RabbitMQ Overview Dashboard Localhost" src="/img/rabbitmq-overview-dashboard-localhost.png" /></p>
 <p>Congratulations! You now have a 3-nodes RabbitMQ cluster integrated with
 Prometheus &amp; Grafana running locally. This is a perfect time to learn more
 about the available dashboards.</p>
 <h2><a id="rabbitmq-overview-dashboard" class="anchor" href="#rabbitmq-overview-dashboard">RabbitMQ Overview Dashboard</a></h2>
-<p>All metrics available in the <a href="./management.html">management UI</a> Overview
+<p>All metrics available in the <a href="/management.html">management UI</a> Overview
 page are available in the Overview Grafana dashboard. They are grouped by object type,
 with a focus on RabbitMQ nodes and message rates.</p>
 <h3><a id="health-indicators" class="anchor" href="#health-indicators">Health Indicators</a></h3>
@@ -139,7 +139,7 @@ metric states:</p>
 <li><strong>Blue</strong> means under-utilisation or some form of degradation</li>
 <li><strong>Red</strong> means the value of the metric is below or above the range that is considered healthy</li>
 </ul>
-<p><img alt="RabbitMQ Overview Dashboard Single-stat" src="./img/rabbitmq-overview-dashboard-single-stat.png" /></p>
+<p><img alt="RabbitMQ Overview Dashboard Single-stat" src="/img/rabbitmq-overview-dashboard-single-stat.png" /></p>
 <p>Default ranges for the <a href="https://grafana.com/docs/features/panels/singlestat/">single stat metrics</a> <strong>will not be optimal for all</strong>
 RabbitMQ deployments. For example, in environments with many consumers and/or
 high prefetch values, it may be perfectly fine to have over 1,000
@@ -160,7 +160,7 @@ for example, one node serves a disproportionate number of connections.</p>
 <p>We would refer to such a RabbitMQ cluster as <strong>unbalanced</strong>, meaning that at least in some ways,
 a minority of nodes perform the majority of work.</p>
 <p>In the example below, connections are spread out evenly across all nodes most of the time:</p>
-<p><img alt="RabbitMQ Overview Dashboard CONNECTIONS" src="./img/rabbitmq-overview-dashboard-connections.png" /></p>
+<p><img alt="RabbitMQ Overview Dashboard CONNECTIONS" src="/img/rabbitmq-overview-dashboard-connections.png" /></p>
 <h3><a id="graph-colour-labelling" class="anchor" href="#graph-colour-labelling">Colour Labelling in Graphs</a></h3>
 <p>All metrics on all graphs are associated with specific node names. For example,
 all metrics drawn in green are for the node that contains <span class="code ">0</span> in its name, e.g.
@@ -175,12 +175,12 @@ green may represent e.g. <span class="code ">rabbit@foo</span> in one graph, and
 <p>Most metrics have pre-configured thresholds. They define expected operating boundaries for the metric.
 On the graphs they appear as semi-transparent
 orange or red areas, as seen in the example below.</p>
-<p><img alt="RabbitMQ Overview Dashboard Single-stat" src="./img/rabbitmq-overview-dashboard-memory-threshold.png" /></p>
+<p><img alt="RabbitMQ Overview Dashboard Single-stat" src="/img/rabbitmq-overview-dashboard-memory-threshold.png" /></p>
 <p>Metric values in the <strong>orange</strong> area signal that some pre-defined threshold has been
 exceeded. This may be acceptable, especially if the metric recovers. A metric that
 comes close to the orange area is considered to be in healthy state.</p>
 <p>Metric values in the <strong>red</strong> area need attention and may identify some form of service degradation.
-For example, metrics in the red area can indicate that an <a href="./alarms.html">alarm</a> in effect
+For example, metrics in the red area can indicate that an <a href="/alarms.html">alarm</a> in effect
 or when the node is <a href="networking.html">out of file descriptors</a> and cannot accept any more connections or open new files.</p>
 <p>In the example above, we have a RabbitMQ cluster that runs at optimal memory
 capacity, which is just above the warning threshold. If there is a spike in published messages that should
@@ -189,7 +189,7 @@ go down (as it indicates the amount of <strong>available</strong> memory).</p>
 <p>Because the system has more memory available than is allocated to the RabbitMQ node it hosts, we
 notice the dip below <strong>0 B</strong>. This emphasizes the importance of leaving spare
 memory available for the OS, housekeeping tasks that cause short-lived memory usage spikes,
-and other processes. When a RabbitMQ node exhausts all memory that it is allowed to use, a <a href="./alarms.html">memory alarm</a> is
+and other processes. When a RabbitMQ node exhausts all memory that it is allowed to use, a <a href="/alarms.html">memory alarm</a> is
 triggered and publishers across the entire cluster will be blocked.</p>
 <p>On the right side of the graph we can see that consumers catch up and the amount of memory used goes down.
 That clears the memory alarm on the node and, as a result, publishers become unblocked. This and related metrics
@@ -202,19 +202,19 @@ adequate in many cases, the <strong>operator must review and adjust the threshol
 requirements.</p>
 <h3><a id="graph-documentation" class="anchor" href="#graph-documentation">Relevant Documentation for Graphs</a></h3>
 <p>Most metrics have a help icon in the top-left corner of the panel.</p>
-<p><img alt="RabbitMQ Overview Dashboard Single-stat" src="./img/rabbitmq-overview-dashboard-disk-documentation.png" /></p>
-<p>Some, like the available disk space metric, link to dedicated pages in <a href="./documentation.html">RabbitMQ documentation</a>.
+<p><img alt="RabbitMQ Overview Dashboard Single-stat" src="/img/rabbitmq-overview-dashboard-disk-documentation.png" /></p>
+<p>Some, like the available disk space metric, link to dedicated pages in <a href="/documentation.html">RabbitMQ documentation</a>.
 These pages contain information relevant to the metric. Getting familiar with the linked guides
 is highly recommended and will help the operator understand what the metric means better.</p>
 <h3><a id="spot-anti-patterns" class="anchor" href="#spot-anti-pattern">Using Graphs to Spot Anti-patterns</a></h3>
 <p>Any metric drawn in red hints at an anti-pattern in the system. Such graphs try to highlight sub-optimal
 uses of RabbitMQ. A <strong>red graphs with non-zero metrics should be investigated</strong>. Such metrics might indicate
-an issue in RabbitMQ configuration or sub-optimal actions by clients (<a href="./publishers.html">publishers</a> or <a href="./consumers.html">consumers</a>).</p>
-<p>In the example below we can see the usage of greatly inefficient <a href="./consumers.html#fetching">polling consumers</a> that keep polling, even though
+an issue in RabbitMQ configuration or sub-optimal actions by clients (<a href="/publishers.html">publishers</a> or <a href="/consumers.html">consumers</a>).</p>
+<p>In the example below we can see the usage of greatly inefficient <a href="/consumers.html#fetching">polling consumers</a> that keep polling, even though
 most or even all polling operation return no messages. Like any polling-based algorithm, it is wasteful
 and should be avoided where possible.</p>
-<p>It is a lot more and efficient to have RabbitMQ <a href="./consumers.html">push messages to the consumer</a>.</p>
-<p><img alt="RabbitMQ Overview Dashboard Antipatterns" src="./img/rabbitmq-overview-dashboard-antipattern.png" /></p>
+<p>It is a lot more and efficient to have RabbitMQ <a href="/consumers.html">push messages to the consumer</a>.</p>
+<p><img alt="RabbitMQ Overview Dashboard Antipatterns" src="/img/rabbitmq-overview-dashboard-antipattern.png" /></p>
 <h3><a id="example-workloads" class="anchor" href="#example-workloads">Example Workloads</a></h3>
 <p>The <a href="https://github.com/rabbitmq/rabbitmq-server/tree/master/deps/rabbitmq_prometheus/docker">Prometheus plugin repository</a> contains example workloads that use <a href="https://rabbitmq.github.io/rabbitmq-perf-test/stable/htmlsingle/">PerfTest</a>
 to simulate different workloads.
@@ -229,13 +229,13 @@ gmake down
 
 <h2><a id="other-dashboards" class="anchor" href="#other-dashboards">More Dashboards: Raft and Erlang Runtime</a></h2>
 <p>There are two more Grafana dashboards available: <strong>RabbitMQ-Raft</strong> and <strong>Erlang-Distribution</strong>. They collect and
-visualise metrics related to the Raft consensus algorithm (used by <a href="./quorum-queues.html">Quorum Queues</a> and other features) as well
-as more nitty-gritty <a href="./runtime.html">runtime metrics</a> such as inter-node communication buffers.</p>
+visualise metrics related to the Raft consensus algorithm (used by <a href="/quorum-queues.html">Quorum Queues</a> and other features) as well
+as more nitty-gritty <a href="/runtime.html">runtime metrics</a> such as inter-node communication buffers.</p>
 <p>The dashboards have corresponding RabbitMQ clusters and PerfTest instances which are started and stopped the same
 as the Overview one. Feel free to experiment with the other workloads
 that are included in <a href="https://github.com/rabbitmq/rabbitmq-server/tree/master/deps/rabbitmq_prometheus/docker">the same <span class="code ">docker</span> directory</a>.</p>
 <p>For example, the <span class="code ">docker-compose-dist-tls.yml</span> Compose manifest is meant to stress
-the <a href="./clustering.html">inter-node communication links</a>. This workload uses a lot of system resources.
+the <a href="/clustering.html">inter-node communication links</a>. This workload uses a lot of system resources.
 <span class="code ">docker-compose-qq.yml</span> contains a quorum queue workload.</p>
 <p>To stop and delete all containers used by the workloads, run <span class="code ">docker-compose -f [file] down</span> or</p>
 <pre class="lang-bash">
@@ -246,7 +246,7 @@ make down
 <p>Unlike the <a href="#quick-start">Quick Start</a> above, this section covers monitoring setup geared towards production usage.</p>
 <p>We will assume that the following tools are provisioned and running:</p>
 <ul>
-<li>A <a href="./cluster-formation.html">3-node RabbitMQ 3.8 cluster</a></li>
+<li>A <a href="/cluster-formation.html">3-node RabbitMQ 3.8 cluster</a></li>
 <li>Prometheus, including network connectivity with all RabbitMQ cluster nodes</li>
 <li>Grafana, including configuration that lists the above Prometheus instance as one of the data sources</li>
 </ul>
@@ -267,7 +267,7 @@ rabbitmqctl -q set_cluster_name testing-prometheus
 </pre>
 
 <h3>Enable <span class="code ">rabbitmq_prometheus</span></h3>
-<p>Next, enable the <strong>rabbitmq_prometheus</strong> <a href="./plugins.html">plugin</a> on all nodes:</p>
+<p>Next, enable the <strong>rabbitmq_prometheus</strong> <a href="/plugins.html">plugin</a> on all nodes:</p>
 <pre class="lang-bash">
 rabbitmq-plugins enable rabbitmq_prometheus
 </pre>
@@ -311,7 +311,7 @@ for beginners.</p>
 <h4>Metric Collection and Scraping Intervals</h4>
 <p>Prometheus will periodically scrape (read) metrics from the systems it
 monitors, every 60 seconds by default. RabbitMQ metrics are updated
-periodically, too, every 5 seconds by default. Since <a href="./management.html#statistics-interval">this value is
+periodically, too, every 5 seconds by default. Since <a href="/management.html#statistics-interval">this value is
 configurable</a>, check the metrics update
 interval by running the following command on any of the nodes:</p>
 <pre class="lang-bash">
@@ -332,7 +332,7 @@ the default <span class="code ">collect_statistics_interval</span> setting is op
 <p>To confirm that Prometheus is scraping RabbitMQ metrics from all nodes, ensure
 that all RabbitMQ endpoints are <strong>Up</strong> on the Prometheus Targets page, as shown
 below:</p>
-<p><img alt="Prometheus RabbitMQ Targets" src="./img/monitoring/prometheus/prometheus-targets.png" /></p>
+<p><img alt="Prometheus RabbitMQ Targets" src="/img/monitoring/prometheus/prometheus-targets.png" /></p>
 <h3><a id="port" class="anchor" href="#listener">Network Interface and Port</a></h3>
 <p>The port is configured using the <span class="code ">prometheus.tcp.port</span> key:</p>
 <pre class="lang-ini">
@@ -340,7 +340,7 @@ prometheus.tcp.port = 15692
 </pre>
 
 <p>It is possible to configure what interface the Prometheus plugin API endpoint will use, similarly
-to <a href="./networking.html#interfaces">messaging protocol listeners</a>, using
+to <a href="/networking.html#interfaces">messaging protocol listeners</a>, using
 the <span class="code ">prometheus.tcp.ip</span> key:</p>
 <pre class="lang-ini">
 prometheus.tcp.ip = 0.0.0.0
@@ -353,7 +353,7 @@ rabbitmq-diagnostics -s listeners
 # =&gt; Interface: [::], port: 15692, protocol: http/prometheus, purpose: Prometheus exporter API over HTTP
 </pre>
 
-<p>or <a href="./troubleshooting-networking.html#ports">tools such as <span class="code ">lsof</span>, <span class="code ">ss</span> or <span class="code ">netstat</span></a>.</p>
+<p>or <a href="/troubleshooting-networking.html#ports">tools such as <span class="code ">lsof</span>, <span class="code ">ss</span> or <span class="code ">netstat</span></a>.</p>
 <h3><a id="metric-aggregation" class="anchor" href="#metric-aggregation">Aggregated and Per-Object Metrics</a></h3>
 <p>RabbitMQ can return Prometheus metrics in two modes:</p>
 <ol>
@@ -429,14 +429,14 @@ dashboards.</li>
 </ul>
 </li>
 </ol>
-<p><img alt="Grafana Import Dashboard" src="./img/grafana-import-dashboard.png" /></p>
+<p><img alt="Grafana Import Dashboard" src="/img/grafana-import-dashboard.png" /></p>
 <p>Repeat the process for all other Grafana dashboards that you would like to use with
 this RabbitMQ deployment.</p>
 <p>Finally, switch the default data source used by Grafana to <span class="code ">prometheus</span>.</p>
 <p>Congratulations! Your RabbitMQ is now monitored with Prometheus &amp; Grafana!</p>
 <h2><a id="tls" class="anchor" href="#tls">Securing Prometheus Scraping Endpoint with TLS</a></h2>
 <p>The Prometheus metrics can be secured with TLS similar to the other listeners.
-For example, in the <a href="./configure.html#configuration-files">configuration file</a></p>
+For example, in the <a href="/configure.html#configuration-files">configuration file</a></p>
 <pre class="lang-ini">
 prometheus.ssl.port       = 15691
 prometheus.ssl.cacertfile = /full/path/to/ca_certificate.pem
@@ -445,7 +445,7 @@ prometheus.ssl.keyfile    = /full/path/to/server_key.pem
 prometheus.ssl.password   = password-if-keyfile-is-encrypted
 </pre>
 
-<p>To enable TLS with <a href="./ssl.html#peer-verification">peer verification</a>, use a config similar to</p>
+<p>To enable TLS with <a href="/ssl.html#peer-verification">peer verification</a>, use a config similar to</p>
 <pre class="lang-ini">
 prometheus.ssl.port       = 15691
 prometheus.ssl.cacertfile = /full/path/to/ca_certificate.pem
@@ -460,7 +460,7 @@ prometheus.ssl.fail_if_no_peer_cert = true
 <h2><a id="3rd-party-plugin" class="anchor" href="#3rd-party-plugin">Using Prometheus with RabbitMQ 3.7</a></h2>
 <p>RabbitMQ versions prior to 3.8 can use a separate plugin,
 <a href="https://github.com/deadtrickster/prometheus_rabbitmq_exporter">prometheus_rabbitmq_exporter</a>,
-to expose metrics to Prometheus. The plugin uses <a href="./monitoring.html">RabbitMQ HTTP API</a> internally
+to expose metrics to Prometheus. The plugin uses <a href="/monitoring.html">RabbitMQ HTTP API</a> internally
 and requires visualisation to be set up separately.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
@@ -469,11 +469,11 @@ and requires visualisation to be set up separately.</p><div id="help-and-feedbac
                     If you'd like to contribute an improvement to the site,
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
-                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting
