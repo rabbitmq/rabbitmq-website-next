@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
-      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Priority Queue Support
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="./css/rabbit.css" type="text/css" /><link rel="stylesheet" href="./css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="./css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="./css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="./css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Priority Queue Support
  — RabbitMQ</title></head>
-  <body id="priority"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Priority Queue Support
+  <body id="priority"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Priority Queue Support
 </h1>
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>RabbitMQ has priority queue implementation in the core as of version <span class="code ">3.5.0</span>.
-Any queue can be turned into a priority one using client-provided <a href="/queues.html#optional-arguments">optional arguments</a>
+Any queue can be turned into a priority one using client-provided <a href="./queues.html#optional-arguments">optional arguments</a>
 (but, unlike other features that use optional arguments, not policies).
 The implementation supports a limited number of priorities: 255. Values between 1 and 10 are recommended.</p>
 <h2><a id="definition" class="anchor" href="#definition">Using Client-provided Optional Arguments</a></h2>
@@ -52,7 +52,7 @@ published with the maximum priority.</p>
 <h2><a id="resource-usage" class="anchor" href="#resource-usage">Max Number of Priorities and Resource Usage</a></h2>
 <p>If priority queues are desired, we recommend using between 1 and 10.
 Currently using more priorities will consume more CPU resources by using more Erlang processes.
-<a href="/runtime.html">Runtime scheduling</a> would also be affected.</p>
+<a href="./runtime.html">Runtime scheduling</a> would also be affected.</p>
 <h2><a id="interaction-with-consumers" class="anchor" href="#interaction-with-consumers">Interaction with Consumers</a></h2>
 <p>It's important to understand how consumers work when working
 with priority queues. By default, consumers may be sent a large
@@ -71,19 +71,19 @@ time and thus allow messages to be prioritised.</p>
 RabbitMQ queues: they support persistence, paging, mirroring,
 and so on. There are a couple of interactions that developers should be
 aware of.</p>
-<p><a href="/ttl.html">Messages which should expire</a> will still
+<p><a href="./ttl.html">Messages which should expire</a> will still
 only expire from the head of the queue. This means that unlike
 with normal queues, even per-queue TTL can lead to expired
 lower-priority messages getting stuck behind non-expired
 higher priority ones. These messages will never be delivered,
 but they will appear in queue statistics.</p>
-<p><a href="/maxlength.html">Queues which have a max-length set</a> will, as usual, drop messages from the head of the
+<p><a href="./maxlength.html">Queues which have a max-length set</a> will, as usual, drop messages from the head of the
 queue to enforce the limit. This means that higher priority
 messages might be dropped to make way for lower priority ones,
 which might not be what you would expect.</p>
 <h2><a id="using-policies" class="anchor" href="#using-policies">Why Policy Definition is not Supported</a></h2>
-<p>The most convenient way to define optional arguments for a queue is via <a href="/parameters.html">policies</a>.
-Policies are the recommended way to configure <a href="/ttl.html">TTL</a>, <a href="maxlength.html">queue length limits</a> and
+<p>The most convenient way to define optional arguments for a queue is via <a href="./parameters.html">policies</a>.
+Policies are the recommended way to configure <a href="./ttl.html">TTL</a>, <a href="maxlength.html">queue length limits</a> and
 other <a href="queues.html">optional queue arguments</a>.</p>
 <p>However, policies cannot be used to configure priorities because policies are dynamic
 and can be changed after a queue has been declared. Priority queues can never change the number of priorities they
@@ -123,11 +123,11 @@ support after queue declaration, so policies would not be a safe option to use.<
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

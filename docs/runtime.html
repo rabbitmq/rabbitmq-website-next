@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
-      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Runtime Tuning
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="./css/rabbit.css" type="text/css" /><link rel="stylesheet" href="./css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="./css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="./css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="./css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Runtime Tuning
  — RabbitMQ</title></head>
-  <body id="runtime"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Runtime Tuning
+  <body id="runtime"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Runtime Tuning
 </h1>
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>RabbitMQ runs on the <a href="https://erlang.org">Erlang virtual machine</a> and runtime.
-A <a href="/which-erlang.html">compatible version of Erlang</a> must be installed in order to run RabbitMQ.</p>
+A <a href="./which-erlang.html">compatible version of Erlang</a> must be installed in order to run RabbitMQ.</p>
 <p>The Erlang runtime includes a number of components used by RabbitMQ. The most important ones
 as far as this guide is concerned are</p>
 <ul>
@@ -17,7 +17,7 @@ as far as this guide is concerned are</p>
 <li><span class="code ">epmd</span> resolves node names on a host to an <a href="networking.html">inter-node communication port</a></li>
 </ul>
 <p>This guide will focus on the virtual machine. For an overview of epmd, please refer to the
-<a href="/networking.html#epmd-inet-dist-port-range">Networking guide</a>.</p>
+<a href="./networking.html#epmd-inet-dist-port-range">Networking guide</a>.</p>
 <p>Topics covered include:</p>
 <ul>
 <li>How to <a href="#vm-settings">configure Erlang VM settings for RabbitMQ</a> nodes</li>
@@ -35,20 +35,20 @@ as far as this guide is concerned are</p>
 that cover process scheduler settings, memory allocation, garbage collection, I/O, and more.
 Tuning of those flags can significantly change runtime behavior of a node.</p>
 <h3><a id="configure" class="anchor" href="#configure">Configuring Flags</a></h3>
-<p>Most of the settings can be configured using <a href="/configure.html#supported-environment-variables">environment variables</a>.
+<p>Most of the settings can be configured using <a href="./configure.html#supported-environment-variables">environment variables</a>.
 A few settings have dedicated variables, others can only be changed using the following generic
 variables that control what flags are passed by RabbitMQ startup scripts to the Erlang virtual machine.</p>
 <p>The generic variables are</p>
 <ul>
 <li><span class="code ">RABBITMQ_SERVER_ERL_ARGS</span> allows all VM flags to be overridden, including the defaults set by RabbitMQ scripts</li>
 <li><span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span> allows a set of flags to be appended to the defaults set by RabbitMQ scripts</li>
-<li><span class="code ">RABBITMQ_CTL_ERL_ARGS</span> controls <a href="/cli.html">CLI tool</a> VM flags</li>
+<li><span class="code ">RABBITMQ_CTL_ERL_ARGS</span> controls <a href="./cli.html">CLI tool</a> VM flags</li>
 </ul>
 <p>In most cases <span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span> is the recommended option. It can be used to override defaults
 in a safe manner. For example, if an important flag is omitted from <span class="code ">RABBITMQ_SERVER_ERL_ARGS</span>, runtime performance
 characteristics or system limits can be unintentionally affected.</p>
 <p>As with other environment variables used by RabbitMQ, <span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span>
-and friends can be <a href="/configure.html#customise-environment">set using a separate environment variable file</a>.</p>
+and friends can be <a href="./configure.html#customise-environment">set using a separate environment variable file</a>.</p>
 <h2><a id="cpu" class="anchor" href="#cpu">CPU Utilisation</a></h2>
 <p>CPU utilisation is a workload-specific topic. Generally speaking, when a workload involves more queues, connections
 and channels than CPU cores, all cores will be used without any configuration necessary.</p>
@@ -141,12 +141,12 @@ RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+sbwt none +sbwtdcpu none +sbwtdio none"
 
 <p>Speculative busy waiting usually not productive on moderately loaded systems.</p>
 <h4>Reduce Statistics Emission Frequency (Increase the Statistics Emission Interval)</h4>
-<p>Increase <a href="/management.html#statistics-interval">statistics emission interval</a> from default 5 seconds to 15 or 30 seconds. This will reduce
+<p>Increase <a href="./management.html#statistics-interval">statistics emission interval</a> from default 5 seconds to 15 or 30 seconds. This will reduce
 periodic activity that all connections, channels and queues carry out, even if they would otherwise be
-idle as far as client operations go. With most monitoring tools such <a href="/monitoring.html#monitoring-frequency">monitoring frequency</a>
+idle as far as client operations go. With most monitoring tools such <a href="./monitoring.html#monitoring-frequency">monitoring frequency</a>
 would be sufficient or even optimal.</p>
 <h2><a id="thread-stats" class="anchor" href="#thread-stats">Thread Statistics</a>: How is Scheduler and CPU Time Spent?</h2>
-<p>RabbitMQ CLI tools provide a number of <a href="/monitoring.html">metrics</a> that make it easier to reason
+<p>RabbitMQ CLI tools provide a number of <a href="./monitoring.html">metrics</a> that make it easier to reason
 about runtime thread activity.</p>
 <pre class="lang-bash">
 rabbitmq-diagnostics runtime_thread_stats
@@ -163,7 +163,7 @@ rabbitmq-diagnostics runtime_thread_stats
 <li><span class="code ">sleep</span>: sleeping (idle state)</li>
 </ul>
 <p>Significant percentage of activity in the external I/O state may indicate that the node
-and/or clients have maxed out network link capacity. This can be confirmed by <a href="/monitoring.html">infrastructure metrics</a>.</p>
+and/or clients have maxed out network link capacity. This can be confirmed by <a href="./monitoring.html">infrastructure metrics</a>.</p>
 <p>Significant percentage of activity in the sleeping state might indicate a lightly loaded node or suboptimal
 runtime scheduler configuration for the available hardware and workload.</p>
 <h2><a id="allocators" class="anchor" href="#allocators">Memory Allocator Settings</a></h2>
@@ -209,7 +209,7 @@ RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+MMscs 4096"
 can be opened at the same time. When an OS process (such as RabbitMQ's Erlang VM) reaches
 the limit, it won't be able to open any new files or accept any more
 TCP connections.</p>
-<p>This limit is covered in detail in the <a href="/networking.html#open-file-handle-limit">Networking guide</a>.
+<p>This limit is covered in detail in the <a href="./networking.html#open-file-handle-limit">Networking guide</a>.
 Note that it cannot be configured using Erlang VM flags.</p>
 <h2><a id="distribution-buffer" class="anchor" href="#distribution-buffer">Inter-node Communication Buffer Size</a></h2>
 <p>Inter-node traffic between a pair of nodes uses a TCP connection with a buffer known as the inter-node communication buffer.
@@ -228,7 +228,7 @@ RABBITMQ_DISTRIBUTION_BUFFER_SIZE=192000
 RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+zdbbl 192000"
 </pre>
 
-<p>When the buffer is hovering around full capacity, nodes will <a href="/logging.html">log</a> a warning
+<p>When the buffer is hovering around full capacity, nodes will <a href="./logging.html">log</a> a warning
 mentioning a busy distribution port (<span class="code ">busy_dist_port</span>):</p>
 <pre class="lang-ini">
 2019-04-06 22:48:19.031 [warning] &lt;0.242.0&gt; rabbit_sysmon_handler busy_dist_port &lt;0.1401.0&gt;
@@ -238,7 +238,7 @@ mentioning a busy distribution port (<span class="code ">busy_dist_port</span>):
 <h2><a id="erlang-process-limit" class="anchor" href="#erlang-process-limit">Erlang Process Limit</a></h2>
 <p>The runtime has a limit on the number of Erlang processes ("lightweight threads") that can exist on a node.
 The default is about 1 million. In most environments this is sufficient with a wide safety margin.</p>
-<p>Environments that have a particularly <a href="/networking.html#tuning-for-large-number-of-connections">high number of concurrent connections</a> or a very large number
+<p>Environments that have a particularly <a href="./networking.html#tuning-for-large-number-of-connections">high number of concurrent connections</a> or a very large number
 of queues (say, hundreds of thousands) this limit might need adjusting. This is done using the
 <span class="code ">RABBITMQ_MAX_NUMBER_OF_PROCESSES</span> environment variable, which is a convenient way of
 setting the <span class="code ">+P</span> Erlang VM flag:</p>
@@ -258,11 +258,11 @@ RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+P 2000000"
                     If you'd like to contribute an improvement to the site,
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
-                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

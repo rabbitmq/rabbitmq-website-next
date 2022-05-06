@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
-      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Backup and Restore
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="./css/rabbit.css" type="text/css" /><link rel="stylesheet" href="./css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="./css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="./css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="./css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Backup and Restore
  — RabbitMQ</title></head>
-  <body id="backup"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Backup and Restore
+  <body id="backup"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Backup and Restore
 </h1>
 <h2>Overview</h2>
 <p>This guide covers backup and restore procedures for various types of data
@@ -16,7 +16,7 @@ message store data.</p>
 <h3><a id="rabbitmq-definitions" class="anchor" href="#rabbitmq-definitions">Definitions (Topology)</a></h3>
 <p>Nodes and clusters store information that can be thought of schema, metadata or topology.
 Users, vhosts, queues, exchanges, bindings, runtime parameters all fall into this category.</p>
-<p>Definitions can be <a href="/definitions.html">exported and imported</a> as JSON files.</p>
+<p>Definitions can be <a href="./definitions.html">exported and imported</a> as JSON files.</p>
 <p>Definitions are stored in an internal database and replicated across all cluster nodes.
 Every node in a cluster has its own replica of all definitions. When a part of definitions changes,
 the update is performed on all nodes in a single transaction. In the context of backups this
@@ -39,9 +39,9 @@ a running node is highly discouraged and can lead to an inconsistent snapshot of
 <h2><a id="definitions-backup" class="anchor" href="#definitions-backup">Backing Up Definitions</a></h2>
 <p>Definitions can be exported to a JSON file. This is the recommended way of backing them up.</p>
 <h3><a id="definitions-export" class="anchor" href="#definitions-export">Exporting Definitions</a></h3>
-<p>Definition export is covered in the dedicated <a href="/definitions.html#export">Definitions guide</a>.</p>
+<p>Definition export is covered in the dedicated <a href="./definitions.html#export">Definitions guide</a>.</p>
 <h3><a id="definitions-import" class="anchor" href="#definitions-import">Importing Definitions</a></h3>
-<p>Definition import is covered in the dedicated <a href="/definitions.html#import">Definitions guide</a>.</p>
+<p>Definition import is covered in the dedicated <a href="./definitions.html#import">Definitions guide</a>.</p>
 <p>Importing a definitions file is sufficient for creating a broker with
 an identical set of definitions (e.g. users, vhosts, permissions,
 policies, topologies, and so on).</p>
@@ -53,7 +53,7 @@ command against a running RabbitMQ node:</p>
 rabbitmqctl eval 'rabbit_mnesia:dir().'
 </pre>
 
-<p>If the node isn't running, it is possible to inspect <a href="/relocate.html">default data directories</a>.</p>
+<p>If the node isn't running, it is possible to inspect <a href="./relocate.html">default data directories</a>.</p>
 <ul>
 <li>For Debian and RPM packages: <span class="code ">/var/lib/rabbitmq/mnesia</span></li>
 <li>For Windows: <span class="code ">%APP_DATA%\RabbitMQ\db</span></li>
@@ -63,7 +63,7 @@ rabbitmqctl eval 'rabbit_mnesia:dir().'
 copy the messages, skip copying the <a href="#manual-messages-backup">message directories</a>.</p>
 <h3><a id="manual-definitions-restore" class="anchor" href="#manual-definitions-restore">Restoring from a Manual Definitions Backup</a></h3>
 <p>Internal node database stores node's name in certain records. Should node name change, the database must first
-be updated to reflect the change using the following <a href="/cli.html">rabbitmqctl</a> command:</p>
+be updated to reflect the change using the following <a href="./cli.html">rabbitmqctl</a> command:</p>
 <pre class="lang-sh">
 rabbitmqctl rename_cluster_node &lt;oldnode&gt; &lt;newnode&gt;
 </pre>
@@ -74,13 +74,13 @@ at the same time.</p>
 the upgrade steps as needed and proceed booting.</p>
 <h2><a id="messages-backup" class="anchor" href="#messages-backup">Backing Up Messages</a></h2>
 <p>To back up messages on a node it <strong>must be first stopped</strong>.</p>
-<p>In the case of a cluster with <a href="/ha.html">mirrored queues</a>, you need to
+<p>In the case of a cluster with <a href="./ha.html">mirrored queues</a>, you need to
 stop the entire cluster to take a backup. If you stop one node at a
 time, you may lose messages or have duplicates, exactly like when you
 back up a single running node.</p>
 <h3><a id="manual-messages-backup" class="anchor" href="#manual-messages-backup">Manually Backing Up Messages</a></h3>
 <p>Presently this is the only way of backing up messages.</p>
-<p>Message data is stored in the <a href="/relocate.html">node's data directory</a> mentioned above.</p>
+<p>Message data is stored in the <a href="./relocate.html">node's data directory</a> mentioned above.</p>
 <p>In RabbitMQ versions starting with 3.7.0 all messages data is combined in the
 <span class="code ">msg_stores/vhosts</span> directory and stored in a subdirectory per vhost.
 Each vhost directory is named with a hash and contains a <span class="code ">.vhost</span> file with
@@ -144,11 +144,11 @@ the definitions and messages. There is no need to import definitions first.</p><
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

@@ -1,23 +1,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
-      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Reasoning About Memory Use
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="./css/rabbit.css" type="text/css" /><link rel="stylesheet" href="./css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="./css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="./css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="./css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Reasoning About Memory Use
  — RabbitMQ</title></head>
-  <body id="memory-use"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Reasoning About Memory Use
+  <body id="memory-use"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Reasoning About Memory Use
 </h1>
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>Operators need to be able to reason about node's memory use,
 both absolute and relative ("what uses most memory"). This is an
-important aspect of <a href="/monitoring.html">system monitoring</a>.</p>
+important aspect of <a href="./monitoring.html">system monitoring</a>.</p>
 <p>RabbitMQ provides tools that report and help analyse node memory use:</p>
 <ul>
-<li><a href="/cli.html"><span class="code ">rabbitmq-diagnostics memory_breakdown</span></a></li>
-<li><a href="/cli.html"><span class="code ">rabbitmq-diagnostics status</span></a> includes the above breakdown as a section</li>
-<li><a href="/prometheus.html">Prometheus and Grafana</a>-based monitoring makes it possible to observe memory breakdown over time</li>
-<li><a href="/management.html">Management UI</a> provides the same breakdown on the node page as <span class="code ">rabbitmq-diagnostics status</span></li>
-<li><a href="/management.html#http-api">HTTP API</a> provides the same information as the management UI, useful <a href="/monitoring.html">for monitoring</a></li>
+<li><a href="./cli.html"><span class="code ">rabbitmq-diagnostics memory_breakdown</span></a></li>
+<li><a href="./cli.html"><span class="code ">rabbitmq-diagnostics status</span></a> includes the above breakdown as a section</li>
+<li><a href="./prometheus.html">Prometheus and Grafana</a>-based monitoring makes it possible to observe memory breakdown over time</li>
+<li><a href="./management.html">Management UI</a> provides the same breakdown on the node page as <span class="code ">rabbitmq-diagnostics status</span></li>
+<li><a href="./management.html#http-api">HTTP API</a> provides the same information as the management UI, useful <a href="./monitoring.html">for monitoring</a></li>
 <li><a href="https://github.com/rabbitmq/rabbitmq-top">rabbitmq-top</a> and <span class="code ">rabbitmq-diagnostics observer</span> provide a more fine-grained <a href="https://en.wikipedia.org/wiki/Top_(software)">top</a>-like per Erlang process view</li>
 </ul>
 <p>Obtaining a node memory breakdown should be the first step when reasoning about node memory use.</p>
@@ -71,7 +71,7 @@ and so on.</p>
 <p>Memory use breakdown reports allocated memory distribution on the target node, by category:</p>
 <ul>
 <li><a href="#breakdown-connections">Connections</a> (further split into four categories: readers, writers, channels, other)</li>
-<li><a href="/quorum-queues.html">Quorum queue</a> replicas</li>
+<li><a href="./quorum-queues.html">Quorum queue</a> replicas</li>
 <li>Classic mirrored queue <a href="ha.html">leader replicas</a></li>
 <li>Classic mirrored queue mirror (follower) replicas</li>
 <li>Message Store and Indices</li>
@@ -132,7 +132,7 @@ reserved_unallocated: 0.0 gb (0.0%)
     <td>
       Processes responsible for connection parser and most of connection state. Most of their memory attributes
       to TCP buffers. The more client connections a node has, the more memory will be used by this category.
-      See <a href="/networking.html">Networking guide</a> for more information.
+      See <a href="./networking.html">Networking guide</a> for more information.
     </td>
   </tr>
 
@@ -142,7 +142,7 @@ reserved_unallocated: 0.0 gb (0.0%)
     <td>
       Processes responsible for serialisation of outgoing protocol frames and writing to client connection sockets.
       The more client connections a node has, the more memory will be used by this category.
-      See <a href="/networking.html">Networking guide</a> for more information.
+      See <a href="./networking.html">Networking guide</a> for more information.
     </td>
   </tr>
 
@@ -162,9 +162,9 @@ reserved_unallocated: 0.0 gb (0.0%)
     <td>quorum_queue_procs</td>
     <td>Queues</td>
     <td>
-      <a href="//quorum-queues.html">Quorum queue</a> processes, both currently elected leaders and followers.
+      <a href=".//quorum-queues.html">Quorum queue</a> processes, both currently elected leaders and followers.
       Memory footprint can be capped on a per-queue basis.
-      See the <a href="/quorum-queues.html">Quorum Queues</a> guide for more information.
+      See the <a href="./quorum-queues.html">Quorum Queues</a> guide for more information.
     </td>
   </tr>
 
@@ -175,7 +175,7 @@ reserved_unallocated: 0.0 gb (0.0%)
       Classic queue leaders, indices and messages kept in memory. The greater the number of messages enqueued,
       the more memory will generally be attributed to this section. However, this greatly depends on
       queue properties and whether messages were published as transient.
-      See <a href="/memory.html">Memory</a>, <a href="/queues.html">Queues</a>, and <a href="/lazy-queues.html">Lazy Queues</a> guides
+      See <a href="./memory.html">Memory</a>, <a href="./queues.html">Queues</a>, and <a href="./lazy-queues.html">Lazy Queues</a> guides
       for more information.
     </td>
   </tr>
@@ -188,17 +188,17 @@ reserved_unallocated: 0.0 gb (0.0%)
       inherently transient data can reduce the amount of RAM used by mirrors. The greater the number of messages enqueued,
       the more memory will generally be attributed to this section. However, this greatly depends on
       queue properties and whether messages were published as transient.
-      See <a href="/memory.html">Memory</a>, <a href="/queues.html">Queues</a>, <a href="/ha.html">Mirroring</a>, and <a href="/lazy-queues.html">Lazy Queues</a> guides
+      See <a href="./memory.html">Memory</a>, <a href="./queues.html">Queues</a>, <a href="./ha.html">Mirroring</a>, and <a href="./lazy-queues.html">Lazy Queues</a> guides
       for more information.
     </td>
   </tr>
 
   <tr>
     <td>metrics</td>
-    <td><a href="/management.html">Stats DB</a></td>
+    <td><a href="./management.html">Stats DB</a></td>
     <td>
       Node-local metrics. The more connections, channels, queues are node hosts, the more stats there are to collect and keep.
-      See <a href="/management.html">management plugin guide</a> for more information.
+      See <a href="./management.html">management plugin guide</a> for more information.
     </td>
   </tr>
 
@@ -207,7 +207,7 @@ reserved_unallocated: 0.0 gb (0.0%)
     <td>Stats DB</td>
     <td>
       Aggregated and pre-computed metrics, inter-node HTTP API request cache and everything else related to the stats DB.
-      See <a href="/management.html">management plugin guide</a> for more information.
+      See <a href="./management.html">management plugin guide</a> for more information.
     </td>
   </tr>
 
@@ -221,7 +221,7 @@ reserved_unallocated: 0.0 gb (0.0%)
     <td>plugins</td>
     <td>Plugins</td>
     <td>
-      Plugins such as <a href="/shovel.html">Shovel</a>, <a href="/federation.html">Federation</a>, or protocol implementations such as <a href="">STOMP</a>
+      Plugins such as <a href="./shovel.html">Shovel</a>, <a href="./federation.html">Federation</a>, or protocol implementations such as <a href="">STOMP</a>
       can accumulate messages in memory.
     </td>
   </tr>
@@ -286,7 +286,7 @@ node metrics page that can be accessed from Overview:</p>
 things in the system (e.g. connections, queues):</p>
 <p><img class="screenshot" src="img/memory/mgmt-ui-binaries-breakdown.png" alt="Binary heap use breakdown chart" title="Binary heap use breakdown chart" /></p>
 <h2><a id="breakdown-http-api-curl" class="anchor" href="#breakdown-http-api-curl">Producing Memory Use Breakdown Using HTTP API and curl</a></h2>
-<p>It is possible to produce memory use breakdown over <a href="/management.html">HTTP API</a>
+<p>It is possible to produce memory use breakdown over <a href="./management.html">HTTP API</a>
 by issuing a <span class="code ">GET</span> request to the <span class="code ">/api/nodes/{node}/memory</span> endpoint.</p>
 <pre class="lang-json">
 curl -s -u guest:guest http://127.0.0.1:15672/api/nodes/rabbit@mercurio/memory | python -m json.tool
@@ -368,9 +368,9 @@ a certain number of channels. Finding an optimal value is usually a matter of tr
 <h3><a id="breakdown-queues" class="anchor" href="#breakdown-queues">Queues and Messages</a></h3>
 <p>Memory used by queues, queue indices, queue state. Messages enqueued will
 in part contribute to this category.</p>
-<p>Queues will <a href="/memory.html">swap their contents out to disc when under memory pressure</a>.
+<p>Queues will <a href="./memory.html">swap their contents out to disc when under memory pressure</a>.
 The exact behavior of this depends on <a href="queues.html">queue properties</a>,
-whether clients publish messages as persistent or transient, and <a href="/persistence-conf.html">persistence configuration</a> of the node.</p>
+whether clients publish messages as persistent or transient, and <a href="./persistence-conf.html">persistence configuration</a> of the node.</p>
 <p>Message bodies do not show up here but in Binaries.</p>
 <h3><a id="breakdown-message-store-indexes" class="anchor" href="#breakdown-message-store-indexes">Message Store Indexes</a></h3>
 <p>By default message store uses an in-memory
@@ -435,7 +435,7 @@ time.</p>
 [sudo] rabbitmq-plugins enable rabbitmq_top
 </pre>
 
-<p>The plugin adds new administrative tabs to the <a href="/management.html">management UI</a>. One
+<p>The plugin adds new administrative tabs to the <a href="./management.html">management UI</a>. One
 tab displays top processes by one of the metrics:</p>
 <ul>
 <li>Memory used</li>
@@ -470,7 +470,7 @@ the workload and message payload size distribution.</p>
 documentation.</p>
 <h2><a id="memory-breakdown-and-monitoring" class="anchor" href="#memory-breakdown-and-monitoring">Memory Use Monitoring</a></h2>
 <p>It is recommended that production systems monitor memory usage of all cluster nodes,
-ideally with a breakdown, together with <a href="/monitoring.html">infrastructure-level metrics</a>.
+ideally with a breakdown, together with <a href="./monitoring.html">infrastructure-level metrics</a>.
 By correlating breakdown categories with other metrics, e.g. the number of concurrent
 connections or enqueued messages, it becomes possible to detect problems that
 stem from an application-specific behavior (e.g. connection leaks or ever growing queues without consumers).</p>
@@ -624,11 +624,11 @@ as soon as possible and not kept in memory longer than is necessary.</p><div id=
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div><div id="related-links"><h4>Related Links</h4><ul><li><a href="/lazy-queues.html">Lazy Queues</a></li></ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div><div id="related-links"><h4>Related Links</h4><ul><li><a href="/lazy-queues.html">Lazy Queues</a></li></ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

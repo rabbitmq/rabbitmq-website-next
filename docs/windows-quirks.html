@@ -1,13 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
-      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Windows-specific Issues
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="./css/rabbit.css" type="text/css" /><link rel="stylesheet" href="./css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="./css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="./css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="./css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Windows-specific Issues
  — RabbitMQ</title></head>
-  <body id="windows-quirks"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Windows-specific Issues
+  <body id="windows-quirks"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Windows-specific Issues
 </h1>
 
 
-<p>This guide is a companion to the main <a href="/install-windows.html">Windows installation guide</a>.</p>
+<p>This guide is a companion to the main <a href="./install-windows.html">Windows installation guide</a>.</p>
 <p>It documents known conditions and scenarios which can cause RabbitMQ Windows service
 or CLI tools to malfunction.</p>
 <h2><a id="erlang-distribution-port" class="anchor" href="#erlang-distribution-port">Erlang Distribution Port</a></h2>
@@ -47,7 +47,7 @@ the version you wish RabbitMQ to use. If you must upgrade Erlang, use this proce
 .\rabbitmq-service.bat start
 </pre>
 
-<p>If any environment variables have changed in the mean time, <a href="/configure.html#rabbitmq-env-file-windows">Windows service reinstallation</a> would
+<p>If any environment variables have changed in the mean time, <a href="./configure.html#rabbitmq-env-file-windows">Windows service reinstallation</a> would
 also be necessary.</p>
 <h2><a id="non-ascii-paths" class="anchor" href="#non-ascii-paths">Cannot Install to a Path with non-ASCII Characters</a></h2>
 <p>RabbitMQ will fail to start with the error that reads</p>
@@ -62,30 +62,30 @@ It expects input in UTF-8, but the console will typically use some other encodin
 <p>One of these options can be used to mitigate:</p>
 <ul>
 <li>Override <span class="code ">RABBITMQ_BASE</span> to point to a directory
-   that only has ASCII characters and <a href="/configure.html#rabbitmq-env-file-windows"><strong>re-install</strong> the Windows service</a>.</li>
+   that only has ASCII characters and <a href="./configure.html#rabbitmq-env-file-windows"><strong>re-install</strong> the Windows service</a>.</li>
 <li>Edit the file <span class="code ">rabbitmq-server.bat</span> and change the
    line <span class="code ">set TDP0=%~dp0</span> to <span class="code ">set TDP0=%~dps0</span>.
    This will use short paths (the infamous <span class="code ">C:\PROGRA~1</span>) everywhere.</li>
 </ul>
 <h2><a id="non-ascii-cli" class="anchor" href="#non-ascii-cli">CLI Tools Display or Parse non-ASCII Characters Incorrectly</a></h2>
-<p>Similarly, <a href="/cli.html">RabbitMQ CLI tools</a> will expect command line
+<p>Similarly, <a href="./cli.html">RabbitMQ CLI tools</a> will expect command line
 parameters to be encoded in UTF-8, and display strings as
 UTF-8. The console will instead provide and expect some country-specific encoding.</p>
 <h3>Mitigation</h3>
 <p>One of these options can be used to mitigate:</p>
 <ul>
-<li>Avoid using non-ASCII characters in RabbitMQ installation and <a href="/relocate.html">node directory</a> paths</li>
+<li>Avoid using non-ASCII characters in RabbitMQ installation and <a href="./relocate.html">node directory</a> paths</li>
 <li>On recent versions of Windows, issue the command
  <br />
 <pre class="lang-powershell">chcp 65001</pre></li>
 </ul>
 <p>before using CLI tools to force
    the console to use UTF-8
- * Where possible, use the <a href="/management.html">management plugin</a> instead of CLI tools.</p>
+ * Where possible, use the <a href="./management.html">management plugin</a> instead of CLI tools.</p>
 <h2><a id="cookie-location" class="anchor" href="#cookie-location">Installing as a non-administrator User Leaves <span class="code ">.erlang.cookie</span> in the Wrong Place</a></h2>
-<p>If RabbitMQ is installed using a non-administrative account, a <a href="/cli.html#erlang-cookie">shared secret</a> file
+<p>If RabbitMQ is installed using a non-administrative account, a <a href="./cli.html#erlang-cookie">shared secret</a> file
 used by nodes and CLI tools will not be placed into a correct location,
-leading to <a href="/cli.html#cli-authentication-failures">authentication failures</a> when <span class="code ">rabbitmqctl.bat</span>
+leading to <a href="./cli.html#cli-authentication-failures">authentication failures</a> when <span class="code ">rabbitmqctl.bat</span>
 and other CLI tools are used.</p>
 <h3>Mitigation</h3>
 <p>One of these options can be used to mitigate:</p>
@@ -95,7 +95,7 @@ and other CLI tools are used.</p>
    from <span class="code ">%SystemRoot%</span> or <span class="code ">%SystemRoot%\system32\config\systemprofile</span>
    to <span class="code ">%HOMEDRIVE%%HOMEPATH%</span>.</li>
 </ul>
-<p>See <a href="/cli.html#erlang-cookie">How CLI Tools Authenticate to Nodes (and Nodes to Each Other</a> in the CLI guide.</p>
+<p>See <a href="./cli.html#erlang-cookie">How CLI Tools Authenticate to Nodes (and Nodes to Each Other</a> in the CLI guide.</p>
 <h2><a id="computername-vs-hostname" class="anchor" href="#computername-vs-hostname">COMPUTERNAME is different from HOSTNAME</a></h2>
 <p>Older versions of RabbitMQ calculated the node name using the <span class="code ">COMPUTERNAME</span>
 environment variable, which is always upper-case. Later versions of RabbitMQ
@@ -152,11 +152,11 @@ succeed.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback<
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

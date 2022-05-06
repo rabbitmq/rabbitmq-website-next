@@ -1,16 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
-      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Authentication, Authorisation, Access Control
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="./css/rabbit.css" type="text/css" /><link rel="stylesheet" href="./css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="./css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="./css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="./css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Authentication, Authorisation, Access Control
  — RabbitMQ</title></head>
-  <body id="access-control"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Authentication, Authorisation, Access Control
+  <body id="access-control"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Authentication, Authorisation, Access Control
 </h1>
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>This document describes <a href="#authentication">authentication</a> and <a href="#authorisation">authorisation</a> features
 in RabbitMQ. Together they allow the operator to control access to the system.</p>
-<p>Different users can be granted access only to specific <a href="/vhosts.html">virtual hosts</a>. Their
+<p>Different users can be granted access only to specific <a href="./vhosts.html">virtual hosts</a>. Their
 permissions in each virtual hosts also can be limited.</p>
 <p>RabbitMQ supports two major <a href="#mechanisms">authentication mechanisms</a>
 as well as several <a href="#backends">authentication and authorisation backends</a>.</p>
@@ -29,8 +29,8 @@ as well as several <a href="#backends">authentication and authorisation backends
 <li>How to <a href="#seeding">pre-create users</a> and their permissions</li>
 <li>Troubleshooting of <a href="#troubleshooting-authn">authentication</a> and <a href="#troubleshooting-authz">authorisation failures</a></li>
 </ul>
-<p><a href="/passwords.html">Password-based</a> authentication has a companion guide.
-A closely related topic of <a href="/ssl.html">TLS support</a> is also covered in a dedicated guide.</p>
+<p><a href="./passwords.html">Password-based</a> authentication has a companion guide.
+A closely related topic of <a href="./ssl.html">TLS support</a> is also covered in a dedicated guide.</p>
 <h2><a id="terminology-and-definitions" class="anchor" href="#terminology-and-definitions">Terminology and Definitions</a></h2>
 <p>Authentication and authorisation are often confused or used
 interchangeably. That's wrong and in RabbitMQ, the two are
@@ -39,21 +39,21 @@ authentication as "identifying who the user is" and
 authorisation as "determining what the user is and isn't allowed to do."</p>
 <h2><a id="basics" class="anchor" href="#basics">The Basics</a></h2>
 <p>Clients use RabbitMQ features to <a href="connections.html">connect</a> to it. Every connection has
-an associated user which is authenticated. It also targets a <a href="/vhosts.html">virtual host</a> for which
+an associated user which is authenticated. It also targets a <a href="./vhosts.html">virtual host</a> for which
 the user must have a certain set of permissions.</p>
-<p>User credentials, target virtual host and (optionally) client <a href="/ssl.html">certificate</a> are specified at connection
+<p>User credentials, target virtual host and (optionally) client <a href="./ssl.html">certificate</a> are specified at connection
 initiation time.</p>
 <p>There is a default pair of credentials called the <a href="#default-state">default user</a>. This user can only
 be <a href="#loopback-users">used for <strong>host-local connections</strong></a> by default. Remote connections that use
 it will be refused.</p>
-<p><a href="/production-checklist.html">Production environments</a> should not use the default user and create
+<p><a href="./production-checklist.html">Production environments</a> should not use the default user and create
 new user accounts with generated credentials instead.</p>
 <h2><a id="default-state" class="anchor" href="#default-state">Default Virtual Host and User</a></h2>
 <p>When the server first starts running, and detects that its
 database is uninitialised or has been deleted, it
 initialises a fresh database with the following resources:</p>
 <ul>
-<li>a <a href="/vhosts.html">virtual host</a> named <span class="code ">/</span> (a slash)</li>
+<li>a <a href="./vhosts.html">virtual host</a> named <span class="code ">/</span> (a slash)</li>
 <li>a user named <span class="code ">guest</span> with a default password of <span class="code ">guest</span>, granted full access to the <span class="code ">/</span> virtual host</li>
 </ul>
 <p>It is advisable to <a href="#seeding">pre-configure a new user with a generated username and password</a> or <a href="rabbitmqctl.8.html#delete_user">delete</a>
@@ -63,11 +63,11 @@ to reasonably secure generated value that won't be known to the public.</p>
 <p>After an application connects to RabbitMQ and before it can perform operations, it must
 authenticate, that is, present and prove its identity. With that identity, RabbitMQ nodes can
 look up its permissions and <a href="#authorisation">authorize</a> access to resources
-such as <a href="/vhosts.html">virtual hosts</a>, queues, exchanges, and so on.</p>
-<p>Two primary ways of authenticating a client are <a href="/passwords.html">username/password pairs</a>
+such as <a href="./vhosts.html">virtual hosts</a>, queues, exchanges, and so on.</p>
+<p>Two primary ways of authenticating a client are <a href="./passwords.html">username/password pairs</a>
 and <a href="https://en.wikipedia.org/wiki/X.509">X.509 certificates</a>. Username/password pairs
 can be used with a variety of <a href="#backends">authentication backends</a> that verify the credentials.</p>
-<p>Connections that fail to authenticate will be closed with an error message in the <a href="/logging.html">server log</a>.</p>
+<p>Connections that fail to authenticate will be closed with an error message in the <a href="./logging.html">server log</a>.</p>
 <h3><a id="certificate-authentication" class="anchor" href="#certificate-authentication">Authentication using Client TLS (x.509) Certificate Data</a></h3>
 <p>To authenticate client connections using X.509 certificate a built-in plugin,
 <a href="https://github.com/rabbitmq/rabbitmq-auth-mechanism-ssl">rabbitmq-auth-mechanism-ssl</a>,
@@ -82,7 +82,7 @@ Any other users will not (by default) be restricted in this way.</p>
 <p>The recommended way to address this in production systems
 is to create a new user or set of users with the permissions
 to access the necessary virtual hosts. This can be done
-using <a href="/cli.html">CLI tools</a>, <a href="/management.html">HTTP API or definitions import</a>.</p>
+using <a href="./cli.html">CLI tools</a>, <a href="./management.html">HTTP API or definitions import</a>.</p>
 <p>This is configured via the <span class="code ">loopback_users</span> item
 in the <a href="configure.html#configuration-files">configuration file</a>.</p>
 <p>It is possible to allow the <span class="code ">guest</span> user to connect
@@ -101,7 +101,7 @@ loopback_users = none
 </pre>
 
 <h2><a id="user-management" class="anchor" href="#user-management">Managing Users and Permissions</a></h2>
-<p>Users and permissions can be managed using <a href="/cli.html">CLI tools</a> and definition import (covered below).</p>
+<p>Users and permissions can be managed using <a href="./cli.html">CLI tools</a> and definition import (covered below).</p>
 <h3><a id="passwords-and-shell-escaping" class="anchor" href="#passwords-and-shell-escaping">Before We Start: Shell Escaping and Generated Passwords</a></h3>
 <p>It is a common security practice to generate complex passwords,
 often involving non-alphanumeric characters. This practice is perfectly
@@ -116,11 +116,11 @@ from the shell.</p>
 <p>When generating passwords that will be passed on the command line,
 long (say, 40 to 100 characters) alphanumeric value with a very limited set of
 symbols (e.g. <span class="code ">:</span>, <span class="code ">=</span>) is the safest option.</p>
-<p>When users are created via <a href="/management.html">HTTP API</a> without using a shell (e.g. <span class="code ">curl</span>),
+<p>When users are created via <a href="./management.html">HTTP API</a> without using a shell (e.g. <span class="code ">curl</span>),
 the control character limitation does not apply. However, different escaping rules may be necessary
 depending on the programming language used.</p>
 <h3>Adding a User</h3>
-<p>To add a user, use <span class="code ">rabbitmqctl add_user</span>. It has multiple ways of specifying a <a href="/passwords.html">password</a>:</p>
+<p>To add a user, use <span class="code ">rabbitmqctl add_user</span>. It has multiple ways of specifying a <a href="./passwords.html">password</a>:</p>
 <pre class="lang-bash">
 # will prompt for password, only use this option interactively
 rabbitmqctl add_user "username"
@@ -176,7 +176,7 @@ rabbitmqctl.bat delete_user 'username'
 </pre>
 
 <h3>Granting Permissions to a User</h3>
-<p>To grant <a href="#authorisation">permissions</a> to a user in a <a href="/vhosts.html">virtual host</a>, use <span class="code ">rabbitmqctl set_permissions</span>:</p>
+<p>To grant <a href="#authorisation">permissions</a> to a user in a <a href="./vhosts.html">virtual host</a>, use <span class="code ">rabbitmqctl set_permissions</span>:</p>
 <pre class="lang-bash">
 # First ".*" for configure permission on every entity
 # Second ".*" for write permission on every entity
@@ -192,7 +192,7 @@ rabbitmqctl.bat set_permissions -p 'custom-vhost' 'username' '.*' '.*' '.*'
 </pre>
 
 <h3>Clearing Permissions of a User in a Virtual Host</h3>
-<p>To revoke <a href="#authorisation">permissions</a> from a user in a <a href="/vhosts.html">virtual host</a>, use <span class="code ">rabbitmqctl clear_permissions</span>:</p>
+<p>To revoke <a href="#authorisation">permissions</a> from a user in a <a href="./vhosts.html">virtual host</a>, use <span class="code ">rabbitmqctl clear_permissions</span>:</p>
 <pre class="lang-bash">
 # Revokes permissions in a virtual host
 rabbitmqctl clear_permissions -p "custom-vhost" "username"
@@ -213,12 +213,12 @@ for v in $(rabbitmqctl list_vhosts --silent); do rabbitmqctl set_permissions -p 
 </pre>
 
 <h2><a id="seeding" class="anchor" href="#seeding">Seeding (Pre-creating) Users and Permissions</a></h2>
-<p><a href="/production-checklist.html">Production environments</a> typically need to pre-configure (seed) a number
+<p><a href="./production-checklist.html">Production environments</a> typically need to pre-configure (seed) a number
 of virtual hosts, users and user permissions.</p>
 <p>This can be done in a few ways:</p>
 <ul>
-<li>Using <a href="/cli.html">CLI tools</a></li>
-<li><a href="/definitions.html">Definition export and import on node boot</a> (recommended)</li>
+<li>Using <a href="./cli.html">CLI tools</a></li>
+<li><a href="./definitions.html">Definition export and import on node boot</a> (recommended)</li>
 <li>Override <a href="#default-state">default credentials</a> in configuration file(s)</li>
 </ul>
 <h3>CLI Tools</h3>
@@ -231,9 +231,9 @@ of virtual hosts, users and user permissions.</p>
 <li>Remove parts of the file that are not relevant</li>
 <li>Configure the node to import the file on node boot or after</li>
 </ul>
-<p>See <a href="/definitions.html#import-on-boot">importing definitions on node boot</a> in the definitions guide to learn more.</p>
+<p>See <a href="./definitions.html#import-on-boot">importing definitions on node boot</a> in the definitions guide to learn more.</p>
 <h3>Definition Import After Node Boot</h3>
-<p>See <a href="/definitions.html#import">importing definitions after node boot</a> in the definitions guide.</p>
+<p>See <a href="./definitions.html#import">importing definitions after node boot</a> in the definitions guide.</p>
 <h3>Override Default User Credentials</h3>
 <p>Two configuration options can be used to override default user credentials. This user will only
 be created <strong>on first node boot</strong> so they must exist in the configuration file before
@@ -247,11 +247,11 @@ default_user = a-user
 default_pass = 768a852ed69ce916fa7faa278c962de3e4275e5f
 </pre>
 
-<p>As with all values in <a href="/configure.html#config-file"><span class="code ">rabbitmq.conf</span></a>, the <span class="code ">#</span> character
+<p>As with all values in <a href="./configure.html#config-file"><span class="code ">rabbitmq.conf</span></a>, the <span class="code ">#</span> character
 starts a comment so this character must be avoided in generated credentials.</p>
 <p>Default user credentials can also be encrypted.
-That requires the use of the <a href="/configure.html#advanced-config-file">advanced configuration file</a>, <span class="code ">advanced.config</span>.
-This topic is covered in more detail in <a href="/configure.html#configuration-encryption">Configuration Value Encryption</a>.</p>
+That requires the use of the <a href="./configure.html#advanced-config-file">advanced configuration file</a>, <span class="code ">advanced.config</span>.
+This topic is covered in more detail in <a href="./configure.html#configuration-encryption">Configuration Value Encryption</a>.</p>
 <h2><a id="authorisation" class="anchor" href="#authorisation">Authorisation: How Permissions Work</a></h2>
 <p>When a RabbitMQ client establishes a connection to a
 server and <a href="#authentication">authenticates</a>, it specifies a virtual host within which it intends
@@ -361,9 +361,9 @@ as well as the <a href="rabbitmqctl.8.html">rabbitmqctl man page</a>.</p>
 <h3><a id="user-tags" class="anchor" href="#user-tags">User Tags and Management UI Access</a></h3>
 <p>In addition to the permissions covered above, users can have tags
 associated with them. Currently only management UI access is  controlled by user tags.</p>
-<p>The tags are managed using <a href="/rabbitmqctl.8.html#set_user_tags">rabbitmqctl</a>.
+<p>The tags are managed using <a href="./rabbitmqctl.8.html#set_user_tags">rabbitmqctl</a>.
 Newly created users do not have any tags set on them by default.</p>
-<p>Please refer to the <a href="/management.html#permissions">management plugin guide</a> to learn
+<p>Please refer to the <a href="./management.html#permissions">management plugin guide</a> to learn
 more about what tags are supported and how they limit management UI access.</p>
 <h2><a id="topic-authorisation" class="anchor" href="#topic-authorisation">Topic Authorisation</a></h2>
 <p>RabbitMQ supports topic authorisation for topic exchanges. The routing key of a message
@@ -462,13 +462,13 @@ auth_backends.1 = internal
 The following aliases are available:</p>
 <ul>
 <li><span class="code ">internal</span> for <span class="code ">rabbit_auth_backend_internal</span></li>
-<li><span class="code ">ldap</span> for <span class="code ">rabbit_auth_backend_ldap</span> (from the <a href="/ldap.html">LDAP plugin</a>)</li>
+<li><span class="code ">ldap</span> for <span class="code ">rabbit_auth_backend_ldap</span> (from the <a href="./ldap.html">LDAP plugin</a>)</li>
 <li><span class="code ">http</span> for <span class="code ">rabbit_auth_backend_http</span> (from the <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-http">HTTP auth backend plugin</a>)</li>
 <li><span class="code ">amqp</span> for <span class="code ">rabbit_auth_backend_amqp</span> (from the <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-amqp">AMQP 0-9-1 auth backend plugin</a>)</li>
 <li><span class="code ">dummy</span> for <span class="code ">rabbit_auth_backend_dummy</span></li>
 </ul>
 <p>When using third party plugins, providing a full module name is necessary.</p>
-<p>The following example configures RabbitMQ to use the <a href="/ldap.html">LDAP backend</a>
+<p>The following example configures RabbitMQ to use the <a href="./ldap.html">LDAP backend</a>
 for both authentication and authorisation. Internal database will not be consulted:</p>
 <pre class="lang-ini">
 auth_backends.1 = ldap
@@ -507,7 +507,7 @@ auth_backends.1.authn = internal
 auth_backends.1.authz = rabbit_auth_backend_ip_range
 </pre>
 
-<p>The following example configures RabbitMQ to use the <a href="/ldap.html">LDAP backend</a>
+<p>The following example configures RabbitMQ to use the <a href="./ldap.html">LDAP backend</a>
 for authentication and the internal backend for authorisation:</p>
 <pre class="lang-ini">
 # rabbitmq.conf
@@ -624,7 +624,7 @@ module. The <span class="code ">#amqp_params{}</span> record can be
 provided with a list of authentication functions in
 preference order for network connections.</p>
 <h2><a id="troubleshooting-authn" class="anchor" href="#troubleshooting-authn">Troubleshooting Authentication</a></h2>
-<p><a href="/logging.html">Server logs</a> will contain entries about failed authentication
+<p><a href="./logging.html">Server logs</a> will contain entries about failed authentication
 attempts:</p>
 <pre class="lang-ini">
 2019-03-25 12:28:19.047 [info] &lt;0.1613.0&gt; accepting AMQP connection &lt;0.1613.0&gt; (127.0.0.1:63839 -&gt; 127.0.0.1:5672)
@@ -634,8 +634,8 @@ PLAIN login refused: user 'user2' - invalid credentials
 </pre>
 
 <p>Authentication failures on connections that <a href="#authentication">authenticate using X.509 certificates</a>
-will be logged differently. See <a href="/troubleshooting-ssl.html">TLS Troubleshooting guide</a> for details.</p>
-<p><a href="/cli.html">rabbitmqctl authenticate_user</a> can be used to test authentication
+will be logged differently. See <a href="./troubleshooting-ssl.html">TLS Troubleshooting guide</a> for details.</p>
+<p><a href="./cli.html">rabbitmqctl authenticate_user</a> can be used to test authentication
 for a username and password pair:</p>
 <pre class="lang-bash">
 rabbitmqctl authenticate_user "a-username" "a/password"
@@ -645,17 +645,17 @@ rabbitmqctl authenticate_user "a-username" "a/password"
 the code of zero. In case of a failure, a non-zero exit code will be used and a failure error message will be printed.</p>
 <p><span class="code ">rabbitmqctl authenticate_user</span> will use a CLI-to-node communication connection to attempt to authenticate
 the username/password pair against an internal API endpoint.
-The connection is assumed to be trusted. If that's not the case, its traffic can be <a href="/clustering-ssl.html">encrypted using TLS</a>.</p>
+The connection is assumed to be trusted. If that's not the case, its traffic can be <a href="./clustering-ssl.html">encrypted using TLS</a>.</p>
 <p>Per AMQP 0-9-1 spec, authentication failures should result
 in the server closing TCP connection immediately. However,
 with RabbitMQ clients can opt in to receive a more specific
-notification using the <a href="/auth-notification.html">authentication failure
+notification using the <a href="./auth-notification.html">authentication failure
 notification</a> extension to AMQP 0-9-1. Modern client libraries
 support that extension transparently to the user: no configuration would be necessary and
 authentication failures will result in a visible returned error, exception or other way of communicating
 a problem used in a particular programming language or environment.</p>
 <h2><a id="troubleshooting-authz" class="anchor" href="#troubleshooting-authz">Troubleshooting Authorisation</a></h2>
-<p><a href="/cli.html">rabbitmqctl list_permissions</a> can be used to inspect a user's
+<p><a href="./cli.html">rabbitmqctl list_permissions</a> can be used to inspect a user's
 permission in a given virtual host:</p>
 <pre class="lang-bash">
 rabbitmqctl list_permissions --vhost /
@@ -672,7 +672,7 @@ rabbitmqctl list_permissions --vhost gw1
 # =&gt; user2   ^user2  ^user2  ^user2
 </pre>
 
-<p><a href="/logging.html">Server logs</a> will contain entries about operation authorisation
+<p><a href="./logging.html">Server logs</a> will contain entries about operation authorisation
 failures. For example, if a user does not have any permissions configured for a virtual host:</p>
 <pre class="lang-ini">
 2019-03-25 12:26:16.301 [info] &lt;0.1594.0&gt; accepting AMQP connection &lt;0.1594.0&gt; (127.0.0.1:63793 -&gt; 127.0.0.1:5672)
@@ -732,11 +732,11 @@ operation queue.declare caused a channel exception access_refused: access to que
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

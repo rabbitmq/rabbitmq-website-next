@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
-      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Clustering Guide
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="./css/rabbit.css" type="text/css" /><link rel="stylesheet" href="./css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="./css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="./css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="./css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Clustering Guide
  — RabbitMQ</title></head>
-  <body id="clustering"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Clustering Guide
+  <body id="clustering"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Clustering Guide
 </h1>
 
 
@@ -22,9 +22,9 @@
 <li>How to <a href="#removing-nodes">remove a cluster node</a></li>
 <li>How to <a href="#resetting-nodes">reset a cluster node</a> to a pristine (blank) state</li>
 </ul>
-<p>and more. <a href="/cluster-formation.html">Cluster Formation and Peer Discovery</a> is a closely related guide
+<p>and more. <a href="./cluster-formation.html">Cluster Formation and Peer Discovery</a> is a closely related guide
 that focuses on peer discovery and cluster formation automation-related topics. For queue contents
-(message) replication, see the <a href="/quorum-queues.html">Quorum Queues</a> guide.</p>
+(message) replication, see the <a href="./quorum-queues.html">Quorum Queues</a> guide.</p>
 <p><a href="tanzu">Tanzu RabbitMQ</a> provides an <a href="clustering-compression.html">inter-node traffic compression</a> feature.</p>
 <p>A RabbitMQ cluster is a logical grouping of one or
 several nodes, each  sharing users, virtual hosts,
@@ -41,7 +41,7 @@ queues, exchanges, bindings, runtime parameters and other distributed state.</p>
 <li>Declaratively using <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-etcd">etcd-based discovery</a> (via a plugin)</li>
 <li>Manually with <span class="code ">rabbitmqctl</span></li>
 </ul>
-<p>Please refer to the <a href="/cluster-formation.html">Cluster Formation guide</a> for details.</p>
+<p>Please refer to the <a href="./cluster-formation.html">Cluster Formation guide</a> for details.</p>
 <p>The composition of a cluster can be altered dynamically.
 All RabbitMQ brokers start out as running on a single
 node. These nodes can be joined into clusters, and
@@ -55,14 +55,14 @@ is a node name with the prefix of <span class="code ">rabbit</span> and hostname
 different prefixes, e.g. <span class="code ">rabbit1@hostname</span> and <span class="code ">rabbit2@hostname</span>.</p>
 <p>In a cluster, nodes identify and contact each other using node names. This means
 that the hostname part of every node name <a href="#hostname-resolution-requirement">must resolve</a>.
-<a href="/cli.html">CLI tools</a> also identify and address nodes using node names.</p>
+<a href="./cli.html">CLI tools</a> also identify and address nodes using node names.</p>
 <p>When a node starts up, it checks whether it has been assigned a node name. This is done
-via the <span class="code ">RABBITMQ_NODENAME</span> <a href="/configure.html#supported-environment-variables">environment variable</a>.
+via the <span class="code ">RABBITMQ_NODENAME</span> <a href="./configure.html#supported-environment-variables">environment variable</a>.
 If no value was explicitly configured,
 the node resolves its hostname and prepends <span class="code ">rabbit</span> to it to compute its node name.</p>
 <p>If a system uses fully qualified domain names (FQDNs) for hostnames, RabbitMQ nodes
 and CLI tools must be configured to use so called long node names.
-For server nodes this is done by setting the <span class="code ">RABBITMQ_USE_LONGNAME</span> <a href="/configure.html#supported-environment-variables">environment variable</a>
+For server nodes this is done by setting the <span class="code ">RABBITMQ_USE_LONGNAME</span> <a href="./configure.html#supported-environment-variables">environment variable</a>
 to <span class="code ">true</span>.</p>
 <p>For CLI tools, either <span class="code ">RABBITMQ_USE_LONGNAME</span> must be set or the <span class="code ">--longnames</span> option
 must be specified.</p>
@@ -88,7 +88,7 @@ resolution methods</a>, such as an alternative DNS server,
 a local file, a non-standard hosts file location, or a mix
 of methods.  Those methods can work in concert with the
 standard OS hostname resolution methods.</p>
-<p>To use FQDNs, see <span class="code ">RABBITMQ_USE_LONGNAME</span> in the <a href="/configure.html#supported-environment-variables">Configuration guide</a>.
+<p>To use FQDNs, see <span class="code ">RABBITMQ_USE_LONGNAME</span> in the <a href="./configure.html#supported-environment-variables">Configuration guide</a>.
 See <a href="#node-names">Node Names</a> above.</p>
 <h2><a id="ports" class="anchor" href="#ports">Port Access</a></h2>
 <p>RabbitMQ nodes <a href="networking.html#ports">bind to ports</a> (open server TCP sockets) in order to accept client and CLI tool connections.
@@ -120,7 +120,7 @@ are message queues, which by default reside on one node,
 though they are visible and reachable from all nodes. To
 replicate queues across nodes in a cluster, use a queue type
 that supports replication. This topic is covered in
-the <a href="/quorum-queues.html">Quorum Queues</a> guide.</p>
+the <a href="./quorum-queues.html">Quorum Queues</a> guide.</p>
 <h3><a id="peer-equality" class="anchor" href="#peer-equality">Nodes are Equal Peers</a></h3>
 <p>Some distributed systems
 have leader and follower nodes. This is generally not true for RabbitMQ.
@@ -128,13 +128,13 @@ All nodes in a RabbitMQ cluster are equal peers: there are no special nodes in R
 This topic becomes more nuanced when <a href="quorum-queues.html">quorum queues</a> and plugins
 are taken into consideration but for most intents and purposes,
 all cluster nodes should be considered equal.</p>
-<p>Many <a href="/cli.html">CLI tool</a> operations can be executed against any node.
-An <a href="/management.html">HTTP API</a> client can target any cluster node.</p>
+<p>Many <a href="./cli.html">CLI tool</a> operations can be executed against any node.
+An <a href="./management.html">HTTP API</a> client can target any cluster node.</p>
 <p>Individual plugins can designate (elect)
 certain nodes to be "special" for a period of time. For example, <a href="federation.html">federation links</a>
 are colocated on a particular cluster node. Should that node fail, the links will
 be restarted on a different node.</p>
-<p>In versions older than 3.6.7, <a href="/management.html">RabbitMQ management plugin</a> used
+<p>In versions older than 3.6.7, <a href="./management.html">RabbitMQ management plugin</a> used
 a dedicated node for stats collection and aggregation.</p>
 <h3><a id="erlang-cookie" class="anchor" href="#erlang-cookie">How CLI Tools Authenticate to Nodes (and Nodes to Each Other): the Erlang Cookie</a></h3>
 <p>RabbitMQ nodes and CLI tools (e.g. <span class="code ">rabbitmqctl</span>) use a
@@ -149,7 +149,7 @@ Every cluster node must have the same cookie.</p>
 one with a randomly generated value when the RabbitMQ server
 starts up. Using such generated cookie files are appropriate in development
 environments only. Since each node will generate its own value independently,
-this strategy is not really viable in a <a href="/clustering.html">clustered environment</a>.</p>
+this strategy is not really viable in a <a href="./clustering.html">clustered environment</a>.</p>
 <p>Erlang cookie generation should be done at cluster deployment stage, ideally using automation
 and orchestration tools.</p>
 <p>In distributed deployment</p>
@@ -188,7 +188,7 @@ For instance, this can be seen in the <a href="https://github.com/rabbitmq/diy-k
 location for users running commands like <span class="code ">rabbitmqctl.bat</span>.</p>
 <h3>Overriding Using CLI and Runtime Command Line Arguments</h3>
 <p>As an alternative, the option "<span class="code ">-setcookie &lt;value&gt;</span>" can be added
-to <span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span> <a href="/configure.html">environment variable value</a>
+to <span class="code ">RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS</span> <a href="./configure.html">environment variable value</a>
 to override the cookie value used by a RabbitMQ node:</p>
 <pre class="lang-bash">
 RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="-setcookie cookie-value"
@@ -201,13 +201,13 @@ rabbitmq-diagnostics status --erlang-cookie "cookie-value"
 
 <p>Both are <strong>the least secure options</strong> and generally <strong>not recommended</strong>.</p>
 <h3>Troubleshooting</h3>
-<p>When a node starts, it will <a href="/logging.html">log</a> the home directory location of its effective user:</p>
+<p>When a node starts, it will <a href="./logging.html">log</a> the home directory location of its effective user:</p>
 <pre class="lang-plaintext">
 node           : rabbit@cdbf4de5f22d
 home dir       : /var/lib/rabbitmq
 </pre>
 
-<p>Unless any <a href="/relocate.html">server directories</a> were overridden, that's the directory where
+<p>Unless any <a href="./relocate.html">server directories</a> were overridden, that's the directory where
 the cookie file will be looked for, and created by the node on first boot if it does not already exist.</p>
 <p>In the example above, the cookie file location will be <span class="code ">/var/lib/rabbitmq/.erlang.cookie</span>.</p>
 <h3><a id="peer-authentication-failures" class="anchor" href="#peer-authentication-failures">Authentication Failures</a></h3>
@@ -239,28 +239,28 @@ more information and cookie mismatches can be identified better:</p>
 * Authentication failed (rejected by the remote node), please check the Erlang cookie
 </pre>
 
-<p>See the <a href="/cli.html">CLI Tools guide</a> for more information.</p>
+<p>See the <a href="./cli.html">CLI Tools guide</a> for more information.</p>
 <h3><a id="cookie-file-troubleshooting" class="anchor" href="#cookie-file-troubleshooting">Troubleshooting</a> Cookie-based Authentication</h3>
 <h4>Server Nodes</h4>
-<p>When a node starts, it will <a href="/logging.html">log</a> the home directory location of its effective user:</p>
+<p>When a node starts, it will <a href="./logging.html">log</a> the home directory location of its effective user:</p>
 <pre class="lang-plaintext">
 node           : rabbit@cdbf4de5f22d
 home dir       : /var/lib/rabbitmq
 </pre>
 
-<p>Unless any <a href="/relocate.html">server directories</a> were overridden, that's the directory where
+<p>Unless any <a href="./relocate.html">server directories</a> were overridden, that's the directory where
 the cookie file will be looked for, and created by the node on first boot if it does not already exist.</p>
 <p>In the example above, the cookie file location will be <span class="code ">/var/lib/rabbitmq/.erlang.cookie</span>.</p>
 <h4>Hostname Resolution</h4>
 <p>Since hostname resolution is a <a href="#hostname-resolution-requirement">prerequisite for successful inter-node communication</a>,
-starting with <a href="/changelog.html">RabbitMQ <span class="code ">3.8.6</span></a>, CLI tools provide two commands that help verify
+starting with <a href="./changelog.html">RabbitMQ <span class="code ">3.8.6</span></a>, CLI tools provide two commands that help verify
 that hostname resolution on a node works as expected. The commands are not meant to replace
 <a href="https://en.wikipedia.org/wiki/Dig_(command)"><span class="code ">dig</span></a> and other specialised DNS tools but rather
 provide a way to perform most basic checks while taking <a href="https://erlang.org/doc/apps/erts/inet_cfg.html">Erlang runtime hostname resolver features</a>
 into account.</p>
-<p>The commands are covered in the <a href="/networking.html#dns-verify-resolution">Networking guide</a>.</p>
+<p>The commands are covered in the <a href="./networking.html#dns-verify-resolution">Networking guide</a>.</p>
 <h4>CLI Tools</h4>
-<p>Starting with <a href="/changelog.html">version <span class="code ">3.8.6</span></a>, <span class="code ">rabbitmq-diagnostics</span> includes a command
+<p>Starting with <a href="./changelog.html">version <span class="code ">3.8.6</span></a>, <span class="code ">rabbitmq-diagnostics</span> includes a command
 that provides relevant information on the Erlang cookie file used by CLI tools:</p>
 <pre class="lang-bash">
 rabbitmq-diagnostics erlang_cookie_sources
@@ -291,7 +291,7 @@ RABBITMQ_ERLANG_COOKIE value length: 0
 </pre>
 
 <h2><a id="node-count" class="anchor" href="#node-count">Node Counts and Quorum</a></h2>
-<p>Because several features (e.g. <a href="/quorum-queues.html">quorum queues</a>, <a href="/mqtt.html">client tracking in MQTT</a>)
+<p>Because several features (e.g. <a href="./quorum-queues.html">quorum queues</a>, <a href="./mqtt.html">client tracking in MQTT</a>)
 require a consensus between cluster members, odd numbers of cluster nodes are highly recommended:
 1, 3, 5, 7 and so on.</p>
 <p>Two node clusters are <strong>highly recommended against</strong> since it's impossible for cluster nodes to identify
@@ -299,12 +299,12 @@ a majority and form a consensus in case of connectivity loss. For example, when 
 MQTT client connections won't be accepted, quorum queues would lose their availability, and so on.</p>
 <p>From the consensus point of view, four or six node clusters would have the same availability
 characteristics as three and five node clusters.</p>
-<p>The <a href="/quorum-queues.html">Quorum Queues guide</a> covers this topic in more detail.</p>
+<p>The <a href="./quorum-queues.html">Quorum Queues guide</a> covers this topic in more detail.</p>
 <h2><a id="clustering-and-clients" class="anchor" href="#clustering-and-clients">Clustering and Clients</a></h2>
 <p>Assuming all cluster members
 are available, a client can connect to any node and
 perform any operation. Nodes will route operations to the
-<a href="/quorum-queues.html">quorum queue leader</a> or <a href="ha.html#leader-migration-data-locality">queue leader replica</a>
+<a href="./quorum-queues.html">quorum queue leader</a> or <a href="ha.html#leader-migration-data-locality">queue leader replica</a>
 transparently to clients.</p>
 <p>With all supported messaging protocols a client is only connected to one node
 at a time.</p>
@@ -314,16 +314,16 @@ this reason, most client libraries accept a list of endpoints (hostnames or IP a
 as a connection option. The list of hosts will be used during initial connection
 as well as connection recovery, if the client supports it. See documentation guides
 for individual clients to learn more.</p>
-<p>With <a href="/quorum-queues.html">quorum queues</a>, clients will only be able to perform
+<p>With <a href="./quorum-queues.html">quorum queues</a>, clients will only be able to perform
 operations on queues that have a quorum of replicas online.</p>
 <p>With classic mirrored queues, there are scenarios where it may not be possible for a client to transparently continue
 operations after connecting to a different node. They usually involve
-<a href="/ha.html#non-mirrored-queue-behavior-on-node-failure">non-mirrored queues hosted on a failed node</a>.</p>
+<a href="./ha.html#non-mirrored-queue-behavior-on-node-failure">non-mirrored queues hosted on a failed node</a>.</p>
 <h2><a id="clustering-and-observability" class="anchor" href="#clustering-and-observability">Clustering and Observability</a></h2>
 <p>Client connections, channels and queues will be distributed across cluster nodes.
-Operators need to be able to inspect and <a href="/monitoring.html">monitor</a> such resources
+Operators need to be able to inspect and <a href="./monitoring.html">monitor</a> such resources
 across all cluster nodes.</p>
-<p>RabbitMQ <a href="/cli.html">CLI tools</a> such as <span class="code ">rabbitmq-diagnostics</span> and <span class="code ">rabbitmqctl</span>
+<p>RabbitMQ <a href="./cli.html">CLI tools</a> such as <span class="code ">rabbitmq-diagnostics</span> and <span class="code ">rabbitmqctl</span>
 provide commands that inspect resources and cluster-wide state. Some commands focus on the state of a single node
 (e.g. <span class="code ">rabbitmq-diagnostics environment</span> and <span class="code ">rabbitmq-diagnostics status</span>), others
 inspect cluster-wide state. Some examples of the latter include <span class="code ">rabbitmqctl list_connections</span>,
@@ -342,7 +342,7 @@ nodes one after another will produce identical or
 semantically identical results. "Node-local" commands, however, will not produce
 identical results since two nodes rarely have identical state: at the very least their
 node names will be different!</p>
-<p><a href="/management.html">Management UI</a> works similarly: a node that has to respond to an HTTP API request
+<p><a href="./management.html">Management UI</a> works similarly: a node that has to respond to an HTTP API request
 will fan out to other cluster members and aggregate their responses. In a cluster with multiple nodes that have management plugin
 enabled, the operator can use any node to access management UI. The same goes for monitoring tools that use
 the HTTP API to collect data about the state of the cluster. There is no need to issue a request to every cluster node in turn.</p>
@@ -354,7 +354,7 @@ known at the time of shutdown.</p>
 <p><a href="quorum-queues.html">Quorum queue</a> allows queue contents to be replicated
 across multiple cluster nodes with parallel replication and a predictable <a href="#quorum-queues.html#leader-election">leader election</a>
 and <a href="quorum-queues.html#data-safety">data safety</a> behavior as long as a majority of replicas are online.</p>
-<p>Non-replicated classic queues can also be used in clusters. Non-mirrored queue <a href="/ha.html#non-mirrored-queue-behavior-on-node-failure">behaviour in case of node failure</a>
+<p>Non-replicated classic queues can also be used in clusters. Non-mirrored queue <a href="./ha.html#non-mirrored-queue-behavior-on-node-failure">behaviour in case of node failure</a>
 depends on <a href="queues.html#durability">queue durability</a>.</p>
 <p>RabbitMQ clustering has several modes of dealing with <a href="partitions.html">network partitions</a>,
 primarily consistency oriented. Clustering is meant to be used across LAN. It is
@@ -366,15 +366,15 @@ WAN. Note that <a href="distributed.html">Shovel and Federation are not equivale
 <h3><a id="clustering-and-stats" class="anchor" href="#clustering-and-stats">Metrics and Statistics</a></h3>
 <p>Every node stores and aggregates its own metrics and stats, and provides an API for
 other nodes to access it. Some stats are cluster-wide, others are specific to individual nodes.
-Node that responds to an <a href="/management.html">HTTP API</a> request contacts its peers
+Node that responds to an <a href="./management.html">HTTP API</a> request contacts its peers
 to retrieve their data and then produces an aggregated result.</p>
-<p>In versions older than 3.6.7, <a href="/management.html">RabbitMQ management plugin</a> used
+<p>In versions older than 3.6.7, <a href="./management.html">RabbitMQ management plugin</a> used
 a dedicated node for stats collection and aggregation.</p>
 <h2><a id="manual-transcript" class="anchor" href="#manual-transcript">Clustering Transcript with <span class="code ">rabbitmqctl</span></a></h2>
 <p>The following several sections provide a transcript of manually setting up and manipulating
 a RabbitMQ cluster across three machines: <span class="code ">rabbit1</span>, <span class="code ">rabbit2</span>,
 <span class="code ">rabbit3</span>. It is recommended that the example is studied before
-<a href="/cluster-formation.html">more automation-friendly</a> cluster formation
+<a href="./cluster-formation.html">more automation-friendly</a> cluster formation
 options are used.</p>
 <p>We assume that the user is logged into all three machines,
 that RabbitMQ has been installed on the machines, and that
@@ -431,17 +431,17 @@ case matters, and these strings must match exactly.</p>
 two of the nodes, say <span class="code ">rabbit@rabbit2</span> and
 <span class="code ">rabbit@rabbit3</span>, to join the cluster of the
 third, say <span class="code ">rabbit@rabbit1</span>. Prior to that both
-newly joining members must be <a href="/rabbitmqctl.8.html#reset">reset</a>.</p>
+newly joining members must be <a href="./rabbitmqctl.8.html#reset">reset</a>.</p>
 <p>We first join <span class="code ">rabbit@rabbit2</span> in a cluster
 with <span class="code ">rabbit@rabbit1</span>. To do that, on
 <span class="code ">rabbit@rabbit2</span> we stop the RabbitMQ
 application and join the <span class="code ">rabbit@rabbit1</span>
 cluster, then restart the RabbitMQ application. Note that
-a node must be <a href="/rabbitmqctl.8.html#reset">reset</a> before it can join an existing cluster.
+a node must be <a href="./rabbitmqctl.8.html#reset">reset</a> before it can join an existing cluster.
 Resetting the node <strong>removes all resources and data that were previously
 present on that node</strong>. This means that a node cannot be made a member
 of a cluster and keep its existing data at the same time. When that's desired,
-using the <a href="/blue-green-upgrade.html">Blue/Green deployment strategy</a> or <a href="/backup.html">backup and restore</a>
+using the <a href="./blue-green-upgrade.html">Blue/Green deployment strategy</a> or <a href="./backup.html">backup and restore</a>
 are the available options.</p>
 <pre class="lang-bash">
 # on rabbit2
@@ -591,22 +591,22 @@ mnesia_table_loading_retry_limit = 15
 <p>By adjusting these settings and tweaking the time window in which
 known peer has to come back it is possible to account for cluster-wide
 redeployment scenarios that can be longer than 5 minutes to complete.</p>
-<p>During <a href="/upgrade.html">upgrades</a>, sometimes the last node to stop
+<p>During <a href="./upgrade.html">upgrades</a>, sometimes the last node to stop
 must be the first node to be started after the upgrade. That node will be designated to perform
 a cluster-wide schema migration that other nodes can sync from and apply when they
 rejoin.</p>
 <h3><a id="restarting-readiness-probes" class="anchor" href="#restarting-readiness-probes">Restarts and Health Checks (Readiness Probes)</a></h3>
-<p>In some environments, node restarts are controlled with a designated <a href="/monitoring.html#health-checks">health check</a>.
+<p>In some environments, node restarts are controlled with a designated <a href="./monitoring.html#health-checks">health check</a>.
 The checks verify that one node has started and the deployment process can proceed to the next one.
 If the check does not pass, the deployment of the node is considered to be incomplete and the deployment process
 will typically wait and retry for a period of time. One popular example of such environment is Kubernetes
 where an operator-defined <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-readiness-gate">readiness probe</a>
 can prevent a deployment from proceeding when the <a href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#deployment-and-scaling-guarantees"><span class="code ">OrderedReady</span> pod management policy</a> is used. Deployments that use the <span class="code ">Parallel</span> pod management policy
-will not be affected but must worry about the <a href="/cluster-formation.html#initial-formation-race-condition">natural race condition during initial cluster formation</a>.</p>
+will not be affected but must worry about the <a href="./cluster-formation.html#initial-formation-race-condition">natural race condition during initial cluster formation</a>.</p>
 <p>Given the <a href="#restarting-schema-sync">peer syncing behavior described above</a>, such a health check can prevent a cluster-wide restart
 from completing in time. Checks that explicitly or implicitly assume a fully booted node that's rejoined
 its cluster peers will fail and block further node deployments.</p>
-<p><a href="/monitoring.html#health-checks">Most health check</a>, even relatively basic ones, implicitly assume that the node has
+<p><a href="./monitoring.html#health-checks">Most health check</a>, even relatively basic ones, implicitly assume that the node has
 finished booting. They are not suitable for nodes that are <a href="#restarting-schema-sync">awaiting schema table sync</a> from a peer.</p>
 <p>One very common example of such check is</p>
 <pre class="lang-bash">
@@ -623,9 +623,9 @@ rabbitmq-diagnostics ping
 </pre>
 
 <p>This basic check would allow the deployment to proceed and the nodes to eventually rejoin each other,
-assuming they are <a href="/upgrade.html">compatible</a>.</p>
+assuming they are <a href="./upgrade.html">compatible</a>.</p>
 <h3><a id="restarting-with-hostname-changes" class="anchor" href="#restarting-with-hostname-changes">Hostname Changes Between Restarts</a></h3>
-<p>A node rejoining after a node name or host name change can start as <a href="/cluster-formation.html#peer-discovery-how-does-it-work">a blank node</a>
+<p>A node rejoining after a node name or host name change can start as <a href="./cluster-formation.html#peer-discovery-how-does-it-work">a blank node</a>
 if its data directory path changes as a result. Such nodes will fail to rejoin the cluster.
 While the node is offline, its peers can be reset or started with a blank data directory.
 In that case the recovering node will fail to rejoin its peer as well since internal data store cluster
@@ -728,8 +728,8 @@ rabbitmqctl cluster_status
 <h2><a id="forced-boot" class="anchor" href="#forced-boot">Forcing Node Boot in Case of Unavailable Peers</a></h2>
 <p>In some cases the last node to go
 offline cannot be brought back up. It can be removed from the
-cluster using the <span class="code ">forget_cluster_node</span> <a href="/cli.html">rabbitmqctl</a> command.</p>
-<p>Alternatively <span class="code ">force_boot</span> <a href="/cli.html">rabbitmqctl</a> command can be used
+cluster using the <span class="code ">forget_cluster_node</span> <a href="./cli.html">rabbitmqctl</a> command.</p>
+<p>Alternatively <span class="code ">force_boot</span> <a href="./cli.html">rabbitmqctl</a> command can be used
 on a node to make it boot without trying to sync with any
 peers (as if they were last to shut down). This is
 usually only necessary if the last node to shut down or a
@@ -738,7 +738,7 @@ set of nodes will never be brought back online.</p>
 <p>Sometimes it is necessary to remove a node from a
 cluster. The operator has to do this explicitly using a
 <span class="code ">rabbitmqctl</span> command.</p>
-<p>Some <a href="/cluster-formation.html">peer discovery mechanisms</a>
+<p>Some <a href="./cluster-formation.html">peer discovery mechanisms</a>
 support node health checks and forced
 removal of nodes not known to the discovery backend. That feature is
 opt-in (disabled by default).</p>
@@ -854,13 +854,13 @@ rabbitmqctl start_app
 </pre>
 
 <p>Besides <span class="code ">rabbitmqctl forget_cluster_node</span> and the automatic cleanup of unknown nodes
-by some <a href="/cluster-formation.html">peer discovery</a> plugins, there are no scenarios
+by some <a href="./cluster-formation.html">peer discovery</a> plugins, there are no scenarios
 in which a RabbitMQ node will permanently remove its peer node from a cluster.</p>
 <h3><a id="resetting-nodes" class="anchor" href="#resetting-nodes">How to Reset a Node</a></h3>
 <p>Sometimes it may be necessary to reset a node (wipe all of its data) and later make it rejoin the cluster.
 Generally speaking, there are two possible scenarios: when the node is running, and when the node cannot start
 or won't respond to CLI tool commands e.g. due to an issue such as <a href="https://bugs.erlang.org/browse/ERL-430">ERL-430</a>.</p>
-<p>Resetting a node will delete all of its data, cluster membership information, configured <a href="/parameters.html">runtime parameters</a>,
+<p>Resetting a node will delete all of its data, cluster membership information, configured <a href="./parameters.html">runtime parameters</a>,
 users, virtual hosts and any other node data. It will also permanently remove the node from its cluster.</p>
 <p>To reset a running and responsive node, first stop RabbitMQ on it using <span class="code ">rabbitmqctl stop_app</span>
 and then reset it using <span class="code ">rabbitmqctl reset</span>:</p>
@@ -873,7 +873,7 @@ rabbitmqctl reset
 </pre>
 
 <p>In case of a non-responsive node, it must be stopped first using any means necessary.
-For nodes that fail to start this is already the case. Then <a href="/relocate.html">override</a>
+For nodes that fail to start this is already the case. Then <a href="./relocate.html">override</a>
 the node's data directory location or [re]move the existing data store. This will make the node
 start as a blank one. It will have to be instructed to <a href="#cluster-formation">rejoin its original cluster</a>, if any.</p>
 <p>A node that's been reset and rejoined its original cluster will sync all virtual hosts, users, permissions
@@ -882,7 +882,7 @@ contents will be replicated if the node will be selected to host a replica.
 Non-replicated queue contents on a reset node will be lost.</p>
 <h2><a id="upgrading" class="anchor" href="#upgrading">Upgrading clusters</a></h2>
 <p>You can find instructions for upgrading a cluster in
-<a href="/upgrade.html#rabbitmq-cluster-configuration">the upgrade guide</a>.</p>
+<a href="./upgrade.html#rabbitmq-cluster-configuration">the upgrade guide</a>.</p>
 <h2><a id="single-machine" class="anchor" href="#single-machine">A Cluster on a Single Machine</a></h2>
 <p>Under some circumstances it can be useful to run a cluster
 of RabbitMQ nodes on a single machine. This would
@@ -895,10 +895,10 @@ distinct node names, data store locations, log file
 locations, and bind to different ports, including those
 used by plugins. See <span class="code ">RABBITMQ_NODENAME</span>,
 <span class="code ">RABBITMQ_NODE_PORT</span>, and
-<span class="code ">RABBITMQ_DIST_PORT</span> in the <a href="/configure.html#supported-environment-variables">Configuration
+<span class="code ">RABBITMQ_DIST_PORT</span> in the <a href="./configure.html#supported-environment-variables">Configuration
 guide</a>, as well as <span class="code ">RABBITMQ_MNESIA_DIR</span>,
 <span class="code ">RABBITMQ_CONFIG_FILE</span>, and
-<span class="code ">RABBITMQ_LOG_BASE</span> in the <a href="/relocate.html">File and Directory Locations guide</a>.</p>
+<span class="code ">RABBITMQ_LOG_BASE</span> in the <a href="./relocate.html">File and Directory Locations guide</a>.</p>
 <p>You can start multiple nodes on the same host manually by
 repeated invocation of <span class="code ">rabbitmq-server</span> (
 <span class="code ">rabbitmq-server.bat</span> on Windows). For example:</p>
@@ -942,14 +942,14 @@ on EC2. If you want to use the full hostname for your nodename (RabbitMQ
 defaults to the short name), and that full hostname is resolvable using DNS,
 you may want to investigate setting the environment variable
 <span class="code ">RABBITMQ_USE_LONGNAME=true</span>.</p>
-<p>See the section on <a href="/clustering.html#hostname-resolution-requirement">hostname resolution</a> for more information.</p>
+<p>See the section on <a href="./clustering.html#hostname-resolution-requirement">hostname resolution</a> for more information.</p>
 <h2><a id="firewall" class="anchor" href="#firewall">Firewalled Nodes</a></h2>
 <p>Nodes can have a firewall enabled on them. In such case, traffic on certain ports must be
 allowed by the firewall in both directions, or nodes won't be able to join each other and
 perform all the operations they expect to be available on cluster peers.</p>
 <p>Learn more in the <a href="#ports">section on ports</a> above and dedicated <a href="networking.html">RabbitMQ Networking guide</a>.</p>
 <h2><a id="erlang" class="anchor" href="#erlang">Erlang Versions Across the Cluster</a></h2>
-<p>All nodes in a cluster are <em>highly recommended</em> to run the same major <a href="/which-erlang.html">version of Erlang</a>: <span class="code ">22.2.0</span>
+<p>All nodes in a cluster are <em>highly recommended</em> to run the same major <a href="./which-erlang.html">version of Erlang</a>: <span class="code ">22.2.0</span>
 and <span class="code ">22.2.8</span> can be mixed but <span class="code ">21.3.6</span> and <span class="code ">22.2.6</span> can potentially introduce breaking changes in
 inter-node communication protocols. While such breaking changes are relatively rare, they are possible.</p>
 <p>Incompatibilities between patch releases of Erlang/OTP versions
@@ -1127,11 +1127,11 @@ rabbitmqctl start_app
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

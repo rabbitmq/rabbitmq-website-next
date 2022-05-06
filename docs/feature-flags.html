@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
-      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Feature Flags
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="./css/rabbit.css" type="text/css" /><link rel="stylesheet" href="./css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="./css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="./css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="./css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Feature Flags
  — RabbitMQ</title></head>
-  <body id="feature-flags"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Feature Flags
+  <body id="feature-flags"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Feature Flags
 </h1>
 <h2>Overview</h2>
 <p>In a mixed version cluster (e.g. some versions are 3.7.x and some are
@@ -17,7 +17,7 @@ nodes in the cluster will disable the feature (behavior).</p>
 <p>The feature flag subsystem allows RabbitMQ nodes with different versions
 to determine if they are compatible and then communicate together,
 regardless of their version.</p>
-<p>This subsystem was introduced in RabbitMQ 3.8.0 to allow <strong><a href="/upgrade.html#rolling-upgrades">rolling
+<p>This subsystem was introduced in RabbitMQ 3.8.0 to allow <strong><a href="./upgrade.html#rolling-upgrades">rolling
 upgrades</a> of cluster members without
 shutting down the entire cluster</strong>.</p>
 <p class="box-warning">
@@ -27,7 +27,7 @@ compatible with older release series. Therefore, <strong>a future
 version of RabbitMQ might still require a cluster-wide shutdown for
 upgrading</strong>.
 
-Please always read <a href="/changelog.html">release notes</a> to see if a rolling
+Please always read <a href="./changelog.html">release notes</a> to see if a rolling
 upgrade to the next minor or major RabbitMQ version is possible.
 </p>
 
@@ -51,11 +51,11 @@ feature flags are enabled.</p>
     <pre class="lang-bash">rabbitmqctl enable_feature_flag &lt;all | name&gt;</pre></li>
 </ul>
 <p>It is also possible to list and enable feature flags from the
-<a href="/management.html">Management plugin UI</a>, in "<em>Admin &gt; Feature flags</em>".</p>
+<a href="./management.html">Management plugin UI</a>, in "<em>Admin &gt; Feature flags</em>".</p>
 <h3>The Two Examples</h3>
 <h4>Example 1: Compatible Nodes</h4>
 <div style="text-align: center;">
-<img src="/img/feature-flags/compatible-nodes.svg" style="width: 100%; max-width: 400px;" />
+<img src="./img/feature-flags/compatible-nodes.svg" style="width: 100%; max-width: 400px;" />
 </div>
 
 <ul>
@@ -68,7 +68,7 @@ feature flags are enabled.</p>
 </ul>
 <h4>Example 2: Incompatible Nodes</h4>
 <div style="text-align: center;">
-<img src="/img/feature-flags/incompatible-nodes.svg" style="width: 100%; max-width: 400px;" />
+<img src="./img/feature-flags/incompatible-nodes.svg" style="width: 100%; max-width: 400px;" />
 </div>
 
 <ul>
@@ -85,7 +85,7 @@ next patch, minor or major release, except if it is stated otherwise
 in the release notes. Indeed, there are some changes which cannot be
 implemented as feature flags.</p>
 <div style="text-align: center;">
-<img src="/img/feature-flags/feature-flags-and-rabbitmq-versions.svg" style="width: 100%; max-width: 647px;" />
+<img src="./img/feature-flags/feature-flags-and-rabbitmq-versions.svg" style="width: 100%; max-width: 647px;" />
 </div>
 
 <p>It is also possible to upgrade from RabbitMQ 3.7.x to 3.8.x. Indeed,
@@ -192,9 +192,9 @@ rabbitmqctl -q --formatter pretty_table list_feature_flags
 </pre>
 
 <p>It is also possible to list and enable feature flags from the
-<a href="/management.html">Management plugin UI</a>, in "<em>Admin &gt; Feature flags</em>":</p>
+<a href="./management.html">Management plugin UI</a>, in "<em>Admin &gt; Feature flags</em>":</p>
 <div style="text-align: center;">
-<img src="/img/feature-flags/management-ui-ff-panel.png" style="width: 100%; border: solid 1px #75757f;" />
+<img src="./img/feature-flags/management-ui-ff-panel.png" style="width: 100%; border: solid 1px #75757f;" />
 </div>
 
 <h2><a id="how-to-disable-feature-flags" class="anchor" href="#how-to-disable-feature-flags">How to Disable Feature Flags</a></h2>
@@ -254,7 +254,7 @@ one of the tier-1 plugins bundled with RabbitMQ.</p>
   <tr>
     <td><a id="ff-quorum_queue" class="anchor" href="#ff-quorum_queue">quorum_queue</a></td>
     <td>
-      Enables <a href="/quorum-queues.html">quorum queue</a> type.
+      Enables <a href="./quorum-queues.html">quorum queue</a> type.
     </td>
     <td>
       <table class="feature-flag-lifecycle">
@@ -267,7 +267,7 @@ one of the tier-1 plugins bundled with RabbitMQ.</p>
   <tr>
     <td><a id="ff-stream_queue" class="anchor" href="#ff-stream_queue">stream_queue</a></td>
     <td>
-      Enables <a href="/streams.html">streams</a>.
+      Enables <a href="./streams.html">streams</a>.
     </td>
     <td>
       <table class="feature-flag-lifecycle">
@@ -280,7 +280,7 @@ one of the tier-1 plugins bundled with RabbitMQ.</p>
   <tr>
     <td><a id="ff-drop_unroutable_metric" class="anchor" href="#ff-drop_unroutable_metric">drop_unroutable_metric</a></td>
     <td>
-      Dropped <a href="/publishers.html#unroutable">unroutable message</a> metrics.
+      Dropped <a href="./publishers.html#unroutable">unroutable message</a> metrics.
     </td>
     <td>
     <table class="feature-flag-lifecycle">
@@ -293,7 +293,7 @@ one of the tier-1 plugins bundled with RabbitMQ.</p>
   <tr>
     <td><a id="ff-maintenance_mode_status" class="anchor" href="#ff-maintenance_mode_status">maintenance_mode_status</a></td>
     <td>
-      Enable <a href="/upgrade.html#maintenance-mode">maintenance mode</a>, so nodes can be drained for maintenance or upgrade operations.
+      Enable <a href="./upgrade.html#maintenance-mode">maintenance mode</a>, so nodes can be drained for maintenance or upgrade operations.
     </td>
     <td>
     <table class="feature-flag-lifecycle">
@@ -335,11 +335,11 @@ one of the tier-1 plugins bundled with RabbitMQ.</p>
 <h4>Node and Version Compatibility</h4>
 <p>There are two times when an operator has to consider feature flags:</p>
 <ul>
-<li>When <a href="/clustering.html">extending an existing cluster</a> by adding
+<li>When <a href="./clustering.html">extending an existing cluster</a> by adding
    nodes using a different version of RabbitMQ (older or newer), the
    operator needs to pay attention to feature flags: they might prevent
    clustering.</li>
-<li>After <a href="/upgrade.html">upgrading a cluster</a>, the operator should take
+<li>After <a href="./upgrade.html">upgrading a cluster</a>, the operator should take
    a look at the new feature flags and perhaps enable them.</li>
 </ul>
 <p>A node compares its own list of feature flags with remote nodes' list
@@ -371,11 +371,11 @@ initially expected.</p>
 <p>Controlling a remote node with <span class="code ">rabbitmqctl</span> is only supported if the
 remote node is running the same version of RabbitMQ than <span class="code ">rabbitmqctl</span>
 comes from.</p>
-<p>If <a href="/cli.html">CLI tools</a> from a different minor/major version of RabbitMQ is
+<p>If <a href="./cli.html">CLI tools</a> from a different minor/major version of RabbitMQ is
 used on a remote node, they may fail to work as expected or even have unexpected
 side effects on the node.</p>
 <h5>Load-balancing Requests to the HTTP API</h5>
-<p>If a request sent to the HTTP API exposed by the <a href="/management.html">Management
+<p>If a request sent to the HTTP API exposed by the <a href="./management.html">Management
 plugin</a> goes through a load balancer, including one
 from the management plugin UI, the API's behavior and its response may
 be different, depending on the version of the node which handled the
@@ -637,11 +637,11 @@ with an older one.</p>
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

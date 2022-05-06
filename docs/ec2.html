@@ -1,37 +1,37 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
-      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Running RabbitMQ on Amazon EC2
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="./css/rabbit.css" type="text/css" /><link rel="stylesheet" href="./css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="./css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="./css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="./css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Running RabbitMQ on Amazon EC2
  — RabbitMQ</title></head>
-  <body id="ec2"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Running RabbitMQ on Amazon EC2
+  <body id="ec2"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Running RabbitMQ on Amazon EC2
 </h1>
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>This guide assumes familiarity with the general <a href="/clustering.html">clustering guide</a> as well
-the guide on <a href="/cluster-formation.html">cluster peer discovery</a>.</p>
+<p>This guide assumes familiarity with the general <a href="./clustering.html">clustering guide</a> as well
+the guide on <a href="./cluster-formation.html">cluster peer discovery</a>.</p>
 <p>Using RabbitMQ on EC2 is quite similar to running it on other
 platforms. However, there are certain minor aspects to EC2 that need
 to be accounted for. They primarily have to do with hostnames and their resolution.</p>
-<p>This guide demonstrates manual (<a href="/cli.html">CLI</a>-driven) RabbitMQ clustering.
-<a href="/cluster-formation.html">Peer discovery plugin for AWS</a> (RabbitMQ 3.7.0 or later)
+<p>This guide demonstrates manual (<a href="./cli.html">CLI</a>-driven) RabbitMQ clustering.
+<a href="./cluster-formation.html">Peer discovery plugin for AWS</a> (RabbitMQ 3.7.0 or later)
 is an option more suitable for automation.</p>
 <h2><a id="amis" class="anchor" href="#amis">AMIs</a></h2>
 <p>RabbitMQ works well on up-to-date Ubuntu, Debian and CentOS AMIs as long as
-a <a href="/which-erlang.html">compatible version of Erlang/OTP</a> is installed.</p>
+a <a href="./which-erlang.html">compatible version of Erlang/OTP</a> is installed.</p>
 <h2><a id="instance-types" class="anchor" href="#instance-types">Choosing an Instance Type</a></h2>
 <p>RabbitMQ will work on every instance type, but there are a few considerations
 worth bearing in mind:</p>
 <ul>
 <li>Use 64-bit instances.</li>
 <li>Depending on the workload and settings, RabbitMQ can require substantial amounts of memory.
-     Make sure that your host does have an <a href="/memory.html">appropriate amount of RAM</a> and always have
-     at least a few gigabytes of swap space enabled. Workloads can be simulated using <a href="/java-tools.html">PerfTest</a>.
-   A separate guide on <a href="/memory-use.html">reasoning about node memory usage</a> is available.</li>
+     Make sure that your host does have an <a href="./memory.html">appropriate amount of RAM</a> and always have
+     at least a few gigabytes of swap space enabled. Workloads can be simulated using <a href="./java-tools.html">PerfTest</a>.
+   A separate guide on <a href="./memory-use.html">reasoning about node memory usage</a> is available.</li>
 <li>RabbitMQ generally will take advantage of all the CPU cores
     in the system provided the workload uses <a href="queues.html">multiple queues</a>.
   Other factors should be taken into account (e.g. disk and network I/O throughput).</li>
-<li><a href="/monitoring.html">Monitoring</a> RabbitMQ nodes as well as applications that use it
+<li><a href="./monitoring.html">Monitoring</a> RabbitMQ nodes as well as applications that use it
    on real or simulated workloads will help assess how suitable a particular instance type is.</li>
 </ul>
 <h2><a id="os" class="anchor" href="#os">Operating Systems</a></h2>
@@ -60,7 +60,7 @@ RabbitMQ deployment.</p>
 <li><span class="code ">/var/lib/rabbitmq/</span> to store persistent data like the messages or queues</li>
 <li><span class="code ">/var/log/rabbitmq/</span> to store logs</li>
 </ul>
-<p>See the <a href="/relocate.html">File and Directory Locations</a> for details.</p>
+<p>See the <a href="./relocate.html">File and Directory Locations</a> for details.</p>
 <p>Those directories can be symlinks to a dedicated storage volume. The node must be stopped
 before symlinking is performed:</p>
 <pre class="lang-bash">sudo service rabbitmq-server stop</pre>
@@ -73,17 +73,17 @@ If an EBS volume hits the limit, disk writes will worsen. It is also possible th
 compaction (garbage collection of on-disk data) can fall behind
 disk writes, which means the disk will be filled up quicker than
 disk space can be reclaimed after messages were consumed and
-acknowledged. This will eventually lead to <a href="/alarms.html">resource alarms</a> and publisher throttling. Please make sure the limit
+acknowledged. This will eventually lead to <a href="./alarms.html">resource alarms</a> and publisher throttling. Please make sure the limit
 is high and set up I/O operation rate monitoring.</p>
 <h2><a id="related" class="anchor" href="#related">Further Reading</a></h2>
 <p>Several other guides cover topics highly relevant for running RabbitMQ clusters in public clouds:</p>
 <ul>
-<li><a href="/clustering.html">Clustering Fundamentals</a></li>
-<li><a href="/cluster-formation.html">Peer Discovery</a></li>
+<li><a href="./clustering.html">Clustering Fundamentals</a></li>
+<li><a href="./cluster-formation.html">Peer Discovery</a></li>
 <li><a href="configure.html">Configuration</a></li>
-<li><a href="/monitoring.html">Monitoring</a></li>
-<li><a href="/production-checklist.html">Production Checklist</a></li>
-<li><a href="/relocate.html">File and Directory Locations</a></li>
+<li><a href="./monitoring.html">Monitoring</a></li>
+<li><a href="./production-checklist.html">Production Checklist</a></li>
+<li><a href="./relocate.html">File and Directory Locations</a></li>
 </ul><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
@@ -92,11 +92,11 @@ is high and set up I/O operation rate monitoring.</p>
                     If you'd like to contribute an improvement to the site,
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
-                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

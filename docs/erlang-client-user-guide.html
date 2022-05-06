@@ -1,17 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
-      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Erlang RabbitMQ Client library
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="./css/rabbit.css" type="text/css" /><link rel="stylesheet" href="./css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="./css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="./css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="./css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Erlang RabbitMQ Client library
  — RabbitMQ</title></head>
-  <body id="erlang-client-user-guide"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Erlang RabbitMQ Client library
+  <body id="erlang-client-user-guide"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Erlang RabbitMQ Client library
 </h1>
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>This guide covers an Erlang client for RabbitMQ (<a href="/tutorials/amqp-concepts.html">AMQP 0-9-1</a>).</p>
-<p>This user guide assumes that the reader is familiar with <a href="/tutorials/amqp-concepts.html">basic concepts of AMQP 0-9-1</a>.</p>
+<p>This guide covers an Erlang client for RabbitMQ (<a href="./tutorials/amqp-concepts.html">AMQP 0-9-1</a>).</p>
+<p>This user guide assumes that the reader is familiar with <a href="./tutorials/amqp-concepts.html">basic concepts of AMQP 0-9-1</a>.</p>
 <p>Refer to guides on <a href="connections.html">connections</a>, <a href="channels.html">channels</a>, <a href="queues.html">queues</a>,
-<a href="/publishers.html">publishers</a>, and <a href="/consumers.html">consumers</a> to learn about those
+<a href="./publishers.html">publishers</a>, and <a href="./consumers.html">consumers</a> to learn about those
 key RabbitMQ concepts in more details.</p>
 <p>Some topics covered in this guide include</p>
 <ul>
@@ -50,7 +50,7 @@ dep_rabbit_common = hex 3.10.0
 <li>Make sure the <span class="code ">amqp_client</span> Erlang application is started</li>
 <li>Establish a <a href="connections.html">connection</a> to a RabbitMQ node</li>
 <li>Open a new channel on the connection</li>
-<li>Execute <a href="/amqp-0-9-1-quickref.html">AMQP 0-9-1 commands</a> with a channel such as
+<li>Execute <a href="./amqp-0-9-1-quickref.html">AMQP 0-9-1 commands</a> with a channel such as
    declaring exchanges and queues, defining bindings between them, publishing messages,
    registering consumers (subscribing), and so on</li>
 <li>Register optional event handlers such as <a href="#returns">returned message handler</a></li>
@@ -72,7 +72,7 @@ application:ensure_started(amqp_client).
 <li><span class="code ">amqp_channel</span>, which exposes most AMQP 0-9-1 operations such as queue declaration
    or consumer registration</li>
 </ul>
-<p>Once a connection has been established and successfully <a href="/access-control.html">authenticated</a>,
+<p>Once a connection has been established and successfully <a href="./access-control.html">authenticated</a>,
 and a channel has been opened, an application will typically use the
 <span class="code ">amqp_channel:call/{2,3}</span> and <span class="code ">amqp_channel:cast/{2,3}</span> functions
 together with AMQP 0-9-1 protocol method records to perform most operations.</p>
@@ -98,7 +98,7 @@ parameter set to an <span class="code ">#amqp_params_network</span> record.</p>
 connections. This communication method assumes that the application that uses
 the client runs on the same Erlang cluster as RabbitMQ nodes.</p>
 <p>The use of direct client should be limited to applications that are deployed
-side by side with RabbitMQ. <a href="shovel.html">Shovel</a> and <a href="/federation.html">Federation</a>
+side by side with RabbitMQ. <a href="shovel.html">Shovel</a> and <a href="./federation.html">Federation</a>
 plugins are two examples of such applications.</p>
 <p>In most other cases, developers should prefer the more traditional network client covered above.
 It will be easier to reason about for operators and developers not familiar with Erlang.</p>
@@ -169,11 +169,11 @@ This pid will be used to open channels on the connection and <a href="#disconnec
       <td>0</td>
     </tr>
     <tr>
-      <td><a href="/heartbeats.html">heartbeat</a></td>
+      <td><a href="./heartbeats.html">heartbeat</a></td>
       <td>0</td>
     </tr>
     <tr>
-      <td><a href="/ssl.html">ssl_options</a></td>
+      <td><a href="./ssl.html">ssl_options</a></td>
       <td>none</td>
     </tr>
     <tr>
@@ -213,7 +213,7 @@ made available to authentication backends.</p>
 unconditionally.</p>
 <p>If neither username nor password are provided, then the connection will be considered
 to be from a fully trusted user which can connect to any virtual host and has
-full <a href="/access-control.html">permissions</a>.</p>
+full <a href="./access-control.html">permissions</a>.</p>
 <p>The <span class="code ">#amqp_params_direct</span> record sets the following default values:</p>
 <table>
   <thead>
@@ -247,14 +247,14 @@ full <a href="/access-control.html">permissions</a>.</p>
 
 <h3><a id="amqp-uris" class="anchor" href="#amqp-uris">Connecting to RabbitMQ Using an AMQP URI</a></h3>
 <p>Instead of working with records such <span class="code ">#amqp_params_network</span> directly,
-<a href="/uri-spec.html">AMQP URIs</a> may be used.</p>
+<a href="./uri-spec.html">AMQP URIs</a> may be used.</p>
 <p>The <span class="code ">amqp_uri:parse/1</span> function is provided for this purpose.
 It parses an URI and returns the equivalent <span class="code ">#amqp_params_network</span> or <span class="code ">#amqp_params_direct</span> record.</p>
 <p>Diverging from the spec, if the hostname is omitted, the
 connection is assumed to be direct and an <span class="code ">#amqp_params_direct{}</span>
 record is returned.  In addition to the standard host, port, user,
 password and vhost parameters, extra parameters may be specified
-via the query string (e.g. "?heartbeat=5" to configure a <a href="/heartbeats.html">heartbeat timeout</a>).</p>
+via the query string (e.g. "?heartbeat=5" to configure a <a href="./heartbeats.html">heartbeat timeout</a>).</p>
 <h2><a id="channels" class="anchor" href="#channels">Creating Channels</a></h2>
 <p>Once a connection has been established, use the <span class="code ">amqp_connection</span> module
 to open one or more <a href="channels.html">channels</a> that will be used
@@ -268,7 +268,7 @@ a <span class="code ">{ok, Channel}</span> pair, where <span class="code ">Chann
 a channel and will be used to execute protocol commands.</p>
 <h2><a id="methods" class="anchor" href="#methods">Using AMQP 0-9-1 Methods (Protocol Operations)</a></h2>
 <p>The client library's primary way of interacting with RabbitMQ nodes is by
-sending and handling <a href="/specification.html">AMQP 0-9-1 methods</a>
+sending and handling <a href="./specification.html">AMQP 0-9-1 methods</a>
 (also referred to as "commands" in this guide) that are represented by records.</p>
 <p>The client tries to use sensible default values for each record.
 For example, when using the <span class="code ">#'exchange.declare'{}</span> method to declare a transient exchange,
@@ -299,7 +299,7 @@ Declare = #'exchange.declare'{exchange = &lt;&lt;"my_exchange"&gt;&gt;},
 #'exchange.declare_ok'{} = amqp_channel:call(Channel, Declare)
 </pre>
 
-<p>Similarly, a <a href="/queues.html#durability">transient</a> queue called <span class="code ">my_queue</span> is created by this code:</p>
+<p>Similarly, a <a href="./queues.html#durability">transient</a> queue called <span class="code ">my_queue</span> is created by this code:</p>
 <pre class="lang-erlang">
 Declare = #'queue.declare'{queue = &lt;&lt;"my_queue"&gt;&gt;},
 #'queue.declare_ok'{} = amqp_channel:call(Channel, Declare)
@@ -381,7 +381,7 @@ amqp_channel:cast(Channel, Publish, #amqp_msg{payload = Payload})
 </pre>
 
 <p>By default, the properties field of the <span class="code ">#amqp_msg{}</span> record contains
-a minimal set of <a href="/publishers.html#message-properties">message properties</a> as a <span class="code ">#'P_basic'{}</span> properties record.</p>
+a minimal set of <a href="./publishers.html#message-properties">message properties</a> as a <span class="code ">#'P_basic'{}</span> properties record.</p>
 <p>If an application needs to override any of the defaults, for example,
 to send persistent messages, the <span class="code ">#amqp_msg{}</span> needs to
 be constructed accordingly:</p>
@@ -393,13 +393,13 @@ Msg = #amqp_msg{props = Props, payload = Payload},
 amqp_channel:cast(Channel, Publish, Msg)
 </pre>
 
-<p>Full list of <a href="/publishers.html#message-properties">message properties</a> can be found
+<p>Full list of <a href="./publishers.html#message-properties">message properties</a> can be found
 in the Publishers guide.</p>
 <p>The AMQP 0-9-1 <span class="code ">#'basic.publish'</span> method is <a href="#call-or-cast">asynchronous</a>:
 the server will not send a response to it. However, clients can opt in
-to have <a href="/publishers.html#unroutable">unroutable messages</a> returned to them.
+to have <a href="./publishers.html#unroutable">unroutable messages</a> returned to them.
 This is described in the section on <a href="#returns">return message handlers</a>.</p>
-<p>The above example does not use <a href="/confirms.html">Publisher Confirms</a>.
+<p>The above example does not use <a href="./confirms.html">Publisher Confirms</a>.
 To await for all outstanding publishes to be confirmed after publishing
 a batch of messages, use <span class="code ">amqp_channel:wait_for_confirms/2</span> function.
 It will return a <span class="code ">true</span> if all outstanding publishes were successfully confirmed
@@ -467,7 +467,7 @@ loop(Channel) -&gt;
 notification and then proceeds to wait for delivery messages to
 arrive in its process mailbox.</p>
 <p>When messages are received, the loop does something useful with the message and
-sends an <a href="/confirms.html">acknowledgement</a> back to the server.
+sends an <a href="./confirms.html">acknowledgement</a> back to the server.
 If the consumer is cancelled, a cancellation notification will be sent to the
 consumer process. In this scenario, the receive loop just
 exits. If the application does not wish to explicitly acknowledge
@@ -537,7 +537,7 @@ amqp_channel:call(Channel, #'basic.qos'{prefetch_count = Prefetch})
 </pre>
 
 <p>Applications are recommended to use a prefetch. Learn more in the
-<a href="/confirms.html">Publisher Confirms and Consumer Acknowledgements guide</a>.</p>
+<a href="./confirms.html">Publisher Confirms and Consumer Acknowledgements guide</a>.</p>
 <h2><a id="blocked" class="anchor" href="#blocked">Blocked Connections</a></h2>
 <p>When a node detects that it is below a certain available resource threshold,
 it may <a href="alarms.html">choose to stop reading from publishers' network sockets</a>.</p>
@@ -611,8 +611,8 @@ because acknowledgements are entirely asynchronous and the server
 will not produce a response for them.</p>
 <h2><a id="example" class="anchor" href="#example">A Basic Example</a></h2>
 <p>Below is a complete example of basic usage of the library. For the sake of simplicity
-it does not use <a href="/confirms.html">publisher confirms</a> and uses a <a href="#polling">polling consumer</a> which performs
-<a href="/confirms.html">manual acknowledgements</a>.</p>
+it does not use <a href="./confirms.html">publisher confirms</a> and uses a <a href="#polling">polling consumer</a> which performs
+<a href="./confirms.html">manual acknowledgements</a>.</p>
 <pre class="lang-erlang">
 -module(amqp_example).
 
@@ -712,11 +712,11 @@ ERL_LIBS=deps erl -pa ebin
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div><div id="related-links"><h4>Related Links</h4><ul><li><a href="https://hexdocs.pm/amqp_client/3.10.0/">Erlang edoc</a></li></ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div><div id="related-links"><h4>Related Links</h4><ul><li><a href="https://hexdocs.pm/amqp_client/3.10.0/">Erlang edoc</a></li></ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting
