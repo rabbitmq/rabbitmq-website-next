@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Troubleshooting TLS-enabled Connections
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Troubleshooting TLS-enabled Connections
  — RabbitMQ</title></head>
-  <body id="troubleshooting-ssl"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Troubleshooting TLS-enabled Connections
+  <body id="troubleshooting-ssl"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Troubleshooting TLS-enabled Connections
 </h1>
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>This guide covers a methodology and some tooling that can help diagnose TLS connectivity issues and errors (TLS alerts).
-It accompanies the main guide on <a href="/ssl.html">TLS in RabbitMQ</a>.
+It accompanies the main guide on <a href="./ssl.html">TLS in RabbitMQ</a>.
 The strategy is to test the required components with an alternative TLS
 implementation in the process of elimination to identify the problematic end (client or server).</p>
 <p>Bear in mind that this process is not guaranteed to identify the problem if
@@ -26,7 +26,7 @@ the interaction between two specific components is responsible for the problem.<
 <li>And finally, test a real client connection against a real server connection again</li>
 </ul>
 <p>When testing with a RabbitMQ node and/or a real RabbitMQ client it is important to inspect
-<a href="/logging.html">logs</a> for both server and client.</p>
+<a href="./logging.html">logs</a> for both server and client.</p>
 <h2><a id="verify-config" class="anchor" href="#verify-config">Check Effective Node Configuration</a></h2>
 <p>Setting up a RabbitMQ node with TLS involves modifying
 configuration. Before performing any other TLS
@@ -37,8 +37,8 @@ for details.</p>
 <h2><a id="verify-listeners" class="anchor" href="#verify-listeners">Check TLS Listeners (Ports)</a></h2>
 <p>This step checks that the broker is listening on the <a href="networking.html">expected port(s)</a>, such as
 5671 for AMQP 0-9-1 and 1.0, 8883 for MQTT, and so on.</p>
-<p>To verify that TLS has been enabled on the node, use <span class="code "><a href="/rabbitmq-diagnostics.8.html">rabbitmq-diagnostics</a> listeners</span>
-or the <span class="code ">listeners</span> section in <span class="code "><a href="/rabbitmq-diagnostics.8.html">rabbitmq-diagnostics</a> status</span>.</p>
+<p>To verify that TLS has been enabled on the node, use <span class="code "><a href="./rabbitmq-diagnostics.8.html">rabbitmq-diagnostics</a> listeners</span>
+or the <span class="code ">listeners</span> section in <span class="code "><a href="./rabbitmq-diagnostics.8.html">rabbitmq-diagnostics</a> status</span>.</p>
 <p>The listeners section will look something like this:</p>
 <pre class="lang-ini">
 Interface: [::], port: 25672, protocol: clustering, purpose: inter-node and CLI tool communication
@@ -54,10 +54,10 @@ Interface: [::], port: 1883, protocol: mqtt, purpose: MQTT
 <li>Inter-node and CLI tool communication on port <span class="code ">25672</span></li>
 <li>AMQP 0-9-1 (and 1.0, if enabled) listener for non-TLS connections on port <span class="code ">5672</span></li>
 <li>AMQP 0-9-1 (and 1.0, if enabled) listener for TLS-enabled connections on port <span class="code ">5671</span></li>
-<li><a href="/management.html">HTTP API</a> listeners on ports 15672 (HTTP) and 15671 (HTTPS)</li>
-<li><a href="/mqtt.html">MQTT</a> listener for non-TLS connections 1883</li>
+<li><a href="./management.html">HTTP API</a> listeners on ports 15672 (HTTP) and 15671 (HTTPS)</li>
+<li><a href="./mqtt.html">MQTT</a> listener for non-TLS connections 1883</li>
 </ul>
-<p>If the above steps are not an option, inspecting node's <a href="/logging.html">log file</a> can be a viable alternative.
+<p>If the above steps are not an option, inspecting node's <a href="./logging.html">log file</a> can be a viable alternative.
 It should contain an entry about a TLS listener being enabled, looking like this:</p>
 <pre class="lang-plaintext">
 2018-09-02 14:24:58.611 [info] &lt;0.664.0&gt; started TCP listener on [::]:5672
@@ -67,10 +67,10 @@ It should contain an entry about a TLS listener being enabled, looking like this
 <p>If the node is configured to use TLS but a message similar to the above is not logged,
 it is possible that the configuration file was placed at an incorrect location and was not read by
 the broker or the node was not restarted after config file changes.
-See the <a href="/configure.html#introduction">configuration page</a> for details
+See the <a href="./configure.html#introduction">configuration page</a> for details
 on config file verification.</p>
 <p>Tools such as <span class="code ">lsof</span> and <span class="code ">netstat</span> can be used to verify what ports
-a node is listening on, as covered in the <a href="/troubleshooting-networking.html">Troubleshooting Networking</a> guide.</p>
+a node is listening on, as covered in the <a href="./troubleshooting-networking.html">Troubleshooting Networking</a> guide.</p>
 <h2><a id="verify-file-permissions" class="anchor" href="#verify-file-permissions">Check Certificate, Private Key and CA Bundle File Permissions</a></h2>
 <p>RabbitMQ must be able to read its configured CA certificate bundle, server certificate and private key.
 The files must exist and have the appropriate permissions. Incorrect permissions (e.g. files
@@ -80,7 +80,7 @@ with TLS setups.</p>
 <p>When certificate or private key files are not readable or do not exist,
 the node will fail to accept TLS-enabled connections or TLS connections will just hang (the behavior
 differs between Erlang/OTP versions).</p>
-<p>When <a href="/configure.html#config-file-formats">new style configuration format</a> is used to configure certificate and private
+<p>When <a href="./configure.html#config-file-formats">new style configuration format</a> is used to configure certificate and private
 key paths, the node will check if the files exist on boot and refuse to start if that's not the case.</p>
 <h2><a id="verify-tls-support-in-erlang" class="anchor" href="#verify-tls-support-in-erlang">Check TLS Support in Erlang</a></h2>
 <p>Another key requirement for establishing TLS connections to the broker
@@ -122,7 +122,7 @@ rabbitmqctl.bat eval 'ssl:versions().'
  {available_dtls,['dtlsv1.2',dtlsv1]}]
 </pre>
 
-<p>If an error is reported instead, confirm that the Erlang/OTP installation <a href="/ssl.html#erlang-otp-requirements">includes TLS support</a>.</p>
+<p>If an error is reported instead, confirm that the Erlang/OTP installation <a href="./ssl.html#erlang-otp-requirements">includes TLS support</a>.</p>
 <p>It is also possible to list cipher suites available on a node:</p>
 <pre class="lang-bash">
 rabbitmq-diagnostics cipher_suites --format openssl --silent
@@ -156,7 +156,7 @@ it's the client setup that should be inspected closely first.</p>
 <p>The example below seeks to confirm that the certificates and keys can be used to
 establish a TLS connection by connecting an <span class="code ">s_client</span> client to an <span class="code ">s_server</span> server
 in two separate shells (terminal windows).</p>
-<p>The example will assume you have the following <a href="/ssl.html#certificates-and-keys">certificate and key files</a>
+<p>The example will assume you have the following <a href="./ssl.html#certificates-and-keys">certificate and key files</a>
 (these filenames are used by <a href="https://github.com/rabbitmq/tls-gen">tls-gen</a>):</p>
 <table>
   <tr>
@@ -208,7 +208,7 @@ verification.</p>
 <p>If the certificates and keys have been correctly created, a TLS connection output
 will appear in both tabs. There is now a connection between the example client and the example
 server, similar to <span class="code ">telnet</span>.</p>
-<p>If the <a href="/ssl.html#peer-verification">trust chain</a> could be established, the second terminal will display
+<p>If the <a href="./ssl.html#peer-verification">trust chain</a> could be established, the second terminal will display
 a verification confirmation with the code of <span class="code ">0</span>:</p>
 <pre class="lang-ini">
 Verify return code: 0 (ok)
@@ -223,11 +223,11 @@ will be rejected by a server, such as a RabbitMQ node.</p>
 <p>For environments where self-signed certificates are appropriate,
 we recommend using <a href="https://github.com/rabbitmq/tls-gen">tls-gen</a> for generation.</p>
 <h2><a id="verify-cipher-suites" class="anchor" href="#verify-cipher-suites">Validate Available Cipher Suites</a></h2>
-<p>RabbitMQ nodes and clients can be limited in what <a href="/ssl.html#cipher-suite">cipher suites</a> they are allowed
+<p>RabbitMQ nodes and clients can be limited in what <a href="./ssl.html#cipher-suite">cipher suites</a> they are allowed
 to use during TLS handshake. It is important to make sure that the two sides have
 some cipher suites in common or otherwise the handshake will fail.</p>
 <p>Certificate's key usage properties can also limit what cipher suites can be used.</p>
-<p>See <a href="/ssl.html#cipher-suites">Configuring Cipher Suites</a> and <a href="/ssl.html#key-usage">Public Key Usage Extensions</a> in the main TLS guide
+<p>See <a href="./ssl.html#cipher-suites">Configuring Cipher Suites</a> and <a href="./ssl.html#key-usage">Public Key Usage Extensions</a> in the main TLS guide
 to learn more.</p>
 <pre class="lang-bash">
 openssl ciphers -v
@@ -245,7 +245,7 @@ openssl s_client -connect localhost:5671 -cert client_certificate.pem -key clien
 </pre>
 
 <p>The output should appear similar to the case where port 8443 was used. The node log file
-should <a href="/logging.html#logged-events">contain a new entry when the connection is established</a>:</p>
+should <a href="./logging.html#logged-events">contain a new entry when the connection is established</a>:</p>
 <pre class="lang-ini">
 2018-09-27 15:46:20 [info] &lt;0.1082.0&gt; accepting AMQP connection &lt;0.1082.0&gt; (127.0.0.1:50915 -&gt; 127.0.0.1:5671)
 2018-09-27 15:46:20 [info] &lt;0.1082.0&gt; connection &lt;0.1082.0&gt; (127.0.0.1:50915 -&gt; 127.0.0.1:5671): user 'user' authenticated and granted access to vhost 'virtual_host'
@@ -291,8 +291,8 @@ on the console where <span class="code ">stunnel</span> was started.</p>
 client to the TLS-enabled port of the broker, making sure to stop any running OpenSSL <span class="code ">s_server</span>
 or <span class="code ">stunnel</span> instances first.</p>
 <h2><a id="verify-verification-depth" class="anchor" href="#verify-verification-depth">Certificate Chains and Verification Depth</a></h2>
-<p>When using a client certificate <a href="/ssl.html#peer-verification">signed by an intermediate CA</a>, it may be necessary
-to configure RabbitMQ server to use a higher <a href="/ssl.html#peer-verification-depth">verification depth</a>.</p>
+<p>When using a client certificate <a href="./ssl.html#peer-verification">signed by an intermediate CA</a>, it may be necessary
+to configure RabbitMQ server to use a higher <a href="./ssl.html#peer-verification-depth">verification depth</a>.</p>
 <p>Insufficient verification depth will result in TLS peer verification failures.</p>
 <h2><a id="logs" class="anchor" href="#logs">Understanding TLS Connection Log Errors</a></h2>
 <p>New broker logfile entries will be generated during many of the preceding steps. These entries
@@ -416,11 +416,11 @@ of TLS-related errors. What follows is a list of the most common error entries:<
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

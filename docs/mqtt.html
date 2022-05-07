@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> MQTT Plugin 
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> MQTT Plugin 
  — RabbitMQ</title></head>
-  <body id="mqtt"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> MQTT Plugin 
+  <body id="mqtt"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> MQTT Plugin 
 </h1>
 
 
@@ -46,12 +46,12 @@ accept new MQTT client connections.</p>
 <li>Retained messages with pluggable storage backends</li>
 </ul>
 <p>MQTT clients can interoperate with other protocols. All the functionality in
-the <a href="/management.html">management UI</a> and several other plugins can be
+the <a href="./management.html">management UI</a> and several other plugins can be
 used with MQTT, although there may be some limitations or the need to
 tweak the defaults.</p>
 <h2><a id="enabling-plugin" class="anchor" href="#enabling-plugin">Enabling the Plugin</a></h2>
 <p>The MQTT plugin is included in the RabbitMQ distribution. Before clients can successfully
-connect, it must be enabled using <a href="/cli.html">rabbitmq-plugins</a>:</p>
+connect, it must be enabled using <a href="./cli.html">rabbitmq-plugins</a>:</p>
 <pre class="lang-bash">
 rabbitmq-plugins enable rabbitmq_mqtt
 </pre>
@@ -60,16 +60,16 @@ rabbitmq-plugins enable rabbitmq_mqtt
 they have a set of credentials for an existing user with the appropriate permissions.</p>
 <h3><a id="authentication" class="anchor" href="#authentication">Users and Authentication</a></h3>
 <p>For an MQTT connection to succeed, it must successfully authenticate and the user must
-have the <a href="/access-control.html">appropriate permissions</a> to the virtual host used by the
+have the <a href="./access-control.html">appropriate permissions</a> to the virtual host used by the
 plugin (see below).</p>
 <p>MQTT clients can (and usually do) specify a set of credentials when they connect.</p>
 <p>The plugin supports anonymous authentication but its use is highly discouraged and it is a subject
 to certain limitations (listed below) enforced for a reasonable level of security
 by default.</p>
-<p>Users and their permissions can be managed using <a href="/cli.html">rabbitmqctl</a>, <a href="/management.html">management UI</a>
+<p>Users and their permissions can be managed using <a href="./cli.html">rabbitmqctl</a>, <a href="./management.html">management UI</a>
 or HTTP API.</p>
 <p>For example, the following commands create a new user for MQTT connections with full access
-to the default <a href="/vhosts.html">virtual host</a> used by this plugin:</p>
+to the default <a href="./vhosts.html">virtual host</a> used by this plugin:</p>
 <pre class="lang-bash">
 # username and password are both "mqtt-test"
 rabbitmqctl add_user mqtt-test mqtt-test
@@ -86,7 +86,7 @@ There is also support for multi-tenancy.</p>
 <p>The plugin builds on top of RabbitMQ core protocol's entities: exchanges and queues. Messages published
 to MQTT topics use a topic exchange (<span class="code ">amq.topic</span> by default) internally. Subscribers consume from
 RabbitMQ queues bound to the topic exchange. This both enables interoperability
-with other protocols and makes it possible to use the <a href="/management.html">Management plugin</a>
+with other protocols and makes it possible to use the <a href="./management.html">Management plugin</a>
 to inspect queue sizes, message rates, and so on.</p>
 <p>Note that MQTT uses slashes ("/") for topic segment separators and
 AMQP 0-9-1 uses dots.  This plugin translates patterns under the hood
@@ -104,7 +104,7 @@ that make sure remote clients can successfully connect:</p>
 <li>Create one or more new user(s), grant them full permissions to the virtual host used by the MQTT plugin and make clients
    that connect from remote hosts use those credentials. This is the recommended option.</li>
 <li>Set <span class="code ">default_user</span> and <span class="code ">default_pass</span> via <a href="#config">MQTT plugin configuration</a> to a non-<span class="code ">guest</span> user who has the
-<a href="/access-control.html">appropriate permissions</a>.</li>
+<a href="./access-control.html">appropriate permissions</a>.</li>
 </ul>
 <h3><a id="anonymous-connections" class="anchor" href="#anonymous-connections">Anonymous Connections</a></h3>
 <p>MQTT supports optional authentication (clients may provide no credentials) but RabbitMQ
@@ -182,9 +182,9 @@ node out of two means the loss of a quorum of online nodes.</p>
 <h3>Memory Footprint of Raft Log Memory Tables</h3>
 <p>RabbitMQ's Raft implementation keeps a portion of the operation log in memory as well as on disk.
 In environments where the MQTT plugin is the only Raft-based feature used
-(namely where <a href="/quorum-queues.html">quorum queues</a> are not used), reducing the portion of
+(namely where <a href="./quorum-queues.html">quorum queues</a> are not used), reducing the portion of
 the log stored in memory will reduce memory footprint of the plugin in case of
-<a href="/connections.html#high-connection-churn">high connection churn</a>.</p>
+<a href="./connections.html#high-connection-churn">high connection churn</a>.</p>
 <p>The configuration key of interest is <span class="code ">raft.wal_max_size_bytes</span>:</p>
 <pre class="lang-ini">
 # if quorum queues are not used, configure a lower max WAL segment
@@ -192,10 +192,10 @@ the log stored in memory will reduce memory footprint of the plugin in case of
 raft.wal_max_size_bytes = 67108864
 </pre>
 
-<p>If <a href="/quorum-queues.html">quorum queues</a> are adopted at a later point, this setting
+<p>If <a href="./quorum-queues.html">quorum queues</a> are adopted at a later point, this setting
 should be revisited to be closer to the default one.</p>
 <h2><a id="config" class="anchor" href="#config">Plugin Configuration</a></h2>
-<p>Here is a sample <a href="/configure.html#config-file">configuration</a> that demonstrates a number of MQTT plugin settings:</p>
+<p>Here is a sample <a href="./configure.html#config-file">configuration</a> that demonstrates a number of MQTT plugin settings:</p>
 <pre class="lang-ini">
 mqtt.listeners.tcp.default = 1883
 ## Default MQTT with TLS port is 8883
@@ -219,7 +219,7 @@ mqtt.prefetch         = 10
 all interfaces on port 1883 and have a default user login/passcode
 of <span class="code ">guest</span>/<span class="code ">guest</span>.</p>
 <p>To change the listener port, edit your
-<a href="/configure.html#configuration-files">Configuration file</a>,
+<a href="./configure.html#configuration-files">Configuration file</a>,
 to contain a <span class="code ">tcp_listeners</span> variable for the <span class="code ">rabbitmq_mqtt</span> application.</p>
 <p>For example, a minimalistic configuration file which changes the listener
 port to 12345 would look like:</p>
@@ -237,7 +237,7 @@ mqtt.listeners.tcp.2 = ::1:1883
 <h3>TCP Listener Options</h3>
 <p>The plugin supports TCP listener option configuration.</p>
 <p>The settings use a common prefix, <span class="code ">mqtt.tcp_listen_options</span>, and control
-things such as TCP buffer sizes, inbound TCP connection queue length, whether <a href="/heartbeats.html#tcp-keepalives">TCP keepalives</a>
+things such as TCP buffer sizes, inbound TCP connection queue length, whether <a href="./heartbeats.html#tcp-keepalives">TCP keepalives</a>
 are enabled and so on. See the <a href="networking.html">Networking guide</a> for details.</p>
 <pre class="lang-ini">
 mqtt.listeners.tcp.1 = 127.0.0.1:1883
@@ -255,7 +255,7 @@ mqtt.tcp_listen_options.send_timeout  = 120
 </pre>
 
 <h3><a id="tls" class="anchor" href="#tls">TLS Support</a></h3>
-<p>To use TLS for MQTT connections, <a href="/ssl.html">TLS must be configured</a> in the broker. To enable
+<p>To use TLS for MQTT connections, <a href="./ssl.html">TLS must be configured</a> in the broker. To enable
 TLS-enabled MQTT connections, add a TLS listener for MQTT using the <span class="code ">mqtt.listeners.ssl.*</span> configuration keys.</p>
 <p>The plugin will use core RabbitMQ server
 certificates and key (just like AMQP 0-9-1 and AMQP 1.0 listeners do):</p>
@@ -286,7 +286,7 @@ There are several (optional) ways to specify the vhost the client will
 connect to.</p>
 <h4>Port to Virtual Host Mapping</h4>
 <p>First way is mapping MQTT plugin (TCP or TLS) listener ports to vhosts. The mapping
-is specified thanks to the <span class="code ">mqtt_port_to_vhost_mapping</span> <a href="/parameters.html">global runtime parameter</a>.
+is specified thanks to the <span class="code ">mqtt_port_to_vhost_mapping</span> <a href="./parameters.html">global runtime parameter</a>.
 Let's take the following plugin configuration:</p>
 <pre class="lang-ini">
 mqtt.listeners.tcp.1 = 1883
@@ -368,7 +368,7 @@ ssl_cert_login_from = common_name
 <li>Clients <strong>must not</strong> supply username and password.</li>
 </ul>
 <p>You can optionally specify a virtual host for a client certificate by using the <span class="code ">mqtt_default_vhosts</span>
-<a href="/parameters.html">global runtime parameter</a>. The value of this global parameter must contain a JSON document that
+<a href="./parameters.html">global runtime parameter</a>. The value of this global parameter must contain a JSON document that
 maps certificates' subject's Distinguished Name to their target virtual host. Let's see how to
 map 2 certificates, <span class="code ">O=client,CN=guest</span> and <span class="code ">O=client,CN=rabbit</span>, to the <span class="code ">vhost1</span> and <span class="code ">vhost2</span>
 virtual hosts, respectively.</p>
@@ -437,7 +437,7 @@ This feature is disabled by default, to enable it for MQTT clients:</p>
 mqtt.proxy_protocol = true
 </pre>
 
-<p>See the <a href="/networking.html#proxy-protocol">Networking Guide</a> for more information
+<p>See the <a href="./networking.html#proxy-protocol">Networking Guide</a> for more information
 about the proxy protocol.</p>
 <h2><a id="sparkplug-support" class="anchor" href="#sparkplug-support">Sparkplug Support</a></h2>
 <p><a href="https://www.cirrus-link.com/mqtt-sparkplug-tahu/">Sparkplug</a> is a specification
@@ -464,7 +464,7 @@ need to account for this.</p>
 <p>See Retained Messages above. Different retained message stores have
 different benefits, trade-offs, and limitations.</p>
 <h2><a id="disabling-plugin" class="anchor" href="#disabling-plugin">Disabling the Plugin</a></h2>
-<p>Before the plugin is disabled on a node, or a node removed from the cluster, it must be decommissioned using <a href="/cli.html"><span class="code ">rabbitmqctl</span></a>:</p>
+<p>Before the plugin is disabled on a node, or a node removed from the cluster, it must be decommissioned using <a href="./cli.html"><span class="code ">rabbitmqctl</span></a>:</p>
 <pre class="lang-bash">
 rabbitmqctl decommission_mqtt_node &lt;node&gt;
 </pre>
@@ -541,11 +541,11 @@ those data stores provide <a href="https://github.com/basho/basho_docs/blob/mast
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

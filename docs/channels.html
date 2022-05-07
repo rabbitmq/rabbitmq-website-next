@@ -1,14 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Channels
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Channels
  — RabbitMQ</title></head>
-  <body id="channels"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Channels
+  <body id="channels"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Channels
 </h1>
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>This guide covers various topics related to channels, an <a href="/tutorials/amqp-concepts.html">AMQP 0-9-1</a>-specific abstraction.
+<p>This guide covers various topics related to channels, an <a href="./tutorials/amqp-concepts.html">AMQP 0-9-1</a>-specific abstraction.
 Channels cannot exist without a connection, so getting familiar with the <a href="connections.html">Connections guide</a> first
 is highly recommended.</p>
 <p>This guide covers:</p>
@@ -104,18 +104,18 @@ be closed: due to a protocol exception.</p>
 the channel closed but applications can open another one and try to recover or retry a number of
 times. Most common examples are:</p>
 <ul>
-<li><a href="/queues.html#property-equivalence">Redeclaring an existing queue</a> or exchange with non-matching properties
+<li><a href="./queues.html#property-equivalence">Redeclaring an existing queue</a> or exchange with non-matching properties
    will fail with a <span class="code ">406 PRECONDITION_FAILED</span> error</li>
-<li><a href="/access-control.html">Accessing a resource</a> the user is not allowed to access will fail
+<li><a href="./access-control.html">Accessing a resource</a> the user is not allowed to access will fail
    with a <span class="code ">403 ACCESS_REFUSED</span> error</li>
 <li>Binding a non-existing queue or a non-existing exchange will fail with a <span class="code ">404 NOT_FOUND</span> error</li>
 <li>Consuming from a queue that does not exist will fail with a <span class="code ">404 NOT_FOUND</span> error</li>
 <li>Publishing to an exchange that does not exist will fail with a <span class="code ">404 NOT_FOUND</span> error</li>
-<li>Accessing an <a href="/queues.html#exclusive-queues">exclusive queue</a> from a connection other than its declaring one will
+<li>Accessing an <a href="./queues.html#exclusive-queues">exclusive queue</a> from a connection other than its declaring one will
    fail with a <span class="code ">405 RESOURCE_LOCKED</span></li>
 </ul>
 <p>Client libraries provide a way to observe and react to channel exceptions. For example, in the Java
-client there is <a href="/api-guide.html#shutdown">a way to register an error handler</a> and access a channel
+client there is <a href="./api-guide.html#shutdown">a way to register an error handler</a> and access a channel
 shutdown (closure) reason.</p>
 <p>Any attempted operation on a closed channel will fail with an exception. Note that when RabbitMQ
 closes a channel, it notifies the client of that using an asynchronous protocol method. In other words,
@@ -124,7 +124,7 @@ handler will fire shortly after.</p>
 <p>Some client libraries may use blocking operations that wait for
 a response. In this case they may communicate channel exceptions differently, e.g. using
 runtime exceptions, an error type, or other means appropriate for the language.</p>
-<p>See the <a href="/amqp-0-9-1-reference.html">AMQP 0-9-1 Reference</a> for a more complete list of
+<p>See the <a href="./amqp-0-9-1-reference.html">AMQP 0-9-1 Reference</a> for a more complete list of
 error codes.</p>
 <h2><a id="resource-usage" class="anchor" href="#resource-usage">Resource Usage</a></h2>
 <p>Each channel consumes a relatively small amount of memory on the client. Depending on client library's
@@ -136,7 +136,7 @@ of excessive channel usage or channel leaks will primarily be reflected in Rabbi
 and not those of clients.</p>
 <p>Given both of these factors, limiting the number of channels used per connection is highly recommended.
 As a rule of thumb, most applications can use a single digit number of channels per connection.
-Those with particularly high concurrency rates (usually such applications are <a href="/consumers.html">consumers</a>)
+Those with particularly high concurrency rates (usually such applications are <a href="./consumers.html">consumers</a>)
 can start with one channel per thread/process/coroutine and switch to channel pooling
 when metrics suggest that the original model is no longer sustainable, e.g. because it consumes
 too much memory.</p>
@@ -159,7 +159,7 @@ error:</p>
  operation none caused a connection exception not_allowed: "number of channels opened (22) has reached the negotiated channel_max (22)"
 </pre>
 
-<p>Clients can be configured to allow fewer channels per connection. With <a href="/api-guide.html">RabbitMQ Java client</a>,
+<p>Clients can be configured to allow fewer channels per connection. With <a href="./api-guide.html">RabbitMQ Java client</a>,
 <span class="code ">ConnectionFactory#setRequestedChannelMax</span> is the method that controls the limit:</p>
 <pre class="lang-java">
 ConnectionFactory cf = new ConnectionFactory();
@@ -168,7 +168,7 @@ ConnectionFactory cf = new ConnectionFactory();
 cf.setRequestedChannelMax(32);
 </pre>
 
-<p>With <a href="/dotnet-api-guide.html">RabbitMQ .NET client</a>, use the <span class="code ">ConnectionFactory#RequestedChannelMax</span>
+<p>With <a href="./dotnet-api-guide.html">RabbitMQ .NET client</a>, use the <span class="code ">ConnectionFactory#RequestedChannelMax</span>
 property:</p>
 <pre class="lang-csharp">
 var cf = new ConnectionFactory();
@@ -187,25 +187,25 @@ failed to negotiate connection parameters: negotiated channel_max = 2047 is high
 
 <h2><a id="monitoring" class="anchor" href="#monitoring">Monitoring, Metrics and Diagnostics</a></h2>
 <p>Number of currently open channels and channel opening/closure rates are important metrics
-of the system that should be <a href="/monitoring.html">monitored</a>. Monitoring them will help detect a number of
+of the system that should be <a href="./monitoring.html">monitored</a>. Monitoring them will help detect a number of
 common problems:</p>
 <ul>
 <li>Channel leaks</li>
 <li>High channel churn</li>
 </ul>
 <p>Both problems eventually lead to node exhaustion of <a href="#resource-usage">resources</a>.</p>
-<p>Individual channel metrics such as the number of <a href="/confirms.html#acknowledgement-modes">unacknowledged messages</a>
+<p>Individual channel metrics such as the number of <a href="./confirms.html#acknowledgement-modes">unacknowledged messages</a>
 or <span class="code ">basic.get</span> operation rate can help identify irregularities and inefficiencies
 in application behavior.</p>
 <h3><a id="memory-use" class="anchor" href="#memory-use">Memory Use</a></h3>
-<p><a href="/monitoring.html">Monitoring systems</a> and operators alike may need to inspect how much memory
+<p><a href="./monitoring.html">Monitoring systems</a> and operators alike may need to inspect how much memory
 channels consume on a node, the total
 number of channels on a node and then identify how many there are on each connection.</p>
-<p>The number of channels is displayed in the <a href="/management.html">management UI</a> on the Overview tab,
-as is the <a href="/connections.html#monitoring">number of connections</a>.
+<p>The number of channels is displayed in the <a href="./management.html">management UI</a> on the Overview tab,
+as is the <a href="./connections.html#monitoring">number of connections</a>.
 By dividing the number of channels by the number of connections
 the operator can determine an average number of channels per connection.</p>
-<p>To find out how much memory on a node is used by channels, use <a href="/rabbitmq-diagnostics.8.html"><span class="code ">rabbitmq-diagnostics memory_breakdown</span></a>:</p>
+<p>To find out how much memory on a node is used by channels, use <a href="./rabbitmq-diagnostics.8.html"><span class="code ">rabbitmq-diagnostics memory_breakdown</span></a>:</p>
 <pre class="lang-bash">
 rabbitmq-diagnostics memory_breakdown -q --unit mb
 # =&gt; [elided for brevity]
@@ -215,7 +215,7 @@ rabbitmq-diagnostics memory_breakdown -q --unit mb
 # =&gt; [elided for brevity]
 </pre>
 
-<p>See the <a href="/memory-use.html">RabbitMQ Memory Use Analysis guide</a> for details.</p>
+<p>See the <a href="./memory-use.html">RabbitMQ Memory Use Analysis guide</a> for details.</p>
 <h3><a id="channel-leaks" class="anchor" href="#channel-leaks">Channel Leaks</a></h3>
 <p>A channel leak is a condition under which an application repeatedly opens channels without closing them,
 or at least closing only some of them.</p>
@@ -227,7 +227,7 @@ user has access to:</p>
 <p>To inspect the current number of channels on a connection as well as the per-connection channel limit, navigate
 to the Connections tab and enable the relevant columns if they are not displayed:</p>
 <p><img class="screenshot" src="img/monitoring/channels/mgmt-ui-per-connection-channel-max-and-count.png" alt="Per connection channel count in management UI" title="Per connection channel count in management UI" /></p>
-<p>Overview and individual node pages provide a chart of channel churn rate as of <a href="/changelog.html">RabbitMQ 3.7.9</a>.
+<p>Overview and individual node pages provide a chart of channel churn rate as of <a href="./changelog.html">RabbitMQ 3.7.9</a>.
 If the rate of channel open operations is consistently higher than that of channel close operations,
 this is evidence of a channel leak in one of the applications:</p>
 <p><img class="screenshot" src="img/monitoring/channels/mgmt-ui-channel-count-growth.png" alt="Channel count growth in management UI" title="Channel count growth in management UI" /></p>
@@ -238,7 +238,7 @@ its rate of closed channels is consistently high. This usually means that an app
 uses short lived channels or channels are often closed due to channel-level exceptions.</p>
 <p>While with some workloads this is a natural state of the system,
 long lived channels should be used instead when possible.</p>
-<p><a href="/management.html">Management UI</a> provides a chart of channel churn rate.
+<p><a href="./management.html">Management UI</a> provides a chart of channel churn rate.
 Below is a chart that demonstrates a fairly low channel churn with a virtually identical number of channel open and closed
 in the given period of time:</p>
 <p><img class="screenshot" src="img/monitoring/channels/mgmt-ui-node-channel-churn.png" alt="Node channel churn in management UI" title="Node channel churn in management UI" /></p>
@@ -252,9 +252,9 @@ churn rates are expected from them unless a <a href="https://github.com/cloudamq
 as needed:</p>
 <p><img class="screenshot" src="img/monitoring/channels/mgmt-ui-channel-list.png" alt="High channel churn in management UI" title="High channel churn in management UI" /></p>
 <h3><a id="inspect-using-cli-tools" class="anchor" href="#inspect-using-cli-tools">Inspecting Channels and Their State Using CLI Tools</a></h3>
-<p><a href="/rabbitmqctl.8.html"><span class="code ">rabbitmqctl list_connections</span></a> and <a href="/rabbitmqctl.8.html"><span class="code ">rabbitmqctl list_channels</span></a> are the
+<p><a href="./rabbitmqctl.8.html"><span class="code ">rabbitmqctl list_connections</span></a> and <a href="./rabbitmqctl.8.html"><span class="code ">rabbitmqctl list_channels</span></a> are the
 primary commands for inspecting per-connection channel count and channel details such as the number of
-consumers, <a href="/confirms.html#acknowledgement-modes">unacknowledged messages</a>, <a href="/confirms.html#channel-qos-prefetch">prefetch</a> and so on.</p>
+consumers, <a href="./confirms.html#acknowledgement-modes">unacknowledged messages</a>, <a href="./confirms.html#channel-qos-prefetch">prefetch</a> and so on.</p>
 <pre class="lang-bash">
 rabbitmqctl list_connections name channels -q
 # =&gt; name    channels
@@ -270,7 +270,7 @@ rabbitmqctl list_connections name channels -q --no-table-headers
 # =&gt; 127.0.0.1:52964 -&gt; 127.0.0.1:5672    33
 </pre>
 
-<p>To inspect individual channels, use <a href="/rabbitmqctl.8.html"><span class="code ">rabbitmqctl list_channels</span></a>:</p>
+<p>To inspect individual channels, use <a href="./rabbitmqctl.8.html"><span class="code ">rabbitmqctl list_channels</span></a>:</p>
 <pre class="lang-bash">
 rabbitmqctl list_channels -q
 # =&gt; pid user    consumer_count  messages_unacknowledged
@@ -325,13 +325,13 @@ rabbitmqctl list_channels -s vhost connection number confirm
 
 <h2><a id="flow-control" class="anchor" href="#flow-control">Publisher Flow Control</a></h2>
 <p>Channels that publish messages can outpace other parts of the system, most likely busy queues and queues
-that perform replication. When that happens, <a href="/flow-control.html">flow control</a> is applied to
+that perform replication. When that happens, <a href="./flow-control.html">flow control</a> is applied to
 publishing channels and, in turn, connections. Channels and connections that only consume messages
 are not affected.</p>
-<p>With slower consumers that use <a href="/confirms.html#acknowledgement-modes">automatic acknowledgement mode</a>
+<p>With slower consumers that use <a href="./confirms.html#acknowledgement-modes">automatic acknowledgement mode</a>
 it is very likely that connections and channels will experience flow control when writing to
 the TCP socket.</p>
-<p><a href="/monitoring.html">Monitoring</a> systems can collect metrics on the number of connections in flow state.
+<p><a href="./monitoring.html">Monitoring</a> systems can collect metrics on the number of connections in flow state.
 Applications that experience flow control regularly may consider to use separate connections
 to publish and consume to avoid flow control effects on non-publishing operations (e.g. queue management).</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
@@ -341,11 +341,11 @@ to publish and consume to avoid flow control effects on non-publishing operation
                     If you'd like to contribute an improvement to the site,
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
-                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

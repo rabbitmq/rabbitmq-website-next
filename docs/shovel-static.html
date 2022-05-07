@@ -1,16 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Configuring Static Shovels
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Configuring Static Shovels
  — RabbitMQ</title></head>
-  <body id="shovel-static"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Configuring Static Shovels
+  <body id="shovel-static"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Configuring Static Shovels
 </h1>
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>This guide focuses on statically configured shovels. It assumes
 familiarity with the key concepts behind the <a href="shovel.html">Shovel plugin</a>.</p>
-<p>Unlike with <a href="/shovel-dynamic.html">dynamic shovels</a>, static shovels are configured using the <a href="configure.html">advanced configuration file</a>.
+<p>Unlike with <a href="./shovel-dynamic.html">dynamic shovels</a>, static shovels are configured using the <a href="configure.html">advanced configuration file</a>.
 They are started on node boot and are primarily useful for permanently
 running workloads. Any changes to static shovel configuration would require
 a node restart, which makes them highly inflexible.</p>
@@ -70,7 +70,7 @@ for AMQP 0-9-1 and AMQP 1.0, respectively:</p>
 {protocol, amqp091}
 </pre>
 
-<p><span class="code ">uris</span> is a list of <a href="/uri-spec.html">AMQP connection URIs</a>:</p>
+<p><span class="code ">uris</span> is a list of <a href="./uri-spec.html">AMQP connection URIs</a>:</p>
 <pre class="lang-erlang">
 {uris, [
         "amqp://fred:secret@host1.domain/my_vhost",
@@ -114,7 +114,7 @@ They are described in the table below.</p>
       <td>ack-mode</td>
       <td>
         <p>
-          Determines how the shovel should <a href="/confirms.html">acknowledge</a> consumed messages.
+          Determines how the shovel should <a href="./confirms.html">acknowledge</a> consumed messages.
           If set to <span class="code ">on-confirm</span> (the default), messages are
           acknowledged to the source broker after they have been confirmed
           by the destination. This handles network errors and broker
@@ -304,7 +304,7 @@ for AMQP 0-9-1 and AMQP 1.0, respectively:</p>
 {protocol, amqp091}
 </pre>
 
-<p><span class="code ">uris</span> is a list of <a href="/uri-spec.html">AMQP connection URIs</a>:</p>
+<p><span class="code ">uris</span> is a list of <a href="./uri-spec.html">AMQP connection URIs</a>:</p>
 <pre class="lang-erlang">
 {uris, [
         "amqp://fred:secret@host1.domain/my_vhost",
@@ -361,7 +361,7 @@ are available to static shovels, such as TLS certificate and private key.</p>
       <td>publish_properties</td>
       <td>
         <p>
-          This optional key controls <a href="/publishers.html#message-properties">message properties</a>
+          This optional key controls <a href="./publishers.html#message-properties">message properties</a>
           set or overridden by the shovel. It takes the following form
         </p>
 <pre class="lang-erlang">
@@ -618,7 +618,7 @@ directly to the local broker as destination. It will reconnect
 to the other source broker on failure, after a delay of 5
 seconds.</p>
 <p>When connected to the source it will declare a direct, fanout exchange
-called <span class="code ">"my_fanout"</span>, an anonymous queue with a <a href="/ttl.html#per-queue-message-ttl">per-queue message ttl</a>,
+called <span class="code ">"my_fanout"</span>, an anonymous queue with a <a href="./ttl.html#per-queue-message-ttl">per-queue message ttl</a>,
 and bind the queue to the exchange.</p>
 <p>When connected to the destination (the local broker) it will declare a
 durable, direct exchange called <span class="code ">"my_direct"</span>.</p>
@@ -742,11 +742,11 @@ AMQP 1.0 destination might look like this:</p>
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

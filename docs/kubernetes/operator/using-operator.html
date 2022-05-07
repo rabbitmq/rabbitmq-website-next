@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Using RabbitMQ Cluster Kubernetes Operator
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Using RabbitMQ Cluster Kubernetes Operator
  — RabbitMQ</title></head>
-  <body id="kubernetes/operator/using-operator"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Using RabbitMQ Cluster Kubernetes Operator
+  <body id="kubernetes/operator/using-operator"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Using RabbitMQ Cluster Kubernetes Operator
 </h1>
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>This guide covers how to deploy Custom Resource objects that will
-be managed by the <a href="/kubernetes/operator/operator-overview.html">RabbitMQ Cluster Kubernetes Operator</a>.
+be managed by the <a href="./operator-overview.html">RabbitMQ Cluster Kubernetes Operator</a>.
 If RabbitMQ Cluster Kubernetes Operator is not installed,
-see the <a href="/kubernetes/operator/install-operator.html">installation guide</a>. For instructions on getting started quickly, see the <a href="/kubernetes/operator/quickstart-operator.html">quickstart guide</a>.
+see the <a href="./install-operator.html">installation guide</a>. For instructions on getting started quickly, see the <a href="./quickstart-operator.html">quickstart guide</a>.
 This guide is structured in the following sections:</p>
 <ul>
 <li><a href="#service-availability">Confirm Service Availability</a></li>
@@ -47,7 +47,7 @@ kubectl get customresourcedefinitions.apiextensions.k8s.io
 # rabbitmqclusters.rabbitmq.com   2019-10-23T10:11:06Z
 </pre>
 
-<p>If it is not, install it by following the steps in the <a href="/kubernetes/operator/install-operator.html">installation guide</a>.</p>
+<p>If it is not, install it by following the steps in the <a href="./install-operator.html">installation guide</a>.</p>
 <h2><a id="psp" class="anchor" href="#psp">(Optional) Apply Pod Security Policies</a></h2>
 <p>If <a href="https://kubernetes.io/docs/concepts/policy/pod-security-policy/">pod security policies</a> are enabled in the Kubernetes cluster,
 a <span class="code ">[Cluster]Role</span> and <span class="code ">[Cluster]RoleBinding</span> must be created to enable the Pods to be scheduled. For more information about Pod security policies,
@@ -173,7 +173,7 @@ metadata:
 <h3><a name="replicas" class="anchor" href="#replicas" id="replicas">Number of Replicas</a></h3>
 <p><strong>Description:</strong> Specify the number of replicas for the RabbitmqCluster. <a href="../../clustering.html#node-count">An even number of replicas
 is highly discouraged</a>. Odd numbers (1, 3, 5, 7, and so on)
-<a href="/clustering.html#node-count">must be used</a>.</p>
+<a href="../../clustering.html#node-count">must be used</a>.</p>
 <p><strong>Default Value:</strong> 1</p>
 <p><strong>Example:</strong></p>
 <pre class="lang-yaml">
@@ -486,9 +486,9 @@ spec:
 <p><strong>Description:</strong> Configure RabbitMQ to use the certificates provided by Secret <span class="code ">spec.tls.secretName</span>. The Secret must
 already exist in the same Namespace as the <span class="code ">RabbitmqCluster</span> object. It is expected that the Secret contains <span class="code ">tls.key</span>
 and <span class="code ">tls.crt</span> for the private key and public certificate respectively.</p>
-<p>By default, enabling <a href="/ssl.html">TLS for client connections</a> does not disable non-TLS listeners. Therefore, unencrypted connections will still be accepted.
+<p>By default, enabling <a href="../../ssl.html">TLS for client connections</a> does not disable non-TLS listeners. Therefore, unencrypted connections will still be accepted.
 To disable non-TLS listeners and only accept TLS connections, set <span class="code ">spec.tls.disableNonTLSListeners: true</span>.</p>
-<p>It is also possible to make RabbitMQ <a href="/ssl.html#peer-verification">verify peer certificates</a> against a provided CA certificate.
+<p>It is also possible to make RabbitMQ <a href="../../ssl.html#peer-verification">verify peer certificates</a> against a provided CA certificate.
 The same can be done by clients, so peer verification can be mutual ("mTLS").
 This certificate must be stored in a Secret of name <span class="code ">spec.tls.caSecretName</span>, in the same Namespace as the <span class="code ">RabbitmqCluster</span>
 object. Note that this can be the same Secret as <span class="code ">spec.tls.secretName</span>. This Secret <strong>must</strong> have a key <span class="code ">ca.crt</span> containing
@@ -855,10 +855,10 @@ kubectl apply -f rabbitmq-pdb.yaml
 </table>
 
 <h2><a id="tls" class="anchor" href="#tls">(Optional) Configure TLS</a></h2>
-<p>Transport Layer Security (TLS) is a protocol for encrypting network traffic. <a href="/ssl.html">RabbitMQ supports TLS</a>, and the cluster operator simplifies the process of configuring a RabbitMQ cluster with <a href="#one-way-tls">TLS</a> or
+<p>Transport Layer Security (TLS) is a protocol for encrypting network traffic. <a href="../../ssl.html">RabbitMQ supports TLS</a>, and the cluster operator simplifies the process of configuring a RabbitMQ cluster with <a href="#one-way-tls">TLS</a> or
 <a href="#mutual-tls">mutual TLS (mTLS)</a> encrypted traffic between clients and the cluster, as well
 as supporting <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/mtls-inter-node">encrypting RabbitMQ inter-node traffic with mTLS</a>.
-A <a href="/ssl.html#certificates-and-keys">basic overview of TLS</a> is helpful for understanding this guide.</p>
+A <a href="../../ssl.html#certificates-and-keys">basic overview of TLS</a> is helpful for understanding this guide.</p>
 <h3><a id="one-way-tls" class="anchor" href="#one-way-tls">TLS encrypting traffic between clients and RabbitMQ</a></h3>
 <p>In order to encrypt traffic between clients and the RabbitMQ cluster, the RabbitMQ cluster must be configured with a server certificate and key pair signed by a Certificate Authority (CA) trusted by the clients. This allows clients to verify that the server is trusted, and traffic sent between the client and server are encrypted using the server's keys.</p>
 <p>The certificate's Subject Alternative Name (SAN) must contain at least the following attributes:
@@ -893,7 +893,7 @@ spec:
 
 <h3><a id="mutual-tls" class="anchor" href="#mutual-tls">Mutual TLS encryption between clients and RabbitMQ</a></h3>
 <p>Mutual TLS (mTLS) enhances TLS by requiring that the server verify the identity of the client, in addition to the client verifying the server, which already occurs in TLS encryption. In order for this mutual verification to occur, both the client and server must be configured with certificate and key pairs, with the client pair signed by a CA trusted by the server and the server pair signed by a CA trusted by the client. The mutual verification process is shown in the following diagram:</p>
-<p><img src="/img/mTLS.png" /></p>
+<p><img src="../../img/mTLS.png" /></p>
 <p>In addition to the <a href="#one-way-tls">configuration required to support TLS</a>, configuring mutual TLS requires the RabbitMQ cluster to be configured with the CA certificate
 used to sign the client certificate and key pair, <span class="code ">ca.pem</span>. Create a Kubernetes secret with key <span class="code ">ca.crt</span> containing this secret</p>
 <pre class="lang-bash">
@@ -914,7 +914,7 @@ spec:
     caSecretName: ca-secret
 </pre>
 
-<p>In order to enforce client verification, RabbitMQ must be configured to reject clients that do not present certificates. This can be done by enabling <a href="/ssl.html#peer-verification">TLS peer verification</a> using
+<p>In order to enforce client verification, RabbitMQ must be configured to reject clients that do not present certificates. This can be done by enabling <a href="../../ssl.html#peer-verification">TLS peer verification</a> using
 the <span class="code ">ssl_options.fail_if_no_peer_cert</span> option in the additional config:</p>
 <pre class="lang-yaml">
 spec:
@@ -1041,10 +1041,10 @@ kubectl delete pod perf-test
 <h2><a id="use" class="anchor" href="#use">Use the RabbitMQ Service in Your App</a></h2>
 <p>For information about how to start using your apps, see
 <a href="../../getstarted.html">RabbitMQ tutorials</a>
-and guides on <a href="/consumers.html">Connections</a>, <a href="/publishers.html">Publishers</a>, and <a href="/consumers.html">Consumers</a>.</p>
+and guides on <a href="../../consumers.html">Connections</a>, <a href="../../publishers.html">Publishers</a>, and <a href="../../consumers.html">Consumers</a>.</p>
 <h2><a id="monitoring" class="anchor" href="#monitoring">Monitor RabbitMQ Clusters</a></h2>
-<p>For production systems, it is critically important to enable RabbitMQ cluster <a href="/monitoring.html">monitoring</a>.</p>
-<p>See <a href="/kubernetes/operator/operator-monitoring.html">Monitoring RabbitMQ in Kubernetes</a> to learn about
+<p>For production systems, it is critically important to enable RabbitMQ cluster <a href="../../monitoring.html">monitoring</a>.</p>
+<p>See <a href="./operator-monitoring.html">Monitoring RabbitMQ in Kubernetes</a> to learn about
 the recommended monitoring options for Kubernetes-deployed clusters.</p>
 <h2><a id="network-policies" class="anchor" href="#network-policies">Restrict traffic using Network Policies</a></h2>
 <p><a href="https://kubernetes.io/docs/concepts/services-networking/network-policies/">Network Policies</a>, akin to firewalls, allow you to restrict traffic to/from Pods in your RabbitmqCluster at the IP address or port level.
@@ -1106,11 +1106,11 @@ spec:
                     If you'd like to contribute an improvement to the site,
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
-                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

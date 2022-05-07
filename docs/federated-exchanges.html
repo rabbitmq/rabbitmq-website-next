@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Federated Exchanges
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Federated Exchanges
  — RabbitMQ</title></head>
-  <body id="federated-exchanges"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Federated Exchanges
+  <body id="federated-exchanges"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Federated Exchanges
 </h1>
 
 
@@ -18,7 +18,7 @@
 <li><a href="#topology-diagrams">Example topologies</a></li>
 <li><a href="#details">Implementation details</a></li>
 </ul>
-<p>A separate <a href="/federation-reference.html">Federation plugin reference</a> guide is available.</p>
+<p>A separate <a href="./federation-reference.html">Federation plugin reference</a> guide is available.</p>
 <p>Exchange federation is a mechanism that allows a flow of messages through an exchange
 in one location (called the <em>upstream</em> or the source) be replicated to exchanges in other
 locations (<em>downstreams</em>). The downstreams are independent nodes or clusters that can span
@@ -30,20 +30,20 @@ exchange, as though they were published directly to the federated exchange.
 The upstream exchanges do not need to be reconfigured. They are assumed
 to be located on a separate node or in a separate cluster.</p>
 <p>An upstream definition is a URI with certain recognised query parameters that
-control link connection parameters. Upstreams can be managed using <a href="/cli.html">CLI tools</a>
+control link connection parameters. Upstreams can be managed using <a href="./cli.html">CLI tools</a>
 or the HTTP API with <a href="https://github.com/rabbitmq/rabbitmq-federation-management">an additional plugin</a>.</p>
 <p>Here is a diagram showing a single upstream exchange (the source exchange) in one
 node linking to a set of two downstream exchanges in two other nodes:</p>
-<p><img src="img/federation/federated-exchange.svg" alt="Basic federated exchange" title="Basic federated exchange" /></p>
+<p><img src="./img/federation/federated-exchange.svg" alt="Basic federated exchange" title="Basic federated exchange" /></p>
 <p>When exchange federation is used, usually only a subset of exchanges in a cluster is federated.
 Some exchanges can be inherently local to the "site" (cluster) and its uses.</p>
-<p>Exchange federation will propagate <a href="/tutorials/amqp-concepts.html">bindings</a>
+<p>Exchange federation will propagate <a href="./tutorials/amqp-concepts.html">bindings</a>
 from the downstream to the upstreams when possible. It will also apply optimizations and propagate messages selectively if needed.
 This is covered in <a href="#details">future sections</a>.</p>
 <h2><a id="use-cases" class="anchor" href="#use-cases">Use Cases</a></h2>
 <p>Federated exchanges can be used to replicate a flow of certain message types to remote locations.
-Combined with continuous <a href="/backup.html#definitions-backup">schema synchronisation</a> and
-<a href="/ttl.html">queue and message TTL</a>, this can be used to maintain a hot standby
+Combined with continuous <a href="./backup.html#definitions-backup">schema synchronisation</a> and
+<a href="./ttl.html">queue and message TTL</a>, this can be used to maintain a hot standby
 with reasonably up-to-date data within a controlled time window.</p>
 <p>Another use would be to implement massive fanout with a single "source"
 exchange in one cluster (which acts as the source and need not be federated) can be declared
@@ -59,7 +59,7 @@ exchange and relies on node-local optimizations other exchange types do not use.
 <p>Exchanges with the internal property set to <span class="code ">true</span> are declared and internally used
 by RabbitMQ and cannot be federated.</p>
 <h2><a id="usage" class="anchor" href="#usage">Usage and Configuration</a></h2>
-<p>Federation configuration uses <a href="/parameters.html">runtime parameters and policies</a>, which means it can be configured
+<p>Federation configuration uses <a href="./parameters.html">runtime parameters and policies</a>, which means it can be configured
 and reconfigured on the fly as system topology changes. There are two key pieces of configuration involved:</p>
 <ul>
 <li>Upstreams: these are remote endpoints in a federated system</li>
@@ -84,9 +84,9 @@ rabbitmqctl set_parameter federation-upstream origin '{"uri":"amqp://localhost:5
 rabbitmqctl.bat set_parameter federation-upstream origin "{""uri"":""amqp://localhost:5672""}"
 </pre>
 
-<p>More upstream definition parameters are covered in the <a href="/federation-reference.html">Federation Reference guide</a>.</p>
+<p>More upstream definition parameters are covered in the <a href="./federation-reference.html">Federation Reference guide</a>.</p>
 <p>Once an upstream has been specified, a policy that controls federation can be added. It is added just like
-any other <a href="/parameters.html#policies">policy</a>, using <span class="code "></span>:</p>
+any other <a href="./parameters.html#policies">policy</a>, using <span class="code "></span>:</p>
 <pre class="lang-bash">
 # Adds a policy named "exchange-federation"
 rabbitmqctl set_policy exchange-federation \
@@ -112,7 +112,7 @@ The name of the policy is <span class="code ">exchange-federation</span>. As wit
 the one with the highest priority will be used. Multiple policy definitions will not be combined, even if their
 priorities are equal.</p>
 <p>Once configured, a federation link (connection) will be opened for every matching exchange and upstream pair.
-By "matching exchange" here we mean an exchange that is matched by the <a href="/parameters.html#policies">federation policy pattern</a>.
+By "matching exchange" here we mean an exchange that is matched by the <a href="./parameters.html#policies">federation policy pattern</a>.
 If no exchanges matched, no links will be started.</p>
 <p>To disable federation for the matching exchanges, delete the policy using its name:</p>
 <pre class="lang-bash">
@@ -130,7 +130,7 @@ on the number of times a message can be copied over a link (<a href="#upstream-s
 same type. Mixing types can and likely will lead to confusing routing behaviours.</p>
 <h2><a id="details" class="anchor" href="#details">Implementation</a></h2>
 <p>Inter-broker communication is implemented using AMQP 0-9-1 (optionally
-<a href="/ssl.html">secured with TLS</a>). Bindings are grouped together and binding operations such as
+<a href="./ssl.html">secured with TLS</a>). Bindings are grouped together and binding operations such as
 <span class="code ">queue.bind</span> and <span class="code ">queue.unbind</span> commands are sent to the upstream side of
 the link when bindings change in the downstream.</p>
 <p>Therefore the  exchange only receives messages for which it has bindings. The
@@ -140,7 +140,7 @@ or removing a binding is only guaranteed to be seen eventually.</p>
 exchange's cluster. This is called the <em>upstream queue</em>.
 It is the upstream queue which is bound to the upstream
 exchange with the grouped bindings. It is possible to tailor
-some of the properties of this queue in the <a href="/federation-reference.html#upstreams">upstream configuration</a>.</p>
+some of the properties of this queue in the <a href="./federation-reference.html#upstreams">upstream configuration</a>.</p>
 <p>Here is a detailed diagram showing a single federated
 exchange linking to a single upstream exchange including the
 upstream queue and bindings created by the federation plugin
@@ -148,7 +148,7 @@ shown in grey. The fat arrow on the upstream link indicates
 messages republished by the federated exchange. Some
 potential publisher clients are shown publishing to both
 exchanges.</p>
-<p><img src="img/federation/federation01.png" height="180" alt="Simple federation" title="Simple federation" /></p>
+<p><img src="./img/federation/federation01.png" height="180" alt="Simple federation" title="Simple federation" /></p>
 <p>Publications to either exchange may be received by queues bound to
 the federated exchange, but publications directly to the federated
 exchange cannot be received by queues bound to the upstream
@@ -156,7 +156,7 @@ exchange.</p>
 <h2><a id="topology-diagrams" class="anchor" href="#topology-diagrams">Example Topologies</a></h2>
 <p>We illustrate some example federation topologies. Where RabbitMQ
 brokers are shown in these diagrams indicated by</p>
-<p>(indicated by a <img src="img/rabbitmq_logo_30x30.png" height="15" />)</p>
+<p>(indicated by a <img src="./img/rabbitmq_logo_30x30.png" height="15" />)</p>
 <p>it can be a cluster of nodes or a standalone node.</p>
 <table>
   <thead>
@@ -176,7 +176,7 @@ brokers are shown in these diagrams indicated by</p>
           Both consumers can receive messages published by either publisher.
         </p>
 
-        <img src="img/federation/federation02.png" height="215" alt="Symmetric pair" title="Symmetric pair" />
+        <img src="./img/federation/federation02.png" height="215" alt="Symmetric pair" title="Symmetric pair" />
 
         <p>
           Both links are declared with `max-hops=1` so that
@@ -194,7 +194,7 @@ brokers are shown in these diagrams indicated by</p>
           but for three exchanges. Each exchange links to both the others.
         </p>
 
-        <img src="img/federation/federation03.png" height="250" alt="Three-way federation" title="Three-way federation" />
+        <img src="./img/federation/federation03.png" height="250" alt="Three-way federation" title="Three-way federation" />
 
         <p>
           Again `max-hops=1` because the "hop distance" to any
@@ -214,7 +214,7 @@ brokers are shown in these diagrams indicated by</p>
           received by any consumer connected to any broker in the tree.
         </p>
 
-        <img src="img/federation/federation04.png" height="500" alt="Fan-out" title="Fan-out" />
+        <img src="./img/federation/federation04.png" height="500" alt="Fan-out" title="Fan-out" />
 
         <p>
           Because there are no loops it is not as crucial to get the
@@ -235,7 +235,7 @@ brokers are shown in these diagrams indicated by</p>
           once.
         </p>
 
-        <img src="img/federation/federation05.png" height="300" alt="Ring" title="Ring" />
+        <img src="./img/federation/federation05.png" height="300" alt="Ring" title="Ring" />
 
         <p>
           This topology, though relatively cheap in queues and connections, is
@@ -280,11 +280,11 @@ brokers are shown in these diagrams indicated by</p>
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

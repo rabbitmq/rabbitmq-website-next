@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Shovel Plugin
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Shovel Plugin
  — RabbitMQ</title></head>
-  <body id="shovel"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Shovel Plugin
+  <body id="shovel"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Shovel Plugin
 </h1>
 
 
@@ -15,7 +15,7 @@ respectively. This one focuses on explaining the concept, how do shovels work
 and what they can do.</p>
 <p>Sometimes it is necessary to reliably and continually move messages from a source (typically a queue)
 in one cluster to a destination (an exchange, topic, etc) in another cluster.</p>
-<p>The <span class="code ">rabbitmq_shovel</span> <a href="/plugins.html">plugin</a> allows you to
+<p>The <span class="code ">rabbitmq_shovel</span> <a href="./plugins.html">plugin</a> allows you to
 configure a number of shovels (transfer workers), which do just that
 and run as part of a RabbitMQ cluster.</p>
 <p>The source and destination can be in the same
@@ -44,7 +44,7 @@ different geographic or administrative domains that</p>
 </ul>
 <h3>WAN-friendly</h3>
 <p>The Shovel plugin uses <a href="connections.html">client connections</a> under the hood.
-<a href="/confirms.html">Acknowledgements and publisher confirms</a> are used to ensure data safety in case of connection
+<a href="./confirms.html">Acknowledgements and publisher confirms</a> are used to ensure data safety in case of connection
 and node failures.</p>
 <h3>Cross-protocol and Product Message Transfers</h3>
 <p>Modern Shovel versions support multiple protocols: AMQP 0.9.1 and AMQP 1.0.</p>
@@ -58,15 +58,15 @@ it needs.</p>
 <p>There is no requirement to run the shovel on the same broker
 (or cluster) as its source or destination, although that's the most typical approach;
 the shovel can run on an entirely separate node or cluster.</p>
-<p>A comparison between <a href="/clustering.html">clustering</a>, <a href="federation.html">federation</a>
+<p>A comparison between <a href="./clustering.html">clustering</a>, <a href="federation.html">federation</a>
 is provided in the <a href="distributed.html">Distributed Messaging</a> guide.</p>
 <h2><a id="what-it-does" class="anchor" href="#what-it-does">What Does a Shovel Do?</a></h2>
 <p>In essence, a shovel is a minimalistic message pump. Each shovel:</p>
 <ul>
 <li><a href="connections.html">Connects</a> to the source and destination clusters</li>
-<li><a href="/consumers.html">Consumes</a> messages from a queue</li>
-<li><a href="/publishers.html">Re-publishes</a> to a destination</li>
-<li>Uses <a href="/confirms.html">data safety features</a> on both ends and handles failures</li>
+<li><a href="./consumers.html">Consumes</a> messages from a queue</li>
+<li><a href="./publishers.html">Re-publishes</a> to a destination</li>
+<li>Uses <a href="./confirms.html">data safety features</a> on both ends and handles failures</li>
 </ul>
 <p>The shovel configuration allows each of these processes to be tailored.</p>
 <h3>Connection</h3>
@@ -83,35 +83,35 @@ attempts, or to prevent reconnection on failure altogether.</p>
 <p>All configured topology declaration operations for that source or
 destination are re-issued upon reconnection.</p>
 <h3>Consumption</h3>
-<p>The Shovel's consumer will <a href="/confirms.html">acknowledge</a> messages
+<p>The Shovel's consumer will <a href="./confirms.html">acknowledge</a> messages
 automatically on receipt, after (re-)publication, or after
-<a href="/confirms.html">confirmation of its publication</a> from the destination server.</p>
+<a href="./confirms.html">confirmation of its publication</a> from the destination server.</p>
 <h3>Re-publishing</h3>
 <p>Most publishing and message properties are controlled by the operator.</p>
 <h2><a id="getting-started" class="anchor" href="#getting-started">Getting started</a></h2>
 <p>The Shovel plugin is included in the RabbitMQ distribution.
-To enable it, use <a href="/cli.html">rabbitmq-plugins</a>:</p>
+To enable it, use <a href="./cli.html">rabbitmq-plugins</a>:</p>
 <pre class="lang-bash">
 rabbitmq-plugins enable rabbitmq_shovel
 </pre>
 
-<p><a href="/management.html">Management UI</a> users may also wish to enable the <span class="code ">rabbitmq_shovel_management</span> plugin
+<p><a href="./management.html">Management UI</a> users may also wish to enable the <span class="code ">rabbitmq_shovel_management</span> plugin
 for <a href="#status">Shovel status monitoring</a>.</p>
 <p>There are two distinct ways to define shovels: <a href="shovel-dynamic.html">dynamic shovels</a> are defined using
-<a href="/parameters.html">runtime parameters</a> and <a href="shovel-static.html">static shovels</a> are defined in the <a href="configure.html"><span class="code ">advanced.config</span> file</a>.</p>
+<a href="./parameters.html">runtime parameters</a> and <a href="shovel-static.html">static shovels</a> are defined in the <a href="configure.html"><span class="code ">advanced.config</span> file</a>.</p>
 <p>The pros and cons with each approach are covered below. Most users should consider
 dynamic shovels first for their ease of reconfiguration and management.</p>
 <table>
   <tr>
-    <th><a href="/shovel-static.html">Static Shovels</a></th>
-    <th><a href="/shovel-dynamic.html">Dynamic Shovels</a></th>
+    <th><a href="./shovel-static.html">Static Shovels</a></th>
+    <th><a href="./shovel-dynamic.html">Dynamic Shovels</a></th>
   </tr>
   <tr>
     <td>
-      Defined in the broker <a href="/configure.html">advanced configuration file</a>.
+      Defined in the broker <a href="./configure.html">advanced configuration file</a>.
     </td>
     <td>
-      Defined using <a href="/parameters.html">runtime parameters</a>.
+      Defined using <a href="./parameters.html">runtime parameters</a>.
     </td>
   </tr>
   <tr>
@@ -138,13 +138,13 @@ dynamic shovels first for their ease of reconfiguration and management.</p>
 outside of the shovel as the protocol does not include topology
 creation.</p>
 <h2><a id="authn-authz-for-shovels" class="anchor" href="#authn-authz-for-shovels">Authentication and authorisation for Shovels</a></h2>
-<p>The plugin uses <a href="/erlang-client-user-guide.html">Erlang AMQP 0-9-1</a> and <a href="https://github.com/rabbitmq/rabbitmq-amqp1.0-client">Erlang AMQP 1.0</a>
+<p>The plugin uses <a href="./erlang-client-user-guide.html">Erlang AMQP 0-9-1</a> and <a href="https://github.com/rabbitmq/rabbitmq-amqp1.0-client">Erlang AMQP 1.0</a>
 clients under the hood to open connections to its source and/or destination. Just like any other
-<a href="connections.html">client library connection</a>, a Shovel connection must <a href="/access-control.html">successfully authenticate</a>
-and be <a href="/access-control.html">authorized to access</a> the virtual host and resources it is trying to use.
+<a href="connections.html">client library connection</a>, a Shovel connection must <a href="./access-control.html">successfully authenticate</a>
+and be <a href="./access-control.html">authorized to access</a> the virtual host and resources it is trying to use.
 This is true for both sources and destinations.</p>
 <p>Authentication and authorisation failures of shovel connections will be
-<a href="/logging.html">logged</a> by the node that's running the shovel.</p>
+<a href="./logging.html">logged</a> by the node that's running the shovel.</p>
 <h2><a id="clustering" class="anchor" href="#clustering">Shovel Failure Handling in Clusters</a></h2>
 <p>It's normally desirable to ensure that shovels are resilient
 to failure of any node in the source or destination clusters,
@@ -160,28 +160,28 @@ all nodes of the hosting cluster on which the shovel plugin is
 enabled. Again each shovel will only start on one node and
 be restarted on another cluster node when a node failure is detected.</p>
 <h2><a id="tls" class="anchor" href="#tls">Securing Shovel Connections with TLS</a></h2>
-<p>Shovel connections can use <a href="/ssl.html">TLS</a>. Because Shovel uses
+<p>Shovel connections can use <a href="./ssl.html">TLS</a>. Because Shovel uses
 client libraries under the hood, it is necessary to both configure
-the source broker to <a href="/ssl.html">listen for TLS connections</a>
+the source broker to <a href="./ssl.html">listen for TLS connections</a>
 and the Shovel to use TLS when connecting.</p>
 <p>To configure Shovel to use TLS, one needs to</p>
 <ul>
-<li>Specify CA certificate and client certificate/key pair, as well as other parameters (e.g. <a href="/ssl.html#peer-verification-depth">peer verification depth</a>) via <a href="/uri-query-parameters.html">URI query parameters</a></li>
-<li>Configure Erlang client to <a href="/ssl.html">use TLS</a></li>
+<li>Specify CA certificate and client certificate/key pair, as well as other parameters (e.g. <a href="./ssl.html#peer-verification-depth">peer verification depth</a>) via <a href="./uri-query-parameters.html">URI query parameters</a></li>
+<li>Configure Erlang client to <a href="./ssl.html">use TLS</a></li>
 </ul>
 <p>Just like with "regular" client connections, server's CA should be
-<a href="/ssl.html#peer-verification">trusted</a> on the node where Shovel runs, and vice versa.
-The same <a href="/troubleshooting-ssl.html">TLS troubleshooting methodology</a> that is recommended
+<a href="./ssl.html#peer-verification">trusted</a> on the node where Shovel runs, and vice versa.
+The same <a href="./troubleshooting-ssl.html">TLS troubleshooting methodology</a> that is recommended
 for application connections applies to shovels.</p>
 <h2><a id="status" class="anchor" href="#status">Monitoring Shovels</a></h2>
 <p>There are two ways of discovering the status of shovels.</p>
 <h3><a id="status-management" class="anchor" href="#status-management">Using Management UI</a></h3>
 <p>Shovel status can be reported on the <a href="management.html">Management plugin</a> user interface
 in the administrative section.
-This requires the <span class="code ">rabbitmq_shovel_management</span> plugin to be <a href="/plugins.html">enabled</a>
+This requires the <span class="code ">rabbitmq_shovel_management</span> plugin to be <a href="./plugins.html">enabled</a>
 on the node used to access management UI.</p>
 <h3><a id="status-cli" class="anchor" href="#status-cli">Using CLI Tools</a></h3>
-<p>Shovel status can be obtained by direct query of the Shovel plugin app using <a href="/cli.html"><span class="code ">rabbitmqctl</span></a>:</p>
+<p>Shovel status can be obtained by direct query of the Shovel plugin app using <a href="./cli.html"><span class="code ">rabbitmqctl</span></a>:</p>
 <pre class="lang-bash">
 # use the -n switch to target a remote node
 rabbitmqctl shovel_status
@@ -297,11 +297,11 @@ of <span class="code ">{{YYYY, MM, DD}, {HH, MM, SS}}</span>.</p>
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div><div id="related-links"><h4>Related Links</h4><ul><li><a href="/uri-spec.html">AMQP 0-9-1 URI Spec</a></li><li><a href="/uri-query-parameters.html">AMQP 0-9-1 URI Params</a></li></ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div><div id="related-links"><h4>Related Links</h4><ul><li><a href="/uri-spec.html">AMQP 0-9-1 URI Spec</a></li><li><a href="/uri-query-parameters.html">AMQP 0-9-1 URI Params</a></li></ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

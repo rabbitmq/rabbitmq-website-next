@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Stream Plugin 
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Stream Plugin 
  — RabbitMQ</title></head>
-  <body id="stream"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Stream Plugin 
+  <body id="stream"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Stream Plugin 
 </h1>
 
 
@@ -22,7 +22,7 @@ For an overview of the concepts and the ways to operate streams, please see the
 and the <a href="https://github.com/rabbitmq/rabbitmq-stream-go-client">RabbitMQ Stream Go Client</a>.</p>
 <h2><a id="enabling-plugin" class="anchor" href="#enabling-plugin">Enabling the Plugin</a></h2>
 <p>The Stream plugin is included in the RabbitMQ distribution. Before clients can successfully
-connect, it must be enabled using <a href="/cli.html">rabbitmq-plugins</a>:</p>
+connect, it must be enabled using <a href="./cli.html">rabbitmq-plugins</a>:</p>
 <pre class="lang-bash">
 rabbitmq-plugins enable rabbitmq_stream
 </pre>
@@ -33,7 +33,7 @@ rabbitmq-plugins enable rabbitmq_stream
 all interfaces on port 5552 and have a default user login/passcode
 of <span class="code ">guest</span>/<span class="code ">guest</span>.</p>
 <p>The port stream listener will listen on can be changed
-via <a href="/configure.html#configuration-files"><span class="code ">rabbitmq.conf</span></a>.</p>
+via <a href="./configure.html#configuration-files"><span class="code ">rabbitmq.conf</span></a>.</p>
 <p>Below is a minimalistic configuration file which changes the listener
 port to 12345:</p>
 <pre class="lang-ini">
@@ -50,8 +50,8 @@ stream.listeners.tcp.2 = ::1:5552
 <h3><a id="tcp-listeners-options" class="anchor" href="#tcp-listeners-options">TCP Listener Options</a></h3>
 <p>The plugin supports TCP listener option configuration.</p>
 <p>The settings use a common prefix, <span class="code ">stream.tcp_listen_options</span>, and control
-things such as TCP buffer sizes, inbound TCP connection queue length, whether <a href="/heartbeats.html#tcp-keepalives">TCP keepalives</a>
-are enabled and so on. See the <a href="/networking.html">Networking guide</a> for details.</p>
+things such as TCP buffer sizes, inbound TCP connection queue length, whether <a href="./heartbeats.html#tcp-keepalives">TCP keepalives</a>
+are enabled and so on. See the <a href="./networking.html">Networking guide</a> for details.</p>
 <pre class="lang-ini">
 stream.listeners.tcp.1 = 127.0.0.1:5552
 stream.listeners.tcp.2 = ::1:5552
@@ -105,7 +105,7 @@ stream.advertised_port = 12345
 
 <p>The <a href="https://blog.rabbitmq.com/posts/2021/07/connecting-to-streams/">Connecting to Streams</a> blog post covers why the <span class="code ">advertised_host</span> and <span class="code ">advertised_port</span> settings are necessary in some deployments.</p>
 <h2><a id="tls" class="anchor" href="#tls">TLS Support</a></h2>
-<p>To use TLS for stream connections, <a href="/ssl.html">TLS must be configured</a> in the broker. To enable
+<p>To use TLS for stream connections, <a href="./ssl.html">TLS must be configured</a> in the broker. To enable
 TLS-enabled stream connections, add a TLS listener for streams using the <span class="code ">stream.listeners.ssl.*</span> configuration keys.</p>
 <p>The plugin will use core RabbitMQ server
 certificates and key (just like AMQP 0-9-1 and AMQP 1.0 listeners do):</p>
@@ -173,11 +173,11 @@ stream.advertised_tls_port = 12344
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

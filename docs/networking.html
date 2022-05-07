@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Networking and RabbitMQ
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Networking and RabbitMQ
  — RabbitMQ</title></head>
-  <body id="networking"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Networking and RabbitMQ
+  <body id="networking"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Networking and RabbitMQ
 </h1>
 
 
@@ -24,7 +24,7 @@ platform RabbitMQ is deployed on.</p>
 <ul>
 <li><a href="#interfaces">Interfaces</a> the node listens on for client connections</li>
 <li>IP version preferences: <a href="#dual-stack">dual stack</a>, <a href="#single-stack-ipv6">IPv6-only</a> and <a href="#single-stack-ipv4">IPv4-only</a></li>
-<li><a href="#ports">Ports</a> used by clients, <a href="#epmd-inet-dist-port-range">inter-node traffic</a> in clusters and <a href="/cli.html">CLI tools</a></li>
+<li><a href="#ports">Ports</a> used by clients, <a href="#epmd-inet-dist-port-range">inter-node traffic</a> in clusters and <a href="./cli.html">CLI tools</a></li>
 <li><a href="#distribution-ipv6">IPv6 support</a> for inter-node traffic</li>
 <li><a href="#tls-support">TLS</a> for client connections</li>
 <li>Tuning for a <a href="#tuning-for-large-number-of-connections">large number of concurrent connections</a></li>
@@ -56,7 +56,7 @@ such as</p>
 <li><a href="#intermediaries">proxies and load balancers</a></li>
 </ul>
 <p><a href="tanzu">Tanzu RabbitMQ</a> provides an <a href="clustering-compression.html">inter-node traffic compression</a> feature.</p>
-<p>A methodology for <a href="/troubleshooting-networking.html">troubleshooting of networking-related issues</a>
+<p>A methodology for <a href="./troubleshooting-networking.html">troubleshooting of networking-related issues</a>
 is covered in a separate guide.</p>
 <h2><a id="interfaces" class="anchor" href="#interfaces">Network Interfaces for Client Connections</a></h2>
 <p>For RabbitMQ to accept client connections, it needs to bind to one or more
@@ -108,7 +108,7 @@ listeners.tcp.1 = 192.168.1.99:5672
 </pre>
 
 <p>It is possible to disable non-TLS connections by disabling all regular TCP listeners.
-Only <a href="/ssl.html">TLS-enabled</a> clients will be able to connect:</p>
+Only <a href="./ssl.html">TLS-enabled</a> clients will be able to connect:</p>
 <pre class="lang-ini">
 # disables non-TLS listeners, only TLS-enabled clients will be able to connect
 listeners.tcp = none
@@ -142,13 +142,13 @@ Make sure the following ports are accessible:</p>
 <li>35672-35682: used by CLI tools (Erlang distribution client ports) for communication with nodes
    and is allocated from a dynamic range (computed as server distribution port + 10000 through
    server distribution port + 10010). See <a href="networking.html">networking guide</a> for details.</li>
-<li>15672, 15671: <a href="/management.html">HTTP API</a> clients, <a href="/management.html">management UI</a> and <a href="/management-cli.html">rabbitmqadmin</a>, without and with TLS
-   (only if the <a href="/management.html">management plugin</a> is enabled)</li>
-<li>61613, 61614: <a href="https://stomp.github.io/stomp-specification-1.2.html">STOMP clients</a> without and with TLS (only if the <a href="/stomp.html">STOMP plugin</a> is enabled)</li>
-<li>1883, 8883: <a href="http://mqtt.org/">MQTT clients</a> without and with TLS, if the <a href="/mqtt.html">MQTT plugin</a> is enabled</li>
-<li>15674: STOMP-over-WebSockets clients (only if the <a href="/web-stomp.html">Web STOMP plugin</a> is enabled)</li>
-<li>15675: MQTT-over-WebSockets clients (only if the <a href="/web-mqtt.html">Web MQTT plugin</a> is enabled)</li>
-<li>15692: Prometheus metrics (only if the <a href="/prometheus.html">Prometheus plugin</a> is enabled)</li>
+<li>15672, 15671: <a href="./management.html">HTTP API</a> clients, <a href="./management.html">management UI</a> and <a href="./management-cli.html">rabbitmqadmin</a>, without and with TLS
+   (only if the <a href="./management.html">management plugin</a> is enabled)</li>
+<li>61613, 61614: <a href="https://stomp.github.io/stomp-specification-1.2.html">STOMP clients</a> without and with TLS (only if the <a href="./stomp.html">STOMP plugin</a> is enabled)</li>
+<li>1883, 8883: <a href="http://mqtt.org/">MQTT clients</a> without and with TLS, if the <a href="./mqtt.html">MQTT plugin</a> is enabled</li>
+<li>15674: STOMP-over-WebSockets clients (only if the <a href="./web-stomp.html">Web STOMP plugin</a> is enabled)</li>
+<li>15675: MQTT-over-WebSockets clients (only if the <a href="./web-mqtt.html">Web MQTT plugin</a> is enabled)</li>
+<li>15692: Prometheus metrics (only if the <a href="./prometheus.html">Prometheus plugin</a> is enabled)</li>
 </ul>
 <p>It is possible to <a href="configure.html">configure RabbitMQ</a>
 to use <a href="networking.html">different ports and specific network interfaces</a>.</p>
@@ -156,7 +156,7 @@ to use <a href="networking.html">different ports and specific network interfaces
 <p>Starting with RabbitMQ <span class="code ">3.8.8</span>, client connection listeners can be <em>suspended</em> to prevent new client
 connections from being accepted. Existing connections will not be affected in any way.</p>
 <p>This can be useful during node operations and is one of the steps performed
-when a node is <a href="/upgrade.html#maintenance-mode">put into maintenance mode</a>.</p>
+when a node is <a href="./upgrade.html#maintenance-mode">put into maintenance mode</a>.</p>
 <p>To suspend all listeners on a node and prevent new client connections to it, use <span class="code ">rabbitmqctl suspend_listeners</span>:</p>
 <pre class="lang-bash">
 rabbitmqctl suspend_listeners
@@ -179,13 +179,13 @@ rabbitmqctl resume_listeners
 rabbitmqctl resume_listeners -n rabbit@node2.cluster.rabbitmq.svc
 </pre>
 
-<p>Both operations will leave <a href="/logging.html">log entries</a> in the node's log.</p>
+<p>Both operations will leave <a href="./logging.html">log entries</a> in the node's log.</p>
 <h2><a id="epmd" class="anchor" href="#epmd">EPMD and Inter-node Communication</a></h2>
 <h3>What is EPMD and How is It Used?</h3>
 <p><a href="http://www.erlang.org/doc/man/epmd.html">epmd</a> (for Erlang Port Mapping Daemon)
 is a small additional daemon that runs alongside every RabbitMQ node and is used by
-the <a href="/runtime.html">runtime</a> to discover what port a particular node listens on for
-inter-node communication. The port is then used by peer nodes and <a href="/cli.html">CLI tools</a>.</p>
+the <a href="./runtime.html">runtime</a> to discover what port a particular node listens on for
+inter-node communication. The port is then used by peer nodes and <a href="./cli.html">CLI tools</a>.</p>
 <p>When a node or CLI tool needs to contact node <span class="code ">rabbit@hostname2</span> it will do the following:</p>
 <ul>
 <li>Resolve <span class="code ">hostname2</span> to an IPv4 or IPv6 address using the standard OS resolver or a custom one specified in the <a href="http://erlang.org/doc/apps/erts/inet_cfg.html">inetrc file</a></li>
@@ -222,7 +222,7 @@ variable:</p>
 export ERL_EPMD_PORT="4369"
 </pre>
 
-<p>All hosts in a <a href="/clustering.html">cluster</a> must use the same port.</p>
+<p>All hosts in a <a href="./clustering.html">cluster</a> must use the same port.</p>
 <p>When <span class="code ">ERL_EPMD_PORT</span> is changed, both RabbitMQ node and <span class="code ">epmd</span> on the host must be stopped.
 For <span class="code ">epmd</span>, use</p>
 <pre class="lang-bash">
@@ -242,7 +242,7 @@ For RabbitMQ, the default range is limited to a single value computed as
 <span class="code ">RABBITMQ_NODE_PORT</span> (AMQP 0-9-1 and AMQP 1.0 port) + 20000, which results
 in using port 25672. This single port can be <a href="configure.html">configured</a>
 using the <span class="code ">RABBITMQ_DIST_PORT</span> environment variable.</p>
-<p>RabbitMQ <a href="/cli.html">command line tools</a> also use a range of ports. The default range is computed by taking the RabbitMQ
+<p>RabbitMQ <a href="./cli.html">command line tools</a> also use a range of ports. The default range is computed by taking the RabbitMQ
 distribution port value and adding 10000 to it. The next 10 ports are also part
 of this range. Thus, by default, this range is 35672 through 35682. This range
 can be configured using the <span class="envvar">RABBITMQ_CTL_DIST_PORT_MIN</span>
@@ -256,7 +256,7 @@ on the inter-node communication port from every cluster member and every host wh
 CLI tools might be used. epmd port must be open for CLI tools and clustering
 to function.</p>
 <p>On Windows, the following settings have no effect when RabbitMQ runs as a service.
-Please see <a href="/windows-quirks.html">Windows Quirks</a> for details.</p>
+Please see <a href="./windows-quirks.html">Windows Quirks</a> for details.</p>
 <p>The range used by RabbitMQ can also be controlled via two configuration keys:</p>
 <ul>
 <li><span class="code ">kernel.inet_dist_listen_min</span> in the <b>classic</b> config format <em>only</em></li>
@@ -292,7 +292,7 @@ name rabbit at port 25672
 <p>Inter-node connections use a buffer for data pending to be sent. Temporary
 throttling on inter-node traffic is applied when the buffer is at max allowed
 capacity. The limit is controlled via the <span class="code ">RABBITMQ_DISTRIBUTION_BUFFER_SIZE</span>
-<a href="/configure.html#supported-environment-variables">environment variable</a>
+<a href="./configure.html#supported-environment-variables">environment variable</a>
 in kilobytes. Default value is 128 MB (<span class="code ">128000</span> kB).</p>
 <p>In clusters with heavy inter-node traffic increasing this value may
 have a positive effect on throughput. Values lower than 64 MB are not
@@ -374,7 +374,7 @@ systemctl restart epmd.socket epmd.service
 
 <h2><a id="intermediaries" class="anchor" href="#intermediaries">Intermediaries: Proxies and Load Balancers</a></h2>
 <p>Proxies and load balancers are fairly commonly used to distribute client connections
-between <a href="/clustering.html">cluster nodes</a>. Proxies can also be useful
+between <a href="./clustering.html">cluster nodes</a>. Proxies can also be useful
 to make it possible for clients to access RabbitMQ nodes without exposing them publicly.
 Intermediaries can also have side effects on connections.</p>
 <h3><a id="proxy-effects" class="anchor" href="#proxy-effects">Proxy Effects</a></h3>
@@ -386,9 +386,9 @@ are therefore very important.</p>
 <p>Intermediaries also may terminate "idle" TCP connections
 when there's no activity on them for a certain period of
 time. Most of the time it is not desirable. Such events will result in
-<a href="/logging.html#connection-lifecycle-events">abrupt connection closure log messages</a>
+<a href="./logging.html#connection-lifecycle-events">abrupt connection closure log messages</a>
 on the server end and I/O exceptions on the client end.</p>
-<p>When <a href="/heartbeats.html">heartbeats</a> are enabled on a connection, it results in
+<p>When <a href="./heartbeats.html">heartbeats</a> are enabled on a connection, it results in
 periodic light network traffic. Therefore heartbeats have a side effect
 of guarding client connections that can go idle for periods of
 time against premature closure by proxies and load balancers.</p>
@@ -425,7 +425,7 @@ as well as <a href="web-stomp.html#proxy-protocol">Web STOMP</a> and
 have their own settings that enable support for the proxy protocol.</p>
 <h2><a id="tls-support" class="anchor" href="#tls-support">TLS (SSL) Support</a></h2>
 <p>It is possible to encrypt connections using TLS with RabbitMQ. Authentication
-using peer certificates is also possible. Please refer to the <a href="/ssl.html">TLS/SSL guide</a>
+using peer certificates is also possible. Please refer to the <a href="./ssl.html">TLS/SSL guide</a>
 for more information.</p>
 <h2><a id="tuning-for-throughput" class="anchor" href="#tuning-for-throughput">Tuning for Throughput</a></h2>
 <h3><a id="tuning-for-throughput-intro" class="anchor" href="#tuning-for-throughput-intro"></a></h3>
@@ -450,7 +450,7 @@ tune TCP buffer size by default, typically settling on a value between 80 and 12
 <li><span class="code ">mqtt.tcp_listen_options</span> for MQTT</li>
 <li><span class="code ">stomp.tcp_listen_options</span> for STOMP</li>
 </ul>
-<p>Note that increasing TCP buffer size will increase how much <a href="/memory-use.html">RAM the node uses</a>
+<p>Note that increasing TCP buffer size will increase how much <a href="./memory-use.html">RAM the node uses</a>
 for every client connection.</p>
 <p>The following example sets TCP buffers for AMQP 0-9-1 connections to 192 KiB:</p>
 <pre class="lang-ini">
@@ -498,7 +498,7 @@ total throughput.</p>
 <p>Several factors can limit how many concurrent connections a single node can support:</p>
 <ul>
 <li>Maximum number of <a href="#open-file-handle-limit">open file handles</a> (including sockets) as well as other kernel-enforced resource limits</li>
-<li>Amount of <a href="/memory-use.html">RAM used by each connection</a></li>
+<li>Amount of <a href="./memory-use.html">RAM used by each connection</a></li>
 <li>Amount of CPU resources used by each connection</li>
 <li>Maximum number of Erlang processes the VM is configured to allow.</li>
 </ul>
@@ -509,7 +509,7 @@ the limit, it won't be able to open any new files or accept any more
 TCP connections.</p>
 <p>How the limit is configured <a href="https://github.com/basho/basho_docs/blob/master/content/riak/kv/2.2.3/using/performance/open-files-limit.md">varies from OS to OS</a> and distribution to distribution, e.g. depending on whether systemd is used.
 For Linux, Controlling System Limits on Linux
-in our <a href="/install-debian.html#kernel-resource-limits">Debian</a> and <a href="/install-rpm.html#kernel-resource-limits">RPM</a>
+in our <a href="./install-debian.html#kernel-resource-limits">Debian</a> and <a href="./install-rpm.html#kernel-resource-limits">RPM</a>
 installation guides provides. Linux kernel limit management is covered by many resources on the Web,
 including the <a href="https://ro-che.info/articles/2017-03-26-increase-open-files-limit">open file handle limit</a>.</p>
 <p>With Docker, <a href="https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file">Docker daemon configuration file</a>
@@ -533,7 +533,7 @@ using a group of config options:</p>
 <li><span class="code ">mqtt.tcp_listen_options</span> for MQTT</li>
 <li><span class="code ">stomp.tcp_listen_options</span> for STOMP</li>
 </ul>
-<p>Decreasing TCP buffer size will decrease how much <a href="/memory-use.html">RAM the node uses</a>
+<p>Decreasing TCP buffer size will decrease how much <a href="./memory-use.html">RAM the node uses</a>
 for every client connection.</p>
 <p>This is often necessary in environments where the number of concurrent connections
 sustained per node is more important than throughput.</p>
@@ -585,7 +585,7 @@ collect_statistics_interval = 60000
 <p>Increasing the interval value to 30-60s will reduce CPU footprint and peak memory consumption.
 This comes with a downside: with the value in the example above, metrics of said entities
 will refresh every 60 seconds.</p>
-<p>This can be perfectly reasonable in an <a href="/monitoring.html#monitoring-frequency">externally monitored</a> production system
+<p>This can be perfectly reasonable in an <a href="./monitoring.html#monitoring-frequency">externally monitored</a> production system
 but will make management UI less convenient to use for operators.</p>
 <h3><a id="tuning-for-large-number-of-connections-channel-max" class="anchor" href="#tuning-for-large-number-of-connections-channel-max">Limiting Number of Channels on a Connection</a></h3>
 <p>Channels also consume RAM. By optimising how many channels applications use, that amount
@@ -612,7 +612,7 @@ tcp_listen_options.backlog = 4096
 tcp_listen_options.nodelay = true
 </pre>
 
-<p>which should be used together with the following bits in the <a href="/configure.html#advanced-config-file">advanced config file</a>:</p>
+<p>which should be used together with the following bits in the <a href="./configure.html#advanced-config-file">advanced config file</a>:</p>
 <pre class="lang-erlang">
 [
   {kernel, [
@@ -621,7 +621,7 @@ tcp_listen_options.nodelay = true
   ]}].
 </pre>
 
-<p>When using the <a href="/configure.html#erlang-term-config-file">classic config format</a>,
+<p>When using the <a href="./configure.html#erlang-term-config-file">classic config format</a>,
 everything is configured in a single file:</p>
 <pre class="lang-erlang">
 [
@@ -657,7 +657,7 @@ tcp_listen_options.backlog = 4096
 tcp_listen_options.nodelay = true
 </pre>
 
-<p>In the <a href="/configure.html#erlang-term-config-file">classic config format</a>:</p>
+<p>In the <a href="./configure.html#erlang-term-config-file">classic config format</a>:</p>
 <pre class="lang-erlang">
 [
   {rabbit, [
@@ -684,7 +684,7 @@ Nodes that are exhausted of those resources <strong>won't be able to accept new 
 which will negatively affect overall system availability.</p>
 <p>Due to a combination of certain TCP features
 and defaults of most modern Linux distributions, closed connections can be detected after
-a prolonged period of time. This is covered in the <a href="/heartbeats.html">heartbeats guide</a>.
+a prolonged period of time. This is covered in the <a href="./heartbeats.html">heartbeats guide</a>.
 This can be one contributing factor to connection build-up. Another is the <span class="code ">TIME_WAIT</span> TCP
 connection state. The state primarily exists to make sure that retransmitted segments from closed
 connections won't "reappear" on a different (newer) connection with the same client host and port.
@@ -703,9 +703,9 @@ described in this section.</p>
 determine the state of the system and the limiting factor (exhausted resource).
 Tools such as <a href="https://en.wikipedia.org/wiki/Netstat">netstat</a>,
 <a href="https://linux.die.net/man/8/ss">ss</a>, <a href="https://en.wikipedia.org/wiki/Lsof">lsof</a> can be used
-to inspect TCP connections of a node. See <a href="/troubleshooting-networking.html">Troubleshooting Networking</a> for examples.</p>
+to inspect TCP connections of a node. See <a href="./troubleshooting-networking.html">Troubleshooting Networking</a> for examples.</p>
 <h3><a id="dealing-with-high-connection-churn-tcp-keepalives" class="anchor" href="#dealing-with-high-connection-churn-tcp-keepalives"></a></h3>
-<p>While <a href="/heartbeats.html">heartbeats</a> are sufficient for detecting defunct connections,
+<p>While <a href="./heartbeats.html">heartbeats</a> are sufficient for detecting defunct connections,
 they are not going to be sufficient in high connection churn scenarios. In those cases
 heartbeats should be combined with <a href="#tcp-keepalives">TCP keepalives</a> to speed
 up disconnected client detection.</p>
@@ -808,7 +808,7 @@ are effective for both IPv4 and IPv6 connections):</p>
         <span class="code ">net.ipv4.tcp_keepalive_time</span>, <span class="code ">net.ipv4.tcp_keepalive_intvl</span>,
         and <span class="code ">net.ipv4.tcp_keepalive_probes</span> configure TCP keepalive.
 
-        AMQP 0-9-1 and STOMP have <a href="/heartbeats.html">Heartbeats</a> which partially
+        AMQP 0-9-1 and STOMP have <a href="./heartbeats.html">Heartbeats</a> which partially
         undo its effect, namely that it can take minutes to detect an unresponsive peer,
         e.g. in case of a hardware or power failure. MQTT also has its own keepalives
         mechanism which is the same idea under a different name.
@@ -899,7 +899,7 @@ for more details.</p>
         When set to <span class="code ">true</span>, enables TCP keepalives (see above).
         Default is <span class="code ">false</span>. Makes sense for environments where
         connections can go idle for a long time (at least 10 minutes),
-        although using <a href="/heartbeats.html">heartbeats</a> is still recommended over
+        although using <a href="./heartbeats.html">heartbeats</a> is still recommended over
         this option.
       </td>
     </tr>
@@ -915,11 +915,11 @@ for more details.</p>
 </ul>
 <h2><a id="heartbeats" class="anchor" href="#heartbeats">Heartbeats</a></h2>
 <p>Some protocols supported by RabbitMQ, including AMQP 0-9-1, support <em>heartbeats</em>, a way to detect dead
-TCP peers quicker. Please refer to the <a href="/heartbeats.html">Heartbeats guide</a>
+TCP peers quicker. Please refer to the <a href="./heartbeats.html">Heartbeats guide</a>
 for more information.</p>
 <h2><a id="nettick" class="anchor" href="#nettick">Net Tick Time</a></h2>
-<p><a href="/heartbeats.html">Heartbeats</a> are used to detect peer or connection failure
-between clients and RabbitMQ nodes. <a href="/nettick.html">net_ticktime</a> serves
+<p><a href="./heartbeats.html">Heartbeats</a> are used to detect peer or connection failure
+between clients and RabbitMQ nodes. <a href="./nettick.html">net_ticktime</a> serves
 the same purpose but for cluster node communication. Values lower than 5 (seconds)
 may result in false positive and are not recommended.</p>
 <h2><a id="tcp-keepalives" class="anchor" href="#tcp-keepalives">TCP Keepalives</a></h2>
@@ -991,7 +991,7 @@ e.g. <span class="code ">rmq1.dev.megacorp.local</span>.</p>
 <h3><a id="dns-reverse-dns-lookups" class="anchor" href="#dns-reverse-dns-lookups">Reverse DNS Lookups</a></h3>
 <p>If the <span class="code ">reverse_dns_lookups</span> configuration option is set to <span class="code ">true</span>,
 RabbitMQ will perform reverse DNS lookups for client IP addresses and list hostnames
-in connection information (e.g. in the <a href="/management.html">Management UI</a>).</p>
+in connection information (e.g. in the <a href="./management.html">Management UI</a>).</p>
 <p>Reverse DNS lookups can potentially take a long time if node's hostname resolution is not
 optimally configured. This can increase latency when accepting client connections.</p>
 <p>To explicitly enable reverse DNS lookups:</p>
@@ -1005,8 +1005,8 @@ reverse_dns_lookups = false
 </pre>
 
 <h3><a id="dns-verify-resolution" class="anchor" href="#dns-verify-resolution">Verify Hostname Resolution</a> on a Node or Locally</h3>
-<p>Since hostname resolution is a <a href="/clustering.html#hostname-resolution-requirement">prerequisite for successful inter-node communication</a>,
-starting with <a href="/changelog.html">RabbitMQ <span class="code ">3.8.6</span></a>, CLI tools provide two commands that help verify
+<p>Since hostname resolution is a <a href="./clustering.html#hostname-resolution-requirement">prerequisite for successful inter-node communication</a>,
+starting with <a href="./changelog.html">RabbitMQ <span class="code ">3.8.6</span></a>, CLI tools provide two commands that help verify
 that hostname resolution on a node works as expected. The commands are not meant to replace
 <a href="https://en.wikipedia.org/wiki/Dig_(command)"><span class="code ">dig</span></a> and other specialised DNS tools but rather
 provide a way to perform most basic checks while taking <a href="https://erlang.org/doc/apps/erts/inet_cfg.html">Erlang runtime hostname resolver features</a>
@@ -1041,9 +1041,9 @@ inetrc File Host Entries
 </pre>
 
 <h2><a id="logging" class="anchor" href="#logging">Connection Event Logging</a></h2>
-<p>See <a href="/logging.html#connection-lifecycle-events">Connection Lifecycle Events</a> in the logging guide.</p>
+<p>See <a href="./logging.html#connection-lifecycle-events">Connection Lifecycle Events</a> in the logging guide.</p>
 <h2><a id="troubleshooting-where-to-start" class="anchor" href="#troubleshooting-where-to-start">Troubleshooting Network Connectivity</a></h2>
-<p>A methodology for <a href="/troubleshooting-networking.html">troubleshooting of networking-related issues</a>
+<p>A methodology for <a href="./troubleshooting-networking.html">troubleshooting of networking-related issues</a>
 is covered in a separate guide.</p>
 <h2><a id="firewalls-mac-os" class="anchor" href="#firewalls-mac-os">MacOS Application Firewall</a></h2>
 <p>On MacOS systems with <a href="https://support.apple.com/en-us/HT201642">Application Firewall</a> enabled,
@@ -1171,11 +1171,11 @@ sudo /usr/libexec/ApplicationFirewall/socketfilterfw --help
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

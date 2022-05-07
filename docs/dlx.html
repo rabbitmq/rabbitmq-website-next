@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Dead Letter Exchanges
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Dead Letter Exchanges
  — RabbitMQ</title></head>
-  <body id="dlx"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Dead Letter Exchanges
+  <body id="dlx"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Dead Letter Exchanges
 </h1>
 
 
@@ -11,17 +11,17 @@
 <p>Messages from a queue can be "dead-lettered"; that is, republished to
 an exchange when any of the following events occur:</p>
 <ul>
-<li>The message is <a href="/confirms.html">negatively acknowledged</a> by a consumer using <span class="code ">basic.reject</span> or
+<li>The message is <a href="./confirms.html">negatively acknowledged</a> by a consumer using <span class="code ">basic.reject</span> or
    <span class="code ">basic.nack</span> with <span class="code ">requeue</span> parameter set to <span class="code ">false</span>.</li>
-<li>The message expires due to <a href="/ttl.html">per-message TTL</a>; or</li>
-<li>The message is dropped because its queue exceeded a <a href="/maxlength.html">length limit</a></li>
+<li>The message expires due to <a href="./ttl.html">per-message TTL</a>; or</li>
+<li>The message is dropped because its queue exceeded a <a href="./maxlength.html">length limit</a></li>
 </ul>
 <p>Note that expiration of a queue will not dead letter the messages in it.</p>
 <p>Dead letter exchanges (DLXs) are normal exchanges. They can be
 any of the usual types and are declared as usual.</p>
 <p>For any given queue, a DLX can be defined by clients using the
-<a href="/queues.html#optional-arguments">queue's arguments</a>, or in the server
-using <a href="/parameters.html#policies">policies</a>. In the
+<a href="./queues.html#optional-arguments">queue's arguments</a>, or in the server
+using <a href="./parameters.html#policies">policies</a>. In the
 case where both policy and arguments specify a DLX, the one
 specified in arguments overrules the one specified in policy.</p>
 <p>Configuration using policies is recommended as it allows for DLX
@@ -122,7 +122,7 @@ RabbitMQ environment is not guaranteed to be safe. Messages are removed from the
 original queue immediately after publishing to the DLX target queue. This ensures
 that there is no chance of excessive message buildup that could exhaust broker
 resources, but messages can be lost if the target queue isn't available to accept messages.</p>
-<p>Since RabbitMQ 3.10 quorum queues support <a href="/quorum-queues.html#dead-lettering">at-least-once dead-lettering</a>
+<p>Since RabbitMQ 3.10 quorum queues support <a href="./quorum-queues.html#dead-lettering">at-least-once dead-lettering</a>
 where messages are re-published with publisher confirms turned on internally.</p>
 <h2><a id="effects" class="anchor" href="#effects">Dead-Lettered Effects on Messages</a></h2>
 <p>Dead-lettering a message modifies its headers:</p>
@@ -159,9 +159,9 @@ incremented and it will be moved to the beginning of the array.</p>
 message was dead-lettered and is one of the following:</p>
 <ul>
 <li><span class="code ">rejected</span>: the message was rejected with <span class="code ">requeue</span> parameter set to <span class="code ">false</span></li>
-<li><span class="code ">expired</span>: the <a href="/ttl.html">message TTL</a> has expired</li>
-<li><span class="code ">maxlen</span>: the <a href="/maxlength.html">maximum allowed queue length</a> was exceeded</li>
-<li><span class="code ">delivery_limit</span>: the message has been returned more times than the limit (set by policy argument <a href="/quorum-queues.html#poison-message-handling">delivery-limit</a> of quorum queues).</li>
+<li><span class="code ">expired</span>: the <a href="./ttl.html">message TTL</a> has expired</li>
+<li><span class="code ">maxlen</span>: the <a href="./maxlength.html">maximum allowed queue length</a> was exceeded</li>
+<li><span class="code ">delivery_limit</span>: the message has been returned more times than the limit (set by policy argument <a href="./quorum-queues.html#poison-message-handling">delivery-limit</a> of quorum queues).</li>
 </ul>
 <p>Three top-level headers are added for the very first dead-lettering
 event. They are</p>
@@ -211,11 +211,11 @@ entry.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

@@ -1,17 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Clustering and Network Partitions
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Clustering and Network Partitions
  — RabbitMQ</title></head>
-  <body id="partitions"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Clustering and Network Partitions
+  <body id="partitions"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Clustering and Network Partitions
 </h1>
 
 
 <h2>Introduction</h2>
 <p>This guide covers one specific aspect of clustering: network
 failures between nodes, their effects and recovery options.
-For a general overview of clustering, see <a href="/clustering.html">Clustering</a>
-and <a href="/cluster-formation.html">Peer Discovery and Cluster Formation</a> guides.</p>
+For a general overview of clustering, see <a href="./clustering.html">Clustering</a>
+and <a href="./cluster-formation.html">Peer Discovery and Cluster Formation</a> guides.</p>
 <p>Clustering can be used to achieve different goals: increased
 data safety through replication, increased availability for
 client operations, higher overall throughput and so on.
@@ -31,9 +31,9 @@ the RabbitMQ log in a form like:</p>
 2020-05-18 06:55:37.324 [error] &lt;0.341.0&gt; Mnesia(rabbit@warp10): ** ERROR ** mnesia_event got {inconsistent_database, running_partitioned_network, rabbit@hostname2}
 </pre>
 
-<p>Partition presence can be identified via server <a href="/logging.html">logs</a>,
-<a href="/management.html">HTTP API</a> (for <a href="/monitoring.html">monitoring</a>)
-and a <a href="/cli.html">CLI command</a>:</p>
+<p>Partition presence can be identified via server <a href="./logging.html">logs</a>,
+<a href="./management.html">HTTP API</a> (for <a href="./monitoring.html">monitoring</a>)
+and a <a href="./cli.html">CLI command</a>:</p>
 <pre class="lang-bash">
 rabbitmq-diagnostics cluster_status
 </pre>
@@ -86,7 +86,7 @@ Queues, bindings, exchanges can
 be created or deleted separately.</p>
 <p><a href="ha.html">Classic mirrored queues</a> which are split across the partition will end up with
 one leader on each side of the partition, again with both sides
-acting independently. <a href="/quorum-queues.html">Quorum queues</a> will elect a new leader on the
+acting independently. <a href="./quorum-queues.html">Quorum queues</a> will elect a new leader on the
 majority side. Quorum queue replicas on the minority side will no longer
 make progress (i.e. accept new messages, deliver to consumers, etc), all this work will be
 done by the new leader.</p>
@@ -120,7 +120,7 @@ which you trust the most. This partition will become the
 authority for the state of the system (schema, messages)
 to use; any changes which have occurred on other partitions will be lost.</p>
 <p>Stop all nodes in the other partitions, then start them all up
-again. When they <a href="/clustering.html#restarting">rejoin the cluster</a> they
+again. When they <a href="./clustering.html#restarting">rejoin the cluster</a> they
 will restore state from the trusted partition.</p>
 <p>Finally, you should also restart all the nodes in the trusted
 partition to clear the warning.</p>
@@ -181,7 +181,7 @@ for the <span class="code ">rabbit</span> application in the <a href="configure.
   <li><span class="code ">recover</span>: recover action, can be <span class="code ">ignore</span> or <span class="code ">autoheal</span></li>
 </ul>
 
-<p>Example <a href="/configure.html#config-file">config snippet</a> that uses <span class="code ">pause_if_all_down</span>:</p>
+<p>Example <a href="./configure.html#config-file">config snippet</a> that uses <span class="code ">pause_if_all_down</span>:</p>
 <pre class="lang-plaintext">
 cluster_partition_handling = pause_if_all_down
 
@@ -298,11 +298,11 @@ cluster.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback<
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div><div id="related-links"><h4>Related Links</h4><ul><li><a href="/heartbeats.html">Heartbeats</a></li></ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div><div id="related-links"><h4>Related Links</h4><ul><li><a href="/heartbeats.html">Heartbeats</a></li></ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

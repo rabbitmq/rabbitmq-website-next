@@ -1,17 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Configuration
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Configuration
  — RabbitMQ</title></head>
-  <body id="configure"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Configuration
+  <body id="configure"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Configuration
 </h1>
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>RabbitMQ comes with default built-in settings. Those can be entirely
 sufficient in some environment (e.g. development and QA).
-For all other cases, as well as <a href="/production-checklist.html">production deployment tuning</a>,
-there is a way to configure many things in the broker as well as <a href="/plugins.html">plugins</a>.</p>
+For all other cases, as well as <a href="./production-checklist.html">production deployment tuning</a>,
+there is a way to configure many things in the broker as well as <a href="./plugins.html">plugins</a>.</p>
 <p>This guide covers a number of topics related to configuration:</p>
 <ul>
 <li><a href="#means-of-configuration">Different ways</a> in which various settings of the server and plugins are configured</li>
@@ -25,9 +25,9 @@ there is a way to configure many things in the broker as well as <a href="/plugi
 <li>How to <a href="#configuration-encryption">encrypt sensitive configuration values</a></li>
 </ul>
 <p>and more.</p>
-<p>Since configuration affects many areas of the system, including plugins, individual <a href="/documentation.html">documentation guides</a>
-dive deeper into what can be configured. <a href="/runtime.html">Runtime Tuning</a> is a companion to this guide that focuses
-on the configurable parameters in the runtime. <a href="/production-checklist.html">Production Checklist</a> is a related guide
+<p>Since configuration affects many areas of the system, including plugins, individual <a href="./documentation.html">documentation guides</a>
+dive deeper into what can be configured. <a href="./runtime.html">Runtime Tuning</a> is a companion to this guide that focuses
+on the configurable parameters in the runtime. <a href="./production-checklist.html">Production Checklist</a> is a related guide
 that outlines what settings will likely need tuning in most production environments.</p>
 <h2><a id="means-of-configuration" class="anchor" href="#means-of-configuration">Means of Configuration</a></h2>
 <p>A RabbitMQ node can be configured using a number of mechanisms responsible
@@ -47,11 +47,11 @@ for different areas:</p>
       contains server and plugin settings for
 
       <ul>
-        <li><a href="/networking.html">TCP listeners and other networking-related settings</a></li>
-        <li><a href="/ssl.html">TLS</a></li>
-        <li><a href="/alarms.html">resource constraints (alarms)</a></li>
-        <li><a href="/access-control.html">authentication and authorisation backends</a></li>
-        <li><a href="/persistence-conf.html">message store settings</a></li>
+        <li><a href="./networking.html">TCP listeners and other networking-related settings</a></li>
+        <li><a href="./ssl.html">TLS</a></li>
+        <li><a href="./alarms.html">resource constraints (alarms)</a></li>
+        <li><a href="./access-control.html">authentication and authorisation backends</a></li>
+        <li><a href="./persistence-conf.html">message store settings</a></li>
       </ul>
 
       and so on.
@@ -62,7 +62,7 @@ for different areas:</p>
       <a href="#customise-environment">Environment Variables</a>
     </td>
     <td>
-      define <a href="/cli.html#node-names">node name</a>, file and directory locations, runtime flags taken from the shell, or set in
+      define <a href="./cli.html#node-names">node name</a>, file and directory locations, runtime flags taken from the shell, or set in
       the environment configuration file, <span class="code ">rabbitmq-env.conf</span> (Linux, MacOS, BSD)
       and <span class="code ">rabbitmq-env-conf.bat</span> (Windows)
     </td>
@@ -70,40 +70,40 @@ for different areas:</p>
 
   <tr>
     <td>
-      <a href="/cli.html">rabbitmqctl</a>
+      <a href="./cli.html">rabbitmqctl</a>
     </td>
     <td>
-      When <a href="/access-control.html">internal authentication/authorisation backend</a> is used,
+      When <a href="./access-control.html">internal authentication/authorisation backend</a> is used,
       <span class="code ">rabbitmqctl</span> is the tool that manages virtual hosts, users and permissions. It
-      is also used to manage <a href="/parameters.html">runtime parameters and policies</a>.
+      is also used to manage <a href="./parameters.html">runtime parameters and policies</a>.
     </td>
   </tr>
 
   <tr>
     <td>
-      <a href="/cli.html">rabbitmq-queues</a>
+      <a href="./cli.html">rabbitmq-queues</a>
     </td>
     <td>
-      <span class="code ">rabbitmq-queues</span> is the tool that manages settings specific to <a href="/quorum-queues.html">quorum queues</a>.
-    </td>
-  </tr>
-
-  <tr>
-    <td>
-      <a href="/cli.html">rabbitmq-plugins</a>
-    </td>
-    <td>
-      <span class="code ">rabbitmq-plugins</span> is the tool that manages <a href="/plugins.html">plugins</a>.
+      <span class="code ">rabbitmq-queues</span> is the tool that manages settings specific to <a href="./quorum-queues.html">quorum queues</a>.
     </td>
   </tr>
 
   <tr>
     <td>
-      <a href="/cli.html">rabbitmq-diagnostics</a>
+      <a href="./cli.html">rabbitmq-plugins</a>
+    </td>
+    <td>
+      <span class="code ">rabbitmq-plugins</span> is the tool that manages <a href="./plugins.html">plugins</a>.
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      <a href="./cli.html">rabbitmq-diagnostics</a>
     </td>
     <td>
       <span class="code ">rabbitmq-diagnostics</span> allows for inspection of node state, including effective configuration,
-      as well as many other metrics and <a href="/monitoring.html">health checks</a>.
+      as well as many other metrics and <a href="./monitoring.html">health checks</a>.
     </td>
   </tr>
 
@@ -133,7 +133,7 @@ for different areas:</p>
       <a href="#kernel-limits">Operating System Kernel Limits</a>
     </td>
     <td>
-      Control process limits enforced by the kernel: <a href="/networking.html#open-file-handle-limit">max open file handle limit</a>,
+      Control process limits enforced by the kernel: <a href="./networking.html#open-file-handle-limit">max open file handle limit</a>,
       max number of processes and kernel threads, max resident set size and so on.
     </td>
   </tr>
@@ -151,8 +151,8 @@ format. This is covered in more details below.</p>
 <p>The sections below cover the syntax and <a href="#config-file-location">location</a> of both files,
 where to find examples, and more.</p>
 <h3><a id="config-file-location" class="anchor" href="#config-file-location">Config File Locations</a></h3>
-<p><a href="/configure.html#config-location">Default config file locations</a>
-vary between operating systems and <a href="/download.html">package types</a>.</p>
+<p><a href="./configure.html#config-location">Default config file locations</a>
+vary between operating systems and <a href="./download.html">package types</a>.</p>
 <p>This topic is covered in more detail in the rest of this guide.</p>
 <p>When in doubt about RabbitMQ config file location,
 consult the log file and/or management UI as explained in the following section.</p>
@@ -175,7 +175,7 @@ home dir       : /var/lib/rabbitmq
 config file(s) : /var/lib/rabbitmq/hare.conf (not found)
 </pre>
 
-<p>Alternatively, the location of configuration files used by a local node, use the <a href="/rabbitmq-diagnostics.8.html">rabbitmq-diagnostics status</a> command:</p>
+<p>Alternatively, the location of configuration files used by a local node, use the <a href="./rabbitmq-diagnostics.8.html">rabbitmq-diagnostics status</a> command:</p>
 <pre class="lang-bash">
 # displays key
 rabbitmq-diagnostics status
@@ -194,18 +194,18 @@ Config files
 rabbitmq-diagnostics status -n [node name]
 </pre>
 
-<p>Finally, config file location can be found in the <a href="/management.html">management UI</a>,
+<p>Finally, config file location can be found in the <a href="./management.html">management UI</a>,
 together with other details about nodes.</p>
 <p>When troubleshooting configuration settings, it is very useful to verify that the config file
 path is correct, exists and can be loaded (e.g. the file is readable) before <a href="#verify-configuration-effective-configuration">verifying effective node configuration</a>.
 Together, these steps help quickly narrow down most common misconfiguration problems.</p>
 <h3><a id="config-file-formats" class="anchor" href="#config-file-formats">The New and Old Config File Formats</a></h3>
-<p>All <a href="/versions.html">supported RabbitMQ versions</a> use an <a href="#config-file">ini-like, sysctl configuration file format</a>
+<p>All <a href="./versions.html">supported RabbitMQ versions</a> use an <a href="#config-file">ini-like, sysctl configuration file format</a>
 for the main configuration file. The file is typically named <span class="code ">rabbitmq.conf</span>.</p>
 <p>The new config format is much simpler, easier for humans to read
 and machines to generate. It is also relatively limited compared
 to the classic config format used prior to RabbitMQ 3.7.0.
-For example, when configuring <a href="/ldap.html">LDAP support</a>, it may be necessary to use deeply nested data structures to
+For example, when configuring <a href="./ldap.html">LDAP support</a>, it may be necessary to use deeply nested data structures to
 express desired configuration.</p>
 <p>To accommodate this need, modern RabbitMQ versions allow for both formats to be used at the same time
 in separate files: <span class="code ">rabbitmq.conf</span> uses the new style format and is recommended for most settings,
@@ -235,7 +235,7 @@ cannot express. This is covered in more detail in the following sections.</p>
       <td>Classic (Erlang terms)</td>
       <td>
         A limited number of settings that cannot be expressed
-        in the new style configuration format, such as <a href="/ldap.html">LDAP queries</a>.
+        in the new style configuration format, such as <a href="./ldap.html">LDAP queries</a>.
         Only should be used when necessary.
       </td>
     </tr>
@@ -298,14 +298,14 @@ listeners.tcp.default = 5673
 ].
 </pre>
 
-<p>This example will alter the <a href="/networking.html#ports">port RabbitMQ listens on</a> for
+<p>This example will alter the <a href="./networking.html#ports">port RabbitMQ listens on</a> for
 AMQP 0-9-1 and AMQP 1.0 client connections from 5672 to 5673.</p>
 <p>The RabbitMQ server source repository contains <a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.8.x/deps/rabbit/docs/rabbitmq.conf.example">an example rabbitmq.conf file</a>
 named <span class="code ">rabbitmq.conf.example</span>. It contains examples of
 most of the configuration items you might want to set (with some very obscure ones omitted), along with
 documentation for those settings.</p>
-<p>Documentation guides such as <a href="networking.html">Networking</a>, <a href="/ssl.html">TLS</a>, or
-<a href="/access-control.html">Access Control</a> contain many examples in relevant formats.</p>
+<p>Documentation guides such as <a href="networking.html">Networking</a>, <a href="./ssl.html">TLS</a>, or
+<a href="./access-control.html">Access Control</a> contain many examples in relevant formats.</p>
 <p>Note that this configuration file is not to be confused with the environment variable
 configuration files, <a href="#environment-env-file-unix">rabbitmq-env.conf</a>
 and <a href="#environment-env-file-windows">rabbitmq-env-conf.bat</a>.</p>
@@ -358,7 +358,7 @@ any configuration files. Users and deployment tool should use the following loca
   <tbody>
     <tr>
       <td>
-        <a href="/install-generic-unix.html">Generic binary package</a>
+        <a href="./install-generic-unix.html">Generic binary package</a>
       </td>
       <td>
         <span class="code ">$RABBITMQ_HOME/etc/rabbitmq/</span>
@@ -369,7 +369,7 @@ any configuration files. Users and deployment tool should use the following loca
       </td>
     </tr>
     <tr>
-      <td><a href="/install-debian.html">Debian and Ubuntu</a></td>
+      <td><a href="./install-debian.html">Debian and Ubuntu</a></td>
       <td>
         <span class="code ">/etc/rabbitmq/</span>
       </td>
@@ -379,7 +379,7 @@ any configuration files. Users and deployment tool should use the following loca
       </td>
     </tr>
     <tr>
-      <td><a href="/install-rpm.html">RPM-based Linux</a></td>
+      <td><a href="./install-rpm.html">RPM-based Linux</a></td>
       <td>
         <span class="code ">/etc/rabbitmq/</span>
       </td>
@@ -389,7 +389,7 @@ any configuration files. Users and deployment tool should use the following loca
       </td>
     </tr>
     <tr>
-      <td><a href="/install-windows.html">Windows</a></td>
+      <td><a href="./install-windows.html">Windows</a></td>
       <td>
         <span class="code ">%APPDATA%\RabbitMQ\</span>
       </td>
@@ -399,7 +399,7 @@ any configuration files. Users and deployment tool should use the following loca
       </td>
     </tr>
     <tr>
-      <td><a href="/install-homebrew.html">MacOS Homebrew Formula</a></td>
+      <td><a href="./install-homebrew.html">MacOS Homebrew Formula</a></td>
       <td>
         <span class="code ">${install_prefix}/etc/rabbitmq/</span>,
         and the Homebrew cellar prefix is usually <span class="code ">/usr/local</span>
@@ -437,7 +437,7 @@ such as <span class="code ">RABBITMQ_BASE</span> and <span class="code ">RABBITM
 This would help avoid unnecessary confusion and Windows service re-installations.</p>
 <h3><a id="verify-configuration-effective-configuration" class="anchor" href="#verify-configuration-effective-configuration">How to Inspect and Verify Effective Configuration of a Running Node</a></h3>
 <p>It is possible to print effective configuration (user provided values from all configuration files merged into defaults) using
-the <a href="/rabbitmq-diagnostics.8.html">rabbitmq-diagnostics environment</a> command:</p>
+the <a href="./rabbitmq-diagnostics.8.html">rabbitmq-diagnostics environment</a> command:</p>
 <pre class="lang-bash">
 # inspect effective configuration on a node
 rabbitmq-diagnostics environment
@@ -506,7 +506,7 @@ some settings are quite obscure.</p>
     <td><span class="code ">listeners</span></td>
     <td>
       Ports or hostname/pair on which to listen for "plain" AMQP 0-9-1 and AMQP 1.0 connections
-      (without <a href="/ssl.html">TLS</a>). See the <a href="/networking.html">Networking guide</a> for more
+      (without <a href="./ssl.html">TLS</a>). See the <a href="./networking.html">Networking guide</a> for more
       details and examples.
 
       <p>
@@ -547,7 +547,7 @@ handshake_timeout = 10000
     <td><span class="code ">listeners.ssl</span></td>
     <td>
       Ports or hostname/pair on which to listen for TLS-enabled AMQP 0-9-1 and AMQP 1.0 connections.
-      See the <a href="/ssl.html">TLS guide</a> for more
+      See the <a href="./ssl.html">TLS guide</a> for more
       details and examples.
       <p>Default: <span class="code ">none</span> (not set)</p>
     </td>
@@ -757,7 +757,7 @@ channel_operation_timeout = 15000
       Value representing the heartbeat timeout suggested by the server during
       connection parameter negotiation.
       If set to 0 on both ends, heartbeats are disabled (this is not recommended).
-      See the <a href="/heartbeats.html">Heartbeats guide</a> for details.
+      See the <a href="./heartbeats.html">Heartbeats guide</a> for details.
 
       <p>
         Default:
@@ -843,7 +843,7 @@ default_permissions.write = .*
 
       <p>
         To allow the default `guest`
-        user to connect remotely (a security practice <a href="/production-checklist.html">unsuitable for production use</a>),
+        user to connect remotely (a security practice <a href="./production-checklist.html">unsuitable for production use</a>),
         set this to `none`:
 
 <pre class="lang-ini">
@@ -875,7 +875,7 @@ loopback_users.guest = true
   <tr>
     <td><span class="code ">cluster_formation.classic_config.nodes</span></td>
     <td>
-      Classic <a href="/cluster-formation.html">peer discovery</a> backend's list of nodes to contact.
+      Classic <a href="./cluster-formation.html">peer discovery</a> backend's list of nodes to contact.
 
       For example, to cluster with nodes `rabbit@hostname1` and `rabbit@hostname2` on first boot:
 
@@ -953,8 +953,8 @@ auth_mechanisms.2 = AMQPLAIN
     <td><span class="code ">auth_backends</span></td>
     <td>
       <p>
-        List of <a href="/access-control.html">authentication and authorisation backends</a> to
-        use. See the <a href="/access-control.html">access control guide</a> for details and examples.
+        List of <a href="./access-control.html">authentication and authorisation backends</a> to
+        use. See the <a href="./access-control.html">access control guide</a> for details and examples.
       </p>
       <p>
         Other databases
@@ -1101,7 +1101,7 @@ mnesia_table_loading_retry_limit = 10
     <td><span class="code ">mirroring_sync_batch_size</span></td>
     <td>
       Batch size used to transfer messages to an unsynchronised replica (queue mirror).
-      See <a href="/ha.html#batch-sync">documentation on eager batch synchronization</a>.
+      See <a href="./ha.html#batch-sync">documentation on eager batch synchronization</a>.
       <p>
         Default:
 <pre class="lang-ini">
@@ -1121,7 +1121,7 @@ mirroring_sync_batch_size = 4096
         <li><span class="code ">random</span></li>
       </ul>
       See the
-      <a href="/ha.html#queue-master-location">documentation
+      <a href="./ha.html#queue-master-location">documentation
       on queue leader location</a> for more information.
       <p>
         Default:
@@ -1330,16 +1330,16 @@ under the <span class="code ">rabbit</span> section.</p>
   </tr>
 </table>
 
-<p>Several <a href="/plugins.html">plugins</a> that ship with RabbitMQ have
+<p>Several <a href="./plugins.html">plugins</a> that ship with RabbitMQ have
 dedicated documentation guides that cover plugin configuration:</p>
 <ul>
-<li><a href="/management.html#configuration">rabbitmq_management</a></li>
-<li><a href="/management.html#configuration">rabbitmq_management_agent</a></li>
-<li><a href="/stomp.html">rabbitmq_stomp</a></li>
-<li><a href="/mqtt.html">rabbitmq_mqtt</a></li>
+<li><a href="./management.html#configuration">rabbitmq_management</a></li>
+<li><a href="./management.html#configuration">rabbitmq_management_agent</a></li>
+<li><a href="./stomp.html">rabbitmq_stomp</a></li>
+<li><a href="./mqtt.html">rabbitmq_mqtt</a></li>
 <li><a href="shovel.html">rabbitmq_shovel</a></li>
 <li><a href="federation.html">rabbitmq_federation</a></li>
-<li><a href="/ldap.html">rabbitmq_auth_backend_ldap</a></li>
+<li><a href="./ldap.html">rabbitmq_auth_backend_ldap</a></li>
 </ul>
 <h3><a id="configuration-encryption" class="anchor" href="#configuration-encryption">Configuration Value Encryption</a></h3>
 <p>Sensitive configuration entries (e.g. password, URL containing
@@ -1388,7 +1388,7 @@ it can be in a separate file:</p>
 
 <p>RabbitMQ can also request an operator to enter the passphrase
 when it starts by using <span class="code ">{passphrase, prompt}</span>.</p>
-<p>Use <a href="/cli.html">rabbitmqctl</a> and the <span class="code ">encode</span>
+<p>Use <a href="./cli.html">rabbitmqctl</a> and the <span class="code ">encode</span>
 command to encrypt values:</p>
 <pre class="lang-bash">
 rabbitmqctl encode '&lt;&lt;"guest"&gt;&gt;' mypassphrase
@@ -1442,7 +1442,7 @@ cipher is AES 256 CBC.</p>
     ]}
 ].</pre>
 
-<p>Or using <a href="/cli.html">CLI tools</a>:</p>
+<p>Or using <a href="./cli.html">CLI tools</a>:</p>
 <pre class="lang-bash">
 rabbitmqctl encode --cipher blowfish_cfb64 --hash sha256 --iterations 10000 \
                      '&lt;&lt;"guest"&gt;&gt;' mypassphrase
@@ -1456,10 +1456,10 @@ rabbitmqctl encode --cipher blowfish_cfb64 --hash sha256 --iterations 10000 \
 
 <h2><a id="customise-environment" class="anchor" href="#customise-environment">Configuration Using Environment Variables</a></h2>
 <p>Certain server parameters can be configured using environment variables:
-<a href="/cli.html#node-names">node name</a>, RabbitMQ <a href="#configuration-files">configuration file location</a>,
-<a href="/networking.html#ports">inter-node communication ports</a>, Erlang VM flags, and so on.</p>
+<a href="./cli.html#node-names">node name</a>, RabbitMQ <a href="#configuration-files">configuration file location</a>,
+<a href="./networking.html#ports">inter-node communication ports</a>, Erlang VM flags, and so on.</p>
 <h3><a id="directory-and-path-restrictions" class="anchor" href="#directory-and-path-restrictions">Path and Directory Name Restrictions</a></h3>
-<p>Some of the environment variable configure paths and locations (node's base or data directory, <a href="/plugins.html">plugin source and expansion directories</a>,
+<p>Some of the environment variable configure paths and locations (node's base or data directory, <a href="./plugins.html">plugin source and expansion directories</a>,
 and so on). Those paths have must exclude a number of characters:</p>
 <ul>
 <li><span class="code ">*</span> and <span class="code ">?</span> (on Linux, macOS, BSD and other UNIX-like systems)</li>
@@ -1528,7 +1528,7 @@ in <a href="#environment-env-file-unix">rabbitmq-env.conf</a> or
 <a href="#environment-env-file-windows">rabbitmq-env-conf.bat</a>, which in turn override
 RabbitMQ built-in defaults.</p>
 <p>The table below describes key environment variables that can be used to configure RabbitMQ.
-More variables are covered in the <a href="/relocate.html">File and Directory Locations guide</a>.</p>
+More variables are covered in the <a href="./relocate.html">File and Directory Locations guide</a>.</p>
 <table class="name-description">
   <tr>
     <th>Name</th>
@@ -1550,7 +1550,7 @@ More variables are covered in the <a href="/relocate.html">File and Directory Lo
   <tr>
     <td>RABBITMQ_NODE_PORT</td>
     <td>
-      See <a href="/networking.html">Networking guide</a> for more information on ports used by various
+      See <a href="./networking.html">Networking guide</a> for more information on ports used by various
       parts of RabbitMQ.
 
       <p>
@@ -1565,8 +1565,8 @@ More variables are covered in the <a href="/relocate.html">File and Directory Lo
       Port used for inter-node and CLI tool communication. Ignored if node config
       file sets <span class="code ">kernel.inet_dist_listen_min</span> or
       <span class="code ">kernel.inet_dist_listen_max</span> keys.
-      See <a href="/networking.html">Networking</a> for details, and
-      <a href="/windows-quirks.html">Windows Quirks</a> for Windows-specific details.
+      See <a href="./networking.html">Networking</a> for details, and
+      <a href="./windows-quirks.html">Windows Quirks</a> for Windows-specific details.
 
       <p>
         <strong>Default</strong>: <span class="code ">RABBITMQ_NODE_PORT + 20000</span>
@@ -1577,7 +1577,7 @@ More variables are covered in the <a href="/relocate.html">File and Directory Lo
   <tr>
     <td>ERL_EPMD_ADDRESS</td>
     <td>
-      Interface(s) used by <a href="/networking.html#epmd">epmd</a>, a component in inter-node and CLI tool communication.
+      Interface(s) used by <a href="./networking.html#epmd">epmd</a>, a component in inter-node and CLI tool communication.
 
       <p>
         <strong>Default</strong>: all available interfaces, both IPv6 and IPv4.
@@ -1588,7 +1588,7 @@ More variables are covered in the <a href="/relocate.html">File and Directory Lo
   <tr>
     <td>ERL_EPMD_PORT</td>
     <td>
-      Port used by <a href="/networking.html#epmd">epmd</a>, a component in inter-node and CLI tool communication.
+      Port used by <a href="./networking.html#epmd">epmd</a>, a component in inter-node and CLI tool communication.
 
       <p>
         <strong>Default</strong>: <span class="code ">4369</span>
@@ -1613,7 +1613,7 @@ More variables are covered in the <a href="/relocate.html">File and Directory Lo
     <td>RABBITMQ_NODENAME</td>
     <td>
       The node name should be unique per Erlang-node-and-machine combination.
-      To run multiple nodes, see the <a href="/clustering.html">clustering guide</a>.
+      To run multiple nodes, see the <a href="./clustering.html">clustering guide</a>.
 
       <p>
         <strong>Default</strong>:
@@ -1785,7 +1785,7 @@ More variables are covered in the <a href="/relocate.html">File and Directory Lo
   <tr>
     <td>RABBITMQ_PLUGINS_DIR</td>
     <td>
-      The list of directories where <a href="/plugins.html">plugin</a> archive files are located and extracted
+      The list of directories where <a href="./plugins.html">plugin</a> archive files are located and extracted
       from. This is <span class="code ">PATH</span>-like variable, where
       different paths are separated by an OS-specific separator
       (<span class="code ">:</span> for Unix, <span class="code ">;</span> for Windows).
@@ -1812,7 +1812,7 @@ More variables are covered in the <a href="/relocate.html">File and Directory Lo
   <tr>
     <td>RABBITMQ_PLUGINS_EXPAND_DIR</td>
     <td>
-      The directory the node expand (unpack) <a href="/plugins.html">plugins</a> to and use it as a code path location.
+      The directory the node expand (unpack) <a href="./plugins.html">plugins</a> to and use it as a code path location.
       Must not contain any characters mentioned in the <a href="#directory-and-path-restrictions">path restriction section</a>.
 
       <p>
@@ -2063,9 +2063,9 @@ tell RabbitMQ <a href="relocate.html">where to locate its database, log files, p
 <h2><a id="kernel-limits" class="anchor" href="#kernel-limits">Operating System Kernel Limits</a></h2>
 <p>Most operating systems enforce limits on kernel resources: virtual memory, stack size, open file handles
 and more. To Linux users these limits can be known as "ulimit limits".</p>
-<p>RabbitMQ nodes are most commonly affected by the maximum <a href="/networking.html#open-file-handle-limit">open file handle limit</a>.
+<p>RabbitMQ nodes are most commonly affected by the maximum <a href="./networking.html#open-file-handle-limit">open file handle limit</a>.
 Default limit value on most Linux distributions is usually 1024, which is very low for a messaging broker (or generally, any data service).
-See <a href="/production-checklist.html">Production Checklist</a> for recommended values.</p>
+See <a href="./production-checklist.html">Production Checklist</a> for recommended values.</p>
 <h3>Modifying Limits</h3>
 <h4>With systemd (Modern Linux Distributions)</h4>
 <p>On distributions that use systemd, the OS limits are controlled via
@@ -2160,11 +2160,11 @@ and re-login or reboot.</p>
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

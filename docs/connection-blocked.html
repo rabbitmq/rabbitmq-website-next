@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Blocked Connection Notifications
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Blocked Connection Notifications
  — RabbitMQ</title></head>
-  <body id="connection-blocked"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Blocked Connection Notifications
+  <body id="connection-blocked"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Blocked Connection Notifications
 </h1>
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>It is sometimes desirable for clients to receive a notification
-when their connection gets <a href="/alarms.html">blocked</a>
+when their connection gets <a href="./alarms.html">blocked</a>
 due to the broker running low on resources (memory or disk).</p>
 <p>We have introduced an AMQP 0-9-1 protocol extension in which the
 broker sends to the client a <span class="code ">connection.blocked</span>
@@ -17,7 +17,7 @@ method when the connection gets blocked, and <span class="code ">connection.unbl
 <p>To receive these notifications, the client must present a
 <span class="code ">capabilities</span> table in its <span class="code ">client-properties</span> in which there is a key
 <span class="code ">connection.blocked</span> and a boolean value <span class="code ">true</span>.</p>
-<p>See the <a href="/connections.html#capabilities">capabilities</a> section for further
+<p>See the <a href="./connections.html#capabilities">capabilities</a> section for further
 details on this. Our supported clients indicate this capability
 by default and provide a way to register handlers for the
 <span class="code ">connection.blocked</span> and <span class="code ">connection.unblocked</span> methods.</p>
@@ -34,7 +34,7 @@ another <span class="code ">connection.blocked</span> will not be sent.</p>
 resource alarms have cleared and the connection is fully
 unblocked.</p>
 <h2><a id="java" class="anchor" href="#java">Using Blocked Connection Notifications with Java Client</a></h2>
-<p>With the <a href="/api-guide.html">official Java client</a>, blocked connection
+<p>With the <a href="./api-guide.html">official Java client</a>, blocked connection
 notifications are handled by <span class="code ">BlockedListener</span>
 interface implementations. They can be registered on a
 <span class="code ">Connection</span> using the
@@ -54,7 +54,7 @@ connection.addBlockedListener(new BlockedListener() {
 </pre>
 
 <h2><a id="dotnet" class="anchor" href="#dotnet">Using Blocked Connection Notifications with .NET Client</a></h2>
-<p>With the <a href="/dotnet-api-guide.html">official .NET client</a>, blocked connection
+<p>With the <a href="./dotnet-api-guide.html">official .NET client</a>, blocked connection
 notifications can be received by registering for the
 <span class="code ">ConnectionBlocked</span> and <span class="code ">ConnectionUnblocked</span> events in <span class="code ">IConnection</span>:</p>
 <pre class="lang-csharp">
@@ -106,11 +106,11 @@ Conn.ConnectionUnblocked += HandleUnblocked;
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

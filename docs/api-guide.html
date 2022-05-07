@@ -1,16 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="./favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Java Client API Guide
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Java Client API Guide
  — RabbitMQ</title></head>
-  <body id="api-guide"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Java Client API Guide
+  <body id="api-guide"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Java Client API Guide
 </h1>
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>This guide covers <a href="/java-client.html">RabbitMQ Java client</a> and its public API.
+<p>This guide covers <a href="./java-client.html">RabbitMQ Java client</a> and its public API.
 It assumes that the <a href="http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22amqp-client%22">most recent major version of the client</a> is used
-and the reader is familiar with <a href="/getstarted.html">the basics</a>.</p>
+and the reader is familiar with <a href="./getstarted.html">the basics</a>.</p>
 <p>Key sections of the guide are:</p>
 <ul>
 <li><a href="#license">Licensing</a></li>
@@ -33,11 +33,11 @@ and the reader is familiar with <a href="/getstarted.html">the basics</a>.</p>
 </ul>
 <p>An <a href="https://rabbitmq.github.io/rabbitmq-java-client/api/current/">API reference</a> (JavaDoc) is available separately.</p>
 <h2><a id="support-timeline" class="anchor" href="#support-timeline">Support Timeline</a></h2>
-<p>Please see the <a href="/java-versions.html">RabbitMQ Java libraries support page</a> for the support timeline.</p>
+<p>Please see the <a href="./java-versions.html">RabbitMQ Java libraries support page</a> for the support timeline.</p>
 <h2><a id="jdk-versions" class="anchor" href="#jdk-versions">JDK and Android Version Support</a></h2>
-<p>5.x release series of this library <a href="/java-versions.html">require JDK 8</a>, both for compilation and at runtime. On Android,
+<p>5.x release series of this library <a href="./java-versions.html">require JDK 8</a>, both for compilation and at runtime. On Android,
 this means only <a href="https://developer.android.com/guide/platform/j8-jack.html">Android 7.0 or later</a> versions are supported.</p>
-<p>4.x release series <a href="/java-versions.html">support JDK 6</a> and Android versions prior to 7.0.</p>
+<p>4.x release series <a href="./java-versions.html">support JDK 6</a> and Android versions prior to 7.0.</p>
 <h2><a id="license" class="anchor" href="#license">License</a></h2>
 <p>The library is open source, developed <a href="https://github.com/rabbitmq/rabbitmq-java-client/">on GitHub</a>, and is triple-licensed under</p>
 <ul>
@@ -49,7 +49,7 @@ this means only <a href="https://developer.android.com/guide/platform/j8-jack.ht
 For example, the user may choose the Apache Public License 2.0 and include this client into
 a commercial product. Codebases that are licensed under the GPLv2 may choose GPLv2, and so on.</p>
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>The client API exposes key entities in the <a href="/tutorials/amqp-concepts.html">AMQP 0-9-1 protocol model</a>,
+<p>The client API exposes key entities in the <a href="./tutorials/amqp-concepts.html">AMQP 0-9-1 protocol model</a>,
 with additional abstractions for ease of use.</p>
 <p>RabbitMQ Java client uses <span class="code ">com.rabbitmq.client</span> as its top-level package.
 The key classes and interfaces are:</p>
@@ -128,7 +128,7 @@ remains unassigned prior to creating a connection:</p>
 
     <td>
       <span class="code ">5672</span> for regular connections,
-      <span class="code ">5671</span> for <a href="/ssl.html">connections that use TLS</a>
+      <span class="code ">5671</span> for <a href="./ssl.html">connections that use TLS</a>
     </td>
   </tr>
 </table>
@@ -143,11 +143,11 @@ Connection conn = factory.newConnection();
 
 <p>All of these parameters have sensible defaults for a stock
 RabbitMQ server running locally.</p>
-<p>Successful and unsuccessful client connection events can be <a href="/logging.html">observed in server node logs</a>.</p>
-<p>Note that <a href="/access-control.html">user guest can only connect from localhost</a> by default.
+<p>Successful and unsuccessful client connection events can be <a href="./logging.html">observed in server node logs</a>.</p>
+<p>Note that <a href="./access-control.html">user guest can only connect from localhost</a> by default.
 This is to limit well-known credential use in production systems.</p>
 <p>Application developers can <a href="#client-provided-names">assign a custom name to a connection</a>. If set,
-the name will be mentioned in RabbitMQ node logs as well as <a href="/management.html">management UI</a>.</p>
+the name will be mentioned in RabbitMQ node logs as well as <a href="./management.html">management UI</a>.</p>
 <p>The <span class="code ">Connection</span> interface can then be used to open a channel:</p>
 <pre class="lang-java">
 Channel channel = conn.createChannel();
@@ -187,7 +187,7 @@ conn.close();
 
 <p>Note that closing the channel may be considered good practice, but is not strictly necessary here - it will be done
 automatically anyway when the underlying connection is closed.</p>
-<p>Client disconnection events can be <a href="/networking.html#logging">observed in server node logs</a>.</p>
+<p>Client disconnection events can be <a href="./networking.html#logging">observed in server node logs</a>.</p>
 <h2><a id="connection-and-channel-lifespan" class="anchor" href="#connection-and-channel-lifespan">Connection and Channel Lifespan</a></h2>
 <p>Client <a href="connections.html">connections</a> are meant to be long-lived. The underlying protocol is designed and optimized for
 long running connections. That means that opening a new connection per operation,
@@ -197,7 +197,7 @@ network roundtrips and overhead.</p>
 result in channel closure, channel lifespan could be shorter than that of its connection.
 Closing and opening new channels per operation is usually unnecessary but can be
 appropriate. When in doubt, consider reusing channels first.</p>
-<p><a href="/channels.html#error-handling">Channel-level exceptions</a> such as attempts to consume from a
+<p><a href="./channels.html#error-handling">Channel-level exceptions</a> such as attempts to consume from a
 queue that does not exist will result in channel closure. A closed channel can no
 longer be used and will not receive any more events from the server (such
 as message deliveries). Channel-level exceptions will be logged by RabbitMQ
@@ -209,8 +209,8 @@ and will initiate a shutdown sequence for the channel (see below).</p>
 <li>the credentials used</li>
 </ul>
 <p>This information alone can make identifying applications and instances problematic, in particular when credentials can be
-shared and clients connect over a load balancer but <a href="/networking.html#proxy-protocol">Proxy protocol</a> cannot be enabled.</p>
-<p>To make it easier to identify clients in <a href="/logging.html">server logs</a> and <a href="/management.html">management UI</a>,
+shared and clients connect over a load balancer but <a href="./networking.html#proxy-protocol">Proxy protocol</a> cannot be enabled.</p>
+<p>To make it easier to identify clients in <a href="./logging.html">server logs</a> and <a href="./management.html">management UI</a>,
 AMQP 0-9-1 client connections, including the RabbitMQ Java client, can provide a custom identifier.
 If set, the identifier will be mentioned in log entries and management UI. The identifier is known as
 the <strong>client-provided connection name</strong>. The name can be used to identify an application or a specific component
@@ -228,10 +228,10 @@ Connection conn = factory.newConnection("app:audit component:event-consumer");
 
 <h2><a id="exchanges-and-queues" class="anchor" href="#exchanges-and-queues">Using Exchanges and Queues</a></h2>
 <p>Client applications work with [exchanges] and <a href="queues.html">queues</a>,
-the high-level <a href="/tutorials/amqp-concepts.html">building blocks of the protocol</a>.
+the high-level <a href="./tutorials/amqp-concepts.html">building blocks of the protocol</a>.
 These must be declared before they can be used. Declaring either type of object
 simply ensures that one of that name exists, creating it if necessary.</p>
-<p>Continuing the previous example, the following code declares an exchange and a <a href="/queues.html#server-named-queues">server-named queue</a>,
+<p>Continuing the previous example, the following code declares an exchange and a <a href="./queues.html#server-named-queues">server-named queue</a>,
 then binds them together.</p>
 <pre class="lang-java">channel.exchangeDeclare(exchangeName, "direct", true);
 String queueName = channel.queueDeclare().getQueue();
@@ -269,7 +269,7 @@ as necessary, giving full control where needed.</p>
 <p>Queues and exchanges can be declared "passively". A passive declare simply checks that the entity
 with the provided name exists. If it does, the operation is a no-op. For queues successful
 passive declares will return the same information as non-passive ones, namely the number of
-consumers and messages in <a href="/confirms.html">ready state</a> in the queue.</p>
+consumers and messages in <a href="./confirms.html">ready state</a> in the queue.</p>
 <p>If the entity does not exist, the operation fails with a channel level exception. The channel
 cannot be used after that. A new channel should be opened. It is common to use one-off (temporary)
 channels for passive declarations.</p>
@@ -292,7 +292,7 @@ response, use</p>
 <pre class="lang-java">channel.queueDeclareNoWait(queueName, true, false, false, null);</pre>
 
 <p>The "no wait" versions are more efficient but offer lower safety guarantees, e.g. they
-are more dependent on the <a href="/heartbeats.html">heartbeat mechanism</a> for detection of failed operations.
+are more dependent on the <a href="./heartbeats.html">heartbeat mechanism</a> for detection of failed operations.
 When in doubt, start with the standard version. The "no wait" versions are only needed in scenarios
 with high topology (queue, binding) churn.</p>
 <h3><a id="deleting-entities" class="anchor" href="#deleting-entities">Deleting Entities and Purging Messages</a></h3>
@@ -316,7 +316,7 @@ channel.basicPublish(exchangeName, routingKey, null, messageBodyBytes);
 </pre>
 
 <p>For fine control, use overloaded variants to specify the <span class="code ">mandatory</span> flag,
-or send messages with pre-set message properties (see the <a href="/publishers.html">Publishers guide</a> for details):</p>
+or send messages with pre-set message properties (see the <a href="./publishers.html">Publishers guide</a> for details):</p>
 <pre class="lang-java">
 channel.basicPublish(exchangeName, routingKey, mandatory,
                      MessageProperties.PERSISTENT_TEXT_PLAIN,
@@ -523,7 +523,7 @@ if (response == null) {
     // ...
 </pre>
 
-<p>and since this example uses <a href="/confirms.html">manual acknowledgements</a> (the <span class="code ">autoAck = false</span> above),
+<p>and since this example uses <a href="./confirms.html">manual acknowledgements</a> (the <span class="code ">autoAck = false</span> above),
 you must also call <span class="code ">Channel.basicAck</span> to acknowledge that you have successfully received the message:</p>
 <pre class="lang-java">
 // ...
@@ -882,7 +882,7 @@ factory.newConnection(addresses);</pre>
 <ul>
 <li>An I/O exception is thrown in connection's I/O loop</li>
 <li>A socket read operation times out</li>
-<li>Missed server <a href="/heartbeats.html">heartbeats</a> are detected</li>
+<li>Missed server <a href="./heartbeats.html">heartbeats</a> are detected</li>
 <li>Any other unexpected exception is thrown in connection's I/O loop</li>
 </ul>
 <p>whichever happens first.</p>
@@ -948,13 +948,13 @@ When it is deleted or is scheduled for deletion (e.g. because it is <a href="que
 it will be removed. This makes it possible to declare and delete entities on different
 channels without having unexpected results. It also means that consumer tags (a channel-specific identifier)
 must be unique across all channels on connections that use automatic connection recovery.</p>
-<p>When a connection is down or lost, it <a href="/heartbeats.html">takes time to detect</a>.
+<p>When a connection is down or lost, it <a href="./heartbeats.html">takes time to detect</a>.
 Therefore there is a window of time in which both the
 library and the application are unaware of effective
 connection failure.  Any messages published during this
 time frame are serialised and written to the TCP socket
 as usual. Their delivery to the broker can only be
-guaranteed via <a href="/confirms.html">publisher
+guaranteed via <a href="./confirms.html">publisher
 confirms</a>: publishing in AMQP 0-9-1 is entirely
 asynchronous by design.</p>
 <p>When a socket or I/O operation error is detected by a
@@ -978,7 +978,7 @@ with an exception. The client currently does not perform
 any internal buffering of such outgoing messages. It is
 an application developer's responsibility to keep track of such
 messages and republish them when recovery succeeds.
-<a href="/confirms.html">Publisher confirms</a> is a protocol extension
+<a href="./confirms.html">Publisher confirms</a> is a protocol extension
 that should be used by publishers that cannot afford message loss.</p>
 <p>Connection recovery will not kick in when a channel is closed due to a
 channel-level exception. Such exceptions often indicate application-level
@@ -1158,7 +1158,7 @@ being idempotent in RabbitMQ 3.3.x (deleting what's not there does not result in
 <h2><a id="rpc" class="anchor" href="#rpc">The RPC (Request/Reply) Pattern: an Example</a></h2>
 <p>As a programming convenience, the Java client API offers a
 class <span class="code ">RpcClient</span> which uses a temporary reply
-queue to provide simple <a href="/tutorials/tutorial-six-java.html">RPC-style communication</a> facilities via AMQP 0-9-1.</p>
+queue to provide simple <a href="./tutorials/tutorial-six-java.html">RPC-style communication</a> facilities via AMQP 0-9-1.</p>
 <p>The class doesn't impose any particular format on the RPC arguments and return values.
 It simply provides a mechanism for sending a message to a given exchange with a particular
 routing key, and waiting for a response on a reply queue.</p>
@@ -1192,7 +1192,7 @@ types can be used here - see the javadoc for details.)</p>
 transport mechanism, and just provide a wrapping layer on top of it.</p>
 <h2><a id="tls" class="anchor" href="#tls">TLS Support</a></h2>
 <p>It's possible to encrypt the communication between the client and the broker
-<a href="/ssl.html">using TLS</a>. Client and server authentication (a.k.a. peer verification) is also supported.
+<a href="./ssl.html">using TLS</a>. Client and server authentication (a.k.a. peer verification) is also supported.
 Here is the simplest, most naive way to use encryption with the Java client:</p>
 <pre class="lang-java">
 ConnectionFactory factory = new ConnectionFactory();
@@ -1206,10 +1206,10 @@ factory.setPort(5671);
 factory.useSslProtocol();
 </pre>
 
-<p>Note the client doesn't enforce any server authentication (<a href="/ssl.html#peer-verification">peer certificate chain verification</a>) in the above
+<p>Note the client doesn't enforce any server authentication (<a href="./ssl.html#peer-verification">peer certificate chain verification</a>) in the above
 sample as the default, "trust all certificates" <span class="code ">TrustManager</span> is used.
 This is convenient for local development but <strong>prone to man-in-the-middle attacks</strong>
-and therefore <a href="/production-checklist.html">not recommended for production</a>.</p>
+and therefore <a href="./production-checklist.html">not recommended for production</a>.</p>
 <p>To learn more about TLS support in RabbitMQ, see
 the <a href="ssl.html">TLS guide</a>. If you only want to configure
 the Java client (especially the peer verification and trust manager parts),
@@ -1326,11 +1326,11 @@ for more information.</p><div id="help-and-feedback"><h2>Getting Help and Provid
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div><div id="related-links"><h4>Related Links</h4><ul><li><a href="/java-client.html">Java Client Downloads</a></li></ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div><div id="related-links"><h4>Related Links</h4><ul><li><a href="/java-client.html">Java Client Downloads</a></li></ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting
