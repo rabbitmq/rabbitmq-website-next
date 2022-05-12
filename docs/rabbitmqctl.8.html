@@ -5,7 +5,7 @@
       <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title>rabbitmqctl(8) — RabbitMQ</title>
     
   </head>
-  <body id="rabbitmqctl.8"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>rabbitmqctl(8)</h1>
+  <body id="rabbitmqctl.8"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1>rabbitmqctl(8)</h1>
     <div class="docSection"><a name="manpage" class="anchor" id="manpage"></a>
       <div xmlns="" class="manual-text" xml:base="man/rabbitmqctl.8.html">
 <section class="Sh">
@@ -437,8 +437,9 @@
       <li>Rename the local database directories (note, you do not need to do
           this if you have set the RABBITMQ_MNESIA_DIR environment variable):
         <p class="Pp"></p>
-        <div class="Bd Bd-indent Li">
-        <pre>mv \
+        <div class="Bd Bd-indent lang-bash">
+        <pre>
+mv \
   /var/lib/rabbitmq/mnesia/rabbit\@misshelpful \
   /var/lib/rabbitmq/mnesia/rabbit\@cordelia
 mv \
@@ -446,7 +447,8 @@ mv \
   /var/lib/rabbitmq/mnesia/rabbit\@cordelia-rename
 mv \
   /var/lib/rabbitmq/mnesia/rabbit\@misshelpful-plugins-expand \
-  /var/lib/rabbitmq/mnesia/rabbit\@cordelia-plugins-expand</pre>
+  /var/lib/rabbitmq/mnesia/rabbit\@cordelia-plugins-expand
+        </pre>
         </div>
         <p class="Pp"></p>
       </li>
@@ -1852,12 +1854,13 @@ mv \
     [<var class="Ar">log_level</var>]</dt>
   <dd>
     <p class="Pp">Sets log level in the running node</p>
-    <p class="Pp">Supported <var class="Ar">type</var> values are:</p>
+    <p class="Pp">Supported <var class="Ar">log_level</var> values are:</p>
     <ul class="Bl-bullet Bl-compact">
       <li>debug</li>
       <li>info</li>
       <li>warning</li>
       <li>error</li>
+      <li>critical</li>
       <li>none</li>
     </ul>
     <p class="Pp">Example:</p>
@@ -2426,11 +2429,11 @@ mv \
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting

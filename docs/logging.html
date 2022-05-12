@@ -3,7 +3,7 @@
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
       <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Logging
  — RabbitMQ</title></head>
-  <body id="logging"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="./img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="./img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Logging
+  <body id="logging"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Logging
 </h1>
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>Log files is a very important aspect of system observability,
@@ -318,45 +318,57 @@ log.upgrade.level = none
 </pre>
 
 <h3><a id="log-levels" class="anchor" href="#log-levels">Log Levels</a></h3>
-<p>Log levels is another way to filter and tune logging. Each log level has a severity associated with it.
-More critical messages have lower severity number, while <span class="code ">debug</span> has the highest number.</p>
+<p>Log levels is another way to filter and tune logging. Log levels have
+a strict ordering. Each log message has a severity from <span class="code ">debug</span> being
+the lowest severity to <span class="code ">critical</span> being the highest.</p>
+<p>Logging verbosity can be controlled on multiple layers by setting log
+levels for categories and outputs. More verbose log levels will
+include more log messages from <span class="code ">debug</span> being the most verbose to
+<span class="code ">none</span> being the least.</p>
 <p>The following log levels are used by RabbitMQ:</p>
 <table>
 <thead>
 <tr>
 <th>Log level</th>
+<th>Verbosity</th>
 <th>Severity</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><span class="code ">debug</span></td>
-<td>128</td>
+<td>most verbose</td>
+<td>lowest severity</td>
 </tr>
 <tr>
 <td><span class="code ">info</span></td>
-<td>64</td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><span class="code ">warning</span></td>
-<td>16</td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><span class="code ">error</span></td>
-<td>8</td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><span class="code ">critical</span></td>
-<td>4</td>
+<td></td>
+<td>highest severity</td>
 </tr>
 <tr>
 <td><span class="code ">none</span></td>
-<td>0</td>
+<td>least verbose</td>
+<td>not applicable</td>
 </tr>
 </tbody>
 </table>
 <p>Default log level is <span class="code ">info</span>.</p>
-<p>If the level of a log message is higher than the category level,
+<p>If a log message has lower severity than the category level,
 the message will be dropped and not sent to any output.</p>
 <p>If a category level is not configured, its messages will always be sent
 to all outputs.</p>
@@ -367,12 +379,13 @@ log.default.level = error
 
 <p>The <span class="code ">none</span> level means no logging.</p>
 <p>Each output can use its own log level. If a message
-level number is higher than the output level, the message will not be logged.</p>
+has lower severity than the output level, the message will not be logged.</p>
 <p>For example, if no outputs are configured to log
 <span class="code ">debug</span> messages, even if the category level is set to <span class="code ">debug</span>, the
 debug messages will not be logged.</p>
-<p>Although, if an output is configured to log <span class="code ">debug</span> messages,
-it will get them from all categories, unless a category level is configured.</p>
+<p>On the other hand, if an output is configured to log <span class="code ">debug</span> messages,
+it will get them from all categories, unless a category is configured
+with a less verbose level.</p>
 <h4><a id="changing-log-level" class="anchor" href="#changing-log-level">Changing Log Level</a></h4>
 <p>There are two ways of changing effective log levels:</p>
 <ul>
@@ -694,11 +707,11 @@ or <span class="code ">#</span> to consume all log entries allowed by the config
      <li><a href="/build.html">Building</a></li>
      
      <li><a href="/mpl.html">License</a></li>
-   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="./"><img src="./img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="./#features">Features</a></li><li><a href="./#getstarted">Get Started</a></li><li><a href="./#support">Support</a></li><li><a href="./#community">Community</a></li><li><a href="./documentation.html">Docs</a></li></ul><p id="copyright">
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
           Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
-          <a href="./trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
           <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting
