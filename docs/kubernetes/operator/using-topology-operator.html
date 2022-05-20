@@ -25,6 +25,7 @@ If RabbitMQ Messaging Topology Operator is not installed, see the <a href="https
 <li><a href="#tls">TLS</a></li>
 <li><a href="#vault">Use HashiCorp Vault</a></li>
 <li><a href="#operator-log">Configure Log Level for the Operator</a></li>
+<li><a href="#sync-period">Time based Reconciliation</a></li>
 </ul>
 <p class="note">
   <strong>Note:</strong> Additional information about using the operator on Openshift can be found at
@@ -360,7 +361,34 @@ spec:
         - /manager
 </pre>
 
-<p>Other available command line flags for the zap logger can be found documented in <a href="https://github.com/kubernetes-sigs/controller-runtime/blob/v0.10.2/pkg/log/zap/zap.go#L240-L246">controller runtime</a>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+<p>Other available command line flags for the zap logger can be found documented in <a href="https://github.com/kubernetes-sigs/controller-runtime/blob/v0.10.2/pkg/log/zap/zap.go#L240-L246">controller runtime</a>.</p>
+<h3><a id="sync-period" class="anchor" href="#sync-period">Time based reconciliation</a></h3>
+<p>By default, Messaging Topology Operator reconciles topology objects when there are create/update/delete events for that particular custom resource.
+From version <span class="code ">1.6.0</span>, you can configure the Operator to perform reconciliation for all topology objects in a specific frequency by setting an environment variable in the Operator deployment:</p>
+<pre class="lang-yaml">
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  [...]
+  name: messaging-topology-operator
+  namespace: rabbitmq-system
+spec:
+  template:
+    spec:
+      containers:
+      - command:
+        - /manager
+        env:
+        - name: SYNC_PERIOD
+          value: 5m # needs to be in a format that's readable by golang time.ParseDuration(), e.g. “1000s”, “5.3h” or “20h35m”
+...
+</pre>
+
+<p>Recreating a deleted queue will <em>not recovery any messages</em>.</p>
+<p>Note that this frequency applies to all topology objects managed by the Operator.
+Depending on how many objects you've created with Topology Operator, reconciling all objects in a frequency
+could cause unnecessary load on both the Operator and the RabbitMQ server.
+Only use this feature if time based reconciliation is required for your use case.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
