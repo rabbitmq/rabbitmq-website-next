@@ -219,6 +219,31 @@ public ConnectionFactory jmsConnectionFactory() {
 <td>No</td>
 <td>Whether requeuing messages on a <span class="code ">RuntimeException</span> in the <span class="code ">MessageListener</span> or not. Default is false.</td>
 </tr>
+<tr>
+<td><span class="code ">queueBrowserReadMax</span></td>
+<td>No</td>
+<td>The maximum number of messages to read on a queue browser. Default is 0 (no limit).</td>
+</tr>
+<tr>
+<td><span class="code ">onMessageTimeoutMs</span></td>
+<td>No</td>
+<td>The time in milliseconds <span class="code ">MessageListener#onMessage(Message)</span> can take to process a message. Default is 2000 ms.</td>
+</tr>
+<tr>
+<td><span class="code ">channelsQos</span></td>
+<td>No</td>
+<td><a href="https://www.rabbitmq.com/consumer-prefetch.html">QoS setting</a> for channels created by the connection factory. Default is -1 (no QoS).</td>
+</tr>
+<tr>
+<td><span class="code ">terminationTimeout</span></td>
+<td>No</td>
+<td>The time in milliseconds a <span class="code ">Connection#close()</span> should wait for threads/tasks/listeners to complete. Default is 15,000 ms.</td>
+</tr>
+<tr>
+<td><span class="code ">declareReplyToDestination</span></td>
+<td>No</td>
+<td>Whether <span class="code ">replyTo</span> destination for consumed messages should be declared. Default is true.</td>
+</tr>
 </tbody>
 </table>
 <h2><a id="destination-interoperability" class="anchor" href="#destination-interoperability">JMS and AMQP 0-9-1 Destination Interoperability</a></h2>
@@ -387,6 +412,11 @@ available:</p>
 <td><span class="code ">destinationName</span></td>
 <td>No</td>
 <td>Name of the JMS destination.</td>
+</tr>
+<tr>
+<td><span class="code ">queueDeclareArguments</span></td>
+<td>No</td>
+<td>Arguments to use when declaring the AMQP queue. Use <span class="code ">key=value</span> pairs separated by commas for JNDI, e.g. <span class="code ">x-queue-type=quorum</span>.</td>
 </tr>
 </tbody>
 </table>

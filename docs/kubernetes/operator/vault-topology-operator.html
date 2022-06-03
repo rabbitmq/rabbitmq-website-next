@@ -13,6 +13,7 @@ stored in Vault, it may be necessary to configure the Topology Operator with som
 <li>The <a href="./operator-overview.html">RabbitMQ Cluster Operator</a> and <a href="./install-topology-operator.html">Messaging Topology Operator</a> are installed on the Kubernetes cluster</li>
 <li>A Vault server is installed on the Kubernetes cluster</li>
 <li>A <em>Vault role</em> must be declared in Vault for the topology operator to use. By default, the topology operator will use a vault role with the name <span class="code ">messaging-topology-operator</span>. Should we declared a <em>Vault role</em> with a different name, we have to configure the operator by overriding the environment variable <span class="code ">OPERATOR_VAULT_ROLE</span></li>
+<li>RabbitMQ's secret in Vault uses <a href="https://www.vaultproject.io/docs/secrets/kv/kv-v2">KV secrets engine version 2</a> only</li>
 </ol>
 <h3>Additional configuration</h3>
 <p>In order for the RabbitMQ Messaging Topology operator to authenticate with a Vault server and access RabbitMQ cluster default user credentials it is necessary for the operator container to have the <span class="code ">VAULT_ADDR</span> environment

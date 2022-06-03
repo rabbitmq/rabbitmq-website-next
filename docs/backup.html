@@ -56,7 +56,7 @@ rabbitmq-diagnostics status | grep -A 2 -B 2 "Node data directory"
 <p>If the node isn't running, it is possible to inspect <a href="./relocate.html">default data directories</a>.</p>
 <ul>
 <li>For Debian and RPM packages: <span class="code ">/var/lib/rabbitmq/mnesia</span></li>
-<li>For Windows: <span class="code ">%APP_DATA%\RabbitMQ\db</span></li>
+<li>For Windows: <span class="code ">%APPDATA%\RabbitMQ\db</span></li>
 <li>For generic binary builds: <span class="code ">{installation_root}/var/lib/rabbitmq/mnesia</span></li>
 </ul>
 <p>The above data directory will also contain message store data in a subdirectory. If you don't want to
@@ -74,10 +74,12 @@ at the same time.</p>
 the upgrade steps as needed and proceed booting.</p>
 <h2><a id="messages-backup" class="anchor" href="#messages-backup">Backing Up Messages</a></h2>
 <p>To back up messages on a node it <strong>must be first stopped</strong>.</p>
-<p>In the case of a cluster with <a href="./ha.html">mirrored queues</a>, you need to
-stop the entire cluster to take a backup. If you stop one node at a
-time, you may lose messages or have duplicates, exactly like when you
+<p>In the case of a cluster with <a href="./quorum-queues.html">replicated queues</a>, it is highly recommended
+to stop the entire cluster over a period of time to take a backup. If instead one node is topped at a
+time, queues may accumulate duplicates, exactly like when you
 back up a single running node.</p>
+<p>If the majority of cluster nodes is stopped rapidly quorum queues may lose their availability, and
+as a result miss a small percentage of recent publishes to them.</p>
 <h3><a id="manual-messages-backup" class="anchor" href="#manual-messages-backup">Manually Backing Up Messages</a></h3>
 <p>Presently this is the only way of backing up messages.</p>
 <p>Message data is stored in the <a href="./relocate.html">node's data directory</a> mentioned above.</p>

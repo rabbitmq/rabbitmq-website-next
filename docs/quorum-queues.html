@@ -110,7 +110,7 @@ A client library that can use regular mirrored queues will be able to use quorum
 <tr>
 <td align="left"><a href="./ttl.html">Message TTL (Time-To-Live)</a></td>
 <td align="left">yes</td>
-<td>yes (since 3.10)</td>
+<td>yes (<a href="https://blog.rabbitmq.com/posts/2022/05/rabbitmq-3.10-release-overview/">since 3.10</a>)</td>
 </tr>
 <tr>
 <td align="left"><a href="./ttl.html#queue-ttl">Queue TTL</a></td>
@@ -125,7 +125,7 @@ A client library that can use regular mirrored queues will be able to use quorum
 <tr>
 <td align="left"><a href="./lazy-queues.html">Lazy behaviour</a></td>
 <td align="left">yes</td>
-<td>yes through the <a href="#memory-limit">Memory Limit</a> feature (before 3.10); always (since 3.10)</td>
+<td>always (since 3.10) or through the <a href="#memory-limit">Memory Limit</a> feature (before 3.10)</td>
 </tr>
 <tr>
 <td align="left"><a href="./priority.html">Message priority</a></td>
@@ -145,7 +145,7 @@ A client library that can use regular mirrored queues will be able to use quorum
 <tr>
 <td align="left">Adheres to <a href="./parameters.html#policies">policies</a></td>
 <td align="left">yes</td>
-<td>yes (see policy support below)</td>
+<td>yes (see <a href="#policy-support">Policy support</a>)</td>
 </tr>
 <tr>
 <td align="left">Poison message handling</td>
@@ -159,6 +159,8 @@ A client library that can use regular mirrored queues will be able to use quorum
 </tr>
 </tbody>
 </table>
+<p>Modern quorum queues also offer <a href="https://blog.rabbitmq.com/posts/2022/05/rabbitmq-3.10-performance-improvements/">higher throughput and less latency variability</a>
+for many workloads.</p>
 <h4>Non-durable Queues</h4>
 <p>Regular queues can be <a href="queues.html">non-durable</a>. Quorum queues are always durable per their
 assumed <a href="#use-cases">use cases</a>.</p>
@@ -261,11 +263,6 @@ to <span class="code ">drop-head</span>, any dead-lettered messages that have no
 However, messages that are dead lettered by the source quorum queue will keep the original message delivery mode.
 This means if dead lettered messages in the target queue should survive a broker restart, the target queue must be durable and
 the message delivery mode must be set to persistent when publishing messages to the source quorum queue.</p>
-<h4>Lazy Mode (before RabbitMQ 3.10)</h4>
-<p>Quorum queues store their content on disk (per Raft requirements) as well as in memory (up to the <a href="#memory-limit">in memory limit configured</a>).</p>
-<p>The <a href="./lazy-queues.html#configuration"><span class="code ">lazy</span> mode configuration</a> does not apply.</p>
-<p>It is possible to <a href="#memory-limit">limit how many messages a quorum queue keeps in memory</a> using a policy which
-can achieve a behaviour similar to lazy queues.</p>
 <h4>Lazy Mode (since RabbitMQ 3.10)</h4>
 <p>Quorum queues store their message content on disk (per Raft requirements) and
 only keep a small metadata record of each message in memory. This is a change from
@@ -275,6 +272,11 @@ was large.</p>
 <p>The <a href="#memory-limit">memory limit</a> configuration is still permitted but has no
 effect. The only option now is effectively the same as configuring: <span class="code ">x-max-in-memory-length=0</span></p>
 <p>The <a href="./lazy-queues.html#configuration"><span class="code ">lazy</span> mode configuration</a> does not apply.</p>
+<h4>Lazy Mode (before RabbitMQ 3.10)</h4>
+<p>Quorum queues store their content on disk (per Raft requirements) as well as in memory (up to the <a href="#memory-limit">in memory limit configured</a>).</p>
+<p>The <a href="./lazy-queues.html#configuration"><span class="code ">lazy</span> mode configuration</a> does not apply.</p>
+<p>It is possible to <a href="#memory-limit">limit how many messages a quorum queue keeps in memory</a> using a policy which
+can achieve a behaviour similar to lazy queues.</p>
 <h4><a id="global-qos" class="anchor" href="#global-qos">Global QoS</a></h4>
 <p>Quorum queues do not support global <a href="./confirms.html#channel-qos-prefetch">QoS prefetch</a> where a channel sets a single
 prefetch limit for all consumers using that channel. If an attempt
@@ -288,7 +290,7 @@ one for each priority.</p>
 <h4>Poison Message Handling</h4>
 <p>Quorum queues <a href="#poison-message-handling">support poison message handling</a> via a redelivery limit.
 This feature is currently unique to quorum queues.</p>
-<h4>Policy Support</h4>
+<h4><a id="policy-support" class="anchor" href="#policy-support">Policy Support</a></h4>
 <p>Quorum queues can be configured via RabbitMQ policies. The below table summarises the
 policy keys they adhere to.</p>
 <table>
@@ -360,7 +362,7 @@ another consumer can re-attempt processing.</p>
 <li>Temporary nature of queues: transient or exclusive queues, high queue churn (declaration and deletion rates)</li>
 <li>Lowest possible latency: the underlying consensus algorithm has an inherently higher latency due to its data safety features</li>
 <li>When data safety is not a priority (e.g. applications do not use <a href="./confirms.html">manual acknowledgements and publisher confirms</a> are not used)</li>
-<li>Very long queue backlogs (quorum queues currently keep all messages in memory at all times, up to a <a href="#memory-limit">limit</a>)</li>
+<li>Very long queue backlogs (<a href="./stream.html">streams</a> are likely to be a better fit)</li>
 </ul>
 <h2><a id="usage" class="anchor" href="#usage">Usage</a></h2>
 <p>As stated earlier, quorum queues share most of the fundamentals with other <a href="queues.html">queue</a> types.
@@ -619,9 +621,10 @@ log entries it does not have from the leader, including the dropped ones. Quorum
 will therefore remain consistent.</p>
 <h2><a id="performance" class="anchor" href="#performance">Performance Characteristics</a></h2>
 <p>Quorum queues are designed to trade latency for throughput and have been tested
-and compared against durable <a href="./ha.html">classic mirrored queues</a> in 3, 5 and 7 node configurations at several
-message sizes. In scenarios using both consumer acks and publisher confirms
- quorum queues have been observed to have equal or greater throughput to
+and compared against durable <a href=".ha.html">classic mirrored queues</a> in 3, 5 and 7 node configurations at several
+message sizes.</p>
+<p>In scenarios using both consumer acks and publisher confirms
+quorum queues have been observed to have <a href="https://blog.rabbitmq.com/posts/2022/05/rabbitmq-3.10-performance-improvements/">superior throughput</a> to
 classic mirrored queues.</p>
 <p>As quorum queues persist all data to disks before doing anything it is recommended
 to use the fastest disks possible. Quorum queues also benefit from consumers

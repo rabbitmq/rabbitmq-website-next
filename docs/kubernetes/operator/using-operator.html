@@ -966,6 +966,7 @@ kubectl -n NAMESPACE get secret INSTANCE-default-user -o jsonpath="{.data.passwo
 <h2><a id="vault" class="anchor" href="#vault">(Optional) Use HashiCorp Vault</a></h2>
 <p>The RabbitMQ Cluster Operator supports storing RabbitMQ admin credentials and RabbitMQ server certificates
 in <a href="https://www.vaultproject.io/">HashiCorp Vault</a>.</p>
+<p>Note that the Operator works with Vault <a href="https://www.vaultproject.io/docs/secrets/kv/kv-v2">KV secrets engine version 2</a> only. </p>
 <h3><a id="vault-default-user" class="anchor" href="#vault-default-user">Read RabbitMQ Admin Credentials from Vault</a></h3>
 <p>Instead of having the Operator create RabbitMQ admin credentials putting them into a Kubernetes Secret object
 as described in <a href="#creds">Retrieve Your RabbitMQ Admin Credentials</a>, you can configure a RabbitmqCluster to
