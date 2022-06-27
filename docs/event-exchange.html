@@ -9,12 +9,12 @@
 
 <h2>Overview</h2>
 <p>Client connection, channels, queues, consumers, and other parts of the
-system naturally generate events. For example, when a connection is
+system <a href="logging.html#internal-events">naturally generate events</a>. For example, when a connection is
 accepted, authenticated and access to the target virtual host is
 authorised, it will emit an event of type <span class="code ">connection_created</span>. When a
 connection is closed or fails for any reason, a <span class="code ">connection_closed</span>
 event is emitted.</p>
-<p>Monitoring and auditing services can be interested in observing those
+<p><a href="monitoring.html">Monitoring</a> and auditing services can be interested in observing those
 events. RabbitMQ has a minimalistic mechanism for event notifications
 that can be exposed to RabbitMQ clients with a plugin.</p>
 <h2>Consuming Internal Events with rabbitmq-event-exchange Plugin</h2>

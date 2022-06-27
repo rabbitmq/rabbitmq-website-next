@@ -187,7 +187,8 @@ $channel = $connection-&gt;channel();
 protocol version negotiation and authentication and so on for us. Here
 we connect to a RabbitMQ node on the local machine - hence the
 <em>localhost</em>. If we wanted to connect to a node on a different
-machine we'd simply specify its hostname or IP address here.</p>
+machine or to a host hosting a <a href="https://github.com/cloudamqp/amqproxy">proxy recommended for PHP clients</a>,
+we'd simply specify its hostname or IP address here.</p>
 <p>Next we create a channel, which is where most of the API for getting
 things done resides.</p>
 <p>To send, we must declare a queue for us to send to; then we can publish a message
@@ -297,7 +298,14 @@ sudo rabbitmqctl list_queues
 rabbitmqctl.bat list_queues
 </pre></p>
 </blockquote>
-<p>Time to move on to <a href="tutorial-two-php.html">part 2</a> and build a simple <em>work queue</em>.</p>
+<h4>PHP Connection Proxy</h4>
+<p>While this tutorial strives to keep things simple and focus on explaining RabbitMQ
+concepts, it is important to call out something that is specific to PHP applications.
+In many cases PHP application will not be able to use <a href="./connections.html#basics">long-lived connections</a>
+that RabbitMQ assumes, creating a condition known as <a href="./connections.html#high-connection-churn">high connection churn</a>.</p>
+<p>To avoid this, PHP users are recommended to use <a href="https://github.com/cloudamqp/amqproxy">a special proxy</a>
+in production when possible. The proxy avoids connection churn or at least significantly reduces it.</p>
+<p>Now it is time to move on to <a href="tutorial-two-php.html">part 2</a> and build a simple <em>work queue</em>.</p>
    <div xmlns="" xml:base="site/tutorials/disclaimer.xml.inc">
   <h2>Production [Non-]Suitability Disclaimer</h2>
   <p>

@@ -130,7 +130,7 @@ make curl url=http://localhost:15672/api/overview client_id=mgt_api_client secre
 <h3><a id="scenario-3" class="anchor" href="#scenario-3">Use Case 3: AMQP 0-9-1 Client Connections</a></h3>
 <p>In this scenario, an application connects to RabbitMQ presenting a JWT Token as a credential.
 The application we are going to use is <a href="https://github.com/rabbitmq/rabbitmq-perf-test">PerfTest</a> which is not an OAuth 2.0 aware application.
-OAuth 2.0-aware application is covered in <a href="">scenario four</a>.</p>
+OAuth 2.0-aware application is covered in <a href="#scenario-4">scenario four</a>.</p>
 <p>Instead we are launching the application with a token that we have previously obtained from UAA. This is just to probe AMQP access with a JWT Token. Needless to say that the application should instead obtain the JWT Token prior to connecting to RabbitMQ and it should also be able to refresh it before reconnecting. RabbitMQ validates the token before accepting it. If the token has expired, RabbitMQ will reject the connection.</p>
 <p>First of all, an application which wants to connect to RabbitMQ using Oauth2 must present a
 valid JWT token. To obtain the token, the application must first authenticate (<span class="code ">1.</span>) with UAA. In case of a successful

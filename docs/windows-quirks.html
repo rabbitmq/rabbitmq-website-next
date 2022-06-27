@@ -105,7 +105,29 @@ here</a>, you should set
 a system-wide environment variable named <span class="code ">RABBITMQ_NODENAME</span> with the following
 value: <span class="code ">rabbit@ALL_CAPS_HOSTNAME</span>.</p>
 <p>Then, RabbitMQ will continue to use the all-caps hostname and the upgrade will
-succeed.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+succeed.</p>
+<h2><a id="net-ticktime" class="anchor" href="#net-ticktime">Setting <span class="code ">net_ticktime</span></a></h2>
+<p>Due to how RabbitMQ starts as a Windows service, you can't use a configuration
+file to set <span class="code ">net_ticktime</span> and instead must use an environment variable.</p>
+<h3>Mitigation</h3>
+<p>First, log in using the administrative account you used, or will use, to
+install RabbitMQ and create the <span class="code ">%AppData%\RabbitMQ\rabbitmq-env-conf.bat</span> file
+with the following contents:</p>
+<pre class="lang-powershell">
+@echo off
+set SERVER_ADDITIONAL_ERL_ARGS=-kernel net_ticktime 120
+</pre>
+
+<p>The above will set <span class="code ">net_ticktime</span> to <span class="code ">120</span> seconds.</p>
+<p>If you have not yet installed RabbitMQ, the setting will be picked up during installation.</p>
+<p>If you have already installed RabbitMQ, open the "RabbitMQ Command Prompt (sbin dir)"
+start menu item and run these commands:</p>
+<pre class="lang-powershell">
+.\rabbitmq-service.bat stop
+.\rabbitmq-service.bat remove
+.\rabbitmq-service.bat install
+.\rabbitmq-service.bat start
+</pre><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.

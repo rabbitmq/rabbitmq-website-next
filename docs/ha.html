@@ -85,8 +85,9 @@ vice versa). There is a difference between a non-mirrored
 queue and a mirrored queue which does not have any mirrors -
 the former lacks the extra mirroring infrastructure and will
 likely provide higher throughput.</p>
-<p>You should be aware of the behaviour of <a href="#unsynchronised-mirrors">adding mirrors to a queue</a>.</p>
-<p>To cause queues to become mirrored, you need to create a
+<p>Adding mirrors to a queue increases cluster load but
+helps lower the probability of <a href="#unsynchronised-mirrors">losing all up-to-date replicas</a>.</p>
+<p>To make the classic queues mirrored, create a
 policy which matches them and sets policy keys <span class="code ">ha-mode</span> and (optionally) <span class="code ">ha-params</span>.
 The following table explains the options for these keys:</p>
 <table>

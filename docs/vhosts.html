@@ -40,7 +40,7 @@ can involve vhosts in different clusters or the same cluster (or a single node).
 <p>A virtual host can be created using CLI tools or an <a href="./management.html">HTTP API</a> endpoint.</p>
 <p>A newly created vhost will have a default set of <a href="./tutorials/amqp-concepts.html">exchanges</a>
 but no other entities and no <a href="./access-control.html">user permissions</a>. For a user to be able to connect
-and use the virtual host, permissions to it must be <a href="">granted</a> to every user that will use the vhost,
+and use the virtual host, permissions to it must be <a href="./access-control.html">granted</a> to every user that will use the vhost,
 e.g. using <a href="./rabbitmqctl.8.html#set_permissions">rabbitmqctl set_permissions</a>.</p>
 <h3>Using CLI Tools</h3>
 <p>A virtual host can be created using <a href="./cli.html">rabbitmqctl</a>'s <span class="code ">add_vhost</span> command

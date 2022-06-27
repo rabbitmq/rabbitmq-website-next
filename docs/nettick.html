@@ -66,7 +66,11 @@ which has the effect that the UI can appear unresponsive until a
 partition is detected and handled. Lowering <span class="code ">net_ticktime</span>
 can help to improve the responsiveness during such events but any
 decision to change <span class="code ">net_ticktime</span> should be done carefully
-as emphasised above.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+as emphasised above.</p>
+<h2><a id="windows-quirks" class="anchor" href="#windows-quirks">Windows Quirks</a></h2>
+<p>Due to how RabbitMQ starts as a Windows service, you can't use a configuration
+file to set <span class="code ">net_ticktime</span>. Please see <a href="./windows-quirks.html#net-ticktime">this section</a> in the <a href="./windows-quirks.html">Windows Quirks</a>
+document to set <span class="code ">net_ticktime</span> when running RabbitMQ as a Windows service.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.

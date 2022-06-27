@@ -170,10 +170,8 @@ mv Receive/Program.cs Receive/Receive.cs
 <pre class="lang-powershell">
 cd Send
 dotnet add package RabbitMQ.Client
-dotnet restore
 cd ../Receive
 dotnet add package RabbitMQ.Client
-dotnet restore
 </pre>
 
 <p>Now we have the .NET project set up we can write some code.</p>
@@ -370,7 +368,7 @@ class Receive
 class</a>.</p>
 <h3>Putting It All Together</h3>
 <p>Open two terminals.</p>
-<p>Run the consumer first so that the topology (primarily the queue) is in place:</p>
+<p>You can run the clients in any order, as both declares the queue. We will run the consumer first so you can see it waiting for and then receiving the message:</p>
 <pre class="lang-powershell">
 cd Receive
 dotnet run
@@ -383,8 +381,8 @@ dotnet run
 </pre>
 
 <p>The consumer will print the message it gets from the publisher via
-RabbitMQ. The consumer will keep running, waiting for messages (Use Ctrl-C to stop it), so try running
-the publisher from another terminal.</p>
+RabbitMQ. The consumer will keep running, waiting for messages, so try restarting
+the publisher several times.</p>
 <p>Time to move on to <a href="tutorial-two-dotnet.html">part 2</a> and build a simple <em>work queue</em>.</p>
    <div xmlns="" xml:base="site/tutorials/disclaimer.xml.inc">
   <h2>Production [Non-]Suitability Disclaimer</h2>

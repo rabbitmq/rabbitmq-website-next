@@ -53,7 +53,8 @@ connections on a <a href="networking.html">certain protocol-specific port</a>.</
 publish and consume messages, define topology and perform other operations that are provided in the protocol
 and supported both by the client library and the target RabbitMQ node.</p>
 <p>Since connections are meant to be long-lived, clients usually <a href="./consumers.html">consume messages</a> by registering
-a subscription and having messages delivered (pushed) to them instead of polling.</p>
+a subscription and having messages delivered (pushed) to them instead of polling. Clients
+that cannot keep a long-lived connection can use <a href="https://github.com/cloudamqp/amqproxy">a special proxy</a> to help reduce <a href="#high-connection-churn">connection churn</a>.</p>
 <p>When a connection is no longer necessary, applications must close them to conserve resources.
 Apps that fail to do it run the risk of eventually exhausting its target node of resources.</p>
 <p>Operating systems have a <a href="./networking.html#open-file-handle-limit">limit around how many TCP connections (sockets) a single process can have open</a>
@@ -83,6 +84,7 @@ involves a number of steps:</p>
 <li>After the server has accepted the TCP connection, protocol-specific negotiation procedure is performed</li>
 <li>The server then <a href="./access-control.html">authenticates</a> the client</li>
 <li>The client now can perform operations, each of which involves an <a href="./access-control.html">authorisation check</a> by the server.</li>
+<li>The client retains the connections for as long as it needs to communicate with RabbitMQ</li>
 </ul>
 <p>This flow doesn't change significantly from protocol to protocol but there are minor differences.</p>
 <h3>Protocol Differences</h3>
