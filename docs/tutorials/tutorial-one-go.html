@@ -124,7 +124,7 @@
 <p>In this part of the tutorial we'll write two small programs in Go; a
 producer that sends a single message, and a consumer that receives
 messages and prints them out.  We'll gloss over some of the detail in
-the <a href="http://godoc.org/github.com/streadway/amqp">Go RabbitMQ</a> API, concentrating on this very simple thing just to get
+the <a href="https://pkg.go.dev/github.com/rabbitmq/amqp091-go">Go RabbitMQ</a> API, concentrating on this very simple thing just to get
 started. It's a "Hello World" of messaging.</p>
 <p>In the diagram below, "P" is our producer and "C" is our consumer. The
 box in the middle is a queue - a message buffer that RabbitMQ keeps
@@ -142,7 +142,7 @@ languages</a>. We'll
 use the Go amqp client in this tutorial.</p>
 <p>First, install amqp using <span class="code ">go get</span>:</p>
 <p><pre class="lang-go">
-go get github.com/streadway/amqp
+go get github.com/rabbitmq/amqp091-go
 </pre></p>
 </blockquote>
 <p>Now we have amqp installed, we can write some
@@ -164,7 +164,7 @@ package main
 import (
   "log"
 
-  "github.com/streadway/amqp"
+  amqp "github.com/rabbitmq/amqp091-go"
 )
 </pre>
 
@@ -173,7 +173,7 @@ amqp call:</p>
 <pre class="lang-go">
 func failOnError(err error, msg string) {
   if err != nil {
-    log.Fatalf("%s: %s", msg, err)
+    log.Panicf("%s: %s", msg, err)
   }
 }
 </pre>
@@ -219,6 +219,7 @@ err = ch.Publish(
     Body:        []byte(body),
   })
 failOnError(err, "Failed to publish a message")
+log.Printf(" [x] Sent %s\n", body)
 </pre>
 
 <p>Declaring a queue is idempotent - it will only be created if it doesn't
@@ -250,12 +251,12 @@ package main
 import (
   "log"
 
-  "github.com/streadway/amqp"
+  amqp "github.com/rabbitmq/amqp091-go"
 )
 
 func failOnError(err error, msg string) {
   if err != nil {
-    log.Fatalf("%s: %s", msg, err)
+    log.Panicf("%s: %s", msg, err)
   }
 }
 </pre>
@@ -301,7 +302,7 @@ msgs, err := ch.Consume(
 )
 failOnError(err, "Failed to register a consumer")
 
-forever := make(chan bool)
+var forever chan struct{}
 
 go func() {
   for d := range msgs {

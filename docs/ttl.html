@@ -70,7 +70,7 @@ model.QueueDeclare("myqueue", false, false, false, args);
 </pre>
 
 <p>It is possible to apply a message TTL policy to a queue which already
-has messages in it but this involves <a href="ttl.html#per-message-ttl-caveats">some caveats</a>.</p>
+has messages in it but this involves <a href="#per-message-ttl-caveats">some caveats</a>.</p>
 <p>The original expiry time of a message is preserved if it
 is requeued (for example due to the use of an AMQP method
 that features a requeue parameter, or due to a channel
@@ -84,8 +84,7 @@ the RabbitMQ server does not support. Unlike that flag, no
 exchange is set then messages will be dead-lettered.</p>
 <h2><a id="per-message-ttl-in-publishers" class="anchor" href="#per-message-ttl-in-publishers">Per-Message TTL in Publishers</a></h2>
 <p>A TTL can be specified on a per-message basis, by setting the
-<span class="code ">expiration</span> field in the <a href="amqp-0-9-1-reference.html#class.basic"><span class="code ">basic</span></a> AMQP 0-9-1 class when sending a
-<a href="amqp-0-9-1-reference.html#basic.publish"><span class="code ">basic.publish</span></a>.</p>
+<a href="./publishers.md#message-properties"><span class="code ">expiration</span> property</a> when publishing a message.</p>
 <p>The value of the <span class="code ">expiration</span> field describes the
 TTL period in milliseconds. The same constraints as for
 <span class="code ">x-message-ttl</span> apply. Since the

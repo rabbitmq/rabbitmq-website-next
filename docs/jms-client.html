@@ -205,6 +205,11 @@ public ConnectionFactory jmsConnectionFactory() {
 <td>The <a href="./uri-spec.html">AMQP 0-9-1 URI</a> string used to establish a RabbitMQ connection. The value can encode the <span class="code ">host</span>, <span class="code ">port</span>, <span class="code ">username</span>, <span class="code ">password</span> and <span class="code ">virtualHost</span> in a single string. Both 'amqp' and 'amqps' schemes are accepted. Note: this property sets other properties and the set order is unspecified.</td>
 </tr>
 <tr>
+<td><span class="code ">uris</span></td>
+<td>No</td>
+<td>A list of <a href="./uri-spec.html">AMQP 0-9-1 URI</a> strings to establish a connection to one of the nodes of a RabbitMQ cluster. Each URI is processed in the same way as the <span class="code ">uri</span> property (<span class="code ">host</span>, <span class="code ">port</span>, <span class="code ">username</span>, etc). This has the same effect as specifying a <a href="http://localhost:8191/api-guide.html#endpoints-list">list of endpoints in the AMQP client</a>. The property is a <span class="code ">List&lt;String&gt;</span> in the <span class="code ">RMQConnectionFactory</span> and a <span class="code ">String</span> expecting a list of comma-separated URIs in the <span class="code ">RMQObjectFactory</span> (JNDI). Note: this property sets other properties and the set order is unspecified.</td>
+</tr>
+<tr>
 <td><span class="code ">onMessageTimeoutMs</span></td>
 <td>No</td>
 <td>How long to wait for <span class="code ">MessageListener#onMessage()</span> to return, in milliseconds. Default is 2000 ms.</td>

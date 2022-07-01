@@ -497,8 +497,7 @@ occurred. Of course, in practise, if data safety is less important
 than throughput, the automatic acknowledgement mode is the way to go.</p>
 <h3><a id="confirms-transactions" class="anchor" href="#confirms-transactions">Publisher Confirms and Transactions</a></h3>
 <p>Mirrored queues support both <a href="confirms.html">publisher confirms</a> and
-<a href="specification.html#tx">transactions</a>. The
-semantics chosen are that in the case of both confirms and
+transactions. The semantics chosen are that in the case of both confirms and
 transactions, the action spans all mirrors of the
 queue. So in the case of a transaction, a
 <span class="code ">tx.commit-ok</span> will only be returned to a

@@ -301,8 +301,8 @@ rabbitmqctl.bat list_queues
 <h4>PHP Connection Proxy</h4>
 <p>While this tutorial strives to keep things simple and focus on explaining RabbitMQ
 concepts, it is important to call out something that is specific to PHP applications.
-In many cases PHP application will not be able to use <a href="./connections.html#basics">long-lived connections</a>
-that RabbitMQ assumes, creating a condition known as <a href="./connections.html#high-connection-churn">high connection churn</a>.</p>
+In many cases PHP application will not be able to use <a href="../connections.html#basics">long-lived connections</a>
+that RabbitMQ assumes, creating a condition known as <a href="../connections.html#high-connection-churn">high connection churn</a>.</p>
 <p>To avoid this, PHP users are recommended to use <a href="https://github.com/cloudamqp/amqproxy">a special proxy</a>
 in production when possible. The proxy avoids connection churn or at least significantly reduces it.</p>
 <p>Now it is time to move on to <a href="tutorial-two-php.html">part 2</a> and build a simple <em>work queue</em>.</p>
