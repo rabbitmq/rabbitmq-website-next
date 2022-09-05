@@ -248,7 +248,7 @@ RabbitMQ has been tested against the following Authorization servers:</p>
 <p>To redirect users to the UAA server to authenticate, use the following configuration:</p>
 <pre class="lang-ini">
 management.enable_uaa = true
-management.oauth_enable = true
+management.oauth_enabled = true
 management.oauth_client_id = rabbit_user_client
 management.oauth_client_secret = rabbit_user_client_secret
 management.oauth_provider_url = https://my-uaa-server-host:8443/uaa
@@ -277,7 +277,7 @@ curl -i --header "authorization: Basic &lt;encoded credentials&gt;" http://local
 <pre class="lang-ini">
 management.disable_basic_auth = true
 management.enable_uaa = true
-management.oauth_enable = true
+management.oauth_enabled = true
 management.oauth_client_id = rabbit_user_client
 management.oauth_client_secret = rabbit_user_client_secret
 management.oauth_provider_url = https://my-uaa-server-host:8443/uaa
