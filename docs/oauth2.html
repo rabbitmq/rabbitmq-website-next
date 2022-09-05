@@ -1,0 +1,491 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> OAuth 2.0 Authentication Backend
+ — RabbitMQ</title></head>
+  <body id="oauth2"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> OAuth 2.0 Authentication Backend
+</h1>
+
+
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>This <a href="https://www.rabbitmq.com/access-control.html">RabbitMQ authentication/authorisation backend</a> plugin lets applications (clients) and users authenticate and authorize using JWT-encoded OAuth 2.0 access tokens.</p>
+<p>This guide covers</p>
+<ul>
+<li><a href="#how-it-works">How it works</a></li>
+<li><a href="#usage">Usage</a><ul>
+<li><a href="#variables-configurable">Variables Configurable in rabbitmq.conf</a></li>
+<li><a href="#resource-server-id">Resource Server ID and Scope Prefixes</a></li>
+<li><a href="#token-validation">Token validation</a></li>
+<li><a href="#scope-transalation">Scope-to-Permission Translation</a></li>
+<li><a href="#use-different-token-field">Using a different token field for the Scope</a></li>
+<li><a href="#use-tokens-with-clients">Using Tokens with Clients</a></li>
+<li><a href="#scope-and-tags">Scope and Tags</a></li>
+<li><a href="#token-expiration">Token Expiration and Refresh</a></li>
+<li><a href="#rich-authorization-request">Rich Authorization Request</a></li>
+</ul>
+</li>
+<li><a href="#examples">Examples</a></li>
+</ul>
+<h2><a id="how-it-works" class="anchor" href="#how-it-works">How it works</a></h2>
+<h3><a id="authorization-workflow" class="anchor" href="#authorization-workflow">Authorization Workflow</a></h3>
+<p>This plugin does not communicate with any OAuth 2.0 provider. It decodes an access token provided by the client and authorises a user based on the data stored in the token.</p>
+<p>The token can be any <a href="https://jwt.io/introduction/">JWT token</a> which contains the <span class="code ">scope</span> and <span class="code ">aud</span> fields. The way the token was issued (such as what grant type was used) is outside of the scope of this plugin.</p>
+<h3><a id="prerequisites" class="anchor" href="#prerequisites">Prerequisites</a></h3>
+<p>To use this plugin, all RabbitMQ nodes must be</p>
+<ol>
+<li><a href="https://www.rabbitmq.com/access-control.html">configured to use the rabbit_auth_backend_oauth2 backend</a></li>
+<li>configured with a resource service ID (<span class="code ">resource_server_id</span>) that matches the scope prefix (e.g. <span class="code ">rabbitmq</span> in <span class="code ">rabbitmq.read:*/*</span>)</li>
+<li>configured with a signing key used by RabbitMQ to validate the JWT token signatures</li>
+</ol>
+<p>JWT Tokens presented to RabbitMQ for authentication must</p>
+<ol>
+<li>be digitally signed with either a symmetric or asymmetric key</li>
+<li>have a value in the <span class="code ">aud</span> field that matches <span class="code ">resource_server_id</span> value</li>
+</ol>
+<h3><a id="authorization-flow-with-scopes" class="anchor" href="#authorization-flow-with-scopes">Authorization Flow</a></h3>
+<ol>
+<li>Client requests an <span class="code ">access_token</span> from the OAuth 2.0 provider,</li>
+<li>Token <strong>scope</strong> returned by OAuth 2.0 provider must include RabbitMQ resource scopes that follow a convention used by this plugin: <span class="code ">configure:%2F/foo</span> means "configure permissions for 'foo' in vhost '/'") (<span class="code ">scope</span> field can be changed using <span class="code ">extra_scopes_source</span> in <strong>advanced.config</strong> file.</li>
+<li>Client passes the token as password when connecting to a RabbitMQ node. <strong>The username field is ignored</strong>.</li>
+<li>The translated permissions are stored as part of the authenticated connection state and used the same way permissions from RabbitMQ's internal database would be used.</li>
+</ol>
+<h2><a id="usage" class="anchor" href="#usage">Usage</a></h2>
+<p>The plugin needs a signing key to be configured in order to verify the token's signature. This is the signing key used by the OAuth 2.0 provider to sign the tokens. RabbitMQ supports two types of signing keys: symmetric and asymmetric.</p>
+<p>The examples given below uses <a href="https://github.com/cloudfoundry/uaa">Cloud Foundry UAA</a> as OAuth 2.0 provider.</p>
+<p>To get the signing key from the <a href="https://github.com/cloudfoundry/uaa">OAuth 2.0 provider UAA</a>, use the
+<a href="https://docs.cloudfoundry.org/api/uaa/version/4.6.0/index.html#token-key-s">token_key endpoint</a>
+or <a href="https://github.com/cloudfoundry/cf-uaac">uaac</a> (the <span class="code ">uaac signing key</span> command).</p>
+<p>The following fields are required: <span class="code ">kty</span>, <span class="code ">value</span>, <span class="code ">alg</span>, and <span class="code ">kid</span>.</p>
+<p>Assuming UAA reports the following signing key information:</p>
+<pre class="lang-erlang">
+uaac signing key
+  kty: RSA
+  e: AQAB
+  use: sig
+  kid: a-key-ID
+  alg: RS256
+  value: -----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2dP+vRn+Kj+S/oGd49kq
+6+CKNAduCC1raLfTH7B3qjmZYm45yDl+XmgK9CNmHXkho9qvmhdksdzDVsdeDlhK
+IdcIWadhqDzdtn1hj/22iUwrhH0bd475hlKcsiZ+oy/sdgGgAzvmmTQmdMqEXqV2
+B9q9KFBmo4Ahh/6+d4wM1rH9kxl0RvMAKLe+daoIHIjok8hCO4cKQQEw/ErBe4SF
+2cr3wQwCfF1qVu4eAVNVfxfy/uEvG3Q7x005P3TcK+QcYgJxav3lictSi5dyWLgG
+QAvkknWitpRK8KVLypEj5WKej6CF8nq30utn15FQg0JkHoqzwiCqqeen8GIPteI7
+VwIDAQAB
+-----END PUBLIC KEY-----
+  n: ANnT_r0Z_io_kv6BnePZKuvgijQHbggta2i30x-wd6o5mWJuOcg5fl5oCvQjZh15IaPar5oXZLHcw1bHXg5YSiHXCFmnYag83bZ9YY_9tolMK4R9G3eO-YZSnLImfqMv7HYBoAM75pk0JnTKhF6ldgfavShQZqOAIYf-vneMDNax_ZMZdEbzACi3vnWqCByI6JPIQju
+      HCkEBMPxKwXuEhdnK98EMAnxdalbuHgFTVX8X8v7hLxt0O8dNOT903CvkHGICcWr95YnLUouXcli4BkAL5JJ1oraUSvClS8qRI-Vino-ghfJ6t9LrZ9eRUINCZB6Ks8Igqqnnp_BiD7XiO1c
+</pre>
+
+<p>it will translate into the following configuration (in the <a href="https://www.rabbitmq.com/configure.html">advanced RabbitMQ config format</a>):</p>
+<pre class="lang-erlang">
+[
+  %% ...
+  %% backend configuration
+  {rabbitmq_auth_backend_oauth2, [
+    {resource_server_id, &lt;&lt;"my_rabbit_server"&gt;&gt;},
+    %% UAA signing key configuration
+    {key_config, [
+      {signing_keys, #{
+        &lt;&lt;"a-key-ID"&gt;&gt; =&gt; {pem, &lt;&lt;"-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2dP+vRn+Kj+S/oGd49kq
+6+CKNAduCC1raLfTH7B3qjmZYm45yDl+XmgK9CNmHXkho9qvmhdksdzDVsdeDlhK
+IdcIWadhqDzdtn1hj/22iUwrhH0bd475hlKcsiZ+oy/sdgGgAzvmmTQmdMqEXqV2
+B9q9KFBmo4Ahh/6+d4wM1rH9kxl0RvMAKLe+daoIHIjok8hCO4cKQQEw/ErBe4SF
+2cr3wQwCfF1qVu4eAVNVfxfy/uEvG3Q7x005P3TcK+QcYgJxav3lictSi5dyWLgG
+QAvkknWitpRK8KVLypEj5WKej6CF8nq30utn15FQg0JkHoqzwiCqqeen8GIPteI7
+VwIDAQAB
+-----END PUBLIC KEY-----"&gt;&gt;}
+          }}
+      ]}
+    ]}
+].
+</pre>
+
+<p>If a symmetric key is used, the configuration will look like this:</p>
+<pre class="lang-erlang">
+[
+  {rabbitmq_auth_backend_oauth2, [
+    {resource_server_id, &lt;&lt;"my_rabbit_server"&gt;&gt;},
+    {key_config, [
+      {signing_keys, #{
+        &lt;&lt;"a-key-ID"&gt;&gt; =&gt; {map, #{&lt;&lt;"kty"&gt;&gt; =&gt; &lt;&lt;"MAC"&gt;&gt;,
+                                  &lt;&lt;"alg"&gt;&gt; =&gt; &lt;&lt;"HS256"&gt;&gt;,
+                                  &lt;&lt;"value"&gt;&gt; =&gt; &lt;&lt;"my_signing_key"&gt;&gt;}}
+      }}
+    ]}
+  ]},
+].
+</pre>
+
+<p>The key set can also be retrieved dynamically from a URL serving a <a href="https://tools.ietf.org/html/rfc7517#section-5">JWK Set</a>.
+In that case, the configuration will look like this:</p>
+<pre class="lang-erlang">
+[
+  {rabbitmq_auth_backend_oauth2, [
+    {resource_server_id, &lt;&lt;"my_rabbit_server"&gt;&gt;},
+    {key_config, [
+      {jwks_url, &lt;&lt;"https://my-jwt-issuer/jwks.json"&gt;&gt;}
+    ]}
+  ]},
+].
+</pre>
+
+<p>NOTE: <span class="code ">jwks_url</span> takes precedence over <span class="code ">signing_keys</span> if both are provided.</p>
+<h3><a id="variables-configurable" class="anchor" href="#variables-configurable">Variables Configurable in rabbitmq.conf</a></h3>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Documentation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="code ">auth_oauth2.resource_server_id</span></td>
+<td><a href="#resource-server-id-and-scope-prefixes">The Resource Server ID</a></td>
+</tr>
+<tr>
+<td><span class="code ">auth_oauth2.additional_scopes_key</span></td>
+<td>Configure the plugin to also look in other fields (maps to <span class="code ">additional_rabbitmq_scopes</span> in the old format).</td>
+</tr>
+<tr>
+<td><span class="code ">auth_oauth2.default_key</span></td>
+<td>ID of the default signing key.</td>
+</tr>
+<tr>
+<td><span class="code ">auth_oauth2.signing_keys</span></td>
+<td>Paths to signing key files.</td>
+</tr>
+<tr>
+<td><span class="code ">auth_oauth2.jwks_url</span></td>
+<td>The URL of key server. According to the <a href="https://datatracker.ietf.org/doc/html/rfc7515#section-4.1.2">JWT Specification</a> key server URL must be https.</td>
+</tr>
+<tr>
+<td><span class="code ">auth_oauth2.https.cacertfile</span></td>
+<td>Path to a file containing PEM-encoded CA certificates. The CA certificates are used during key server <a href="https://rabbitmq.com/ssl.html#peer-verification">peer verification</a>.</td>
+</tr>
+<tr>
+<td><span class="code ">auth_oauth2.https.depth</span></td>
+<td>The maximum number of non-self-issued intermediate certificates that may follow the peer certificate in a valid <a href="https://rabbitmq.com/ssl.html#peer-verification-depth">certification path</a>. Default is 10.</td>
+</tr>
+<tr>
+<td><span class="code ">auth_oauth2.https.peer_verification</span></td>
+<td>Should <a href="https://rabbitmq.com/ssl.html#peer-verification">peer verification</a> be enabled. Available values: <span class="code ">verify_none</span>, <span class="code ">verify_peer</span>. Default is <span class="code ">verify_none</span>. It is recommended to configure <span class="code ">verify_peer</span>. Peer verification requires a certain amount of setup and is more secure.</td>
+</tr>
+<tr>
+<td><span class="code ">auth_oauth2.https.fail_if_no_peer_cert</span></td>
+<td>Used together with <span class="code ">auth_oauth2.https.peer_verification = verify_peer</span>. When set to <span class="code ">true</span>, TLS connection will be rejected if client fails to provide a certificate. Default is <span class="code ">false</span>.</td>
+</tr>
+<tr>
+<td><span class="code ">auth_oauth2.https.hostname_verification</span></td>
+<td>Enable wildcard-aware hostname verification for key server. Available values: <span class="code ">wildcard</span>, <span class="code ">none</span>. Default is <span class="code ">none</span>.</td>
+</tr>
+<tr>
+<td><span class="code ">auth_oauth2.algorithms</span></td>
+<td>Restrict <a href="https://github.com/potatosalad/erlang-jose#algorithm-support">the usable algorithms</a>.</td>
+</tr>
+<tr>
+<td><span class="code ">auth_oauth2.verify_aud</span></td>
+<td><a href="#token-validation">Verify token's <span class="code ">aud</span></a>.</td>
+</tr>
+</tbody>
+</table>
+<p>For example:</p>
+<p>Configure with key files</p>
+<pre class="lang-ini">
+auth_oauth2.resource_server_id = new_resource_server_id
+auth_oauth2.additional_scopes_key = my_custom_scope_key
+auth_oauth2.default_key = id1
+auth_oauth2.signing_keys.id1 = test/config_schema_SUITE_data/certs/key.pem
+auth_oauth2.signing_keys.id2 = test/config_schema_SUITE_data/certs/cert.pem
+auth_oauth2.algorithms.1 = HS256
+auth_oauth2.algorithms.2 = RS256
+</pre>
+<p>Configure with key server</p>
+<pre class="lang-ini">
+auth_oauth2.resource_server_id = new_resource_server_id
+auth_oauth2.jwks_url = https://my-jwt-issuer/jwks.json
+auth_oauth2.https.cacertfile = test/config_schema_SUITE_data/certs/cacert.pem
+auth_oauth2.https.peer_verification = verify_peer
+auth_oauth2.https.depth = 5
+auth_oauth2.https.fail_if_no_peer_cert = true
+auth_oauth2.https.hostname_verification = wildcard
+auth_oauth2.algorithms.1 = HS256
+auth_oauth2.algorithms.2 = RS256
+</pre>
+<h3><a id="resource-server-id" class="anchor" href="#resource-server-id">Resource Server ID and Scope Prefixes</a></h3>
+<p>OAuth 2.0 (and thus UAA-provided) tokens use scopes to communicate what set of permissions particular
+client has been granted. The scopes are free form strings.</p>
+<p><span class="code ">resource_server_id</span> is a prefix used for scopes in UAA to avoid scope collisions (or unintended overlap).
+It is an empty string by default.</p>
+<h3><a id="token-validation" class="anchor" href="#token-validation">Token validation</a></h3>
+<p>When RabbitMQ receives a JWT token, it validates it before accepting it.</p>
+<h4>Must be digitally signed</h4>
+<p>The token must carry a digital signature and optionally a <span class="code ">kid</span> header attribute which identifies the key RabbitMQ should
+use to validate the signature.</p>
+<h4>Must not be expired</h4>
+<p>RabbitMQ uses this field <span class="code ">exp</span> (<a href="https://tools.ietf.org/html/rfc7519#page-9">exp</a>) to validate the token if present.
+It contains the expiration time after which the JWT MUST NOT be accepted for processing.</p>
+<h4>Audience must have/match the resource_server_id</h4>
+<p>The <span class="code ">aud</span> (<a href="https://tools.ietf.org/html/rfc7519#page-9">Audience</a>) identifies the recipients and/or resource_server of the JWT. By default, <strong>RabbitMQ uses this field to validate the token</strong> although we can disable it by setting <span class="code ">verify_aud</span> to <span class="code ">false</span>.  When it set to <span class="code ">true</span>, this attribute must either match the <span class="code ">resource_server_id</span> setting or in case of a list, it must contain the <span class="code ">resource_server_id</span>.</p>
+<h3><a id="scope-translation" class="anchor" href="#scope-translation">Scope-to-Permission Translation</a></h3>
+<p>Scopes are translated into permission grants to RabbitMQ resources for the provided token.</p>
+<p>The current scope format is <span class="code ">&lt;permission&gt;:&lt;vhost_pattern&gt;/&lt;name_pattern&gt;[/&lt;routing_key_pattern&gt;]</span> where</p>
+<ul>
+<li><span class="code ">&lt;permission&gt;</span> is an access permission (<span class="code ">configure</span>, <span class="code ">read</span>, or <span class="code ">write</span>)</li>
+<li><span class="code ">&lt;vhost_pattern&gt;</span> is a wildcard pattern for vhosts token has access to.</li>
+<li><span class="code ">&lt;name_pattern&gt;</span> is a wildcard pattern for resource name</li>
+<li><span class="code ">&lt;routing_key_pattern&gt;</span> is an optional wildcard pattern for routing key in topic authorization</li>
+</ul>
+<p>Wildcard patterns are strings with optional wildcard symbols <span class="code ">*</span> that match
+any sequence of characters.</p>
+<p>Wildcard patterns match as following:</p>
+<ul>
+<li><span class="code ">*</span> matches any string</li>
+<li><span class="code ">foo*</span> matches any string starting with a <span class="code ">foo</span></li>
+<li><span class="code ">*foo</span> matches any string ending with a <span class="code ">foo</span></li>
+<li><span class="code ">foo*bar</span> matches any string starting with a <span class="code ">foo</span> and ending with a <span class="code ">bar</span></li>
+</ul>
+<p>There can be multiple wildcards in a pattern:</p>
+<ul>
+<li><span class="code ">start*middle*end</span></li>
+<li><span class="code ">*before*after*</span></li>
+</ul>
+<p><strong>To use special characters like <span class="code ">*</span>, <span class="code ">%</span>, or <span class="code ">/</span> in a wildcard pattern,
+the pattern must be <a href="https://en.wikipedia.org/wiki/Percent-encoding">URL-encoded</a>.</strong></p>
+<p>These are the typical permissions examples:</p>
+<ul>
+<li><span class="code ">read:*/*</span>(<span class="code ">read:*/*/*</span>) - read permissions to any resource on any vhost</li>
+<li><span class="code ">write:*/*</span>(<span class="code ">write:*/*/*</span>) - write permissions to any resource on any vhost</li>
+<li><span class="code ">read:vhost1/*</span>(<span class="code ">read:vhost1/*/*</span>) - read permissions to any resource on the <span class="code ">vhost1</span> vhost</li>
+<li><span class="code ">read:vhost1/some*</span> - read permissions to all the resources, starting with <span class="code ">some</span> on the <span class="code ">vhost1</span> vhost</li>
+<li><span class="code ">write:vhsot1/some*/routing*</span> - topic write permissions to publish to an exchange starting with <span class="code ">some</span> with a routing key starting with <span class="code ">routing</span></li>
+</ul>
+<p>See the <a href="./test/wildcard_match_SUITE.erl">wildcard matching test suite</a> and <a href="./test/scope_SUITE.erl">scopes test suite</a> for more examples.</p>
+<p>Scopes should be prefixed with <span class="code ">resource_server_id</span>. For example,
+if <span class="code ">resource_server_id</span> is "my_rabbit", a scope to enable read from any vhost will
+be <span class="code ">my_rabbit.read:*/*</span>.</p>
+<h3><a id="use-different-token-field" class="anchor" href="#use-different-token-field">Using a different token field for the Scope</a></h3>
+<p>By default the plugin will look for the <span class="code ">scope</span> key in the token, you can configure the plugin to also look in other fields using the <span class="code ">extra_scopes_source</span> setting. Values format accepted are scope as <strong>string</strong> or <strong>list</strong></p>
+<pre class="lang-erlang">
+[
+  {rabbitmq_auth_backend_oauth2, [
+    {resource_server_id, &lt;&lt;"my_rabbit_server"&gt;&gt;},
+    {extra_scopes_source, &lt;&lt;"my_custom_scope_key"&gt;&gt;},
+    ...
+    ]}
+  ]},
+].
+</pre>
+<p>Token sample:</p>
+<pre class="lang-ini">
+{
+ "exp": 1618592626,
+ "iat": 1618578226,
+ "aud" : ["my_id"],
+ ...
+ "scope_as_string": "my_id.configure:*/* my_id.read:*/* my_id.write:*/*",
+ "scope_as_list": ["my_id.configure:*/*", "my_id.read:*/*", my_id.write:*/*"],
+ ...
+ }
+</pre>
+
+<h3><a id="use-tokens-with-clients" class="anchor" href="#use-tokens-with-clients">Using Tokens with Clients</a></h3>
+<p>A client must present a valid <span class="code ">access_token</span> acquired from an OAuth 2.0 provider (UAA) as the <strong>password</strong>
+in order to authenticate with RabbitMQ.</p>
+<p>To learn more about UAA/OAuth 2.0 clients see <a href="https://github.com/cloudfoundry/uaa/blob/master/docs/UAA-APIs.rst#id73">UAA docs</a>.</p>
+<h3><a id="scope-and-tags" class="anchor" href="#scope-and-tags">Scope and Tags</a></h3>
+<p>Users in RabbitMQ can have <a href="https://www.rabbitmq.com/access-control.html#user-tags">tags associated with them</a>.
+Tags are used to <a href="https://www.rabbitmq.com/management.html#permissions">control access to the management plugin</a>.</p>
+<p>In the OAuth context, tags can be added as part of the scope, using a format like <span class="code ">&lt;resource_server_id&gt;.tag:&lt;tag&gt;</span>. For
+example, if <span class="code ">resource_server_id</span> is "my_rabbit", a scope to grant access to the management plugin with
+the <span class="code ">monitoring</span> tag will be <span class="code ">my_rabbit.tag:monitoring</span>.</p>
+<h3><a id="token-expiration" class="anchor" href="#token-expiration">Token Expiration and Refresh</a></h3>
+<p>On an existing connection the token can be refreshed by the <a href="https://rabbitmq.com/amqp-0-9-1-reference.html#connection.update-secret">update-secret</a> AMQP 0.9.1 method. Please check your client whether it supports this method. (Eg. see documentation of the <a href="https://rabbitmq.com/api-guide.html#oauth2-refreshing-token">Java client</a>.) Otherwise the client has to disconnect and reconnect to use a new token.</p>
+<p>If the latest token expires on an existing connection, after a limited time the broker will refuse all operations (but it won't disconnect).</p>
+<h3><a id="rich-authorization-request" class="anchor" href="#rich-authorization-request">Rich Authorization Request</a></h3>
+<p>The <a href="https://oauth.net/2/rich-authorization-requests/">Rich Authorization Request</a> extension provides a way for
+OAuth clients to request fine-grained permissions during an authorization request.
+It moves away from the concept of scopes that are text labels and instead
+defines a more sophisticated permission model.</p>
+<p>RabbitMQ supports JWT tokens compliant with the extension. Below is a sample example section of JWT token:</p>
+<pre class="lang-javascript">
+{
+  "authorization_details": [
+    {
+      "type" : "rabbitmq",  
+      "locations": ["cluster:finance/vhost:production-*"],
+      "actions": [ "read", "write", "configure"  ]
+    },
+    {
+      "type" : "rabbitmq",
+      "locations": ["cluster:finance", "cluster:inventory" ],
+      "actions": ["administrator" ]
+    }
+  ]
+}
+</pre>
+
+<p>The token above contains two permissions under the attribute <span class="code ">authorization_details</span>.
+Both permissions are meant for RabbitMQ servers with <span class="code ">resource_server_type</span> set to <span class="code ">rabbitmq</span>.
+This field identifies RabbitMQ-specific permissions.</p>
+<p>The first permission grants <span class="code ">read</span>, <span class="code ">write</span> and <span class="code ">configure</span> permissions to any
+queue and/or exchange on any virtual host whose name matches the pattern <span class="code ">production-*</span>,
+and that reside in clusters whose <span class="code ">resource_server_id</span> contains the string <span class="code ">finance</span>.
+The <span class="code ">cluster</span> attribute's value is also a regular expression. To match exactly the
+string <span class="code ">finance</span>, use <span class="code ">^finance$</span>.</p>
+<p>The second permission grants the <span class="code ">administrator</span> user tag in two clusters, <span class="code ">finance</span>
+and <span class="code ">inventory</span>. Other supported user tags as <span class="code ">management</span>, <span class="code ">policymaker</span> and <span class="code ">monitoring</span>.</p>
+<h4>Type field</h4>
+<p>In order for a RabbitMQ node to accept a permission, its value must match that
+node's <span class="code ">resource_server_type</span> setting value. A JWT token may have permissions
+for multiple resource types.</p>
+<h4>Locations field</h4>
+<p>The <span class="code ">locations</span> field can be either a string containing a single location or a Json array containing
+zero or many locations.</p>
+<p>A location consists of a list of key-value pairs separated by forward slash <span class="code ">/</span> character. Here is the format:</p>
+<pre class="lang-bash">
+cluster:&lt;resource_server_id_pattern&gt;[/vhost:&lt;vhost_pattern&gt;][/queue:&lt;queue_name_pattern&gt;|/exchange:&lt;exchange_name_pattern][/routing-key:&lt;routing_key_pattern&gt;]
+</pre>
+
+<p>Any string separated by <span class="code ">/</span> which does not conform to <span class="code ">&lt;key&gt;:&lt;value&gt;</span> is ignored. For instance, if your locations start with a prefix, e.g. <span class="code ">vrn/cluster:rabbitmq</span>, the <span class="code ">vrn</span> pattern part is ignored.</p>
+<p>The supported location's attributed are:</p>
+<ul>
+<li><span class="code ">cluster</span>: This is the only mandatory attribute. It is a wildcard pattern which must match RabbitMQ's <span class="code ">resource_server_id</span> otherwise the location is ignored.</li>
+<li><span class="code ">vhost</span>: This is the virtual host we are granting access to. It also a wildcard pattern. If not specified, <span class="code ">*</span> will be used.</li>
+<li><span class="code ">queue</span>|<span class="code ">exchange</span>: queue or exchange name pattern. The location grants the permission to a set of queues (or exchanges) that match it. One location can only specify either <span class="code ">queue</span> or <span class="code ">exchange</span> but not both. If not specified, <span class="code ">*</span> will be used</li>
+<li><span class="code ">routing-key</span>: this is the routing key pattern the location grants the permission to. If not specified, <span class="code ">*</span> will be used</li>
+</ul>
+<p>For more information about wildcard patterns, check the section <a href="#scope-to-permission-translation">Scope-to-Permission Translation</a>.</p>
+<h4>Actions field</h4>
+<p>The <span class="code ">actions</span> field can be either a string containing a single action or a Json array containing zero or many actions.</p>
+<p>The supported actions map to either <a href="https://www.rabbitmq.com/access-control.html#authorisation">RabbitMQ permissions</a>:</p>
+<ul>
+<li><span class="code ">configure</span></li>
+<li><span class="code ">read</span></li>
+<li><span class="code ">write</span></li>
+</ul>
+<p>Or RabbitMQ user tags:</p>
+<ul>
+<li><span class="code ">administrator</span></li>
+<li><span class="code ">monitoring</span></li>
+<li><span class="code ">management</span></li>
+<li><span class="code ">policymaker</span></li>
+</ul>
+<h4>Rich-Permission to Scope translation</h4>
+<p>Rich Authorization Request permissions are translated into JWT token scopes that use the
+aforementioned convention using the following algorithm:</p>
+<p>For each location found in the <span class="code ">locations</span> where the <span class="code ">cluster</span> attribute matches the current RabbitMQ server's <span class="code ">resource_server_id</span>:</p>
+<ul>
+<li>
+<p>For each location found in the <span class="code ">locations</span> field where the <span class="code ">cluster</span> attribute matches the current RabbitMQ node's <span class="code ">resource_server_id</span>, the plugin extracts the <span class="code ">vhost</span>, <span class="code ">queue</span> or <span class="code ">exchange</span> and <span class="code ">routing_key</span> attributes from the location. If the location does not  have any of those attributes, the default value of <span class="code ">*</span> is assumed. Out of those values, the following scope suffix will be produced:
+    <pre class="lang-ini">scope_suffix = &lt;vhost&gt;/&lt;queue&gt;|&lt;exchange&gt;/&lt;routing-key&gt;</pre></p>
+</li>
+<li>
+<p>For each action found in the <span class="code ">actions</span> field:</p>
+<p>if the action is not a known user tag, the following scope is produced out of it:
+<pre class="lang-ini">
+  scope = &lt;resource_server_id&gt;.&lt;action&gt;:&lt;scope_suffix&gt;
+</pre></p>
+<p>For known user tag actions, the following scope is produced:
+<pre class="lang-ini">
+  scope = &lt;resource_server_id&gt;.&lt;action&gt;
+</pre></p>
+</li>
+</ul>
+<p>The plugin produces permutations of all <span class="code ">actions</span> by  all <span class="code ">locations</span> that match the node's configured <span class="code ">resource_server_id</span>.</p>
+<p>In the following RAR example</p>
+<pre class="lang-javascript">
+{
+  "authorization_details": [
+    { "type" : "rabbitmq",  
+      "locations": ["cluster:finance/vhost:primary-*"],
+      "actions": [ "read", "write", "configure"  ]
+    },
+    { "type" : "rabbitmq",
+      "locations": ["cluster:finance", "cluster:inventory" ],
+      "actions": ["administrator" ]
+    }
+  ]
+}
+</pre>
+
+<p>if RabbitMQ node's <span class="code ">resource_server_id</span> is equal to <span class="code ">finance</span>, the plugin will compute the following sets of scopes:
+- <span class="code ">finance.read:primary-*/*/*</span>
+- <span class="code ">finance.write:primary-*/*/*</span>
+- <span class="code ">finance.configure:primary-*/*/*</span>
+- <span class="code ">finance.tag:administrator</span></p>
+<h2><a id="examples" class="anchor" href="#examples">Examples</a></h2>
+<p>The <a href="oauth2-examples.html">RabbitMQ OAuth2 Auth Backend Examples</a> contains many example configuration files which can be used to set up several OAuth 2.0 providers such as UAA and issue tokens, which can be used to access RabbitMQ resources.</p>
+<h2>License and Copyright</h2>
+<p>(c) 2016-2020 VMware, Inc. or its affiliates.</p>
+<p>Released under the Mozilla Public License 2.0, same as RabbitMQ.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"><div id="in-this-section"><h4>In This Section</h4><ul>
+     <li><a href="/admin-guide.html">Server Documentation</a></li>
+     <li><a href="/clients.html">Client Documentation</a></li>
+     <li><a href="/plugins.html" class="selected">Plugins</a><ul>
+       <li><a href="/management.html">Management plugin</a></li>
+       <li><a href="/federation.html">Federation plugin</a></li>
+       <li><a href="/shovel.html">Shovel plugin</a></li>
+       <li><a href="/stream.html">Stream plugin</a></li>
+       <li><a href="/stomp.html">STOMP plugin</a></li>
+       <li><a href="/web-stomp.html">STOMP-over-WebSockets</a></li>
+       <li><a href="/mqtt.html">MQTT plugin</a></li>
+       <li><a href="/web-mqtt.html">MQTT-over-WebSockets</a></li>
+       <li><a href="/ldap.html">LDAP plugin</a></li>
+       <li><a href="/oauth2.html" class="selected">OAuth 2.0 plugin</a></li>
+       <li><a href="/installing-plugins.html">Installing plugins</a></li>
+       <li><a href="/plugin-development.html">Plugin development</a></li>
+       
+     </ul></li>
+     <li><a href="/news.html">News</a></li>
+     <li><a href="/protocol.html">Protocol</a></li>
+     <li><a href="/extensions.html">Our Extensions</a></li>
+     <li><a href="/build.html">Building</a></li>
+     
+     <li><a href="/mpl.html">License</a></li>
+   </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
+          <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
+          <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>
