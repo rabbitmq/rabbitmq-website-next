@@ -5,9 +5,20 @@
  — RabbitMQ</title></head>
   <body id="lazy-queues"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Lazy Queues
 </h1>
+<h2><a id="interstitial" class="anchor" href="#interstitial">Wait, There's a Better Way: Next Generation Classic Queue Storage</a></h2>
+<p>This guide covers lazy mode of classic queues.</p>
+<p><a href="quorum-queues.html">Quorum queues</a> is an alternative, more modern queue type
+that offers high availability via replication and focuses on data safety.
+As of RabbitMQ 3.10, quorum queues <a href="https://blog.rabbitmq.com/posts/2022/05/rabbitmq-3.10-release-overview/">support message TTL</a> and
+provide <a href="https://blog.rabbitmq.com/posts/2022/05/rabbitmq-3.10-performance-improvements/">higher throughput and more stable latency</a> compared to mirrored classic queues.</p>
+<p><a href="streams.html">Streams</a> is a messaging data structure available as of <a href="changelog.html">RabbitMQ 3.9</a>,
+and is also replicated.</p>
+<p>Quorum queues should be the <strong>default choice</strong> for a replicated queue type.
+Classic queue mirroring will be <strong>removed in a future version</strong> of RabbitMQ:
+classic queues will remain a supported non-replicated queue type.</p>
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>Since <strong>RabbitMQ 3.6.0</strong>, the broker has the concept of <strong>Lazy Queues</strong> -
-queues that move their contents to disk as early as practically possible,
+<p>Classic queues can operate in <strong>lazy mode</strong>: that is,
+move their contents to disk as early as practically possible,
 and only load them in RAM when requested by consumers,
 therefore the lazy denomination.</p>
 <p>One of the main goals of lazy queues is to be able to support very
@@ -34,31 +45,14 @@ This comes at a cost of increased disk I/O.</p>
 <h2><a id="configuration" class="anchor" href="#configuration">Making a Queue Lazy</a></h2>
 <p>Queues can be made to run in <span class="code ">default</span> mode or <span class="code ">lazy</span> mode by:</p>
 <ul class="plain">
+  <li>applying a queue <a href="parameters.html#policies">policy</a> (recommended)</li>
   <li>setting the mode via <span class="code ">queue.declare</span> arguments</li>
-  <li>applying a queue <a href="parameters.html#policies">policy</a></li>
 </ul>
 
-<p>When both a <a href="parameters.html">policy</a> and queue arguments specify a queue mode, the queue argument has priority over the policy value.</p>
+<p>When both a <a href="parameters.html">policy</a> and queue arguments specify a queue mode,
+the queue argument has priority over the policy value if both are specified.</p>
 <p>If a queue mode is set via an optional argument at the time of declaration,
 it can only be changed by deleting the queue, and re-declaring it later with a different argument.</p>
-<h3>Using Arguments at the Time of Declaration</h3>
-<p>The queue mode can be set by supplying the <span class="code ">x-queue-mode</span> queue declaration argument with a string specifying the desired mode.
-Valid modes are:</p>
-<ul class="plain">
-  <li><span class="code ">"default"</span></li>
-  <li><span class="code ">"lazy"</span></li>
-</ul>
-
-<p>If no mode is specified during declare, then <span class="code ">"default"</span> is assumed.
-The <span class="code ">default</span> mode is the behaviour already present in pre 3.6.0 versions of the broker,
-so there are no breaking changes in this regard.</p>
-<p>This example in Java declares a queue with the queue mode set to <span class="code ">"lazy"</span>:</p>
-<pre class="lang-java">
-  Map&lt;String, Object&gt; args = new HashMap&lt;String, Object&gt;();
-  args.put("x-queue-mode", "lazy");
-  channel.queueDeclare("myqueue", false, false, false, args);
-</pre>
-
 <h3>Using a policy</h3>
 <p>To specify a queue mode using a policy, add the key <span class="code ">queue-mode</span> to a policy definition, e.g.:</p>
 <table>
@@ -97,6 +91,24 @@ to specify a different <span class="code ">queue-mode</span>:</p>
     </td>
   </tr>
 </table>
+
+<h3>Using Arguments at the Time of Declaration</h3>
+<p>The queue mode can be set by supplying the <span class="code ">x-queue-mode</span> queue declaration argument with a string specifying the desired mode.
+Valid modes are:</p>
+<ul class="plain">
+  <li><span class="code ">"default"</span></li>
+  <li><span class="code ">"lazy"</span></li>
+</ul>
+
+<p>If no mode is specified during declare, then <span class="code ">"default"</span> is assumed.
+The <span class="code ">default</span> mode is the behaviour already present in pre 3.6.0 versions of the broker,
+so there are no breaking changes in this regard.</p>
+<p>This example in Java declares a queue with the queue mode set to <span class="code ">"lazy"</span>:</p>
+<pre class="lang-java">
+  Map&lt;String, Object&gt; args = new HashMap&lt;String, Object&gt;();
+  args.put("x-queue-mode", "lazy");
+  channel.queueDeclare("myqueue", false, false, false, args);
+</pre>
 
 <h2><a id="performance" class="anchor" href="#performance">Performance Considerations for Lazy Queues</a></h2>
 <h3>Disk Utilization</h3>

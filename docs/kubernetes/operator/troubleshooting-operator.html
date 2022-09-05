@@ -13,6 +13,7 @@ are not its primary focus.</p>
 <ul>
 <li><a href="#cluster-fails-to-deploy">RabbitMQ cluster fails to deploy</a></li>
 <li><a href="#pods-are-not-created">Pods are not being created</a></li>
+<li><a href="#pods-restart-on-startup">Pods restart on startup</a></li>
 <li><a href="#pods-stuck-in-terminating-state">Pods are stuck in the terminating state</a></li>
 <li><a href="#operator-failure-on-startup">Cluster Operator fails on startup</a></li>
 </ul>
@@ -50,6 +51,20 @@ Kubernetes cluster, but you have not created the necessary <span class="code ">P
 corresponding role-based access control (RBAC) resources.</p>
 <p>Potential solution is to create the PodSecurityPolicy and RBAC resources by following the procedure in
 <a href="./using-operator.html#psp">Pod Security Policies</a>.</p>
+<h3><a id="pods-restart-on-startup" class="anchor" href="#pods-restart-on-startup">Pods Restart on Startup</a></h3>
+<p>The RabbitMQ container might fail at Pod startup and log a message such as</p>
+<pre class="lang-plaintext">
+epmd error for host rabbitmq-server-1.rabbitmq-nodes.mynamespace: nxdomain (non-existing domain)
+</pre>
+<p>or</p>
+<pre class="lang-plaintext">
+Error during startup: {error,no_epmd_port}
+</pre>
+
+<p>The Pod restarts and becomes <span class="code ">Ready</span> eventually.</p>
+<p>Since RabbitMQ nodes <a href="../../clustering.html#hostname-resolution-requirement">resolve their own and peer hostnames during boot</a>,
+CoreDNS <a href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#stable-network-id">caching timeout may need to be decreased</a> from default 30 seconds
+to a value in the 5-10 seconds range.</p>
 <h3><a id="pods-stuck-in-terminating-state" class="anchor" href="#pods-stuck-in-terminating-state">Pods Are Stuck in the Terminating State</a></h3>
 <p>symptom: "After deleting a RabbitmqCluster instance, some Pods
 are stuck in the terminating state. RabbitMQ is still running in the affected Pods."</p>

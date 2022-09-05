@@ -351,6 +351,9 @@ A <a href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset
 control <a href="https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/">network identity of the pods</a>
 (their hostnames), which in turn affect RabbitMQ node names.
 On the headless service <span class="code ">spec</span>, field <span class="code ">publishNotReadyAddresses</span> must be set to <span class="code ">true</span> to propagate SRV DNS records for its Pods for the purpose of peer discovery.</p>
+<p>In addition, since RabbitMQ nodes <a href="./clustering.html#hostname-resolution-requirement">resolve their own and peer hostnames during boot</a>,
+CoreDNS <a href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#stable-network-id">caching timeout may need to be decreased</a> from default 30 seconds
+to a value in the 5-10 second range.</p>
 <p>If a stateless set is used recreated nodes will not have their persisted data and will start as blank nodes.
 This can lead to data loss and higher network traffic volume due to more frequent
 data synchronisation of both <a href="quorum-queues.html">quorum queues</a>

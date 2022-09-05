@@ -17,8 +17,8 @@ used for schema <a href="backup.html">backup</a> or data seeding.</p>
 Every node in a cluster has its own replica of all definitions. When a part of definitions changes,
 the update is performed on all nodes in a single transaction. This means that
 in practice, definitions can be exported from any cluster node with the same result.</p>
-<p><a href="./tanzu/">VMware Tanzu RabbitMQ</a> supports <a href="definitions-standby.html">continuous schema definition replication</a> to a remote cluster,
-which makes it easy to run a hot standby cluster for disaster recovery.</p>
+<p><a href="https://docs.vmware.com/en/VMware-Tanzu-RabbitMQ-for-Kubernetes/index.html">VMware Tanzu RabbitMQ</a> supports <a href="definitions-standby.html">continuous schema definition replication</a> to a remote cluster,
+which makes it easy to run a warm standby cluster for disaster recovery.</p>
 <p>Definition import on node boot is the recommended way of <a href="#import-on-boot">pre-configuring nodes at deployment time</a>.</p>
 <h2><a id="export" class="anchor" href="#export">Definition Export</a></h2>
 <p>Definitions are exported as a JSON file in a number of ways.</p>
@@ -107,8 +107,8 @@ Set the <span class="code ">definitions.import_backend</span> and <span class="c
 <pre class="lang-ini">
 # Does not require management plugin to be enabled.
 definitions.import_backend = https
-definitions.https.url = https://raw.githubusercontent.com/rabbitmq/sample-configs/main/lot-of-queues/5k-queues.json
-# client-side TLS options for definition import   
+definitions.https.url = https://raw.githubusercontent.com/rabbitmq/sample-configs/main/queues/5k-queues.json
+# client-side TLS options for definition import
 definitions.tls.versions.1 = tlsv1.2
 </pre>
 
@@ -194,7 +194,7 @@ rabbitmqadmin import /path/to/definitions.file.json
        <li><a href="/clustering.html">Clustering</a></li>
        <li><a href="/reliability.html">Reliable Delivery</a></li>
        <li><a href="/definitions.html" class="selected">Schema Definition Export and Import</a><ul>
-          <li><a href="/definitions-standby.html">Hot standby Using Definition Replication</a></li>
+          <li><a href="/definitions-standby.html">warm standby Using Definition Replication</a></li>
        </ul></li>
        <li><a href="/backup.html">Backup and restore</a></li>
        <li><a href="/alarms.html">Alarms</a></li>

@@ -25,7 +25,7 @@
 <p>and more. <a href="./cluster-formation.html">Cluster Formation and Peer Discovery</a> is a closely related guide
 that focuses on peer discovery and cluster formation automation-related topics. For queue contents
 (message) replication, see the <a href="./quorum-queues.html">Quorum Queues</a> guide.</p>
-<p><a href="tanzu">Tanzu RabbitMQ</a> provides an <a href="clustering-compression.html">inter-node traffic compression</a> feature.</p>
+<p><a href="https://docs.vmware.com/en/VMware-Tanzu-RabbitMQ-for-Kubernetes/index.html">Tanzu RabbitMQ</a> provides an <a href="clustering-compression.html">inter-node traffic compression</a> feature.</p>
 <p>A RabbitMQ cluster is a logical grouping of one or
 several nodes, each  sharing users, virtual hosts,
 queues, exchanges, bindings, runtime parameters and other distributed state.</p>
@@ -68,12 +68,17 @@ to <span class="code ">true</span>.</p>
 must be specified.</p>
 <h2><a id="cluster-formation-requirements" class="anchor" href="#cluster-formation-requirements">Cluster Formation Requirements</a></h2>
 <h3><a id="hostname-resolution-requirement" class="anchor" href="#hostname-resolution-requirement">Hostname Resolution</a></h3>
-<p>RabbitMQ nodes address each other using domain names,
-either short or fully-qualified (FQDNs). Therefore
-hostnames of all cluster members
-must be resolvable from all cluster nodes, as well
+<p>RabbitMQ nodes address each other using a <strong>node name</strong>, a combination
+of a prefix and domain name, either short or fully-qualified (FQDNs).</p>
+<p>Therefore every cluster member <strong>must be able to resolve hostnames
+of every other cluster member</strong>, its own hostname, as well
 as machines on which command line tools such as <span class="code ">rabbitmqctl</span>
 might be used.</p>
+<p>Nodes will perform hostname resolution early on node boot.
+In container-based environments it is important that hostname
+resolution is ready before the container is started.
+For Kubernetes users, this means the <a href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#stable-network-id">DNS cache interval for CoreDNS</a>
+to a value in the 5-10 second range.</p>
 <p>Hostname resolution can use any of the standard OS-provided
 methods:</p>
 <ul>
@@ -134,7 +139,7 @@ An <a href="./management.html">HTTP API</a> client can target any cluster node.<
 certain nodes to be "special" for a period of time. For example, <a href="federation.html">federation links</a>
 are colocated on a particular cluster node. Should that node fail, the links will
 be restarted on a different node.</p>
-<p>In versions older than 3.6.7, <a href="./management.html">RabbitMQ management plugin</a> used
+<p>In older (long maintained) versions, <a href="./management.html">RabbitMQ management plugin</a> used
 a dedicated node for stats collection and aggregation.</p>
 <h3><a id="erlang-cookie" class="anchor" href="#erlang-cookie">How CLI Tools Authenticate to Nodes (and Nodes to Each Other): the Erlang Cookie</a></h3>
 <p>RabbitMQ nodes and CLI tools (e.g. <span class="code ">rabbitmqctl</span>) use a
@@ -314,7 +319,7 @@ this reason, most client libraries accept a list of endpoints (hostnames or IP a
 as a connection option. The list of hosts will be used during initial connection
 as well as connection recovery, if the client supports it. See documentation guides
 for individual clients to learn more.</p>
-<p>With <a href="./quorum-queues.html">quorum queues</a>, clients will only be able to perform
+<p>With <a href="./quorum-queues.html">quorum queues</a> and <a href="./streams.html">streams</a>, clients will only be able to perform
 operations on queues that have a quorum of replicas online.</p>
 <p>With classic mirrored queues, there are scenarios where it may not be possible for a client to transparently continue
 operations after connecting to a different node. They usually involve
@@ -368,7 +373,7 @@ WAN. Note that <a href="distributed.html">Shovel and Federation are not equivale
 other nodes to access it. Some stats are cluster-wide, others are specific to individual nodes.
 Node that responds to an <a href="./management.html">HTTP API</a> request contacts its peers
 to retrieve their data and then produces an aggregated result.</p>
-<p>In versions older than 3.6.7, <a href="./management.html">RabbitMQ management plugin</a> used
+<p>In older (long unmaintained) versions <a href="./management.html">RabbitMQ management plugin</a> used
 a dedicated node for stats collection and aggregation.</p>
 <h2><a id="manual-transcript" class="anchor" href="#manual-transcript">Clustering Transcript with <span class="code ">rabbitmqctl</span></a></h2>
 <p>The following several sections provide a transcript of manually setting up and manipulating

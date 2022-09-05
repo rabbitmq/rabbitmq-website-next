@@ -29,9 +29,9 @@
 </ul>
 <p>and more.</p>
 <h2><a id="terminology" class="anchor" href="#terminology">Terminology</a></h2>
-<p>The term "consumer" means different things in different contexts. In general in messaging
-a consumer is an application (or application instance) that consumes messages. The same
-application can also publish messages and thus be a publisher at the same time.</p>
+<p>The term "consumer" means different things in different contexts. In general, in the context of messaging
+and streaming, a consumer is an application (or application instance) that consumes and <a href="./confirms.html">acknowledges</a>
+messages. The same application can also publish messages and thus be a publisher at the same time.</p>
 <p>Messaging protocols also have the concept of a lasting subscription for message delivery.
 Subscription is one term commonly used to describe such entity. Consumer is another.
 Messaging protocols supported by RabbitMQ use both terms but RabbitMQ documentation tends to
@@ -302,7 +302,7 @@ can stay empty for prolonged periods of time.</p>
 <h3>.NET Client</h3>
 <p>See <a href="./dotnet-api-guide.html#basic-get">.NET client guide</a> for examples.</p>
 <h2><a id="acknowledgement-timeout" class="anchor" href="#acknowledgement-timeout">Delivery Acknowledgement Timeout</a></h2>
-<p>In modern RabbitMQ versions, a timeout is enforced on consumer delivery acknowledgement.
+<p>In all <a href="./versions.html">currently supported</a> RabbitMQ versions, a timeout is enforced on consumer delivery acknowledgement.
 This helps detect buggy (stuck) consumers that never acknowledge deliveries.
 Such consumers can affect node's on disk data compaction and potentially drive
 nodes out of disk space.</p>
@@ -311,7 +311,7 @@ its channel will be closed with a <span class="code ">PRECONDITION_FAILED</span>
 The error will be <a href="logging.html">logged</a> by the node that the consumer was
 connected to. All outstanding deliveries on that channel, from all consumers,
 will be <a href="confirms.html#automatic-requeueing">requeued</a>.</p>
-<p>The timeout value is configurable in [<span class="code ">rabbitmq.conf</span>] (in milliseconds):</p>
+<p>The timeout value is configurable in <a href="./configure.html#config-file">rabbitmq.conf</a> (in milliseconds):</p>
 <pre class="lang-ini">
 # 30 minutes in milliseconds
 consumer_timeout = 1800000

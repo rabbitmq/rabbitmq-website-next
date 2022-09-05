@@ -13,7 +13,7 @@ state of the system.</p>
 <p>RabbitMQ supports a number of features when it comes to logging.</p>
 <p>This guide covers topics such as:</p>
 <ul>
-<li>Supported log outputs: <a href="#logging-to-a-file">file</a> and <a href="#logging-to-console">standard streams (console)</a></li>
+<li>Supported <a href="#log-outputs">log outputs</a>: <a href="#logging-to-a-file">file</a> and <a href="#logging-to-console">standard streams (console)</a></li>
 <li><a href="#log-file-location">Log file location</a></li>
 <li>Supported <a href="#log-levels">log levels</a></li>
 <li>How to <a href="#debug-logging">enable debug logging</a></li>
@@ -28,8 +28,22 @@ state of the system.</p>
 <li><a href="#log-exchange">Logging to a system topic exchange</a>, <span class="code ">amq.rabbitmq.log</span></li>
 </ul>
 <p>and more.</p>
+<h2><a id="log-outputs" class="anchor" href="#log-outputs">Log Outputs</a></h2>
+<p>RabbitMQ nodes can log to multiple outputs. <a href="#logging-to-a-file">Logging to a file</a> is
+one of the most common options for RabbitMQ installations.</p>
+<p><a href="#logging-to-console">Logging to standard output and error streams</a> is another popular option.
+<a href="#logging-to-syslog">Syslog</a>
+is a yet another one supported out of the box.</p>
+<p>Different outputs can have different log levels. For example, the console output can log all
+messages including debug information  while the file output can only log error and higher severity
+messages.</p>
+<h2><a id="default-output" class="anchor" href="#default-output">Default Log Output and Behavior</a></h2>
+<p>Nodes <a href="#logging-to-a-file">log to a file</a> by default, if no outputs are explicitly configured.
+If some are configured, they will be used.</p>
+<p>RabbitMQ versions prior to 3.9.0 would always log to a file unless explicitly configured
+not to do so. With later versions, the same behavior can be achieved by explicitly
+listing a file output next to other desired log outputs, such as the standard stream one.</p>
 <h2><a id="log-file-location" class="anchor" href="#log-file-location">Log File Location</a></h2>
-<p>Modern RabbitMQ versions use a single log file by default.</p>
 <p>Please see the <a href="relocate.html">File and Directory Location</a> guide to find default log file location for various platforms.</p>
 <p>There are two ways to configure log file location. One is the <a href="configure.html">configuration file</a>. This option is recommended.
 The other is the <span class="code ">RABBITMQ_LOGS</span> environment variable. It can be useful in development environments.</p>
@@ -44,14 +58,10 @@ if the environment variable is set, the configuration key <span class="code ">lo
 <h2><a id="configuration" class="anchor" href="#configuration">Configuration</a></h2>
 <p>RabbitMQ starts logging early on node start. See the <a href="configure.html">Configuration guide</a>
 for a general overview of how to configure RabbitMQ.</p>
-<h3><a id="log-outputs" class="anchor" href="#log-outputs">Log Outputs</a></h3>
-<p>Default RabbitMQ logging configuration will direct log messages to a log file. Standard output is
-another option available out of the box.</p>
-<p>Several outputs can be used at the same time. Log entries will be copied to all of them.</p>
-<p>Different outputs can have different log levels. For example, the console output can log all
-messages including debug information  while the file output can only log error and higher severity
-messages.</p>
 <h3><a id="logging-to-a-file" class="anchor" href="#logging-to-a-file">Logging to a File</a></h3>
+<p>Logging to a file is one of the most common options for RabbitMQ installations. In modern releases,
+RabbitMQ nodes only log to a file if explicitly configured to do so using
+the configuration keys listed below:</p>
 <ul>
 <li><span class="code ">log.file</span>: log file path or <span class="code ">false</span> to disable the file output. Default value is taken from the <span class="code ">RABBITMQ_LOGS</span> <a href="configure.html">environment variable or configuration file</a></li>
 <li><span class="code ">log.file.level</span>: log level for the file output. Default level is <span class="code ">info</span></li>
@@ -138,6 +148,8 @@ way of log file rotation and compression.</p>
 <p>RabbitMQ <a href="./install-debian.html">Debian</a> and <a href="./install-rpm.html">RPM</a> packages will set up <span class="code ">logrotate</span> to run weekly on files
 located in default <span class="code ">/var/log/rabbitmq</span> directory. Rotation configuration can be found in <span class="code ">/etc/logrotate.d/rabbitmq-server</span>.</p>
 <h3><a id="logging-to-console" class="anchor" href="#logging-to-console">Logging to Console (Standard Output)</a></h3>
+<p>Logging to standard streams (console) is another popular option for RabbitMQ installations.
+RabbitMQ nodes only log to standard streams if explicitly configured to do so.</p>
 <p>Here are the main settings that control console (standard output) logging:</p>
 <ul>
 <li><span class="code ">log.console</span> (boolean): set to <span class="code ">true</span> to enable console output. Default is `false</li>

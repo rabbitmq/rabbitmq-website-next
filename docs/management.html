@@ -27,7 +27,7 @@ core RabbitMQ features and do not require or rely on this plugin.</p>
 <li>How this plugin <a href="#clustering">operates in multi-node clusters</a></li>
 <li>How to <a href="#disable-stats">disable metric collection</a> to use <a href="prometheus.html">Prometheus</a> exclusively for monitoring</li>
 <li><a href="#oauth2-authentication">OAuth 2</a> support</li>
-<li><a href="#hsts">Strict transport security</a>, <a href="#csp">Content security policy</a> and <a href="#cors">cross-origin resource sharing</a> settings</li>
+<li><a href="#hsts">Strict transport security</a>, <a href="#csp">Content security policy</a>, <a href="#cors">cross-origin resource sharing</a>, and <a href="#other-security-headers">other security-related header</a> control</li>
 <li><a href="#statistics-interval">Statistics collection interval</a></li>
 <li><a href="#rates-mode">Message rate mode</a> (rate fidelity) and <a href="#sample-retention">data retention intervals</a></li>
 <li><a href="#http-logging">HTTP API request logging</a></li>
@@ -283,7 +283,7 @@ endpoints require the token to be passed in the <span class="code ">token</span>
 <p>When activated, the management plugin provides an HTTP API at
 <span class="code ">http://<i>server-name</i>:15672/api/</span> by default. Browse to that
 location for more information on the API. For convenience the same API reference is
-<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.10.5/deps/rabbitmq_management/priv/www/api/index.html">available on GitHub</a>.</p>
+<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.10.7/deps/rabbitmq_management/priv/www/api/index.html">available on GitHub</a>.</p>
 <h3><a id="http-api-monitoring" class="anchor" href="#http-api-monitoring">HTTP API and Monitoring</a></h3>
 <p>The API is intended to be used for basic observability tasks. <a href="prometheus.html">Prometheus and Grafana</a>
 are recommended for long term metric storage, alerting, anomaly detection, and so on.</p>
@@ -302,7 +302,7 @@ has the management plugin enabled at <span class="code ">http://<i>{node-hostnam
 see <a href="./devtools.html">Developer Tools</a>.</p>
 <p>Some API endpoints return a lot of information. The volume can be reduced
 by filtering what columns are returned by <span class="code ">HTTP GET</span> requests. See
-<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.10.5/deps/rabbitmq_management/priv/www/api/index.html">latest HTTP API documentation</a> for details.</p>
+<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.10.7/deps/rabbitmq_management/priv/www/api/index.html">latest HTTP API documentation</a> for details.</p>
 <h2><a id="configuration" class="anchor" href="#configuration">Configuration</a></h2>
 <p>There are several configuration options which affect the
 management plugin. These are managed through the main
@@ -639,6 +639,32 @@ by default. The value can be changed. It is configured in seconds:</p>
 management.cors.allow_origins.1 = https://origin1.org
 management.cors.allow_origins.2 = https://origin2.org
 management.cors.max_age         = 3600
+</pre>
+
+<h3><a id="other-security-headers" class="anchor" href="#other-security-headers">Other Security-related Headers</a></h3>
+<p>It is possible to set a few more security-related headers for management UI and HTTP API responses.
+Note that some of them have been superseded by CORS and other newer development in the
+browser security space.</p>
+<p>The supported headers are:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options"><span class="code ">X-Frame-Options</span></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection"><span class="code ">X-Xss-Protection</span></a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options"><span class="code ">X-Content-Type-Options</span></a></li>
+</ul>
+<pre class="lang-ini">
+management.headers.content_type_options = nosniff
+management.headers.xss_protection = 1; mode=block
+management.headers.frame_options = DENY
+</pre>
+
+<p>They can be combined with the aforementioned CORS, HSTS, CSP headers:</p>
+<pre class="lang-ini">
+management.hsts.policy = max-age=31536000; includeSubDomains
+management.csp.policy = default-src 'self'; script-src 'self' 'unsafe-eval'
+
+management.headers.content_type_options = nosniff
+management.headers.xss_protection = 1; mode=block
+management.headers.frame_options = DENY
 </pre>
 
 <h3><a id="login-session-timeout" class="anchor" href="#login-session-timeout">Login Session Timeout</a></h3>

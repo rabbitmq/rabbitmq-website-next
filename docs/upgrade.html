@@ -103,7 +103,7 @@ introduces no breaking changes within a release series (e.g. between
 <span class="code ">3.6.11</span> and <span class="code ">3.6.16</span>). If upgrading to a new minor version
 (e.g. <span class="code ">3.7.0</span>), plugin must be upgraded to their versions that support
 the new RabbitMQ version series.</p>
-<p>In rare cases patch versions of RabbitMQ (e.g. 3.6.7) can break some plugin APIs.
+<p>In rare cases patch versions of RabbitMQ can break some plugin APIs.
 Such cases will be documented in the breaking changes section of the release notes document.</p>
 <p><a href="community-plugins.html">Community plugins page</a> contains information on RabbitMQ
 version support for plugins not included into the RabbitMQ distribution.</p>
@@ -204,7 +204,7 @@ It is strongly recommended to consult release notes before upgrading.</p>
 <p>Some patch releases known to require a cluster-wide restart:</p>
 <ul>
 <li>3.6.7 and later cannot be mixed with earlier versions from the 3.6.x series</li>
-<li>3.6.6 and later cannot be mixed with earlier versions from the 3.6.x series</li>
+<li>3.6.6 and later cannot be mixed with later versions from the 3.6.x series</li>
 <li>3.0.0 cannot be mixed with later versions from the 3.0.x series</li>
 </ul>
 <p><strong>A RabbitMQ node will fail to [re-]join a peer running an incompatible version</strong>.</p>

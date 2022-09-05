@@ -211,8 +211,11 @@ spec:
 kubectl get users.rabbitmq.com user-example -o jsonpath='{.status.credentials.name}'
 </pre>
 
+<p>Note that the Operator does not monitor the generated secret object and updating the secret object won't update the credentials.
+As a workaround, add a label or annotation to <span class="code ">users.rabbitmq.com</span> object to trigger the Operator to reconcile.</p>
 <p>The Operator also supports creating RabbitMQ users with provided credentials. When creating a user with provided username and password, create a kubernetes
-secret object contains keys <span class="code ">username</span> and <span class="code ">password</span> in its Data field.</p>
+secret object contains keys <span class="code ">username</span> and <span class="code ">password</span> in its Data field. The Operator does not monitor the provided secret object and updating the secret
+object won't update the credentials. As a workaround, add a label or annotation to <span class="code ">users.rabbitmq.com</span> object to trigger the Operator to reconcile.</p>
 <p>The following manifest will create a user with username and password provided from secret 'my-rabbit-user' :</p>
 <pre class="lang-bash">
 apiVersion: rabbitmq.com/v1beta1

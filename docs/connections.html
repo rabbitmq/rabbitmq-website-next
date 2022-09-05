@@ -29,6 +29,7 @@ in a separate guide.</p>
 <ul>
 <li><a href="#basics">The basics</a> of how clients use RabbitMQ</li>
 <li><a href="#lifecycle">Connection lifecycle</a></li>
+<li>How to <a href="#tls">encrypt traffic on client connections</a></li>
 <li>Connection <a href="#logging">event logging</a></li>
 <li><a href="#monitoring">Monitoring</a> of connections and how to detect <a href="#high-connection-churn">high connection churn</a> scenarios</li>
 <li>Sustaining a <a href="#large-number-of-connections">large number of concurrent connections</a></li>
@@ -108,6 +109,15 @@ attaches links to the session in order to publish and consume messages.</p>
 When it is used, RabbitMQ uses a pre-configured set of credentials.</p>
 <h4>STOMP</h4>
 <p>STOMP connections follow the flow described above.</p>
+<h2><a id="tls" class="anchor" href="#tls">Connection Traffic Encryption with TLS</a></h2>
+<p>All protocols supported by RabbitMQ allow for "clear text" (unencrypted) traffic, in other words,
+TLS is not a requirement. However, using TLS is highly recommended for production systems
+to prevent both traffic snopping and man-in-the-middle attacks.</p>
+<p>Applications that use unencrypted connections will also send credentials as "clear text".
+Certain security scanners will report this as "AMQP Cleartext Authentication".
+The solution is to use TLS for those client connections.</p>
+<p>To learn more, please refer to the guides dedicated to TLS: <a href="./ssl.html">TLS for client connections</a>,
+<a href="./clustering-ssl.html">securing intra-cluster communication with TLS</a> and <a href="./troubleshooting-ssl.html">troubleshooting TLS</a>.</p>
 <h2><a id="logging" class="anchor" href="#logging">Logging</a></h2>
 <p>RabbitMQ logs all inbound client connections that send at least 1 byte of data. Connections
 that are opened without any activity will not be logged. This is to prevent TCP load balancer health

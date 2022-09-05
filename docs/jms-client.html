@@ -249,6 +249,11 @@ public ConnectionFactory jmsConnectionFactory() {
 <td>No</td>
 <td>Whether <span class="code ">replyTo</span> destination for consumed messages should be declared. Default is true.</td>
 </tr>
+<tr>
+<td><span class="code ">keepTextMessageType</span></td>
+<td>No</td>
+<td>When set to <span class="code ">true</span>, the AMQP <span class="code ">JMSType</span> header will be set automatically to <span class="code ">"TextMessage"</span> for <span class="code ">TextMessage</span>s published to AMQP-backed <span class="code ">Destination</span>s. Default is false.</td>
+</tr>
 </tbody>
 </table>
 <h2><a id="destination-interoperability" class="anchor" href="#destination-interoperability">JMS and AMQP 0-9-1 Destination Interoperability</a></h2>
@@ -418,10 +423,13 @@ available:</p>
 <td>No</td>
 <td>Name of the JMS destination.</td>
 </tr>
+<tr>
+<td><span class="code ">queueDeclareArguments</span></td>
+<td>No</td>
+<td>Arguments to use when declaring the AMQP queue. Use <span class="code ">key=value</span> pairs separated by commas for JNDI, e.g. <span class="code ">x-queue-type=quorum</span>.</td>
+</tr>
 </tbody>
 </table>
-
-
 <h2><a id="logging" class="anchor" href="#logging">Configuring Logging for the JMS Client</a></h2>
 <p>The JMS Client logs messages using SLF4J (Simple Logging Façade for Java).
 SLF4J delegates to a logging framework, such as Apache Logback.

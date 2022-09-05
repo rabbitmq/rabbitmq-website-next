@@ -36,9 +36,9 @@ local RabbitMQ cluster to the queue <span class="code ">"target-queue"</span> on
 <p>A shovel is declared using the <span class="code ">rabbitmqctl set_parameter</span> command with component name <span class="code ">shovel</span>, a shovel
 name and a definition body which is a JSON document:</p>
 <pre class="lang-bash">
-# my-shovel is here is the name of the shovel
+# my-shovel here is the name of the shovel
 rabbitmqctl set_parameter shovel my-shovel \
-  '{"src-protocol": "amqp091", "src-uri": "amqp://", "src-queue": "my-queue", "dest-protocol": "amqp091", "dest-uri": "amqp://remote-server", "dest-queue": "target-queue"}'
+  '{"src-protocol": "amqp091", "src-uri": "amqp://", "src-queue": "source-queue", "dest-protocol": "amqp091", "dest-uri": "amqp://remote-server", "dest-queue": "target-queue"}'
 </pre>
 
 <p>On Windows <span class="code ">rabbitmqctl</span> is named <span class="code ">rabbitmqctl.bat</span> and command line value escaping will be
