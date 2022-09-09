@@ -82,6 +82,31 @@ UTF-8. The console will instead provide and expect some country-specific encodin
 <p>before using CLI tools to force
    the console to use UTF-8
  * Where possible, use the <a href="./management.html">management plugin</a> instead of CLI tools.</p>
+<h2><a id="ansi-sequences" class="anchor" href="#ansi-sequences">CLI Tools Show ANSI Character Sequences</a></h2>
+<p>In case the output from <span class="code ">rabbitmqctl</span> and other CLI tools looks like this:</p>
+<pre class="lang-plaintext">
+←[1mUsage←[0m
+
+rabbitmqctl [--node &lt;node&gt;] [--timeout &lt;timeout&gt;] [--longnames] [--quiet] &lt;command&gt; [&lt;command options&gt;]
+
+Available commands:
+
+←[1mHelp←[0m:
+
+    autocomplete                  Provides command name autocomplete variants
+    help                          Displays usage information for a command
+    version                       Displays CLI tools version
+</pre>
+
+<h3>Mitigation</h3>
+<p>Two possible mitigations are:</p>
+<ol>
+<li>Pipe <span class="code ">rabbitmqctl.bat</span> output through <span class="code ">Out-Host</span>, with each command, like so:  <span class="code ">rabbitmqctl.bat | Out-Host</span></li>
+<li>Globally enable VT/ANSI escape sequences in Command and PowerShell windows:
+    a.  in PowerShell: <span class="code ">Set-ItemProperty HKCU:\Console VirtualTerminalLevel -Type DWORD 1</span>
+    b. open a new console window for changes to take effect</li>
+</ol>
+<p>For further information, including caveats, see <a href="https://stackoverflow.com/questions/51680709/colored-text-output-in-powershell-console-using-ansi-vt100-codes">Colored text output in PowerShell console using ANSI / VT100 codes</a></p>
 <h2><a id="cookie-location" class="anchor" href="#cookie-location">Installing as a non-administrator User Leaves <span class="code ">.erlang.cookie</span> in the Wrong Place</a></h2>
 <p>If RabbitMQ is installed using a non-administrative account, a <a href="./cli.html#erlang-cookie">shared secret</a> file
 used by nodes and CLI tools will not be placed into a correct location,
