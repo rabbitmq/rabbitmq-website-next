@@ -1036,14 +1036,16 @@ of published messages) for active connections. Metric collection is optional fea
 at the <span class="code ">ConnectionFactory</span> level, using the <span class="code ">setMetricsCollector(metricsCollector)</span> method.
 This method expects a <span class="code ">MetricsCollector</span> instance, which is
 called in several places of the client code.</p>
-<p>The client supports <a href="http://micrometer.io">Micrometer</a> (as of version 4.3) and
-<a href="http://metrics.dropwizard.io">Dropwizard Metrics</a>
-out of the box.</p>
+<p>The client supports <a href="http://micrometer.io">Micrometer</a>, <a href="http://metrics.dropwizard.io">Dropwizard Metrics</a> and <a href="https://opentelemetry.io/">OpenTelemetry</a> out of the box.</p>
 <p>Here are the collected metrics:</p>
 <ul>
 <li>Number of open connections</li>
 <li>Number of open channels</li>
 <li>Number of published messages</li>
+<li>Number of confirmed messages</li>
+<li>Number of negatively acknowledged (nack-ed) outbound messages</li>
+<li>Number of unroutable outbound messages that got returned</li>
+<li>Number of failures of outbound messages</li>
 <li>Number of consumed messages</li>
 <li>Number of acknowledged messages</li>
 <li>Number of rejected messages</li>

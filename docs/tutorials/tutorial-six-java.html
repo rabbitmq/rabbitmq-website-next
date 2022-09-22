@@ -235,13 +235,12 @@ and it's probably the slowest recursive implementation possible).</p>
     response arrives.</li>
 <li>Since our consumer delivery handling is happening in a separate thread,
     we're going to need something to suspend the <span class="code ">main</span> thread before the response arrives.
-    Usage of <span class="code ">BlockingQueue</span> is one possible solutions to do so. Here we are creating <span class="code ">ArrayBlockingQueue</span>
-    with capacity set to 1 as we need to wait for only one response.</li>
+    Usage of <span class="code ">CompletableFuture</span> is one possible solution to do so.</li>
 <li>The consumer is doing a very simple job,
     for every consumed response message it checks if the <span class="code ">correlationId</span>
-    is the one we're looking for. If so, it puts the response to <span class="code ">BlockingQueue</span>.</li>
-<li>At the same time <span class="code ">main</span> thread is waiting for response to take it from <span class="code ">BlockingQueue</span>.</li>
-<li>Finally we return the response back to the user.</li>
+    is the one we're looking for. If so, it completes the <span class="code ">CompletableFuture</span>.</li>
+<li>At the same time <span class="code ">main</span> thread is waiting for the <span class="code ">CompletableFuture</span> to complete.</li>
+<li>Finally, we return the response back to the user.</li>
 </ul>
 <p>Now is a good time to take a look at our full example source code (which includes basic exception handling) for
 <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/java/RPCClient.java">RPCClient.java</a> and <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/java/RPCServer.java">RPCServer.java</a>.</p>
