@@ -30,7 +30,7 @@ be a better option than quorum queues.</p>
 <li><a href="#feature-comparison">How are they different</a> from classic queues</li>
 <li>Primary <a href="#use-cases">use cases</a> of quorum queues and when not to use them</li>
 <li>How to <a href="#usage">declare a quorum queue</a></li>
-<li><a href="#replication">Replication</a>-related topics: replica management, <a href="#replica-rebalancing">replica leader rebalancing</a>, optimal number of replicas, etc</li>
+<li><a href="#replication">Replication</a>-related topics: <a href="#replica-management">replica management</a>, <a href="#replica-rebalancing">replica leader rebalancing</a>, optimal number of replicas, etc</li>
 <li>What guarantees quorum queues offer in terms of <a href="#leader-election">leader failure handling</a>, <a href="#data-safety">data safety</a> and <a href="#availability">availability</a></li>
 <li><a href="#performance">Performance</a> characteristics</li>
 <li><a href="#poison-message-handling">Poison message handling</a> provided by quorum queues</li>
@@ -285,9 +285,8 @@ is made to consume from a quorum queue from a channel with global QoS enabled
 a channel error will be returned.</p>
 <p>Use <a href="./consumer-prefetch.html">per-consumer QoS prefetch</a>, which is the default in several popular clients.</p>
 <h4>Priorities</h4>
-<p>Quorum queues do not currently support <a href="./priority.html">priorities</a>, including <a href="./consumer-priority.html">consumer priorities</a>.</p>
-<p>To achieve priority processing with Quorum Queues multiple queues should be used instead;
-one for each priority.</p>
+<p>Quorum queues support <a href="./consumer-priority.html">consumer priorities</a>, but not <a href="./priority.html">message priorities</a>.</p>
+<p>To prioritize messages with Quorum Queues, use multiple queues; one for each priority.</p>
 <h4>Poison Message Handling</h4>
 <p>Quorum queues <a href="#poison-message-handling">support poison message handling</a> via a redelivery limit.
 This feature is currently unique to quorum queues.</p>
@@ -479,10 +478,9 @@ the quorum whilst performing maintenance operations that involve membership chan
 <p>When replacing a cluster node, it is safer to first add a new node and then decomission the node
 it replaces.</p>
 <h3><a id="replica-rebalancing" class="anchor" href="#replica-rebalancing">Rebalancing Replicas</a></h3>
-<p>Once declared, the RabbitMQ nodes a quorum queue resides on won't change even if the
-members of the RabbitMQ cluster change (e.g. a node is decommissioned or added).
-To re-balance after a RabbitMQ cluster change quorum queues will have to be manually adjusted using the <span class="code ">rabbitmq-queues</span>
-<a href="./cli.html">command line tool</a>:</p>
+<p>Once declared, the RabbitMQ quorum queue leaders may be unevenly distributed across the RabbitMQ cluster.
+To re-balance use the <span class="code ">rabbitmq-queues rebalance</span>
+command. NB: this does not change the nodes which the quorum queues span. To modify the membership instead see <a href="#replica-management">managing replicas</a>.</p>
 <pre class="lang-bash">
 # rebalances all quorum queues
 rabbitmq-queues rebalance quorum

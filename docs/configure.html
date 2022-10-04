@@ -144,8 +144,8 @@ therefore, focuses on them.</p>
 <h2><a id="configuration-files" class="anchor" href="#configuration-files">Configuration File(s)</a></h2>
 <h3><a id="config-file-intro" class="anchor" href="#config-file-intro">Introduction</a></h3>
 <p>While some settings in RabbitMQ can be tuned using environment variables,
-most are configured using a <a href="#config-file">main configuration file</a>, usually named <span class="code ">rabbitmq.conf</span>.
-This includes configuration for the core server as well as plugins. An additional configuration
+most are configured using a <a href="#config-file">main configuration file</a> named <span class="code ">rabbitmq.conf</span>.</p>
+<p>This includes configuration for the core server as well as plugins. An additional configuration
 file can be used to configure settings that cannot be expressed in the main file's configuration
 format. This is covered in more details below.</p>
 <p>The sections below cover the syntax and <a href="#config-file-location">location</a> of both files,
@@ -225,7 +225,7 @@ cannot express. This is covered in more detail in the following sections.</p>
       <td><span class="code ">rabbitmq.conf</span></td>
       <td>New style format (sysctl or ini-like)</td>
       <td>
-        <a href="#config-file">Primary configuration file</a>. Should be used for most settings.
+        <a href="#config-file">Primary configuration file</a> with a `.conf` extension. Should be used for most settings.
         It is easier for humans to read and machines (deployment tools) to generate.
         Not every setting can be expressed in this format.
       </td>
@@ -274,7 +274,8 @@ ssl_options.fail_if_no_peer_cert = true
 <h3><a id="config-file" class="anchor" href="#config-file">The Main Configuration File, rabbitmq.conf</a></h3>
 <p>The configuration file <span class="code ">rabbitmq.conf</span>
 allows the RabbitMQ server and plugins to be configured.
-Starting with RabbitMQ 3.7.0, the format is in the <a href="https://github.com/basho/cuttlefish/wiki/Cuttlefish-for-Application-Users">sysctl format</a>.</p>
+The file uses the <a href="https://github.com/basho/cuttlefish/wiki/Cuttlefish-for-Application-Users">sysctl format</a>,
+unlike <span class="code ">advanced.config</span> and the original <span class="code ">rabbitmq.config</span> (both use the Erlang terms format).</p>
 <p>The syntax can be briefly explained in 3 lines:</p>
 <ul>
 <li>One setting uses one line</li>
@@ -489,7 +490,7 @@ same location as the real file should be placed (see
 above). On Debian and RPM distributions
 policy forbids doing so; instead find the file
 under <span class="code ">/usr/share/doc/rabbitmq-server/</span>
-or <span class="code ">/usr/share/doc/rabbitmq-server-3.10.7/</span>,
+or <span class="code ">/usr/share/doc/rabbitmq-server-3.11.0/</span>,
 respectively.</p>
 <h3><a id="config-items" class="anchor" href="#config-items">Core Server Variables Configurable in rabbitmq.conf</a></h3>
 <p>These variables are the most common. The list is not complete, as

@@ -309,7 +309,7 @@ print(" [.] Got %r" % response)
     exclusive <span class="code ">callback_queue</span> for replies.</li>
 <li>We subscribe to the <span class="code ">callback_queue</span>, so that
     we can receive RPC responses.</li>
-<li>The <span class="code ">on_response</span> callback that got executed on every response is
+<li>The <span class="code ">on_response</span> callback that gets executed on every response is
     doing a very simple job, for every response message it checks if
     the <span class="code ">correlation_id</span> is the one we're looking for. If so, it saves
     the response in <span class="code ">self.response</span> and breaks the consuming loop.</li>
@@ -335,7 +335,7 @@ python rpc_client.py
 # =&gt; [x] Requesting fib(30)
 </pre>
 
-<p>The presented design is not the only possible implementation of a RPC
+<p>The presented design is not the only possible implementation of an RPC
 service, but it has some important advantages:</p>
 <ul>
 <li>If the RPC server is too slow, you can scale up by just running
@@ -353,7 +353,7 @@ complex (but important) problems, like:</p>
 <li>If the server malfunctions and raises an exception, should it be
    forwarded to the client?</li>
 <li>Protecting against invalid incoming messages
-   (eg checking bounds) before processing.</li>
+   (e.g. checking bounds) before processing.</li>
 </ul>
 <blockquote>
 <p>If you want to experiment, you may find the <a href="../management.html">management UI</a> useful for viewing the queues.
