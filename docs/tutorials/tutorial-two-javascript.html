@@ -364,7 +364,7 @@ amqp.connect('amqp://localhost', function(error0, connection) {
 });
 </pre>
 
-<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/javascript-nodejs/src/new_task.js">(new_task.js source)</a></p>
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/javascript-nodejs/src/new_task.js">(new_task.js source)</a></p>
 <p>And our <span class="code ">worker.js</span>:</p>
 <pre class="lang-javascript">
 #!/usr/bin/env node
@@ -403,7 +403,7 @@ amqp.connect('amqp://localhost', function(error0, connection) {
 });
 </pre>
 
-<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/javascript-nodejs/src/worker.js">(worker.js source)</a></p>
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/javascript-nodejs/src/worker.js">(worker.js source)</a></p>
 <p>Using message acknowledgments and <span class="code ">prefetch</span> you can set up a
 work queue. The durability options let the tasks survive even if
 RabbitMQ is restarted.</p>

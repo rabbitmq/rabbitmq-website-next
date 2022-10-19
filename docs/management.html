@@ -242,7 +242,7 @@ RabbitMQ has been tested against the following Authorization servers:</p>
 <ul>
 <li><a href="https://github.com/cloudfoundry/uaa">UAA</a></li>
 <li><a href="https://www.keycloak.org/">Keycloak</a></li>
-<li><a href="https://auth0.com/">Oauth0</a></li>
+<li><a href="https://auth0.com/">Auth0</a></li>
 <li><a href="https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/auth-oauth2">Azure</a></li>
 </ul>
 <p>To redirect users to the UAA server to authenticate, use the following configuration:</p>
@@ -292,51 +292,41 @@ curl -i --header "authorization: Bearer &lt;token&gt;" http://localhost:15672/ap
 
 <p>This is true for all endpoints except <span class="code ">GET /definitions</span> and <span class="code ">POST /definitions</span>. Those
 endpoints require the token to be passed in the <span class="code ">token</span> query string parameter.</p>
-<h3>Configure Scopes to request during authentication</h3>
-<p>We can configure which OAuth2 <strong>scopes</strong> RabbitMQ should claim when redirecting the user to the authorization server by
-setting <span class="code ">management.oauth_scopes</span>.</p>
-<p>If we do not specify any scopes, when <span class="code ">management.enable_uaa = true</span>, RabbitMQ defaults to</p>
-<pre class="lang-ini">
-management.oauth_scopes = "openid profile rabbitmq.*".
-</pre>
-
-<p>Where <span class="code ">rabbitmq</span> is the <em>resource_server_id</em> we declared in the oauth2 plugin configuration:</p>
-<pre class="lang-ini">
- {rabbitmq_auth_backend_oauth2, [
-    {resource_server_id, &lt;&lt;"rabbitmq"&gt;&gt;},
-</pre>
-
-<p>In the contrary, when <span class="code ">management.enable_uaa = false</span> or when it is not set, RabbitMQ defaults to</p>
-<pre class="lang-ini">
-management.oauth_scopes = "openid profile"
-</pre>
-<p>This configuration implies that your authorization server must able to
-grant additional scopes otherwise having only these 2 scopes will not grant the user access to the management ui.</p>
 <h3>Minimum scope required and how the UI determines the username from the token</h3>
-<p>RabbitMQ requires, at minimum, the <span class="code ">openid</span> scope. This is because RabbitMQ uses some claims in the <em>id token</em> to
-determine the username and display it on the top right corner of the management UI. The <em>id token</em> is sent by the
-Authorization server if we include the <span class="code ">openid</span> scope in the authorization request.</p>
-<p>RabbitMQ reads the <span class="code ">user_name</span> claim from the <em>id_token</em>. If it does not have it, RabbitMQ uses the <span class="code ">sub</span> claim
-instead.</p>
+<p>At a minimum, RabbitMQ requires the the <span class="code ">openid</span> scope because it uses some claims in the <em>id token</em> to determine the username and to display this username on the top right corner of the management UI. The <em>id token</em> is returned by the Authorization server if the <span class="code ">openid</span> scope is included in the authorization request.</p>
+<p>RabbitMQ reads the <span class="code ">user_name</span> claim from the <em>id_token</em>. If the token does not contain the <span class="code ">user_name</span>, RabbitMQ uses the <span class="code ">sub</span> claim. </p>
+<h3>Configure which scopes RabbitMQ requests to the authorization server</h3>
+<p>It is possible to configure which OAuth 2.0 scopes RabbitMQ should claim when redirecting the user to the authorization server.</p>
+<p>If <span class="code ">management.enable_uaa = true</span>, by default, RabbitMQ requests the following scopes to UAA:
+  * <span class="code ">openid</span>
+  * <span class="code ">profile</span>
+  * &lt;<em>resource_server_id</em>&gt;<span class="code ">.*</span> , e.g. <span class="code ">rabbitmq.*</span> if <span class="code ">resource_server_id</span> had the value <span class="code ">rabbitmq</span></p>
+<p>However, if <span class="code ">management.enable_uaa = false</span>, RabbitMQ only requests these scopes:
+  * <span class="code ">openid</span>
+  * <span class="code ">profile</span></p>
+<p>Which means that you have to configure which scopes you want RabbitMQ requests to the
+authorization server. It may be &lt;<em>resource_server_id</em>&gt;<span class="code ">.*</span> if you want to request all scopes or specific ones
+such as:
+  * &lt;<em>resource_server_id</em>&gt;<span class="code ">.tag:administrator</span>
+  * &lt;<em>resource_server_id</em>&gt;<span class="code ">.read:*/*/*</span></p>
 <h3>Configure OpenID Connect Discovery endpoint</h3>
-<p>By default, RabbitMQ assumes the OpenID Connect Discovery endpoint is at <span class="code ">&lt;management.oauth_provider_url&gt;/.well-known/openid-configuration</span>. If your endpoint differs, you can set yours via <span class="code ">management.oauth_metadata_url</span> setting.</p>
+<p>By default, RabbitMQ assumes the OpenID Connect Discovery endpoint is at <span class="code ">&lt;management.oauth_provider_url&gt;/.well-known/openid-configuration</span>. If your endpoint differs, you can set yours via the <span class="code ">management.oauth_metadata_url</span> setting.</p>
 <p>RabbitMQ uses this endpoint to discover other endpoints such as <strong>token</strong> endpoint, <strong>logout</strong> endpoint, and others.</p>
 <h3>Logout workflow</h3>
 <p>RabbitMQ follows the <a href="https://openid.net/specs/openid-connect-rpinitiated-1_0.html">OpenID Connect RP-Initiated Logout 1.0 </a>
-specification to implement the logout workflow. This means that the logout workflow is triggered from the Management UI when we click on the <strong>Logout</strong> button. Logging out from RabbitMQ management UI effectively logs the user out from
-the management UI itself but also from the Identity Provider.</p>
-<p>There are other two additional scenarios which can trigger a logout. One scenario occurs when the OAuth Token expires. Although RabbitMQ renews the token on the background before it expires, should the token expired, the user is logged out.
+specification to implement the logout workflow. This means that the logout workflow is triggered from the Management UI when the user clicks on the <strong>Logout</strong> button. Logging out from RabbitMQ management UI not only logs the user out from the management UI itself but also from the Identity Provider.</p>
+<p>There are other two additional scenarios which can trigger a logout. One scenario occurs when the OAuth Token expires. Although RabbitMQ renews the token in the background before it expires, if the token expires, the user is logged out.
 The second scenario is when the management UI session exceeds the maximum allowed time configured on the <a href="https://www.rabbitmq.com/management.html#login-session-timeout">Login Session Timeout</a>.</p>
 <h3>Special attention to CSP header <span class="code ">connect-src</span></h3>
-<p>In other to support OAuth 2.0 protocol, RabbitMQ has to make asynchronous REST calls to the <a href="#Configure-OpenID-Connect-Discovery-endpoint">OpenId Connect Discovery endpoint</a>. If we override the default <a href="#csp">CSP headers</a>, we have to make sure that the <span class="code ">connect-src</span> CSP directive whitelists the <a href="#Configure-OpenID-Connect-Discovery-endpoint">OpenId Connect Discovery endpoint</a>.</p>
-<p>For instance, if we configured the CSP header with the value <span class="code ">default-src 'self'</span> we are, by default, setting <span class="code ">connect-src 'self'</span> which means we are denying RabbitMQ access to any external endpoint; hence disabling OAuth 2.0.</p>
-<p>In addition to the <span class="code ">connect-src</span> CSP header, RabbitMQ also needs these two CSP directives otherwise the OAuth 2.0 functionality may not work: <span class="code ">unsafe-eval</span> <span class="code ">unsafe-inline</span>.</p>
+<p>To support the OAuth 2.0 protocol, RabbitMQ makes asynchronous REST calls to the <a href="#Configure-OpenID-Connect-Discovery-endpoint">OpenId Connect Discovery endpoint</a>. If you override the default <a href="#csp">CSP headers</a>, you have to make sure that the <span class="code ">connect-src</span> CSP directive whitelists the <a href="#Configure-OpenID-Connect-Discovery-endpoint">OpenId Connect Discovery endpoint</a>.</p>
+<p>For instance, if you configured the CSP header with the value <span class="code ">default-src 'self'</span> you are, by default, setting <span class="code ">connect-src 'self'</span> which means you are denying RabbitMQ access to any external endpoint; hence disabling OAuth 2.0.</p>
+<p>In addition to the <span class="code ">connect-src</span> CSP header, RabbitMQ also needs the CSP directives <span class="code ">unsafe-eval</span> <span class="code ">unsafe-inline</span>, otherwise the OAuth 2.0 functionality may not work.</p>
 <h2><a id="http-api" class="anchor" href="#http-api">HTTP API</a></h2>
 <h3><a id="http-api-endpoints" class="anchor" href="#http-api-endpoints">API Endpoints</a></h3>
 <p>When activated, the management plugin provides an HTTP API at
 <span class="code ">http://<i>server-name</i>:15672/api/</span> by default. Browse to that
 location for more information on the API. For convenience the same API reference is
-<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.11.0/deps/rabbitmq_management/priv/www/api/index.html">available on GitHub</a>.</p>
+<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.11.2/deps/rabbitmq_management/priv/www/api/index.html">available on GitHub</a>.</p>
 <h3><a id="http-api-monitoring" class="anchor" href="#http-api-monitoring">HTTP API and Monitoring</a></h3>
 <p>The API is intended to be used for basic observability tasks. <a href="prometheus.html">Prometheus and Grafana</a>
 are recommended for long term metric storage, alerting, anomaly detection, and so on.</p>
@@ -355,7 +345,7 @@ has the management plugin enabled at <span class="code ">http://<i>{node-hostnam
 see <a href="./devtools.html">Developer Tools</a>.</p>
 <p>Some API endpoints return a lot of information. The volume can be reduced
 by filtering what columns are returned by <span class="code ">HTTP GET</span> requests. See
-<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.11.0/deps/rabbitmq_management/priv/www/api/index.html">latest HTTP API documentation</a> for details.</p>
+<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.11.2/deps/rabbitmq_management/priv/www/api/index.html">latest HTTP API documentation</a> for details.</p>
 <h2><a id="configuration" class="anchor" href="#configuration">Configuration</a></h2>
 <p>There are several configuration options which affect the
 management plugin. These are managed through the main

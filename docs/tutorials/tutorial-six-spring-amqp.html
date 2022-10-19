@@ -192,7 +192,7 @@ public int fib(int n) {
 <p>We declare our Fibonacci function. It assumes only valid positive integer input.
 (Don't expect this one to work for big numbers,
 and it's probably the slowest recursive implementation possible).</p>
-<p>The code for our <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/spring-amqp/src/main/java/org/springframework/amqp/tutorials/tut6/Tut6Config.java"><span class="code ">Tut6Config</span></a>
+<p>The code for our <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/spring-amqp/src/main/java/org/springframework/amqp/tutorials/tut6/Tut6Config.java"><span class="code ">Tut6Config</span></a>
 class looks like this:</p>
 <pre class="lang-java">
 import org.springframework.amqp.core.Binding;
@@ -264,7 +264,7 @@ from the queue to the exchange with the <span class="code ">rpc</span> routing-k
 <li>Our Fibonacci method calls fib() with the payload parameter and returns
     the result</li>
 </ul>
-<p>The code for our RPC server <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/spring-amqp/src/main/java/org/springframework/amqp/tutorials/tut6/Tut6Server.java">Tut6Server.java</a>:</p>
+<p>The code for our RPC server <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/spring-amqp/src/main/java/org/springframework/amqp/tutorials/tut6/Tut6Server.java">Tut6Server.java</a>:</p>
 <pre class="lang-java">
 package org.springframework.amqp.tutorials.tut6;
 
@@ -289,7 +289,7 @@ public class Tut6Server {
 }
 </pre>
 
-<p>The client code <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/spring-amqp/src/main/java/org/springframework/amqp/tutorials/tut6/Tut6Client.java">Tut6Client</a>
+<p>The client code <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/spring-amqp/src/main/java/org/springframework/amqp/tutorials/tut6/Tut6Client.java">Tut6Client</a>
 is as easy as the server:</p>
 <ul>
 <li>We autowire the <span class="code ">RabbitTemplate</span> and the <span class="code ">DirectExchange</span> bean

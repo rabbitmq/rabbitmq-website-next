@@ -156,7 +156,7 @@ code.</p>
 <span class="code ">receive.rb</span>.  The producer will connect to RabbitMQ, send a single message,
 then exit.</p>
 <p>In
-<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/ruby/send.rb"><span class="code ">send.rb</span></a>,
+<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/ruby/send.rb"><span class="code ">send.rb</span></a>,
 we need to require the library first:</p>
 <pre class="lang-ruby">
 #!/usr/bin/env ruby
@@ -203,7 +203,7 @@ whatever you like there.</p>
 connection.close
 </pre>
 
-<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/ruby/send.rb">Here's the whole send.rb script</a>.</p>
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/ruby/send.rb">Here's the whole send.rb script</a>.</p>
 <blockquote>
 <h4>Sending doesn't work!</h4>
 <p>If this is your first time using RabbitMQ and you don't see the "Sent"
@@ -222,7 +222,7 @@ keep the consumer running to listen for messages and print them out.</p>
   <img src="../img/tutorials/receiving.png" alt="[|||] -&gt; (C)" height="100" />
 </div>
 
-<p>The code (in <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/ruby/receive.rb"><span class="code ">receive.rb</span></a>) has the same require as <span class="code ">send</span>:</p>
+<p>The code (in <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/ruby/receive.rb"><span class="code ">receive.rb</span></a>) has the same require as <span class="code ">send</span>:</p>
 <pre class="lang-ruby">
 #!/usr/bin/env ruby
 require 'bunny'
@@ -261,7 +261,7 @@ end
 
 <p><span class="code ">Bunny::Queue#subscribe</span> is used with the <span class="code ">:block</span> option that makes it
 block the calling thread (we don't want the script to finish running immediately!).</p>
-<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/ruby/receive.rb">Here's the whole receive.rb script</a>.</p>
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/ruby/receive.rb">Here's the whole receive.rb script</a>.</p>
 <h3>Putting it all together</h3>
 <p>Now we can run both scripts. In a terminal, run the consumer (receiver):</p>
 <pre class="lang-bash">

@@ -209,7 +209,7 @@ private static int fib(int n)
 <p>We declare our fibonacci function. It assumes only valid positive integer input.
 (Don't expect this one to work for big numbers,
 and it's probably the slowest recursive implementation possible).</p>
-<p>The code for our RPC server <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/dotnet/RPCServer/RPCServer.cs">RPCServer.cs</a> looks like this:</p>
+<p>The code for our RPC server <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/dotnet/RPCServer/RPCServer.cs">RPCServer.cs</a> looks like this:</p>
 <pre class="lang-csharp">
 using System;
 using RabbitMQ.Client;
@@ -295,7 +295,7 @@ class RPCServer
 <li>We use <span class="code ">BasicConsume</span> to access the queue. Then we register a delivery handler in which
     we do the work and send the response back.</li>
 </ul>
-<p>The code for our RPC client <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/dotnet/RPCClient/RPCClient.cs">RPCClient.cs</a>:</p>
+<p>The code for our RPC client <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/dotnet/RPCClient/RPCClient.cs">RPCClient.cs</a>:</p>
 <pre class="lang-csharp">
 using System;
 using System.Collections.Concurrent;
@@ -405,7 +405,7 @@ rpcClient.Close();
 </pre>
 
 <p>Now is a good time to take a look at our full example source code (which includes basic exception handling) for
-<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/dotnet/RPCClient/RPCClient.cs">RPCClient.cs</a> and <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/dotnet/RPCServer/RPCServer.cs">RPCServer.cs</a>.</p>
+<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/dotnet/RPCClient/RPCClient.cs">RPCClient.cs</a> and <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/dotnet/RPCServer/RPCServer.cs">RPCServer.cs</a>.</p>
 <p>Set up as usual (see <a href="tutorial-one-dotnet.html">tutorial one</a>):</p>
 <p>Our RPC service is now ready. We can start the server:</p>
 <pre class="lang-bash">

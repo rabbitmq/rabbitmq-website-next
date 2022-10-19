@@ -169,7 +169,7 @@ code.</p>
 <span class="code ">receive.php</span>.  The publisher will connect to RabbitMQ, send a single message,
 then exit.</p>
 <p>In
-<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/php/send.php"><span class="code ">send.php</span></a>,
+<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/php/send.php"><span class="code ">send.php</span></a>,
 we need to include the library and <span class="code ">use</span> the necessary classes:</p>
 <pre class="lang-php">
 require_once __DIR__ . '/vendor/autoload.php';
@@ -211,7 +211,7 @@ $channel-&gt;close();
 $connection-&gt;close();
 </pre>
 
-<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/php/send.php">Here's the whole send.php
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/php/send.php">Here's the whole send.php
 class</a>.</p>
 <blockquote>
 <h4>Sending doesn't work!</h4>
@@ -231,7 +231,7 @@ keep the receiver running to listen for messages and print them out.</p>
   <img src="../img/tutorials/receiving.png" alt="[|||] -&gt; (C)" height="100" />
 </div>
 
-<p>The code (in <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/php/receive.php"><span class="code ">receive.php</span></a>) has almost the same
+<p>The code (in <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/php/receive.php"><span class="code ">receive.php</span></a>) has almost the same
 <span class="code ">include</span> and <span class="code ">use</span>s as <span class="code ">send</span>:</p>
 <pre class="lang-php">
 require_once __DIR__ . '/vendor/autoload.php';
@@ -271,7 +271,7 @@ while ($channel-&gt;is_open()) {
 
 <p>Our code will block while our <span class="code ">$channel</span> has callbacks. Whenever we receive a
 message our <span class="code ">$callback</span> function will be passed the received message.</p>
-<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/php/receive.php">Here's the whole receive.php class</a></p>
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/php/receive.php">Here's the whole receive.php class</a></p>
 <h3>Putting it all together</h3>
 <p>Now we can run both scripts. In a terminal, run the consumer (receiver):</p>
 <pre class="lang-bash">

@@ -163,7 +163,7 @@ page</a>.</p>
 the same view controller. The sending code will connect to RabbitMQ and send a
 single message.</p>
 <p>Let's edit
-<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/swift/tutorial1/tutorial1/ViewController.swift">ViewController.swift</a>
+<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/swift/tutorial1/tutorial1/ViewController.swift">ViewController.swift</a>
 and start adding code.</p>
 <h4>Importing the framework</h4>
 <p>First, we import the client framework as a module:</p>
@@ -221,7 +221,7 @@ exist already.</p>
 conn.close()
 </pre>
 
-<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/swift/tutorial1/tutorial1/ViewController.swift">Here's the whole controller (including receive)</a>.</p>
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/swift/tutorial1/tutorial1/ViewController.swift">Here's the whole controller (including receive)</a>.</p>
 <blockquote>
 <h4>Sending doesn't work!</h4>
 <p>If this is your first time using RabbitMQ and you get errors logged at this
@@ -267,7 +267,7 @@ q.subscribe({(_ message: RMQMessage) -&gt; Void in
 })
 </pre>
 
-<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/swift/tutorial1/tutorial1/ViewController.swift">Here's the whole controller again (including send)</a>.</p>
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/swift/tutorial1/tutorial1/ViewController.swift">Here's the whole controller again (including send)</a>.</p>
 <h3>Running</h3>
 <p>Now we can run the app. Hit the big play button, or <span class="code ">cmd-R</span>.</p>
 <p><span class="code ">receive</span> will log the message it gets from <span class="code ">send</span> via

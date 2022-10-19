@@ -156,7 +156,7 @@ code.</p>
 <span class="code ">receive.go</span>.  The publisher will connect to RabbitMQ, send a single message,
 then exit.</p>
 <p>In
-<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/go/send.go"><span class="code ">send.go</span></a>,
+<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/go/send.go"><span class="code ">send.go</span></a>,
 we need to import the library first:</p>
 <pre class="lang-go">
 package main
@@ -230,7 +230,7 @@ log.Printf(" [x] Sent %s\n", body)
 <p>Declaring a queue is idempotent - it will only be created if it doesn't
 exist already. The message content is a byte array, so you can encode
 whatever you like there.</p>
-<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/go/send.go">Here's the whole send.go script</a>.</p>
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/go/send.go">Here's the whole send.go script</a>.</p>
 <blockquote>
 <h4>Sending doesn't work!</h4>
 <p>If this is your first time using RabbitMQ and you don't see the "Sent"
@@ -249,7 +249,7 @@ keep the consumer running to listen for messages and print them out.</p>
   <img src="../img/tutorials/receiving.png" alt="[|||] -&gt; (C)" height="100" />
 </div>
 
-<p>The code (in <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/go/receive.go"><span class="code ">receive.go</span></a>) has the same import and helper function as <span class="code ">send</span>:</p>
+<p>The code (in <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/go/receive.go"><span class="code ">receive.go</span></a>) has the same import and helper function as <span class="code ">send</span>:</p>
 <pre class="lang-go">
 package main
 
@@ -319,7 +319,7 @@ log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 &lt;-forever
 </pre>
 
-<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/go/receive.go">Here's the whole receive.go script</a>.</p>
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/go/receive.go">Here's the whole receive.go script</a>.</p>
 <h3>Putting it all together</h3>
 <p>Now we can run both scripts. In a terminal, run the publisher:</p>
 <pre class="lang-bash">

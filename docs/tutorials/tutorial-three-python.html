@@ -229,7 +229,7 @@ different from the previous tutorial. The most important change is that
 we now want to publish messages to our <span class="code ">logs</span> exchange instead of the
 nameless one. We need to supply a <span class="code ">routing_key</span> when sending, but its
 value is ignored for <span class="code ">fanout</span> exchanges.</p>
-<p><span class="code ">emit_log.py</span> (<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/python/emit_log.py">source</a>)</p>
+<p><span class="code ">emit_log.py</span> (<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/python/emit_log.py">source</a>)</p>
 <pre class="lang-python">
 #!/usr/bin/env python
 import pika
@@ -252,7 +252,7 @@ exchange. This step is necessary as publishing to a non-existing
 exchange is forbidden.</p>
 <p>The messages will be lost if no queue is bound to the exchange yet,
 but that's okay for us; if no consumer is listening yet we can safely discard the message.</p>
-<p><span class="code ">receive_logs.py</span> (<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/python/receive_logs.py">source</a>)</p>
+<p><span class="code ">receive_logs.py</span> (<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/python/receive_logs.py">source</a>)</p>
 <pre class="lang-python">
 #!/usr/bin/env python
 import pika

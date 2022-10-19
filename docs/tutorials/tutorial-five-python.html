@@ -139,7 +139,7 @@ start off with a working assumption that the routing keys of logs will
 have two words: "<span class="code ">&lt;facility&gt;.&lt;severity&gt;</span>".</p>
 <p>The code is almost the same as in the
 <a href="tutorial-four-python.html">previous tutorial</a>.</p>
-<p><span class="code ">emit_log_topic.py</span> (<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/python/emit_log_topic.py">source</a>)</p>
+<p><span class="code ">emit_log_topic.py</span> (<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/python/emit_log_topic.py">source</a>)</p>
 <pre class="lang-python">
 #!/usr/bin/env python
 import pika
@@ -159,7 +159,7 @@ print(" [x] Sent %r:%r" % (routing_key, message))
 connection.close()
 </pre>
 
-<p><span class="code ">receive_logs_topic.py</span> (<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/python/receive_logs_topic.py">source</a>)</p>
+<p><span class="code ">receive_logs_topic.py</span> (<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/python/receive_logs_topic.py">source</a>)</p>
 <pre class="lang-python">
 #!/usr/bin/env python
 import pika

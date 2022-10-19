@@ -160,7 +160,7 @@ code.</p>
 <span class="code ">Recv</span>.  The publisher will connect to RabbitMQ, send a single message,
 then exit.</p>
 <p>In
-<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/java/Send.java"><span class="code ">Send.java</span></a>,
+<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/java/Send.java"><span class="code ">Send.java</span></a>,
 we need some classes imported:</p>
 <pre class="lang-java">
 import com.rabbitmq.client.ConnectionFactory;
@@ -209,7 +209,7 @@ System.out.println(" [x] Sent '" + message + "'");
 <p>Declaring a queue is idempotent - it will only be created if it doesn't
 exist already. The message content is a byte array, so you can encode
 whatever you like there.</p>
-<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/java/Send.java">Here's the whole Send.java
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/java/Send.java">Here's the whole Send.java
 class</a>.</p>
 <blockquote>
 <h4>Sending doesn't work!</h4>
@@ -229,7 +229,7 @@ keep the consumer running to listen for messages and print them out.</p>
   <img src="../img/tutorials/receiving.png" alt="[|||] -&gt; (C)" height="100" />
 </div>
 
-<p>The code (in <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/java/Recv.java"><span class="code ">Recv.java</span></a>) has almost the same imports as <span class="code ">Send</span>:</p>
+<p>The code (in <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/java/Recv.java"><span class="code ">Recv.java</span></a>) has almost the same imports as <span class="code ">Send</span>:</p>
 <pre class="lang-java">
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -280,7 +280,7 @@ DeliverCallback deliverCallback = (consumerTag, delivery) -&gt; {
 channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -&gt; { });
 </pre>
 
-<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/java/Recv.java">Here's the whole Recv.java
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/java/Recv.java">Here's the whole Recv.java
 class</a>.</p>
 <h3>Putting it all together</h3>
 <p>You can compile both of these with just the RabbitMQ java client on

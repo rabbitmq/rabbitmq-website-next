@@ -197,7 +197,7 @@ gracefully, and the RPC should ideally be idempotent.</p>
     application.</li>
 </ul>
 <h2>Putting it all together</h2>
-<p><span class="code ">rpc_server.py</span> (<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/python/rpc_server.py">source</a>)</p>
+<p><span class="code ">rpc_server.py</span> (<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/python/rpc_server.py">source</a>)</p>
 <pre class="lang-python">
 #!/usr/bin/env python
 import pika
@@ -251,7 +251,7 @@ channel.start_consuming()
     to spread the load equally over multiple servers we need to set the
     <span class="code ">prefetch_count</span> setting.</li>
 </ul>
-<p><span class="code ">rpc_client.py</span> (<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/python/rpc_client.py">source</a>)</p>
+<p><span class="code ">rpc_client.py</span> (<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/python/rpc_client.py">source</a>)</p>
 <pre class="lang-python">
 #!/usr/bin/env python
 import pika

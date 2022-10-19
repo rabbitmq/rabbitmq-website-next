@@ -156,7 +156,7 @@ code.</p>
 <span class="code ">receive.js</span>.  The publisher will connect to RabbitMQ, send a single message,
 then exit.</p>
 <p>In
-<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/javascript-nodejs/src/send.js"><span class="code ">send.js</span></a>,
+<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/javascript-nodejs/src/send.js"><span class="code ">send.js</span></a>,
 we need to require the library first:</p>
 <pre class="lang-javascript">
 #!/usr/bin/env node
@@ -215,7 +215,7 @@ setTimeout(function() {
   }, 500);
 </pre>
 
-<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/javascript-nodejs/src/send.js">Here's the whole send.js script</a>.</p>
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/javascript-nodejs/src/send.js">Here's the whole send.js script</a>.</p>
 <blockquote>
 <h4>Sending doesn't work!</h4>
 <p>If this is your first time using RabbitMQ and you don't see the "Sent"
@@ -234,7 +234,7 @@ keep the consumer running to listen for messages and print them out.</p>
   <img src="../img/tutorials/receiving.png" alt="[|||] -&gt; (C)" height="100" />
 </div>
 
-<p>The code (in <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/javascript-nodejs/src/receive.js"><span class="code ">receive.js</span></a>) has the same require as <span class="code ">send</span>:</p>
+<p>The code (in <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/javascript-nodejs/src/receive.js"><span class="code ">receive.js</span></a>) has the same require as <span class="code ">send</span>:</p>
 <pre class="lang-javascript">
 #!/usr/bin/env node
 
@@ -278,7 +278,7 @@ channel.consume(queue, function(msg) {
   });
 </pre>
 
-<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/javascript-nodejs/src/receive.js">Here's the whole receive.js script</a>.</p>
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/javascript-nodejs/src/receive.js">Here's the whole receive.js script</a>.</p>
 <h3>Putting it all together</h3>
 <p>Now we can run both scripts. In a terminal, from the rabbitmq-tutorials/javascript-nodejs/src/ folder, run the publisher:</p>
 <pre class="lang-bash">

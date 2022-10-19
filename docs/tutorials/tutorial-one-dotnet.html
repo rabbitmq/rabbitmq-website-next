@@ -184,7 +184,7 @@ dotnet add package RabbitMQ.Client
 <span class="code ">Receive.cs</span>.  The publisher will connect to RabbitMQ, send a single message,
 then exit.</p>
 <p>In
-<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/dotnet/Send/Send.cs"><span class="code ">Send.cs</span></a>,
+<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/dotnet/Send/Send.cs"><span class="code ">Send.cs</span></a>,
 we need to use some namespaces:</p>
 <pre class="lang-csharp">
 using System;
@@ -268,7 +268,7 @@ exist already. The message content is a byte array, so you can encode
 whatever you like there.</p>
 <p>When the code above finishes running, the channel and the connection
 will be disposed. That's it for our publisher.</p>
-<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/dotnet/Send/Send.cs">Here's the whole Send.cs
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/dotnet/Send/Send.cs">Here's the whole Send.cs
 class</a>.</p>
 <blockquote>
 <h4>Sending doesn't work!</h4>
@@ -288,7 +288,7 @@ keep the consumer running continuously to listen for messages and print them out
   <img src="../img/tutorials/receiving.png" alt="[|||] -&gt; (C)" height="100" />
 </div>
 
-<p>The code (in <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/dotnet/Receive/Receive.cs"><span class="code ">Receive.cs</span></a>) has almost the same <span class="code ">using</span> statements as <span class="code ">Send</span>:</p>
+<p>The code (in <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/dotnet/Receive/Receive.cs"><span class="code ">Receive.cs</span></a>) has almost the same <span class="code ">using</span> statements as <span class="code ">Send</span>:</p>
 <pre class="lang-csharp">
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -364,7 +364,7 @@ class Receive
 }
 </pre>
 
-<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/dotnet/Receive/Receive.cs">Here's the whole Receive.cs
+<p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/dotnet/Receive/Receive.cs">Here's the whole Receive.cs
 class</a>.</p>
 <h3>Putting It All Together</h3>
 <p>Open two terminals.</p>

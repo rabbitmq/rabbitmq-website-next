@@ -33,14 +33,14 @@
 <h3><a id="prerequisites" class="anchor" href="#prerequisites">Prerequisites</a></h3>
 <p>To use this plugin, all RabbitMQ nodes must be</p>
 <ol>
-<li><a href="https://www.rabbitmq.com/access-control.html">configured to use the rabbit_auth_backend_oauth2 backend</a></li>
-<li>configured with a resource service ID (<span class="code ">resource_server_id</span>) that matches the scope prefix (e.g. <span class="code ">rabbitmq</span> in <span class="code ">rabbitmq.read:*/*</span>)</li>
-<li>configured with a signing key used by RabbitMQ to validate the JWT token signatures</li>
+<li><a href="https://www.rabbitmq.com/access-control.html">configured to use the rabbit_auth_backend_oauth2 backend</a>.</li>
+<li>configured with a resource service ID (<span class="code ">resource_server_id</span>) that matches the scope prefix (e.g. <span class="code ">rabbitmq</span> in <span class="code ">rabbitmq.read:*/*</span>).</li>
+<li>configured with a signing key used by RabbitMQ to validate the JWT token signatures.</li>
 </ol>
 <p>JWT Tokens presented to RabbitMQ for authentication must</p>
 <ol>
-<li>be digitally signed with either a symmetric or asymmetric key</li>
-<li>have a value in the <span class="code ">aud</span> field that matches <span class="code ">resource_server_id</span> value</li>
+<li>be digitally signed with either a symmetric or asymmetric key.</li>
+<li>have a value in the <span class="code ">aud</span> field that matches <span class="code ">resource_server_id</span> value.</li>
 </ol>
 <h3><a id="authorization-flow-with-scopes" class="anchor" href="#authorization-flow-with-scopes">Authorization Flow</a></h3>
 <ol>
@@ -228,7 +228,7 @@ use to validate the signature.</p>
 <p>RabbitMQ uses this field <span class="code ">exp</span> (<a href="https://tools.ietf.org/html/rfc7519#page-9">exp</a>) to validate the token if present.
 It contains the expiration time after which the JWT MUST NOT be accepted for processing.</p>
 <h4>Audience must have/match the resource_server_id</h4>
-<p>The <span class="code ">aud</span> (<a href="https://tools.ietf.org/html/rfc7519#page-9">Audience</a>) identifies the recipients and/or resource_server of the JWT. By default, <strong>RabbitMQ uses this field to validate the token</strong> although we can disable it by setting <span class="code ">verify_aud</span> to <span class="code ">false</span>.  When it set to <span class="code ">true</span>, this attribute must either match the <span class="code ">resource_server_id</span> setting or in case of a list, it must contain the <span class="code ">resource_server_id</span>.</p>
+<p>The <span class="code ">aud</span> (<a href="https://tools.ietf.org/html/rfc7519#page-9">Audience</a>) identifies the recipients and/or resource_server of the JWT. By default, <strong>RabbitMQ uses this field to validate the token</strong> although you can disable it by setting <span class="code ">verify_aud</span> to <span class="code ">false</span>.  When it set to <span class="code ">true</span>, this attribute must either match the <span class="code ">resource_server_id</span> setting or in case of a list, it must contain the <span class="code ">resource_server_id</span>.</p>
 <h3><a id="scope-translation" class="anchor" href="#scope-translation">Scope-to-Permission Translation</a></h3>
 <p>Scopes are translated into permission grants to RabbitMQ resources for the provided token.</p>
 <p>The current scope format is <span class="code ">&lt;permission&gt;:&lt;vhost_pattern&gt;/&lt;name_pattern&gt;[/&lt;routing_key_pattern&gt;]</span> where</p>
@@ -292,9 +292,9 @@ be <span class="code ">my_rabbit.read:*/*</span>.</p>
 </pre>
 
 <h3><a id="use-tokens-with-clients" class="anchor" href="#use-tokens-with-clients">Using Tokens with Clients</a></h3>
-<p>A client must present a valid <span class="code ">access_token</span> acquired from an OAuth 2.0 provider (UAA) as the <strong>password</strong>
+<p>A client must present a valid <span class="code ">access_token</span> acquired from an OAuth 2.0 provider (such as UAA) as the <strong>password</strong>
 in order to authenticate with RabbitMQ.</p>
-<p>To learn more about UAA/OAuth 2.0 clients see <a href="https://github.com/cloudfoundry/uaa/blob/master/docs/UAA-APIs.rst#id73">UAA docs</a>.</p>
+<p>To learn more about OAuth 2.0 clients, see the <a href="https://www.rfc-editor.org/rfc/rfc6749#section-4.4">OAuth 2.0 client specification</a>.</p>
 <h3><a id="scope-and-tags" class="anchor" href="#scope-and-tags">Scope and Tags</a></h3>
 <p>Users in RabbitMQ can have <a href="https://www.rabbitmq.com/access-control.html#user-tags">tags associated with them</a>.
 Tags are used to <a href="https://www.rabbitmq.com/management.html#permissions">control access to the management plugin</a>.</p>
@@ -353,7 +353,7 @@ cluster:&lt;resource_server_id_pattern&gt;[/vhost:&lt;vhost_pattern&gt;][/queue:
 <p>The supported location's attributed are:</p>
 <ul>
 <li><span class="code ">cluster</span>: This is the only mandatory attribute. It is a wildcard pattern which must match RabbitMQ's <span class="code ">resource_server_id</span> otherwise the location is ignored.</li>
-<li><span class="code ">vhost</span>: This is the virtual host we are granting access to. It also a wildcard pattern. If not specified, <span class="code ">*</span> will be used.</li>
+<li><span class="code ">vhost</span>: This is the virtual host you are granting access to. It also a wildcard pattern. If not specified, <span class="code ">*</span> will be used.</li>
 <li><span class="code ">queue</span>|<span class="code ">exchange</span>: queue or exchange name pattern. The location grants the permission to a set of queues (or exchanges) that match it. One location can only specify either <span class="code ">queue</span> or <span class="code ">exchange</span> but not both. If not specified, <span class="code ">*</span> will be used</li>
 <li><span class="code ">routing-key</span>: this is the routing key pattern the location grants the permission to. If not specified, <span class="code ">*</span> will be used</li>
 </ul>
@@ -411,15 +411,17 @@ aforementioned convention using the following algorithm:</p>
 }
 </pre>
 
-<p>if RabbitMQ node's <span class="code ">resource_server_id</span> is equal to <span class="code ">finance</span>, the plugin will compute the following sets of scopes:
-- <span class="code ">finance.read:primary-*/*/*</span>
-- <span class="code ">finance.write:primary-*/*/*</span>
-- <span class="code ">finance.configure:primary-*/*/*</span>
-- <span class="code ">finance.tag:administrator</span></p>
+<p>if RabbitMQ node's <span class="code ">resource_server_id</span> is equal to <span class="code ">finance</span>, the plugin will compute the following sets of scopes:</p>
+<ul>
+<li><span class="code ">finance.read:primary-*/*/*</span></li>
+<li><span class="code ">finance.write:primary-*/*/*</span></li>
+<li><span class="code ">finance.configure:primary-*/*/*</span></li>
+<li><span class="code ">finance.tag:administrator</span></li>
+</ul>
 <h2><a id="examples" class="anchor" href="#examples">Examples</a></h2>
-<p>The <a href="oauth2-examples.html">RabbitMQ OAuth2 Auth Backend Examples</a> contains many example configuration files which can be used to set up several OAuth 2.0 providers such as UAA and issue tokens, which can be used to access RabbitMQ resources.</p>
+<p>The <a href="oauth2-examples.html">RabbitMQ OAuth 2.0 Auth Backend Examples</a> contains many example configuration files which can be used to set up several OAuth 2.0 providers, including UAA, Auth0, and Azure, and issue tokens, which can be used to access RabbitMQ resources.</p>
 <h2>License and Copyright</h2>
-<p>(c) 2016-2020 VMware, Inc. or its affiliates.</p>
+<p>(c) 2016-2022 VMware, Inc. or its affiliates.</p>
 <p>Released under the Mozilla Public License 2.0, same as RabbitMQ.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them

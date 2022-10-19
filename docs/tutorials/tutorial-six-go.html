@@ -212,7 +212,7 @@ func fib(n int) int {
 <p>We declare our fibonacci function. It assumes only valid positive integer input.
 (Don't expect this one to work for big numbers,
 and it's probably the slowest recursive implementation possible).</p>
-<p>The code for our RPC server <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/go/rpc_server.go">rpc_server.go</a> looks like this:</p>
+<p>The code for our RPC server <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/go/rpc_server.go">rpc_server.go</a> looks like this:</p>
 <pre class="lang-go">
 package main
 
@@ -321,7 +321,7 @@ func main() {
 <li>We use <span class="code ">Channel.Consume</span> to get the go channel where we receive messages
     from the queue. Then we enter the goroutine where we do the work and send the response back.</li>
 </ul>
-<p>The code for our RPC client <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/go/rpc_client.go">rpc_client.go</a>:</p>
+<p>The code for our RPC client <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/go/rpc_client.go">rpc_client.go</a>:</p>
 <pre class="lang-go">
 package main
 
@@ -440,7 +440,7 @@ func bodyFrom(args []string) int {
 </pre>
 
 <p>Now is a good time to take a look at our full example source code for
-<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/go/rpc_client.go">rpc_client.go</a> and <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/go/rpc_server.go">rpc_server.go</a>.</p>
+<a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/go/rpc_client.go">rpc_client.go</a> and <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/go/rpc_server.go">rpc_server.go</a>.</p>
 <p>Our RPC service is now ready. We can start the server:</p>
 <pre class="lang-bash">
 go run rpc_server.go

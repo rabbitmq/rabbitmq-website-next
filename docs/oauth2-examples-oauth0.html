@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Use https://auth0.com/ as OAuth 2.0 server
+ — RabbitMQ</title></head>
+  <body id="oauth2-examples-oauth0"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Use https://auth0.com/ as OAuth 2.0 server
+</h1>
+<p>Let's test the following 3 OAuth flows:</p>
+<ul>
+<li>Access management UI via a browser</li>
+<li>Access management rest api</li>
+<li>Access AMQP protocol</li>
+</ul>
+<h2>Prerequisites to follow this guide</h2>
+<ul>
+<li>Have an account in https://auth0.com/.</li>
+<li>Docker</li>
+</ul>
+<h2>Create RabbitMQ API</h2>
+<p>In Auth0, resources are mapped to Application APIs.</p>
+<ol>
+<li>Once you have logged onto your account in https://auth0.com/, go to <strong>dashboard &gt; Applications &gt; APIs &gt; Create an API</strong>.</li>
+<li>Give it the name <span class="code ">rabbitmq</span>. The important thing here is the <span class="code ">identifier</span> which must have the name of the <em>resource_server_id</em> we configured in RabbitMQ. This <span class="code ">identifier</span> goes into the <span class="code ">audience</span> JWT field. In our case, it is called <span class="code ">rabbitmq</span>.</li>
+<li>Choose <span class="code ">RS256</span> as the signing algorithm.</li>
+<li>Enable <strong>RBAC</strong>.</li>
+<li>Enable <strong>Add Permissions in the Access Token</strong>.</li>
+</ol>
+<h3>Configure permissions in RabbitMQ API</h3>
+<ol>
+<li>Edit the API we just created with the name <span class="code ">rabbitmq</span>.</li>
+<li>
+<p>Go into Permissions and add the permissions (scope) this api can grant. We are going to add the following scopes:</p>
+<ul>
+<li><span class="code ">rabbitmq.read:*/*</span></li>
+<li><span class="code ">rabbitmq.write:*/*</span></li>
+<li><span class="code ">rabbitmq.configure:*/*</span></li>
+<li><span class="code ">rabbitmq.tag:administrator</span></li>
+</ul>
+</li>
+</ol>
+<h3>Create an OAuth client for the Management UI</h3>
+<p>By default, for every API we create, an <em>Application</em> gets created using the API's <span class="code ">identifier</span> as its name.
+An <em>Application</em> requests an <strong>OAuth client</strong>.</p>
+<p>Go to <strong>dashboard &gt; Applications</strong>, and you should see your application listed. An application gives us a <em>client_id</em>, a <em>client_secret</em> and a http endpoint called <em>Domain</em> where to claim a token.</p>
+<h2>Create Application rabbitmq-management</h2>
+<p>An application gives us the client-id and client-secret for the management UI to authenticate on behalf
+of the end user.</p>
+<p>In the settings, choose:</p>
+<ul>
+<li>Application type : <span class="code ">Single Page applications</span></li>
+<li>Token Endpoint Authentication Method:  <span class="code ">None</span></li>
+<li>Allowed Callback URLs: <span class="code ">http://localhost:15672/js/oidc-oauth/login-callback.html</span></li>
+<li>Allowed Web Origins: <span class="code ">http://localhost:15672</span></li>
+<li>Allowed Origins (CORS): <span class="code ">http://localhost:15672</span></li>
+</ul>
+<h2>Create a new user</h2>
+<p>You can use your current Auth0 user to login to RabbitMQ or create a dedicated user for that. Up to you.</p>
+<h3>Authorize rabbitmq-management application</h3>
+<ol>
+<li>Go to <strong>Authorized Applications</strong>.</li>
+<li>click on <strong>Authorize</strong> and select all the scopes.</li>
+</ol>
+<h3>Create permissions and grant them</h3>
+<ol>
+<li>Go to "Roles".</li>
+<li>Create the role called <span class="code ">rabbitmq.tag:administrator</span>.</li>
+<li>Go to "Permissions" and select all the permissions.</li>
+<li>Go to "Users" and make sure our user is listed else add our user to the
+list of users which have this role.</li>
+</ol>
+<h2>Configure RabbitMQ with Auth0 signing key</h2>
+<ol>
+<li>
+<p>From Auth0 dashboard, go to <strong>Settings &gt; List of Valid Keys</strong>, and <strong>Copy Signing Certificate</strong> from the <strong>CURRENTLY USED</strong> signing key.</p>
+</li>
+<li>
+<p>Create <span class="code ">/tmp/certiicate.pem</span> and paste the certificate.</p>
+</li>
+<li>
+<p>Run <span class="code ">openssl x509 -in /tmp/certificate.pem -pubkey -noout &gt; /tmp/public.pem</span> to extract the public key from the certificate and paste the public key into <span class="code ">rabbitmq.config</span>.</p>
+</li>
+</ol>
+<p>Below we have a sample RabbitMQ configuration where we have set the <span class="code ">default_key</span> identifier that we copied from
+Auth0 and also the public key we extracted from <span class="code ">/tmp/public.pem</span>.</p>
+<pre class="lang-erlang">
+{key_config, [
+    {default_key, &lt;&lt;"LQPlyC9P_gOhzMLx7r2Qm"&gt;&gt;},
+    {signing_keys,
+        #{&lt;&lt;"LQPlyC9P_gOhzMLx7r2Qm"&gt;&gt; =&gt; {pem, &lt;&lt;"-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuELzgXF5ZiEMkA0EnRii
+Nf1pck5SkzK4HN6y+Zvy9F2e2soJ/i7acaVX0z5O1Fj2ez0UIe1cwJxurTdlFHQD
+MAHD6Mhr5vhY+UEACk9QXp5jbRQwApzEnmDoEuKKVFmTK9Jvm+339kRWz6vv/CqB
+cMWSVjp+bnd+XosA8SwKSboQ9Vs4LdJi0fqIOyu2o+FRkf6p5qPMYLndJAKZfwSg
+aeCgC2hpBiylBsYBdHQEmawgcUjW+CKAOaMEix/799jRjpXkmUFxZ+H/wbLnu880
+/bqJidYlvoJt88skYlzqmAxf/BWhaudVkiqtFNZcr2kwsZk/O+7GNFk4N0/UdE4Y
+CwIDAQAB
+-----END PUBLIC KEY-----"&gt;&gt;}
+         }
+    }]
+}
+
+</pre>
+
+<h2>Start RabbitMQ</h2>
+<p>Run the following commands to run RabbitMQ:</p>
+<pre class="lang-bash">
+export MODE=auth0
+make start-rabbitmq
+</pre>
+
+<h2>Verify Management UI flows</h2>
+<ol>
+<li>Go to management UI <span class="code ">http://localhost:15672</span>.</li>
+<li>Click on the single button, authenticate with your secondary Auth0 user. You should be redirected back to the management UI.</li>
+</ol>
+<p>Auth0 issues an access token like this one below. Where we receive in the <span class="code ">scope</span> claim
+the requested scopes, and in the <span class="code ">permissions</span> claim the permissions. We have configured
+RabbitMQ with <span class="code ">{extra_scopes_source, &lt;&lt;"permissions"&gt;&gt;},</span> which means RabbitMQ uses
+the scopes in the <span class="code ">permissions</span> claim too.</p>
+<pre class="lang-javascript">
+{
+  "iss": "https://dev-prbc0gw4.us.auth0.com/",
+  "sub": "auth0|6294e0afdc4dea0068d780a7",
+  "aud": [
+    "rabbitmq",
+    "https://dev-prbc0gw4.us.auth0.com/userinfo"
+  ],
+  "iat": 1654002181,
+  "exp": 1654088581,
+  "azp": "ffxcvJb6byeNG1Qr6us0Mg0Jp5HyzwwV",
+  "scope": "openid profile rabbitmq.tag:administrator",
+  "permissions": [
+    "rabbitmq.configure:*/*",
+    "rabbitmq.read:*/*",
+    "rabbitmq.tag:administrator",
+    "rabbitmq.write:*/*"
+  ]
+}
+</pre><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
+          <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
+          <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

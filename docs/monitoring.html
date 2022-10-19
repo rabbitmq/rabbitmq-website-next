@@ -293,7 +293,7 @@ be one example. Both types are complimentary to infrastructure and node metrics.
     <tr>
       <td>Other message stats</td>
       <td>
-        <span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.11.0/deps/rabbitmq_management/priv/www/api/index.html">HTTP API reference</a>)
+        <span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.11.2/deps/rabbitmq_management/priv/www/api/index.html">HTTP API reference</a>)
       </td>
     </tr>
   </tbody>
@@ -434,7 +434,7 @@ via the <span class="code ">GET /api/queues/{vhost}/{qname}</span> endpoint.</p>
     </tr>
     <tr>
       <td>Other message stats</td>
-      <td><span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-management/v3.11.0/priv/www/api/index.html">HTTP API reference</a>)
+      <td><span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-management/v3.11.2/priv/www/api/index.html">HTTP API reference</a>)
     </td>
     </tr>
   </tbody>
@@ -454,7 +454,7 @@ keep up with the rate, or even a downstream service that's experiencing a slowdo
 (e.g. a missing index in a database used by the consumers).</p>
 <p>Some client libraries and frameworks
 provide means of registering metrics collectors or collect metrics out of the box.
-<a href="./api-guide.html">RabbitMQ Java client</a> and <a href="http://spring.io/projects/spring-amqp">Spring AMQP</a> are two examples.
+<a href="./api-guide.html">RabbitMQ Java client</a>, <a href="http://spring.io/projects/spring-amqp">Spring AMQP</a>, and <a href="https://docs.particular.net/transports/rabbitmq/">NServiceBus</a> are some examples.
 With others developers have to track metrics in their application code.</p>
 <p>What metrics applications track can be system-specific but some are relevant
 to most systems:</p>
