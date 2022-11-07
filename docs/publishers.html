@@ -446,7 +446,7 @@ closure.</p>
 per publisher is the optimal solution. With a large number (say, hundreds or thousands),
 use a thread pool.</p>
 <h2><a id="disable-publishing" class="anchor" href="#disable-publishing">Temporarily Blocking Publishing</a></h2>
-<p>It is possible to effectively disable all publishing in a cluster by setting the <a href="memory.html">memory high watermark</a>
+<p>It is possible to effectively block all publishing in a cluster by setting the <a href="memory.html">memory high watermark</a>
 to <span class="code ">0</span>, thus making <a href="alarms.html">a resource alarm</a> to go off immediately:</p>
 <pre class="lang-bash">
 rabbitmqctl set_vm_memory_high_watermark 0

@@ -257,7 +257,7 @@ refer to <a href="https://www.digitalocean.com/community/tutorials/understanding
     <td>
       A short identifier of an object in the tree. This identifier will vary between
       object classes (types) in the LDAP database. For example, a person's common name
-      will be her full name. A group's common name would be the name of that group.
+      will be the full name. A group's common name would be the name of that group.
       One way to think of a CN is a file name in a filesystem.
     </td>
   </tr>
@@ -391,7 +391,7 @@ passwords, written to the logs; this mode must not be used in production and wil
 nearly every widely adopted security policy.
 It can, however, be very useful for troubleshooting in development
 and QA environments.</p>
-<p>Lastly, the value of <span class="code ">false</span> (the default) disables LDAP traffic logging.</p>
+<p>Lastly, the value of <span class="code ">false</span> (the default) deactivates LDAP traffic logging.</p>
 <p>The following examples sets LDAP logging level to <span class="code ">network</span>:</p>
 <pre class="lang-ini">
 auth_ldap.log = network

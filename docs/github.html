@@ -24,7 +24,7 @@ as well.</p>
 developing RabbitMQ code, where each feature or bug fix is
 developed on a branch of its own using</p>
 <p><span class="code ">git checkout -b</span></p>
-<p>and merged into the <span class="code ">master</span> or
+<p>and merged into the <span class="code ">main</span> or
 <span class="code ">stable</span> branches only when it passes QA. Branches
 follow the pattern <span class="code "><i>repository-name</i>-<i>NN</i></span>,
 where <i>repository-name</i> is the name of the GitHub project
@@ -45,7 +45,7 @@ attempt to implement it).</p>
 <p>The pull request must be made against the <span class="code ">stable</span>
 branch if it is a bugfix involving no incompatible changes
 with the latest stable release (ie. no changes to the Mnesia
-schema or the inter-node communication), or the <span class="code ">master</span>
+schema or the inter-node communication), or the <span class="code ">main</span>
 branch for everything else.</p>
 <h2><a id="default-branch" class="anchor" href="#default-branch">The main branch</a></h2>
 <p>The default repository branch contains all the work that
@@ -57,7 +57,7 @@ of interest.</p>
 <h2><a id="maintenance-branches" class="anchor" href="#maintenance-branches">Maintenance branch</a></h2>
 <p>There's a separate branch for maintenance work,
 named after the current stable release series. Currently it is <span class="code ">v3.7.x</span>.
-It plays the same role as the <span class="code ">master</span> branch except that it carries merged,
+It plays the same role as the <span class="code ">main</span> branch except that it carries merged,
 QA'd code intended for the next bug-fix release rather than
 the next general release.</p>
 <h2><a id="tags" class="anchor" href="#tags">Tags</a></h2>

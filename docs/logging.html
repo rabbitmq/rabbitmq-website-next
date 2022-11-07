@@ -16,7 +16,7 @@ state of the system.</p>
 <li>Supported <a href="#log-outputs">log outputs</a>: <a href="#logging-to-a-file">file</a> and <a href="#logging-to-console">standard streams (console)</a></li>
 <li><a href="#log-file-location">Log file location</a></li>
 <li>Supported <a href="#log-levels">log levels</a></li>
-<li>How to <a href="#debug-logging">enable debug logging</a></li>
+<li>How to <a href="#debug-logging">activate debug logging</a></li>
 <li>How to <a href="#log-tail">tail logs of a running node</a> without having access to the log file</li>
 <li>Watching <a href="#internal-events">internal events</a></li>
 <li><a href="#logged-events">Connection lifecycle events</a> logged</li>
@@ -63,7 +63,7 @@ for a general overview of how to configure RabbitMQ.</p>
 RabbitMQ nodes only log to a file if explicitly configured to do so using
 the configuration keys listed below:</p>
 <ul>
-<li><span class="code ">log.file</span>: log file path or <span class="code ">false</span> to disable the file output. Default value is taken from the <span class="code ">RABBITMQ_LOGS</span> <a href="configure.html">environment variable or configuration file</a></li>
+<li><span class="code ">log.file</span>: log file path or <span class="code ">false</span> to deactivate the file output. Default value is taken from the <span class="code ">RABBITMQ_LOGS</span> <a href="configure.html">environment variable or configuration file</a></li>
 <li><span class="code ">log.file.level</span>: log level for the file output. Default level is <span class="code ">info</span></li>
 <li><span class="code ">log.file.formatter</span>: controls log entry format, text lines or JSON</li>
 <li><span class="code ">log.file.rotation.date</span>, <span class="code ">log.file.rotation.size</span>, <span class="code ">log.file.rotation.count</span> for log file rotation settings</li>
@@ -85,7 +85,7 @@ log.file.level = debug
 </pre>
 
 <p>Supported log levels ca be found in the <a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.9.x/deps/rabbit/docs/rabbitmq.conf.example">example rabbitmq.conf file</a>.</p>
-<p>Logging to a file can be disabled with</p>
+<p>Logging to a file can be deactivated with</p>
 <pre class="lang-ini">
 log.file = false
 </pre>
@@ -148,21 +148,22 @@ way of log file rotation and compression.</p>
 <p>RabbitMQ <a href="./install-debian.html">Debian</a> and <a href="./install-rpm.html">RPM</a> packages will set up <span class="code ">logrotate</span> to run weekly on files
 located in default <span class="code ">/var/log/rabbitmq</span> directory. Rotation configuration can be found in <span class="code ">/etc/logrotate.d/rabbitmq-server</span>.</p>
 <h3><a id="logging-to-console" class="anchor" href="#logging-to-console">Logging to Console (Standard Output)</a></h3>
-<p>Logging to standard streams (console) is another popular option for RabbitMQ installations.
+<p>Logging to standard streams (console) is another popular option for RabbitMQ installations,
+in particular when RabbitMQ nodes are deployed in containers.
 RabbitMQ nodes only log to standard streams if explicitly configured to do so.</p>
 <p>Here are the main settings that control console (standard output) logging:</p>
 <ul>
-<li><span class="code ">log.console</span> (boolean): set to <span class="code ">true</span> to enable console output. Default is `false</li>
+<li><span class="code ">log.console</span> (boolean): set to <span class="code ">true</span> to activate console output. Default is `false</li>
 <li><span class="code ">log.console.level</span>: log level for the console output. Default level is <span class="code ">info</span></li>
 <li><span class="code ">log.console.formatter</span>: controls log entry format, text lines or JSON</li>
 <li><span class="code ">log.console.formatter.time_format</span>: controls timestamp formatting</li>
 </ul>
-<p>To enable console logging, use the following config snippet:</p>
+<p>To activate console logging, use the following config snippet:</p>
 <pre class="lang-ini">
 log.console = true
 </pre>
 
-<p>The following example disables console logging</p>
+<p>The following example deactivates console logging</p>
 <pre class="lang-ini">
 log.console = false
 </pre>
@@ -178,8 +179,8 @@ log.console.level = debug
 log.console.formatter = json
 </pre>
 
-<p>When console output is enabled, the file output will also be enabled by default.
-To disable the file output, set <span class="code ">log.file</span> to <span class="code ">false</span>:</p>
+<p>When console output is activated, the file output will also be activated by default.
+To deactivate the file output, set <span class="code ">log.file</span> to <span class="code ">false</span>:</p>
 <pre class="lang-ini">
 log.console = true
 log.console.level = info
@@ -199,7 +200,7 @@ log.file = false
 log.console.formatter.time_format = epoch_usecs
 </pre>
 
-<p>Please note that <span class="code ">RABBITMQ_LOGS=-</span> will disable the file output
+<p>Please note that <span class="code ">RABBITMQ_LOGS=-</span> will deactivate the file output
 even if <span class="code ">log.file</span> is configured.</p>
 <h3><a id="logging-to-syslog" class="anchor" href="#logging-to-syslog">Logging to Syslog</a></h3>
 <p>RabbitMQ logs can be forwarded to a Syslog server via TCP or UDP. UDP is used by default
@@ -312,7 +313,7 @@ using <span class="code ">log.&lt;category&gt;.level</span> and <span class="cod
 messages, the debug messages will be printed for all categories. Configure a log level for a
 category to override.</p>
 <p>For example, given debug level in the file output,
-the following will disable debug logging for connection events:</p>
+the following will deactivate debug logging for connection events:</p>
 <pre class="lang-ini">
 log.file.level = debug
 log.connection.level = info
@@ -323,7 +324,7 @@ log.connection.level = info
 log.federation.file = rabbit_federation.log
 </pre>
 
-<p>To disable a log type, you can use the <span class="code ">none</span> log level. For example, to disable
+<p>To deactivate a log type, you can use the <span class="code ">none</span> log level. For example, to deactivate
 upgrade logs:</p>
 <pre class="lang-ini">
 log.upgrade.level = none
@@ -404,7 +405,7 @@ with a less verbose level.</p>
 <li>Via <a href="configure.html">configuration file(s)</a>: this is more flexible but requires
    a node restart between changes</li>
 <li>Using <a href="./cli.html">CLI tools</a>, <span class="code ">rabbitmqctl set_log_level &lt;level&gt;</span>: the changes are transient (will not survive node restart) but can be used to
-   enable and disable e.g. <a href="#debug-logging">debug logging</a> at runtime for a period of time.</li>
+   activate and deactivate, for example, <a href="#debug-logging">debug logging</a> at runtime for a period of time.</li>
 </ul>
 <p>To set log level to <span class="code ">debug</span> on a running node:</p>
 <pre class="lang-bash">
@@ -428,7 +429,7 @@ rabbitmq-diagnostics -n rabbit@target-host log_tail -N 300
 </pre>
 
 <p>This will load and print last lines from the log file.
-If only console logging is enabled, this command will fail with a "file not found" (<span class="code ">enoent</span>) error.</p>
+If only console logging is activated, this command will fail with a "file not found" (<span class="code ">enoent</span>) error.</p>
 <p>To continuously inspect as a stream of log messages as they are appended to a file,
 similarly to <span class="code ">tail -f</span> or console logging, use <span class="code ">rabbitmq-diagnostics log_tail_stream</span>:</p>
 <pre class="lang-bash">
@@ -438,12 +439,12 @@ rabbitmq-diagnostics -n rabbit@target-host log_tail_stream
 </pre>
 
 <p>This will continuously tail and stream lines added to the log file.
-If only console logging is enabled, this command will fail with a "file not found" (<span class="code ">enoent</span>) error.</p>
+If only console logging is activated, this command will fail with a "file not found" (<span class="code ">enoent</span>) error.</p>
 <p>The <span class="code ">rabbitmq-diagnostics log_tail_stream</span> command can only be used against a running RabbitMQ node
 and will fail if the node is not running or the RabbitMQ application on it
 was stopped using <span class="code ">rabbitmqctl stop_app</span>.</p>
-<h2><a id="debug-logging" class="anchor" href="#debug-logging">Enabling Debug Logging</a></h2>
-<p>To enable debug messages, you should have a debug output.</p>
+<h2><a id="debug-logging" class="anchor" href="#debug-logging">Activating Debug Logging</a></h2>
+<p>To activate debug messages, you should have a debug output.</p>
 <p>For example to log debug messages to a file:</p>
 <pre class="lang-ini">
 log.file.level = debug
@@ -465,7 +466,7 @@ rabbitmqctl -n rabbit@target-host set_log_level debug
 rabbitmqctl -n rabbit@target-host set_log_level info
 </pre>
 
-<p>It is possible to disable debug logging for some categories:</p>
+<p>It is possible to deactivate debug logging for some categories:</p>
 <pre class="lang-ini">
 log.file.level = debug
 
@@ -647,10 +648,10 @@ message metadata (properties, headers).</p>
 <h2><a id="log-exchange" class="anchor" href="#log-exchange">Consuming Log Entries Using a System Log Exchange</a></h2>
 <p>RabbitMQ can forward log entries to a system exchange, <span class="code ">amq.rabbitmq.log</span>, which
 will be declared in the default <a href="vhosts.html">virtual host</a>.</p>
-<p>This feature is disabled by default.
-To enable this logging, set the <span class="code ">log.exchange</span> configuration key to <span class="code ">true</span>:</p>
+<p>This feature is deactivated by default.
+To activate this logging, set the <span class="code ">log.exchange</span> configuration key to <span class="code ">true</span>:</p>
 <pre class="lang-ini">
-# enable log forwarding to amq.rabbitmq.log, a topic exchange
+# activate log forwarding to amq.rabbitmq.log, a topic exchange
 log.exchange = true
 </pre>
 

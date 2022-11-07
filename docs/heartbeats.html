@@ -59,16 +59,16 @@ the interval, potentially causing confusion.</p>
 heartbeat. Clients may choose to send heartbeat frames
 regardless of whether there was any other traffic on the
 connection but some only do it when necessary.</p>
-<h2><a id="disabling" class="anchor" href="#disabling">How to Disable Heartbeats</a></h2>
-<p>Heartbeats can be disabled by setting the timeout interval to <span class="code ">0</span> on the client side at connection time,
+<h2><a id="disabling" class="anchor" href="#disabling">How to Deactivate Heartbeats</a></h2>
+<p>Heartbeats can be deactivated by setting the timeout interval to <span class="code ">0</span> on the client side at connection time,
 providing the server heartbeat has also been set to zero.</p>
-<p>Disabling heartbeats is <strong>highly recommended against</strong>
+<p>Deactivating heartbeats is <strong>not recommended</strong>
 unless the environment is known to use <a href="#tcp-keepalives">TCP keepalives</a> on every host (both RabbitMQ nodes and applications).</p>
-<p>Alternatively a very high (say, 1800 seconds) value can be used on both ends to effectively disable heartbeats
+<p>Alternatively a very high (say, 1800 seconds) value can be used on both ends to effectively deactivate heartbeats
 as frame delivery will be too infrequent to make a practical difference.</p>
 <p>Unless <a href="#tcp-keepalives">TCP keepalives</a> are used instead with an adequately low inactivity detection period,
-<em>disabling heartbeats is highly discouraged</em>. If heartbeats are disabled, it will make timely peer unavailability
-detection much less likely. That <em>would pose a significant risk to data safety</em>, in particular for <a href="./publishers.html">publishers</a>.</p>
+<em>deactivating heartbeats is highly discouraged</em>. If heartbeats are deactivated, it will make timely peer unavailability
+detection much less likely, which <em>would pose a significant risk to data safety</em>, in particular for <a href="./publishers.html">publishers</a>.</p>
 <h2><a id="using-heartbeats-in-java" class="anchor" href="#using-heartbeats-in-java">Enabling Heartbeats with Java Client</a></h2>
 <p>To configure the heartbeat timeout in the Java client, set it with
 <span class="code ">ConnectionFactory#setRequestedHeartbeat</span> before
@@ -141,10 +141,10 @@ not have a heartbeat mechanism of some kind), TCP keepalives must
 be configured to use a reasonably low timeout value.</p>
 <p>TCP keepalives cover all TCP connections on a host, both inbound
 and outgoing. This makes them useful in scenarios with a high outgoing
-connection churn, e.g. <a href="shovel.html">Shovel</a> or <a href="federation.html">Federation</a> plugin
-links that are often disabled and re-enabled or interrupted.</p>
+connection churn, for example, <a href="shovel.html">Shovel</a> or <a href="federation.html">Federation</a> plugin
+links that are often deactivated and re-activated (re-enabled) or interrupted.</p>
 <p>TCP keepalives can also be used instead of heartbeats by configuring them to lower system-specific
-values. In that case <a href="#disabling">heartbeats can be disabled</a>. The main benefit
+values. In that case <a href="#disabling">heartbeats can be deactivated</a>. The main benefit
 of this approach is that all TCP connections on a machine will use identical values
 regardless of the protocol and client library used.</p>
 <p>See the <a href="networking.html">Networking guide</a> for details.</p>
@@ -153,7 +153,7 @@ regardless of the protocol and client library used.</p>
 (hardware load balancers) may terminate "idle" TCP
 connections when there is no activity on them for a certain
 period of time. Most of the time it is not desirable.</p>
-<p>When heartbeats are enabled on a connection, it results in
+<p>When heartbeats are activated on a connection, it results in
 periodic light network traffic. Therefore heartbeats have a side effect
 of guarding client connections that can go idle for periods of
 time against premature closure by proxies and load balancers.</p>

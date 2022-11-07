@@ -24,7 +24,7 @@
     </p>
   </div></p>
 <div class="diagram">
-  <img src="../img/tutorials/python-two.png" height="110" />
+  <img src="../img/tutorials/python-two.png" height="110" alt="Producer -&gt; Queue -&gt; Consuming: Work Queue used to distribute time-consuming tasks among multiple workers." />
   <div class="diagram_source">
     digraph {
       bgcolor=transparent;
@@ -189,7 +189,7 @@ this out with three or more workers.</p>
 <p>Doing a task can take a few seconds. You may wonder what happens if
 one of the consumers starts a long task and dies with it only partly done.
 With our current code, once RabbitMQ delivers a message to the consumer it
-immediately marks it for deletion. In this case, if you kill a worker
+immediately marks it for deletion. In this case, if you terminate a worker
 we will lose the message it was just processing. We'll also lose all
 the messages that were dispatched to this particular worker but were not
 yet handled.</p>
@@ -227,9 +227,9 @@ channel.BasicConsume(queue: "hello",
                      consumer: consumer);
 </pre>
 
-<p>Using this code we can be sure that even if you kill a worker using
-CTRL+C while it was processing a message, nothing will be lost. Soon
-after the worker dies all unacknowledged messages will be redelivered.</p>
+<p>Using this code, you can  ensure that even if you terminate a worker node using
+CTRL+C while it was processing a message, nothing is lost. Soon
+after the worker node is terminated, all unacknowledged messages will be redelivered.</p>
 <p>Acknowledgement must be sent on the same channel that received the
 delivery. Attempts to acknowledge using a different channel will result
 in a channel-level protocol exception. See the <a href="../confirms.html">doc guide on confirmations</a>
@@ -317,7 +317,7 @@ enters the queue. It doesn't look at the number of unacknowledged
 messages for a consumer. It just blindly dispatches every n-th message
 to the n-th consumer.</p>
 <div class="diagram">
-  <img src="../img/tutorials/prefetch-count.png" height="110" />
+  <img src="../img/tutorials/prefetch-count.png" height="110" alt="Producer -&gt; Queue -&gt; Consuming: RabbitMQ dispatching messages." />
   <div class="diagram_source">
     digraph {
       bgcolor=transparent;
@@ -510,7 +510,7 @@ to deliver the same message to many consumers.</p>
     <p>
       The simplest thing that does <em>something</em>
     </p>
-    <p><img src="../img/tutorials/python-one.png" width="180" /></p>
+    <p><img src="../img/tutorials/python-one.png" width="180" alt="(P) -&gt; [|||] -&gt; (C)" /></p>
     <ul>
       <li><a href="./tutorial-one-python.html">Python</a></li>
       <li><a href="./tutorial-one-java.html">Java</a></li>
@@ -531,7 +531,7 @@ to deliver the same message to many consumers.</p>
     <p>
       Distributing tasks among workers (the <a href="http://www.enterpriseintegrationpatterns.com/patterns/messaging/CompetingConsumers.html">competing consumers pattern</a>)
     </p>
-    <p><img src="../img/tutorials/python-two.png" width="180" /></p>
+    <p><img src="../img/tutorials/python-two.png" width="180" alt="Producer -&gt; Queue -&gt; Consuming: Work Queue used to distribute time-consuming tasks among multiple workers." /></p>
     <ul>
         <li><a href="./tutorial-two-python.html">Python</a></li>
         <li><a href="./tutorial-two-java.html">Java</a></li>
@@ -552,7 +552,7 @@ to deliver the same message to many consumers.</p>
     <p>
       Sending messages to many consumers at once
     </p>
-    <p><img src="../img/tutorials/python-three.png" height="50" width="180" /></p>
+    <p><img src="../img/tutorials/python-three.png" height="50" width="180" alt="Producer -&gt; Queue -&gt; Consuming: deliver a message to multiple consumers." /></p>
     <ul>
       <li><a href="./tutorial-three-python.html">Python</a></li>
       <li><a href="./tutorial-three-java.html">Java</a></li>
@@ -575,7 +575,7 @@ to deliver the same message to many consumers.</p>
     <p>
       Receiving messages selectively
     </p>
-    <p><img src="../img/tutorials/python-four.png" height="50" width="180" /></p>
+    <p><img src="../img/tutorials/python-four.png" height="50" width="180" alt="Producer -&gt; Queue -&gt; Consuming: subscribe to a subset of the messages only." /></p>
     <ul>
       <li><a href="./tutorial-four-python.html">Python</a></li>
       <li><a href="./tutorial-four-java.html">Java</a></li>
@@ -596,7 +596,7 @@ to deliver the same message to many consumers.</p>
     <p>
       Receiving messages based on a pattern (topics)
     </p>
-    <p><img src="../img/tutorials/python-five.png" height="50" width="180" /></p>
+    <p><img src="../img/tutorials/python-five.png" height="50" width="180" alt="Producer -&gt; Queue -&gt; Consuming: receiving messages based on a pattern (topics)." /></p>
     <ul>
       <li><a href="./tutorial-five-python.html">Python</a></li>
       <li><a href="./tutorial-five-java.html">Java</a></li>
@@ -617,7 +617,7 @@ to deliver the same message to many consumers.</p>
     <p>
       <a href="http://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html">Request/reply pattern</a> example
     </p>
-    <p><img src="../img/tutorials/python-six.png" height="50" width="180" /></p>
+    <p><img src="../img/tutorials/python-six.png" height="50" width="180" alt="Producer -&gt; Queue -&gt; Consuming: RPC (Remote Procedure Call), the request/reply pattern." /></p>
     <ul>
       <li><a href="./tutorial-six-python.html">Python</a></li>
       <li><a href="./tutorial-six-java.html">Java</a></li>

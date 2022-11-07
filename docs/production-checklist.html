@@ -144,10 +144,10 @@ includes network sockets. Make sure that you have limits set high enough to allo
 for expected number of concurrent connections and queues.</p>
 <p>Make sure your environment allows for at least 50K open file descriptors for effective RabbitMQ
 user, including in development environments.</p>
-<p>As a rule of thumb, multiply the 95th percentile number of concurrent connections
-by 2 and add total number of queues to calculate recommended open file handle limit.
+<p>As a guideline, multiply the 95th percentile number of concurrent connections
+by 2 and add the total number of queues to calculate the recommended open file handle limit.
 Values as high as 500K are not inadequate and
-won't consume a lot of hardware resources, and therefore are recommended for production
+will not consume a lot of hardware resources, therefore, they are recommended for production
 setups.</p>
 <p>See <a href="networking.html">Networking guide</a> for more information.</p>
 <h3><a id="logging" class="anchor" href="#logging">Log Collection</a></h3>
@@ -190,7 +190,7 @@ Self-signed certificates can be appropriate in production environments when
 RabbitMQ and all applications run on a trusted network or isolated using technologies
 such as VMware NSX.</p>
 <p>While RabbitMQ tries to offer a secure TLS configuration by
-default (e.g. SSLv3 is disabled), we recommend evaluating
+default (for example, SSLv3 is deactivated), we recommend evaluating
 TLS configuration (versions cipher suites and so on) using tools such as <a href="https://testssl.sh/">testssl.sh</a>.
 Please refer to the <a href="ssl.html">TLS guide</a> to learn more.</p>
 <p>Note that TLS can have significant impact on overall system throughput,

@@ -30,7 +30,7 @@ library is required. We've tested a
 <a href="https://github.com/jmesnil/stomp-websocket/">stomp-websocket</a> library
 by <a href="https://github.com/jmesnil">Jeff Mesnil</a> and
 <a href="https://github.com/progrium">Jeff Lindsay</a>.
-<a href="https://github.com/rabbitmq/rabbitmq-web-stomp-examples/blob/master/priv/stomp.js">This library</a>
+<a href="https://github.com/rabbitmq/rabbitmq-server/blob/main/deps/rabbitmq_web_stomp_examples/priv/stomp.js">This library</a>
 is included as part of <a href="https://github.com/rabbitmq/rabbitmq-web-stomp-examples">RabbitMQ Web STOMP examples</a>.</p>
 <p>The WebSocket endpoint is available on the <span class="code ">/ws</span> path:</p>
 <pre class="lang-plaintext">
@@ -83,7 +83,7 @@ rabbitmq-plugins enable rabbitmq_web_stomp_examples
 <li>"echo" - shows how to use STOMP to do simple message broadcasting</li>
 <li>"bunny" - example of a simple collaboration canvas painting app</li>
 </ul>
-<p>We encourage you to take a look <a href="https://github.com/rabbitmq/rabbitmq-server/tree/master/deps/rabbitmq_web_stomp_examples/priv">at the source code</a>.</p>
+<p>We encourage you to take a look <a href="https://github.com/rabbitmq/rabbitmq-server/tree/main/deps/rabbitmq_web_stomp_examples/priv">at the source code</a>.</p>
 <h2><a id="configuration" class="anchor" href="#configuration">Configuration</a></h2>
 <p>When no configuration is specified the Web STOMP plugin will listen on
 all interfaces on port 15674 and have a default user login/passcode of
@@ -172,7 +172,7 @@ or the <a href="./configure.html#erlang-term-config-file">classic config format<
 
 <h3><a id="proxy-protocol" class="anchor" href="#proxy-protocol">Proxy Protocol</a></h3>
 <p>The Web STOMP plugin supports the <a href="http://www.haproxy.org/download/1.8/doc/proxy-protocol.txt">proxy protocol</a>.
-This feature is disabled by default, to enable it for clients:</p>
+This feature is deactivated by default, to activate it for clients:</p>
 <pre class="lang-ini">
 web_stomp.proxy_protocol = true
 </pre>

@@ -218,7 +218,7 @@ make run ARGS="-y 0 -s 1000 -f persistent -C 1000000 -u lazy -qa x-queue-mode=la
 workload and use this test as a starting point.</p>
 <h3>Switching Queue Mode at Runtime</h3>
 <p>When converting a <span class="code ">default</span> queue into a <span class="code ">lazy</span> one,
-the operation will suffer the same performance impact as when a queue needs to page messages to disk.</p>
+the performance impact on the operation is the same impact as when a queue needs to page messages to disk.</p>
 <p>During a conversion from the regular mode to the lazy one,
 the queue will first page all messages kept in RAM to disk. It won't accept any more
 messages from publishing channels while that operation is in progress.
@@ -234,7 +234,7 @@ that should be considered.</p>
 <p>When a node is running and under normal operation, lazy queues will keep all messages on disk,
 the only exception being in-flight messages.</p>
 <p>When a RabbitMQ node starts, all queues, including the lazy ones, will load up to <strong>16,384</strong> messages into RAM.
-If <a href="persistence-conf.html">queue index embedding</a> is enabled (the <span class="code ">queue_index_embed_msgs_below</span> configuration parameter is greater than 0),
+If <a href="persistence-conf.html">queue index embedding</a> is turned on (the <span class="code ">queue_index_embed_msgs_below</span> configuration parameter is greater than 0),
 the payloads of those messages will be loaded into RAM as well.</p>
 <p>For example, a lazy queue with <strong>20,000</strong> messages of <strong>4,000</strong> bytes each, will load <strong>16,384</strong> messages into memory.
 These messages will use <strong>63MB</strong> of system memory.
@@ -243,7 +243,7 @@ The queue process will use another <strong>8.4MB</strong> of system memory, brin
 RabbitMQ node is memory constrained, or if there are many lazy queues
 hosted on the node.</p>
 <p><strong>It is important to remember that an under-provisioned RabbitMQ node in terms of memory or disk space will fail to start.</strong></p>
-<p>Setting <span class="code ">queue_index_embed_msgs_below</span> to <span class="code ">0</span> will disable payload embedding in the queue index.
+<p>Setting <span class="code ">queue_index_embed_msgs_below</span> to <span class="code ">0</span> will turn off payload embedding in the queue index.
 As a result, lazy queues will not load message payloads into memory on node startup.
 See the <a href="persistence-conf.html">Persistence Configuration guide</a> for details.</p>
 <p>When setting <span class="code ">queue_index_embed_msgs_below</span> to <span class="code ">0</span> all messages will be stored

@@ -83,7 +83,7 @@ it can be stopped. However, once more work is there for it to do, restarting it 
 Alternatively the conveyor can be speculatively kept running for a period of time.</p>
 <p>By default, RabbitMQ nodes configure runtime schedulers to speculatively wait for a short period
 of time before going to sleep. Workloads where there can be prolonged periods of inactivity
-can choose to disable this speculative busy waiting using the <a href="https://erlang.org/doc/man/erl.html"><span class="code ">+sbwt</span> and related runtime flags</a>:</p>
+can choose to turn off this speculative busy waiting using the <a href="https://erlang.org/doc/man/erl.html"><span class="code ">+sbwt</span> and related runtime flags</a>:</p>
 <pre class="lang-bash">
 RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+sbwt none +sbwtdcpu none +sbwtdio none"
 </pre>
@@ -133,8 +133,8 @@ These recommendations can significantly decrease CPU footprint with some workloa
 <h4>Collect Runtime Thread Statistics</h4>
 <p>Collect <a href="#thread-stats">runtime thread activity stats</a> data to understand how scheduler and CPU time
 is spent. This is a critically important step for making informed decisions.</p>
-<h4>Disable Speculative Scheduler Busy Waiting</h4>
-<p>Disable speculative <a href="#busy-waiting">scheduler busy waiting</a> using the <a href="https://erlang.org/doc/man/erl.html"><span class="code ">+sbwt</span> and related runtime flags</a>:</p>
+<h4>Turn off Speculative Scheduler Busy Waiting</h4>
+<p>Turn off speculative <a href="#busy-waiting">scheduler busy waiting</a> using the <a href="https://erlang.org/doc/man/erl.html"><span class="code ">+sbwt</span> and related runtime flags</a>:</p>
 <pre class="lang-bash">
 RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+sbwt none +sbwtdcpu none +sbwtdio none"
 </pre>

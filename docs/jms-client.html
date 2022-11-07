@@ -463,7 +463,7 @@ for configuration details.</p>
 publishing. This feature builds on top of the AMQP protocol, but the JMS client
 provides an API to use it. This allows to benefit from a reliability feature without
 diverging too much from the JMS API.</p>
-<p>Publisher confirms are disabled by default. They can be enabled by setting
+<p>Publisher confirms are deactivated by default. They can be activated by setting
 a <span class="code ">ConfirmListener</span> on the <span class="code ">RMQConnectionFactory</span>:</p>
 <pre class="lang-java">
 RMQConnectionFactory connectionFactory = new RMQConnectionFactory();
@@ -539,7 +539,7 @@ statement: it is necessary when using temporary reply-to destinations.
 If this flag is not set to <span class="code ">false</span> on the RPC server side, the JMS
 client will try to re-create the temporary reply-to destination, which will
 interfere with the client-side declaration.</p>
-<p>See <a href="https://github.com/rabbitmq/rabbitmq-jms-client/blob/master/src/test/java/com/rabbitmq/integration/tests/RpcIT.java">this test</a>
+<p>See <a href="https://github.com/rabbitmq/rabbitmq-jms-client/blob/main/src/test/java/com/rabbitmq/integration/tests/RpcIT.java">this test</a>
 for a full RPC example.</p>
 <p>The JMS client also supports <a href="direct-reply-to.html">direct reply-to</a>, which is faster as it doesn't imply
 creating a temporary reply destination:</p>
@@ -571,7 +571,7 @@ responseConsumer.close();
  on the response message in the RPC server if you want to receive a <span class="code ">TextMessage</span>
  on the client side.</li>
 </ul>
-<p>See <a href="https://github.com/rabbitmq/rabbitmq-jms-client/blob/master/src/test/java/com/rabbitmq/integration/tests/RpcWithAmqpDirectReplyIT.java">this test</a> for a full RPC example using direct reply-to.</p>
+<p>See <a href="https://github.com/rabbitmq/rabbitmq-jms-client/blob/main/src/test/java/com/rabbitmq/integration/tests/RpcWithAmqpDirectReplyIT.java">this test</a> for a full RPC example using direct reply-to.</p>
 <h3>With Spring JMS</h3>
 <p><a href="https://docs.spring.io/spring/docs/5.1.0.RELEASE/spring-framework-reference/integration.html#jms">Spring JMS</a>
 is a popular way to work with JMS as it avoids most of JMS boilerplate.</p>
@@ -623,7 +623,7 @@ Message response = tpl.execute(session -&gt; {
 });
 </pre>
 
-<p>See <a href="https://github.com/rabbitmq/rabbitmq-jms-client/blob/master/src/test/java/com/rabbitmq/integration/tests/RpcSpringJmsIT.java">this test</a>
+<p>See <a href="https://github.com/rabbitmq/rabbitmq-jms-client/blob/main/src/test/java/com/rabbitmq/integration/tests/RpcSpringJmsIT.java">this test</a>
 for a full example of RPC with Spring JMS, including using a <span class="code ">@JmsListener</span> bean
 for the server part.</p>
 <h2><a id="implementation-details" class="anchor" href="#implementation-details">Implementation Details</a></h2>

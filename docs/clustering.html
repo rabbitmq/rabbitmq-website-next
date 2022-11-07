@@ -746,7 +746,7 @@ cluster. The operator has to do this explicitly using a
 <p>Some <a href="./cluster-formation.html">peer discovery mechanisms</a>
 support node health checks and forced
 removal of nodes not known to the discovery backend. That feature is
-opt-in (disabled by default).</p>
+opt-in (deactivated by default).</p>
 <p>We first remove <span class="code ">rabbit@rabbit3</span> from the cluster, returning it to
 independent operation. To do that, on <span class="code ">rabbit@rabbit3</span> we
 stop the RabbitMQ application, reset the node, and restart the
@@ -937,11 +937,10 @@ crucial to set up a fixed and resolvable hostname.</p>
 <p>Whenever the hostname changes RabbitMQ node must be restarted.</p>
 <p>A similar effect can be achieved by using <span class="code ">rabbit@localhost</span>
 as the broker nodename.
-The impact of this solution is that clustering will not work, because
-the chosen hostname will not resolve to a routable address from remote
-hosts. The <span class="code ">rabbitmqctl</span> command will similarly fail when
-invoked from a remote host. A more sophisticated solution that does not
-suffer from this weakness is to use DNS, e.g.
+The impact of this solution is that clustering will not work because
+the chosen hostname does not resolve to a routable address from the remote
+hosts. The <span class="code ">rabbitmqctl</span> command fails when
+invoked from a remote host. A better solution is to use DNS, for example, 
 <a href="http://aws.amazon.com/route53/">Amazon Route 53</a> if running
 on EC2. If you want to use the full hostname for your nodename (RabbitMQ
 defaults to the short name), and that full hostname is resolvable using DNS,

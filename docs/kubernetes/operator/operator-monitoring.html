@@ -60,7 +60,7 @@ spec:
 <p>To get notified on firing alerts (e.g. via Email or PagerDuty) configure a notification receiver in <a href="https://prometheus.io/docs/alerting/latest/overview/">Alertmanager</a>.
 To receive Slack notifications, deploy the Kubernetes <span class="code ">Secret</span> in directory <a href="https://github.com/rabbitmq/cluster-operator/tree/main/observability/prometheus/alertmanager">alertmanager</a>.</p>
 <h3><a id="config-perm" class="anchor" href="#config-perm">(Optional) Configure Permissions for the Prometheus Operator</a></h3>
-<p>If no RabbitMQ clusters appear in Prometheus, it might be necessary to <a href="https://github.com/coreos/prometheus-operator/blob/master/Documentation/rbac.md">adjust permissions for the Prometheus Operator</a>.</p>
+<p>If no RabbitMQ clusters appear in Prometheus, it might be necessary to <a href="https://github.com/coreos/prometheus-operator/blob/main/Documentation/rbac.md">adjust permissions for the Prometheus Operator</a>.</p>
 <p>The following steps have been tested with a <span class="code ">kube-prometheus</span> deployment.</p>
 <p>To configure permissions for the Prometheus Operator, first create a file named <span class="code ">prometheus-roles.yaml</span>
 with the following contents:</p>

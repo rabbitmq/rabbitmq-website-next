@@ -477,8 +477,8 @@ that cannot be configured using the <a href="#config-file">ini-style config file
 <p>The RabbitMQ server source repository contains
 examples for the configuration files:</p>
 <ul>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/blob/master/deps/rabbit/docs/rabbitmq.conf.example">rabbitmq.conf.example</a></li>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/blob/master/deps/rabbit/docs/advanced.config.example">advanced.config.example</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/blob/main/deps/rabbit/docs/rabbitmq.conf.example">rabbitmq.conf.example</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/blob/main/deps/rabbit/docs/advanced.config.example">advanced.config.example</a></li>
 </ul>
 <p>These files contain examples of most of the configuration keys along with a brief explanation
 for those settings. All configuration items are commented out in the
@@ -757,7 +757,7 @@ channel_operation_timeout = 15000
     <td>
       Value representing the heartbeat timeout suggested by the server during
       connection parameter negotiation.
-      If set to 0 on both ends, heartbeats are disabled (this is not recommended).
+      If set to 0 on both ends, heartbeats are deactivated (this is not recommended).
       See the <a href="./heartbeats.html">Heartbeats guide</a> for details.
 
       <p>
@@ -1263,7 +1263,7 @@ under the <span class="code ">rabbit</span> section.</p>
         Messages which need to be paged out due to memory pressure will also use this credit.
       </p>
       <p>
-        The Message Store is the last component in the credit flow chain. <a href="https://blog.rabbitmq.com/posts/2015/10/new-credit-flow-settings-on-rabbitmq-3-5-5/" target="_blank">Learn about credit flow.</a>
+        The Message Store is the last component in the credit flow chain. <a href="https://blog.rabbitmq.com/posts/2015/10/new-credit-flow-settings-on-rabbitmq-3-5-5/" target="_blank" rel="noopener noreferrer">Learn about credit flow.</a>
       </p>
       <p>
         This value only takes effect when messages are persisted to the message store.

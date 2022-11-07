@@ -365,9 +365,9 @@ supported property.</p>
 <p>Invocations of <span class="code ">Channel#basicPublish</span> will eventually block if a
 <a href="https://www.rabbitmq.com/alarms.html">resource-driven alarm</a> is in effect.</p>
 <h2><a id="concurrency" class="anchor" href="#concurrency">Channels and Concurrency Considerations (Thread Safety)</a></h2>
-<p>As a rule of thumb, sharing <span class="code ">Channel</span> instances between
-threads is something to be avoided. Applications
-should prefer using a <span class="code ">Channel</span> per thread
+<p>Sharing <span class="code ">Channel</span> instances between
+threads should be avoided. Applications
+should be using a <span class="code ">Channel</span> per thread
 instead of sharing the same <span class="code ">Channel</span> across
 multiple threads.</p>
 <p>While some operations on channels are safe to invoke
@@ -971,7 +971,7 @@ a new connection is successfully opened.
 Recovery delay can be made dynamic by providing a <span class="code ">RecoveryDelayHandler</span>
 implementation instance to <span class="code ">ConnectionFactory#setRecoveryDelayHandler</span>.
 Implementations that use dynamically computed delay intervals should avoid
-values that are too low (as a rule of thumb, lower than 2 seconds).</p>
+values that are too low (such as values that are lower than 2 seconds).</p>
 <p>When a connection is in the recovering state, any
 publishes attempted on its channels will be rejected
 with an exception. The client currently does not perform
@@ -1218,7 +1218,7 @@ the Java client (especially the peer verification and trust manager parts),
 read <a href="ssl.html#java-client">the appropriate section</a> of the TLS guide.</p>
 <h2><a id="oauth2-support" class="anchor" href="#oauth2-support">OAuth 2 Support</a></h2>
 <p>The client can authenticate against an OAuth 2 server like <a href="https://github.com/cloudfoundry/uaa">UAA</a>.
-The <a href="https://github.com/rabbitmq/rabbitmq-server/tree/master/deps/rabbitmq_auth_backend_oauth2">OAuth 2 plugin</a>
+The <a href="https://github.com/rabbitmq/rabbitmq-server/tree/main/deps/rabbitmq_auth_backend_oauth2">OAuth 2 plugin</a>
 must be enabled on the server side and configured to use the same
 OAuth 2 server as the client.</p>
 <h3><a id="oauth2-getting-token" class="anchor" href="#oauth2-getting-token">Getting the OAuth 2 Token</a></h3>
@@ -1232,7 +1232,7 @@ virtual host.</p>
 to create an <span class="code ">OAuth2ClientCredentialsGrantCredentialsProvider</span> instance and
 then set it up on the <span class="code ">ConnectionFactory</span>. The
 following snippet shows how to configure and create an instance of the OAuth 2 credentials provider
-for the <a href="https://github.com/rabbitmq/rabbitmq-server/tree/master/deps/rabbitmq_auth_backend_oauth2#examples">example setup of the OAuth 2 plugin</a>:</p>
+for the <a href="https://github.com/rabbitmq/rabbitmq-server/tree/main/deps/rabbitmq_auth_backend_oauth2#examples">example setup of the OAuth 2 plugin</a>:</p>
 <pre class="lang-java">
 import com.rabbitmq.client.impl.OAuth2ClientCredentialsGrantCredentialsProvider.
         OAuth2ClientCredentialsGrantCredentialsProviderBuilder;

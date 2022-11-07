@@ -81,7 +81,7 @@ listeners.tcp.2 = ::1:5672
 
 <p>With modern Linux kernels and Windows releases,
 when a port is specified and RabbitMQ is configured to
-listen on all IPv6 addresses but IPv4 is not disabled
+listen on all IPv6 addresses but IPv4 is not deactivated
 explicitly, IPv4 address will be included, so</p>
 <pre class="lang-ini">
 listeners.tcp.1 = :::5672
@@ -107,10 +107,10 @@ to <a href="#distribution-ipv6">use IPv6 for inter-node communication and CLI to
 listeners.tcp.1 = 192.168.1.99:5672
 </pre>
 
-<p>It is possible to disable non-TLS connections by disabling all regular TCP listeners.
+<p>It is possible to deactivate non-TLS connections by deactivating all regular TCP listeners.
 Only <a href="./ssl.html">TLS-enabled</a> clients will be able to connect:</p>
 <pre class="lang-ini">
-# disables non-TLS listeners, only TLS-enabled clients will be able to connect
+# deactivates non-TLS listeners, only TLS-enabled (activated) clients will be able to connect
 listeners.tcp = none
 
 listeners.ssl.default = 5671
@@ -404,19 +404,19 @@ when connections go over a proxy (e.g. <a href="http://cbonte.github.io/haproxy-
 This makes it easier for the operator to inspect connection origins in the management UI
 or CLI tools.</p>
 <p>The protocol spec dictates that either it must be applied to all connections or none of them for
-security reasons, this feature is disabled by default and needs to be enabled
-for individual protocols supported by RabbitMQ. To enable it for AMQP 0-9-1 and AMQP 1.0 clients:</p>
+security reasons, this feature is turned off by default and needs to be turned on
+for individual protocols supported by RabbitMQ. To turn it on for AMQP 0-9-1 and AMQP 1.0 clients:</p>
 <pre class="lang-ini">
 proxy_protocol = true
 </pre>
 
-<p>When proxy protocol is enabled, clients won't be able to connect to RabbitMQ directly unless
+<p>When proxy protocol is turned on, clients won't be able to connect to RabbitMQ directly unless
 they themselves support the protocol.
-Therefore, when this option is enabled, all client connections must go through
+Therefore, when this option is turned on, all client connections must go through
 a proxy that also supports the protocol and is configured to send a Proxy protocol header. <a href="http://www.haproxy.org/download/1.8/doc/proxy-protocol.txt">HAproxy</a>
 and <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#proxy-protocol">AWS ELB</a> documentation
 explains how to do it.</p>
-<p>When proxy protocol is enabled and connections go through a compatible proxy, no action
+<p>When proxy protocol is turned on and connections go through a compatible proxy, no action
 or modifications are required from client libraries. The communication is entirely
 transparent to them.</p>
 <p><a href="stomp.html#proxy-protocol">STOMP</a> and <a href="mqtt.html#proxy-protocol">MQTT</a>,
@@ -432,8 +432,8 @@ for more information.</p>
 <p>Tuning for throughput is a common goal. Improvements can be achieved by</p>
 <ul>
 <li>Increasing TCP buffer sizes</li>
-<li>Ensuring Nagle's algorithm is disabled</li>
-<li>Enabling optional TCP features and extensions</li>
+<li>Ensuring Nagle's algorithm is turned off</li>
+<li>Turning on optional TCP features and extensions</li>
 </ul>
 <p>For the latter two, see the OS-level tuning section below.</p>
 <p>Note that tuning for throughput will involve trade-offs. For example, increasing TCP buffer
@@ -599,11 +599,11 @@ channel_max = 16
 a certain number of channels. Values above 200 are rarely necessary.
 Finding an optimal value is usually a matter of trial and error.</p>
 <h3><a id="tuning-for-large-number-of-connections-nodelay" class="anchor" href="#tuning-for-large-number-of-connections-nodelay">Nagle's Algorithm ("nodelay")</a></h3>
-<p>Disabling <a href="http://en.wikipedia.org/wiki/Nagle's_algorithm">Nagle's
+<p>Turning off <a href="http://en.wikipedia.org/wiki/Nagle's_algorithm">Nagle's
 algorithm</a> is primarily useful for reducing latency but
 can also improve throughput.</p>
 <p><span class="code ">kernel.inet_default_connect_options</span> and <span class="code ">kernel.inet_default_listen_options</span> must
-include <span class="code ">{nodelay, true}</span> to disable Nagle's algorithm for inter-node connections.</p>
+include <span class="code ">{nodelay, true}</span> to turn off Nagle's algorithm for inter-node connections.</p>
 <p>When configuring sockets that serve client connections,
 <span class="code ">tcp_listen_options</span> must include the same option. This is the default.</p>
 <p>The following example demonstrates that. First, <span class="code ">rabbitmq.conf</span>:</p>
@@ -810,7 +810,7 @@ are effective for both IPv4 and IPv6 connections):</p>
 
         AMQP 0-9-1 and STOMP have <a href="./heartbeats.html">Heartbeats</a> which partially
         undo its effect, namely that it can take minutes to detect an unresponsive peer,
-        e.g. in case of a hardware or power failure. MQTT also has its own keepalives
+        for example, in case of a hardware or power failure. MQTT also has its own keepalives
         mechanism which is the same idea under a different name.
 
         When enabling TCP keepalive with default settings, we
@@ -821,8 +821,8 @@ are effective for both IPv4 and IPv6 connections):</p>
     <tr>
       <td><span class="code ">net.ipv4.conf.default.rp_filter</span></td>
       <td>
-        Enabled reverse path filtering. If <a href="http://en.wikipedia.org/wiki/IP_address_spoofing">IP address spoofing</a>
-        is not a concern for your system, disable it.
+        Activating or turning on reverse path filtering. If <a href="http://en.wikipedia.org/wiki/IP_address_spoofing">IP address spoofing</a>
+        is not a concern for your system, deactivate it.
       </td>
     </tr>
   </tbody>
@@ -862,7 +862,7 @@ for more details.</p>
     <tr>
       <td><span class="code ">tcp_listen_options.nodelay</span></td>
       <td>
-        When set to <span class="code ">true</span>, disables
+        When set to <span class="code ">true</span>, deactivates
         <a href="http://en.wikipedia.org/wiki/Nagle's_algorithm">Nagle's algorithm</a>.
         Default is true. Highly recommended for most users.
       </td>
@@ -910,7 +910,7 @@ for more details.</p>
 <p>Below is the default TCP socket option configuration used by RabbitMQ:</p>
 <ul>
 <li>TCP connection backlog is limited to 128 connections</li>
-<li>Nagle's algorithm is disabled</li>
+<li>Nagle's algorithm is deactivated</li>
 <li>Server socket lingering is enabled with the timeout of 0</li>
 </ul>
 <h2><a id="heartbeats" class="anchor" href="#heartbeats">Heartbeats</a></h2>
@@ -990,16 +990,16 @@ make RabbitMQ nodes use fully-qualified names,
 e.g. <span class="code ">rmq1.dev.megacorp.local</span>.</p>
 <h3><a id="dns-reverse-dns-lookups" class="anchor" href="#dns-reverse-dns-lookups">Reverse DNS Lookups</a></h3>
 <p>If the <span class="code ">reverse_dns_lookups</span> configuration option is set to <span class="code ">true</span>,
-RabbitMQ will perform reverse DNS lookups for client IP addresses and list hostnames
+RabbitMQ will complete reverse DNS lookups for client IP addresses and list hostnames
 in connection information (e.g. in the <a href="./management.html">Management UI</a>).</p>
 <p>Reverse DNS lookups can potentially take a long time if node's hostname resolution is not
 optimally configured. This can increase latency when accepting client connections.</p>
-<p>To explicitly enable reverse DNS lookups:</p>
+<p>To explicitly activate or turn on reverse DNS lookups:</p>
 <pre class="lang-ini">
 reverse_dns_lookups = true
 </pre>
 
-<p>To disable reverse DNS lookups:</p>
+<p>To deactivate reverse DNS lookups:</p>
 <pre class="lang-ini">
 reverse_dns_lookups = false
 </pre>

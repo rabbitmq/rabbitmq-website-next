@@ -3914,7 +3914,7 @@ j8ZGl+/bUPvV/SuMHp61DbfBXjbeBmnP3mycMwo6LMr+ZBqwbVJq
 
         <p>
           No workaround is available, but RabbitMQ clusters with the
-          management plugin disabled on all nodes are not affected.
+          management plugin deactivated on all nodes are not affected.
         </p>
         <p>
           We strongly encourage you to upgrade to RabbitMQ 3.4.3.
@@ -5443,7 +5443,7 @@ j8ZGl+/bUPvV/SuMHp61DbfBXjbeBmnP3mycMwo6LMr+ZBqwbVJq
       Alexis will be speaking at Cloud &amp; Grid Exchange 2010
     </title><updated>2010-04-12T00:00:00Z</updated><author><name>RabbitMQ</name><uri>https://www.rabbitmq.com/</uri><email>info@rabbitmq.com</email></author><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
       <p>Alexis Richardson, Rabbit Technologies CEO, will be speaking at the Cloud &amp; Grid
-      Exchange in London, 23rd April. In his talk, Alexis will present use cases for cloud
+      Exchange in London, 23rd April. In this talk, Alexis will present use cases for cloud
       messaging: what is messaging and why it is useful for cloud computing? This talk will
       answer these questions by way of illustrating use cases from RabbitMQ customers.</p>
       <p><a href="http://skillsmatter.com/event/cloud-grid/cloud-grid-exchange-2010/wd-777">Read more</a></p>
@@ -5517,7 +5517,7 @@ j8ZGl+/bUPvV/SuMHp61DbfBXjbeBmnP3mycMwo6LMr+ZBqwbVJq
     </title><updated>2010-01-05T00:00:00Z</updated><author><name>RabbitMQ</name><uri>https://www.rabbitmq.com/</uri><email>info@rabbitmq.com</email></author><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
     <p>RabbitMQ was listed as one of the <strong>Best Cloud Application Providers</strong> in John M Willis
     second annual 'Cloudies' awards. John has worked in the IT management industry for 30 years and is
-    known internationally for his <a href="http://www.johnmwillis.com">IT Management and Cloud blog</a>.
+    known internationally for the <a href="http://www.johnmwillis.com">IT Management and Cloud blog</a>.
     </p>
 
     </div></content></entry><entry><id>tag:rabbitmq.com,2007:2009-12-07T00:00:00Z</id><title type="text">
@@ -5537,7 +5537,7 @@ j8ZGl+/bUPvV/SuMHp61DbfBXjbeBmnP3mycMwo6LMr+ZBqwbVJq
     Canonical. The goal of the partnership is to promote open standards in
     the emerging cloud computing space.</p>
 
-    <p>"We want to be sure our users can navigate safely into the cloud", said
+    <p>"We want to ensure our users can navigate safely into the cloud", said
     Simon Wardley, software services manager for Canonical, "and we see this
     working according to three rules. Rule one is to build on their own
     infrastructure. Rule two is moving between their infrastructure and an external
@@ -5798,7 +5798,7 @@ or directly at <a href="mailto:info@rabbitmq.com">info@rabbitmq.com</a>.</p>
         <li>implementation of 'queue.unbind'</li>
         <li>producer throttling when running low on memory</li>
         <li>improved scalability of queue and binding creation and deletion</li>
-        <li>disabled Nagle for more consistent latency</li>
+        <li>deactivated Nagle for more consistent latency</li>
         <li>added several management/info commands to rabbitmqctl</li>
         <li>bug fixes in the area of connection and channel closure</li>
         <li>support the latest Erlang/OTP release (R12B-5)</li>

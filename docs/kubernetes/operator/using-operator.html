@@ -266,7 +266,7 @@ The available settings are:</p>
       <strong>Note:</strong> If your cluster does not have a default StorageClass, this property
       must be set, otherwise RabbitMQ Pods will not be scheduled because they require a Persistent Volume.
     </p></li>
-<li><span class="code ">storage</span>: The capacity of the persistent volume, expressed as a Kubernetes resource quantity. Set to <span class="code ">0</span> to disable persistence altogether (this may be convenient in CI/CD and test deloyments that should always start fresh).</li>
+<li><span class="code ">storage</span>: The capacity of the persistent volume, expressed as a Kubernetes resource quantity. Set to <span class="code ">0</span> to deactivate persistence altogether (this may be convenient in CI/CD and test deloyments that should always start fresh).</li>
 </ul>
 <p><strong>Default Values:</strong></p>
 <ul>
@@ -671,7 +671,7 @@ To view the default values, see <a href="#configure">Configure a RabbitMQ Instan
         <span class="code ">spec.persistence.storage</span>
       </td>
       <td>
-      The capacity of the persistent volume, expressed as a Kubernetes resource quantity. Set to `0` to disable persistence altogether (this may be convenient in CI/CD and test deloyments that should always start fresh).
+      The capacity of the persistent volume, expressed as a Kubernetes resource quantity. Set to `0` to deactivate persistence altogether (this may be convenient in CI/CD and test deloyments that should always start fresh).
       </td>
     </tr>
     <tr>
@@ -894,7 +894,7 @@ spec:
 
 <h3><a id="mutual-tls" class="anchor" href="#mutual-tls">Mutual TLS encryption between clients and RabbitMQ</a></h3>
 <p>Mutual TLS (mTLS) enhances TLS by requiring that the server verify the identity of the client, in addition to the client verifying the server, which already occurs in TLS encryption. In order for this mutual verification to occur, both the client and server must be configured with certificate and key pairs, with the client pair signed by a CA trusted by the server and the server pair signed by a CA trusted by the client. The mutual verification process is shown in the following diagram:</p>
-<p><img src="../../img/mTLS.png" /></p>
+<p><img src="../../img/mTLS.png" alt="Mutual verification process" /></p>
 <p>In addition to the <a href="#one-way-tls">configuration required to support TLS</a>, configuring mutual TLS requires the RabbitMQ cluster to be configured with the CA certificate
 used to sign the client certificate and key pair, <span class="code ">ca.pem</span>. Create a Kubernetes secret with key <span class="code ">ca.crt</span> containing this secret</p>
 <pre class="lang-bash">

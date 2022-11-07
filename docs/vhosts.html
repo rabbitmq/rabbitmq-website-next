@@ -112,7 +112,7 @@ It requires a vhost parameter and a JSON document of limit definitions.</p>
 rabbitmqctl set_vhost_limits -p vhost_name '{"max-connections": 256}'
 </pre>
 
-<p>To disable client connections to a vhost, set the limit to a zero:</p>
+<p>To block client connections to a vhost, set the limit to a zero:</p>
 <pre class="lang-bash">
 rabbitmqctl set_vhost_limits -p vhost_name '{"max-connections": 0}'
 </pre>

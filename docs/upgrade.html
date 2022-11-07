@@ -53,7 +53,7 @@ can abort an upgrade by switching applications back to the existing cluster.</p>
 an intermediate upgrade first. For example, when upgrading from <span class="code ">3.2.x</span> to <span class="code ">3.7.x</span>, it would be necessary to
 first upgrade to 3.6.x and then upgrade to 3.7.0.</p>
 <p>A <a href="#full-stop-upgrades">full cluster stop</a> may be required for feature version upgrades.</p>
-<p>Current release series upgrade compatibility with full stop upgrade:</p>
+<p>Current release series upgrade compatibility with <strong>rolling</strong> upgrade:</p>
 <table>
 <thead>
 <tr>
@@ -62,6 +62,41 @@ first upgrade to 3.6.x and then upgrade to 3.7.0.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>3.10.x</td>
+<td>3.11.x</td>
+</tr>
+<tr>
+<td>3.9.x</td>
+<td>3.10.x</td>
+</tr>
+<tr>
+<td>3.8.x</td>
+<td>3.9.x</td>
+</tr>
+<tr>
+<td>3.7.18</td>
+<td>3.8.x</td>
+</tr>
+</tbody>
+</table>
+<p>Current release series upgrade compatibility with <strong>full stop</strong> upgrade:</p>
+<table>
+<thead>
+<tr>
+<th>From</th>
+<th>To</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3.10.x</td>
+<td>3.11.x</td>
+</tr>
+<tr>
+<td>3.9.x</td>
+<td>3.10.x</td>
+</tr>
 <tr>
 <td>3.8.x</td>
 <td>3.9.x</td>
@@ -434,7 +469,7 @@ rabbitmqctl set_policy --apply-to queues --priority 100 move-my-queue '^&lt;queu
 rabbitmqctl clear_policy move-my-queue
 </pre>
 
-<p>A <a href="https://github.com/rabbitmq/support-tools/blob/master/scripts/rebalance-queue-masters">queue leader rebalancing script</a>
+<p>A <a href="https://github.com/rabbitmq/support-tools/blob/main/scripts/rebalance-queue-masters">queue leader rebalancing script</a>
 is available. It rebalances queue leaders for all queues.</p>
 <p>The script has certain assumptions (e.g. the default node name) and can fail to run on
 some installations. The script should be considered
@@ -481,7 +516,7 @@ or by specifying multiple server hosts if client library supports this feature.<
 <p>Many client libraries libraries support host lists, for example:</p>
 <ul>
 <li><a href="https://rabbitmq.github.io/rabbitmq-java-client/api/current/com/rabbitmq/client/ConnectionFactory.html#newConnection%28com.rabbitmq.client.Address%5B%5D%29">Java client</a></li>
-<li><a href="https://github.com/rabbitmq/rabbitmq-dotnet-client/blob/master/projects/RabbitMQ.Client/client/api/ConnectionFactory.cs#L392">.NET client</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-dotnet-client/blob/main/projects/RabbitMQ.Client/client/api/ConnectionFactory.cs#L392">.NET client</a></li>
 <li><a href="http://api.rubybunny.info/Bunny/Session.html#constructor_details">Bunny</a></li>
 </ul>
 <h2><a id="windows-upgrade-caveats" class="anchor" href="#windows-upgrade-caveats">Windows</a></h2>

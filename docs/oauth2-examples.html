@@ -301,7 +301,7 @@ validate which is:</p>
 <p>This scenario explores the use case where JWT tokens may be signed by different asymmetrical signing keys.</p>
 <p>There are two ways to configure RabbitMQ with multiple signing keys:</p>
 <ul>
-<li><strong>Statically</strong> configure them via <span class="code ">rabbitmq.conf</span> as shown in the <a href="https://github.com/rabbitmq/rabbitmq-server/tree/master/deps/rabbitmq_auth_backend_oauth2#variables-configurable-in-rabbitmqconf">plugin documentation page</a>.</li>
+<li><strong>Statically</strong> configure them via <span class="code ">rabbitmq.conf</span> as shown in the <a href="https://github.com/rabbitmq/rabbitmq-server/tree/main/deps/rabbitmq_auth_backend_oauth2#variables-configurable-in-rabbitmqconf">plugin documentation page</a>.</li>
 <li><strong>Dynamically</strong> add the keys to a running RabbitMQ node without having to restart it.
    This alternative is explained in more detail in the section <a href="#about-rotating-uaa-signing-key">About rotating UAA signing key</a>.
    This section will also use this option.</li>
@@ -418,10 +418,10 @@ uaac client add consumer_with_roles --name consumer_with_roles \
 </pre>
 
 <h4>RabbitMQ Configuration</h4>
-<p>In the OAuth 2.0 tutorial repository, there are two RabbitMQ configuration files ready to be used:</p>
+<p>In the OAuth 2.0 tutorial repository, there are two RabbitMQ configuration files ready to be used, for UAA:</p>
 <ul>
-<li><a href="https://github.com/rabbitmq/rabbitmq-oauth2-tutorial/tree/main/conf/asymmetric_key/rabbitmq-scope-aliases.config">conf/asymmetric_key/rabbitmq-scope-aliases.config</a>: configures a set of scope aliases.</li>
-<li><a href="https://github.com/rabbitmq/rabbitmq-oauth2-tutorial/tree/main/conf/asymmetric_key/rabbitmq-scope-aliases-and-extra-scope.config">conf/asymmetric_key/rabbitmq-scope-aliases-and-extra-scope.config</a>: configures a <span class="code ">extra_scopes_source</span> and a set of scope aliases.</li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-oauth2-tutorial/blob/main/conf/uaa/rabbitmq-scope-aliases.config">conf/uaa/rabbitmq-scope-aliases.config</a>: configures a set of scope aliases.</li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-oauth2-tutorial/blob/main/conf/uaa/rabbitmq-scope-aliases-and-extra-scope.config">conf/uaa/rabbitmq-scope-aliases-and-extra-scope.config</a>: configures a <span class="code ">extra_scopes_source</span> and a set of scope aliases.</li>
 </ul>
 <h4>Demo 1: Launch RabbitMQ with custom scopes in scope field</h4>
 <p>To launch RabbitMq with scope mappings and with <em>custom scopes</em> in the <span class="code ">scope</span> field you run the following command:</p>

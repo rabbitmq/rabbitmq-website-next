@@ -102,8 +102,8 @@ by the node.</p>
 its "last seen" peer for a period of time. In this case, no peer discovery
 will be performed. This is true for all backends.</p>
 <h2><a id="formation-and-availability" class="anchor" href="#formation-and-availability">Cluster Formation and Feature Availability</a></h2>
-<p>As a rule of thumb, a cluster that has only been partially formed — that is, only a subset of
-nodes has joined it — <strong>must be considered fully available</strong> by clients.</p>
+<p>As a general rule, a cluster that is only been partly formed, that is, only a subset of
+nodes has joined it <strong>must be considered fully available</strong> by clients.</p>
 <p>Individual nodes will accept <a href="connections.html">client connections</a> before the cluster is formed. In such cases,
 clients should be prepared to certain features not being available. For instance, <a href="quorum-queues.html">quorum queues</a>
 won't be available unless the number of cluster nodes matches or exceeds the quorum of configured replica count.</p>
@@ -773,7 +773,7 @@ cluster_formation.consul.lock_prefix = environments-qa
 
 <h2><a id="peer-discovery-etcd" class="anchor" href="#peer-discovery-etcd">Peer Discovery Using Etcd</a></h2>
 <h3>Etcd Peer Discovery Overview</h3>
-<p>An <a href="https://coreos.com/etcd">etcd</a>-based discovery mechanism
+<p>An <a href="https://etcd.io/">etcd</a>-based discovery mechanism
 is available via <a href="https://github.com/rabbitmq/rabbitmq-peer-discovery-etcd">a plugin</a>.</p>
 <p>As of RabbitMQ <span class="code ">3.8.4</span>, the plugin uses a v3 API, gRPC-based etcd client and
 <strong>requires etcd 3.4 or a later version</strong>.</p>
@@ -1103,7 +1103,7 @@ they can either be removed (deregistered) or their warning state can be
 reported. Please see documentation for those backends to learn more.</p>
 <p>Automatic cleanup of absent nodes makes most sense in environments where failed/discontinued nodes
 will be replaced with brand new ones (including cases when persistent storage won't be re-attached).</p>
-<p>When automatic node cleanup is disabled (switched to the warning mode), operators have to
+<p>When automatic node cleanup is deactivated (switched to the warning mode), operators have to
 explicitly remove absent cluster nodes using <a href="cli.html"><span class="code ">rabbitmqctl forget_cluster_node</span></a>.</p>
 <h3>Negative Side Effects of Automatic Removal</h3>
 <p>Automatic node removal has a number of negative side effects operators should be aware of.

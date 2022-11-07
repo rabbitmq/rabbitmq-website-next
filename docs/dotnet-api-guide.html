@@ -420,7 +420,7 @@ channel.BasicCancel(consumerTag);
 consumer tags, which can be either client- or server-generated as
 explained in the <a href="./specification.html">AMQP 0-9-1 specification</a> document.</p>
 <h2><a id="consuming-memory-safety" class="anchor" href="#consuming-memory-safety">Consumer Memory Safety Requirements</a></h2>
-<p>As of <a href="https://github.com/rabbitmq/rabbitmq-dotnet-client/blob/master/CHANGELOG.md">version 6.0</a> of
+<p>As of <a href="https://github.com/rabbitmq/rabbitmq-dotnet-client/blob/main/CHANGELOG.md">version 6.0</a> of
 the .NET client, message payloads are represented using the <a href="https://docs.microsoft.com/en-us/dotnet/api/system.readonlymemory-1?view=netcore-3.1"><span class="code ">System.ReadOnlyMemory&lt;byte&gt;</span></a>
 type from the <a href="https://www.nuget.org/packages/System.Memory/"><span class="code ">System.Memory</span> library</a>.</p>
 <p>This library places certain restrictions on when a read only memory span can be
@@ -493,7 +493,7 @@ if (result == null) {
 <h2><a id="concurrency" class="anchor" href="#concurrency">Concurrency Considerations for Consumers</a></h2>
 <p>There is a number of concurrency-related topics for a library user to consider.</p>
 <h3><a id="concurrency-channel-sharing" class="anchor" href="#concurrency-channel-sharing">Sharing Channels Between Threads</a></h3>
-<p>As a rule of thumb, <span class="code ">IModel</span> instance usage by more than
+<p><span class="code ">IModel</span> instance usage by more than
 one thread simultaneously should be avoided. Application code
 should maintain a clear notion of thread ownership for <span class="code ">IModel</span> instances.</p>
 <p>This is a hard requirement for publishers: sharing a channel (an <span class="code ">IModel</span> instance)
