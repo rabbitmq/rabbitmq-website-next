@@ -275,6 +275,9 @@ Developers should be careful about using heartbeat timeout that are too low (les
 as that may produce false positives when network congestion or system load goes up.</p>
 <p>Very short lived connections should be avoided when possible. The following section
 will cover this in more detail.</p>
+<p>It is recommended that, when possible, publishers and consumers use separate connections
+so that consumers are isolated from potential <a href="./connections.html#flow-control">flow control</a>
+that may be applied to publishing connections, affecting <a href="./confirms.html">manual consumer acknowledgements</a>.</p>
 <h3><a id="apps-connection-churn" class="anchor" href="#apps-connection-churn">Connection Churn</a></h3>
 <p>As mentioned above, messaging protocols generally assume long-lived connections. Some applications
 may open a new connection to perform a single operation (e.g. publish a message) and then close it.

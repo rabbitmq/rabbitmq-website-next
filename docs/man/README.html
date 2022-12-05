@@ -10,8 +10,8 @@
 They are converted to HTML using <span class="code ">mandoc</span>:</p>
 <p>``` shell</p>
 <h1>from rabbitmq/rabbitmq-server</h1>
-<p>gmake docs
-ls docs/*.html
+<p>bazel build //deps/rabbit:web-manpages
+tar xf bazel-bin/deps/rabbit/web-manpages.tar
 ```</p>
 <h2>Contributions</h2>
 <p>Since these files are generated, it is important to keep them in sync with the source.

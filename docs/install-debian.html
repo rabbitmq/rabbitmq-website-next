@@ -571,12 +571,12 @@ Pin: version 1:23.3
 Pin-Priority: 1000
 </pre>
 
-<p>The following preference file example will pin <span class="code ">rabbitmq-server</span> package to <span class="code ">3.11.2</span>
+<p>The following preference file example will pin <span class="code ">rabbitmq-server</span> package to <span class="code ">3.11.4</span>
 (assuming <a href="https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-Version">package epoch</a> for the package is 1):</p>
 <pre class="lang-ini">
 # /etc/apt/preferences.d/rabbitmq
 Package: rabbitmq-server
-Pin: version 1:3.11.2
+Pin: version 1:3.11.4
 Pin-Priority: 1000
 </pre>
 
@@ -604,10 +604,10 @@ Below is a download link.</p>
       .deb for Debian-based Linux (from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>)
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.2/rabbitmq-server_3.11.2-1_all.deb">rabbitmq-server_3.11.2-1_all.deb</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.4/rabbitmq-server_3.11.4-1_all.deb">rabbitmq-server_3.11.4-1_all.deb</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.2/rabbitmq-server_3.11.2-1_all.deb.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.4/rabbitmq-server_3.11.4-1_all.deb.asc">Signature</a>
     </td>
   </tr>
 </table>
@@ -623,12 +623,12 @@ sudo apt-get -y install socat logrotate init-system-helpers adduser
 
 # download the package
 sudo apt-get -y install wget
-wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.2/rabbitmq-server_3.11.2-1_all.deb
+wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.4/rabbitmq-server_3.11.4-1_all.deb
 
 # install the package with dpkg
-sudo dpkg -i rabbitmq-server_3.11.2-1_all.deb
+sudo dpkg -i rabbitmq-server_3.11.4-1_all.deb
 
-rm rabbitmq-server_3.11.2-1_all.deb
+rm rabbitmq-server_3.11.4-1_all.deb
 </pre>
 
 <p>Installation via <a href="#apt">apt repositories</a> is recommended

@@ -8,11 +8,11 @@
 
 
 <p>This information describes how to modify the configuration of the <a href="./operator-overview.html">RabbitMQ Cluster Kubernetes Operator</a> in a Kubernetes cluster. You might want to do this to control how the Cluster Operator configures <span class="code ">RabbitmqClusters</span>. For example, it can be useful when you are configuring the operator to automatically use the RabbitMQ container images that are stored in a private registry.</p>
-<p>To change the configuration to suit your needs, you must add the configuration environment variables and set them to the values you want by editing the Cluster Operator deployment manifest. This is the YAML manifest artefact that is released with every new version of the RabbitMQ Cluster Operator on GitHub. The environment variables that can be set are listed in the table in <a href="#parameters">Cluster Operator Environment Variables</a>. </p>
+<p>To change the configuration to suit your needs, you must add the configuration environment variables and set them to the values you want by editing the Cluster Operator deployment manifest. This is the YAML manifest artefact that is released with every new version of the RabbitMQ Cluster Operator on GitHub. The environment variables that can be set are listed in the table in <a href="#parameters">Cluster Operator Environment Variables</a>.</p>
 <h2>Adding Cluster Operator Environment Variables to the Deployment Manifest</h2>
-<p>When the Cluster Operator is deployed, update the manifest by completing the following steps: </p>
+<p>When the Cluster Operator is deployed, update the manifest by completing the following steps:</p>
 <ol>
-<li>Run: </li>
+<li>Run:</li>
 </ol>
 <pre class="lang-bash">
 kubectl -n rabbitmq-system edit deployment rabbitmq-cluster-operator

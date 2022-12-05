@@ -1,107 +1,91 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Java Libraries
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Stream Core vs Stream Plugin 
  — RabbitMQ</title></head>
-  <body id="java-versions"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Java Libraries
+  <body id="stream-core-plugin-comparison"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Stream Core vs Stream Plugin 
 </h1>
 
 
-<p>This page lists support and compatibility information for the Java libraries
-maintained by the RabbitMQ team.</p>
-<table class="release-series">
-  <caption>RabbitMQ Java Libraries Support Timeline</caption>
-  <tr>
-    <th>Library and Branch</th>
-    <th>General Support Until <sup>1</sup></th>
-    <th>Extended Support <sup>2</sup></th>
-    <th>JDK Version Range <sup>3</sup></th>
-  </tr>
-
-  <tr>
-    <td><a href="https://github.com/rabbitmq/rabbitmq-java-client" target="_blank" rel="noopener noreferrer">AMQP 0.9.1 Java Client</a> 5.x</td>
-    <td>Currently supported</td>
-    <td></td>
-    <td>8, 11, 17, 19, 20</td>
-  </tr>
-
-  <tr>
-    <td><a href="https://github.com/rabbitmq/rabbitmq-java-client" target="_blank" rel="noopener noreferrer">AMQP 0.9.1 Java Client</a> 4.x</td>
-    <td>31 July 2020</td>
-    <td>31 December 2020</td>
-    <td>6-8</td>
-  </tr>
-
-  <tr>
-    <td><a href="https://github.com/rabbitmq/rabbitmq-stream-java-client" target="_blank" rel="noopener noreferrer">Stream Java Client</a> 0.x</td>
-    <td>Currently supported</td>
-    <td></td>
-    <td>8, 11, 17, 19, 20</td>
-  </tr>
-
-  <tr>
-    <td><a href="https://github.com/rabbitmq/rabbitmq-jms-client" target="_blank" rel="noopener noreferrer">JMS Client</a> 3.x</td>
-    <td>Currently supported</td>
-    <td></td>
-    <td>11, 17, 19, 20</td>
-  </tr>
-
-  <tr>
-    <td><a href="https://github.com/rabbitmq/rabbitmq-jms-client" target="_blank" rel="noopener noreferrer">JMS Client</a> 2.x</td>
-    <td>Currently supported</td>
-    <td></td>
-    <td>8, 11, 17, 19, 20</td>
-  </tr>
-
-  <tr>
-    <td><a href="https://github.com/rabbitmq/rabbitmq-jms-client" target="_blank" rel="noopener noreferrer">JMS Client</a> 1.x</td>
-    <td>31 July 2020</td>
-    <td>31 December 2020</td>
-    <td>6-8</td>
-  </tr>
-
-  <tr>
-    <td><a href="https://github.com/rabbitmq/rabbitmq-perf-test" target="_blank" rel="noopener noreferrer">PerfTest</a> 2.x</td>
-    <td>Currently supported</td>
-    <td></td>
-    <td>8, 11, 17, 19, 20</td>
-  </tr>
-
-  <tr>
-    <td><a href="https://github.com/rabbitmq/hop" target="_blank" rel="noopener noreferrer">Hop</a> 5.x</td>
-    <td>Currently supported</td>
-    <td></td>
-    <td>11, 17, 19, 20</td>
-  </tr>
-
-  <tr>
-    <td><a href="https://github.com/rabbitmq/hop" target="_blank" rel="noopener noreferrer">Hop</a> 4.x</td>
-    <td>31 March 2023</td>
-    <td>31 March 2023</td>
-    <td>11, 17, 19, 20</td>
-  </tr>
-
-  <tr>
-    <td><a href="https://github.com/rabbitmq/hop" target="_blank" rel="noopener noreferrer">Hop</a> 3.x</td>
-    <td>31 March 2022</td>
-    <td>31 July 2022</td>
-    <td>8, 11, 17</td>
-  </tr>
-
-  <tr>
-    <td><a href="https://github.com/reactor/reactor-rabbitmq" target="_blank" rel="noopener noreferrer">Reactor RabbitMQ</a> 1.x</td>
-    <td>Currently supported</td>
-    <td></td>
-    <td>8, 11, 17, 19, 20</td>
-  </tr>
-
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>This section covers the differences between <a href="/streams.html">stream core</a> and the <a href="/stream.html">stream plugin</a>.
+Stream core designates stream features in the broker with only default plugins activated and through protocols like AMQP 0.9.1, MQTT, and STOMP.</p>
+<h3>Feature Matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Stream Core</th>
+<th>Stream Plugin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Activation</td>
+<td>Built-in</td>
+<td><a href="http://localhost:8191/stream.html#enabling-plugin">Must be activated</a></td>
+</tr>
+<tr>
+<td>Protocol</td>
+<td>AMQP 0.9.1</td>
+<td><a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.11.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc">RabbitMQ Stream</a></td>
+</tr>
+<tr>
+<td>Clients</td>
+<td>AMQP 0.9.1 clients (<a href="/streams.html#usage">documentation</a>)</td>
+<td><a href="/stream.html#overview">RabbitMQ stream clients</a></td>
+</tr>
+<tr>
+<td>Port</td>
+<td>5672</td>
+<td>5552</td>
+</tr>
+<tr>
+<td>Format</td>
+<td>Server-side AMQP 1.0 message format encoding and decoding</td>
+<td>Client-side AMQP 1.0 message format encoding and decoding</td>
+</tr>
+<tr>
+<td>Sub-entry batching</td>
+<td>Not supported</td>
+<td>Supported (<a href="https://rabbitmq.github.io/rabbitmq-stream-java-client/snapshot/htmlsingle/#sub-entry-batching-and-compression">Java example</a>)</td>
+</tr>
+<tr>
+<td>Offset tracking</td>
+<td>Use external store</td>
+<td>Built-in server-side support (<a href="https://rabbitmq.github.io/rabbitmq-stream-java-client/snapshot/htmlsingle/#consumer-offset-tracking">Java example</a>) or external store</td>
+</tr>
+<tr>
+<td>Publishing deduplication</td>
+<td>Not supported</td>
+<td>Supported (<a href="https://rabbitmq.github.io/rabbitmq-stream-java-client/snapshot/htmlsingle/#outbound-message-deduplication">Java example</a>)</td>
+</tr>
+<tr>
+<td>Throughput</td>
+<td>Hundreds of thousands per second</td>
+<td>Millions messages per second</td>
+</tr>
+<tr>
+<td>TLS</td>
+<td>Supported (default port: 5671)</td>
+<td>Supported (default port: 5551)</td>
+</tr>
+</tbody>
 </table>
-
-<p>(1) Includes backport of features (if possible), bug and security fixes for non-latest production branches.</p>
-<p>(2) Includes only security patches. The library reaches end of life (EOL) once the extended support period ends.</p>
-<p>(3) Long-Term Support (LTS) releases of the JDK are fully supported (currently JDK 8, 11, and 17). Intermediate releases
-(e.g. 19 and 20) are supported on a best-effort basis, meaning bug reports are accepted and addressed as far as technically
-possible but without any service level guarantees.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+<h3>Interoperabilty</h3>
+<p>Streams store messages using the AMQP 1.0 message format. </p>
+<ul>
+<li>RabbitMQ Stream client libraries are expected to support the AMQP 1.0 message format</li>
+<li>The broker handles the conversion between AMQP 1.0 and AMQP 0.9.1 for AMQP 0.9.1 clients</li>
+<li>AMQP 0.9.1 and stream clients can write to and read from the same stream, but <a href="https://rabbitmq.github.io/rabbitmq-stream-java-client/snapshot/htmlsingle/#sub-entry-batching-and-compression">Sub-Entry Batching</a> is not supported.</li>
+<li>RabbitMQ Stream supports the following section of the AMQP 1.0 message format:<ul>
+<li>properties</li>
+<li>application properties</li>
+<li>application data</li>
+<li>message annotations</li>
+</ul>
+</li>
+</ul><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
