@@ -436,9 +436,8 @@
       <li>Rename the local database directories (note, you do not need to do
           this if you have set the RABBITMQ_MNESIA_DIR environment variable):
         <p class="Pp"></p>
-        <div class="00">
-        <pre>
-mv \
+        <div class="Bd Bd-indent Li">
+        <pre>mv \
   /var/lib/rabbitmq/mnesia/rabbit\@misshelpful \
   /var/lib/rabbitmq/mnesia/rabbit\@cordelia
 mv \
@@ -446,8 +445,7 @@ mv \
   /var/lib/rabbitmq/mnesia/rabbit\@cordelia-rename
 mv \
   /var/lib/rabbitmq/mnesia/rabbit\@misshelpful-plugins-expand \
-  /var/lib/rabbitmq/mnesia/rabbit\@cordelia-plugins-expand
-        </pre>
+  /var/lib/rabbitmq/mnesia/rabbit\@cordelia-plugins-expand</pre>
         </div>
         <p class="Pp"></p>
       </li>
@@ -1197,7 +1195,12 @@ mv \
       <dt id="arguments~3"><a class="permalink" href="#arguments~3"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">arguments</span></a></dt>
       <dd>Queue arguments.</dd>
       <dt id="policy~2"><a class="permalink" href="#policy~2"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">policy</span></a></dt>
-      <dd>Effective policy name for the queue.</dd>
+      <dd>Name of the user policy that is applied to the queue.</dd>
+      <dt id="operator_policy"><a class="permalink" href="#operator_policy"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">operator_policy</span></a></dt>
+      <dd>Name of the operator policy that is applied to the queue.</dd>
+      <dt id="effective_policy_definition"><a class="permalink" href="#effective_policy_definition"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">effective_policy_definition</span></a></dt>
+      <dd>Effective policy definition for the queue: both user and operator
+          policy definitions merged.</dd>
       <dt id="pid~3"><a class="permalink" href="#pid~3"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">pid</span></a></dt>
       <dd>Erlang process identifier of the queue.</dd>
       <dt id="owner_pid"><a class="permalink" href="#owner_pid"><span xmlns="http://www.w3.org/1999/xhtml" class="code Cm">owner_pid</span></a></dt>
