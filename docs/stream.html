@@ -85,12 +85,12 @@ stream.credits_required_for_unblocking = 25000
 </pre>
 
 <p>High values for these settings can improve publishing throughput at the cost of higher memory consumption (which can lead to a broker crash).
-Low values can help to cope with a lot of moderately fast-publishing connections.  </p>
+Low values can help to cope with a lot of moderately fast-publishing connections.</p>
 <p>This setting applies only to <strong>publishers</strong>, it does not apply to consumers.</p>
 <h3><a id="consumer-credit-flow" class="anchor" href="#consumer-credit-flow">Consumer Credit Flow</a></h3>
 <p>This section covers the stream protocol credit flow mechanism that allows consumers to control how the broker dispatches messages.</p>
 <p>A consumer provides an initial number of credits when it creates its <a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.11.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc#subscribe">subscription</a>.
-A credit represents a <em>chunk</em> of messages that the broker is allowed to send to the consumer. </p>
+A credit represents a <em>chunk</em> of messages that the broker is allowed to send to the consumer.</p>
 <p>A <em>chunk</em> is a batch of messages.
 This is the storage and transportation unit used in RabbitMQ Stream, that is messages are stored contiguously in a chunk and they are <a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.11.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc#deliver">delivered</a> as part of a chunk.
 A chunk can be made of one to several thousands of messages, depending on the ingress.</p>
@@ -104,7 +104,7 @@ We want messages to flow continuously, so a good rule of thumb is to create the 
 By doing so there should always be some messages flowing on the network and the consumer should be busy all the time, not idle.</p>
 <p>Consumers get to choose how the broker delivers messages to them with this credit flow mechanism.
 This helps avoiding overwhelmed or idle consumers.
-How consumer credit flow is exposed to applications depends on the client library, there is no server-side setting to change its behavior. </p>
+How consumer credit flow is exposed to applications depends on the client library, there is no server-side setting to change its behavior.</p>
 <h3><a id="advertised-host-port" class="anchor" href="#advertised-host-port">Advertised Host and Port</a></h3>
 <p>The stream protocol allows to discover the topology of streams, that is where the leader and replicas for a given
 set of streams are located in the cluster. This way the client can choose to connect to the appropriate node

@@ -294,7 +294,7 @@ curl -i --header "authorization: Bearer &lt;token&gt;" http://localhost:15672/ap
 endpoints require the token to be passed in the <span class="code ">token</span> query string parameter.</p>
 <h3>Minimum scope required and how the UI determines the username from the token</h3>
 <p>At a minimum, RabbitMQ requires the the <span class="code ">openid</span> scope because it uses some claims in the <em>id token</em> to determine the username and to display this username on the top right corner of the management UI. The <em>id token</em> is returned by the Authorization server if the <span class="code ">openid</span> scope is included in the authorization request.</p>
-<p>RabbitMQ reads the <span class="code ">user_name</span> claim from the <em>id_token</em>. If the token does not contain the <span class="code ">user_name</span>, RabbitMQ uses the <span class="code ">sub</span> claim. </p>
+<p>RabbitMQ reads the <span class="code ">user_name</span> claim from the <em>id_token</em>. If the token does not contain the <span class="code ">user_name</span>, RabbitMQ uses the <span class="code ">sub</span> claim.</p>
 <h3>Configure which scopes RabbitMQ requests to the authorization server</h3>
 <p>It is possible to configure which OAuth 2.0 scopes RabbitMQ should claim when redirecting the user to the authorization server.</p>
 <p>If <span class="code ">management.enable_uaa = true</span>, by default, RabbitMQ requests the following scopes to UAA:
@@ -326,7 +326,7 @@ The second scenario is when the management UI session exceeds the maximum allowe
 <p>When activated, the management plugin provides an HTTP API at
 <span class="code ">http://<i>server-name</i>:15672/api/</span> by default. Browse to that
 location for more information on the API. For convenience the same API reference is
-<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.11.5/deps/rabbitmq_management/priv/www/api/index.html">available on GitHub</a>.</p>
+<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.11.6/deps/rabbitmq_management/priv/www/api/index.html">available on GitHub</a>.</p>
 <h3><a id="http-api-monitoring" class="anchor" href="#http-api-monitoring">HTTP API and Monitoring</a></h3>
 <p>The API is intended to be used for basic observability tasks. <a href="prometheus.html">Prometheus and Grafana</a>
 are recommended for long term metric storage, alerting, anomaly detection, and so on.</p>
@@ -345,7 +345,7 @@ has the management plugin enabled at <span class="code ">http://<i>{node-hostnam
 see <a href="./devtools.html">Developer Tools</a>.</p>
 <p>Some API endpoints return a lot of information. The volume can be reduced
 by filtering what columns are returned by <span class="code ">HTTP GET</span> requests. See
-<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.11.5/deps/rabbitmq_management/priv/www/api/index.html">latest HTTP API documentation</a> for details.</p>
+<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.11.6/deps/rabbitmq_management/priv/www/api/index.html">latest HTTP API documentation</a> for details.</p>
 <h2><a id="configuration" class="anchor" href="#configuration">Configuration</a></h2>
 <p>There are several configuration options which affect the
 management plugin. These are managed through the main

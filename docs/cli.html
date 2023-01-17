@@ -100,6 +100,14 @@ lists, enables and disables them. It ships with RabbitMQ.</p>
 <p>It supports both online (when target node is running) and offline mode (changes
 take effect on node restart).</p>
 <p><span class="code ">rabbitmq-plugins</span> uses shared secret authentication (described below) with server nodes.</p>
+<h3><a id="offline-mode" class="anchor" href="#offline-mode">Offline Mode</a></h3>
+<p><span class="code ">--offline</span> is a flag supported by <span class="code ">rabbitmq-plugins</span> commands. When provided, the tool will avoid
+contacting the target node and instead operate on plugin files directly.</p>
+<p>When the <span class="code ">--offline</span> flag is used, the command will rely on <a href="configure.html#customise-environment">environment variables</a>
+to determine where to find the plugins directory of the local node.</p>
+<p>For example, it will respect and use the <span class="code ">RABBITMQ_PLUGINS_DIR</span> environment variable value
+just like a RabbitMQ node would. When <span class="code ">RABBITMQ_PLUGINS_DIR</span> is overriden for server nodes,
+it must also be set identically for the local OS user that invokes CLI tools.</p>
 <h2><a id="authentication" class="anchor" href="#authentication">Authentication</a></h2>
 <p>With the exception of <span class="code ">rabbitmqadmin</span>, RabbitMQ tools use a <a href="#erlang-cookie">shared secret authentication mechanism</a>.
 This requires that <a href="networking.html">inter-node and CLI communication ports</a> (by default)
@@ -401,6 +409,55 @@ current node details:
 </ul>
 <p>and so on.</p>
 <p><a href="networking.html">RabbitMQ Networking guide</a> contains a section on troubleshooting of networking-related issues.</p>
+<h2><a id="managing-nodes" class="anchor" href="#managing-nodes">Managing Nodes</a></h2>
+<h3>Getting node status</h3>
+<p>To retrieve node status, use <span class="code ">rabbitmq-diagnostics status</span> or <span class="code ">rabbitmq-diagnostics.bat status</span>
+with an optional <span class="code ">--node</span> target:</p>
+<pre class="lang-bash">
+rabbitmq-diagnostics  status
+</pre>
+
+<pre class="lang-bash">
+rabbitmq-diagnostics  status --node rabbit@target-hostname.local
+</pre>
+
+<pre class="lang-powershell">
+rabbitmq-diagnostics .bat status
+</pre>
+
+<pre class="lang-powershell">
+rabbitmq-diagnostics .bat status --node rabbit@target-hostname.local
+</pre>
+
+<h3>Starting a node</h3>
+<p>How RabbitMQ nodes are started depends on the package type used:</p>
+<ul>
+<li>When using Debian and RPM packages on modern Linux distributions, nodes are <a href="./install-debian.html#managing-service">managed using <span class="code ">systemd</span></a></li>
+<li>When using Windows installer, nodes are usually <a href="./install-windows.html#managing">managed by the Windows service manager</a></li>
+<li>When using Homebrew formula, nodes are managed using <span class="code ">brew services</span></li>
+<li>When using generic UNIX build or binary Windows build, nodes are started using <span class="code ">sbin/rabbitmq-server</span> and <span class="code ">sbin/rabbitmq-server.bat</span>, respectively, in the installation root</li>
+</ul>
+<h3>Stopping a node</h3>
+<p>To stop a node, consider using the same service management tooling used when starting
+the node, which depends on the package typed used when RabbitMQ was installed.</p>
+<p>To stop a node using RabbitMQ CLI tools, use
+<span class="code ">rabbitmqctl shutdown</span> or <span class="code ">rabbitmqctl.bat shutdown</span> with an optional <span class="code ">--node</span> target:</p>
+<pre class="lang-bash">
+rabbitmqctl shutdown
+</pre>
+
+<pre class="lang-bash">
+rabbitmqctl shutdown --node rabbit@target-hostname.local
+</pre>
+
+<pre class="lang-powershell">
+rabbitmqctl.bat shutdown
+</pre>
+
+<pre class="lang-powershell">
+rabbitmqctl.bat shutdown --node rabbit@target-hostname.local
+</pre>
+
 <h2><a id="http-api-cli" class="anchor" href="#http-api-cli">rabbitmqadmin</a></h2>
 <p><a href="./management-cli.html">rabbitmqadmin</a> is a command line tool that's built on top of <a href="./management.html">RabbitMQ HTTP API</a>.
 It is not a replacement for <span class="code ">rabbitmqctl</span> and provides access to a subset of most commonly

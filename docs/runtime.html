@@ -29,6 +29,7 @@ as far as this guide is concerned are</p>
 <li><a href="#open-file-handle-limit">Open file handle limit</a></li>
 <li><a href="#distribution-buffer">Inter-node communication buffer</a> size</li>
 <li><a href="#erlang-process-limit">Erlang process limit</a></li>
+<li><a href="#crash-dumps">Erlang crash dumps</a></li>
 </ul>
 <h2><a id="vm-settings" class="anchor" href="#vm-settings">VM Settings</a></h2>
 <p>The Erlang VM has a broad range of <a href="https://erlang.org/doc/man/erl.html">options that can be configured</a>
@@ -250,7 +251,14 @@ RABBITMQ_MAX_NUMBER_OF_PROCESSES=2000000
 variable:</p>
 <pre class="lang-bash">
 RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS="+P 2000000"
-</pre><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+</pre>
+
+<h2><a id="crash-dumps" class="anchor" href="#crash-dumps">Erlang Crash Dumps</a></h2>
+<p>When the runtime terminates abnormally, or is sent a <span class="code ">SIGUSER1</span> signal, it will produce a local file
+known as the <a href="https://erlef.github.io/security-wg/secure_coding_and_deployment_hardening/crash_dumps">crash dump</a>.</p>
+<p>The file contains certain runtime information at the time of termination. This file can be useful for debugging
+of certain types of problems. It can also get really large on nodes with a large memory footprint.</p>
+<p>To disable crash dump files, set the <span class="code ">ERL_CRASH_DUMP_BYTES</span> <a href="./configure.html#customise-environment">environment variable</a> to 0.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.

@@ -158,8 +158,8 @@ this out with three or more workers.</p>
 <p>Doing a task can take a few seconds so you may wonder what happens if
 a consumer starts a long task and it terminates when it is not fully complete.
 With our current code, once RabbitMQ delivers a message to the consumer, it
-immediately marks it for deletion. In this case, if you terminate a worker, 
-the message it was just processing is lost. All the messages that were 
+immediately marks it for deletion. In this case, if you terminate a worker,
+the message it was just processing is lost. All the messages that were
 dispatched to this particular worker but were not yet handled are also lost.</p>
 <p>But we don't want to lose any tasks. If a worker dies, we'd like the
 task to be delivered to another worker.</p>

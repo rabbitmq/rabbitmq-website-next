@@ -314,7 +314,7 @@ defines a more sophisticated permission model.</p>
 {
   "authorization_details": [
     {
-      "type" : "rabbitmq",  
+      "type" : "rabbitmq",
       "locations": ["cluster:finance/vhost:production-*"],
       "actions": [ "read", "write", "configure"  ]
     },
@@ -399,7 +399,7 @@ aforementioned convention using the following algorithm:</p>
 <pre class="lang-javascript">
 {
   "authorization_details": [
-    { "type" : "rabbitmq",  
+    { "type" : "rabbitmq",
       "locations": ["cluster:finance/vhost:primary-*"],
       "actions": [ "read", "write", "configure"  ]
     },

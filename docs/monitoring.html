@@ -293,7 +293,7 @@ be one example. Both types are complimentary to infrastructure and node metrics.
     <tr>
       <td>Other message stats</td>
       <td>
-        <span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.11.5/deps/rabbitmq_management/priv/www/api/index.html">HTTP API reference</a>)
+        <span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.11.6/deps/rabbitmq_management/priv/www/api/index.html">HTTP API reference</a>)
       </td>
     </tr>
   </tbody>
@@ -434,7 +434,7 @@ via the <span class="code ">GET /api/queues/{vhost}/{qname}</span> endpoint.</p>
     </tr>
     <tr>
       <td>Other message stats</td>
-      <td><span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-management/v3.11.5/priv/www/api/index.html">HTTP API reference</a>)
+      <td><span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-management/v3.11.6/priv/www/api/index.html">HTTP API reference</a>)
     </td>
     </tr>
   </tbody>
@@ -622,6 +622,8 @@ rabbitmq-diagnostics -q listeners
 <p><a href="./rabbitmq-diagnostics.8.html"><span class="code ">rabbitmq-diagnostics check_port_connectivity</span></a> is a command that
 performs the basic TCP connectivity check mentioned above:</p>
 <pre class="lang-bash">
+# This check will try to open a TCP connections to the discovered listener ports.
+# Target node hostname resolution is used to determine the IP address.
 rabbitmq-diagnostics -q check_port_connectivity
 # If the check succeeds, the exit code will be 0
 </pre>

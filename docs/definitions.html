@@ -85,7 +85,7 @@ rabbitmqadmin import /path/to/definitions.file.json
 # Requires management plugin to be enabled,
 # placeholders are used for credentials and hostname.
 # Use HTTPS when possible.
-curl -u {username}:{password} -X POST -T /path/to/definitions.file.json http://{hostname}:15672/api/definitions
+curl -u {username}:{password} -H "Content-Type: application/json" -X POST -T /path/to/definitions.file.json http://{hostname}:15672/api/definitions
 </pre>
 
 <h2><a id="import-on-boot" class="anchor" href="#import-on-boot">Definition Import at Node Boot Time</a></h2>
@@ -102,7 +102,7 @@ set the <span class="code ">load_definitions</span> config key to a path of a pr
 load_definitions = /path/to/definitions/file.json
 </pre>
 
-<p>From RabbitMQ <span class="code ">3.9.4</span> you can import definitions from a URL accessible over HTTPS on node boot.
+<p>Definitions can be imported from a URL accessible over HTTPS on node boot.
 Set the <span class="code ">definitions.import_backend</span> and <span class="code ">definitions.https.url</span> config keys to https and a valid URL where a JSON definition is located.</p>
 <pre class="lang-ini">
 # Does not require management plugin to be enabled.
@@ -112,17 +112,16 @@ definitions.https.url = https://raw.githubusercontent.com/rabbitmq/sample-config
 definitions.tls.versions.1 = tlsv1.2
 </pre>
 
-<p>As of RabbitMQ <span class="code ">3.8.6</span>, definition import happens after plugin activation.
-This means that definitions related to plugins (e.g. dynamic Shovels, exchanges of a custom type, and so on)
-can be imported at boot time.</p>
+<p>Definition import happens after plugin activation. This means that definitions related
+to plugins (e.g. dynamic Shovels, exchanges of a custom type, and so on) can be imported at boot time.</p>
 <p>The definitions in the file will not overwrite anything already in the broker.
 However, if a blank (uninitialised) node imports a definition file, it will
 not create the default virtual host and user.</p>
 <h3><a id="import-on-boot-skip-if-unchanged" class="anchor" href="#import-on-boot-skip-if-unchanged">Avoid Boot Time Import if Definition Contents Have Not Changed</a></h3>
 <p>By default definitions are imported by every cluster node, unconditionally.
 In many environments definition file rarely changes. In that case it makes
-sense to only perform an import when definition file contents actually change.
-Starting with RabbitMQ 3.10, this can be done by setting the <span class="code ">definitions.skip_if_unchanged</span> configuration key
+sense to only perform an import when definition file contents actually change.</p>
+<p>This can be done by setting the <span class="code ">definitions.skip_if_unchanged</span> configuration key
 to <span class="code ">true</span>:</p>
 <pre class="lang-ini">
 # when set to true, definition import will only happen

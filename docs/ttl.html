@@ -8,8 +8,10 @@
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>RabbitMQ allows you to set TTL (time to live) for both messages and queues.
-This is controlled by <a href="queues.html">optional queue arguments</a> and best done using a <a href="./parameters.html">policy</a>.</p>
+<p>RabbitMQ allows you to set TTL (time to live) for both messages and queues. Expired
+messages and queues will be deleted: the specifics will be covered in more detail
+later in this guide.</p>
+<p>TTL behavior is controlled by <a href="queues.html">optional queue arguments</a> and best done using a <a href="./parameters.html">policy</a>.</p>
 <p>Message TTL can be applied to a single queue, a group of
 queues or applied on the message-by-message basis.</p>
 <p>TTL settings also can be enforced by <a href="./parameters.html#operator-policies">operator policies</a>.</p>
@@ -139,9 +141,12 @@ resources arises, queue TTL should be used instead (or queue
 purging, or queue deletion).</p>
 <h2><a id="queue-ttl" class="anchor" href="#queue-ttl">Queue TTL</a></h2>
 <p>TTL can also be set on queues, not just queue contents.
-Queues will expire after a period of time only when they
-are not used (e.g. do not have consumers). This feature
-can be used together with the <a href="queues.html">auto-delete queue property</a>.</p>
+This feature can be used together with the <a href="queues.html">auto-delete queue property</a>.</p>
+<p>Setting TTL (expiration) on queues generally only makes sense
+for transient (non-durable) classic queues. Quorum queues and streams
+do not support expiration.</p>
+<p>Queues will expire after a period of time only when they
+are not used (a queue is used if it has online consumers).</p>
 <p>Expiry time can be set for a given queue by setting the
 <span class="code ">x-expires</span> argument to <span class="code ">queue.declare</span>,
 or by setting the <span class="code ">expires</span> <a href="parameters.html#policies">policy</a>. This controls for
@@ -155,8 +160,7 @@ drained.</p>
 <p>The server guarantees that the queue will be deleted, if
 unused for at least the expiration period. No guarantee is
 given as to how promptly the queue will be removed after the
-expiration period has elapsed. Leases of durable queues
-restart when the server restarts.</p>
+expiration period has elapsed.</p>
 <p>The value of the <span class="code ">x-expires</span> argument or
 <span class="code ">expires</span> policy describes the expiration period in
 milliseconds. It must be a positive integer (unlike message

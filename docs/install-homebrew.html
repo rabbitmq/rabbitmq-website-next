@@ -11,7 +11,7 @@
 <p><a href="https://brew.sh/">Homebrew</a> is a popular package manager for MacOS.
 <a href="https://github.com/Homebrew/homebrew-core/blob/master/Formula/rabbitmq.rb">RabbitMQ formula</a> is available from
 <a href="https://brew.sh/">Homebrew</a>'s core tap (out of the box).</p>
-<p>The formula will also install a reasonably recent <a href="./which-erlang.html">supported Erlang/OTP version</a>
+<p>The formula will also install a recent <a href="./which-erlang.html">supported Erlang/OTP version</a>
 as a dependency.</p>
 <h2><a id="installation" class="anchor" href="#installation">Installation</a></h2>
 <p>Before installing make sure the taps are up-to-date:</p>
@@ -25,23 +25,68 @@ brew install rabbitmq
 </pre>
 
 <p>Installing the RabbitMQ formula will install key dependencies such as a <a href="./which-erlang.html">supported Erlang/OTP version</a>.</p>
-<h2><a id="operations" class="anchor" href="#operations">Operations</a></h2>
-<p>The RabbitMQ server scripts and <a href="./cli.html">CLI tools</a> are installed into the <span class="code ">sbin</span> directory under <span class="code ">/usr/local/Cellar/rabbitmq/&lt;version&gt;/</span>,
-which is accessible from <span class="code ">/usr/local/opt/rabbitmq/sbin</span>. Links to binaries have been created under <span class="code ">/usr/local/sbin</span>.
-In case that directory is not in <span class="code ">PATH</span> it's recommended to append it:</p>
+<h2><a id="locations" class="anchor" href="#locations">Locations</a></h2>
+<p>The RabbitMQ server scripts and <a href="./cli.html">CLI tools</a> are installed into the <span class="code ">sbin</span> directory under <span class="code ">/usr/local/Cellar/rabbitmq/{version}/</span> for Intel Macs
+or <span class="code ">/opt/homebrew/Cellar/rabbitmq/{version}/</span> for Apple Silicon Macs.</p>
+<p>They should be accessible from <span class="code ">/usr/local/opt/rabbitmq/sbin</span> for for Intel Macs or <span class="code ">/opt/homebrew/opt/rabbitmq/sbin</span> for Apple Silicon Macs.
+Links to binaries have been created under <span class="code ">/usr/local/sbin</span> for Intel Macs or <span class="code ">/opt/homebrew/sbin</span> for Apple Silicon ones.</p>
+<p>To find out locations for your installation, use</p>
 <pre class="lang-bash">
+brew info rabbitmq
+</pre>
+
+<p>With Homebrew, the node and CLI tools will use the logged in user account by default.</p>
+<h2><a id="managing-node" class="anchor" href="#managing-node">Running and Managing the Node</a></h2>
+<p>Unlike some other installation methods, namely the <a href="./install-debian.html">Debian</a> and <a href="./install-rpm.html">RPM packages</a>, RabbitMQ
+Homebrew formula uses <a href="./install-generic-unix.html">generic UNIX binary builds</a> and does not require <span class="code ">sudo</span>.</p>
+<h4>Starting the Server</h4>
+<p>To start a node in the foreground, run</p>
+<pre class="lang-bash">
+CONF_ENV_FILE="/opt/homebrew/etc/rabbitmq/rabbitmq-env.conf" /opt/homebrew/opt/rabbitmq/sbin/rabbitmq-server
+</pre>
+
+<p>To start a node in the background, use <span class="code ">brew service start</span>:</p>
+<pre class="lang-bash">
+brew services start rabbitmq
+</pre>
+
+<h4>Stopping the Server</h4>
+<p>To stop a running node, use</p>
+<pre class="lang-bash">
+brew services stop rabbitmq
+</pre>
+
+<p>or CLI tools directly:</p>
+<pre class="lang-bash">
+/opt/homebrew/opt/rabbitmq/sbin/rabbitmqctl shutdown
+</pre>
+
+<p>The command will wait for the node process to stop. If the target node is not running,
+it will exit with an error.</p>
+<h4>Configuring the Server</h4>
+<p>File and directory locations used by Homebrew differ from Intel Macs to Apple Silicon ones.
+To find out locations for your installation, use</p>
+<pre class="lang-bash">
+brew info rabbitmq
+</pre>
+
+<p>On Apple Silicon Macs, <a href="configure.html#configuration-files">RabbitMQ configuration file</a> located at <span class="code ">/opt/homebrew/etc/rabbitmq/rabbitmq.conf</span>.
+The file does not exist by default and can be created.</p>
+<p>It is possible to <a href="configure.html#customise-general-unix-environment">use environment variables</a> to control certain settings.
+<span class="code ">rabbitmq-env.conf</span> is located at <span class="code ">/opt/homebrew/etc/rabbitmq/rabbitmq-env.conf</span></p>
+<p>See RabbitMQ <a href="configure.html">configuration guide</a> to learn more.</p>
+<h2><a id="cli" class="anchor" href="#cli"></a></h2>
+<p>The formula sets up links to CLI tools under <span class="code ">/usr/local/sbin</span> for Intel Macs or <span class="code ">/opt/homebrew/sbin</span> for Apple Silicon Macs.</p>
+<p>In case that directory is not in <span class="code ">PATH</span> it's recommended to append it:</p>
+<pre class="lang-bash">
+# for macOS Intel
 export PATH=$PATH:/usr/local/sbin
+# for Apple Silicon
+export PATH=$PATH:/opt/homebrew/sbin
 </pre>
 
 <p>Add the above export to the shell profile (such as <span class="code ">~/.bashrc</span> for bash or <span class="code ">~/.zshrc</span> for zsh)
-to have <span class="code ">PATH</span> updated for every new shell, including OS restarts.</p>
-<p>The server can then be started with <span class="code ">rabbitmq-server</span> in the foreground or with <span class="code ">brew services start rabbitmq</span>
-to have it run under launchd in the background.</p>
-<p>With Homebrew, the node and CLI tools will use the logged in user account by default.
-Using <span class="code ">sudo</span> is not required.</p>
-<p>Otherwise operations are no different from the generic binary build.
-Please refer to the <a href="install-generic-unix.html#operations">Operations section</a> of
-the generic binary build guide.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+to have <span class="code ">PATH</span> updated for every new shell, including OS restarts.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.

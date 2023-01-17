@@ -383,8 +383,682 @@ prometheus.return_per_object_metrics = true
 </pre>
 
 <h3><a id="per-object-endpoint" class="anchor" href="#per-object-endpoint">Prometheus endpoints: <span class="code ">/metrics/per-object</span></a></h3>
-<p>RabbitMQ offers a dedicated endpoint, <span class="code ">/metrics/per-object</span>, which always returns per-object metrics, regardless of the value of <span class="code ">prometheus.return_per_object_metrics</span>.
-You can therefore keep the default value of <span class="code ">prometheus.return_per_object_metrics</span>, which is <span class="code ">false</span>, and still scrape per-object metrics when necessary, by setting <span class="code ">metrics_path = /metrics/per-object</span> in the Prometheus target configuration (check <a href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config">Prometheus Documentation</a> for additional information).</p>
+<p>RabbitMQ offers a dedicated endpoint, <span class="code ">/metrics/per-object</span>, which always returns per-object metrics,
+regardless of the value of <span class="code ">prometheus.return_per_object_metrics</span>.
+You can therefore keep the default value of <span class="code ">prometheus.return_per_object_metrics</span>,
+which is <span class="code ">false</span>, and still scrape per-object metrics when necessary, by setting <span class="code ">metrics_path = /metrics/per-object</span> in the Prometheus target configuration (check <a href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config">Prometheus Documentation</a> for additional information).</p>
+<h3><a id="detailed-endpoint" class="anchor" href="#detailed-endpoint">Prometheus endpoints: <span class="code ">/metrics/detailed</span></a></h3>
+<p>Because <a href="#metric-aggregation">enabling per-object metics can be very expensive</a> but at times necessary,
+a separate endpoint, <span class="code ">GET /metrics/detailed</span>, provides access to them even if per-object
+metrics are disabled for the node.</p>
+<h4>Generic metrics</h4>
+<p>These are some generic metrics, which do not refer to any specific
+queue/connection/etc.</p>
+<h5>Connection/channel/queue churn</h5>
+<p>Grouped under <span class="code ">connection_churn_metrics</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_detailed_connections_opened_total</td>
+<td>Total number of connections opened</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_connections_closed_total</td>
+<td>Total number of connections closed or terminated</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_channels_opened_total</td>
+<td>Total number of channels opened</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_channels_closed_total</td>
+<td>Total number of channels closed</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queues_declared_total</td>
+<td>Total number of queues declared</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queues_created_total</td>
+<td>Total number of queues created</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queues_deleted_total</td>
+<td>Total number of queues deleted</td>
+</tr>
+</tbody>
+</table>
+<h5>Erlang VM/Disk IO via RabbitMQ</h5>
+<p>Grouped under <span class="code ">node_coarse_metrics</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_detailed_process_open_fds</td>
+<td>Open file descriptors</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_process_open_tcp_sockets</td>
+<td>Open TCP sockets</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_process_resident_memory_bytes</td>
+<td>Memory used in bytes</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_disk_space_available_bytes</td>
+<td>Disk space available in bytes</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_erlang_processes_used</td>
+<td>Erlang processes used</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_erlang_gc_runs_total</td>
+<td>Total number of Erlang garbage collector runs</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_erlang_gc_reclaimed_bytes_total</td>
+<td>Total number of bytes of memory reclaimed by Erlang garbage collector</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_erlang_scheduler_context_switches_total</td>
+<td>Total number of Erlang scheduler context switches</td>
+</tr>
+</tbody>
+</table>
+<p>Grouped under <span class="code ">node_metrics</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_detailed_process_max_fds</td>
+<td>Open file descriptors limit</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_process_max_tcp_sockets</td>
+<td>Open TCP sockets limit</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_resident_memory_limit_bytes</td>
+<td>Memory high watermark in bytes</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_disk_space_available_limit_bytes</td>
+<td>Free disk space low watermark in bytes</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_erlang_processes_limit</td>
+<td>Erlang processes limit</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_erlang_scheduler_run_queue</td>
+<td>Erlang scheduler run queue</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_erlang_net_ticktime_seconds</td>
+<td>Inter-node heartbeat interval</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_erlang_uptime_seconds</td>
+<td>Node uptime</td>
+</tr>
+</tbody>
+</table>
+<p>Grouped under <span class="code ">node_persister_metrics</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_detailed_io_read_ops_total</td>
+<td>Total number of I/O read operations</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_io_read_bytes_total</td>
+<td>Total number of I/O bytes read</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_io_write_ops_total</td>
+<td>Total number of I/O write operations</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_io_write_bytes_total</td>
+<td>Total number of I/O bytes written</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_io_sync_ops_total</td>
+<td>Total number of I/O sync operations</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_io_seek_ops_total</td>
+<td>Total number of I/O seek operations</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_io_reopen_ops_total</td>
+<td>Total number of times files have been reopened</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_schema_db_ram_tx_total</td>
+<td>Total number of Schema DB memory transactions</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_schema_db_disk_tx_total</td>
+<td>Total number of Schema DB disk transactions</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_msg_store_read_total</td>
+<td>Total number of Message Store read operations</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_msg_store_write_total</td>
+<td>Total number of Message Store write operations</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_index_read_ops_total</td>
+<td>Total number of Queue Index read operations</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_index_write_ops_total</td>
+<td>Total number of Queue Index write operations</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_io_read_time_seconds_total</td>
+<td>Total I/O read time</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_io_write_time_seconds_total</td>
+<td>Total I/O write time</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_io_sync_time_seconds_total</td>
+<td>Total I/O sync time</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_io_seek_time_seconds_total</td>
+<td>Total I/O seek time</td>
+</tr>
+</tbody>
+</table>
+<h5>Raft-related (Quorum queues, streams) metrics</h5>
+<p>Grouped under <span class="code ">ra_metrics</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_detailed_raft_term_total</td>
+<td>Current Raft term number</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_raft_log_snapshot_index</td>
+<td>Raft log snapshot index</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_raft_log_last_applied_index</td>
+<td>Raft log last applied index</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_raft_log_commit_index</td>
+<td>Raft log commit index</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_raft_log_last_written_index</td>
+<td>Raft log last written index</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_raft_entry_commit_latency_seconds</td>
+<td>Time taken for a log entry to be committed</td>
+</tr>
+</tbody>
+</table>
+<h5>Auth metrics</h5>
+<p>Grouped under <span class="code ">auth_attempt_metrics</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_detailed_auth_attempts_total</td>
+<td>Total number of authorization attempts</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_auth_attempts_succeeded_total</td>
+<td>Total number of successful authentication attempts</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_auth_attempts_failed_total</td>
+<td>Total number of failed authentication attempts</td>
+</tr>
+</tbody>
+</table>
+<p>Grouped under <span class="code ">auth_attempt_detailed_metrics</span>. When aggregated, these add up to the same numbers as <span class="code ">auth_attempt_metrics</span>.</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_detailed_auth_attempts_detailed_total</td>
+<td>Total number of authorization attempts with source info</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_auth_attempts_detailed_succeeded_total</td>
+<td>Total number of successful authorization attempts with source info</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_auth_attempts_detailed_failed_total</td>
+<td>Total number of failed authorization attempts with source info</td>
+</tr>
+</tbody>
+</table>
+<h4>Queue metrics</h4>
+<p>Each metric in this group points to a single queue via its label.
+So the size of the response here is directly proportional to the number of queues hosted
+on the node.</p>
+<p>The metrics below are listed from the least expensive to collect to the most expensive.</p>
+<h5>Queue coarse metrics</h5>
+<p>Grouped under <span class="code ">queue_coarse_metrics</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_detailed_queue_messages_ready</td>
+<td>Messages ready to be delivered to consumers</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_messages_unacked</td>
+<td>Messages delivered to consumers but not yet acknowledged</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_messages</td>
+<td>Sum of ready and unacknowledged messages - total queue depth</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_process_reductions_total</td>
+<td>Total number of queue process reductions</td>
+</tr>
+</tbody>
+</table>
+<h5>Per-queue consumer count</h5>
+<p>Grouped under <span class="code ">queue_consumer_count</span>. This is a subset of <span class="code ">queue_metrics</span> which is skipped if <span class="code ">queue_metrics</span> are requested:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_detailed_queue_consumers</td>
+<td>Consumers on a queue</td>
+</tr>
+</tbody>
+</table>
+<p>This metric is useful for quickly detecting issues with consumers (e.g. when there are no consumers online).
+This is why it is exposed separately.</p>
+<h5>Detailed queue metrics</h5>
+<p>Grouped under <span class="code ">queue_metrics</span>. This group contains all the metrics for every queue, and can be relatively expensive to produce:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_detailed_queue_consumers</td>
+<td>Consumers on a queue</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_consumer_capacity</td>
+<td>Consumer capacity</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_consumer_utilisation</td>
+<td>Same as consumer capacity</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_process_memory_bytes</td>
+<td>Memory in bytes used by the Erlang queue process</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_messages_ram</td>
+<td>Ready and unacknowledged messages stored in memory</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_messages_ram_bytes</td>
+<td>Size of ready and unacknowledged messages stored in memory</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_messages_ready_ram</td>
+<td>Ready messages stored in memory</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_messages_unacked_ram</td>
+<td>Unacknowledged messages stored in memory</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_messages_persistent</td>
+<td>Persistent messages</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_messages_persistent_bytes</td>
+<td>Size in bytes of persistent messages</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_messages_bytes</td>
+<td>Size in bytes of ready and unacknowledged messages</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_messages_ready_bytes</td>
+<td>Size in bytes of ready messages</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_messages_unacked_bytes</td>
+<td>Size in bytes of all unacknowledged messages</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_messages_paged_out</td>
+<td>Messages paged out to disk</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_messages_paged_out_bytes</td>
+<td>Size in bytes of messages paged out to disk</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_head_message_timestamp</td>
+<td>Timestamp of the first message in the queue, if any</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_disk_reads_total</td>
+<td>Total number of times queue read messages from disk</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_queue_disk_writes_total</td>
+<td>Total number of times queue wrote messages to disk</td>
+</tr>
+</tbody>
+</table>
+<h4>Connection/channel metrics</h4>
+<p>All of those include the Erlang process ID of the channel in their label. This data is not particularly useful
+and is only present to distinguish metrics of separate channels.</p>
+<p>These metrics are the most expensive to produce.</p>
+<h5>Connection metrics</h5>
+<p>Grouped under <span class="code ">connection_coarse_metrics</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_detailed_connection_incoming_bytes_total</td>
+<td>Total number of bytes received on a connection</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_connection_outgoing_bytes_total</td>
+<td>Total number of bytes sent on a connection</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_connection_process_reductions_total</td>
+<td>Total number of connection process reductions</td>
+</tr>
+</tbody>
+</table>
+<p>Grouped under <span class="code ">connection_metrics</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_detailed_connection_incoming_packets_total</td>
+<td>Total number of packets received on a connection</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_connection_outgoing_packets_total</td>
+<td>Total number of packets sent on a connection</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_connection_pending_packets</td>
+<td>Number of packets waiting to be sent on a connection</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_connection_channels</td>
+<td>Channels on a connection</td>
+</tr>
+</tbody>
+</table>
+<h5>General channel metrics</h5>
+<p>Grouped under <span class="code ">channel_metrics</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_detailed_channel_consumers</td>
+<td>Consumers on a channel</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_channel_messages_unacked</td>
+<td>Delivered but not yet acknowledged messages</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_channel_messages_unconfirmed</td>
+<td>Published but not yet confirmed messages</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_channel_messages_uncommitted</td>
+<td>Messages received in a transaction but not yet committed</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_channel_acks_uncommitted</td>
+<td>Message acknowledgements in a transaction not yet committed</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_consumer_prefetch</td>
+<td>Limit of unacknowledged messages for each consumer</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_channel_prefetch</td>
+<td>Total limit of unacknowledged messages for all consumers on a channel</td>
+</tr>
+</tbody>
+</table>
+<p>Grouped under <span class="code ">channel_process_metrics</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_detailed_channel_process_reductions_total</td>
+<td>Total number of channel process reductions</td>
+</tr>
+</tbody>
+</table>
+<h5>Channel metrics with queue/exchange breakdowns</h5>
+<p>Grouped under <span class="code ">channel_exchange_metrics</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_detailed_channel_messages_published_total</td>
+<td>Total number of messages published into an exchange on a channel</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_channel_messages_confirmed_total</td>
+<td>Total number of messages published into an exchange and confirmed on the channel</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_channel_messages_unroutable_returned_total</td>
+<td>Total number of messages published as mandatory into an exchange and returned to the publisher as unroutable</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_channel_messages_unroutable_dropped_total</td>
+<td>Total number of messages published as non-mandatory into an exchange and dropped as unroutable</td>
+</tr>
+</tbody>
+</table>
+<p>Grouped under <span class="code ">channel_queue_metrics</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_detailed_channel_get_ack_total</td>
+<td>Total number of messages fetched with basic.get in manual acknowledgement mode</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_channel_get_total</td>
+<td>Total number of messages fetched with basic.get in automatic acknowledgement mode</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_channel_messages_delivered_ack_total</td>
+<td>Total number of messages delivered to consumers in manual acknowledgement mode</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_channel_messages_delivered_total</td>
+<td>Total number of messages delivered to consumers in automatic acknowledgement mode</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_channel_messages_redelivered_total</td>
+<td>Total number of messages redelivered to consumers</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_channel_messages_acked_total</td>
+<td>Total number of messages acknowledged by consumers</td>
+</tr>
+<tr>
+<td>rabbitmq_detailed_channel_get_empty_total</td>
+<td>Total number of times basic.get operations fetched no message</td>
+</tr>
+</tbody>
+</table>
+<p>Grouped under <span class="code ">channel_queue_exchange_metrics</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_detailed_queue_messages_published_total</td>
+<td>Total number of messages published to queues</td>
+</tr>
+</tbody>
+</table>
+<h4>Virtual hosts and exchange metrics</h4>
+<p>These additional metrics can be useful when virtual hosts or exchanges are
+created in a shared cluster. <strong>These metrics are cluster-wide and not node-local</strong>.
+Therefore these metrics <strong>must not be aggregated</strong> across cluster nodes.</p>
+<p>Grouped under <span class="code ">vhost_status</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_cluster_vhost_status</td>
+<td>Whether a given vhost is running</td>
+</tr>
+</tbody>
+</table>
+<p>Grouped under <span class="code ">exchange_names</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_cluster_exchange_name</td>
+<td>Enumerates exchanges without any additional info. This value is cluster-wide. A cheaper alternative to <span class="code ">exchange_bindings</span></td>
+</tr>
+</tbody>
+</table>
+<p>Grouped under <span class="code ">exchange_bindings</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rabbitmq_cluster_exchange_bindings</td>
+<td>Number of bindings for an exchange. This value is cluster-wide.</td>
+</tr>
+</tbody>
+</table>
 <h3><a id="timeout-configuration" class="anchor" href="#timeout-configuration">Scraping Endpoint Timeouts</a></h3>
 <p>In some environments there aren't many stats-emitting entities (queues, connections, channels), in others
 the scraping HTTP endpoint may have to return a sizeable data set to the client (e.g. many thousands of rows).

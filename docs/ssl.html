@@ -114,7 +114,7 @@ the other end of the connection. While doing so, they try to locate a trusted Ce
 presented by the peer. When both sides perform this verification process, this is known
 as <em>mutual TLS authentication</em> or <em>mTLS</em>.
 More on this in the <a href="#peer-verification">Peer Verification</a> section.</p>
-<p>This guides assumes the user has access to a Certificate Authority and two certificate/key pairs
+<p>This guide assumes the user has access to a Certificate Authority and two certificate/key pairs
 in a number of formats for different client libraries to use.
 This is best done using <a href="#automated-certificate-generation">existing tools</a>
 but those looking to get more familiar with the topic and OpenSSL command line
@@ -126,7 +126,7 @@ is used when configuration RabbitMQ as long as the same basic <a href="#enabling
 In other words, whether the certificates are self-signed or issued by a <a href="#peer-verification-trusted-certificates">trusted CA</a>, they are
 configured the same way. The section on <a href="#peer-verification">peer verification</a> covers this in detail.</p>
 <h2><a id="automated-certificate-generation" class="anchor" href="#automated-certificate-generation">The Short Route to Generating a CA, Certificates, and Keys</a></h2>
-<p>This guides assumes the user has access to a CA certificate bundle file and two <a href="#certificates-and-keys">certificate/key pairs</a>.
+<p>This guide assumes the user has access to a CA certificate bundle file and two <a href="#certificates-and-keys">certificate/key pairs</a>.
 The certificate/key pairs are used by RabbitMQ and clients that connect to the server on a
 TLS-enabled port. The process of generating a Certificate Authority and two key pairs is fairly labourious
 and can be error-prone. An easier way of generating all that

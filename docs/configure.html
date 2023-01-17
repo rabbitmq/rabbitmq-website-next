@@ -490,7 +490,7 @@ same location as the real file should be placed (see
 above). On Debian and RPM distributions
 policy forbids doing so; instead find the file
 under <span class="code ">/usr/share/doc/rabbitmq-server/</span>
-or <span class="code ">/usr/share/doc/rabbitmq-server-3.11.5/</span>,
+or <span class="code ">/usr/share/doc/rabbitmq-server-3.11.6/</span>,
 respectively.</p>
 <h3><a id="config-items" class="anchor" href="#config-items">Core Server Variables Configurable in rabbitmq.conf</a></h3>
 <p>These variables are the most common. The list is not complete, as
@@ -1796,6 +1796,8 @@ More variables are covered in the <a href="./relocate.html">File and Directory L
       (<span class="code ">:</span> for Unix, <span class="code ">;</span> for Windows).
       Plugins can be <a href="plugins.html">installed</a> to any of the directories listed here.
       Must not contain any characters mentioned in the <a href="#directory-and-path-restrictions">path restriction section</a>.
+      See <a href="cli.html#rabbitmq-plugins">CLI tools guide</a> to learn about the effects of changing
+      this variable on <span class="code ">rabbitmq-plugins</span>.
 
       <p>
         <strong>Default</strong>:

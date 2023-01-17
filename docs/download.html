@@ -7,7 +7,7 @@
 </h1>
 
 
-<p>The latest <a href="https://github.com/rabbitmq/rabbitmq-server/releases">release</a> of RabbitMQ is <strong>3.11.5</strong>. See <a href="changelog.html">change log</a> for release notes.
+<p>The latest <a href="https://github.com/rabbitmq/rabbitmq-server/releases">release</a> of RabbitMQ is <strong>3.11.6</strong>. See <a href="changelog.html">change log</a> for release notes.
 See <a href="./versions.html">RabbitMQ support timeline</a> to find out what release series are supported.</p>
 <p>Experimenting with RabbitMQ on your workstation? Try the <a href="https://registry.hub.docker.com/_/rabbitmq/">community Docker image</a>:</p>
 <pre class="lang-bash">
@@ -18,8 +18,8 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.11-ma
 <h2>Open Source RabbitMQ Server</h2>
 <h3>Installation Guides</h3>
 <ul>
-<li>Linux, BSD, UNIX: <a href="install-debian.html">Debian, Ubuntu</a> | <a href="install-rpm.html">RHEL, CentOS, Fedora</a> | <a href="install-generic-unix.html">Generic binary build</a> | <a href="install-solaris.html">Solaris</a></li>
-<li>Windows: <a href="install-windows.html">Chocolatey or Installer</a> (recommended) | <a href="install-windows-manual.html">Binary build</a></li>
+<li>Linux, BSD, UNIX: <a href="install-debian.html">Debian, Ubuntu</a> | <a href="install-rpm.html">RHEL, CentOS Stream, Fedora</a> | <a href="install-generic-unix.html">Generic binary build</a> | <a href="install-solaris.html">Solaris</a></li>
+<li>Windows: <a href="https://community.chocolatey.org/packages/rabbitmq">Chocolatey package</a> | <a href="install-windows.html">Windows Installer</a> | <a href="install-windows-manual.html">Binary build</a></li>
 <li>MacOS: <a href="install-homebrew.html">Homebrew</a> | <a href="install-generic-unix.html">Generic binary build</a></li>
 <li><a href="./which-erlang.html">Erlang/OTP for RabbitMQ</a></li>
 </ul>
@@ -61,13 +61,13 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.11-ma
 </ul>
 <h2>Downloads <a href="https://github.com/rabbitmq/rabbitmq-server/releases">on GitHub</a></h2>
 <ul>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.5/rabbitmq-server-3.11.5.exe">Windows installer</a></li>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.5/rabbitmq-server_3.11.5-1_all.deb">Debian, Ubuntu</a></li>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.5/rabbitmq-server-3.11.5-1.el8.noarch.rpm">RHEL, CentOS Stream 9.x, CentOS 8.x</a> |
-    <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.5/rabbitmq-server-3.11.5-1.suse.noarch.rpm">OpenSUSE</a> |
-    zero dependency <a href="https://github.com/rabbitmq/erlang-rpm">Erlang 23 RPM</a></li>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.5/rabbitmq-server-generic-unix-3.11.5.tar.xz">Generic UNIX binary</a></li>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.5/rabbitmq-server-windows-3.11.5.zip">Windows binary</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.6/rabbitmq-server-3.11.6.exe">Windows installer</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.6/rabbitmq-server_3.11.6-1_all.deb">Debian, Ubuntu</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.6/rabbitmq-server-3.11.6-1.el8.noarch.rpm">RHEL, CentOS Stream 9.x, CentOS 8.x</a> |
+    <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.6/rabbitmq-server-3.11.6-1.suse.noarch.rpm">OpenSUSE</a> |
+    zero dependency <a href="https://github.com/rabbitmq/erlang-rpm">Erlang RPM</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.6/rabbitmq-server-generic-unix-3.11.6.tar.xz">Generic UNIX binary</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.6/rabbitmq-server-windows-3.11.6.zip">Windows binary</a></li>
 </ul>
 <h2>Debian (Apt) and RPM (Yum) Repositories</h2>
 <ul>
@@ -89,12 +89,15 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.11-ma
 <h3>Java Client</h3>
 <ul>
 <li>On Maven Central: <a href="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22com.rabbitmq%22%20AND%20a%3A%22amqp-client%22">RabbitMQ Java client</a></li>
-<li>Quick download: <a href="http://repo1.maven.org/maven2/com/rabbitmq/amqp-client/5.16.0/amqp-client-5.16.0.jar">Maven.org</a> |
-   <a href="http://repo1.maven.org/maven2/com/rabbitmq/amqp-client/5.16.0/amqp-client-5.16.0-sources.jar">Source</a></li>
+<li>Quick download: <a href="http://repo1.maven.org/maven2/com/rabbitmq/amqp-client/5.16.0/amqp-client-5.16.0.jar">Maven.org</a></li>
 <li><a href="./api-guide.html">API guide</a></li>
 <li><a href="https://rabbitmq.github.io/rabbitmq-java-client/api/current/">API reference</a> (JavaDoc)</li>
 <li><a href="./java-client.html">License and other information</a></li>
 <li><a href="http://repo1.maven.org/maven2/com/rabbitmq/amqp-client/">Older versions</a></li>
+</ul>
+<h3>Java <a href="./streams.html">Stream Protocol</a> Client</h3>
+<ul>
+<li><a href="https://github.com/rabbitmq/rabbitmq-stream-java-client">RabbitMQ Stream Java client</a></li>
 </ul>
 <h3>JMS Client</h3>
 <ul>
@@ -107,6 +110,10 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.11-ma
 <li><a href="https://rabbitmq.github.io/rabbitmq-dotnet-client/">API reference</a></li>
 <li><a href="./dotnet.html">License and other information</a></li>
 <li><a href="https://github.com/rabbitmq/rabbitmq-dotnet-client/releases">Older versions</a></li>
+</ul>
+<h3>.NET/C# <a href="./streams.html">Stream Protocol</a> Client</h3>
+<ul>
+<li>✓ <a href="https://github.com/rabbitmq/rabbitmq-stream-dotnet-client">RabbitMQ Stream .NET client</a></li>
 </ul>
 <h3>Erlang Client</h3>
 <ul>

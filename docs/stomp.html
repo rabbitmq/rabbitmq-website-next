@@ -9,7 +9,7 @@
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>RabbitMQ supports <a href="http://stomp.github.io">STOMP</a> via a plugin that ships
-in the core distribution. The plugin supports STOMP versions 1.0 through <a href="http://stomp.github.com/stomp-specification-1.2.html">1.2</a>
+in the core distribution. The plugin supports STOMP versions 1.0 through <a href="https://stomp.github.io/stomp-specification-1.2.html">1.2</a>
 with some <a href="#extensions-and-restrictions">extensions and restrictions</a>.</p>
 <p>STOMP clients can interoperate with other protocols. All the functionality in
 the <a href="./management.html">management UI</a> and several other plugins can be
@@ -405,7 +405,7 @@ described in the STOMP specs. In addition, we prohibit some headers which
 are reserved for server use. The details are given below.</p>
 <h3><a id="pear.c" class="anchor" href="#pear.c">Connection and Virtual Hosts</a></h3>
 <p>The <span class="code ">CONNECT</span> (or <span class="code ">STOMP</span>) frame in
-<a href="http://stomp.github.com/stomp-specification-1.1.html">STOMP 1.1</a> has a
+<a href="http://stomp.github.io/stomp-specification-1.1.html">STOMP 1.1</a> has a
 mandatory <span class="code ">host</span> header (to select the virtual host to use for the
 connection). The RabbitMQ adapter allows this to be optional.</p>
 <p>When omitted, the default virtual host (<span class="code ">/</span>) is presumed.
