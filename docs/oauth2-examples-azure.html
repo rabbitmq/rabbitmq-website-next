@@ -58,20 +58,6 @@
 <p><img alt="Azure AD JWKS URI" src="./img/oauth2/azure-ad-jwks-uri.png" /></p>
 </li>
 </ol>
-<h2>Create a secret for your app</h2>
-<p>Your application needs a <strong>client secret</strong> to prove its identity when requesting a token.</p>
-<ol>
-<li>
-<p>Still on the <strong>App registrations</strong> page, in the left-hand menu, click on <strong>Certificates &amp; Secrets</strong>, then select the <strong>Client secrets</strong> tab.</p>
-</li>
-<li>
-<p>In the <strong>Certificates &amp; Secrets</strong> pane, click on <strong>New Client Secret</strong> and, on the right pane that has just opened, enter a description for the secret and choose an expiration time.</p>
-</li>
-<li>
-<p>Click on <strong>Add</strong>.</p>
-<p><g-emoji class="g-emoji" alias="warning" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/26a0.png">⚠️</g-emoji> <strong>IMPORTANT</strong>: Immediately note the value of the secret (as you won't be able to get it later and you will need it to configure the <span class="code ">rabbitmq_auth_backend_oauth2</span> on RabbitMQ side).</p>
-</li>
-</ol>
 <h2>Create OAuth 2.0 roles for your app</h2>
 <p>App roles are defined by using the <a href="https://portal.azure.com">Azure portal</a> during the app registration process. When a user signs in to your application, Azure AD emits a <span class="code ">roles</span> claim for each role that the user or service principal has been granted (you will have a look at it at the end of this tutorial).</p>
 <p><g-emoji class="g-emoji" alias="blue_book" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d8.png">📘</g-emoji> More details about roles in Azure AD are available <a href="https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-add-app-roles-in-azure-ad-apps">here</a>.</p>
@@ -164,7 +150,6 @@
 <p>Update it with the following values (you should have noted these in the previous steps):
 * <strong>Tenant ID</strong> associated to the app that you registered in Azure AD
 * <strong>Application ID</strong> associated to the app that you registered in Azure AD
-* Value of the <strong>secret</strong> you created for your app in Azure AD
 * Value of the <strong>jwks_uri</strong> key from <span class="code ">https://login.microsoftonline.com/{TENANT_ID}/v2.0/.well-known/openid-configuration</span></p>
 <pre class="lang-bash">
 $ vi rabbitmq.config
@@ -175,7 +160,6 @@ $ vi rabbitmq.config
   {rabbitmq_management, [
      {oauth_enabled, true},
      {oauth_client_id, "PUT YOUR AZURE AD APPLICATION ID"},
-     {oauth_client_secret, "PUT YOUR AZURE AD APPLICATION SECRET"},
      {oauth_provider_url, "https://login.microsoftonline.com/AZURE_AD_TENANT_ID"}
  ]},
  {rabbitmq_auth_backend_oauth2, [
@@ -266,7 +250,7 @@ the scopes in the <span class="code ">roles</span> claim to define permissions f
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
                   </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •

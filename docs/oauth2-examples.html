@@ -24,9 +24,13 @@ that make it easier to</p>
 <ul>
 <li><a href="#prerequisites">Prerequisites to follow this guide</a></li>
 <li><a href="#getting-started-with-uaa-and-rabbitmq">Getting started with UAA and RabbitMQ</a></li>
-<li><a href="#use-access-tokens">Use Access tokens</a>  <ul>
-<li><a href="#management-user-accessing-the-management-ui">Management user accessing the Management UI</a></li>
-<li><a href="#monitoring-agent-accessing-management-rest-api">Monitoring agent accessing management REST api</a></li>
+<li><a href="#access-management-ui">Access Management UI using OAuth 2.0 tokens</a>  <ul>
+<li><a href="#service-provider-initiated-logon">Service-Provider initiated logon</a></li>
+<li><a href="#identity-provider-initiated-logon">Identity-Provider initiated logon</a></li>
+</ul>
+</li>
+<li><a href="#access-other-protocols">Access other protocols using OAuth 2.0 tokens</a>    </li>
+<li><a href="#monitoring-agent-accessing-management-rest-api">Management REST api</a><ul>
 <li><a href="#amqp-protocol">AMQP protocol</a></li>
 <li><a href="#jms-protocol">JMS protocol</a></li>
 <li><a href="#mqtt-protocol">MQTT protocol</a></li>
@@ -82,16 +86,24 @@ asymmetrical signing keys. The Authorization server is who digitally signs the A
 has to be configured to validate any of the two types of digital signatures.</p>
 <p>Given that asymmetrical keys is the most widely used option, you are going to focus on how to
 configure RabbitMQ with them.</p>
-<p>Run the following 3 commands to get the environment ready to see Oauth 2.0 plugin in action:</p>
+<p>Run the following 2 commands to get the environment ready to see Oauth 2.0 plugin in action:</p>
 <ol>
 <li><span class="code ">make start-uaa</span> to get UAA server running</li>
-<li><span class="code ">make setup-uaa-users-and-clients</span> to install uaac client; connect to UAA server and set ups users, group, clients and permissions</li>
 <li><span class="code ">make start-rabbitmq</span> to start RabbitMQ server</li>
 </ol>
 <p>The last command starts a RabbitMQ server with <a href="https://github.com/rabbitmq/rabbitmq-oauth2-tutorial/blob/main/conf/uaa/rabbitmq.config">this</a> configuration file.</p>
-<h2><a id="use-access-tokens" class="anchor" href="#use-oauth-tokens">Use access tokens</a></h2>
-<p>The following subsections demonstrate how to use access tokens with any messaging protocol and also to access the management ui and rest api.</p>
-<h3><a id="management-user-accessing-the-management-ui" class="anchor" href="#management-user-accessing-the-management-ui">Management user accessing the Management UI</a></h3>
+<h2><a id="access-management-ui" class="anchor" href="#access-management-ui">Access Management UI using OAuth 2.0 tokens</a></h2>
+<p>The RabbitMQ Management UI can be configured with one of these two login modes:</p>
+<ul>
+<li><a href="#service-provider-initiated-logon">Service-Provider initiated logon</a>: this is the default and traditional OAuth 2.0 logon mode.
+  When the user visits the RabbitMQ Management UI, it shows a button with the label <span class="code ">Click here to logon</span>. When the user clicks it,
+  the logon process starts by redirecting to the configured <strong>Authorization Server</strong>.</li>
+<li><a href="#identity-provider-initiated-logon">Identity-Provider initiated logon</a>: this mode is opposite to the previous mode.
+  The user must first access the RabbitMQ Management's <span class="code ">/login</span> endpoint with a token. If the token is valid, the user is allowed to access the RabbitMQ Management UI.
+  This mode is very useful for Web sites which allow users to access the RabbitMQ Management UI with a single click.
+  The original Web site get a token on user's behalf and redirects the user to the RabbitMQ Management's <span class="code ">/login</span> endpoint.</li>
+</ul>
+<h3><a id="service-provider-initiated-logon" class="anchor" href="#service-provider-initiated-logon">Service-Provider initiated logon</a></h3>
 <p>The first time an end user arrives to the management UI, they are redirected to the configured OAuth 2.0 provider to authenticate.
 Once they successfully authenticate, the user is redirected back to RabbitMQ
 with a valid access token. RabbitMQ validates it and identify the user and its permissions from the token.</p>
@@ -112,18 +124,60 @@ authorize RabbitMQ application as shown on the screenshot below.</p>
 <li>and <span class="code ">rabbit_monitor:rabbit_monitor</span></li>
 </ul>
 <p>Now navigating to the <a href="http://localhost:15672">local node's management UI</a> and login using any of those two users.</p>
-<p>The user displayed by the management ui is not the user name but <span class="code ">rabbitmq_client</span> which is the
-identity of RabbitMQ to work on half of the user.</p>
 <p>This is a token issued by UAA for the <span class="code ">rabbit_admin</span> user thru the redirect flow you just saw above.
 It was signed with the symmetric key.</p>
 <p><img alt="JWT token" src="./img/oauth2/admin-token-signed-sym-key.png" /></p>
-<h3><a id="monitoring-agent-accessing-management-rest-api" class="anchor" href="#monitoring-agent-accessing-management-rest-api-2">Monitoring agent accessing management REST api</a></h3>
+<p>To configure the RabbitMQ Management UI with OAuth 2.0, the following configuration entries are required
+in <span class="code ">advanced.config</span>:</p>
+<pre class="lang-erlang">
+ ...
+ {rabbitmq_management, [
+    {oauth_enabled, true},
+    {oauth_client_id, "rabbit_client_code"},
+    {oauth_provider_url, "http://localhost:8080"},      
+    ...
+  ]},
+</pre>
+
+<h3><a id="identity-provider-initiated-logon" class="anchor" href="#identity-provider-initiated-logon">Identity-Provider initiated logon</a></h3>
+<p>When RabbitMQ is provided as a service from a web portal, it is easy to navigate to the RabbitMQ Management UI
+with a single click. The web portal retrieves a token before taking the user to the RabbitMQ Management UI web page.</p>
+<pre class="lang-plain">
+    [ Idp | WebPortal ] ----&gt; 2. /login [access_token: TOKEN]----   [ RabbitMQ Cluster ]            
+              /|\                                                        |       /|\
+               |                                                         +--------+
+      1. rabbit_admin from a browser                                   3. validate token        
+</pre>
+
+<p>How it works, firstly, the <span class="code ">rabbit_admin</span> user navigates to the web portal and clicks on the hyperlink associated with a RabbitMQ
+cluster. Next, the web portal obtains a token and redirects the user to RabbitMQ <span class="code ">/login</span> endpoint with the token within the HTTP form field <span class="code ">access_token</span>. Finally,
+RabbitMQ validates the token in the http request and if it is valid, it redirects the user to the overview page.</p>
+<p>By default, the RabbitMQ Management UI is configured with <strong>service-provider initiated logon</strong>, to configure <strong>Identity-Provider initiated logon</strong>,
+add one entry to <span class="code ">advanced.config</span>. For example:</p>
+<pre class="lang-erlang">
+ ...
+ {rabbitmq_management, [
+    {oauth_enabled, true},
+    {oauth_client_id, "rabbit_client_code"},
+    {oauth_provider_url, "http://localhost:8080"},      
+    {oauth_initiated_logon_type, idp_initiated},
+    ...
+  ]},
+</pre>
+
+<p><strong>Important</strong>: when the user logs out, or its RabbitMQ session expired, or the token expired, the user is directed to the
+RabbitMQ Management landing page which has a <strong>Click here to login</strong> button.
+The user is never automatically redirected back to the url configured in the <span class="code ">oauth_provider_url</span>.
+It is only when the user clicks <strong>Click here to login</strong> , the user is redirected to the configured url in <span class="code ">oauth_provider_url</span>.</p>
+<h2><a id="access-other-protocols" class="anchor" href="#access-other-protocols">Access other protocols using OAuth 2.0 tokens</a></h2>
+<p>The following subsections demonstrate how to use access tokens with any messaging protocol and also to access the management rest api.</p>
+<h3><a id="monitoring-agent-accessing-management-rest-api" class="anchor" href="#monitoring-agent-accessing-management-rest-api-2">Management REST api</a></h3>
 <p>In this scenario a monitoring agent uses RabbitMQ HTTP API to collect monitoring information.
 Because it is not an end user, or human, you refer to it as a <em>service account</em>.
 This <em>service account</em> could be our <span class="code ">mgt_api_client</span> client you created in UAA with the <span class="code ">monitoring</span> <em>user tag</em>.</p>
 <p>This <em>monitoring agent</em> would use the <em>client credentials</em> or <em>password</em> grant flow to authenticate (1) with
 UAA and get back a JWT token (2). Once it gets the token, it sends (3) a HTTP request
-to the RabbitMQ management endpoint passing the JWT token.</p>
+to the RabbitMQ management endpoint passing the JWT token within the <span class="code ">Authorization</span> header as a <em>Bearer token</em>.</p>
 <pre class="lang-plain">
 [ UAA ]                  [ RabbitMQ ]
   /|\                    [  http    ]
@@ -136,7 +190,7 @@ to the RabbitMQ management endpoint passing the JWT token.</p>
 
 <p>The following command launches the browser with <span class="code ">mgt_api_client</span> client with a JWT token previously obtained from UAA:</p>
 <pre class="lang-bash">
-make curl url=http://localhost:15672/api/overview client_id=mgt_api_client secret=mgt_api_client
+make curl-uaa url=http://localhost:15672/api/overview client_id=mgt_api_client secret=mgt_api_client
 </pre>
 
 <h3><a id="amqp-protocol" class="anchor" href="#amqp-protocol">AMQP protocol</a></h3>
@@ -249,7 +303,7 @@ a message to a mqtt topic (<a href="jwts/scopes-for-mqtt.json">scopes-for-mqtt.j
 <p><span class="code ">rabbitmq.write:*/*/*</span> means allow write operation on a any vhost, on any exchange and any topic. In fact,
 it is any "routing-key" because that is translated to a topic/queue.</p>
 <p>You are going to publish a mqtt message by running the following command. If you have not run any of the
-previous use cases, you need to launch rabbitmq first like this <span class="code ">make start-uaa</span>.</p>
+previous use cases, you need to launch rabbitmq first like this <span class="code ">make start-rabbitmq</span>.</p>
 <pre class="lang-bash">
 make start-mqtt-publish TOKEN=$(bin/jwt_token scopes-for-mqtt.json legacy-token-key private.pem public.pem)
 </pre>
@@ -579,12 +633,14 @@ docker logs producer_with_roles -f
 <pre class="lang-erlang">
 [
   {rabbitmq_management, [
+    %% eanble Oauth
+    {oauth_enabled,    true},
     %% use UAA
     {enable_uaa,    true},
     %% OAuth 2 identity server client ID
-    {uaa_client_id, "rabbit_client"},
+    {oauth_client_id, "rabbit_client"},
     %% UAA endpoint location
-    {uaa_location, "http://localhost:8080/uaa"}
+    {oauth_provider_url, "http://localhost:8080"}
   ]},
 ].
 </pre>
@@ -820,7 +876,7 @@ curl http://localhost:8080/uaa/token_key \
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
                   </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •

@@ -383,14 +383,48 @@ prometheus.return_per_object_metrics = true
 </pre>
 
 <h3><a id="per-object-endpoint" class="anchor" href="#per-object-endpoint">Prometheus endpoints: <span class="code ">/metrics/per-object</span></a></h3>
-<p>RabbitMQ offers a dedicated endpoint, <span class="code ">/metrics/per-object</span>, which always returns per-object metrics,
+<p>RabbitMQ offers a dedicated endpoint</p>
+<pre class="lang-plaintext">
+GET /metrics/per-object
+</pre>
+
+<p>which always returns per-object metrics,
 regardless of the value of <span class="code ">prometheus.return_per_object_metrics</span>.
 You can therefore keep the default value of <span class="code ">prometheus.return_per_object_metrics</span>,
 which is <span class="code ">false</span>, and still scrape per-object metrics when necessary, by setting <span class="code ">metrics_path = /metrics/per-object</span> in the Prometheus target configuration (check <a href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config">Prometheus Documentation</a> for additional information).</p>
 <h3><a id="detailed-endpoint" class="anchor" href="#detailed-endpoint">Prometheus endpoints: <span class="code ">/metrics/detailed</span></a></h3>
-<p>Because <a href="#metric-aggregation">enabling per-object metics can be very expensive</a> but at times necessary,
-a separate endpoint, <span class="code ">GET /metrics/detailed</span>, provides access to them even if per-object
-metrics are disabled for the node.</p>
+<p>As mentioned earlier, using per-object metrics in environments with a lot of entitites is very computationally expensive.
+For example, <span class="code ">/metrics/per-object</span> returns all metrics for all entities in the system, even if many of them are not used
+by most clients (such as monitoring tools).</p>
+<p>This is why there is a separate endpoint for per-object metrics that allows the caller to query only the metrics they need:</p>
+<pre class="lang-plaintext">
+GET /metrics/detailed
+</pre>
+
+<p>By default it does not return any metrics. All required metric groups and virtual host filters must be be provided as query
+parameters. For example,</p>
+<pre class="lang-plaintext">
+GET /metrics/detailed?vhost=vhost-1&amp;vhost=vhost-2&amp;family=queue_coarse_metrics&amp;family=queue_consumer_count
+</pre>
+
+<p>will only return requested metrics and leave out, for example, all channel metrics that this client is not
+interested in.</p>
+<p>This endpoint supports the following parameters:</p>
+<ul>
+<li>Zero or more <span class="code ">family</span> values. Only the requested metric families will be returned. The full list is documented in <a href="metrics-detailed.md">metrics-detailed</a></li>
+<li>Zero or more <span class="code ">vhost</span>s: if provided, queue related metrics (<span class="code ">queue_coarse_metrics</span>, <span class="code ">queue_consumer_count</span> and <span class="code ">queue_metrics</span>) will be returned only for the queues in the provided virtual hosts</li>
+</ul>
+<p>The returned metrics use a different prefix: <span class="code ">rabbitmq_detailed_</span> (instead of <span class="code ">rabbitmq_</span> used by other  endpoints).
+This means the endpoint can be used together with <span class="code ">GET /metrics</span> and tools that rely on other endpoints won't be affected.</p>
+<p>Since it queries and serves less data in almost all cases, this endpoint puts less load on the system.
+For example,</p>
+<pre class="lang-plaintext">
+GET /metrics/detailed?family=queue_coarse_metrics&amp;family=queue_consumer_count
+</pre>
+
+<p>provides just enough metrics to determine how many messages are enqueued and how many consumers those queues have.
+In some environments this query is <strong>up to 60 times more efficient</strong> than querying <span class="code ">GET /metrics/per-object</span> to get
+only a couple of metrics from the response.</p>
 <h4>Generic metrics</h4>
 <p>These are some generic metrics, which do not refer to any specific
 queue/connection/etc.</p>
@@ -1144,7 +1178,7 @@ and requires visualisation to be set up separately.</p><div id="help-and-feedbac
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
                   </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •

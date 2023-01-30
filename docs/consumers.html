@@ -362,6 +362,12 @@ they arrive in the queue.</p>
 </ul>
 <p>Note that without the single active consumer feature enabled, messages
 would be dispatched to all consumers using round-robin.</p>
+<p>Please note: this section covers the single active consumer that's available to AMQP 0-9-1 and AMQP 1.0 clients
+on classic and quorum queues. It is not related to <a href="https://rabbitmq.com/streams.html#single-active-consumer">Single Active Consumer on streams</a>.</p>
+<p>An attempt to enable SAC using an AMQP 0-9-1 client on a stream <strong>will not work</strong>.
+To use SAC on a stream, a <a href="https://rabbitmq.github.io/rabbitmq-stream-java-client/snapshot/htmlsingle/#single-active-consumer">native RabbitMQ stream protocol client</a>
+must be used.</p>
+<h3>Enabling Single Active Consumer on Quorum and Classic Queues</h3>
 <p>Single active consumer can be enabled when declaring a queue, with the
 <span class="code ">x-single-active-consumer</span> argument set to <span class="code ">true</span>, e.g. with the Java client:</p>
 <pre class="lang-java">
@@ -371,14 +377,17 @@ arguments.put("x-single-active-consumer", true);
 ch.queueDeclare("my-queue", false, false, false, arguments);
 </pre>
 
-<p>Compared to <a href="#exclusivity">AMQP exclusive consumer</a>, single active consumer puts
+<h3>Difference from Exclusive Consumers</h3>
+<p>Compared to <a href="#exclusivity">AMQP 0-9-1 exclusive consumer</a>, single active consumer puts
 less pressure on the application side to maintain consumption continuity.
 Consumers just need to be registered and failover is handled automatically,
 there's no need to detect the active consumer failure and to register
 a new consumer.</p>
+<h3>Determining Which Consumer is Currently Active</h3>
 <p>The <a href="./management.html">management UI</a> and the
 <a href="./rabbitmqctl.8.html">CLI</a> can <a href="#active-consumer">report</a> which consumer is the current
 active one on a queue where the feature is enabled.</p>
+<h3>SAC Behavior</h3>
 <p>Please note the following about single active consumer:</p>
 <ul>
 <li>There's no guarantee on the selected active consumer, it is
@@ -456,7 +465,7 @@ in increasing parallelism.</p><div id="help-and-feedback"><h2>Getting Help and P
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
                   </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •

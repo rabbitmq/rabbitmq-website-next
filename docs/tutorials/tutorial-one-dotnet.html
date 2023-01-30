@@ -187,36 +187,16 @@ then exit.</p>
 <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/dotnet/Send/Send.cs"><span class="code ">Send.cs</span></a>,
 we need to use some namespaces:</p>
 <pre class="lang-csharp">
-using System;
-using RabbitMQ.Client;
 using System.Text;
-</pre>
-
-<p>Set up the class:</p>
-<pre class="lang-csharp">
-class Send
-{
-    public static void Main()
-    {
-        ...
-    }
-}
+using RabbitMQ.Client;
 </pre>
 
 <p>then we can create a connection to the server:</p>
 <pre class="lang-csharp">
-class Send
-{
-    public static void Main()
-    {
-        var factory = new ConnectionFactory() { HostName = "localhost" };
-        using (var connection = factory.CreateConnection())
-        using (var channel = connection.CreateModel())
-        {
-            ...
-        }
-    }
-}
+var factory = new ConnectionFactory { HostName = "localhost" };
+using var connection = factory.CreateConnection();
+using var channel = connection.CreateModel();
+...
 </pre>
 
 <p>The connection abstracts the socket connection, and takes care of
@@ -229,38 +209,30 @@ things done resides.</p>
 <p>To send, we must declare a queue for us to send to; then we can publish a message
 to the queue:</p>
 <pre class="lang-csharp">
-using System;
-using RabbitMQ.Client;
 using System.Text;
+using RabbitMQ.Client;
 
-class Send
-{
-    public static void Main()
-    {
-        var factory = new ConnectionFactory() { HostName = "localhost" };
-        using(var connection = factory.CreateConnection())
-        using(var channel = connection.CreateModel())
-        {
-            channel.QueueDeclare(queue: "hello",
-                                 durable: false,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
+var factory = new ConnectionFactory { HostName = "localhost" };
+using var connection = factory.CreateConnection();
+using var channel = connection.CreateModel();
 
-            string message = "Hello World!";
-            var body = Encoding.UTF8.GetBytes(message);
+channel.QueueDeclare(queue: "hello",
+                     durable: false,
+                     exclusive: false,
+                     autoDelete: false,
+                     arguments: null);
 
-            channel.BasicPublish(exchange: "",
-                                 routingKey: "hello",
-                                 basicProperties: null,
-                                 body: body);
-            Console.WriteLine(" [x] Sent {0}", message);
-        }
+const string message = "Hello World!";
+var body = Encoding.UTF8.GetBytes(message);
 
-        Console.WriteLine(" Press [enter] to exit.");
-        Console.ReadLine();
-    }
-}
+channel.BasicPublish(exchange: string.Empty,
+                     routingKey: "hello",
+                     basicProperties: null,
+                     body: body);
+Console.WriteLine($" [x] Sent {message}");
+
+Console.WriteLine(" Press [enter] to exit.");
+Console.ReadLine();
 </pre>
 
 <p>Declaring a queue is idempotent - it will only be created if it doesn't
@@ -290,33 +262,25 @@ keep the consumer running continuously to listen for messages and print them out
 
 <p>The code (in <a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/dotnet/Receive/Receive.cs"><span class="code ">Receive.cs</span></a>) has almost the same <span class="code ">using</span> statements as <span class="code ">Send</span>:</p>
 <pre class="lang-csharp">
+using System.Text;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System;
-using System.Text;
 </pre>
 
 <p>Setting up is the same as the publisher; we open a connection and a
 channel, and declare the queue from which we're going to consume.
 Note this matches up with the queue that <span class="code ">Send</span> publishes to.</p>
 <pre class="lang-csharp">
-class Receive
-{
-    public static void Main()
-    {
-        var factory = new ConnectionFactory() { HostName = "localhost" };
-        using (var connection = factory.CreateConnection())
-        using (var channel = connection.CreateModel())
-        {
-            channel.QueueDeclare(queue: "hello",
-                                 durable: false,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
-            ...
-        }
-    }
-}
+var factory = new ConnectionFactory { HostName = "localhost" };
+using var connection = factory.CreateConnection();
+using var channel = connection.CreateModel();
+
+channel.QueueDeclare(queue: "hello",
+                     durable: false,
+                     exclusive: false,
+                     autoDelete: false,
+                     arguments: null);
+...
 </pre>
 
 <p>Note that we declare the queue here as well. Because we might start
@@ -327,41 +291,35 @@ queue. Since it will push us messages asynchronously, we provide a
 callback. That is what <span class="code ">EventingBasicConsumer.Received</span> event handler
 does.</p>
 <pre class="lang-csharp">
+using System.Text;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System;
-using System.Text;
 
-class Receive
+var factory = new ConnectionFactory { HostName = "localhost" };
+using var connection = factory.CreateConnection();
+using var channel = connection.CreateModel();
+
+channel.QueueDeclare(queue: "hello",
+                     durable: false,
+                     exclusive: false,
+                     autoDelete: false,
+                     arguments: null);
+
+Console.WriteLine(" [*] Waiting for messages.");
+
+var consumer = new EventingBasicConsumer(channel);
+consumer.Received += (model, ea) =&gt;
 {
-    public static void Main()
-    {
-        var factory = new ConnectionFactory() { HostName = "localhost" };
-        using(var connection = factory.CreateConnection())
-        using(var channel = connection.CreateModel())
-        {
-            channel.QueueDeclare(queue: "hello",
-                                 durable: false,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
+    var body = ea.Body.ToArray();
+    var message = Encoding.UTF8.GetString(body);
+    Console.WriteLine($" [x] Received {message}");
+};
+channel.BasicConsume(queue: "hello",
+                     autoAck: true,
+                     consumer: consumer);
 
-            var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += (model, ea) =&gt;
-            {
-                var body = ea.Body.ToArray();
-                var message = Encoding.UTF8.GetString(body);
-                Console.WriteLine(" [x] Received {0}", message);
-            };
-            channel.BasicConsume(queue: "hello",
-                                 autoAck: true,
-                                 consumer: consumer);
-
-            Console.WriteLine(" Press [enter] to exit.");
-            Console.ReadLine();
-        }
-    }
-}
+Console.WriteLine(" Press [enter] to exit.");
+Console.ReadLine();
 </pre>
 
 <p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/dotnet/Receive/Receive.cs">Here's the whole Receive.cs
@@ -562,7 +520,7 @@ the publisher several times.</p>
   </tr>
 </table>
 </div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •

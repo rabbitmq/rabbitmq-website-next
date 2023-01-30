@@ -106,7 +106,7 @@ because we were using a default exchange, which we identify by the empty string 
 <p><pre class="lang-csharp">
     var message = GetMessage(args);
     var body = Encoding.UTF8.GetBytes(message);
-    channel.BasicPublish(exchange: "",
+    channel.BasicPublish(exchange: string.Empty,
                          routingKey: "hello",
                          basicProperties: null,
                          body: body);
@@ -120,7 +120,7 @@ routed to the queue with the name specified by <span class="code ">routingKey</s
 var message = GetMessage(args);
 var body = Encoding.UTF8.GetBytes(message);
 channel.BasicPublish(exchange: "logs",
-                     routingKey: "",
+                     routingKey: string.Empty,
                      basicProperties: null,
                      body: body);
 </pre>
@@ -178,7 +178,7 @@ between exchange and a queue is called a <em>binding</em>.</p>
 <pre class="lang-csharp">
 channel.QueueBind(queue: queueName,
                   exchange: "logs",
-                  routingKey: "");
+                  routingKey: string.Empty);
 </pre>
 
 <p>From now on the <span class="code ">logs</span> exchange will append messages to our queue.</p>
@@ -230,39 +230,29 @@ nameless one. We need to supply a <span class="code ">routingKey</span> when sen
 value is ignored for <span class="code ">fanout</span> exchanges. Here goes the code for
 <span class="code ">EmitLog.cs</span> file:</p>
 <pre class="lang-csharp">
-using System;
-using RabbitMQ.Client;
 using System.Text;
+using RabbitMQ.Client;
 
-class EmitLog
+var factory = new ConnectionFactory { HostName = "localhost" };
+using var connection = factory.CreateConnection();
+using var channel = connection.CreateModel();
+
+channel.ExchangeDeclare(exchange: "logs", type: ExchangeType.Fanout);
+
+var message = GetMessage(args);
+var body = Encoding.UTF8.GetBytes(message);
+channel.BasicPublish(exchange: "logs",
+                     routingKey: string.Empty,
+                     basicProperties: null,
+                     body: body);
+Console.WriteLine($" [x] Sent {message}");
+
+Console.WriteLine(" Press [enter] to exit.");
+Console.ReadLine();
+
+static string GetMessage(string[] args)
 {
-    public static void Main(string[] args)
-    {
-        var factory = new ConnectionFactory() { HostName = "localhost" };
-        using(var connection = factory.CreateConnection())
-        using(var channel = connection.CreateModel())
-        {
-            channel.ExchangeDeclare(exchange: "logs", type: ExchangeType.Fanout);
-
-            var message = GetMessage(args);
-            var body = Encoding.UTF8.GetBytes(message);
-            channel.BasicPublish(exchange: "logs",
-                                 routingKey: "",
-                                 basicProperties: null,
-                                 body: body);
-            Console.WriteLine(" [x] Sent {0}", message);
-        }
-
-        Console.WriteLine(" Press [enter] to exit.");
-        Console.ReadLine();
-    }
-
-    private static string GetMessage(string[] args)
-    {
-        return ((args.Length &gt; 0)
-               ? string.Join(" ", args)
-               : "info: Hello World!");
-    }
+    return ((args.Length &gt; 0) ? string.Join(" ", args) : "info: Hello World!");
 }
 </pre>
 
@@ -274,44 +264,37 @@ exchange is forbidden.</p>
 but that's okay for us; if no consumer is listening yet we can safely discard the message.</p>
 <p>The code for <span class="code ">ReceiveLogs.cs</span>:</p>
 <pre class="lang-csharp">
-using System;
+using System.Text;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System.Text;
 
-class ReceiveLogs
+var factory = new ConnectionFactory { HostName = "localhost" };
+using var connection = factory.CreateConnection();
+using var channel = connection.CreateModel();
+
+channel.ExchangeDeclare(exchange: "logs", type: ExchangeType.Fanout);
+
+// declare a server-named queue
+var queueName = channel.QueueDeclare().QueueName;
+channel.QueueBind(queue: queueName,
+                  exchange: "logs",
+                  routingKey: string.Empty);
+
+Console.WriteLine(" [*] Waiting for logs.");
+
+var consumer = new EventingBasicConsumer(channel);
+consumer.Received += (model, ea) =&gt;
 {
-    public static void Main()
-    {
-        var factory = new ConnectionFactory() { HostName = "localhost" };
-        using(var connection = factory.CreateConnection())
-        using(var channel = connection.CreateModel())
-        {
-            channel.ExchangeDeclare(exchange: "logs", type: ExchangeType.Fanout);
+    byte[] body = ea.Body.ToArray();
+    var message = Encoding.UTF8.GetString(body);
+    Console.WriteLine($" [x] {message}");
+};
+channel.BasicConsume(queue: queueName,
+                     autoAck: true,
+                     consumer: consumer);
 
-            var queueName = channel.QueueDeclare().QueueName;
-            channel.QueueBind(queue: queueName,
-                              exchange: "logs",
-                              routingKey: "");
-
-            Console.WriteLine(" [*] Waiting for logs.");
-
-            var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += (model, ea) =&gt;
-            {
-                var body = ea.Body.ToArray();
-                var message = Encoding.UTF8.GetString(body);
-                Console.WriteLine(" [x] {0}", message);
-            };
-            channel.BasicConsume(queue: queueName,
-                                 autoAck: true,
-                                 consumer: consumer);
-
-            Console.WriteLine(" Press [enter] to exit.");
-            Console.ReadLine();
-        }
-    }
-}
+Console.WriteLine(" Press [enter] to exit.");
+Console.ReadLine();
 </pre>
 
 <p><a href="https://github.com/rabbitmq/rabbitmq-tutorials/blob/main/dotnet/ReceiveLogs/ReceiveLogs.cs">(ReceiveLogs.cs source)</a></p>
@@ -529,7 +512,7 @@ that's exactly what we intended.</p>
   </tr>
 </table>
 </div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •

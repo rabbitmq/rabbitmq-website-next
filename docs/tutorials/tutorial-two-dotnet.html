@@ -85,13 +85,6 @@ dotnet add package RabbitMQ.Client
 </pre>
 
 <p>Copy the code from our old <em>Send.cs</em> to <em>NewTask.cs</em> and make the following modifications.</p>
-<p>Change the class name and add command line arguments to the <em>Main</em> method:</p>
-<pre class="lang-csharp">
-class NewTask
-{
-    public static void Main(string[] args)
-</pre>
-
 <p>Update the initialization of the <em>message</em> variable:</p>
 <pre class="lang-csharp">
 var message = GetMessage(args);
@@ -99,7 +92,7 @@ var message = GetMessage(args);
 
 <p>Add the <em>GetMessage</em> method to the end of the <em>NewTask</em> class:</p>
 <pre class="lang-csharp">
-private static string GetMessage(string[] args)
+static string GetMessage(string[] args)
 {
     return ((args.Length &gt; 0) ? string.Join(" ", args) : "Hello World!");
 }
@@ -109,21 +102,14 @@ private static string GetMessage(string[] args)
 fake a second of work for every dot in the message body. It will
 handle messages delivered by RabbitMQ and perform the task, so let's copy it to
 <em>Worker.cs</em> and modify it as follows.</p>
-<p>Add a <em>using</em> statement and update the <em>class</em> name:</p>
-<pre class="lang-csharp">
-using System.Threading;
-
-class Worker
-</pre>
-
 <p>After our existing <em>WriteLine</em> for receiving the message, add the fake task to simulate execution time:</p>
 <pre class="lang-csharp">
-Console.WriteLine(" [x] Received {0}", message);
+Console.WriteLine($" [x] Received {message}");
 
 int dots = message.Split('.').Length - 1;
 Thread.Sleep(dots * 1000);
 
-Console.WriteLine(" [x] Done")
+Console.WriteLine(" [x] Done");
 </pre>
 
 <h2>Round-robin dispatching</h2>
@@ -218,8 +204,7 @@ worker, once we're done with a task.</p>
 <pre class="lang-csharp">
     Console.WriteLine(" [x] Done");
 
-    // Note: it is possible to access the channel via
-    //       ((EventingBasicConsumer)sender).Model here
+    // here channel could also be accessed as ((EventingBasicConsumer)sender).Model
     channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
 };
 channel.BasicConsume(queue: "hello",
@@ -367,98 +352,80 @@ eye on that, and maybe add more workers, or have some other strategy.</p>
 <p>Run the consumer (worker) first so that the topology (primarily the queue) is in place.
 Here is its complete code:</p>
 <pre class="lang-csharp">
-using System;
+using System.Text;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System.Text;
-using System.Threading;
 
-class Worker
+var factory = new ConnectionFactory { HostName = "localhost" };
+using var connection = factory.CreateConnection();
+using var channel = connection.CreateModel();
+
+channel.QueueDeclare(queue: "task_queue",
+                     durable: true,
+                     exclusive: false,
+                     autoDelete: false,
+                     arguments: null);
+
+channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
+
+Console.WriteLine(" [*] Waiting for messages.");
+
+var consumer = new EventingBasicConsumer(channel);
+consumer.Received += (model, ea) =&gt;
 {
-    public static void Main()
-    {
-        var factory = new ConnectionFactory() { HostName = "localhost" };
-        using(var connection = factory.CreateConnection())
-        using(var channel = connection.CreateModel())
-        {
-            channel.QueueDeclare(queue: "task_queue",
-                                 durable: true,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
+    byte[] body = ea.Body.ToArray();
+    var message = Encoding.UTF8.GetString(body);
+    Console.WriteLine($" [x] Received {message}");
 
-            channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
+    int dots = message.Split('.').Length - 1;
+    Thread.Sleep(dots * 1000);
 
-            Console.WriteLine(" [*] Waiting for messages.");
+    Console.WriteLine(" [x] Done");
 
-            var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += (sender, ea) =&gt;
-            {
-                var body = ea.Body.ToArray();
-                var message = Encoding.UTF8.GetString(body);
-                Console.WriteLine(" [x] Received {0}", message);
+    // here channel could also be accessed as ((EventingBasicConsumer)sender).Model
+    channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+};
+channel.BasicConsume(queue: "task_queue",
+                     autoAck: false,
+                     consumer: consumer);
 
-                int dots = message.Split('.').Length - 1;
-                Thread.Sleep(dots * 1000);
-
-                Console.WriteLine(" [x] Done");
-
-                // Note: it is possible to access the channel via
-                //       ((EventingBasicConsumer)sender).Model here
-                channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
-            };
-            channel.BasicConsume(queue: "task_queue",
-                                 autoAck: false,
-                                 consumer: consumer);
-
-            Console.WriteLine(" Press [enter] to exit.");
-            Console.ReadLine();
-        }
-    }
-}
+Console.WriteLine(" Press [enter] to exit.");
+Console.ReadLine();
 </pre>
 
-<p>Now run the task publisher. Its final code is:</p>
+<p>Now run the task publisher (NewTask). Its final code is:</p>
 <pre class="lang-csharp">
-using System;
-using RabbitMQ.Client;
 using System.Text;
+using RabbitMQ.Client;
 
-class NewTask
+var factory = new ConnectionFactory { HostName = "localhost" };
+using var connection = factory.CreateConnection();
+using var channel = connection.CreateModel();
+
+channel.QueueDeclare(queue: "task_queue",
+                     durable: true,
+                     exclusive: false,
+                     autoDelete: false,
+                     arguments: null);
+
+var message = GetMessage(args);
+var body = Encoding.UTF8.GetBytes(message);
+
+var properties = channel.CreateBasicProperties();
+properties.Persistent = true;
+
+channel.BasicPublish(exchange: string.Empty,
+                     routingKey: "task_queue",
+                     basicProperties: properties,
+                     body: body);
+Console.WriteLine($" [x] Sent {message}");
+
+Console.WriteLine(" Press [enter] to exit.");
+Console.ReadLine();
+
+static string GetMessage(string[] args)
 {
-    public static void Main(string[] args)
-    {
-        var factory = new ConnectionFactory() { HostName = "localhost" };
-        using(var connection = factory.CreateConnection())
-        using(var channel = connection.CreateModel())
-        {
-            channel.QueueDeclare(queue: "task_queue",
-                                 durable: true,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
-
-            var message = GetMessage(args);
-            var body = Encoding.UTF8.GetBytes(message);
-
-            var properties = channel.CreateBasicProperties();
-            properties.Persistent = true;
-
-            channel.BasicPublish(exchange: "",
-                                 routingKey: "task_queue",
-                                 basicProperties: properties,
-                                 body: body);
-            Console.WriteLine(" [x] Sent {0}", message);
-        }
-
-        Console.WriteLine(" Press [enter] to exit.");
-        Console.ReadLine();
-    }
-
-    private static string GetMessage(string[] args)
-    {
-        return ((args.Length &gt; 0) ? string.Join(" ", args) : "Hello World!");
-    }
+    return ((args.Length &gt; 0) ? string.Join(" ", args) : "Hello World!");
 }
 </pre>
 
@@ -648,7 +615,7 @@ to deliver the same message to many consumers.</p>
   </tr>
 </table>
 </div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •

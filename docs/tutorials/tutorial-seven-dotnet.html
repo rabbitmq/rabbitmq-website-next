@@ -55,7 +55,7 @@ while (ThereAreMessagesToPublish())
     IBasicProperties properties = ...;
     channel.BasicPublish(exchange, queue, properties, body);
     // uses a 5 second timeout
-    channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, 5));
+    channel.WaitForConfirmsOrDie(TimeSpan.FromSeconds(5));
 }
 </pre>
 
@@ -97,13 +97,13 @@ while (ThereAreMessagesToPublish())
     outstandingMessageCount++;
     if (outstandingMessageCount == batchSize)
     {
-        channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, 5));
+        channel.WaitForConfirmsOrDie(TimeSpan.FromSeconds(5));
         outstandingMessageCount = 0;
     }
 }
 if (outstandingMessageCount &gt; 0)
 {
-    channel.WaitForConfirmsOrDie(new TimeSpan(0, 0, 5));
+    channel.WaitForConfirmsOrDie(TimeSpan.FromSeconds(5));
 }
 </pre>
 
@@ -163,7 +163,7 @@ when messages are nack-ed:</p>
 <pre class="lang-csharp">
 var outstandingConfirms = new ConcurrentDictionary&lt;ulong, string&gt;();
 
-void cleanOutstandingConfirms(ulong sequenceNumber, bool multiple)
+void CleanOutstandingConfirms(ulong sequenceNumber, bool multiple)
 {
     if (multiple)
     {
@@ -179,12 +179,12 @@ void cleanOutstandingConfirms(ulong sequenceNumber, bool multiple)
     }
 }
 
-channel.BasicAcks += (sender, ea) =&gt; cleanOutstandingConfirms(ea.DeliveryTag, ea.Multiple);
+channel.BasicAcks += (sender, ea) =&gt; CleanOutstandingConfirms(ea.DeliveryTag, ea.Multiple);
 channel.BasicNacks += (sender, ea) =&gt;
 {
     outstandingConfirms.TryGetValue(ea.DeliveryTag, out string body);
     Console.WriteLine($"Message with body {body} has been nack-ed. Sequence number: {ea.DeliveryTag}, multiple: {ea.Multiple}");
-    cleanOutstandingConfirms(ea.DeliveryTag, ea.Multiple);
+    CleanOutstandingConfirms(ea.DeliveryTag, ea.Multiple);
 };
 
 // ... publishing code
@@ -468,7 +468,7 @@ are nack-ed.</p>
   </tr>
 </table>
 </div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2022 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
