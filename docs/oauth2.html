@@ -267,7 +267,7 @@ the pattern must be <a href="https://en.wikipedia.org/wiki/Percent-encoding">URL
 <li><span class="code ">read:vhost1/some*</span> - read permissions to all the resources, starting with <span class="code ">some</span> on the <span class="code ">vhost1</span> vhost</li>
 <li><span class="code ">write:vhost1/some*/routing*</span> - topic write permissions to publish to an exchange starting with <span class="code ">some</span> with a routing key starting with <span class="code ">routing</span></li>
 </ul>
-<p>See the <a href="./test/wildcard_match_SUITE.erl">wildcard matching test suite</a> and <a href="./test/scope_SUITE.erl">scopes test suite</a> for more examples.</p>
+<p>See the <a href="https://github.com/rabbitmq/rabbitmq-server/blob/main/deps/rabbitmq_auth_backend_oauth2/test/wildcard_match_SUITE.erl">wildcard matching test suite</a> and <a href="https://github.com/rabbitmq/rabbitmq-server/blob/main/deps/rabbitmq_auth_backend_oauth2/test/scope_SUITE.erl">scopes test suite</a> for more examples.</p>
 <p>Scopes should be prefixed with <span class="code ">resource_server_id</span>. For example,
 if <span class="code ">resource_server_id</span> is "my_rabbit", a scope to enable read from any vhost will
 be <span class="code ">my_rabbit.read:*/*</span>.</p>

@@ -35,7 +35,7 @@ and anti-patterns easier to spot. Its design decisions are explained in a number
 <li><a href="#tls">TLS support</a> for Prometheus scraping endpoint</li>
 </ul>
 <h3><a id="overview-prometheus" class="anchor" href="#overview-prometheus">Built-in Prometheus Support</a></h3>
-<p>As of 3.8.0, RabbitMQ ships with built-in Prometheus &amp; Grafana support.</p>
+<p>RabbitMQ ships with built-in Prometheus &amp; Grafana support.</p>
 <p>Support for Prometheus metric collector ships in the <span class="code ">rabbitmq_prometheus</span> plugin.
 The plugin exposes all RabbitMQ metrics on a dedicated TCP port, in Prometheus text format.</p>
 <p>These metrics provide deep insights into the state of RabbitMQ nodes and <a href="./runtime.html">the runtime</a>.
@@ -246,7 +246,7 @@ make down
 <p>Unlike the <a href="#quick-start">Quick Start</a> above, this section covers monitoring setup geared towards production usage.</p>
 <p>We will assume that the following tools are provisioned and running:</p>
 <ul>
-<li>A <a href="./cluster-formation.html">3-node RabbitMQ 3.8 cluster</a></li>
+<li>A <a href="./cluster-formation.html">3-node RabbitMQ 3.11 cluster</a></li>
 <li>Prometheus, including network connectivity with all RabbitMQ cluster nodes</li>
 <li>Grafana, including configuration that lists the above Prometheus instance as one of the data sources</li>
 </ul>
@@ -411,7 +411,7 @@ GET /metrics/detailed?vhost=vhost-1&amp;vhost=vhost-2&amp;family=queue_coarse_me
 interested in.</p>
 <p>This endpoint supports the following parameters:</p>
 <ul>
-<li>Zero or more <span class="code ">family</span> values. Only the requested metric families will be returned. The full list is documented in <a href="metrics-detailed.md">metrics-detailed</a></li>
+<li>Zero or more <span class="code ">family</span> values. Only the requested metric families will be returned. The full list is documented below;</li>
 <li>Zero or more <span class="code ">vhost</span>s: if provided, queue related metrics (<span class="code ">queue_coarse_metrics</span>, <span class="code ">queue_consumer_count</span> and <span class="code ">queue_metrics</span>) will be returned only for the queues in the provided virtual hosts</li>
 </ul>
 <p>The returned metrics use a different prefix: <span class="code ">rabbitmq_detailed_</span> (instead of <span class="code ">rabbitmq_</span> used by other  endpoints).
@@ -1166,10 +1166,9 @@ prometheus.ssl.fail_if_no_peer_cert = true
 </pre>
 
 <h2><a id="3rd-party-plugin" class="anchor" href="#3rd-party-plugin">Using Prometheus with RabbitMQ 3.7</a></h2>
-<p>RabbitMQ versions prior to 3.8 can use a separate plugin,
+<p>RabbitMQ versions prior to 3.8 used a separate plugin,
 <a href="https://github.com/deadtrickster/prometheus_rabbitmq_exporter">prometheus_rabbitmq_exporter</a>,
-to expose metrics to Prometheus. The plugin uses <a href="./monitoring.html">RabbitMQ HTTP API</a> internally
-and requires visualisation to be set up separately.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+to expose metrics to Prometheus.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.

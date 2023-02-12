@@ -216,6 +216,7 @@ are supported.</p>
 decisions have to be made. One is determining the distribution name. It often
 matches the Debian or Ubuntu release used:</p>
 <ul>
+<li><span class="code ">jammy</span> for Ubuntu 22.04</li>
 <li><span class="code ">focal</span> for Ubuntu 20.04</li>
 <li><span class="code ">bionic</span> for Ubuntu 18.04</li>
 <li><span class="code ">buster</span> for Debian Buster</li>
@@ -237,6 +238,10 @@ with the RabbitMQ apt repository on PackageCloud.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>Ubuntu 22.04</td>
+<td><span class="code ">jammy</span></td>
+</tr>
 <tr>
 <td>Ubuntu 20.04</td>
 <td><span class="code ">focal</span></td>
@@ -429,6 +434,7 @@ are supported.</p>
 decisions have to be made. One is determining the distribution name. It often
 matches the Debian or Ubuntu release used:</p>
 <ul>
+<li><span class="code ">jammy</span> for Ubuntu 22.04</li>
 <li><span class="code ">focal</span> for Ubuntu 20.04</li>
 <li><span class="code ">bionic</span> for Ubuntu 18.04</li>
 <li><span class="code ">buster</span> for Debian Buster</li>
@@ -449,6 +455,10 @@ with the RabbitMQ apt repository on PackageCloud.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>Ubuntu 22.04</td>
+<td><span class="code ">jammy</span></td>
+</tr>
 <tr>
 <td>Ubuntu 20.04</td>
 <td><span class="code ">focal</span></td>
@@ -568,12 +578,12 @@ Pin: version 1:23.3
 Pin-Priority: 1000
 </pre>
 
-<p>The following preference file example will pin <span class="code ">rabbitmq-server</span> package to <span class="code ">3.11.7</span>
+<p>The following preference file example will pin <span class="code ">rabbitmq-server</span> package to <span class="code ">3.11.9</span>
 (assuming <a href="https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-Version">package epoch</a> for the package is 1):</p>
 <pre class="lang-ini">
 # /etc/apt/preferences.d/rabbitmq
 Package: rabbitmq-server
-Pin: version 1:3.11.7
+Pin: version 1:3.11.9
 Pin-Priority: 1000
 </pre>
 
@@ -601,10 +611,10 @@ Below is a download link.</p>
       .deb for Debian-based Linux (from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>)
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.7/rabbitmq-server_3.11.7-1_all.deb">rabbitmq-server_3.11.7-1_all.deb</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.9/rabbitmq-server_3.11.9-1_all.deb">rabbitmq-server_3.11.9-1_all.deb</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.7/rabbitmq-server_3.11.7-1_all.deb.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.9/rabbitmq-server_3.11.9-1_all.deb.asc">Signature</a>
     </td>
   </tr>
 </table>
@@ -620,12 +630,12 @@ sudo apt-get -y install socat logrotate init-system-helpers adduser
 
 # download the package
 sudo apt-get -y install wget
-wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.7/rabbitmq-server_3.11.7-1_all.deb
+wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.9/rabbitmq-server_3.11.9-1_all.deb
 
 # install the package with dpkg
-sudo dpkg -i rabbitmq-server_3.11.7-1_all.deb
+sudo dpkg -i rabbitmq-server_3.11.9-1_all.deb
 
-rm rabbitmq-server_3.11.7-1_all.deb
+rm rabbitmq-server_3.11.9-1_all.deb
 </pre>
 
 <p>Installation via <a href="#apt">apt repositories</a> is recommended
@@ -858,6 +868,7 @@ on Launchpad.</p>
 <p>RabbitMQ core team focus around package is on the current and prior release of Debian-based distributions, i.e. inline with <a href="https://wiki.debian.org/DebianReleases">distribution EOL policy</a>.</p>
 <p>The repository currently supports the following Ubuntu distributions:</p>
 <ul>
+<li>Ubuntu 22.04 (Jammy)</li>
 <li>Ubuntu 20.04 (Focal)</li>
 <li>Ubuntu 18.04 (Bionic)</li>
 </ul>
@@ -926,6 +937,7 @@ decisions have to be made. One is determining the distribution name. It typicall
 the Debian or Ubuntu release used but only a handful of distributions are
 supported (indexed) by the Erlang Debian packages maintained by Team RabbitMQ:</p>
 <ul>
+<li><span class="code ">jammy</span> for Ubuntu 22.04</li>
 <li><span class="code ">focal</span> for Ubuntu 20.04</li>
 <li><span class="code ">bionic</span> for Ubuntu 18.04</li>
 <li><span class="code ">bionic</span> for Debian Buster and later versions</li>
@@ -945,6 +957,10 @@ with the Launchpad repository.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>Ubuntu 22.04</td>
+<td><span class="code ">jammy</span></td>
+</tr>
 <tr>
 <td>Ubuntu 20.04</td>
 <td><span class="code ">focal</span></td>

@@ -140,9 +140,9 @@ general-purpose protocol for messaging. There are a number of clients
 for RabbitMQ in <a href="https://rabbitmq.com/devtools.html">many different
 languages</a>. We'll
 use the Java client provided by RabbitMQ.</p>
-<p>Download the <a href="https://repo1.maven.org/maven2/com/rabbitmq/amqp-client/5.7.1/amqp-client-5.7.1.jar">client library</a>
-and its dependencies (<a href="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.26/slf4j-api-1.7.26.jar">SLF4J API</a> and
-<a href="https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/1.7.26/slf4j-simple-1.7.26.jar">SLF4J Simple</a>).
+<p>Download the <a href="https://repo1.maven.org/maven2/com/rabbitmq/amqp-client/5.16.0/amqp-client-5.16.0.jar">client library</a>
+and its dependencies (<a href="https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar">SLF4J API</a> and
+<a href="https://repo1.maven.org/maven2/org/slf4j/slf4j-simple/1.7.36/slf4j-simple-1.7.36.jar">SLF4J Simple</a>).
 Copy those files in your working directory, along the tutorials Java files.</p>
 <p>Please note SLF4J Simple is enough for tutorials but you should use a full-blown
 logging library like <a href="https://logback.qos.ch/">Logback</a> in production.</p>
@@ -286,18 +286,18 @@ class</a>.</p>
 <p>You can compile both of these with just the RabbitMQ java client on
 the classpath:</p>
 <pre class="lang-bash">
-javac -cp amqp-client-5.7.1.jar Send.java Recv.java
+javac -cp amqp-client-5.16.0.jar Send.java Recv.java
 </pre>
 
 <p>To run them, you'll need <span class="code ">rabbitmq-client.jar</span> and its dependencies on
 the classpath.  In a terminal, run the consumer (receiver):</p>
 <pre class="lang-bash">
-java -cp .:amqp-client-5.7.1.jar:slf4j-api-1.7.26.jar:slf4j-simple-1.7.26.jar Recv
+java -cp .:amqp-client-5.16.0.jar:slf4j-api-1.7.36.jar:slf4j-simple-1.7.36.jar Recv
 </pre>
 
 <p>then, run the publisher (sender):</p>
 <pre class="lang-bash">
-java -cp .:amqp-client-5.7.1.jar:slf4j-api-1.7.26.jar:slf4j-simple-1.7.26.jar Send
+java -cp .:amqp-client-5.16.0.jar:slf4j-api-1.7.36.jar:slf4j-simple-1.7.36.jar Send
 </pre>
 
 <p>On Windows, use a semicolon instead of a colon to separate items in the classpath.</p>
@@ -321,12 +321,12 @@ rabbitmqctl.bat list_queues
 <h4>Hint</h4>
 <p>To save typing, you can set an environment variable for the classpath e.g.</p>
 <p><pre class="lang-bash">
-export CP=.:amqp-client-5.7.1.jar:slf4j-api-1.7.26.jar:slf4j-simple-1.7.26.jar
+export CP=.:amqp-client-5.16.0.jar:slf4j-api-1.7.36.jar:slf4j-simple-1.7.36.jar
 java -cp $CP Send
 </pre></p>
 <p>or on Windows:
 <pre class="lang-powershell">
-set CP=.;amqp-client-5.7.1.jar;slf4j-api-1.7.26.jar;slf4j-simple-1.7.26.jar
+set CP=.;amqp-client-5.16.0.jar;slf4j-api-1.7.36.jar;slf4j-simple-1.7.36.jar
 java -cp %CP% Send
 </pre></p>
 </blockquote>
