@@ -15,6 +15,7 @@ and the reader is familiar with <a href="./getstarted.html">the basics</a>.</p>
 <ul>
 <li><a href="#dependencies">Dependencies</a></li>
 <li><a href="#major-api-elements">Important interfaces and classes</a> in the public API</li>
+<li><a href="#limitations">Limitations</a></li>
 <li><a href="#connecting">Connecting to RabbitMQ</a></li>
 <li><a href="#connection-and-channel-lifespan">Connection and Channel Lifespan</a></li>
 <li><a href="#client-provided-names">Client-provided connection name</a></li>
@@ -82,6 +83,12 @@ developers to implement workarounds for faults and gaps they
 discover in the library implementation. Applications cannot rely on
 any classes, interfaces, member variables etc. that appear within
 private namespaces remaining stable across releases of the library.</p>
+<h2><a id="limitations" class="anchor" href="#limitations">Limitations</a></h2>
+<p>This client does not support unsigned 64-bit integers, represented in
+type <span class="code ">ulong</span>. Attempting to encode <span class="code ">ulong</span> values will throw an exception.
+Note that signed 64-bit integers are supported.</p>
+<p>This is in part due to type marker <a href="https://www.rabbitmq.com/amqp-0-9-1-errata.html#section_3">ambiguity in the AMQP 0-9-1 spec</a>,
+and in part due to <a href="https://github.com/rabbitmq/rabbitmq-dotnet-client/pull/1299#issuecomment-1433342924">the list of types supported by other popular clients</a>.</p>
 <h2><a id="connecting" class="anchor" href="#connecting">Connecting to RabbitMQ</a></h2>
 <p>Before an application can use RabbitMQ, it has to open a <a href="connections.html">connection</a>
 to a RabbitMQ node. The connection then will be used to perform all subsequent

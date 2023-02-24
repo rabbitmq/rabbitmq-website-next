@@ -51,13 +51,15 @@ it will be refused.</p>
 new user accounts with generated credentials instead.</p>
 <h2><a id="default-state" class="anchor" href="#default-state">Default Virtual Host and User</a></h2>
 <p>When the server first starts running, and detects that its
-database is uninitialised or has been deleted, it
+database is uninitialised or has been reset or deleted (the node is a "blank node"), it
 initialises a fresh database with the following resources:</p>
 <ul>
 <li>a <a href="./vhosts.html">virtual host</a> named <span class="code ">/</span> (a slash)</li>
 <li>a user named <span class="code ">guest</span> with a default password of <span class="code ">guest</span>, granted full access to the <span class="code ">/</span> virtual host</li>
 </ul>
-<p>It is advisable to <a href="#seeding">pre-configure a new user with a generated username and password</a> or <a href="rabbitmqctl.8.html#delete_user">delete</a>
+<p>If a blank node <a href="/definitions.html#import-on-boot-nuances">imports definitions on boot</a>,
+this default user will not be created.</p>
+<p>It is <strong>highly recommended</strong> to <a href="#seeding">pre-configure a new user with a generated username and password</a> or <a href="rabbitmqctl.8.html#delete_user">delete</a>
 the <span class="code ">guest</span> user or at least <a href="rabbitmqctl.8.html#change_password">change its password</a>
 to reasonably secure generated value that won't be known to the public.</p>
 <h2><a id="authentication" class="anchor" href="#authentication">Authentication: Who Do You Say You Are?</a></h2>
