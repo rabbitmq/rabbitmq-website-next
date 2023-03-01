@@ -40,6 +40,7 @@ that make it easier to</p>
 <li><a href="#use-custom-scope-field">Use custom scope field</a></li>
 <li><a href="#use-multiple-asymmetrical-signing-keys">Use multiple asymmetrical signing keys</a></li>
 <li><a href="#use-scope-aliases">Use Scope Aliases</a></li>
+<li><a href="#preferred-username-claims">Preferred username claims</a></li>
 <li><a href="#use-rar-tokens">Use Rich Authorization Requests tokens</a></li>
 </ul>
 </li>
@@ -74,12 +75,18 @@ that make it easier to</p>
 <li>make</li>
 </ul>
 <h2><a id="getting-started-with-uaa-and-rabbitmq" class="anchor" href="#getting-started-with-uaa-and-rabbitmq">Getting started with UAA and RabbitMQ</a></h2>
-<p>Before proceed other more sophisiticated examples, let's start RabbitMQ fully configured with OAuth 2.0 plugin and
-UAA as an OAuth 2.0 Authorization Server.</p>
+<p>Before proceeding with other more sophisticated examples, let's start RabbitMQ configured with OAuth 2.0 plugin and
+<a href="https://docs.cloudfoundry.org/concepts/architecture/uaa.html">UAA</a> as the OAuth 2.0 Authorization Server.</p>
 <p>In the next section, you
 will see how to set up UAA and RabbitMQ. If you are new to OAuth 2.0, it is a good starting point. If you already know OAuth 2.0
-and you want to learn how to configure RabbitMQ to talk to one of Oauth 2.0 server tested on this tutorial, you can jump
-straight to them. They are <a href="use-cases/keycloak.md">KeyCloak</a>, <a href="use-cases/oauth0.md">https://auth0.com/</a> and <a href="use-cases/azure.md">Azure Active Directory</a> in addition to UAA which you will use it in the next sections.</p>
+and you want to learn how to configure RabbitMQ to talk to one of OAuth 2.0 server tested on this tutorial, you can jump
+straight to them. They are:</p>
+<ul>
+<li><a href="use-cases/keycloak.md">KeyCloak</a></li>
+<li><a href="use-cases/oauth0.md">https://auth0.com/</a></li>
+<li><a href="use-cases/azure.md">Azure Active Directory</a></li>
+<li><a href="#uaa-asymmetrical-signing-keys">UAA</a></li>
+</ul>
 <h4><a id="uaa-asymmetrical-signing-keys" class="anchor" href="#uaa-asymmetrical-signing-keys">Use Asymmetrical Digital Singing Keys</a></h4>
 <p>There are two ways to set up OAuth 2.0 in RabbitMQ. One uses symmetrical signing keys. And the other uses
 asymmetrical signing keys. The Authorization server is who digitally signs the Access tokens and RabbitMQ
@@ -546,6 +553,17 @@ make stop-perftest-producer PRODUCER=producer_with_roles
 make stop-perftest-consumer CONSUMER=consumer_with_roles
 </pre>
 
+<h3><a id="preferred-username-claims" class="anchor" href="#preferred-username-claims">Preferred username claims</a></h3>
+<p>RabbitMQ needs to figure out the username associated to the token so that it can display it in the management ui.
+By default, RabbitMQ will first look for the <span class="code ">sub</span> claim and if it is not found it uses the <span class="code ">client_id</span>.</p>
+<p>Most authorization servers return the user's GUID in the <span class="code ">sub</span> claim rather than the actual user's username or email address, anything the user can relate to. When the <span class="code ">sub</span> claim does not carry a <em>user-friendly username</em>, you can configure one or several claims to extract the username from the token.</p>
+<p>Given this configuration:</p>
+<p><span class="code ">...
+  {rabbitmq_auth_backend_oauth2, [
+    {resource_server_id, &lt;&lt;"rabbitmq"&gt;&gt;},
+    {preferred_username_claims, [&lt;&lt;"user_name"&gt;&gt;,&lt;&lt;"email"&gt;&gt;]},
+  ...</span></p>
+<p>RabbitMQ would first look for the <span class="code ">user_name</span> claim and if it is not found it looks for <span class="code ">email</span>. Else it uses its default lookup mechanism which first looks for <span class="code ">sub</span> and then <span class="code ">client_id</span>.</p>
 <h3><a id="use-rar-tokens" class="anchor" href="#use-rar-tokens">Use Rich Authorization Request Tokens</a></h3>
 <p>The <a href="https://oauth.net/2/rich-authorization-requests/">Rich Authorization Request</a> extension provides a way for
 OAuth 2.0 clients to request fine-grained permissions during an authorization request.

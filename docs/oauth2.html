@@ -155,6 +155,10 @@ In that case, the configuration will look like this:</p>
 <td>Configure the plugin to also look in other fields (maps to <span class="code ">additional_rabbitmq_scopes</span> in the old format).</td>
 </tr>
 <tr>
+<td><span class="code ">auth_oauth2.preferred_username_claims</span></td>
+<td>List of JWT claims to look for username associated to the token</td>
+</tr>
+<tr>
 <td><span class="code ">auth_oauth2.default_key</span></td>
 <td>ID of the default signing key.</td>
 </tr>
@@ -201,6 +205,8 @@ In that case, the configuration will look like this:</p>
 <pre class="lang-ini">
 auth_oauth2.resource_server_id = new_resource_server_id
 auth_oauth2.additional_scopes_key = my_custom_scope_key
+auth_oauth2.preferred_username_claims.1 = username
+auth_oauth2.preferred_username_claims.2 = user_name
 auth_oauth2.default_key = id1
 auth_oauth2.signing_keys.id1 = test/config_schema_SUITE_data/certs/key.pem
 auth_oauth2.signing_keys.id2 = test/config_schema_SUITE_data/certs/cert.pem
@@ -266,6 +272,7 @@ the pattern must be <a href="https://en.wikipedia.org/wiki/Percent-encoding">URL
 <li><span class="code ">read:vhost1/*</span>(<span class="code ">read:vhost1/*/*</span>) - read permissions to any resource on the <span class="code ">vhost1</span> vhost</li>
 <li><span class="code ">read:vhost1/some*</span> - read permissions to all the resources, starting with <span class="code ">some</span> on the <span class="code ">vhost1</span> vhost</li>
 <li><span class="code ">write:vhost1/some*/routing*</span> - topic write permissions to publish to an exchange starting with <span class="code ">some</span> with a routing key starting with <span class="code ">routing</span></li>
+<li><span class="code ">read:*/*/*</span> and <span class="code ">write:*/*/*</span> - queue binding permissions required to bind a queue on a topic exchange with any routing key</li>
 </ul>
 <p>See the <a href="https://github.com/rabbitmq/rabbitmq-server/blob/main/deps/rabbitmq_auth_backend_oauth2/test/wildcard_match_SUITE.erl">wildcard matching test suite</a> and <a href="https://github.com/rabbitmq/rabbitmq-server/blob/main/deps/rabbitmq_auth_backend_oauth2/test/scope_SUITE.erl">scopes test suite</a> for more examples.</p>
 <p>Scopes should be prefixed with <span class="code ">resource_server_id</span>. For example,
