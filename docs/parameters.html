@@ -134,7 +134,7 @@ and help determine how they behave. Each exchange or queue
 will have at most one policy matching (see <a href="#combining-policy-definitions">Combining Policy Definitions</a> below),
 and each policy then injects a set of key-value pairs (policy definition) on to the matching
 queues (exchanges).</p>
-<p>Policies can match only queues, only exchanges, or both.
+<p>Policies can match only queues of a specific type, all queues, only exchanges, or all queues and exchanges.
 This is controlled using the <span class="code ">apply-to</span> flag when a policy is created.</p>
 <p>Policies can change at any time. When a policy definition is
 updated, its effect on matching exchanges and queues will be
@@ -219,10 +219,17 @@ virtual host <span class="code ">"/"</span>.</p>
 to match exchange or queue names.</p>
 <p>In the event that more than one policy can match a given
 exchange or queue, the policy with the greatest priority applies.</p>
-<p>The <span class="code ">"apply-to"</span> argument can be <span class="code ">"exchanges"</span>,
-<span class="code ">"queues"</span> or <span class="code ">"all"</span>. The <span class="code ">"apply-to"</span>
-and <span class="code ">"priority"</span> settings are optional, in which case the
-defaults are <span class="code ">"all"</span> and <span class="code ">"0"</span> respectively.</p>
+<p>The <span class="code ">"apply-to"</span> argument can be one of the following:</p>
+<ul>
+<li><span class="code ">"exchanges"</span>, applies to exchanges only</li>
+<li><span class="code ">"queues"</span>, applies to all types of queues, including streams</li>
+<li><span class="code ">"classic_queues"</span>, applies to classic queues only</li>
+<li><span class="code ">"quorum_queues"</span>, applies to quorum queues only</li>
+<li><span class="code ">"streams"</span>, applies to streams only</li>
+<li><span class="code ">"all"</span>, applies to all exchanges and queues (including streams)</li>
+</ul>
+<p>The <span class="code ">"apply-to"</span> and <span class="code ">"priority"</span> settings are optional.
+The default values are <span class="code ">"all"</span> and <span class="code ">"0"</span> respectively.</p>
 <h3><a id="policy-priorities" class="anchor" href="#policy-priorities">Policy Priorities</a></h3>
 <p>Policy <strong>patterns</strong> are matched against exchange and queue <strong>names</strong> to determine what policy (if any)
 should then inject a set of key-value pairs (the definition of that policy) into the <a href="queues.html#optional-arguments">optional arguments</a>
@@ -230,7 +237,7 @@ of matching queues (exchanges).</p>
 <p><strong>At most one policy matches</strong> a queue or exchange. Since multiple policies can match a single
 name, a mechanism is needed to resolve such policy conflicts. This mechanism is called policy priorities.
 Every policy has a a numeric priority associated with it. This priority can be specified when declaring
-a policy. If not explicitly provided, the priority of 1 will be used.</p>
+a policy. If not explicitly provided, the priority of 0 will be used.</p>
 <p>Matching policies are then sorted by priority and the one with the highest priority will take
 effect.</p>
 <p>When multiple policies match an entity and they all have equal priorities, the effective one
