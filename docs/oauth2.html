@@ -17,6 +17,7 @@
 <li><a href="#resource-server-id">Resource Server ID and Scope Prefixes</a></li>
 <li><a href="#token-validation">Token validation</a></li>
 <li><a href="#scope-translation">Scope-to-Permission Translation</a></li>
+<li><a href="#topic-exchange-scopes">Topic Exchange scopes</a></li>
 <li><a href="#use-different-token-field">Using a different token field for the Scope</a></li>
 <li><a href="#use-tokens-with-clients">Using Tokens with Clients</a></li>
 <li><a href="#scope-and-tags">Scope and Tags</a></li>
@@ -278,6 +279,30 @@ the pattern must be <a href="https://en.wikipedia.org/wiki/Percent-encoding">URL
 <p>Scopes should be prefixed with <span class="code ">resource_server_id</span>. For example,
 if <span class="code ">resource_server_id</span> is "my_rabbit", a scope to enable read from any vhost will
 be <span class="code ">my_rabbit.read:*/*</span>.</p>
+<h3><a id="topic-exchange-scopes" class="anchor" href="#topic-exchange-scopes">Topic Exchange scopes</a></h3>
+<p>The <a href="#scope-translation">previous</a> section explained, in detail, how permissions are mapped to scopes. This section explains more specifically what scopes you need in order to operate on <strong>Topic Exchanges</strong>.</p>
+<p>To bind and/or unbind a queue to/from a <strong>Topic Exchange</strong>, you need to have the following scopes:</p>
+<ul>
+<li>
+<p><strong>write</strong> permission on the queue and routing key -&gt; <span class="code ">rabbitmq.write:&lt;vhost&gt;/&lt;queue&gt;/&lt;routingkey&gt;</span></p>
+<blockquote>
+<p>e.g. <span class="code ">rabbitmq.write:*/*/*</span></p>
+</blockquote>
+</li>
+<li>
+<p><strong>read</strong> permission on the exchange and routing key -&gt; <span class="code ">rabbitmq.write:&lt;vhost&gt;/&lt;exchange&gt;/&lt;routingkey&gt;</span></p>
+<blockquote>
+<p>e.g. <span class="code ">rabbitmq.read:*/*/*</span></p>
+</blockquote>
+</li>
+</ul>
+<p>To publish to a <strong>Topic Exchange</strong>, you need to have the following scope:</p>
+<ul>
+<li><strong>write</strong> permission on the exchange and routing key -&gt; <span class="code ">rabbitmq.write:&lt;vhost&gt;/&lt;exchange&gt;/&lt;routingkey&gt;</span><blockquote>
+<p>e.g. <span class="code ">rabbitmq.write:*/*/*</span></p>
+</blockquote>
+</li>
+</ul>
 <h3><a id="use-different-token-field" class="anchor" href="#use-different-token-field">Using a different token field for the Scope</a></h3>
 <p>By default the plugin will look for the <span class="code ">scope</span> key in the token, you can configure the plugin to also look in other fields using the <span class="code ">extra_scopes_source</span> setting. Values format accepted are scope as <strong>string</strong> or <strong>list</strong></p>
 <pre class="lang-erlang">

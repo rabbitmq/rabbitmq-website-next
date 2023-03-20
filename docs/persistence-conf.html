@@ -8,9 +8,7 @@
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>The RabbitMQ persistence layer is intended to provide reasonably good throughput
-in the majority of situations without configuration. However,
-some configuration is sometimes useful. This guide covers a few configurable
+<p>his guide covers a few configurable
 values that affect throughput, latency and I/O characteristics of a node.
 Consider reading the entire guide and get accustomed to <a href="https://rabbitmq.github.io/rabbitmq-perf-test/stable/htmlsingle/">benchmarking with PerfTest</a>
 before drawing any conclusions.</p>
@@ -20,8 +18,75 @@ before drawing any conclusions.</p>
 <li><a href="./relocate.html">File and Directory Locations</a></li>
 <li><a href="./runtime.html">Runtime Tuning</a></li>
 <li><a href="./queues.html#runtime-characteristics">Queues</a> and their runtime characteristics</li>
+<li><a href="./quorum-queues.html">Quorum Queues</a></li>
+<li><a href="./streams.html">Streams</a></li>
 </ul>
-<h2><a id="how-it-works" class="anchor" href="#how-it-works">How Persistence Works</a></h2>
+<h2><a id="overview" class="anchor" href="#overview">Overview of Peristence in RabbitMQ</a></h2>
+<p>Modern RabbitMQ versions provide several queue types plus streams:</p>
+<ul>
+<li><a href="./quorum-queues.html">Quorum queues</a>: replicated, durable, data-safety oriented</li>
+<li><a href="./streams.html">Streams</a>: a replicated, durable data structure that supports different operations (than a queue)</li>
+<li>Classic queues: the original queue type, oriented towards non-mirrored queue use cases (mirroring is deprecated)</li>
+</ul>
+<p>These queue types have different storage implementations and applicable configuration
+settings that can be tuned are also different.</p>
+<h2><a id="streams" class="anchor" href="#streams">Streams</a></h2>
+<p>Streams use a log-based storage mechanism and keep very little data in memory
+(primarily the operational data that has not yet been written to disk).
+Nonetheless they offer excellent throughput when clients use the <a href="./stream.html">RabbitMQ Stream Protocol</a>.</p>
+<p>Since streams are very disk I/O heavy, their throughput degrades with larger messages.
+They benefit greatly from modern SSD and NVMe storage.</p>
+<p>Streams offer no tunable storage parameters related to storage.</p>
+<h2><a id="quorum-queues" class="anchor" href="#quorum-queues">Quorum Queues</a></h2>
+<p>Quorum queues use a log-based storage mechanism implemented by RabbitMQ's Raft
+implementation. They keep very little data in memory
+(primarily the operational data that has not yet been written to disk).</p>
+<p>As quorum queues persist all data to disks before doing anything it is recommended
+to use the fastest disks possible.</p>
+<p>Due to the disk I/O-heavy nature of quorum queues, their throughput decreases
+as message sizes increase.</p>
+<p>The primary storage-related setting that can affect quorum queue resource use
+is the write-ahead log segment size limit, the limit at which WAL in-memory
+table will be moved to disk. In other words, every quorum queue would be able to
+keep up to this much message data in memory under steady load.</p>
+<p>The limit can be controlled</p>
+<pre class="lang-ini">
+# Flush current WAL file to a segment file on disk once it reaches 32 MiB in size
+raft.wal_max_size_bytes = 32000000
+</pre>
+
+<p>Because memory deallocation may take some time,
+we recommend that the RabbitMQ node is allocated at least 3 times the memory of the default WAL file size limit.
+More will be required in high-throughput systems.
+4 times is a good starting point for those.</p>
+<h2><a id="classic-queues" class="anchor" href="#classic-queues">Classic Queues</a></h2>
+<p>Classic queues have two storage implementations available to them: v1 (the original
+one) and v2 (available in RabbitMQ 3.10 and later versions).</p>
+<h3><a id="queue-version" class="anchor" href="#queue-version">Queue Version</a></h3>
+<p>Since <strong>RabbitMQ 3.10.0</strong>, the broker has a new implementation of
+classic queues, named <strong>version 2</strong>. Version 2 queues have a new
+index file format and implementation as well as a new per-queue
+storage file format to replace the embedding of messages directly
+in the index.</p>
+<p>The main improvement from version 2 is improved stability while
+under high memory pressure.</p>
+<p>In <strong>RabbitMQ 3.10.0</strong> version 1 remains the default. It is possible
+to switch back and forth between version 1 and version 2.</p>
+<p>The version can be changed using the <span class="code ">queue-version</span> <a href="./parameters.html#policies">policy</a> key.
+When setting a new version via policy the queue will immediately
+convert its data on disk. It is possible to upgrade to version 2
+or downgrade to version 1. Note that for large queues the conversion
+may take some time and results in the queue being unavailable while
+the conversion is running.</p>
+<p>The default version can be set through configuration by setting
+<span class="code ">classic_queue.default_version</span> in <span class="code ">rabbitmq.conf</span>:</p>
+<pre class="lang-ini">
+# makes classic queues use a more efficient message storage
+# and queue index implementations
+classic_queue.default_version = 2
+</pre>
+
+<h2><a id="cq-v1" class="anchor" href="#cq-v1">How Classic Queue v1 Persistence Overview</a></h2>
 <p>First, some background: both persistent and transient messages
 can be written to disk. Persistent messages will be written to
 disk as soon as they reach the queue, while transient messages
@@ -58,24 +123,6 @@ memory:</p>
    index uses a small amount of memory for every message in the
    store.</li>
 </ul>
-<h3><a id="queue-version" class="anchor" href="#queue-version">Queue Version</a></h3>
-<p>Since <strong>RabbitMQ 3.10.0</strong>, the broker has a new implementation of
-classic queues, named <strong>version 2</strong>. Version 2 queues have a new
-index file format and implementation as well as a new per-queue
-storage file format to replace the embedding of messages directly
-in the index.</p>
-<p>The main improvement from version 2 is improved stability while
-under high memory pressure.</p>
-<p>In <strong>RabbitMQ 3.10.0</strong> version 1 remains the default. It is possible
-to switch back and forth between version 1 and version 2.</p>
-<p>The version can be changed using the <span class="code ">queue-version</span> policy.
-When setting a new version via policy the queue will immediately
-convert its data on disk. It is possible to upgrade to version 2
-or downgrade to version 1. Note that for large queues the conversion
-may take some time and results in the queue being unavailable while
-the conversion is running.</p>
-<p>The default version can be set through configuration by setting
-<span class="code ">classic_queue.default_version</span> in rabbitmq.conf.</p>
 <h3><a id="index-embedding" class="anchor" href="#index-embedding">Message Embedding in Queue Indices</a></h3>
 <p>There are advantages and disadvantages to writing messages to
 the queue index.</p>
@@ -135,37 +182,10 @@ which file handles are recycled in this way. A busy server with
 too few file handles might be doing hundreds of reopens per
 second - in which case its performance is likely to increase
 notably if given more file handles.</p>
-<h3><a id="async-threads" class="anchor" href="#async-threads">I/O Thread Pool Size</a></h3>
-<p><a href="./runtime.html">The runtime</a> uses a pool threads to handle
-long-running file I/O operations. These are shared among all virtual hosts and queues.
-Every active file I/O operation uses one async thread while it is occurring.
-Having too few async threads can therefore hurt performance.</p>
-<p>Note that the situation with async threads is not exactly
-analogous to the situation with file handles. If a queue
-executes a number of I/O operations in sequence it will perform
-best if it holds onto a file handle for all the operations;
-otherwise we may flush and seek too much and use additional CPU
-orchestrating it. However, queues do not benefit from holding an
-async thread across a sequence of operations (in fact they
-cannot do so).</p>
-<p>Therefore there should ideally be enough file handles for all
-the queues that are executing streams of I/O operations, and
-enough async threads for the number of simultaneous I/O
-operations your storage layer can plausibly execute.</p>
-<p>It's less obvious when a lack of async threads is causing
-performance problems. (It's also less likely in general; check
-for other things first!) Typical symptoms of too few async
-threads include the number of I/O operations per second dropping
-to zero (as reported by the management plugin) for brief periods
-when the server should be busy with persistence, while the
-reported time per I/O operation increases.</p>
-<p>The number of async threads is configured by the <span class="code ">+A</span>
-<a href="./runtime.html">runtime flag</a>. It is likely to be a good idea to experiment
-with several different values before changing this.</p>
-<h2><a id="msg-store-index-implementations" class="anchor" href="#msg-store-index-implementations">Alternate Message Store Index Implementations</a></h2>
+<h2><a id="msg-store-index-implementations" class="anchor" href="#msg-store-index-implementations">Classic Queues v1: Alternate Message Store Index Implementations</a></h2>
 <p>As mentioned above, each message which is written to the message
 store uses a small amount of memory for its index entry. The
-message store index is pluggable in RabbitMQ, and other
+message store index used by classic queues v1 is pluggable in RabbitMQ, and other
 implementations are available as plugins which can remove this
 limitation.</p>
 <p>The reason they are not shipped with the RabbitMQ distribution is

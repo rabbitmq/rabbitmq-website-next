@@ -23,7 +23,7 @@ including workload-specific ones, e.g. when consumers <a href="#repeated-requeue
 to quorum queues.</p>
 <p>For cases that would benefit from replication and repeatable reads, <a href="streams.html">streams</a> may
 be a better option than quorum queues.</p>
-<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<h2><a id="toc" class="anchor" href="#toc">Topics Covered</a></h2>
 <p>Topics covered in this guide include</p>
 <ul>
 <li><a href="#motivation">What are quorum queues</a> and why they were introduced</li>
@@ -45,6 +45,9 @@ that users should find easier to reason about when designing and operating their
 <p>These design choices come with constraints. To reach this goal, quorum queues adopt a different replication
 and consensus protocol and give up support for certain "transient" in nature features.
 These constraints and limitations are covered later in this guide.</p>
+<p>Quorum queues pass a <a href="https://github.com/rabbitmq/jepsen#jepsen-tests-for-rabbitmq">refactored and more demanding version</a> of the <a href="https://aphyr.com/posts/315-jepsen-rabbitmq#rabbit-as-a-queue">original Jepsen test</a>.
+This ensures they behave as expected under network partitions and failure scenarios.
+The new test runs continuously to spot possible regressions and is enhanced regularly to test new features (e.g. <a href="#dead-lettering">dead lettering</a>).</p>
 <h3><a id="what-is-quorum" class="anchor" href="#what-is-quorum">What is a Quorum?</a></h3>
 <p>If intentionally simplified, <a href="https://en.wikipedia.org/wiki/Quorum_(distributed_computing)">quorum</a> in a distributed system can
 be defined as an agreement between the majority of nodes (<span class="code ">(N/2)+1</span> where <span class="code ">N</span> is the total number of
@@ -126,7 +129,7 @@ A client library that can use regular mirrored queues will be able to use quorum
 <tr>
 <td align="left"><a href="./lazy-queues.html">Lazy behaviour</a></td>
 <td align="left">yes</td>
-<td>always (since 3.10) or through the <a href="#memory-limit">Memory Limit</a> feature (before 3.10)</td>
+<td>always (since 3.10)</td>
 </tr>
 <tr>
 <td align="left"><a href="./priority.html">Message priority</a></td>
@@ -722,19 +725,6 @@ footprint can reach 512 MiB. You can expect your memory usage to look like this:
 <p>Because memory deallocation may take some time,
 we recommend that the RabbitMQ node is allocated at least 3 times the memory of the default WAL file size limit.
 More will be required in high-throughput systems. 4 times is a good starting point for those.</p>
-<h3><a id="memory-limit" class="anchor" href="#memory-limit">Configuring Per Queue Memory Limit</a></h3>
-<p>Before RabbitMQ 3.10 it was possible to limit the amount of memory each quorum queue will use for storing message bodies.
-Note that these limits are different from those of the <a href="#resource-use">in-memory Raft WAL table</a> and <a href="./maxlength.html">queue length limits</a>.
-Starting from 3.10, quorum queues do not keep message bodies in memory.</p>
-<p>The limit is controlled using <a href="./queues.html#optional-arguments">optional queue arguments</a>
-that are best configured using a <a href="./parameters.html#policies">policy</a>.</p>
-<ul>
-<li><span class="code ">x-max-in-memory-length</span> sets a limit as a number of messages. Must be a non-negative integer.</li>
-<li><span class="code ">x-max-in-memory-bytes</span> sets a limit as the total size of message bodies (payloads), in bytes. Must be a non-negative integer.</li>
-</ul>
-<p>Since RabbitMQ 3.10 these settings are deprecated.
-They can still be set but have no effect.
-The new behaviour is effectively the same as setting <span class="code ">x-max-in-memory-length=0</span> keeping no message bodies in memory.</p>
 <h3><a id="repeated-requeues" class="anchor" href="#repeated-requeues">Repeated Requeues</a></h3>
 <p>Internally quorum queues are implemented using a log where all operations including
 messages are persisted. To avoid this log growing too large it needs to be
@@ -743,7 +733,7 @@ in that section needs to be acknowledged. Usage patterns that continuously
 <a href="./nack.html">reject or nack</a> the same message with the <span class="code ">requeue</span> flag set to true
 could cause the log to grow in an unbounded fashion and eventually fill
 up the disks.</p>
-<p>Since RabbitMQ 3.10 messages that are rejected or nacked back to a quorum queue will be
+<p>Messages that are rejected or nacked back to a quorum queue will be
 returned to the <em>back</em> of the queue <em>if</em> no <a href="#poison-message-handling">delivery-limit</a> is set. This avoids
 the above scenario where repeated re-queues causes the Raft log to grow in an
 unbounded manner. If a <span class="code ">delivery-limit</span> is set it will use the original behaviour

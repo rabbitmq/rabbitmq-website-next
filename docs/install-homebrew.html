@@ -30,7 +30,7 @@ brew install rabbitmq
 or <span class="code ">/opt/homebrew/Cellar/rabbitmq/{version}/</span> for Apple Silicon Macs.</p>
 <p>They should be accessible from <span class="code ">/usr/local/opt/rabbitmq/sbin</span> for for Intel Macs or <span class="code ">/opt/homebrew/opt/rabbitmq/sbin</span> for Apple Silicon Macs.
 Links to binaries have been created under <span class="code ">/usr/local/sbin</span> for Intel Macs or <span class="code ">/opt/homebrew/sbin</span> for Apple Silicon ones.</p>
-<p>To find out locations for your installation, use</p>
+<p>To find out locations for your installation, use:</p>
 <pre class="lang-bash">
 brew info rabbitmq
 </pre>
@@ -40,18 +40,18 @@ brew info rabbitmq
 <p>Unlike some other installation methods, namely the <a href="./install-debian.html">Debian</a> and <a href="./install-rpm.html">RPM packages</a>, RabbitMQ
 Homebrew formula uses <a href="./install-generic-unix.html">generic UNIX binary builds</a> and does not require <span class="code ">sudo</span>.</p>
 <h4>Starting the Server</h4>
-<p>To start a node in the foreground, run</p>
+<p>To start a node in the foreground, run:</p>
 <pre class="lang-bash">
 CONF_ENV_FILE="/opt/homebrew/etc/rabbitmq/rabbitmq-env.conf" /opt/homebrew/opt/rabbitmq/sbin/rabbitmq-server
 </pre>
 
-<p>To start a node in the background, use <span class="code ">brew service start</span>:</p>
+<p>To start a node in the background, use <span class="code ">brew services start</span>:</p>
 <pre class="lang-bash">
 brew services start rabbitmq
 </pre>
 
 <h4>Stopping the Server</h4>
-<p>To stop a running node, use</p>
+<p>To stop a running node, use:</p>
 <pre class="lang-bash">
 brew services stop rabbitmq
 </pre>
@@ -62,10 +62,10 @@ brew services stop rabbitmq
 </pre>
 
 <p>The command will wait for the node process to stop. If the target node is not running,
-it will exit with an error.</p>
+it will exit with a warning.</p>
 <h4>Configuring the Server</h4>
 <p>File and directory locations used by Homebrew differ from Intel Macs to Apple Silicon ones.
-To find out locations for your installation, use</p>
+To find out locations for your installation, use:</p>
 <pre class="lang-bash">
 brew info rabbitmq
 </pre>
@@ -77,7 +77,7 @@ The file does not exist by default and can be created.</p>
 <p>See RabbitMQ <a href="configure.html">configuration guide</a> to learn more.</p>
 <h2><a id="cli" class="anchor" href="#cli"></a></h2>
 <p>The formula sets up links to CLI tools under <span class="code ">/usr/local/sbin</span> for Intel Macs or <span class="code ">/opt/homebrew/sbin</span> for Apple Silicon Macs.</p>
-<p>In case that directory is not in <span class="code ">PATH</span> it's recommended to append it:</p>
+<p>In case that directory is not in <span class="code ">PATH</span>, it is recommended to append it:</p>
 <pre class="lang-bash">
 # for macOS Intel
 export PATH=$PATH:/usr/local/sbin
