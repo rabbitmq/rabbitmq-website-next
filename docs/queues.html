@@ -34,7 +34,8 @@ Streams provide different features from queues.</p>
 <li><a href="#ttl-and-limits">TTL</a> and length limits</li>
 <li><a href="#priorities">Priority queues</a></li>
 </ul>
-<p>For topics related to consumers, see the <a href="consumers.html">Consumers guide</a>. <a href="quorum-queues.html">Quorum queues</a>
+<p>For topics related to consumers, see the <a href="consumers.html">Consumers guide</a>.
+<a href="classic-queues.html">Classic queues</a>, <a href="quorum-queues.html">quorum queues</a>
 and <a href="streams.html">streams</a> also have dedicated guides.</p>
 <h2><a id="basics" class="anchor" href="#basics">The Basics</a></h2>
 <p>A <a href="https://en.wikipedia.org/wiki/Queue_(abstract_data_type)">queue</a> is a sequential data structure
@@ -100,7 +101,7 @@ field name in the AMQP 0-9-1 protocol, is a map (dictionary) of arbitrary key/va
 pairs that can be provided by clients when a queue is declared.</p>
 <p>The map is used by various features and plugins such as</p>
 <ul>
-<li>Queue type (e.g. <a href="quorum-queues.html">quorum</a> or classic)</li>
+<li>Queue type (e.g. <a href="quorum-queues.html">quorum</a> or <a href="classic-queues.html">classic</a>)</li>
 <li><a href="ttl.html">Message and queue TTL</a></li>
 <li><a href="maxlength.html">Queue length limit</a></li>
 <li>Max number of <a href="priority.html">priorities</a></li>

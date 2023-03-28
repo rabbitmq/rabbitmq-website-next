@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Classic Queues
+ — RabbitMQ</title></head>
+  <body id="classic-queues"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Classic Queues
+</h1>
+
+
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>The classic queue is the original queue type provided by RabbitMQ.
+It is an implementation of a <strong>non-replicated</strong> FIFO queue.</p>
+<p>Classic queues are a versatile queue type suitable for many use cases
+where data safety is not a top priority, because the data stored in
+classic queues is not replicated. If data safety is important,
+we recommend using <a href="./quorum-queues.html">quorum queues</a> and <a href="./streams.html">streams</a>.</p>
+<p>Classic queues is the default queue type
+as long as the default queue type is not overriden for the virtual host.</p>
+<p>There are <a href="#versions">two versions</a> (implementations) of classic queue message storage
+and indexing.
+The version only impacts how the data is stored on and read from disk: all features are
+available in both versions.</p>
+<h2><a id="features" class="anchor" href="#features">Features</a></h2>
+<p>Classic queues fully support <a href="queues.html">queue exclusivity</a>,
+<a href="./ttl.html">queue and message TTL (Time-To-Live)</a>,
+<a href="./maxlength.html">queue length limits</a>,
+<a href="./priority.html">message priority</a>,
+<a href="./consumer-priority.html">consumer priority</a>
+and adhere to settings <a href="./parameters.html#policies">controlled using policies</a>.</p>
+<p>Classic queues support <a href="./dlx.html">dead letter exchanges</a> with
+the exception of <a href="./quorum-queues.html#dead-lettering">at-least-once dead-lettering</a>.</p>
+<p>Classic queues do not support <a href="https://en.wikipedia.org/wiki/Poison_message">poison message handling</a>,
+unlike <a href="./quorum-queues.html">quorum queues</a>. Classic queues also do not
+support at-least-once dead-lettering, suported by quorum queues.</p>
+<p><a href="./consumer-prefetch.html">Per-consumer QoS prefetch</a> should be
+preferred over global QoS prefetch, even though classic queues support
+both options. Global QoS prefetch is a deprecated feature that will be
+removed in <strong>RabbitMQ 4.0</strong>.</p>
+<p>While classic queues can be declared as transient, this makes queue
+removal difficult to reason about in case of node restarts during upgrades and such,
+so the use of transient queues is discouraged. Support for transient queues
+is deprecated and will be removed in <strong>RabbitMQ 4.0</strong>.</p>
+<p>Classic queues can be mirrored across multiple nodes in the
+cluster. This functionality is deprecated and will be removed
+in <strong>RabbitMQ 4.0</strong>. <a href="./quorum-queues.html">Quorum queues</a>
+and <a href="./streams.html">streams</a> provide a better alternative when high availability and
+data safety is required.</p>
+<p>Until <strong>RabbitMQ 3.12</strong>, classic queues could operate in <strong>lazy mode</strong>.
+As of RabbitMQ 3.12 the queue mode is ignored and classic queues
+behave in a similar manner to lazy queues. They only keep a small
+number of messages in memory based on the consumption rate;
+all other messages are written to disk directly.</p>
+<h2><a id="persistence" class="anchor" href="#persistence">Persistence (Durable Storage) in Classic Queues</a></h2>
+<p>Classic queues use an on-disk index for storing message locations on disk
+as well as a message store for persisting messages.</p>
+<p>Both <a href="./publishers.html#message-properties">persistent and transient messages</a>
+are always persisted to disk except when:</p>
+<ul>
+<li>the queue is declared as transient or messages are transient</li>
+<li>messages are smaller than the embedding threshold (defaults to 4096 bytes)</li>
+<li>for <strong>RabbitMQ 3.12</strong> and later versions: the queue is short (queues may
+   keep up to 2048 messages in memory at most, depending on the consumer delivery rate)</li>
+</ul>
+<p>In general messages are not kept in memory unless the rate of
+consumption of messages is high enough that the messages that
+are in memory are expected to be consumed within the next
+second. Classic queues keep up to 2048 messages in memory,
+depending on the consumer delivery rate. Larger messages are not read
+into memory until the moment when they have to be sent to consumers.</p>
+<p>Persisted messages may be <strong>embedded</strong> in the queue or sent
+to a <strong>shared message store</strong>. The decision to store messages
+in the queue or in the shared message store is based on the
+size of the message, including headers. The shared message
+store is more efficient at handling larger messages,
+particularly when those messages are sent to multiple
+queues.</p>
+<p>The message location is written in the queue's index.
+Each queue has one index. The queue is responsible for
+tracking messages location as well as their position
+in the queue, and it persists this information in the
+index.</p>
+<p>Embedded messages are written in its queue index when
+using classic queues version 1; and in its
+<strong>per-queue message store</strong> when using classic
+queues version 2.</p>
+<p>Larger messages are written to a shared message store.
+Each vhost has two such stores: one for persistent
+messages and one for transient messages, but they
+are usually considered together as the shared message
+store. All queues in the vhost use the same message
+store.</p>
+<h2><a id="versions" class="anchor" href="#versions">Storage Implementation Versions</a></h2>
+<p>There are currently two classic queue versions (implementation).
+Depending on the version, classic queues will
+use a different index for messages, as well
+as operate differently regarding the embedding of small messages in
+the index.</p>
+<h4>Version 1</h4>
+<p>Version 1 is the default and the original implementation of classic
+queues. The index in version 1 uses a combination of a journal and
+segment files. When reading messages from segment files it loads
+an entire segment file in memory, which can lead to memory issues
+but does reduce the amount of I/O performed. Version 1 embeds
+small messages in the index, further worsening memory issues.</p>
+<h3>Version 2</h3>
+<p>Version 2 takes advantage of the improved performance of modern
+storage devices and is the recommended version. The index in
+version 2 only uses segment files and only loads messages from
+disk when necessary. It will load more messages based on the
+current consumption rate. Version 2 does not embed messages
+in its index, instead a per-queue message store is used.</p>
+<p>Version 2 was added in <strong>RabbitMQ 3.10.0</strong> and was significantly
+improved in <strong>RabbitMQ 3.12.0</strong>. It is currently possible to
+switch back and forth between version 1 and version 2. In the future,
+version 1 will be removed and the migration to version 2 will be performed
+automatically on node startup after the upgrade.</p>
+<p>The version can be changed using the <span class="code ">queue-version</span> policy key.
+When setting a new version via policy the queue will immediately
+convert its data on disk. It is possible to upgrade to version 2
+or downgrade to version 1. Note that for large queues the conversion
+may take some time and results in the queue being unavailable while
+the conversion is running. As a point of reference, on our test machine,
+the migration takes:</p>
+<ul>
+<li>2 seconds to migrate 1000 queues with 1000 100-byte messages each</li>
+<li>9 seconds to migrate a queue with 1 million 100-byte messages</li>
+<li>3 seconds to migrate a queue with 1 million 5000-byte messages
+  (with the default embedding size of 4096 bytes, 5000-byte
+  messages are in the message store so there is less data to migrate)</li>
+</ul>
+<p>Given the numbers above, unless there is a lot of queues with a lot of messages,
+the migration should complete in a matter of seconds.</p>
+<p>The default version can be set through configuration by setting
+<span class="code ">classic_queue.default_version</span> in rabbitmq.conf. Changing the default version
+only affects newly declared queues. Pre-existing queues will remain on version 1,
+until explicitly migrated or deleted and redeclared.</p>
+<h2><a id="resource-use" class="anchor" href="#resource-use">Resource Use</a></h2>
+<p>Classic queues aim to provide reasonably good throughput in the majority
+of situations without configuration. However, some configuration is
+sometimes useful. This section covers a few configurable values that
+affect stability, throughput, latency and I/O characteristics of a node.
+Consider getting accustomed to <a href="https://rabbitmq.github.io/rabbitmq-perf-test/stable/htmlsingle/">benchmarking with PerfTest</a>
+in addition to get the most out of your queues.</p>
+<p>Some related guides include:</p>
+<ul>
+<li><a href="configure.html">Main configuration guide</a></li>
+<li><a href="./relocate.html">File and Directory Locations</a></li>
+<li><a href="./runtime.html">Runtime Tuning</a></li>
+<li><a href="./queues.html#runtime-characteristics">Queues</a> and their runtime characteristics</li>
+<li><a href="./lazy-queues.html">Lazy Queues</a> for <strong>RabbitMQ before 3.12</strong></li>
+</ul>
+<h3><a id="file-handles" class="anchor" href="#file-handles">File Handles</a></h3>
+<p>The RabbitMQ server is limited in the <a href="./networking.html#open-file-handle-limit">number of file handles</a>
+it can open. Every running network connection requires one file handle,
+and the rest are available for queues to use.</p>
+<p>Classic queues behave differently with regard to file handle
+usage depending on the version used.</p>
+<p>Version 1 tries to avoid running out of file descriptors.
+If there are more disk-accessing queues than
+file handles after network connections have been taken into
+account, then the disk-accessing queues will share the file
+handles among themselves; each gets to use a file handle for a
+while before it is taken back and given to another queue.</p>
+<p>This prevents the server from crashing due to there being too
+many disk-accessing queues, but it can become expensive. The
+management plugin can show I/O statistics for each node in the
+cluster; as well as showing rates of reads, writes, seeks and so
+on it will also show a rate of file handle churn — the rate at
+which file handles are recycled in this way. A busy server with
+too few file handles might be doing hundreds of reopens per
+second - in which case its performance is likely to increase
+notably if given more file handles.</p>
+<p>Version 2 does not try to accomodate for low numbers of file
+descriptors anymore. It expects servers to have a large file
+descriptor limit configured and to always be able to open a
+new file handle when necessary. The index keeps up to 4 file
+handles open at any time, and the per-queue store keeps 1
+file handle open but may open another one when flushing data
+to disk. This means that each queue needs up to 6 file
+descriptors available to properly function, in theory. In
+practice only busy queues will need that many; other queues
+will function just fine with 3 or 4 file handles.</p>
+<p>As a result of not using the file handle management subsystem,
+version 2 does not track as many I/O statistics; only the numbers
+of reads and writes. Other metrics can be obtained at the OS level.</p>
+<h3><a id="memory" class="anchor" href="#memory">Memory Footprint</a></h3>
+<p>Classic queues may keep up to 2048 messages in memory, depending
+on the consume rate. Classic queues will, however, avoid reading
+larger messages from disk too early. In <strong>RabbitMQ 3.12</strong> this
+means messages larger than the embedded threshold (by default, 4096 bytes).</p>
+<p>The index in version 1 has to read entire segment files in order
+to access the messages inside. This can lead to memory usage spikes,
+especially when many messages are embedded. This also leads to
+spikes in CPU usage due to increased garbage collection. In addition,
+the index will buffer writes and keep data up to 1MB in memory
+before flushing to disk.</p>
+<p>The index and per-queue store in version 2 will buffer entries.
+This is typically not a concern as far as the index is concerned
+since it only tracks metadata. The per-queue store will however
+use up to 1MB of memory by default (512KB in the write buffer
+and 512KB in a cache). When flushing to disk the store will
+first clear the cache then move the messages in the write buffer
+to the cache, effectively replacing the data in the cache with
+the data in the write buffer. The size of the write buffer and
+the cache are therefore linked. It can be configured using the
+advanced config via rabbit's <span class="code ">classic_queue_store_v2_max_cache_size</span>
+parameter.</p>
+<p>Idle queues will reduce their memory usage. This can sometimes
+result in surprising spikes when performing operations that
+affect many queues, such as defining new policies. In that case
+the queues will need to allocate more memory again. The more
+queues, the bigger the spike should be expected.</p>
+<p>The shared message store needs an index. The default message store
+index uses a small amount of memory for every message in the store.</p>
+<h2><a id="msg-store-index-implementations" class="anchor" href="#msg-store-index-implementations">Alternate Message Store Index Implementations</a></h2>
+<p>As mentioned above, each message which is written to the message
+store uses a small amount of memory for its index entry. The
+message store index is pluggable in RabbitMQ, and other
+implementations are available as plugins which can remove this
+limitation.</p>
+<p>The reason they are not shipped with the RabbitMQ distribution is
+that they all use native code. Note that such plugins typically
+make the message store run more slowly.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
+          <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
+          <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-html, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

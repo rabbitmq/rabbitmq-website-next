@@ -17,7 +17,15 @@ and is also replicated.</p>
 Classic queue mirroring will be <strong>removed in a future version</strong> of RabbitMQ:
 classic queues will remain a supported non-replicated queue type.</p>
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>Classic queues can operate in <strong>lazy mode</strong>: that is,
+<p>Until <strong>RabbitMQ 3.12</strong>, classic queues could operate in <strong>lazy mode</strong>.
+As of RabbitMQ 3.12 the queue mode is ignored and classic queues
+behave in a similar manner to lazy queues. They may however
+keep a small number of messages in memory (up to 2048 at the
+time of writing) based on the consumption rate.</p>
+<p>We recommend users of <strong>RabbitMQ 3.11</strong> and below to either
+upgrade to <strong>RabbitMQ 3.12</strong> or enable <strong>lazy mode</strong> to avoid
+running into memory issues.</p>
+<p>Classic queues operating in <strong>lazy mode</strong>
 move their contents to disk as early as practically possible,
 and only load them in RAM when requested by consumers,
 therefore the lazy denomination.</p>
