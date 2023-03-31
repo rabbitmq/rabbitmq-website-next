@@ -205,7 +205,7 @@ rabbitmq-diagnostics status --erlang-cookie "cookie-value"
 </pre>
 
 <p>Both are <strong>the least secure options</strong> and generally <strong>not recommended</strong>.</p>
-<h3>Troubleshooting</h3>
+<h3><a id="cookie-file-troubleshooting" class="anchor" href="#cookie-file-troubleshooting">Troubleshooting</a> Cookie-based Authentication</h3>
 <p>When a node starts, it will <a href="./logging.html">log</a> the home directory location of its effective user:</p>
 <pre class="lang-plaintext">
 node           : rabbit@cdbf4de5f22d
@@ -245,17 +245,6 @@ more information and cookie mismatches can be identified better:</p>
 </pre>
 
 <p>See the <a href="./cli.html">CLI Tools guide</a> for more information.</p>
-<h3><a id="cookie-file-troubleshooting" class="anchor" href="#cookie-file-troubleshooting">Troubleshooting</a> Cookie-based Authentication</h3>
-<h4>Server Nodes</h4>
-<p>When a node starts, it will <a href="./logging.html">log</a> the home directory location of its effective user:</p>
-<pre class="lang-plaintext">
-node           : rabbit@cdbf4de5f22d
-home dir       : /var/lib/rabbitmq
-</pre>
-
-<p>Unless any <a href="./relocate.html">server directories</a> were overridden, that's the directory where
-the cookie file will be looked for, and created by the node on first boot if it does not already exist.</p>
-<p>In the example above, the cookie file location will be <span class="code ">/var/lib/rabbitmq/.erlang.cookie</span>.</p>
 <h4>Hostname Resolution</h4>
 <p>Since hostname resolution is a <a href="#hostname-resolution-requirement">prerequisite for successful inter-node communication</a>,
 starting with <a href="./changelog.html">RabbitMQ <span class="code ">3.8.6</span></a>, CLI tools provide two commands that help verify

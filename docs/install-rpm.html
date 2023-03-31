@@ -9,8 +9,8 @@
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>This guide covers RabbitMQ installation on RPM-based Linux (Red Hat Enterprise Linux, CentOS Stream, Fedora, openSUSE).</p>
-<p>RabbitMQ is included in standard Fedora and RHEL repositories.
-However, the versions included are
+<p>RabbitMQ is included in standard Fedora and RHEL repositories.</p>
+<p>With the <a href="https://packages.fedoraproject.org/pkgs/rabbitmq-server/rabbitmq-server/">exception of Fedora</a>, the versions included can be
 many releases behind <a href="changelog.html">latest RabbitMQ releases</a>
 and may provide RabbitMQ versions that are already <a href="versions.html">out of support</a>.</p>
 <p>Team RabbitMQ produces our own RPM packages and distributes them <a href="#apt-cloudsmith">using Cloudsmith</a> and <a href="#apt-packagecloud">PackageCloud</a>.</p>
@@ -511,7 +511,7 @@ yum install socat logrotate -y
 
 # This example assumes the CentOS Stream 8 version of the package, suitable for
 # Red Hat 8, CentOS Stream 9, CentOS Stream 8 and modern Fedora releases.
-yum install rabbitmq-server-3.11.11-1.el8.noarch.rpm
+yum install rabbitmq-server-3.11.13-1.el8.noarch.rpm
 </pre>
 
 <p><a href="signatures.html">RabbitMQ public signing key</a> can also be <a href="https://www.rabbitmq.com/rabbitmq-release-signing-key.asc">downloaded from rabbitmq.com</a>:</p>
@@ -523,7 +523,7 @@ yum install socat logrotate -y
 
 # This example assumes the CentOS 8 version of the package, suitable for
 # Red Hat 8, CentOS Stream 9, CentOS Stream 8 and modern Fedora releases.
-yum install rabbitmq-server-3.11.11-1.el8.noarch.rpm
+yum install rabbitmq-server-3.11.13-1.el8.noarch.rpm
 </pre>
 
 <h2><a id="downloads" class="anchor" href="#downloads">Download the Server</a></h2>
@@ -541,10 +541,10 @@ from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>.<
       RPM for RHEL Linux 8.x, CentOS Stream 9, CentOS 8.x, Fedora 32+ (supports systemd)
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.11/rabbitmq-server-3.11.11-1.el8.noarch.rpm">rabbitmq-server-3.11.11-1.el8.noarch.rpm</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.13/rabbitmq-server-3.11.13-1.el8.noarch.rpm">rabbitmq-server-3.11.13-1.el8.noarch.rpm</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.11/rabbitmq-server-3.11.11-1.el8.noarch.rpm.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.13/rabbitmq-server-3.11.13-1.el8.noarch.rpm.asc">Signature</a>
     </td>
   </tr>
 
@@ -553,10 +553,10 @@ from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>.<
       RPM for openSUSE Linux
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.11/rabbitmq-server-3.11.11-1.suse.noarch.rpm">rabbitmq-server-3.11.11-1.suse.noarch.rpm</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.13/rabbitmq-server-3.11.13-1.suse.noarch.rpm">rabbitmq-server-3.11.13-1.suse.noarch.rpm</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.11/rabbitmq-server-3.11.11-1.suse.noarch.rpm.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.13/rabbitmq-server-3.11.13-1.suse.noarch.rpm.asc">Signature</a>
     </td>
   </tr>
 </table>
