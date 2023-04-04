@@ -18,7 +18,8 @@ there is a way to configure many things in the broker as well as <a href="./plug
 <li><a href="#configuration-files">Configuration file(s)</a>: primary <a href="#config-file">rabbitmq.conf</a> or <a href="#config-confd-directory">a directory of .conf files</a>, and optional <a href="#advanced-config-file">advanced.config</a></li>
 <li>Default <a href="#config-location">configuration file location(s)</a> on various platforms</li>
 <li>Configuration troubleshooting: how to <a href="#verify-configuration-config-file-location">find config file location</a> and <a href="#verify-configuration-effective-configuration">inspect and verify effective configuration</a></li>
-<li><a href="#customise-environment">Environment variables</a></li>
+<li><a href="#env-variable-interpolation">Environment variable interpolation</a> in <span class="code ">rabbitmq.conf</span></li>
+<li><a href="#customise-environment">Environment variables</a> used by RabbitMQ nodes</li>
 <li><a href="#kernel-limits">Operating system (kernel) limits</a></li>
 <li>Available <a href="#config-items">core server settings</a></li>
 <li>Available <a href="#supported-environment-variables">environment variables</a></li>
@@ -301,7 +302,7 @@ listeners.tcp.default = 5673
 
 <p>This example will alter the <a href="./networking.html#ports">port RabbitMQ listens on</a> for
 AMQP 0-9-1 and AMQP 1.0 client connections from 5672 to 5673.</p>
-<p>The RabbitMQ server source repository contains <a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.8.x/deps/rabbit/docs/rabbitmq.conf.example">an example rabbitmq.conf file</a>
+<p>The RabbitMQ server source repository contains <a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.11.x/deps/rabbit/docs/rabbitmq.conf.example">an example rabbitmq.conf file</a>
 named <span class="code ">rabbitmq.conf.example</span>. It contains examples of
 most of the configuration items you might want to set (with some very obscure ones omitted), along with
 documentation for those settings.</p>
@@ -334,6 +335,26 @@ ls -lh /path/to/a/custom/location/rabbitmq/conf.d
 # =&gt; -r--r--r--  1 rabbitmq  rabbitmq   1.6K Mar 21 19:52 30-federation.conf
 </pre>
 
+<h3><a id="env-variable-interpolation" class="anchor" href="#env-variable-interpolation">Environment Variable Interpolation in <span class="code ">rabbitmq.conf</span></a></h3>
+<p><a href="./versions.html">Modern RabbitMQ versions</a> support environment variable interpolation in <span class="code ">rabbitmq.conf</span>. For example,
+to override default user credentials, one can use <a href="./definitions.html">import a definition file</a>
+or the following config file in combination with two environment variables:</p>
+<pre class="lang-ini">
+# environment variable interpolation
+default_user = $(SEED_USERNAME)
+default_pass = $(SEED_USER_PASSWORD)
+</pre>
+
+<p>Environment variables can be used to configure a portion of a value, for example,
+cluster name:</p>
+<pre class="lang-ini">
+cluster_name = deployment-$(DEPLOYMENT_ID)
+</pre>
+
+<p>Environment variable values are interpolated as strings before the config file is parsed and validated.
+This means that they can be used to override numerical settings (such as ports) or paths (such as TLS certificate and private key paths).</p>
+<p>In addition, RabbitMQ respects a <a href="#customise-environment">number of environment variables</a> for when a value must be known before
+the configuration file is loaded.</p>
 <h3><a id="advanced-config-file" class="anchor" href="#advanced-config-file">The advanced.config File</a></h3>
 <p>Some configuration settings are not possible or are difficult to configure
 using the sysctl format. As such, it is possible to use an additional
