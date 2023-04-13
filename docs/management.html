@@ -252,18 +252,21 @@ If target authorization server only supports a <strong>confidential app</strong>
 then a <em>client_secret</em> <strong>must</strong> be configured using the <span class="code ">oauth_client_secret</span> setting.</p>
 <p>To redirect users to the UAA server to authenticate, use the following configuration:</p>
 <pre class="lang-ini">
-management.enable_uaa = true
 management.oauth_enabled = true
 management.oauth_client_id = rabbit_user_client
+management.oauth_client_secret = rabbit_user_client
 management.oauth_provider_url = https://my-uaa-server-host:8443/uaa
+management.oauth_scopes = openid profile rabbitmq.*
 </pre>
 
 <blockquote>
+<p><strong>Important</strong>: UAA supports regular expression in scopes, e.g. <span class="code ">rabbitmq.*</span>. The above configuration
+assumes that the <span class="code ">resource_server_id</span> configured in the oauth2 backend matches the value <span class="code ">rabbitmq</span>.</p>
 <p><strong>Important</strong>: Since RabbitMQ 3.10, RabbitMQ uses <span class="code ">authorization_code</span> grant type. <span class="code ">implicit</span> flow is deprecated.</p>
-<p><strong>Important</strong>: <span class="code ">management.oauth_client_secret</span> is an optional setting. It is only required when the authorization server used requires it</p>
+<p><strong>Important</strong>: <span class="code ">management.oauth_client_secret</span> is an optional setting. UAA 75.21.0 and earlier versions require <span class="code ">oauth_client_secret</span> regardless if the oauth client is configured as confidental.</p>
 </blockquote>
 <h3>Allow Basic and OAuth 2 authentication</h3>
-<p>When using <span class="code ">management.enable_uaa = true</span>, it is still possible to authenticate
+<p>When using <span class="code ">management.oauth_enabled = true</span>, it is still possible to authenticate
 with <a href="https://en.wikipedia.org/wiki/Basic_access_authentication">HTTP basic authentication</a>
 against the HTTP API. This means both of the following examples will work:</p>
 <pre class="lang-bash">
@@ -280,10 +283,10 @@ curl -i --header "authorization: Basic &lt;encoded credentials&gt;" http://local
 <span class="code ">management.disable_basic_auth</span> configuration key to <span class="code ">true</span>:</p>
 <pre class="lang-ini">
 management.disable_basic_auth = true
-management.enable_uaa = true
-management.oauth_enabled = true
 management.oauth_client_id = rabbit_user_client
+management.oauth_client_secret = rabbit_user_client
 management.oauth_provider_url = https://my-uaa-server-host:8443/uaa
+management.oauth_scopes = openid profile rabbitmq.*
 </pre>
 
 <p>When setting <span class="code ">management.disable_basic_auth</span> to <span class="code ">true</span>, only the <span class="code ">Bearer</span> (token-based) authorization method will
@@ -297,19 +300,11 @@ curl -i --header "authorization: Bearer &lt;token&gt;" http://localhost:15672/ap
 endpoints require the token to be passed in the <span class="code ">token</span> query string parameter.</p>
 <h3>Configure which scopes RabbitMQ requests to the authorization server</h3>
 <p>It is possible to configure which OAuth 2.0 scopes RabbitMQ should claim when redirecting the user to the authorization server.</p>
-<p>If <span class="code ">management.enable_uaa = true</span>, by default, RabbitMQ requests the following scopes to UAA:
-  * <span class="code ">openid</span>
-  * <span class="code ">profile</span>
-  * &lt;<em>resource_server_id</em>&gt;<span class="code ">.*</span> , e.g. <span class="code ">rabbitmq.*</span> if <span class="code ">resource_server_id</span> had the value <span class="code ">rabbitmq</span></p>
-<p>However, if <span class="code ">management.enable_uaa = false</span>, RabbitMQ only requests these scopes:
-  * <span class="code ">openid</span>
-  * <span class="code ">profile</span></p>
-<p>Which means that you have to configure which scopes you want RabbitMQ requests to the
-authorization server. It may be &lt;<em>resource_server_id</em>&gt;<span class="code ">.*</span> if you want to request all scopes or specific ones
-such as:
+<p>If <span class="code ">management.oauth_enabled = true</span> and <span class="code ">management.oauth_scopes</span> is not set, RabbitMQ default to <span class="code ">openid profile</span>.</p>
+<p>Depending on the Authorization server, we may use regular expression in scopes, e.g. &lt;<em>resource_server_id</em>&gt;<span class="code ">.*</span>, or
+instead we have to explicitly ask for them, e.g.:
   * &lt;<em>resource_server_id</em>&gt;<span class="code ">.tag:administrator</span>
   * &lt;<em>resource_server_id</em>&gt;<span class="code ">.read:*/*/*</span></p>
-<p>The scopes are configured using the <span class="code ">management.oauth_scopes</span> setting. The value must be a space-separated list of scopes.</p>
 <h3>Configure OpenID Connect Discovery endpoint</h3>
 <p>By default, RabbitMQ assumes the OpenID Connect Discovery endpoint is at <span class="code ">&lt;management.oauth_provider_url&gt;/.well-known/openid-configuration</span>. If your endpoint differs, you can set yours via the <span class="code ">management.oauth_metadata_url</span> setting.</p>
 <p>RabbitMQ uses this endpoint to discover other endpoints such as <strong>token</strong> endpoint, <strong>logout</strong> endpoint, and others.</p>
