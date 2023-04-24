@@ -154,7 +154,7 @@ while metadata of a transient queue is stored in memory when possible.
 The same distinction is made for <a href="publishers.html#message-properties">messages at publishing time</a>
 in some protocols, e.g. AMQP 0-9-1 and MQTT.</p>
 <p>In environments and use cases where durability is important, applications
-must use durable queues <em>and</em> make sure that publish mark published messages as persisted.</p>
+must use durable queues <em>and</em> make sure that publishers mark published messages as persisted.</p>
 <p>Transient queues will be deleted on node boot. They therefore will not survive a node restart,
 by design. Messages in transient queues will also be discarded.</p>
 <p>Durable queues will be recovered on node boot, including messages in them published as persistent.
@@ -203,7 +203,7 @@ or gone (e.g. due to underlying TCP connection loss). They therefore
 are only suitable for client-specific transient state.</p>
 <p>It is common to make exclusive queues server-named.</p>
 <p>Exclusive queues are declared on the "client-local" node (the node that the client declaring
-the queue is connected to), regardless of the <span class="code ">queue_master_locator</span> value.</p>
+the queue is connected to), regardless of the <span class="code ">queue_leader_locator</span> value.</p>
 <h2><a id="distributed" class="anchor" href="#distributed">Replicated and Distributed Queues</a></h2>
 <p><a href="quorum-queues.html">Quorum queues</a> is replicated, data safety and consistency-oriented queue type.
 Classic queues historically supported replication but it is <strong>deprecated</strong> and should be avoided.</p>
