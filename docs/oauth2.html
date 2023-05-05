@@ -303,6 +303,17 @@ be <span class="code ">my_rabbit.read:*/*</span>.</p>
 </blockquote>
 </li>
 </ul>
+<p>OAuth 2.0 authorisation backend supports variable expansion when checking permission on topics.
+It supports JWT claims whose value is a plain string, plus the <span class="code ">vhost</span> variable.</p>
+<p>For example, a user connected with the token below to the vhost <span class="code ">prod</span> should have
+a write permission on all exchanges starting with <span class="code ">x-prod-</span>, and any routing key starting with <span class="code ">u-bob-</span>:</p>
+<pre class="lang-json">
+{
+  "sub" : "bob",
+  "scope" : [ "rabbitmq.write:*/q-{vhost}-*/u-{sub}-*" ]
+}
+</pre>
+
 <h3><a id="use-different-token-field" class="anchor" href="#use-different-token-field">Using a different token field for the Scope</a></h3>
 <p>By default the plugin will look for the <span class="code ">scope</span> key in the token, you can configure the plugin to also look in other fields using the <span class="code ">extra_scopes_source</span> setting. Values format accepted are scope as <strong>string</strong> or <strong>list</strong></p>
 <pre class="lang-erlang">
