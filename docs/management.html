@@ -244,6 +244,7 @@ against the OAuth 2 server, this must be configured separately. Currently,
 <li><a href="https://www.keycloak.org/">Keycloak</a></li>
 <li><a href="https://auth0.com/">Auth0</a></li>
 <li><a href="https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/auth-oauth2">Azure</a></li>
+<li><a href="https://oauth2-proxy.github.io/oauth2-proxy/">OAuth2 Proxy</a></li>
 </ul>
 <p><strong>Important</strong>: from the OAuth 2.0 point of view, the RabbitMQ Management UI is a <strong>public app</strong> which
 means it cannot securely store credentials such as the <em>client_secret</em>. This means that RabbitMQ does not need to present a client_secret when authenticating users.</p>
@@ -319,21 +320,17 @@ The second scenario is when the management UI session exceeds the maximum allowe
 <p>In addition to the <span class="code ">connect-src</span> CSP header, RabbitMQ also needs the CSP directives <span class="code ">unsafe-eval</span> <span class="code ">unsafe-inline</span>, otherwise the OAuth 2.0 functionality may not work.</p>
 <h3>Identity-Provider initiated logon</h3>
 <p>By default, the RabbitMQ Management UI uses the OAuth 2.0 <strong>authorization code flow</strong> to authenticate and authorize users.
-However, there are scenarios where users preferred to be automatically redirected to RabbitMQ without getting
-involved in additional logon flows. This is common in Web Portals where with a single click, users navigate
-straight to a RabbitMQ cluster's management UI with a token obtained under the covers. This is known as
-<strong>Identity-Provider initiated logon</strong>.</p>
+However, there are scenarios where users prefer to be automatically redirected to RabbitMQ without getting involved in additional logon flows. By using OAuth2 proxies and web portals, these additional logon flows can be avoided. With a single click, users navigate straight to a RabbitMQ Management UI with a token obtained under the covers. This is known as <strong>Identity-Provider initiated logon</strong>.</p>
 <p>RabbitMQ exposes a new setting called <span class="code ">management.oauth_initiated_logon_type</span> whose default value <span class="code ">sp_initiated</span>.
 To enable an <strong>Identity-Provider initiated logon</strong> you set it to <span class="code ">idp_initiated</span>.</p>
-<p>After you set <span class="code ">management.oauth_initiated_logon_type</span> to <span class="code ">idp_initiated</span> and
-<span class="code ">oauth_enabled: true</span> and <span class="code ">oauth_provider_url</span> are configured, the management UI exposes the HTTP endpoint <span class="code ">/login</span> which accepts <span class="code ">content-type: application/x-www-form-urlencoded</span> and it expects the JWT token in the <span class="code ">access_token</span> form field. This is the endpoint where the web portal would redirect users to access the RabbitMQ Management ui.</p>
-<p>This is the minimum required configuration for a RabbitMQ cluster configured with <span class="code ">idp_initiated</span> logon type:</p>
 <pre class="lang-ini">
 management.oauth_enabled = true
 management.oauth_initiated_logon_type = idp_initiated
 management.oauth_provider_url = https://my-web-portal
 </pre>
 
+<p>With the previous settings, the management UI exposes the HTTP endpoint <span class="code ">/login</span> which accepts <span class="code ">content-type: application/x-www-form-urlencoded</span> and it expects the JWT token in the <span class="code ">access_token</span> form field. This is the endpoint where the Web portal will redirect users to the management UI.
+Additionally, RabbitMQ also accepts a JWT token in the HTTP <span class="code ">Authorization</span> header when the user lands on the management UI.</p>
 <h2><a id="http-api" class="anchor" href="#http-api">HTTP API</a></h2>
 <h3><a id="http-api-endpoints" class="anchor" href="#http-api-endpoints">API Endpoints</a></h3>
 <p>When activated, the management plugin provides an HTTP API at
