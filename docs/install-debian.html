@@ -20,7 +20,7 @@ and may provide RabbitMQ versions that are already <a href="versions.html">out o
 <li><a href="#supported-distributions">Supported Ubuntu and Debian distributions</a></li>
 <li><a href="#sudo-requirements">Privilege requirements</a></li>
 <li>Quick start installation snippets that <a href="#apt-quick-start-packagecloud">uses PackageCloud</a> and Launchpad repositories</li>
-<li>Quick start installation snippet that <a href="#apt-quick-start-cloudsmith">uses Cloudsmith</a> repositories</li>
+<li>Quick start installation snippet that <a href="#apt-quick-start-cloudsmith">uses a Cloudsmith mirror</a> repositories</li>
 <li><a href="#managing-service">Manage the service</a> (start it, stop it, and get its status)</li>
 <li>How to <a href="#server-logs">inspect node and service logs</a></li>
 </ul>
@@ -326,18 +326,15 @@ sudo apt-get install rabbitmq-server -y --fix-missing
 <h2><a id="apt-cloudsmith" class="anchor" href="#apt-cloudsmith">Using RabbitMQ Apt Repositories on Cloudsmith</a></h2>
 <p>Team RabbitMQ maintains two <a href="https://cloudsmith.io/~rabbitmq/repos/">apt repositories on Cloudsmith</a>,
 a package hosting service. They provide packages for most recent RabbitMQ and modern Erlang releases.</p>
-<p>Cloudsmith provides repository setup instructions that include
-convenient one-liners:</p>
-<ul>
-<li>For <a href="https://cloudsmith.io/~rabbitmq/repos/rabbitmq-erlang/setup/#formats-deb">modern Erlang repository</a></li>
-<li>For <a href="https://cloudsmith.io/~rabbitmq/repos/rabbitmq-server/setup/#formats-deb">RabbitMQ repository</a></li>
-</ul>
-<p>Please <strong>always inspect scripts</strong> that are downloaded from the Internet and executed via a privileged shell!</p>
+<p>The Cloudsmith repository has a monthly traffic quota that can be exhausted. For this reason,
+examples below use a Cloudsmith repository mirror. All packages in the mirror repository
+are signed using the same signing key.</p>
 <p>This guide will focus on a more traditional and explicit way of setting up additional apt repositories
 and installing packages.</p>
 <p>All steps covered below are <strong>mandatory</strong> unless otherwise specified.</p>
 <h3><a id="apt-quick-start-cloudsmith" class="anchor" href="#apt-quick-start-cloudsmith">Cloudsmith Quick Start Script</a></h3>
-<p>Below is shell snippet that performs those steps. They are documented in more detail below.</p>
+<p>Below is shell snippet that performs those steps and assumes that Ubuntu 22.04 is used.
+They are documented in more detail below.</p>
 <pre class="lang-bash">
 #!/usr/bin/sh
 
@@ -345,22 +342,22 @@ sudo apt-get install curl gnupg apt-transport-https -y
 
 ## Team RabbitMQ's main signing key
 curl -1sLf "https://keys.openpgp.org/vks/v1/by-fingerprint/0A9AF2115F4687BD29803A206B73A36E6026DFCA" | sudo gpg --dearmor | sudo tee /usr/share/keyrings/com.rabbitmq.team.gpg &gt; /dev/null
-## Cloudsmith: modern Erlang repository
-curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/io.cloudsmith.rabbitmq.E495BB49CC4BBE5B.gpg &gt; /dev/null
-## Cloudsmith: RabbitMQ repository
-curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/io.cloudsmith.rabbitmq.9F4587F226208342.gpg &gt; /dev/null
+## Community mirror of Cloudsmith: modern Erlang repository
+curl -1sLf https://ppa1.novemberain.com/gpg.E495BB49CC4BBE5B.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg &gt; /dev/null
+## Community mirror of Cloudsmith: RabbitMQ repository
+curl -1sLf https://ppa1.novemberain.com/gpg.9F4587F226208342.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/rabbitmq.9F4587F226208342.gpg &gt; /dev/null
 
 ## Add apt repositories maintained by Team RabbitMQ
 sudo tee /etc/apt/sources.list.d/rabbitmq.list &lt;&lt;EOF
 ## Provides modern Erlang/OTP releases
 ##
-deb [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.E495BB49CC4BBE5B.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu bionic main
-deb-src [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.E495BB49CC4BBE5B.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu bionic main
+deb [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu jammy main
+deb-src [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu jammy main
 
 ## Provides RabbitMQ
 ##
-deb [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.9F4587F226208342.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu bionic main
-deb-src [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.9F4587F226208342.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu bionic main
+deb [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu jammy main
+deb-src [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu jammy main
 EOF
 
 ## Update package indices
@@ -401,10 +398,10 @@ sudo apt-get install curl gnupg apt-transport-https -y
 
 ## Team RabbitMQ's main signing key
 curl -1sLf "https://keys.openpgp.org/vks/v1/by-fingerprint/0A9AF2115F4687BD29803A206B73A36E6026DFCA" | sudo gpg --dearmor | sudo tee /usr/share/keyrings/com.rabbitmq.team.gpg &gt; /dev/null
-## Cloudsmith: modern Erlang repository
-curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/io.cloudsmith.rabbitmq.E495BB49CC4BBE5B.gpg &gt; /dev/null
-## Cloudsmith: RabbitMQ repository
-curl -1sLf https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/io.cloudsmith.rabbitmq.9F4587F226208342.gpg &gt; /dev/null
+## Community mirror of Cloudsmith: modern Erlang repository
+curl -1sLf https://ppa1.novemberain.com/gpg.E495BB49CC4BBE5B.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg &gt; /dev/null
+## Community mirror of Cloudsmith: RabbitMQ repository
+curl -1sLf https://ppa1.novemberain.com/gpg.9F4587F226208342.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/rabbitmq.9F4587F226208342.gpg &gt; /dev/null
 </pre>
 
 <p>See the <a href="signatures.html">guide on signatures</a> to learn more.</p>
@@ -415,19 +412,15 @@ must be placed under the <span class="code ">/etc/apt/sources.list.d/</span> dir
 <p>The file should have a source (repository) definition line that uses the following
 pattern:</p>
 <pre class="lang-ini">
-## Provides modern Erlang/OTP releases
+## Provides modern Erlang/OTP releases from a Cloudsmith mirror
 ##
-## Replace $distribution with the name of the Ubuntu release used.
-## On Debian, "deb/ubuntu" should be replaced with "deb/debian"
-deb [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.E495BB49CC4BBE5B.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu $distribution main
-deb-src [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.E495BB49CC4BBE5B.gpg]  https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu $distribution main
+deb [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu $distribution main
+deb-src [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu $distribution main
 
-## Provides RabbitMQ
+## Provides RabbitMQ from a Cloudsmith mirror
 ##
-## Replace $distribution with the name of the Ubuntu release used.
-## On Debian, "deb/ubuntu" should be replaced with "deb/debian"
-deb [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.9F4587F226208342.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu $distribution main
-deb-src [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.9F4587F226208342.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu $distribution main
+deb [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu $distribution main
+deb-src [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu $distribution main
 </pre>
 
 <p>The next couple of sections discusses what distribution and component values
@@ -489,22 +482,18 @@ with the RabbitMQ apt repository on PackageCloud.</p>
 </tr>
 </tbody>
 </table>
-<p>To add the apt repository to the source list directory (<span class="code ">/etc/apt/sources.list.d</span>), use:</p>
+<p>To add the apt repository to the source list directory (under <span class="code ">/etc/apt/sources.list.d</span>), use:</p>
 <pre class="lang-bash">
 sudo tee /etc/apt/sources.list.d/rabbitmq.list &lt;&lt;EOF
-## Provides modern Erlang/OTP releases
+## Provides modern Erlang/OTP releases from a Cloudsmith mirror
 ##
-## Replace $distribution with the name of the Ubuntu release used.
-## On Debian, "deb/ubuntu" should be replaced with "deb/debian"
-deb [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.E495BB49CC4BBE5B.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu $distribution main
-deb-src [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.E495BB49CC4BBE5B.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu $distribution main
+deb [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu $distribution main
+deb-src [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu $distribution main
 
-## Provides RabbitMQ
+## Provides RabbitMQ from a Cloudsmith mirror
 ##
-## Replace $distribution with the name of the Ubuntu release used.
-## On Debian, "deb/ubuntu" should be replaced with "deb/debian"
-deb [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.9F4587F226208342.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu $distribution main
-deb-src [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.9F4587F226208342.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu $distribution main
+deb [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu $distribution main
+deb-src [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu $distribution main
 EOF
 </pre>
 
@@ -512,15 +501,15 @@ EOF
 <p>For example, on Debian Buster it would be</p>
 <pre class="lang-bash">
 sudo tee /etc/apt/sources.list.d/rabbitmq.list &lt;&lt;EOF
-## Provides modern Erlang/OTP releases
+## Provides modern Erlang/OTP releases from a Cloudsmith mirror
 ##
-deb [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.E495BB49CC4BBE5B.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/debian buster main
-deb-src [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.E495BB49CC4BBE5B.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/debian buster main
+deb [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/debian buster main
+deb-src [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/debian buster main
 
-## Provides RabbitMQ
+## Provides RabbitMQ from a Cloudsmith mirror
 ##
-deb [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.9F4587F226208342.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/debian buster main
-deb-src [signed-by=/usr/share/keyrings/io.cloudsmith.rabbitmq.9F4587F226208342.gpg] https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/debian buster main
+deb [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/debian buster main
+deb-src [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/debian buster main
 EOF
 </pre>
 
@@ -555,12 +544,12 @@ After updating apt preferences it is necessary to run <span class="code ">apt-ge
 sudo apt-get update -y
 </pre>
 
-<p>The following preference file example will configure <span class="code ">apt</span> to install <span class="code ">erlang-*</span> packages from Cloudsmith.io
-and not standard Debian or Ubuntu repository:</p>
+<p>The following preference file example will configure <span class="code ">apt</span> to install <span class="code ">erlang-*</span> packages from the Cloudsmith
+mirror used in the examples above:</p>
 <pre class="lang-ini">
 # /etc/apt/preferences.d/erlang
 Package: erlang*
-Pin: origin dl.cloudsmith.io
+Pin: origin ppa1.novemberain.com
 Pin-Priority: 1000
 </pre>
 
@@ -586,12 +575,12 @@ Pin: version 1:25.3
 Pin-Priority: 1000
 </pre>
 
-<p>The following preference file example will pin <span class="code ">rabbitmq-server</span> package to <span class="code ">3.11.13</span>
+<p>The following preference file example will pin <span class="code ">rabbitmq-server</span> package to <span class="code ">3.11.15</span>
 (assuming <a href="https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-Version">package epoch</a> for the package is 1):</p>
 <pre class="lang-ini">
 # /etc/apt/preferences.d/rabbitmq
 Package: rabbitmq-server
-Pin: version 1:3.11.13
+Pin: version 1:3.11.15
 Pin-Priority: 1000
 </pre>
 
@@ -619,10 +608,10 @@ Below is a download link.</p>
       .deb for Debian-based Linux (from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>)
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.13/rabbitmq-server_3.11.13-1_all.deb">rabbitmq-server_3.11.13-1_all.deb</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.15/rabbitmq-server_3.11.15-1_all.deb">rabbitmq-server_3.11.15-1_all.deb</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.13/rabbitmq-server_3.11.13-1_all.deb.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.15/rabbitmq-server_3.11.15-1_all.deb.asc">Signature</a>
     </td>
   </tr>
 </table>
@@ -638,12 +627,12 @@ sudo apt-get -y install socat logrotate init-system-helpers adduser
 
 # download the package
 sudo apt-get -y install wget
-wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.13/rabbitmq-server_3.11.13-1_all.deb
+wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.15/rabbitmq-server_3.11.15-1_all.deb
 
 # install the package with dpkg
-sudo dpkg -i rabbitmq-server_3.11.13-1_all.deb
+sudo dpkg -i rabbitmq-server_3.11.15-1_all.deb
 
-rm rabbitmq-server_3.11.13-1_all.deb
+rm rabbitmq-server_3.11.15-1_all.deb
 </pre>
 
 <p>Installation via <a href="#apt">apt repositories</a> is recommended
@@ -846,7 +835,7 @@ sudo journalctl --system | grep rabbitmq
 <p>The output will look similar to this:</p>
 <pre class="lang-ini">
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##
-Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##      RabbitMQ 3.11.13. Copyright (c) 2007-2023 VMware, Inc. or its affiliates.
+Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##      RabbitMQ 3.11.15. Copyright (c) 2007-2023 VMware, Inc. or its affiliates.
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##########  Licensed under the MPL 2.0. Website: https://www.rabbitmq.com/
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ######  ##
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##########  Logs: /var/log/rabbitmq/rabbit@localhost.log
@@ -887,7 +876,7 @@ which is in line with <a href="https://wiki.debian.org/DebianReleases">distribut
 <li>Debian 10 (Buster)</li>
 </ul>
 <p>Launchpad PPA only provides the most recent release of Erlang 25.3.x.
-Cloudsmith currently provides the most recent patch release in the following Erlang series:</p>
+Cloudsmith and its mirror currently provides the most recent patch release in the following Erlang series:</p>
 <ul>
 <li>25.x</li>
 <li>24.x</li>
@@ -1029,19 +1018,21 @@ sudo apt-get install -y erlang-base \
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting
         window.addEventListener("load", function() {
-          const selectors = "pre.lang-bash, \
+          const selectors = "pre.lang-apacheconf, \
+                             pre.lang-bash, \
                              pre.lang-csharp, \
+                             pre.lang-clojure, \
                              pre.lang-elixir, \
                              pre.lang-erlang, \
                              pre.lang-go, \
                              pre.lang-groovy, \
                              pre.lang-haskell, \
-                             pre.lang-html, \
                              pre.lang-ini, \
                              pre.lang-java, \
                              pre.lang-javascript, \
                              pre.lang-json, \
                              pre.lang-makefile, \
+                             pre.lang-nginxconf, \
                              pre.lang-objectivec, \
                              pre.lang-php, \
                              pre.lang-plaintext, \

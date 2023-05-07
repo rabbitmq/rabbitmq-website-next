@@ -7,7 +7,7 @@
 </h1>
 
 
-<p>The latest <a href="https://github.com/rabbitmq/rabbitmq-server/releases">release</a> of RabbitMQ is <strong>3.11.13</strong>. See <a href="changelog.html">change log</a> for release notes.
+<p>The latest <a href="https://github.com/rabbitmq/rabbitmq-server/releases">release</a> of RabbitMQ is <strong>3.11.15</strong>. See <a href="changelog.html">change log</a> for release notes.
 See <a href="./versions.html">RabbitMQ support timeline</a> to find out what release series are supported.</p>
 <p>Experimenting with RabbitMQ on your workstation? Try the <a href="https://registry.hub.docker.com/_/rabbitmq/">community Docker image</a>:</p>
 <pre class="lang-bash">
@@ -25,7 +25,7 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.11-ma
 </ul>
 <h3>RabbitMQ 3.12 Preview Releases</h3>
 <ul>
-<li>RabbitMQ 3.12 is the next feature release, currently <a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.12.0-beta.5">available for community testing</a>,
+<li>RabbitMQ 3.12 is the next feature release, currently <a href="https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.12.0-rc.1">available for community testing</a>,
  including via the <a href="https://hub.docker.com/_/rabbitmq/">community Docker image</a>.</li>
 </ul>
 <h2>VMware RabbitMQ® (Commercial Edition)</h2>
@@ -67,13 +67,13 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.11-ma
 </ul>
 <h2>Downloads <a href="https://github.com/rabbitmq/rabbitmq-server/releases">on GitHub</a></h2>
 <ul>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.13/rabbitmq-server-3.11.13.exe">Windows installer</a></li>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.13/rabbitmq-server_3.11.13-1_all.deb">Debian, Ubuntu</a></li>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.13/rabbitmq-server-3.11.13-1.el8.noarch.rpm">RHEL, CentOS Stream 9.x, CentOS 8.x</a> |
-    <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.13/rabbitmq-server-3.11.13-1.suse.noarch.rpm">OpenSUSE</a> |
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.15/rabbitmq-server-3.11.15.exe">Windows installer</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.15/rabbitmq-server_3.11.15-1_all.deb">Debian, Ubuntu</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.15/rabbitmq-server-3.11.15-1.el8.noarch.rpm">RHEL, CentOS Stream 9.x, CentOS 8.x</a> |
+    <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.15/rabbitmq-server-3.11.15-1.suse.noarch.rpm">OpenSUSE</a> |
     zero dependency <a href="https://github.com/rabbitmq/erlang-rpm">Erlang RPM</a></li>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.13/rabbitmq-server-generic-unix-3.11.13.tar.xz">Generic UNIX binary</a></li>
-<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.13/rabbitmq-server-windows-3.11.13.zip">Windows binary</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.15/rabbitmq-server-generic-unix-3.11.15.tar.xz">Generic UNIX binary</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.15/rabbitmq-server-windows-3.11.15.zip">Windows binary</a></li>
 </ul>
 <h2>Debian (Apt) and RPM (Yum) Repositories</h2>
 <ul>
@@ -84,6 +84,7 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.11-ma
 <ul>
 <li><a href="https://github.com/rabbitmq/chef-cookbook">Chef cookbook</a></li>
 <li><a href="https://github.com/puppetlabs/puppetlabs-rabbitmq">Puppet module</a></li>
+<li><a href="https://github.com/kurtosis-tech/rabbitmq-package">Kurtosis Starlark package</a></li>
 </ul>
 <h2>Release Signing Key</h2>
 <ul>
@@ -155,19 +156,21 @@ the <a href="snapshots.html">snapshots page</a>.</p><div id="help-and-feedback">
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting
         window.addEventListener("load", function() {
-          const selectors = "pre.lang-bash, \
+          const selectors = "pre.lang-apacheconf, \
+                             pre.lang-bash, \
                              pre.lang-csharp, \
+                             pre.lang-clojure, \
                              pre.lang-elixir, \
                              pre.lang-erlang, \
                              pre.lang-go, \
                              pre.lang-groovy, \
                              pre.lang-haskell, \
-                             pre.lang-html, \
                              pre.lang-ini, \
                              pre.lang-java, \
                              pre.lang-javascript, \
                              pre.lang-json, \
                              pre.lang-makefile, \
+                             pre.lang-nginxconf, \
                              pre.lang-objectivec, \
                              pre.lang-php, \
                              pre.lang-plaintext, \

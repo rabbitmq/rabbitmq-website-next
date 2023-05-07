@@ -23,6 +23,7 @@ core RabbitMQ features and do not require or rely on this plugin.</p>
 <ul>
 <li><a href="#usage">Basic usage</a> of management UI and <a href="#http-api">HTTP API</a></li>
 <li>General plugin <a href="#configuration">configuration</a></li>
+<li><a href="#http-api-proxy">Reverse proxy (Nginx or Apache)</a> in front of the HTTP API</li>
 <li>How to <a href="#single-listener-https">enable HTTPS for management UI</a> and its underlying API</li>
 <li>How this plugin <a href="#clustering">operates in multi-node clusters</a></li>
 <li>How to <a href="#disable-stats">disable metric collection</a> to use <a href="prometheus.html">Prometheus</a> exclusively for monitoring</li>
@@ -336,7 +337,7 @@ Additionally, RabbitMQ also accepts a JWT token in the HTTP <span class="code ">
 <p>When activated, the management plugin provides an HTTP API at
 <span class="code ">http://<i>server-name</i>:15672/api/</span> by default. Browse to that
 location for more information on the API. For convenience the same API reference is
-<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.11.13/deps/rabbitmq_management/priv/www/api/index.html">available on GitHub</a>.</p>
+<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.11.15/deps/rabbitmq_management/priv/www/api/index.html">available on GitHub</a>.</p>
 <h3><a id="http-api-monitoring" class="anchor" href="#http-api-monitoring">HTTP API and Monitoring</a></h3>
 <p>The API is intended to be used for basic observability tasks. <a href="prometheus.html">Prometheus and Grafana</a>
 are recommended for long term metric storage, alerting, anomaly detection, and so on.</p>
@@ -355,7 +356,52 @@ has the management plugin enabled at <span class="code ">http://<i>{node-hostnam
 see <a href="./devtools.html">Developer Tools</a>.</p>
 <p>Some API endpoints return a lot of information. The volume can be reduced
 by filtering what columns are returned by <span class="code ">HTTP GET</span> requests. See
-<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.11.13/deps/rabbitmq_management/priv/www/api/index.html">latest HTTP API documentation</a> for details.</p>
+<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.11.15/deps/rabbitmq_management/priv/www/api/index.html">latest HTTP API documentation</a> for details.</p>
+<h3><a id="http-api-proxy" class="anchor" href="#http-api-proxy">Using a Reverse Proxy in front of the HTTP API</a></h3>
+<p>It may be necessary to put a reverse proxy in front of a RabbitMQ cluster. Reverse proxy setup for RabbitMQ
+may require careful handling of encoded slashes in paths if default virtual host (<span class="code ">/</span>) is used.</p>
+<p>If default virtual host is not used, the additional settings to support encoded URIs
+will not be necessary. In other words, both Nginx and Apache configuration will require
+the standard minimum for any HTTP-based service.</p>
+<h4>Nginx</h4>
+<p>If RabbitMQ HTTP API access is configured for the root location (<span class="code ">/</span>),
+the location must not have a slash at the end:</p>
+<pre class="lang-nginxconf">
+# trailing slash in the location must be omitted only if default RabbitMQ virtual host is used
+location / {
+    proxy_pass http://rabbitmq-host:15672;
+}
+</pre>
+
+<p>If a different location will be used to proxy requests to the HTTP API,
+a <a href="https://nginx.org/en/docs/http/ngx_http_rewrite_module.html#rewrite">URI rewrite</a> rule must be used:</p>
+<pre class="lang-nginxconf">
+# these rewrites are only if default RabbitMQ virtual host is used
+location ~* /rabbitmq/api/(.*?)/(.*) {
+    proxy_pass http://rabbitmq-host:15672/api/$1/%2F/$2?$query_string;
+}
+
+location ~* /rabbitmq/(.*) {
+    rewrite ^/rabbitmq/(.*)$ /$1 break;
+    proxy_pass http://rabbitmq-host:15672;
+}
+</pre>
+
+<h4>Apache</h4>
+<p>To support encoded slashes in URIs, Apache requires users to explicitly enable
+<a href="https://httpd.apache.org/docs/2.4/mod/core.html"><span class="code ">AllowEncodedSlashes</span></a>.</p>
+<pre class="lang-apacheconf">
+# required only if default RabbitMQ virtual host is used
+AllowEncodedSlashes On
+</pre>
+
+<p>for the Apache virtual host. The location also needs a <a href="https://httpd.apache.org/docs/2.4/mod/mod_proxy.html"><span class="code ">nocanon</span> setting</a>:</p>
+<pre class="lang-apacheconf">
+ProxyPassReverse http://rabbitmq-host:15672/
+# "nocanon" is required only if default RabbitMQ virtual host is used
+ProxyPass http://rabbitmq-host:15672/ nocanon
+</pre>
+
 <h2><a id="configuration" class="anchor" href="#configuration">Configuration</a></h2>
 <p>There are several configuration options which affect the
 management plugin. These are managed through the main
@@ -1019,19 +1065,21 @@ provide access to various messaging protocol features such as <a href="./confirm
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting
         window.addEventListener("load", function() {
-          const selectors = "pre.lang-bash, \
+          const selectors = "pre.lang-apacheconf, \
+                             pre.lang-bash, \
                              pre.lang-csharp, \
+                             pre.lang-clojure, \
                              pre.lang-elixir, \
                              pre.lang-erlang, \
                              pre.lang-go, \
                              pre.lang-groovy, \
                              pre.lang-haskell, \
-                             pre.lang-html, \
                              pre.lang-ini, \
                              pre.lang-java, \
                              pre.lang-javascript, \
                              pre.lang-json, \
                              pre.lang-makefile, \
+                             pre.lang-nginxconf, \
                              pre.lang-objectivec, \
                              pre.lang-php, \
                              pre.lang-plaintext, \

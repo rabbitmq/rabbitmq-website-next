@@ -30,6 +30,29 @@ kubectl apply --filename https://raw.githubusercontent.com/rabbitmq/cluster-oper
 kubectl apply --filename https://raw.githubusercontent.com/rabbitmq/cluster-operator/main/observability/prometheus/monitors/rabbitmq-cluster-operator-podmonitor.yml
 </pre>
 
+<p>If <span class="code ">Prometheus</span> is deployed with a label selector for Pod or Service monitor, for example:</p>
+<pre class="lang-yaml">
+  apiVersion: monitoring.coreos.com/v1
+  kind: Prometheus
+  metadata:
+    name: prometheus
+  spec:
+    serviceAccountName: prometheus
+    serviceMonitorSelector:
+      matchLabels:
+        team: frontend
+    podMonitorSelector:
+      matchLabels:
+        team: frontend
+</pre>
+
+<p>It is required to add the same labels to the <span class="code ">ServiceMonitor</span> deployed with the previous command.
+To label the <span class="code ">ServiceMonitor</span> and <span class="code ">PodMonitor</span> deployed in previous steps, run:</p>
+<pre class="lang-bash">
+  kubectl label ServiceMonitor rabbitmq team=frontend
+  kubectl label PodMonitor rabbitmq-cluster-operator team=frontend
+</pre>
+
 <p><span class="code ">ServiceMonitor</span> and <span class="code ">PodMonitor</span> can be created in any namespace, as long as the Prometheus Operator has permissions to find it.
 For more information about these permissions, see <a href="#config-perm">Configure Permissions for the Prometheus Operator</a> below.</p>
 <p>Prometheus Operator will detect <span class="code ">ServiceMonitor</span> and <span class="code ">PodMonitor</span> objects and automatically configure and reload Prometheus' <a href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config">scrape config</a>.</p>
@@ -133,19 +156,21 @@ to import RabbitMQ Grafana dashboards <a href="https://github.com/grafana/helm-c
           <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
         // code highlighting
         window.addEventListener("load", function() {
-          const selectors = "pre.lang-bash, \
+          const selectors = "pre.lang-apacheconf, \
+                             pre.lang-bash, \
                              pre.lang-csharp, \
+                             pre.lang-clojure, \
                              pre.lang-elixir, \
                              pre.lang-erlang, \
                              pre.lang-go, \
                              pre.lang-groovy, \
                              pre.lang-haskell, \
-                             pre.lang-html, \
                              pre.lang-ini, \
                              pre.lang-java, \
                              pre.lang-javascript, \
                              pre.lang-json, \
                              pre.lang-makefile, \
+                             pre.lang-nginxconf, \
                              pre.lang-objectivec, \
                              pre.lang-php, \
                              pre.lang-plaintext, \
