@@ -8,28 +8,19 @@
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>For your convenience, we offer binary downloads of plugins
-which have been contributed by authors in the
-community. These plugins do not ship with the RabbitMQ
-server itself; you can download them from
-our community plugin archive.</p>
-<p>The plugins are available compiled against various releases
-of RabbitMQ.</p>
-<p>We offer no guarantee that these will even work
-against a given release of RabbitMQ. We build them at
-release time, and also when requested to by a plugin
+<p>Binary downloads of plugins, which are contributed by authors in the
+community are available. These plugins do not ship with the RabbitMQ
+server. Refer to <a href="installing-plugins.html">Installing Additional Plugins</a> for information on how to install the plugins. Note, the latest
+build of the plugin is compiled against the latest feature release of RabbitMQ. </p>
+<p>There is no guarantee that these plugins work
+against a given release of RabbitMQ. They are built at
+release time, and also when requested by a plugin
 author.</p>
-<p>The download links on this page let you download the latest
-build of the plugin, compiled against the latest feature
-release of RabbitMQ. Bugfix releases do not affect plugin
-compatibility. For older versions of plugins
-see <a href="https://dl.bintray.com/rabbitmq/community-plugins/">the archive</a>. See also
-<a href="installing-plugins.html">how to install additional plugins</a>.</p>
-<p>When RabbitMQ is upgraded, all community plugins must be re-installed.
-This may mean installing newer versions of them. Alternatively,
-they can be deactivated before or during the upgrade.</p>
+<p>Bugfix releases usually do not affect plugin compatibility.</p>
+<p>When RabbitMQ is upgraded, all community plugins must be re-installed, which can result in installing newer versions of them.
+Alternatively, they can be deactivated before or during the upgrade.</p>
 <p>If you are the author of a plugin and would like it listed
-here, please <a href="contact.html">get in touch</a>!</p>
+here, <a href="contact.html">get in touch</a>!</p>
 <h2><a id="routing" class="anchor" href="#routing">Routing</a></h2>
 <table class="plugins">
   <tr>
@@ -169,28 +160,6 @@ here, please <a href="contact.html">get in touch</a>!</p>
         <li><a href="https://github.com/rabbitmq/rabbitmq-boot-steps-visualiser/releases">Releases</a></li>
         <li>Author: <b>Alvaro Videla</b></li>
         <li>GitHub: <a href="https://github.com/rabbitmq/rabbitmq-boot-steps-visualiser">rabbitmq/rabbitmq-boot-steps-visualiser</a></li>
-      </ul>
-    </td>
-  </tr>
-</table>
-
-<h2><a id="queues" class="anchor" href="#queues">Queue Types</a></h2>
-<table class="plugins">
-  <tr>
-    <th>rabbitmq_priority_queue</th>
-  </tr>
-  <tr>
-    <td>
-      <i>
-        As of RabbitMQ 3.5.0 the <a href="priority.html">priority queue</a> plugin is
-        integrated into the broker. Users of the plugin
-        upgrading from previous versions of RabbitMQ should:
-      </i>
-      <ul>
-        <li>Install the new version of RabbitMQ</li>
-        <li>Invoke: <span class="code ">rabbitmq-plugins disable rabbitmq_priority_queue</span></li>
-        <li>Remove the plugin</li>
-        <li>Start the server</li>
       </ul>
     </td>
   </tr>

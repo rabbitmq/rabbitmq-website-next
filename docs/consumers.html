@@ -302,15 +302,20 @@ can stay empty for prolonged periods of time.</p>
 <h3>.NET Client</h3>
 <p>See <a href="./dotnet-api-guide.html#basic-get">.NET client guide</a> for examples.</p>
 <h2><a id="acknowledgement-timeout" class="anchor" href="#acknowledgement-timeout">Delivery Acknowledgement Timeout</a></h2>
-<p>In all <a href="./versions.html">currently supported</a> RabbitMQ versions, a timeout is enforced on consumer delivery acknowledgement.
-This helps detect buggy (stuck) consumers that never acknowledge deliveries.
+<p>RabbitMQ enforces a timeout is enforced on consumer delivery acknowledgement.
+This is a <strong>protection mechanism</strong> that helps detect buggy (stuck) consumers that never acknowledge deliveries.
 Such consumers can affect node's on disk data compaction and potentially drive
 nodes out of disk space.</p>
+<h3>How it works</h3>
 <p>If a consumer does not ack its delivery for more than the timeout value (30 minutes by default),
-its channel will be closed with a <span class="code ">PRECONDITION_FAILED</span> channel exception.
-The error will be <a href="logging.html">logged</a> by the node that the consumer was
+its channel will be closed with a <span class="code ">PRECONDITION_FAILED</span> channel exception.</p>
+<p>The error will be <a href="logging.html">logged</a> by the node that the consumer was
 connected to. All outstanding deliveries on that channel, from all consumers,
 will be <a href="confirms.html#automatic-requeueing">requeued</a>.</p>
+<p>Whether the timeout should be enforced is evaluated periodically, at one minute intervals.
+Values lower than one minute are not supported, and values lower than five minutes
+are not recommended.</p>
+<h3>Per-node Configuration</h3>
 <p>The timeout value is configurable in <a href="./configure.html#config-file">rabbitmq.conf</a> (in milliseconds):</p>
 <pre class="lang-ini">
 # 30 minutes in milliseconds
@@ -333,22 +338,21 @@ consumer_timeout = 3600000
 </pre>
 
 <p>Instead of disabling the timeout entirely, consider using a high value (for example, a few hours).</p>
-<p>Starting with RabbitMQ 3.11.15, the timeout value can also be set on the per-queue and per-consumer basis.</p>
-<h3>Using an Optional Queue Argument</h3>
-<p>Set the <span class="code ">x-consumer-timeout</span> <a href="#optional-arguments">optional queue argument</a> on a queue when the queue is declared.
-The value must be in milliseconds.</p>
-<h3>Using an Optional Consumer Argument</h3>
-<p>Set the <span class="code ">x-consumer-timeout</span> optional consumer argument when the consumer is registered.
-The value must be in milliseconds.</p>
-<h3>Using a Policy</h3>
+<h3>Per-queue Configuration</h3>
+<p>Starting with RabbitMQ 3.12, the timeout value can also be configured per-queue.</p>
+<h4>Per-queue Delivery Timeouts Using a Policy</h4>
+<p>Set the <span class="code ">consumer-timeout</span> policy key.</p>
+<p>The value must be in milliseconds.
+Whether the timeout should be enforced is evaluated periodically, at one minute intervals.</p>
 <pre class="lang-bash">
 # override consumer timeout for a group of queues using a policy
-rabbitmqctl set_policy queue_consumer_timeout \
-    "\.* '{"consumer_timeout":3600000}' \
-    --priority 0 \
-    --apply-to classic_queues
+rabbitmqctl set_policy queue_consumer_timeout "with_delivery_timeout\.*" '{"consumer_timeout":3600000}' --apply-to classic_queues
 </pre>
 
+<h4>Per-queue Delivery Timeouts Using an Optional Queue Argument</h4>
+<p>Set the <span class="code ">x-consumer-timeout</span> <a href="#optional-arguments">optional queue argument</a> on a queue when the queue is declared.
+The timeout is specifiedin milliseconds.
+Whether the timeout should be enforced is evaluated periodically, at one minute intervals.</p>
 <h2><a id="exclusivity" class="anchor" href="#exclusivity">Exclusivity</a></h2>
 <p>When registering a consumer with an AMQP 0-9-1 client, <a href="amqp-0-9-1-reference.html#basic.consume">the <span class="code ">exclusive</span> flag</a>
 can be set to true to request the consumer to be the only one

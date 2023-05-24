@@ -18,6 +18,11 @@ and is also replicated.</p>
 <p>Quorum queues should be the <strong>default choice</strong> for a replicated queue type.
 Classic queue mirroring will be <strong>removed in a future version</strong> of RabbitMQ:
 classic queues will remain a supported non-replicated queue type.</p>
+<p><a href="https://rabbitmq.com/persistence-conf.html#queue-version">Classic queues version 2</a> can be used with mirroring.
+However, combining v1 and v2 members is not recommended. It may happen if some nodes default to version 1 while other
+nodes default to version 2 (a new mirror will use the local node's default version if not explicitly set). Version 2
+is significantly faster in many situations and can overload a v1 mirror. The easiest solution is to switch to version 2
+using policies before changing the default version in the configuration.</p>
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>Topics covered in this guide include</p>
 <ul>

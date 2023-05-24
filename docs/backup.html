@@ -6,6 +6,15 @@
   <body id="backup"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Backup and Restore
 </h1>
 <h2>Overview</h2>
+<p>Modern versions of RabbitMQ (3.8.0+) only support backup restore from disk
+when they are restored to a RabbitMQ node with exactly the same node name as the
+node the data was backed up from. Node renaming is not supported if either quorum
+queues or streams are used.</p>
+<p>It is better to rely on other disaster recovery solutions,
+or use a separate standby cluster for disaster recovery.
+<a href="https://www.vmware.com/products/rabbitmq.html">VMware RabbitMQ</a> offers a number of extensions for
+warm standby replication to a dedicated disaster
+recovery cluster.</p>
 <p>This guide covers backup and restore procedures for various types of data
 a RabbitMQ node may contain.</p>
 <h2><a id="rabbitmq-data" class="anchor" href="#rabbitmq-data">Two Types of Node Data</a></h2>

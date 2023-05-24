@@ -1,45 +1,37 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Installing on RPM-based Linux (RedHat Enterprise Linux, CentOS, Fedora, openSUSE)
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Installing on RPM-based Linux (RHEL, CentOS Stream, Fedora, Amazon Linux 2023, openSUSE)
  — RabbitMQ</title></head>
-  <body id="install-rpm"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Installing on RPM-based Linux (RedHat Enterprise Linux, CentOS, Fedora, openSUSE)
+  <body id="install-rpm"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Installing on RPM-based Linux (RHEL, CentOS Stream, Fedora, Amazon Linux 2023, openSUSE)
 </h1>
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>This guide covers RabbitMQ installation on RPM-based Linux (Red Hat Enterprise Linux, CentOS Stream, Fedora, openSUSE).</p>
-<p>RabbitMQ is included in standard Fedora and RHEL repositories.</p>
-<p>With the <a href="https://packages.fedoraproject.org/pkgs/rabbitmq-server/rabbitmq-server/">exception of Fedora</a>, the versions included can be
+<p>With the <a href="https://packages.fedoraproject.org/pkgs/rabbitmq-server/rabbitmq-server/">exception of Fedora</a>, the versions included
+into standard RPM-based distribution repositories can be
 many releases behind <a href="changelog.html">latest RabbitMQ releases</a>
 and may provide RabbitMQ versions that are already <a href="versions.html">out of support</a>.</p>
-<p>Team RabbitMQ produces our own RPM packages and distributes them <a href="#apt-cloudsmith">using Cloudsmith</a> and <a href="#apt-packagecloud">PackageCloud</a>.</p>
+<p>Team RabbitMQ produces our own RPM packages and distributes them <a href="#apt-cloudsmith">using a Cloudsmith mirror</a> and <a href="#apt-packagecloud">PackageCloud</a>.</p>
 <p>There are two ways of installing these RPMs:</p>
 <ul>
-<li>Installing the package using Yum repositories (this option is highly recommended) on <a href="#cloudsmith">Cloudsmith.io</a> or <a href="#package-cloud">PackageCloud</a></li>
-<li><a href="#downloads">Downloading</a> the package and installing it with <span class="code ">rpm</span>. This option will require manual installation of all <a href="#package-dependencies">package dependencies</a>.</li>
+<li>Installing the package using Yum repositories (this option is highly recommended) from a <a href="#cloudsmith">Cloudsmith.io</a> mirror or <a href="#package-cloud">PackageCloud</a></li>
+<li><a href="#downloads">Downloading</a> the package and installing it with <span class="code ">rpm</span>.
+   This option will require manual installation of all <a href="#package-dependencies">package dependencies</a> and makes upgrades more difficult.</li>
 </ul>
-<p>The following guide focuses on RabbitMQ installation on RPM-based distributions
-such as Fedora, RHEL and CentOS. It covers a number of topics:</p>
+<p>Some of the topics covered in this guide are:</p>
 <ul>
+<li><a href="#supported-distributions">Supported distributions</a></li>
 <li>Package installation from Yum repositories on <a href="#cloudsmith">Cloudsmith.io</a> and <a href="#package-cloud">PackageCloud</a></li>
 <li>How to install a <a href="#install-erlang">latest supported Erlang/OTP version</a></li>
 <li><a href="#package-dependencies">Package dependencies</a></li>
-<li><a href="#supported-distributions">Supported distributions</a></li>
 <li><a href="#sudo-requirements">Privilege requirements</a></li>
 <li>How to <a href="#managing-service">manage the service</a> (start it, stop it, and get its status)</li>
 <li>How to <a href="#server-logs">inspect node and service logs</a></li>
-<li>Installation on <a href="#yum-legacy">older distributions</a></li>
-<li><a href="#downloads">Package downloads</a></li>
+<li><a href="#downloads">Direct download links</a> for the RabbitMQ RPM package</li>
 </ul>
 <p>and more.</p>
-<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>The package is distributed via Yum repositories on <a href="https://packagecloud.io/rabbitmq/rabbitmq-server/">PackageCloud</a>.</p>
-<p><span class="code ">rabbitmq-server</span> is included in Fedora. However,
-the versions included often lag behind RabbitMQ releases.
-It is recommended that you use Yum repositories from <a href="https://packagecloud.io/rabbitmq/rabbitmq-server/">PackageCloud</a>.</p>
-<p>Check the <a href="https://admin.fedoraproject.org/updates/rabbitmq-server">Fedora package</a> details for which version of the server is
-available for which versions of the distribution.</p>
 <h2><a id="supported-distributions" class="anchor" href="#supported-distributions">Supported Distributions</a></h2>
 <p>RabbitMQ is supported on several major RPM-based distributions that are still actively maintained
 by their primary vendor or developer group.</p>
@@ -50,10 +42,15 @@ Erlang 24 <strong>cannot be used on distributions that do not provide OpenSSL 1.
 CentOS 7 and Fedora releases older than 26 are examples of such distributions.</p>
 <p>Currently the list of supported RPM-based distributions includes</p>
 <ul>
+<li>Fedora 34 through 38</li>
 <li><a href="https://centos.org/centos-stream/">CentOS Stream</a> 9.x</li>
 <li><a href="https://www.centos.org/centos-stream/">CentOS Stream</a> 8.x</li>
 <li>RedHat Enterprise Linux 8.x</li>
-<li>Fedora 32 through 35 (use the CentOS 8.x package)</li>
+<li>Amazon Linux 2023</li>
+<li>Rocky Linux</li>
+<li>Alma Linux</li>
+<li>Oracle Linux</li>
+<li>openSUSE Leap 15.3 and later versions</li>
 </ul>
 <p>The packages may work on other RPM-based distributions
 if <a href="#package-dependencies">dependencies</a> are satisfied but their testing and support
@@ -78,7 +75,7 @@ and cannot be used to run latest RabbitMQ releases.</p>
 <h3><a id="install-zero-dependency-rpm" class="anchor" href="#install-zero-dependency-rpm">Zero-dependency Erlang from RabbitMQ</a></h3>
 <p><a href="https://github.com/rabbitmq/erlang-rpm">Zero dependency Erlang RPM package for running RabbitMQ</a>
 can be installed from a <a href="https://github.com/rabbitmq/erlang-rpm/releases">direct download</a> from GitHub,
-as well as Yum repositories on <a href="https://cloudsmith.io/~rabbitmq/repos/rabbitmq-erlang/setup/#formats-rpm">Cloudsmith.io</a> and <a href="https://packagecloud.io/rabbitmq/erlang">PackageCloud</a>.</p>
+as well as Yum repository, as described in its README.</p>
 <p>As the name suggests, the package strips off some Erlang modules and dependencies
 that are not essential for running RabbitMQ.</p>
 <h3><a id="install-from-suse-repository" class="anchor" href="#install-from-suse-repository">Erlang packages from openSUSE</a></h3>
@@ -111,8 +108,343 @@ manually. The dependencies are:</p>
 <li><span class="code ">socat</span></li>
 <li><span class="code ">logrotate</span></li>
 </ul>
+<h2><a id="cloudsmith" class="anchor" href="#cloudsmith">Install Using a Cloudsmith Mirror Yum Repository</a></h2>
+<p>A Yum repository with RabbitMQ packages is available from Cloudsmith and a mirror
+of the repositories there.</p>
+<p>The rest of this section will demonstrate how to set up a repository file
+that will use a mirror. Repositories on Cloudsmith are subject to traffic quotas
+but the mirror is not.</p>
+<h3>Install RabbitMQ and Cloudsmith Signing Keys</h3>
+<p>Yum will verify signatures of any packages it installs, therefore the first step
+in the process is to import the signing key</p>
+<pre class="lang-bash">
+## primary RabbitMQ signing key
+rpm --import https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
+## modern Erlang repository
+rpm --import 'https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key'
+## RabbitMQ server repository
+rpm --import 'https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key'
+</pre>
+
+<h3>Add Yum Repositories for RabbitMQ and Modern Erlang</h3>
+<p>In order to use the Yum repository, a <span class="code ">.repo</span> file (e.g. <span class="code ">rabbitmq.repo</span>) has to be
+added under the <span class="code ">/etc/yum.repos.d/</span> directory. The contents of the file will vary slightly
+between distributions (e.g. CentOS Stream 9, CentOS Stream 8, or OpenSUSE).</p>
+<h4>Red Hat 8, CentOS Stream 8, Modern Fedora Releases</h4>
+<p>The following example sets up a repository that will install RabbitMQ and its Erlang dependency from
+a Cloudsmith mirror, and targets <strong>CentOS Stream 8</strong>. The same repository definition <strong>can be used by recent Fedora releases</strong>,
+and Amazon Linux 2023.</p>
+<pre class="lang-ini">
+# In /etc/yum.repos.d/rabbitmq.repo
+
+##
+## Zero dependency Erlang RPM
+##
+
+[modern-erlang]
+name=modern-erlang-el8
+# uses a Cloudsmith mirror @ yum1.novemberain.com.
+# Unlike Cloudsmith, it does not have traffic quotas
+baseurl=https://yum1.novemberain.com/erlang/el/8/$basearch
+repo_gpgcheck=1
+enabled=1
+gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key
+gpgcheck=1
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+pkg_gpgcheck=1
+autorefresh=1
+type=rpm-md
+
+[modern-erlang-noarch]
+name=modern-erlang-el8-noarch
+# uses a Cloudsmith mirror @ yum1.novemberain.com.
+# Unlike Cloudsmith, it does not have traffic quotas
+baseurl=https://yum1.novemberain.com/erlang/el/8/noarch
+repo_gpgcheck=1
+enabled=1
+gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key
+       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
+gpgcheck=1
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+pkg_gpgcheck=1
+autorefresh=1
+type=rpm-md
+
+[modern-erlang-source]
+name=modern-erlang-el8-source
+# uses a Cloudsmith mirror @ yum1.novemberain.com.
+# Unlike Cloudsmith, it does not have traffic quotas
+baseurl=https://yum1.novemberain.com/erlang/el/8/SRPMS
+repo_gpgcheck=1
+enabled=1
+gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key
+       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
+gpgcheck=1
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+pkg_gpgcheck=1
+autorefresh=1
+
+
+##
+## RabbitMQ Server
+##
+
+[rabbitmq-el8]
+name=rabbitmq-el8
+baseurl=https://yum1.novemberain.com/rabbitmq/el/8/$basearch
+repo_gpgcheck=1
+enabled=1
+# Cloudsmith's repository key and RabbitMQ package signing key
+gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
+       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
+gpgcheck=1
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+pkg_gpgcheck=1
+autorefresh=1
+type=rpm-md
+
+[rabbitmq-el8-noarch]
+name=rabbitmq-el8-noarch
+baseurl=https://yum1.novemberain.com/rabbitmq/el/8/noarch
+repo_gpgcheck=1
+enabled=1
+# Cloudsmith's repository key and RabbitMQ package signing key
+gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
+       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
+gpgcheck=1
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+pkg_gpgcheck=1
+autorefresh=1
+type=rpm-md
+
+[rabbitmq-el8-source]
+name=rabbitmq-el8-source
+baseurl=https://yum1.novemberain.com/rabbitmq/el/8/SRPMS
+repo_gpgcheck=1
+enabled=1
+gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
+gpgcheck=0
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+pkg_gpgcheck=1
+autorefresh=1
+type=rpm-md
+</pre>
+
+<h4>Red Hat 9, CentOS Stream 9, Modern Fedora Releases</h4>
+<p>The following example sets up a repository that will install RabbitMQ and its Erlang dependency from
+a Cloudsmith mirror,
+and targets <strong>CentOS Stream 9</strong>, Amazon Linux 2023, and modern Fedora releases.</p>
+<pre class="lang-ini">
+# In /etc/yum.repos.d/rabbitmq.repo
+
+##
+## Zero dependency Erlang RPM
+##
+
+[modern-erlang]
+name=modern-erlang-el9
+# uses a Cloudsmith mirror @ yum1.novemberain.com.
+# Unlike Cloudsmith, it does not have traffic quotas
+baseurl=https://yum1.novemberain.com/erlang/el/9/$basearch
+repo_gpgcheck=1
+enabled=1
+gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key
+gpgcheck=1
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+pkg_gpgcheck=1
+autorefresh=1
+type=rpm-md
+
+[modern-erlang-noarch]
+name=modern-erlang-el9-noarch
+# uses a Cloudsmith mirror @ yum1.novemberain.com.
+# Unlike Cloudsmith, it does not have traffic quotas
+baseurl=https://yum1.novemberain.com/erlang/el/9/noarch
+repo_gpgcheck=1
+enabled=1
+gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key
+       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
+gpgcheck=1
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+pkg_gpgcheck=1
+autorefresh=1
+type=rpm-md
+
+[modern-erlang-source]
+name=modern-erlang-el9-source
+# uses a Cloudsmith mirror @ yum1.novemberain.com.
+# Unlike Cloudsmith, it does not have traffic quotas
+baseurl=https://yum1.novemberain.com/erlang/el/9/SRPMS
+repo_gpgcheck=1
+enabled=1
+gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key
+       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
+gpgcheck=1
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+pkg_gpgcheck=1
+autorefresh=1
+
+
+##
+## RabbitMQ Server
+##
+
+[rabbitmq-el9]
+name=rabbitmq-el9
+baseurl=https://yum1.novemberain.com/rabbitmq/el/9/$basearch
+repo_gpgcheck=1
+enabled=1
+# Cloudsmith's repository key and RabbitMQ package signing key
+gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
+       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
+gpgcheck=1
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+pkg_gpgcheck=1
+autorefresh=1
+type=rpm-md
+
+[rabbitmq-el9-noarch]
+name=rabbitmq-el9-noarch
+baseurl=https://yum1.novemberain.com/rabbitmq/el/9/noarch
+repo_gpgcheck=1
+enabled=1
+# Cloudsmith's repository key and RabbitMQ package signing key
+gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
+       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
+gpgcheck=1
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+pkg_gpgcheck=1
+autorefresh=1
+type=rpm-md
+
+[rabbitmq-el9-source]
+name=rabbitmq-el9-source
+baseurl=https://yum1.novemberain.com/rabbitmq/el/9/SRPMS
+repo_gpgcheck=1
+enabled=1
+gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
+gpgcheck=0
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+pkg_gpgcheck=1
+autorefresh=1
+type=rpm-md
+</pre>
+
+<h4>OpenSUSE</h4>
+<p>The following example targets OpenSUSE and only installs the RabbitMQ package repository.
+Erlang is assumed to be provisioned from the <a href="https://software.opensuse.org/download.html?project=devel%3Alanguages%3Aerlang%3AFactory&amp;package=erlang"><span class="code ">devel:languages:erlang:Factory</span></a> repository.</p>
+<pre class="lang-ini">
+##
+## RabbitMQ server
+##
+
+[rabbitmq_server]
+name=rabbitmq_server
+baseurl=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/rpm/opensuse/15.1/$basearch
+repo_gpgcheck=1
+enabled=1
+gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
+gpgcheck=1
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+pkg_gpgcheck=1
+autorefresh=1
+type=rpm-md
+
+[rabbitmq_server-noarch]
+name=rabbitmq_server-noarch
+baseurl=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/rpm/opensuse/15.1/noarch
+repo_gpgcheck=1
+enabled=1
+gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
+gpgcheck=1
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+pkg_gpgcheck=1
+autorefresh=1
+type=rpm-md
+
+[rabbitmq_server-source]
+name=rabbitmq_server-source
+baseurl=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/rpm/opensuse/15.1/SRPMS
+repo_gpgcheck=1
+enabled=1
+gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
+gpgcheck=1
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+pkg_gpgcheck=1
+autorefresh=1
+type=rpm-md
+</pre>
+
+<h3>Install Packages with dnf (yum)</h3>
+<h4>Red Hat 8, CentOS Stream 9, CentOS 8, Modern Fedora</h4>
+<p>Update package metadata:</p>
+<pre class="lang-bash">
+dnf update -y
+</pre>
+
+<p>Next install dependencies from the standard repositories:</p>
+<pre class="lang-bash">
+## install these dependencies from standard OS repositories
+dnf install socat logrotate -y
+</pre>
+
+<p>Finally, install modern Erlang and RabbitMQ:</p>
+<pre class="lang-bash">
+## install RabbitMQ and zero dependency Erlang from the above repositories,
+## ignoring any versions provided by the standard repositories
+##
+## This installs Erlang 25.3.x because there is no Erlang 26-compatible
+## GA release of RabbitMQ at the moment
+dnf install -y erlang-25.3.2 rabbitmq-server
+</pre>
+
+<h3>Install Packages with Zypper</h3>
+<p>First, update Zypper package metadata:</p>
+<pre class="lang-bash">
+## refresh the RabbitMQ repositories
+zypper --gpg-auto-import-keys refresh rabbitmq_server
+zypper --gpg-auto-import-keys refresh rabbitmq_server-noarch
+zypper --gpg-auto-import-keys refresh rabbitmq_server-source
+</pre>
+
+<p>Then install the packages:</p>
+<pre class="lang-bash">
+## install the package from Cloudsmith repository
+zypper install --repo rabbitmq_server-noarch
+</pre>
+
 <h2><a id="package-cloud" class="anchor" href="#package-cloud">Install Using PackageCloud Yum Repository</a></h2>
-<p>A Yum repository with RabbitMQ packages is available from PackageCloud.
+<p>An alternative Yum repository with RabbitMQ packages is available from PackageCloud.
 Package Cloud also can be used to <a href="https://packagecloud.io/rabbitmq/erlang/install#bash-rpm">install a recent Erlang version via yum</a>.</p>
 <p>A quick way to set up the repository is to use a <a href="https://packagecloud.io/rabbitmq/rabbitmq-server/install#bash-rpm">Package Cloud-provided script</a>.
 It is not a requirement and should be carefully considered since it pipes a generated script from
@@ -124,6 +456,7 @@ curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/sc
 </pre>
 
 <p>The rest of this section guide will focus on a more traditional way that explicitly installs a Yum repository file.</p>
+<h3>Install RabbitMQ and PackageCloud Signing Keys</h3>
 <p>Yum will verify signatures of any packages it installs, therefore the first step
 in the process is to import the signing key</p>
 <pre class="lang-bash">
@@ -271,247 +604,23 @@ zypper --gpg-auto-import-keys refresh rabbitmq_rabbitmq-server-source
 zypper install --repo rabbitmq_rabbitmq-server rabbitmq-server
 </pre>
 
-<h2><a id="cloudsmith" class="anchor" href="#cloudsmith">Install Using Cloudsmith Yum Repository</a></h2>
-<p>A Yum repository with RabbitMQ packages is available from Cloudsmith.
-Cloudsmith also can be used to <a href="https://cloudsmith.io/~rabbitmq/repos/rabbitmq-erlang/setup/#formats-rpm">install a recent Erlang version via yum</a>.</p>
-<p>A quick way to set up the repository is to use a <a href="https://cloudsmith.io/~rabbitmq/repos/rabbitmq-server/setup/#formats-rpm">Cloudsmith-provided script</a>.
-It is not a requirement and should be carefully considered since it pipes a generated script from
-the public Internet to a privileged shell.</p>
-<pre class="lang-bash">
-## Uses a Cloudsmith-provided Yum repository setup script.
-## Always verify what is downloaded before piping it to a privileged shell!
-curl -1sLf 'https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/setup.rpm.sh' | sudo -E bash
-</pre>
-
-<p>The rest of this section will focus on a more traditional way that explicitly installs a Yum repository file.</p>
-<p>Yum will verify signatures of any packages it installs, therefore the first step
-in the process is to import the signing key</p>
-<pre class="lang-bash">
-## primary RabbitMQ signing key
-rpm --import https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-## modern Erlang repository
-rpm --import 'https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key'
-## RabbitMQ server repository
-rpm --import 'https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key'
-</pre>
-
-<h3>Add Yum Repositories for RabbitMQ and Modern Erlang</h3>
-<p>In order to use the Yum repository, a <span class="code ">.repo</span> file (e.g. <span class="code ">rabbitmq.repo</span>) has to be
-added under the <span class="code ">/etc/yum.repos.d/</span> directory. The contents of the file will vary slightly
-between distributions (e.g. CentOS Stream 9, CentOS Stream 8, or OpenSUSE).</p>
-<h4>Red Hat 8, CentOS 8, Modern Fedora Releases</h4>
-<p>The following example sets up a repository that will install RabbitMQ and its Erlang dependency from Cloudsmith,
-and targets <strong>CentOS Stream 8</strong>. The same repository definition <strong>can be used by recent Fedora releases</strong>
-and CentOS Stream 9.</p>
-<pre class="lang-ini">
-# In /etc/yum.repos.d/rabbitmq.repo
-
-##
-## Zero dependency Erlang RPM
-##
-
-[rabbitmq_erlang]
-name=rabbitmq_erlang
-baseurl=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/rpm/el/8/$basearch
-repo_gpgcheck=1
-enabled=1
-# Cloudsmith's repository key and RabbitMQ package signing key
-gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key
-       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-gpgcheck=1
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-pkg_gpgcheck=1
-autorefresh=1
-type=rpm-md
-
-[rabbitmq_erlang-noarch]
-name=rabbitmq_erlang-noarch
-baseurl=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/rpm/el/8/noarch
-repo_gpgcheck=1
-enabled=1
-# Cloudsmith's repository key and RabbitMQ package signing key
-gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key
-       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-gpgcheck=1
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-pkg_gpgcheck=1
-autorefresh=1
-type=rpm-md
-
-[rabbitmq_erlang-source]
-name=rabbitmq_erlang-source
-baseurl=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/rpm/el/8/SRPMS
-repo_gpgcheck=1
-enabled=1
-gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key
-gpgcheck=0
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-pkg_gpgcheck=1
-autorefresh=1
-type=rpm-md
-
-
-##
-## RabbitMQ Server
-##
-
-[rabbitmq_server]
-name=rabbitmq_server
-baseurl=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/rpm/el/8/$basearch
-repo_gpgcheck=1
-enabled=1
-# Cloudsmith's repository key and RabbitMQ package signing key
-gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
-       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-gpgcheck=1
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-pkg_gpgcheck=1
-autorefresh=1
-type=rpm-md
-
-[rabbitmq_server-noarch]
-name=rabbitmq_server-noarch
-baseurl=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/rpm/el/8/noarch
-repo_gpgcheck=1
-enabled=1
-# Cloudsmith's repository key and RabbitMQ package signing key
-gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
-       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-gpgcheck=1
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-pkg_gpgcheck=1
-autorefresh=1
-type=rpm-md
-
-[rabbitmq_server-source]
-name=rabbitmq_server-source
-baseurl=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/rpm/el/8/SRPMS
-repo_gpgcheck=1
-enabled=1
-gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
-gpgcheck=0
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-pkg_gpgcheck=1
-autorefresh=1
-type=rpm-md
-</pre>
-
-<h4>OpenSUSE</h4>
-<p>The following example targets OpenSUSE and only installs the RabbitMQ package repository.
-Erlang is assumed to be provisioned from the <a href="https://software.opensuse.org/download.html?project=devel%3Alanguages%3Aerlang%3AFactory&amp;package=erlang"><span class="code ">devel:languages:erlang:Factory</span></a> repository.</p>
-<pre class="lang-ini">
-##
-## RabbitMQ server
-##
-
-[rabbitmq_server]
-name=rabbitmq_server
-baseurl=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/rpm/opensuse/15.1/$basearch
-repo_gpgcheck=1
-enabled=1
-gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
-gpgcheck=1
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-pkg_gpgcheck=1
-autorefresh=1
-type=rpm-md
-
-[rabbitmq_server-noarch]
-name=rabbitmq_server-noarch
-baseurl=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/rpm/opensuse/15.1/noarch
-repo_gpgcheck=1
-enabled=1
-gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
-gpgcheck=1
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-pkg_gpgcheck=1
-autorefresh=1
-type=rpm-md
-
-[rabbitmq_server-source]
-name=rabbitmq_server-source
-baseurl=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/rpm/opensuse/15.1/SRPMS
-repo_gpgcheck=1
-enabled=1
-gpgkey=https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key
-gpgcheck=1
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-pkg_gpgcheck=1
-autorefresh=1
-type=rpm-md
-</pre>
-
-<h3>Install Packages with Yum</h3>
-<h4>Red Hat 8, CentOS Stream 9, CentOS 8, Modern Fedora</h4>
-<p>Update Yum package metadata:</p>
-<pre class="lang-bash">
-yum update -y
-yum -q makecache -y --disablerepo='*' --enablerepo='rabbitmq_erlang-noarch' --enablerepo='rabbitmq_server-noarch'
-</pre>
-
-<p>Next install dependencies from the standard repositories:</p>
-<pre class="lang-bash">
-## install these dependencies from standard OS repositories
-yum install socat logrotate -y
-</pre>
-
-<p>Finally, install modern Erlang and RabbitMQ:</p>
-<pre class="lang-bash">
-## install RabbitMQ and zero dependency Erlang from the above repositories,
-## ignoring any versions provided by the standard repositories
-yum install --repo rabbitmq_erlang --repo rabbitmq_server-noarch erlang rabbitmq-server
-</pre>
-
-<h3>Install Packages with Zypper</h3>
-<p>First, update Zypper package metadata:</p>
-<pre class="lang-bash">
-## refresh the RabbitMQ repositories
-zypper --gpg-auto-import-keys refresh rabbitmq_server
-zypper --gpg-auto-import-keys refresh rabbitmq_server-noarch
-zypper --gpg-auto-import-keys refresh rabbitmq_server-source
-</pre>
-
-<p>Then install the packages:</p>
-<pre class="lang-bash">
-## install the package from Cloudsmith repository
-zypper install --repo rabbitmq_server-noarch
-</pre>
-
-<h2><a id="rpm-version-locking" class="anchor" href="#rpm-version-locking">Package Version Locking in Yum</a></h2>
+<h2><a id="rpm-version-locking" class="anchor" href="#rpm-version-locking">Package Version Locking in On RPM-based Distributions</a></h2>
 <p><a href="https://access.redhat.com/solutions/98873">yum version locking</a> plugin can
 be used to prevent unexpected package upgrades. Using it carries the risk of leaving
 the system behind in terms of <a href="changelog.html">updates</a>, including important bug fixes
 and security patches.</p>
-<h2><a id="with-rpm" class="anchor" href="#with-rpm">With rpm and Downloaded RPM</a></h2>
+<h2><a id="with-rpm" class="anchor" href="#with-rpm">With rpm and a Direct Download</a></h2>
 <p>After <a href="#downloads">downloading</a> the server package, issue the following command as
 'root':</p>
 <pre class="lang-bash">
 rpm --import https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
 
 ## install these dependencies from standard OS repositories
-yum install socat logrotate -y
+dnf install socat logrotate -y
 
 # This example assumes the CentOS Stream 8 version of the package, suitable for
 # Red Hat 8, CentOS Stream 9, CentOS Stream 8 and modern Fedora releases.
-yum install rabbitmq-server-3.11.15-1.el8.noarch.rpm
+dnf install rabbitmq-server-3.11.16-1.el8.noarch.rpm
 </pre>
 
 <p><a href="signatures.html">RabbitMQ public signing key</a> can also be <a href="https://www.rabbitmq.com/rabbitmq-release-signing-key.asc">downloaded from rabbitmq.com</a>:</p>
@@ -519,14 +628,14 @@ yum install rabbitmq-server-3.11.15-1.el8.noarch.rpm
 rpm --import https://www.rabbitmq.com/rabbitmq-release-signing-key.asc
 
 ## install these dependencies from standard OS repositories
-yum install socat logrotate -y
+dnf install socat logrotate -y
 
 # This example assumes the CentOS 8 version of the package, suitable for
 # Red Hat 8, CentOS Stream 9, CentOS Stream 8 and modern Fedora releases.
-yum install rabbitmq-server-3.11.15-1.el8.noarch.rpm
+dnf install rabbitmq-server-3.11.16-1.el8.noarch.rpm
 </pre>
 
-<h2><a id="downloads" class="anchor" href="#downloads">Download the Server</a></h2>
+<h2><a id="downloads" class="anchor" href="#downloads">Direct Downloads</a></h2>
 <p>In some cases it may be easier to download the package and install it manually. The package can be downloaded
 from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>.</p>
 <table>
@@ -538,13 +647,13 @@ from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>.<
 
   <tr>
     <td>
-      RPM for RHEL Linux 8.x, CentOS Stream 9, CentOS 8.x, Fedora 32+ (supports systemd)
+      RPM for RHEL Linux 8.x and 9.x, CentOS Stream 8 and 9, Fedora 34+, Amazon Linux 2023, Rocky Linux, Alma Linux
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.15/rabbitmq-server-3.11.15-1.el8.noarch.rpm">rabbitmq-server-3.11.15-1.el8.noarch.rpm</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.16/rabbitmq-server-3.11.16-1.el8.noarch.rpm">rabbitmq-server-3.11.16-1.el8.noarch.rpm</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.15/rabbitmq-server-3.11.15-1.el8.noarch.rpm.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.16/rabbitmq-server-3.11.16-1.el8.noarch.rpm.asc">Signature</a>
     </td>
   </tr>
 
@@ -553,10 +662,10 @@ from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>.<
       RPM for openSUSE Linux
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.15/rabbitmq-server-3.11.15-1.suse.noarch.rpm">rabbitmq-server-3.11.15-1.suse.noarch.rpm</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.16/rabbitmq-server-3.11.16-1.suse.noarch.rpm">rabbitmq-server-3.11.16-1.suse.noarch.rpm</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.15/rabbitmq-server-3.11.15-1.suse.noarch.rpm.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.16/rabbitmq-server-3.11.16-1.suse.noarch.rpm.asc">Signature</a>
     </td>
   </tr>
 </table>

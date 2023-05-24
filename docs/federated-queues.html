@@ -50,6 +50,7 @@ there is some degree of locality; i.e. as many messages as
 possible are consumed from the same queue as they were published
 to, and the federation mechanism only needs to move messages
 around in order to perform load balancing.</p>
+<p>Brokers running different versions of RabbitMQ can be connected using federation.</p>
 <h2><a id="limitations" class="anchor" href="#limitations">Limitations</a></h2>
 <p>Federated queues include a number of limitations or differences compared to their non-federated peers
 as well as federated exchanges.</p>
@@ -60,10 +61,6 @@ Since <span class="code ">basic.get</span> is a synchronous method, the node ser
 block while contacting all the other nodes to retrieve more
 messages. This wouldn't sit well with federation's availability and partition tolerance-oriented
 design and use cases.</p>
-<p>Brokers running different versions of RabbitMQ can be connected
-using federation. However, since queue federation requires
-consumer priorities, it is not possible to federate a queue with a
-broker running a RabbitMQ version prior to 3.2.0.</p>
 <h2><a id="usage" class="anchor" href="#usage">Usage and Configuration</a></h2>
 <p>Federated queues are declared just like any other queue, by applications.
 In order for RabbitMQ to recognize that a queue needs to be federated,
@@ -76,7 +73,7 @@ and reconfigured on the fly as system topology changes. There are two key pieces
 <li>Upstreams: these are remote endpoints in a federated system</li>
 <li>Federation policies: these control what queues are federated and what upstreams (peers) they will connect to</li>
 </ul>
-<p>Both of those are configured on the upstream nodes or clusters.</p>
+<p>Both of those are configured on the downstream nodes or clusters.</p>
 <p>To add an upstream, use the <span class="code ">rabbitmqctl set_parameter</span> command. It accepts three parameters:</p>
 <ul>
 <li>Parameter type, <span class="code ">federation-upstream</span></li>

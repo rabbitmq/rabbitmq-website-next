@@ -33,7 +33,7 @@ to be located on a separate node or in a separate cluster.</p>
 control link connection parameters. Upstreams can be managed using <a href="./cli.html">CLI tools</a>
 or the HTTP API with <a href="https://github.com/rabbitmq/rabbitmq-federation-management">an additional plugin</a>.</p>
 <p>Here is a diagram showing a single upstream exchange (the source exchange) in one
-node linking to a set of two downstream exchanges in two other nodes:</p>
+node linking to a single downstream exchange (the federated exchange) in another node:</p>
 <p><img src="./img/federation/federated-exchange.svg" alt="Basic federated exchange" title="Basic federated exchange" /></p>
 <p>When exchange federation is used, usually only a subset of exchanges in a cluster is federated.
 Some exchanges can be inherently local to the "site" (cluster) and its uses.</p>
@@ -65,7 +65,7 @@ and reconfigured on the fly as system topology changes. There are two key pieces
 <li>Upstreams: these are remote endpoints in a federated system</li>
 <li>Federation policies: these control what exchanges are federated and what upstreams (sources) they will connect to</li>
 </ul>
-<p>Both of those are configured on the upstream nodes or clusters.</p>
+<p>Both of those are configured on the downstream nodes or clusters.</p>
 <p>To add an upstream, use the <span class="code ">rabbitmqctl set_parameter</span> command. It accepts three parameters:</p>
 <ul>
 <li>Parameter type, <span class="code ">federation-upstream</span></li>
@@ -86,7 +86,7 @@ rabbitmqctl.bat set_parameter federation-upstream origin "{""uri"":""amqp://loca
 
 <p>More upstream definition parameters are covered in the <a href="./federation-reference.html">Federation Reference guide</a>.</p>
 <p>Once an upstream has been specified, a policy that controls federation can be added. It is added just like
-any other <a href="./parameters.html#policies">policy</a>, using <span class="code "></span>:</p>
+any other <a href="./parameters.html#policies">policy</a>, using:</p>
 <pre class="lang-bash">
 # Adds a policy named "exchange-federation"
 rabbitmqctl set_policy exchange-federation \
@@ -155,9 +155,9 @@ exchange cannot be received by queues bound to the upstream
 exchange.</p>
 <h2><a id="topology-diagrams" class="anchor" href="#topology-diagrams">Example Topologies</a></h2>
 <p>We illustrate some example federation topologies. Where RabbitMQ
-brokers are shown in these diagrams indicated by</p>
-<p>(indicated by a <img src="./img/rabbitmq_logo_30x30.png" height="15" />)</p>
-<p>it can be a cluster of nodes or a standalone node.</p>
+brokers are shown in these diagrams indicated by a
+<img src="./img/rabbitmq_logo_30x30.png" height="15" />
+it can be a cluster of nodes or a standalone node.</p>
 <table>
   <thead>
     <tr>
@@ -208,7 +208,7 @@ brokers are shown in these diagrams indicated by</p>
       <td>Fan-out</td>
       <td>
         <p>
-          One source exchange (which it is _not_ necessary to federate)
+          One source exchange (which it is not necessary to federate)
           is linked to by a tree of exchanges, which can extend to any depth.
           In this case messages published to the source exchange can be
           received by any consumer connected to any broker in the tree.
