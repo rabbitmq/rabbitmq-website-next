@@ -156,8 +156,12 @@ In that case, the configuration will look like this:</p>
 <td>Configure the plugin to also look in other fields (maps to <span class="code ">additional_rabbitmq_scopes</span> in the old format).</td>
 </tr>
 <tr>
+<td><span class="code ">auth_oauth2.scope_prefix</span></td>
+<td>Configure prefix for all scopes. Default value is  <span class="code ">auth_oauth2.resource_server_id</span> followed by the dot <span class="code ">.</span> character.</td>
+</tr>
+<tr>
 <td><span class="code ">auth_oauth2.preferred_username_claims</span></td>
-<td>List of JWT claims to look for username associated to the token</td>
+<td>List of JWT claims to look for username associated to the token separated by commas.</td>
 </tr>
 <tr>
 <td><span class="code ">auth_oauth2.default_key</span></td>
@@ -226,11 +230,19 @@ auth_oauth2.https.hostname_verification = wildcard
 auth_oauth2.algorithms.1 = HS256
 auth_oauth2.algorithms.2 = RS256
 </pre>
-<h3><a id="resource-server-id" class="anchor" href="#resource-server-id">Resource Server ID and Scope Prefixes</a></h3>
-<p>OAuth 2.0 (and thus UAA-provided) tokens use scopes to communicate what set of permissions particular
+
+<h3><a id="resource-server-id" class="anchor" href="#resource-server-id">Resource Server ID and scope prefix</a></h3>
+<p>OAuth 2.0 tokens use scopes to communicate what set of permissions particular
 client has been granted. The scopes are free form strings.</p>
-<p><span class="code ">resource_server_id</span> is a prefix used for scopes in UAA to avoid scope collisions (or unintended overlap).
-It is an empty string by default.</p>
+<p>By default, <span class="code ">resource_server_id</span> followed by the dot (<span class="code ">.</span>) character is the prefix used for scopes to avoid scope collisions (or unintended overlap).
+However, in some environments, it is not possible to use <span class="code ">resource_server_id</span> as the prefix for all scopes. For these environments, there is a new setting called <span class="code ">scope_prefix</span> which overrides the default scope prefix. Empty strings are allowed.</p>
+<p>Given the below configuration, the scope associated to the permission <span class="code ">read:*/*</span> is <span class="code ">api://read:*/*</span>.</p>
+<pre class="lang-ini">
+...
+auth_oauth2.scope_prefix = api://
+...
+</pre>
+
 <h3><a id="token-validation" class="anchor" href="#token-validation">Token validation</a></h3>
 <p>When RabbitMQ receives a JWT token, it validates it before accepting it.</p>
 <h4>Must be digitally signed</h4>
@@ -276,9 +288,11 @@ the pattern must be <a href="https://en.wikipedia.org/wiki/Percent-encoding">URL
 <li><span class="code ">read:*/*/*</span> and <span class="code ">write:*/*/*</span> - queue binding permissions required to bind a queue on a topic exchange with any routing key</li>
 </ul>
 <p>See the <a href="https://github.com/rabbitmq/rabbitmq-server/blob/main/deps/rabbitmq_auth_backend_oauth2/test/wildcard_match_SUITE.erl">wildcard matching test suite</a> and <a href="https://github.com/rabbitmq/rabbitmq-server/blob/main/deps/rabbitmq_auth_backend_oauth2/test/scope_SUITE.erl">scopes test suite</a> for more examples.</p>
-<p>Scopes should be prefixed with <span class="code ">resource_server_id</span>. For example,
-if <span class="code ">resource_server_id</span> is "my_rabbit", a scope to enable read from any vhost will
+<p>Scopes, by default, are prefixed with <span class="code ">resource_server_id</span> followed by the dot (<span class="code ">.</span>) character if <span class="code ">scope_prefix</span>
+is not configured. For example, if <span class="code ">resource_server_id</span> is "my_rabbit", a scope to enable read from any vhost will
 be <span class="code ">my_rabbit.read:*/*</span>.</p>
+<p>If <span class="code ">scope_prefix</span> is configured then scopes are prefixed as follows: <span class="code ">&lt;scope_prefix&gt;&lt;permission&gt;</span>. For example,
+if <span class="code ">scope_prefix</span> is <span class="code ">api://</span> and the permission is <span class="code ">read:*/*</span> the scope would be <span class="code ">api://read:*/*</span></p>
 <h3><a id="topic-exchange-scopes" class="anchor" href="#topic-exchange-scopes">Topic Exchange scopes</a></h3>
 <p>The <a href="#scope-translation">previous</a> section explained, in detail, how permissions are mapped to scopes. This section explains more specifically what scopes you need in order to operate on <strong>Topic Exchanges</strong>.</p>
 <p>To bind and/or unbind a queue to/from a <strong>Topic Exchange</strong>, you need to have the following scopes:</p>
