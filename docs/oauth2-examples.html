@@ -8,7 +8,7 @@
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>This tutorial-style guide has two primary goals:</p>
 <ol>
-<li>Explore how applications and end users can <a href="./access-control">authenticate</a> with RabbitMQ server using OAuth 2.0 protocol rather than
+<li>Explore how applications and end users can <a href="./access-control.html">authenticate</a> with RabbitMQ server using OAuth 2.0 protocol rather than
    the traditional username/password pairs or x.509 certificates.</li>
 <li>Explore what it takes to set up RabbitMQ Server with OAuth 2.0 authentication mechanism.
    Additionally it explains how to stand up (<a href="https://github.com/cloudfoundry/uaa">UAA</a>) as an OAuth 2.0 Authorization Server and all the operations to create OAuth clients, users and obtain their tokens.</li>
@@ -83,9 +83,9 @@ will see how to set up UAA and RabbitMQ. If you are new to OAuth 2.0, it is a go
 and you want to learn how to configure RabbitMQ to talk to one of OAuth 2.0 server tested on this tutorial, you can jump
 straight to them. They are:</p>
 <ul>
-<li><a href="use-cases/keycloak.md">KeyCloak</a></li>
-<li><a href="use-cases/oauth0.md">https://auth0.com/</a></li>
-<li><a href="use-cases/azure.md">Azure Active Directory</a></li>
+<li><a href="./oauth2-examples-keycloak.html">KeyCloak</a></li>
+<li><a href="./oauth2-examples-oauth0.html">https://auth0.com/</a></li>
+<li><a href="./oauth2-examples-azure.html">Azure Active Directory</a></li>
 <li><a href="#uaa-asymmetrical-signing-keys">UAA</a></li>
 </ul>
 <h4><a id="uaa-asymmetrical-signing-keys" class="anchor" href="#uaa-asymmetrical-signing-keys">Use Asymmetrical Digital Singing Keys</a></h4>
@@ -99,7 +99,7 @@ configure RabbitMQ with them.</p>
 <li><span class="code ">make start-uaa</span> to get UAA server running</li>
 <li><span class="code ">make start-rabbitmq</span> to start RabbitMQ server</li>
 </ol>
-<p>The last command starts a RabbitMQ server with <a href="https://github.com/rabbitmq/rabbitmq-oauth2-tutorial/blob/main/conf/uaa/rabbitmq.config">this</a> configuration file.</p>
+<p>The last command starts a RabbitMQ server with <a href="https://github.com/rabbitmq/rabbitmq-oauth2-tutorial/blob/main/conf/uaa/rabbitmq.config">specific configuration file</a>.</p>
 <h2><a id="access-management-ui" class="anchor" href="#access-management-ui">Access Management UI using OAuth 2.0 tokens</a></h2>
 <p>The RabbitMQ Management UI can be configured with one of these two login modes:</p>
 <ul>
@@ -297,7 +297,7 @@ make start-jms-subscriber
 <p>Note: in this example, RabbitMQ is already configured with the <a href="./mqtt.html"><span class="code ">rabbitmq_mqtt</span> plugin</a>.</p>
 <p>This is no different than using AMQP or JMS protocols, all that matters is to pass an empty username and a JWT token as password.
 However, <strong>what it is really different</strong> is how you encode the permissions. In this use case you are going to proceed as you did it in the previous use case where you handcrafted the JWT token rather than requesting it to UAA. Here is the the scopes required to publish
-a message to a mqtt topic (<a href="jwts/scopes-for-mqtt.json">scopes-for-mqtt.json</a>)</p>
+a message to a mqtt topic (<a href="https://github.com/rabbitmq/rabbitmq-oauth2-tutorial/blob/main/jwts/scopes-for-mqtt.json">scopes-for-mqtt.json</a>)</p>
 <pre class="lang-javascript">
 {
   "scope": [
@@ -533,7 +533,7 @@ CONFIG=rabbitmq-scope-aliases-and-extra-scope.config make start-rabbitmq
 <p>This command will stop RabbitMQ if it is already running</p>
 <p>You cannot use UAA to issue the tokens because you cannot configure UAA to use a custom field for scopes.
 Instead you are going to issue the token ourselves with the command <span class="code ">bin/jwt_token</span>.</p>
-<p>Launch a producer application with the token <a href="jwts/producer-roles-in-extra-scope.json">producer-role-in-scope.json</a>:</p>
+<p>Launch a producer application with the token <a href="https://github.com/rabbitmq/rabbitmq-oauth2-tutorial/blob/main/jwts/producer-roles-in-extra-scope.json">producer-role-in-scope.json</a>:</p>
 <pre class="lang-bash">
 make start-perftest-producer-with-token PRODUCER=producer_with_roles TOKEN=$(bin/jwt_token producer-role-in-extra-scope.json legacy-token-key private.pem public.pem)
 </pre>
@@ -543,12 +543,12 @@ make start-perftest-producer-with-token PRODUCER=producer_with_roles TOKEN=$(bin
 docker logs producer_with_roles -f
 </pre>
 
-<p>Launch a consumer application with the token <a href="jwts/consumer-roles-in-extra-scope.json">consumer-roles-in-extra-scope.json</a>:</p>
+<p>Launch a consumer application with the token <a href="https://github.com/rabbitmq/rabbitmq-oauth2-tutorial/blob/main/jwts/consumer-roles-in-extra-scope.json">consumer-roles-in-extra-scope.json</a>:</p>
 <pre class="lang-bash">
 make start-perftest-consumer-with-token CONSUMER=consumer_with_roles TOKEN=$(bin/jwt_token consumer-roles-in-extra-scope.json legacy-token-key private.pem public.pem)
 </pre>
 
-<p>Access management api with the token <a href="jwts/producer-roles-in-extra-scope.json">producer-roles-in-extra-scope.json</a></p>
+<p>Access management api with the token <a href="https://github.com/rabbitmq/rabbitmq-oauth2-tutorial/blob/main/jwts/producer-roles-in-extra-scope.json">producer-roles-in-extra-scope.json</a></p>
 <pre class="lang-bash">
 make curl-with-token URL="http://localhost:15672/api/overview" TOKEN=$(bin/jwt_token producer-roles-in-extra-scope.json legacy-token-key private.pem public.pem)
 </pre>
@@ -593,7 +593,7 @@ defines a more sophisticated permission model.</p>
 
 <p><em>Get the environment ready</em></p>
 <p>To demonstrate this new capability you have to deploy RabbitMQ with the appropriate configuration file
-under <a href="conf/uaa/rabbitmq-for-rar-tokens.config">conf/uaa/rabbitmq-for-rar-tokens.config</a>.</p>
+under <a href="https://github.com/rabbitmq/rabbitmq-oauth2-tutorial/blob/main/conf/uaa/rabbitmq-for-rar-tokens.config">conf/uaa/rabbitmq-for-rar-tokens.config</a>.</p>
 <pre class="lang-bash">
 export CONFIG=rabbitmq-for-rar-tokens.config
 make start-rabbitmq
@@ -602,7 +602,7 @@ make start-rabbitmq
 <p><strong>NOTE</strong>: You do not need to run any OAuth 2.0 server like UAA. This is because you are creating a token and signing it using the same
 private-public key pair RabbitMQ is configured with.</p>
 <p><em>Use a Rich Authorization Token to access the management rest api</em></p>
-<p>You are going use this token <a href="jwts/rar-token.json">jwts/rar-token.json</a> to access an endpoint of the management rest api.</p>
+<p>You are going use this token <a href="https://github.com/rabbitmq/rabbitmq-oauth2-tutorial/blob/main/jwts/rar-token.json">jwts/rar-token.json</a> to access an endpoint of the management rest api.</p>
 <pre class="lang-bash">
 make curl-with-token URL=http://localhost:15672/api/overview TOKEN=$(bin/jwt_token rar-token.json legacy-token-key private.pem public.pem)
 </pre>
@@ -729,7 +729,7 @@ and <a href="https://www.rabbitmq.com/access-control.html#permissions">RabbitMQ 
 <li><span class="code ">rabbitmq.tag:monitoring</span> grants <span class="code ">monitoring</span> <em>user tag</em></li>
 </ul>
 <blockquote>
-<p>Be aware that you have used <span class="code ">rabbitmq</span> resource_server_id in the sample scopes. RabbitMQ must be configured with this same <span class="code ">resource_server_id</span>. Check out <a href="rabbitmq.config">conf/symmetric_keys/rabbitmq.config</a></p>
+<p>Be aware that you have used <span class="code ">rabbitmq</span> resource_server_id in the sample scopes. RabbitMQ must be configured with this same <span class="code ">resource_server_id</span>. Check out <a href="https://github.com/rabbitmq/rabbitmq-oauth2-tutorial/blob/main/conf/uaa-symmetrical/rabbitmq.config">conf/symmetric_keys/rabbitmq.config</a></p>
 </blockquote>
 <h3>About signing key required to configure RabbitMQ</h3>
 <p>This section is only to explain one of things you need to take care to configure RabbitMQ with OAuth 2.0 auth-backend. Do not run any of the commands explained on this section. They are all included in the <span class="code ">make</span> commands you will cover in the following sections.</p>

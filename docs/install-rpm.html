@@ -13,17 +13,17 @@
 into standard RPM-based distribution repositories can be
 many releases behind <a href="changelog.html">latest RabbitMQ releases</a>
 and may provide RabbitMQ versions that are already <a href="versions.html">out of support</a>.</p>
-<p>Team RabbitMQ produces our own RPM packages and distributes them <a href="#apt-cloudsmith">using a Cloudsmith mirror</a> and <a href="#apt-packagecloud">PackageCloud</a>.</p>
+<p>Team RabbitMQ produces our own RPM packages and distributes them <a href="#apt-cloudsmith">using a Cloudsmith mirror</a>.</p>
 <p>There are two ways of installing these RPMs:</p>
 <ul>
-<li>Installing the package using Yum repositories (this option is highly recommended) from a <a href="#cloudsmith">Cloudsmith.io</a> mirror or <a href="#package-cloud">PackageCloud</a></li>
+<li>Installing the package using Yum repositories (this option is highly recommended) from a <a href="#cloudsmith">Cloudsmith.io</a> mirror</li>
 <li><a href="#downloads">Downloading</a> the package and installing it with <span class="code ">rpm</span>.
    This option will require manual installation of all <a href="#package-dependencies">package dependencies</a> and makes upgrades more difficult.</li>
 </ul>
 <p>Some of the topics covered in this guide are:</p>
 <ul>
 <li><a href="#supported-distributions">Supported distributions</a></li>
-<li>Package installation from Yum repositories on <a href="#cloudsmith">Cloudsmith.io</a> and <a href="#package-cloud">PackageCloud</a></li>
+<li>Package installation from Yum repositories on a <a href="#cloudsmith">Cloudsmith.io</a> mirror</li>
 <li>How to install a <a href="#install-erlang">latest supported Erlang/OTP version</a></li>
 <li><a href="#package-dependencies">Package dependencies</a></li>
 <li><a href="#sudo-requirements">Privilege requirements</a></li>
@@ -443,167 +443,6 @@ zypper --gpg-auto-import-keys refresh rabbitmq_server-source
 zypper install --repo rabbitmq_server-noarch
 </pre>
 
-<h2><a id="package-cloud" class="anchor" href="#package-cloud">Install Using PackageCloud Yum Repository</a></h2>
-<p>An alternative Yum repository with RabbitMQ packages is available from PackageCloud.
-Package Cloud also can be used to <a href="https://packagecloud.io/rabbitmq/erlang/install#bash-rpm">install a recent Erlang version via yum</a>.</p>
-<p>A quick way to set up the repository is to use a <a href="https://packagecloud.io/rabbitmq/rabbitmq-server/install#bash-rpm">Package Cloud-provided script</a>.
-It is not a requirement and should be carefully considered since it pipes a generated script from
-the public Internet to a privileged shell.</p>
-<pre class="lang-bash">
-## Uses a PackageCloud-provided Yum repository setup script.
-## Always verify what is downloaded before piping it to a privileged shell!
-curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash
-</pre>
-
-<p>The rest of this section guide will focus on a more traditional way that explicitly installs a Yum repository file.</p>
-<h3>Install RabbitMQ and PackageCloud Signing Keys</h3>
-<p>Yum will verify signatures of any packages it installs, therefore the first step
-in the process is to import the signing key</p>
-<pre class="lang-bash">
-## primary RabbitMQ signing key
-rpm --import https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-## modern Erlang repository
-rpm --import https://packagecloud.io/rabbitmq/erlang/gpgkey
-## RabbitMQ server repository
-rpm --import https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
-</pre>
-
-<p>Note that if any of the above import commands finishes with an error due to the SHA1 hash algorithm, you must execute the following first:</p>
-<pre class="lang-bash">
-sudo update-crypto-policies --set LEGACY
-</pre>
-
-<p>And then retry the failed import command(s).</p>
-<h3>Add Yum Repositories for RabbitMQ and Modern Erlang</h3>
-<p>In order to use the Yum repository, a <span class="code ">.repo</span> file (e.g. <span class="code ">rabbitmq.repo</span>) has to be
-added under the <span class="code ">/etc/yum.repos.d/</span> directory. The contents of the file will vary slightly
-between distributions (e.g. CentOS Stream 9, CentOS Stream 8, or OpenSUSE).</p>
-<h4>Red Hat 8, CentOS Stream 9, CentOS 8, Modern Fedora Releases</h4>
-<p>The following example sets up a repository that will install RabbitMQ and its Erlang dependency from PackageCloud,
-and targets <strong>CentOS Stream and CentOS 8</strong>. The same repository definition <strong>can be used by recent Fedora releases</strong>.</p>
-<pre class="lang-ini">
-# In /etc/yum.repos.d/rabbitmq.repo
-
-##
-## Zero dependency Erlang
-##
-
-[rabbitmq_erlang]
-name=rabbitmq_erlang
-baseurl=https://packagecloud.io/rabbitmq/erlang/el/8/$basearch
-repo_gpgcheck=1
-gpgcheck=1
-enabled=1
-# PackageCloud's repository key and RabbitMQ package signing key
-gpgkey=https://packagecloud.io/rabbitmq/erlang/gpgkey
-       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-
-[rabbitmq_erlang-source]
-name=rabbitmq_erlang-source
-baseurl=https://packagecloud.io/rabbitmq/erlang/el/8/SRPMS
-repo_gpgcheck=1
-gpgcheck=0
-enabled=1
-# PackageCloud's repository key and RabbitMQ package signing key
-gpgkey=https://packagecloud.io/rabbitmq/erlang/gpgkey
-       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-
-##
-## RabbitMQ server
-##
-
-[rabbitmq_server]
-name=rabbitmq_server
-baseurl=https://packagecloud.io/rabbitmq/rabbitmq-server/el/8/$basearch
-repo_gpgcheck=1
-gpgcheck=0
-enabled=1
-# PackageCloud's repository key and RabbitMQ package signing key
-gpgkey=https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
-       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-
-[rabbitmq_server-source]
-name=rabbitmq_server-source
-baseurl=https://packagecloud.io/rabbitmq/rabbitmq-server/el/8/SRPMS
-repo_gpgcheck=1
-gpgcheck=0
-enabled=1
-gpgkey=https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
-sslverify=1
-sslcacert=/etc/pki/tls/certs/ca-bundle.crt
-metadata_expire=300
-</pre>
-
-<h4>OpenSUSE</h4>
-<p>The following example targets OpenSUSE and only installs the RabbitMQ package repository.
-Erlang is assumed to be provisioned from the <a href="https://software.opensuse.org/download.html?project=devel%3Alanguages%3Aerlang%3AFactory&amp;package=erlang"><span class="code ">devel:languages:erlang:Factory</span></a> repository.</p>
-<pre class="lang-ini">
-[rabbitmq_rabbitmq-server]
-name=rabbitmq_rabbitmq-server
-baseurl=https://packagecloud.io/rabbitmq/rabbitmq-server/opensuse/15.1/$basearch
-enabled=1
-repo_gpgcheck=1
-pkg_gpgcheck=0
-gpgkey=https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
-       https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc
-autorefresh=1
-type=rpm-md
-
-[rabbitmq_rabbitmq-server-source]
-name=rabbitmq_rabbitmq-server-source
-baseurl=https://packagecloud.io/rabbitmq/rabbitmq-server/opensuse/15.1/SRPMS
-enabled=1
-repo_gpgcheck=1
-pkg_gpgcheck=0
-gpgkey=https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
-autorefresh=1
-type=rpm-md
-</pre>
-
-<h3>Install Packages with Yum</h3>
-<h4>Red Hat 8, CentOS Stream, CentOS 8, Modern Fedora</h4>
-<p>Update Yum package metadata:</p>
-<pre class="lang-bash">
-yum update -y
-yum -q makecache -y --disablerepo='*' --enablerepo='rabbitmq_erlang' --enablerepo='rabbitmq_server'
-</pre>
-
-<p>Next install dependencies from the standard repositories:</p>
-<pre class="lang-bash">
-## install these dependencies from standard OS repositories
-yum install socat logrotate -y
-</pre>
-
-<p>Finally, install modern Erlang and RabbitMQ:</p>
-<pre class="lang-bash">
-## install RabbitMQ and zero dependency Erlang from the above repositories,
-## ignoring any versions provided by the standard repositories
-yum install --repo rabbitmq_erlang --repo rabbitmq_server erlang rabbitmq-server -y
-</pre>
-
-<h3>Install Packages with Zypper</h3>
-<p>First, update Zypper package metadata:</p>
-<pre class="lang-bash">
-## refresh the repository. These verbose repository names are used by PackageCloud
-zypper --gpg-auto-import-keys refresh rabbitmq_rabbitmq-server
-zypper --gpg-auto-import-keys refresh rabbitmq_rabbitmq-server-source
-</pre>
-
-<p>Then install the packages:</p>
-<pre class="lang-bash">
-## install the package from PackageCloud repository
-zypper install --repo rabbitmq_rabbitmq-server rabbitmq-server
-</pre>
-
 <h2><a id="rpm-version-locking" class="anchor" href="#rpm-version-locking">Package Version Locking in On RPM-based Distributions</a></h2>
 <p><a href="https://access.redhat.com/solutions/98873">yum version locking</a> plugin can
 be used to prevent unexpected package upgrades. Using it carries the risk of leaving
@@ -620,7 +459,7 @@ dnf install socat logrotate -y
 
 # This example assumes the CentOS Stream 8 version of the package, suitable for
 # Red Hat 8, CentOS Stream 9, CentOS Stream 8 and modern Fedora releases.
-dnf install rabbitmq-server-3.11.16-1.el8.noarch.rpm
+dnf install rabbitmq-server-3.11.17-1.el8.noarch.rpm
 </pre>
 
 <p><a href="signatures.html">RabbitMQ public signing key</a> can also be <a href="https://www.rabbitmq.com/rabbitmq-release-signing-key.asc">downloaded from rabbitmq.com</a>:</p>
@@ -632,7 +471,7 @@ dnf install socat logrotate -y
 
 # This example assumes the CentOS 8 version of the package, suitable for
 # Red Hat 8, CentOS Stream 9, CentOS Stream 8 and modern Fedora releases.
-dnf install rabbitmq-server-3.11.16-1.el8.noarch.rpm
+dnf install rabbitmq-server-3.11.17-1.el8.noarch.rpm
 </pre>
 
 <h2><a id="downloads" class="anchor" href="#downloads">Direct Downloads</a></h2>
@@ -650,10 +489,10 @@ from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>.<
       RPM for RHEL Linux 8.x and 9.x, CentOS Stream 8 and 9, Fedora 34+, Amazon Linux 2023, Rocky Linux, Alma Linux
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.16/rabbitmq-server-3.11.16-1.el8.noarch.rpm">rabbitmq-server-3.11.16-1.el8.noarch.rpm</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.17/rabbitmq-server-3.11.17-1.el8.noarch.rpm">rabbitmq-server-3.11.17-1.el8.noarch.rpm</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.16/rabbitmq-server-3.11.16-1.el8.noarch.rpm.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.17/rabbitmq-server-3.11.17-1.el8.noarch.rpm.asc">Signature</a>
     </td>
   </tr>
 
@@ -662,10 +501,10 @@ from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>.<
       RPM for openSUSE Linux
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.16/rabbitmq-server-3.11.16-1.suse.noarch.rpm">rabbitmq-server-3.11.16-1.suse.noarch.rpm</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.17/rabbitmq-server-3.11.17-1.suse.noarch.rpm">rabbitmq-server-3.11.17-1.suse.noarch.rpm</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.16/rabbitmq-server-3.11.16-1.suse.noarch.rpm.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.11.17/rabbitmq-server-3.11.17-1.suse.noarch.rpm.asc">Signature</a>
     </td>
   </tr>
 </table>
@@ -704,33 +543,10 @@ development environments.</p>
 If <a href="relocate.html">location of the node database or the logs</a> is changed,
 the files and directories must be owned by this user.</p>
 <h2><a id="ports" class="anchor" href="#ports"></a></h2>
-<p>RabbitMQ nodes bind to ports (open server TCP sockets) in order to accept client and CLI tool connections.
-Other processes and tools such as SELinux may prevent RabbitMQ from binding to a port. When that happens,
-the node will fail to start.</p>
-<p>CLI tools, client libraries and RabbitMQ nodes also open connections (client TCP sockets).
-Firewalls can prevent nodes and CLI tools from communicating with each other.
-Make sure the following ports are accessible:</p>
-<ul>
-<li>4369: <a href="http://erlang.org/doc/man/epmd.html">epmd</a>, a peer discovery service used by RabbitMQ nodes and CLI tools</li>
-<li>5672, 5671: used by AMQP 0-9-1 and 1.0 clients without and with TLS</li>
-<li>25672: used for inter-node and CLI tools communication (Erlang distribution server port)
-   and is allocated from a dynamic range (limited to a single port by default,
-   computed as AMQP port + 20000). Unless external connections on these ports are really necessary (e.g.
-   the cluster uses <a href="federation.html">federation</a> or CLI tools are used on machines outside the subnet),
-   these ports should not be publicly exposed. See <a href="networking.html">networking guide</a> for details.</li>
-<li>35672-35682: used by CLI tools (Erlang distribution client ports) for communication with nodes
-   and is allocated from a dynamic range (computed as server distribution port + 10000 through
-   server distribution port + 10010). See <a href="networking.html">networking guide</a> for details.</li>
-<li>15672: <a href="management.html">HTTP API</a> clients, <a href="management.html">management UI</a> and <a href="management-cli.html">rabbitmqadmin</a>
-   (only if the <a href="management.html">management plugin</a> is enabled)</li>
-<li>61613, 61614: <a href="https://stomp.github.io/stomp-specification-1.2.html">STOMP clients</a> without and with TLS (only if the <a href="stomp.html">STOMP plugin</a> is enabled)</li>
-<li>1883, 8883: <a href="http://mqtt.org/">MQTT clients</a> without and with TLS, if the <a href="mqtt.html">MQTT plugin</a> is enabled</li>
-<li>15674: STOMP-over-WebSockets clients (only if the <a href="web-stomp.html">Web STOMP plugin</a> is enabled)</li>
-<li>15675: MQTT-over-WebSockets clients (only if the <a href="web-mqtt.html">Web MQTT plugin</a> is enabled)</li>
-<li>15692: Prometheus metrics (only if the <a href="prometheus.html">Prometheus plugin</a> is enabled)</li>
-</ul>
-<p>It is possible to <a href="configure.html">configure RabbitMQ</a>
-to use <a href="networking.html">different ports and specific network interfaces</a>.</p>
+<p>RabbitMQ nodes bind to ports (open server TCP sockets) in order to accept client
+and CLI tool connections. Other processes and tools such as SELinux may prevent
+RabbitMQ from binding to a port. When that happens, the node will fail to start.
+Refer to the <a href="networking.html#ports">Networking Guide</a> for more details.</p>
 <h2><a id="default-user-access" class="anchor" href="#default-user-access">Default User Access</a></h2>
 <p>The broker creates a user <span class="code ">guest</span> with password
 <span class="code ">guest</span>. Unconfigured clients will in general use these

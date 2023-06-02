@@ -511,7 +511,7 @@ same location as the real file should be placed (see
 above). On Debian and RPM distributions
 policy forbids doing so; instead find the file
 under <span class="code ">/usr/share/doc/rabbitmq-server/</span>
-or <span class="code ">/usr/share/doc/rabbitmq-server-3.11.16/</span>,
+or <span class="code ">/usr/share/doc/rabbitmq-server-3.11.17/</span>,
 respectively.</p>
 <h3><a id="config-items" class="anchor" href="#config-items">Core Server Variables Configurable in rabbitmq.conf</a></h3>
 <p>These variables are the most common. The list is not complete, as
@@ -1675,7 +1675,7 @@ More variables are covered in the <a href="./relocate.html">File and Directory L
           <li><b>RPM</b>: <span class="code ">/etc/rabbitmq/rabbitmq.conf</span></li>
           <li>
             <b>MacOS(Homebrew)</b>: <span class="code ">${install_prefix}/etc/rabbitmq/rabbitmq.conf</span>,
-            the Homebrew prefix is usually <span class="code ">/usr/local</span>
+            the Homebrew prefix is usually <span class="code ">/usr/local</span> or <span class="code ">/opt/homebrew</span>
           </li>
           <li><b>Windows</b>: <span class="code ">%APPDATA%\RabbitMQ\rabbitmq.conf</span></li>
         </ul>
@@ -1700,7 +1700,7 @@ More variables are covered in the <a href="./relocate.html">File and Directory L
           <li><b>RPM</b>: <span class="code ">/etc/rabbitmq/conf.d</span></li>
           <li>
             <b>MacOS(Homebrew)</b>: <span class="code ">${install_prefix}/etc/rabbitmq/conf.d</span>,
-            the Homebrew prefix is usually <span class="code ">/usr/local</span>
+            the Homebrew prefix is usually <span class="code ">/usr/local</span> or <span class="code ">/opt/homebrew</span>
           </li>
           <li><b>Windows</b>: <span class="code ">%APPDATA%\RabbitMQ\conf.d</span></li>
         </ul>
@@ -1725,7 +1725,7 @@ More variables are covered in the <a href="./relocate.html">File and Directory L
           <li><b>RPM</b>: <span class="code ">/etc/rabbitmq/advanced.config</span></li>
           <li>
             <b>MacOS (Homebrew)</b>: <span class="code ">${install_prefix}/etc/rabbitmq/advanced.config</span>,
-            the Homebrew prefix is usually <span class="code ">/usr/local</span>
+            the Homebrew prefix is usually <span class="code ">/usr/local</span> or <span class="code ">/opt/homebrew</span>
           </li>
           <li><b>Windows</b>: <span class="code ">%APPDATA%\RabbitMQ\advanced.config</span></li>
         </ul>
@@ -1748,13 +1748,35 @@ More variables are covered in the <a href="./relocate.html">File and Directory L
           <li><b>RPM</b>: <span class="code ">/etc/rabbitmq/rabbitmq-env.conf</span></li>
           <li>
             <b>MacOS (Homebrew)</b>: <span class="code ">${install_prefix}/etc/rabbitmq/rabbitmq-env.conf</span>,
-            the Homebrew prefix is usually <span class="code ">/usr/local</span>
+            the Homebrew prefix is usually <span class="code ">/usr/local</span> or <span class="code ">/opt/homebrew</span>
           </li>
           <li><b>Windows</b>: <span class="code ">%APPDATA%\RabbitMQ\rabbitmq-env-conf.bat</span></li>
         </ul>
       </p>
     </td>
   </tr>
+
+  <li>
+    <td>RABBITMQ_LOG_BASE</td>
+    <td>
+      Can be used to override log files directory location.
+
+      <p>
+        <strong>Default</strong>:
+
+        <ul>
+          <li><b>Generic UNIX package</b>: <span class="code ">$RABBITMQ_HOME/var/log/rabbitmq</span></li>
+          <li><b>Ubuntu and Debian</b> packages: <span class="code ">/var/log/rabbitmq</span></li>
+          <li><b>RPM</b>: <span class="code ">/var/log/rabbitmq</span></li>
+          <li>
+            <b>MacOS (Homebrew)</b>: <span class="code ">${install_prefix}/var/log/rabbitmq</span>,
+            the Homebrew prefix is usually <span class="code ">/usr/local</span> or <span class="code ">/opt/homebrew</span>
+          </li>
+          <li><b>Windows</b>: <span class="code ">%APPDATA%\RabbitMQ\log</span></li>
+        </ul>
+      </p>
+    </td>
+  </li>
 
   <tr>
     <td>RABBITMQ_MNESIA_BASE</td>
@@ -1776,7 +1798,7 @@ More variables are covered in the <a href="./relocate.html">File and Directory L
           <li><b>RPM</b>: <span class="code ">/var/lib/rabbitmq/plugins</span></li>
           <li>
             <b>MacOS (Homebrew)</b>: <span class="code ">${install_prefix}/var/lib/rabbitmq/mnesia</span>,
-            the Homebrew prefix is usually <span class="code ">/usr/local</span>
+            the Homebrew prefix is usually <span class="code ">/usr/local</span> or <span class="code ">/opt/homebrew</span>
           </li>
           <li><b>Windows</b>: <span class="code ">%APPDATA%\RabbitMQ</span></li>
         </ul>
@@ -1800,7 +1822,7 @@ More variables are covered in the <a href="./relocate.html">File and Directory L
           <li><b>RPM</b>: <span class="code ">$RABBITMQ_MNESIA_BASE/$RABBITMQ_NODENAME</span></li>
           <li>
             <b>MacOS (Homebrew)</b>: <span class="code ">${install_prefix}/var/lib/rabbitmq/mnesia/$RABBITMQ_NODENAME</span>,
-            the Homebrew prefix is usually <span class="code ">/usr/local</span>
+            the Homebrew prefix is usually <span class="code ">/usr/local</span> or <span class="code ">/opt/homebrew</span>
           </li>
           <li><b>Windows</b>: <span class="code ">%APPDATA%\RabbitMQ\$RABBITMQ_NODENAME</span></li>
         </ul>
@@ -1829,7 +1851,7 @@ More variables are covered in the <a href="./relocate.html">File and Directory L
           <li><b>RPM</b>: <span class="code ">/var/lib/rabbitmq/plugins</span></li>
           <li>
             <b>MacOS (Homebrew)</b>: <span class="code ">${install_prefix}/Cellar/rabbitmq/${version}/plugins</span>,
-            the Homebrew prefix is usually <span class="code ">/usr/local</span>
+            the Homebrew prefix is usually <span class="code ">/usr/local</span> or <span class="code ">/opt/homebrew</span>
           </li>
           <li><b>Windows</b>: <span class="code ">%RABBITMQ_HOME%\plugins</span></li>
         </ul>

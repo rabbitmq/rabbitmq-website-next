@@ -62,7 +62,7 @@ make start-perftest-producer-with-token PRODUCER=producer TOKEN=$(bin/keycloak/t
 <p><strong>NOTE</strong>: Initializing an application with a token has one drawback: the application cannot use the connection beyond the lifespan of the token. See the next section where you demonstrate how to refresh the token.</p>
 <h2>Access AMQP protocol with Pika</h2>
 <p>In the following information, OAuth 2.0 authentication is tested with the AMQP protocol and the Pika library. These tests specifically demonstrate how to refresh a token on a live AMQP connection.</p>
-<p>You can see the Python sample application <a href="../pika_keycloak">here</a>.</p>
+<p>The sample Python application <a href="https://github.com/rabbitmq/rabbitmq-oauth2-tutorial/tree/main/pika-client">can be found on GitHub</a>.</p>
 <p>To run this sample code proceed as follows:</p>
 <pre class="lang-bash">
 python3 --version

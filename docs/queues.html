@@ -30,6 +30,7 @@ Streams provide different features from queues.</p>
 <li><a href="#distributed">Replicated queue types</a></li>
 <li><a href="#temporary-queues">Temporary</a> and <a href="#exclusive-queues">exclusive</a> queues</li>
 <li><a href="#runtime-characteristics">Runtime resource</a> usage by queue replicas</li>
+<li><a href="#optional-arguments">Optional queue arguments</a> ("x-arguments")</li>
 <li><a href="#metrics">Queue metrics</a></li>
 <li><a href="#ttl-and-limits">TTL</a> and length limits</li>
 <li><a href="#priorities">Priority queues</a></li>
@@ -126,6 +127,18 @@ at declaration time.</p>
 to client library but is usually an argument next to the <span class="code ">durable</span>,
 <span class="code ">auto_delete</span> and other arguments of the function (method) that
 declares queues.</p>
+<h3><a id="optional-arguments-precedence" class="anchor" href="#optional-arguments-precedence">Optional Arguments and Policy-Defined Key Precedence</a></h3>
+<p>When the same key is provided by both client-provided <span class="code ">x-arguments</span> and by a <a href="./parameters.html#policies">policy</a>,
+the former take precedence.</p>
+<p>However, if an <a href="./parameters.html#operator-policies">operator policy</a> is also used, that will take precedence over the client-provided
+arguments, too. Operator policies are a protection mechanism and override client-provided values
+and user policy values.</p>
+<p>For numerical values such as <a href="./maxlength.html">maximum queue length</a> or <a href="./ttl.html">TTL</a>,
+the lower value of the two will be used. If an application needs or chooses to use a lower value,
+that will be allowed by an operator policy. A value higher than that defined in the operator policy,
+however, cannot be used.</p>
+<p>Use operator policies to introduce guardrails for application-controlled parameters related
+to resource use (e.g. peak disk space usage).</p>
 <h2><a id="message-ordering" class="anchor" href="#message-ordering">Message Ordering</a></h2>
 <p>Queues in RabbitMQ are ordered collections of messages.
 Messages are enqueued and dequeued (delivered to consumers) in the <a href="https://en.wikipedia.org/wiki/FIFO_(computing_and_electronics)">FIFO manner</a>.</p>

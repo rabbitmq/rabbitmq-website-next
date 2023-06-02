@@ -23,10 +23,12 @@ Vhost-scoped parameters are tied to a virtual host and consist
 of a component name, a name and a value.
 Global parameters are not tied to a particular virtual host and they consist
 of a name and value.</p>
-<p>One special case of parameters usage is <a href="#policies">policies</a>, which are used for specifying
-optional arguments for groups of queues and exchanges, as well
+<p>One special case of parameters usage is <a href="#policies">policies</a>.</p>
+<p>Policies is <strong>the recommended way</strong> of specifying
+<a href="./queues.html#optional-arguments">optional arguments</a> for groups of queues and exchanges, as well
 as plugins such as <a href="federation.html">Federation</a>
-and <a href="shovel.html">Shovel</a>. Policies are vhost-scoped.</p>
+and <a href="shovel.html">Shovel</a>.</p>
+<p>Policies are vhost-scoped.</p>
 <h2><a id="parameter-management" class="anchor" href="#parameter-management">Global and Per-vhost Parameters</a></h2>
 <p>As stated above, there are vhost-scoped parameters and global parameters.
 An example of vhost-scoped
@@ -91,14 +93,19 @@ definitions by the management plugin's export feature.</p>
 <p>Vhost-scoped parameters are used by the federation and shovel plugins.
 Global parameters are used by the MQTT plugin.</p>
 <h2><a id="policies" class="anchor" href="#policies">Policies</a></h2>
+<p>Policies is <strong>the recommended way</strong> of configuring <a href="./queues.html#optional-arguments">optional arguments</a>
+for queues, exchanges, and some plugins.</p>
+<p>Two notable exceptions are the queue type
+and the <a href="./priority.html">maximum number of priorities</a> of classic queues. Those values intentionally
+cannot be configured by policies: their values are fixed at queue declaration time.</p>
 <h3><a id="why-policies-exist" class="anchor" href="#why-policies-exist">Why Policies Exist</a></h3>
 <p>Before we explain what policies are and how to use them it would
 be helpful to explain why they were introduced to RabbitMQ.</p>
 <p>In addition to mandatory properties
 (e.g. <span class="code ">durable</span> or <span class="code ">exclusive</span>),
-queues and exchanges in RabbitMQ have optional parameters
-(arguments), sometimes referred to as
-<span class="code ">x-arguments</span>. Those are provided by clients when
+queues and exchanges in RabbitMQ have <a href="./queues.html#optional-arguments">optional arguments</a>,
+sometimes referred to as <span class="code ">x-arguments</span>.</p>
+<p>Those are provided by clients when
 they declare queues (exchanges) and control various optional
 features, such as <a href="maxlength.html">queue length limit</a> or
 <a href="ttl.html">TTL</a>.</p>
@@ -350,6 +357,13 @@ the value of 50 will be used. If, however, regular policy's value
 was 20, it would be used. Operator policies, therefore, don't
 just overwrite regular policy values. They enforce limits but
 try to not override user-provided policies where possible.</p>
+<p>When the same key is provided by both <a href="./queues.html#optional-arguments">client-provided <span class="code ">x-arguments</span></a> and by a user policy,
+the former take precedence.</p>
+<p>However, if an operator policy is also used, that will take precedence over the client-provided
+arguments, too. Operator policies are a protection mechanism and override client-provided values
+and user policy values.</p>
+<p>Use operator policies to introduce guardrails for application-controlled parameters related
+to resource use (e.g. peak disk space usage).</p>
 <h3><a id="operator-policy-definition" class="anchor" href="#operator-policy-definition">Defining Operator Policies</a></h3>
 <p>Operator policies are defined in a way very similar to regular (user) policies.
 When <span class="code ">rabbitmqctl</span> is used, the command name is <span class="code ">set_operator_policy</span>
