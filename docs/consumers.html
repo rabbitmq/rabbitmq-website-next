@@ -280,10 +280,14 @@ kind of delivery rate.</p>
 <p>Note that consumer capacity is merely a hint. Consumer applications can and should collect more specific
 metrics about their operations to help with sizing and any possible capacity changes.</p>
 <h2><a id="unsubscribing" class="anchor" href="#unsubscribing">Cancelling a Consumer (Unsubscribing)</a></h2>
-<p>To cancel a consumer its identifier (consumer tag) must be known.</p>
+<p>To cancel a consumer, its identifier (consumer tag) must be known.</p>
 <p>After a consumer is cancelled there will be no future deliveries dispatched
 to it. Note that there can still be "in flight" deliveries dispatched previously.
-Cancelling a consumer will not discard them.</p>
+Cancelling a consumer will neither discard nor requeue them.</p>
+<p>A cancelled consumer will not observe any new deliveries besides those in-flight at
+the moment of processing <span class="code ">basic.cancel</span> method by RabbitMQ. All previously unconfirmed
+deliveries will not be affected in any way. To re-queue in-flight deliveries, the
+application must close the channel.</p>
 <h3>Java Client</h3>
 <p>See <a href="./api-guide.html#consuming">Java client guide</a> for examples.</p>
 <h3>.NET Client</h3>
