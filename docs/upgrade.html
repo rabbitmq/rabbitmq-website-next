@@ -21,6 +21,13 @@
 <li><a href="#rabbitmq-restart-handling">Handling node restarts</a> in applications</li>
 </ol>
 <p>Changes between RabbitMQ versions are documented in the <a href="changelog.html">change log</a>.</p>
+<h2>Important Note on Upgrading to 3.12</h2>
+<p class="box-warning">
+RabbitMQ 3.12 requires all previously existing feature flags to be enabled before the upgrade.
+
+The upgrade will fail if you miss this step.
+</p>
+
 <h2><a id="basics" class="anchor" href="#basics">Basics</a></h2>
 <p>There are two major upgrade scenarios that are covered in this guide: a <a href="#single-node-upgrade">single node</a> and a <a href="#multiple-nodes-upgrade">cluster</a>,
 and two most commonly used strategies:</p>
@@ -59,24 +66,34 @@ first upgrade to 3.6.x and then upgrade to 3.7.0.</p>
 <tr>
 <th>From</th>
 <th>To</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td>3.11.18</td>
+<td>3.12.x</td>
+<td>All feature flags <strong>must</strong> be enabled <strong>before</strong> the upgrade</td>
+</tr>
+<tr>
 <td>3.10.x</td>
 <td>3.11.x</td>
+<td>Some feature flags <strong>must</strong> be enabled <strong>before</strong> the upgrade</td>
 </tr>
 <tr>
 <td>3.9.x</td>
 <td>3.10.x</td>
+<td></td>
 </tr>
 <tr>
 <td>3.8.x</td>
 <td>3.9.x</td>
+<td></td>
 </tr>
 <tr>
 <td>3.7.18</td>
 <td>3.8.x</td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -86,40 +103,54 @@ first upgrade to 3.6.x and then upgrade to 3.7.0.</p>
 <tr>
 <th>From</th>
 <th>To</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+<td>3.11.18</td>
+<td>3.12.x</td>
+<td>All feature flags should be enabled <strong>before</strong> this upgrade</td>
+</tr>
+<tr>
 <td>3.10.x</td>
 <td>3.11.x</td>
+<td>Some feature flags should be enabled <strong>before</strong> this upgrade</td>
 </tr>
 <tr>
 <td>3.9.x</td>
 <td>3.10.x</td>
+<td></td>
 </tr>
 <tr>
 <td>3.8.x</td>
 <td>3.9.x</td>
+<td></td>
 </tr>
 <tr>
 <td>3.7.27</td>
 <td>3.9.x</td>
+<td></td>
 </tr>
 <tr>
 <td>3.6.x</td>
 <td>3.8.x</td>
+<td></td>
 </tr>
 <tr>
 <td>3.6.x</td>
 <td>3.7.x</td>
+<td></td>
 </tr>
 <tr>
 <td>3.5.x</td>
 <td>3.7.x</td>
+<td></td>
 </tr>
 <tr>
 <td>=&lt; 3.4.x</td>
 <td>3.6.16</td>
+<td></td>
 </tr>
 </tbody>
 </table>
@@ -157,39 +188,6 @@ capacity to run the workload with the new version. Always consult with
 the release notes of all versions between the one currently deployed and the
 target one in order to find out about changes which could impact
 your workload and resource usage.</p>
-<h3><a id="stats-db-in-3.6.7" class="anchor" href="#stats-db-in-3.6.7">Management stats DB in RabbitMQ 3.6.7</a></h3>
-<p>In RabbitMQ versions before <span class="code ">3.6.7</span> all management stats in a cluster
-were collected on a single node (the stats DB node). This put a lot
-of additional load on this node. Starting with RabbitMQ <span class="code ">3.6.7</span> each
-cluster node stores its own stats. It means that metrics (e.g. rates)
-for each node are stored and calculated locally. Therefore all nodes
-will consume a bit more memory and CPU resources to handle that. The
-benefit is that there is no single overloaded stats node.</p>
-<p>When an HTTP API request comes in, the stats are aggregated on the node
-which handles the request. If HTTP API requests are not distributed
-between cluster nodes, it can put some additional load on that node's
-CPU and memory resources. In practice stats database-related overload is
-a thing of the past.</p>
-<p>Individual node resource usage change is workload-specific. The best way
-to measure it is by reproducing a comparable workload in a temporary QA
-environment before upgrading production systems.</p>
-<h3><a id="memory-reporting-in-3.6.11" class="anchor" href="#memory-reporting-in-3.6.11">Memory reporting accuracy in RabbitMQ 3.6.11</a></h3>
-<p>In RabbitMQ versions before <span class="code ">3.6.11</span> memory used by the node was
-calculated using a runtime-provided mechanism that's not very precise.
-The actual memory allocated by the
-OS process usually was higher.</p>
-<p>Starting with RabbitMQ <span class="code ">3.6.11</span> a number of strategies is available. On Linux, MacOS, and BSD
-systems, operating system facilities will be used to compute the total amount of memory
-allocated by the node. It is possible to go back to the previous strategy, although
-that's not recommended. See the <a href="memory-use.html">Memory Usage guide</a> for details.</p>
-<p>After upgrading from a version prior to <span class="code ">3.6.11</span> to
-<span class="code ">3.6.11</span> or later, the memory usage reported by the management
-UI will increase. The effective node memory footprint didn't actually change
-but the calculation is now more accurate and no longer underreports.</p>
-<p>Nodes that often hovered around their RAM high watermark will see more
-frequent memory alarms and publishers will be blocked more often. On the upside
-this means that RabbitMQ nodes are less likely to be killed by the out-of-memory (OOM) mechanism
-of the OS.</p>
 <h2><a id="clusters" class="anchor" href="#clusters">Single Node and Cluster Upgrades</a></h2>
 <h3><a id="single-node-upgrade" class="anchor" href="#single-node-upgrade">Upgrading a Single Node Installation</a></h3>
 <p>When upgrading a single node installation, simply stop the node, install a new version and start it back.
@@ -233,9 +231,9 @@ from 2.x.x to 3.x.x), the whole cluster must be taken down for the
 upgrade. Clusters that include nodes that run different release series
 are not supported.</p>
 <p>Rolling upgrades from one patch version to
-another (i.e. from 3.6.x to 3.6.y) are supported except when indicated otherwise
+another (i.e. from 3.12.x to 3.12.y) are supported except when indicated otherwise
 in the release notes.
-It is strongly recommended to consult release notes before upgrading.</p>
+It is <strong>strongly recommended to consult release notes before upgrading</strong>.</p>
 <p>Some patch releases known to require a cluster-wide restart:</p>
 <ul>
 <li>3.6.7 and later cannot be mixed with earlier versions from the 3.6.x series</li>
@@ -542,6 +540,16 @@ It's recommended to always upgrade at least to the latest patch release in a ser
 <p>The release notes may indicate specific additional upgrade steps.
 Always consult with the release notes of all versions between the
 one currently deployed and the target one.</p>
+<h3>Enable Required Feature Flags Before Attempting the Upgrade</h3>
+<p>Some versions, such as 3.11 and 3.12, <a href="https://www.rabbitmq.com/feature-flags.html#core-feature-flags">require some or all previously existing feature flags</a>
+to be enabled <strong>before</strong> the upgrade. If you enabled all feature flags after the
+previous upgrade, you should be ready to go. However, it's better to verify
+than run into issues. You can check the current state of your feature flags with:</p>
+<p><span class="code ">rabbitmqctl list_feature_flags</span></p>
+<p>and enable all feature flags with:</p>
+<p><span class="code ">rabbitmqctl enable_feature_flag all</span></p>
+<p>You should repeat these steps <a href="#enable-ff-after-upgrade">at the end of the upgrade process</a>
+to fully take advantage of the new features and be prepared for the next upgrade in the future.</p>
 <h3>Check Currently Used RabbitMQ Version</h3>
 <p>Some upgrade paths, e.g. from 3.4.x to 3.7.x, will require an intermediate upgrade.
 See the <a href="#rabbitmq-version-upgradability">RabbitMQ Version Upgradability</a> section above.</p>
@@ -637,8 +645,8 @@ actions require restart and recent RabbitMQ work better with recent Erlang.</p>
 <p>Like you did before the upgrade, verify the health and data to
 make sure your RabbitMQ nodes are in good shape and the service is
 running again.</p>
-<h3>Check New Feature Flags</h3>
-<p>If the new version provides new feature flags, you can
+<h3><a id="enable-ff-after-upgrade" class="anchor" href="#enable-ff-after-upgrade">Enable New Feature Flags</a></h3>
+<p>If the new version provides new feature flags, you should
 now enable them if you upgraded all nodes and you are
 sure you do not want to rollback. See the <a href="feature-flags.html">feature flags guide</a>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or

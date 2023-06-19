@@ -11,14 +11,14 @@
 <p>RabbitMQ is multi-tenant system: connections, exchanges, queues, bindings, user permissions,
 policies and some other things belong to <strong>virtual hosts</strong>, logical groups of
 entities. If you are familiar with <a href="https://httpd.apache.org/docs/2.4/vhosts/">virtual hosts in Apache</a>
-or <a href="https://www.nginx.com/resources/wiki/start/topics/examples/server_blocks/">server blocks in Nginx</a>, the idea is similar.
-There is, however, one important difference: virtual hosts in Apache are defined
+or <a href="https://www.nginx.com/resources/wiki/start/topics/examples/server_blocks/">server blocks in Nginx</a>, the idea is similar.</p>
+<p>There is, however, one important difference: virtual hosts in Apache are defined
 in the configuration file; that's not the case with RabbitMQ: virtual hosts are
-<a href="#creating">created</a> and <a href="#deleting">deleted</a> using <span class="code ">rabbitmqctl</span> or HTTP API instead.</p>
+<a href="#creating">created</a> and <a href="#deleting">deleted</a> using <span class="code ">rabbitmqctl</span> or the HTTP API instead.</p>
 <h2><a id="logical-separation" class="anchor" href="#logical-separation">Logical and Physical Separation</a></h2>
 <p>Virtual hosts provide logical grouping and separation of
 resources. Separation of physical resources is not a goal of virtual
-hosts and should be considered an implementation detail.</p>
+hosts, although <a href="#limits">certain resources can be limited</a> for individual virtual hosts.</p>
 <p>For example, <a href="./access-control.html">resource permissions</a> in RabbitMQ are
 scoped per virtual host. A user doesn't have global permissions, only
 permissions in one or more virtual hosts. User tags can be considered

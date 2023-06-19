@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Migrate your RabbitMQ Mirrored Classic Queues to Quorum Queues
+ — RabbitMQ</title></head>
+  <body id="migrate-mcq-to-qq"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Migrate your RabbitMQ Mirrored Classic Queues to Quorum Queues
+</h1>
+
+
+<p>Which is better: mirrored classic queues or quorum queues? Quorum Queues are the much better choice and they will be <a href="https://blog.rabbitmq.com/posts/2021/08/4.0-deprecation-announcements/">the only option starting with RabbitMQ version 4.0</a>. This information explains why, the reasons why you should migrate from mirrored classic queues to quorum queues, the ways to handle features during the migration, and includes procedures for some of the migration routes you can take.</p>
+<p>You should migrate to mirrored classic queues for the following reasons:</p>
+<ul>
+<li>Classic mirrored queues were deprecated in RabbitMQ version 3.9. They will be removed completely in RabbitMQ version 4.0.</li>
+<li>Quorum queues can sustain much higher throughput levels in almost all use cases. A quorum queue can sustain a 30000 message throughput (using 1kb messages), while offering high levels of data safety, and replicating data to all 3 nodes in a cluster. Classic mirrored queues only offer a third of that throughput and provide much lower levels of data safety. </li>
+<li>Quorum queues are more reliable, faster for most workloads, and require little maintenance. For more information, go to <a href="https://www.rabbitmq.com/quorum-queues.html">Quorum Queues</a>. </li>
+</ul>
+<p><strong>Note</strong>: </p>
+<ul>
+<li>
+<p>While quorum queues are a better queue type when compared to mirrored classic queues, they are not 100% compatible feature wise with mirrored classic queues. When you are deciding about whether to migrate from mirrored classic queues to quorum queues, it is recommended to review the <a href="https://www.rabbitmq.com/quorum-queues.html">quorum queue documentation</a> first, you can review the <a href="https://www.rabbitmq.com/quorum-queues.html#feature-matrix">feature matrix table</a> which provides a comparison of both queue types (mirrored classic queues beside quorum queues)</p>
+</li>
+<li>
+<p>The level of complexity involved in migrating from mirrored classic queues to quorum queues depends on the features that are currently being used by the mirrored classic queues. Some features require a change in the way queues are being used (refer to <a href="#mcq-changes-way-queue-is-used">Mirrored Classic Queue Features that require Changes in the Way the Queue is Used</a>), while other features simply require removing the feature from the source code or moving it to policy (refer to <a href="#mcq-features-to-remove">Mirrored Classic Queue Features that can be removed from Source Code or moved to a Policy</a>). </p>
+</li>
+<li>
+<p>It is also important to note that migrated applications should be thoroughly tested against quorum queues because the behaviour can differ under the load and in edge cases. </p>
+</li>
+</ul>
+<h2>Deciding which Migration Route to take: Compatibility Considerations</h2>
+<p>Incompatible features can be either referenced in policies or in the source code. RabbitMQ strictly validates arguments for queue declaration and consumption. Therefore, for migration, you must clean up all information about incompatible features in the source code. For some features, changes in the way that queues are used is required, refer to <a href="#mcq-changes-way-queue-is-used">Mirrored Classic Queue Features that require Changes in the Way the Queue is Used</a>. For other features, it is as simple as just removing corresponding strings from the source code or moving the feature to a policy, refer to <a href="#mcq-features-to-remove">Mirrored Classic Queue Features that can be removed from Source Code or moved to a Policy</a>, </p>
+<p>The general policies and arguments related to mirroring are:<span class="code ">ha-mode</span>, <span class="code ">ha-params</span> <span class="code ">ha-sync-mode</span>, <span class="code ">ha-promote-on-shutdown</span>, <span class="code ">ha-promote-on-failure</span>, and <span class="code ">queue-master-locator</span>.</p>
+<p>There are several migration paths available:</p>
+<ul>
+<li><a href="./blue-green-upgrade.html">Blue-Green Deployment</a></li>
+<li><a href="#migrate-the-queues-by-virtual-host">Migrating the Queues by Virtual Host</a> is probably the most efficient migration path you can take if it is an option for you. If all the incompatible features are cleaned up or moved to policies, the existing code should work with both mirrored classic queues and quorum queues. You only need to change the connection parameters to connect to the new virtual host that you created for the quorum queues</li>
+<li><a href="#migrate-in-place">Migrating in Place</a> means you re-use the same virtual host. You must be able to stop all consumers and producers for a given queue while the migration is in progress</li>
+</ul>
+<p>Before deciding which migration method you can use, you must first find the mirrored classic queues and the features they are using. </p>
+<h2><a id="find-mcq" class="anchor" href="#find-mcq">Finding the Mirrored Classic Queues for Migration</a></h2>
+<p>To find the mirrored classic queues that must be migrated, run the following script (which uses <span class="code ">rabbitmqctl</span> to count all the queues across all the virtual hosts as tab-separated values). </p>
+<p>Note, the following command uses <span class="code ">effective_policy_definition</span> parameters, which are only available since RabbitMQ version 3.10.13/3.11.5. If it's not available, you can use <span class="code ">rabbitmqctl</span> from any RabbitMQ version later than 3.10.13/3.11.5, or manually match the policy name to it's definition.</p>
+<pre class="lang-bash">
+#!/bin/sh
+printf "%s\t%s\t%s\n" vhost queue_name mirrors
+for vhost in $(rabbitmqctl -q list_vhosts | tail -n +2) ; do
+  rabbitmqctl -q list_queues -p "$vhost" name durable policy effective_policy_definition arguments mirror_pids type |
+    sed -n '/\t\[[^\t]\+\tclassic$/{s/\t\[[^\t]\+\tclassic$//; p}' |
+    xargs -x -r -L1 -d '\n' printf "%s\t%s\n" "$vhost"
+done
+</pre>
+
+<p>All mirrored classic queues that include <span class="code ">ha-mode</span> in their effective policy definition must be migrated to a different type of queue. All these queues are listed as mirrored classic queues in the Management UI and CLI. Find the policies that apply it by running the following script:</p>
+<pre class="lang-bash">
+#!/bin/sh
+printf "%s\t%s\t%s\t%s\t%s\t%s\n" vhost policy_name pattern apply_to definition priority
+for vhost in $(rabbitmqctl -q list_vhosts | tail -n +2) ; do
+  rabbitmqctl -q list_policies -p "$vhost" |
+    grep 'ha-mode'
+done
+</pre>
+
+<h2><a id="mcq-changes-way-queue-is-used" class="anchor" href="#mcq-changes-way-queue-is-used">Mirrored Classic Queue Features that require Changes in the Way the Queue is Used</a></h2>
+<p>When one or more of the following features are used by mirrored classic queues, straightforward migration to quorum queues is not possible. The way the application interacts with a broker needs to be changed. This information explains how to find whether some of these features are being used in a running system, and the changes you must make to make migration easier.</p>
+<h3>Priority Queues</h3>
+<p>To find out if a classic mirrored queue uses the "priority" feature, you can check for the <span class="code ">x-max-priority</span> string in
+the list of queues output that is provided by running the command in <a href="#find-mcq">Finding the Mirrored Classic Queues for Migration</a> or you can also search for the <span class="code ">x-max-priority</span> string in the source code. For more information on how the priority is implemented, go to <a href="https://www.rabbitmq.com/priority.html">Priority Queue Support</a>.</p>
+<p>Priority queues are not created using a policy, therefore no policy changes are required when migrating them. Classic mirrored queues create a separate queue for every priority behind the scenes. To migrate a single mirrored classic queue that uses the "priority" feature, you must create the required number amount of quorum queues. Once the quorum queues are created, adjust the publishing and consumption of these new quorum queues accordingly.</p>
+<h3>Queue Length Limit overflow set to <span class="code ">reject-publish-dlx</span></h3>
+<p>The queue length exceeded with <span class="code ">overflow</span> set to <a href="https://rabbitmq.com/maxlength.html#overflow-behaviour"><span class="code ">reject-publish-dlx</span></a> is not supported by quorum queues. The <span class="code ">reject-publish-dlx</span> value is not supported.</p>
+<p>With mirrored classic queues, publishing to a full queue with <span class="code ">reject-publish-dlx</span> resulted in RabbitMQ republishing a rejected message to a dead letter exchange. With quorum queues, to apply the same logic, you must change <span class="code ">reject-publish-dlx</span> to <span class="code ">reject-publish</span>. Then, handle negative acknowledgements: after getting a negative acknowledgement, the application must publish the message again to a different exchange.</p>
+<p>To find out if <span class="code ">overflow</span> set to <span class="code ">reject-publish-dlx</span> is configured for the mirrored classic queues you want to migrate, check for the <span class="code ">reject-publish-dlx</span> string in the list of queues output that is provided by running the command in <a href="#find-mcq">Finding the Mirrored Classic Queues for Migration</a> or you can also search for the <span class="code ">reject-publish-dlx</span> string in the source code.</p>
+<h3>Global QoS for Consumers</h3>
+<p>Global <a href="https://rabbitmq.com/quorum-queues.html#global-qos">QoS prefetch</a> where a channel sets a single prefetch limit for all consumers using that channel is not supported by quorum queues. If this functionality is required, try achieving the same results using alternative methods, for example, one solution might be to use a lower per-consumer QoS (given the known application load pattern).</p>
+<p>To find out if this feature is used, run the following command on a running system and check for non-empty output:</p>
+<pre class="lang-bash">
+rabbitmqctl list_channels pid name global_prefetch_count | sed -n '/\t0$/!p'
+</pre>
+
+<p>A list of channel PIDs that have global QoS turned on are returned. Then, run the following command to map the channel PID to a queue name to verify if it is a mirrored classic queue. </p>
+<pre class="lang-bash">
+rabbitmqctl list_consumers queue_name channel_pid
+</pre>
+
+<h3><span class="code ">x-cancel-on-ha-failover</span> for Consumers</h3>
+<p>Classic mirrored queues consumers can be <a href="https://www.rabbitmq.com/ha.html#cancellation">automatically cancelled</a> when a queue
+leader fails over. This can cause loss of information about which messages were sent to which consumer, and result in the same messages being sent again (duplicate messages). </p>
+<p>Some of the cases for duplicate messages are covered by <span class="code ">x-cancel-on-ha-failover</span> and others are not. Most of the cases covered by <span class="code ">x-cancel-on-ha-failover</span> do not exist with quorum queues but those that are not covered are still there. Therefore, your application must be able to handle duplicates, which it should be able to do anyway.</p>
+<h2><a id="mcq-features-to-remove" class="anchor" href="#mcq-features-to-remove">Mirrored Classic Queue Features that can be removed from Source Code or moved to a Policy</a></h2>
+<p>The following features are ignored when quorum queues are
+used. The best way to handle these features is to remove them from the source
+code, or move them to a policy.</p>
+<h3>Lazy Queues</h3>
+<p>Quorum queues do not support lazy mode (<span class="code ">x-queue-mode=lazy</span>).</p>
+<p>To migrate mirrored lazy classic queues, remove the <span class="code ">x-queue-mode=lazy</span> declaration argument or remove it from the policy if it is set via a policy. For more information about the lazy mode, go to <a href="https://rabbitmq.com/lazy-queues.html#overview">Lazy Queues</a>.</p>
+<h3>Transient Queues</h3>
+<p><a href="https://www.rabbitmq.com/queues.html#durability">Transient queues</a> are deleted on a node/cluster boot. </p>
+<p>The plan is to remove transient queues in future RabbitMQ releases.
+The only option for transient queues then will be exclusive queues. This only affects the durability of queue definitions. Messages can still be marked transient.</p>
+<p>You must make a decision about transient queues before migration, is the content of the 
+queue important enough to get availability guarantees of quorum queues, or is it better to downgrade the transient queue to a classic non-mirrored queue (classic mirrored queues are being removed but classic non-mirrored queues will still be available).</p>
+<h3>Exclusive Queues</h3>
+<p>You do not need to complete any migration tasks for <a href="https://www.rabbitmq.com/queues.html#exclusive-queues">exclusive queues</a>. Exclusive queues are not mirrored even if the policy indicates that they are. Also, it is not possible to create an exclusive quorum queue.</p>
+<p>For exclusive queues, however, you must decide whether to leave the queue as exclusive or change it to a replicated queue during migration. Be careful not to make exclusive queue declarations with an explicit <span class="code ">x-queue-type: quorum</span> argument.</p>
+<h2>General Prerequisites before Migrating to Quorum Queues</h2>
+<ol>
+<li>A RabbitMQ cluster with an odd number of nodes. A minimum of 3 nodes in the RabbitMQ cluster is required for high availability.</li>
+<li>The Management plugin should be running on at least one node. It is used to export/import definitions for a single host,
+   which simplifies definitions cleanup. (<span class="code ">rabbitmqadmin</span> CLI command is also using the plugin behind the scenes).</li>
+<li>To quickly move (shovel) the backlog of original queues to the new queues, enable the . The <a href="https://www.rabbitmq.com/shovel.html">Shovel plugin</a> can be used to move the backlog of original messages to the new queues. Shovels can be created programmatically using a HTTP API extension or using the RabbitMQ Management UI.</li>
+</ol>
+<h2><a id="migrate-the-queues-by-virtual-host" class="anchor" href="#migrate-the-queues-by-virtual-host">Migrate the Queues by Virtual Host</a></h2>
+<p>This procedure to migrate from mirrored classic queues to quorum queues
+is similar to a <a href="https://rabbitmq.com/blue-green-upgrade.html">blue-green cluster upgrade</a>,
+except you are migrating to a new virtual host on the same
+RabbitMQ cluster. The steps in the following sections use a new virtual host on the existing cluster to provide an empty namespace to create the new quorum queues using the old queue names. </p>
+<p>You will use the <a href="https://rabbitmq.com/federation.html">Federation Plugin</a> to seamlessly migrate from the old virtual host to the new one.</p>
+<p><strong>Important</strong>: You can set the default queue type for the new virtual host. Setting it to
+<span class="code ">quorum</span> creates all the queues without an explicit type as 
+quorum queues (except for exclusive, non-durable, or auto-delete queues).</p>
+<p>If all incompatible features were cleaned up from the source code, and
+there is no explicit <span class="code ">x-queue-type</span> arguments in the source code, then
+the same code should work for both the old
+virtual host with classic mirrored queues and the new virtual
+host with quorum queues. The only change you need to make is to update the virtual host connection parameters to connect to the new virtual host.</p>
+<h3>Create the Destination Virtual Host</h3>
+<p><a href="https://rabbitmq.com/vhosts.html#creating">Create the new virtual host</a> with the correct default queue type (quorum) in the existing cluster. The queue type should be selected from the <strong>queue type</strong> drop down list when the new virtual host is being added via management UI. Alternatively, it can also be created using the CLI interface by specifying the default queue type and adding the permissions. Ensure all required users have access and can connect to the new virtual host by following the steps in the <a href="https://rabbitmq.com/rabbitmqctl.8.html#set_permissions">set permissions</a>. </p>
+<p><span class="code ">bash
+rabbitmqctl add_vhost NEW_VHOST --default-queue-type quorum
+rabbitmqctl set_permissions -p NEW_VHOST USERNAME '.*' '.*' '.*'</span></p>
+<h3>Create the Federation Upstream</h3>
+<p>A new <a href="https://rabbitmq.com/blue-green-upgrade.html#setup-federation">federation upstream</a> should be created for the NEW_VHOST with the
+URI pointing to the OLD_VHOST: <span class="code ">amqp:///OLD_VHOST</span>. (Note that the
+default vhost URI is <span class="code ">amqp:///%2f</span>).</p>
+<p>The federation upstream can be created using the management UI or the CLI:</p>
+<pre class="lang-bash">
+rabbitmqctl set_parameter federation-upstream quorum-migration-upstream \
+    --vhost NEW_VHOST \
+    '{"uri":"amqp:///OLD_VHOST", "trust-user-id":true}'
+</pre>
+
+<p>When this form of URI with an empty hostname is used, there is no
+need to specify credentials. Connection is only possible within
+the bounds of a single cluster.</p>
+<p>If the <span class="code ">user-id</span> in messages is being used for any purpose, it can also be
+preserved as shown in the previous CLI example.</p>
+<h3>Moving Definitions</h3>
+<p>Export the <a href="./definitions.html">definitions</a> from the source virtual host to a file. This is
+available on the <strong>Overview</strong> page of the management UI (don't forget to
+select a single virtual host). Alternatively, you can export the definitions using the CLI with the following command:</p>
+<pre class="lang-bash">
+rabbitmqadmin export -V OLD_VHOST OLD_VHOST.json
+</pre>
+
+<p>Make the following changes to this file before loading it back into the NEW_VHOST:</p>
+<ol>
+<li>Remove the <span class="code ">x-queue-type</span> declarations for queues that you want to have
+   as classic mirrored queues in the old virtual host, and as quorum ones in the
+   new virtual host.</li>
+<li>Other changes that must be applied to queue definitions:</li>
+<li>Remove the <span class="code ">x-max-priority</span> argument.</li>
+<li>Change the <span class="code ">x-overlow</span> argument when it is set to <span class="code ">reject-publish-dlx</span>. Change it to <span class="code ">reject-publish</span>.</li>
+<li>Remove the <span class="code ">x-queue-mode</span> argument.</li>
+<li>Change the <span class="code ">durable</span> attribute to <span class="code ">true</span>.</li>
+<li>Change the following keys in the policies:</li>
+<li>Remove everything starting with <span class="code ">ha-</span>: <span class="code ">ha-mode</span>, <span class="code ">ha-params</span>,
+     <span class="code ">ha-sync-mode</span>, <span class="code ">ha-sync-batch-size</span>, <span class="code ">ha-promote-on-shutdown</span>, and 
+     <span class="code ">ha-promote-on-failure</span></li>
+<li>Remove the <span class="code ">queue-mode</span>.</li>
+<li>Change <span class="code ">overflow</span> when it is set to <span class="code ">reject-publish-dlx</span>. Change it to <span class="code ">reject-publish</span>.</li>
+<li>Policies that are empty after the previous step should be dropped.</li>
+<li>Federation with the old virtual host should be added to any remaining
+   policies, pointing to the federation upstream created earlier:
+   <span class="code ">"federation-upstream-set":"quorum-migration-upstream"</span>.</li>
+<li>If there is no catch-all policy (applying to queues with pattern <span class="code ">.*</span>), you must create this policy and point it to the federation upstream. This ensures that every queue in the old virtual host will be federated.</li>
+<li>Policies that apply federation rules to exchanges must be removed for the period of the migration to avoid duplicate messages.</li>
+</ol>
+<p>Now the modified schema can be loaded into the new virtual host from the Management
+UI or by running the following command from the CLI:</p>
+<pre class="lang-bash">
+rabbitadmin import -V NEW_VHOST NEW_VHOST.json
+</pre>
+
+<h3>Point Consumers to use Quorum Queues in the New Virtual Host</h3>
+<p>Consumers of the migrated queues can now access the new queues by updating the connection parameters to connect to the new virtual host. The federation links start to pull in messages from the original queues.</p>
+<p>As with a blue-green cluster, after all consumers are migrated, you might need to also <a href="#shovel-remaining-messages">add shovels to move the backlog of the original queues to the new queues</a> more efficiently than federation. For more information, refer to <a href="https://rabbitmq.com/blue-green-upgrade.html#drain-messages">Drain Messages</a>.</p>
+<h3>Update the Producers to Use the Exchanges in the new Virtual Host</h3>
+<p>Once the original queues are empty (or nearly empty if you do not require full message ordering), the producers should be stopped and reconfigured to use the new queue declarations and virtual host like the consumers, and restarted. Federated exchanges in the old virtual host should also be stopped and equivalent exchanges should be added in the new virtual host. The original queues can be removed once they are empty and no messages are passing through them.</p>
+<p>Under sufficient system load, messages from the old virtual host will
+not be picked up. If message ordering is important, then ordering should
+be completed in these steps: stop producers, shovel remaining messages to the new
+virtual host, and start consumers on the new virtual host.</p>
+<h3><a id="shovel-remaining-messages" class="anchor" href="#shovel-remaining-messages">Shovel Remaining Messages to the New Virtual Host</a></h3>
+<p>For every non-empty queue in the old virtual host, a shovel needs to be configured. For example:</p>
+<pre class="lang-bash">
+rabbitmqctl set_parameter shovel migrate-QUEUE_TO_MIGRATE \
+  '{"src-protocol": "amqp091", "src-uri": "amqp:///OLD_VHOST", "src-queue": "QUEUE_TO_MIGRATE",
+    "dest-protocol": "amqp091", "dest-uri": "amqp:///NEW_VHOST", "dest-queue": "QUEUE_TO_MIGRATE"}'
+</pre>
+
+<p>After the queue is drained, the shovel can be deleted:</p>
+<pre class="lang-bash">
+rabbitmqctl clear_parameter shovel migrate-QUEUE_TO_MIGRATE
+</pre>
+
+<h2><a id="migrate-in-place" class="anchor" href="#migrate-in-place">Migrate in Place</a></h2>
+<p>Migrating this way trades uptime so that you can 
+complete the migration in an existing virtual host and cluster.</p>
+<p>For each queue (or some group of queues) being migrated, it should be
+possible to stop all the consumers and producers for the duration of the 
+migration.</p>
+<h3>Preparing Producers and Consumers</h3>
+<p>All incompatible features should be cleaned up. In addition, every place where queues are being declared, it would be better to make the
+<span class="code ">x-queue-type</span> argument configurable without changing the application code.</p>
+<h3>The Migration Steps</h3>
+<ol>
+<li>Stop the consumers and producers.</li>
+<li>Shovel the messages to a new temporary queue.</li>
+<li>Delete the old queue.</li>
+<li>Create a new quorum queue with the same name as the original queue.</li>
+<li>Shovel the contents of the temporary queue to the new quorum queue.</li>
+<li>Configure the consumers to use <span class="code ">x-queue-type</span> of <span class="code ">quorum</span> and they can be started.</li>
+</ol><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
+          <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
+          <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-apacheconf, \
+                             pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-clojure, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-nginxconf, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>

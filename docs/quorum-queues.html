@@ -9,10 +9,10 @@
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>The quorum queue is a modern queue type for RabbitMQ implementing a durable,
-replicated FIFO queue based on the <a href="https://raft.github.io/">Raft consensus algorithm</a>.
-It is available as of RabbitMQ 3.8.0.</p>
-<p>Quorum queues and <a href="./streams.html">streams</a> replace durable <a href="ha.html">mirrored queues</a>, the original
-replicated queue type which is <a href="https://blog.rabbitmq.com/posts/2021/08/4.0-deprecation-announcements/">now deprecated and scheduled for removal</a>.</p>
+replicated FIFO queue based on the <a href="https://raft.github.io/">Raft consensus algorithm</a>.</p>
+<p>Quorum queues and <a href="./streams.html">streams</a> now replace the original, replicated <a href="ha.html">mirrored classic queue</a>. Mirrored classic queues are <a href="https://blog.rabbitmq.com/posts/2021/08/4.0-deprecation-announcements/">now deprecated and scheduled for removal</a>.
+Use the <a href="./migrate-mcq-to-qq.html">Migrate your RabbitMQ Mirrored Classic Queues to Quorum Queues</a> guide for migrating
+RabbitMQ installations that currently use classic mirrored queues.</p>
 <p>Quorum queues are optimized for <a href="#use-cases">set of use cases</a> where <a href="#data-safety">data safety</a> is
 a top priority. This is covered in <a href="#motivation">Motivation</a>.
 Quorum queues should be considered the default option for a replicated queue type.</p>

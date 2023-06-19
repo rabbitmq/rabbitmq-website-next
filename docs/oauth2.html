@@ -8,7 +8,7 @@
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>This <a href="https://www.rabbitmq.com/access-control.html">RabbitMQ authentication/authorisation backend</a> plugin lets applications (clients) and users authenticate and authorize using JWT-encoded OAuth 2.0 access tokens.</p>
+<p>This <a href="./access-control.html">RabbitMQ authentication/authorisation backend</a> plugin lets applications (clients) and users authenticate and authorize using JWT-encoded OAuth 2.0 access tokens.</p>
 <p>This guide covers</p>
 <ul>
 <li><a href="#how-it-works">How it works</a></li>
@@ -29,13 +29,28 @@
 <li><a href="#examples">Examples</a></li>
 </ul>
 <h2><a id="how-it-works" class="anchor" href="#how-it-works">How it works</a></h2>
+<p>The OAuth 2 plugin must be enabled (or <a href="./plugins.html#enabled-plugins-file">pre-configured</a>) before it can be used,
+like all other plugins:</p>
+<pre class="lang-bash">
+rabbitmq-plugins enable rabbitmq_auth_backend_oauth2
+</pre>
+
+<p>Then it must be specified as one of the <a href="./access-control.html#backends">authN and authZ backends</a>. It can be
+one of the backends or the only one backend, like in the example below:</p>
+<pre class="lang-ini">
+# note that the module name begins with a "rabbit_", not "rabbitmq_", like in the name
+# of the plugin
+auth_backends.1 = rabbit_auth_backend_oauth2
+</pre>
+
+<p>Next, let's take a look at the workflows the OAuth 2 plugin supports.</p>
 <h3><a id="authorization-workflow" class="anchor" href="#authorization-workflow">Authorization Workflow</a></h3>
 <p>This plugin does not communicate with any OAuth 2.0 provider. It decodes an access token provided by the client and authorises a user based on the data stored in the token.</p>
 <p>The token can be any <a href="https://jwt.io/introduction/">JWT token</a> which contains the <span class="code ">scope</span> and <span class="code ">aud</span> fields. The way the token was issued (such as what grant type was used) is outside of the scope of this plugin.</p>
 <h3><a id="prerequisites" class="anchor" href="#prerequisites">Prerequisites</a></h3>
 <p>To use this plugin, all RabbitMQ nodes must be</p>
 <ol>
-<li><a href="https://www.rabbitmq.com/access-control.html">configured to use the rabbit_auth_backend_oauth2 backend</a>.</li>
+<li><a href="./access-control.html">configured to use the rabbit_auth_backend_oauth2 backend</a>.</li>
 <li>configured with a resource service ID (<span class="code ">resource_server_id</span>) that matches the scope prefix (e.g. <span class="code ">rabbitmq</span> in <span class="code ">rabbitmq.read:*/*</span>).</li>
 <li>configured with a signing key used by RabbitMQ to validate the JWT token signatures.</li>
 </ol>
@@ -358,8 +373,8 @@ a write permission on all exchanges starting with <span class="code ">x-prod-</s
 in order to authenticate with RabbitMQ.</p>
 <p>To learn more about OAuth 2.0 clients, see the <a href="https://www.rfc-editor.org/rfc/rfc6749#section-4.4">OAuth 2.0 client specification</a>.</p>
 <h3><a id="scope-and-tags" class="anchor" href="#scope-and-tags">Scope and Tags</a></h3>
-<p>Users in RabbitMQ can have <a href="https://www.rabbitmq.com/access-control.html#user-tags">tags associated with them</a>.
-Tags are used to <a href="https://www.rabbitmq.com/management.html#permissions">control access to the management plugin</a>.</p>
+<p>Users in RabbitMQ can have <a href="./access-control.html#user-tags">tags associated with them</a>.
+Tags are used to <a href="./management.html#permissions">control access to the management plugin</a>.</p>
 <p>In the OAuth context, tags can be added as part of the scope, using a format like <span class="code ">&lt;resource_server_id&gt;.tag:&lt;tag&gt;</span>. For
 example, if <span class="code ">resource_server_id</span> is "my_rabbit", a scope to grant access to the management plugin with
 the <span class="code ">monitoring</span> tag will be <span class="code ">my_rabbit.tag:monitoring</span>.</p>
@@ -435,7 +450,7 @@ cluster:&lt;resource_server_id_pattern&gt;[/vhost:&lt;vhost_pattern&gt;][/queue:
 <p>For more information about wildcard patterns, check the section <a href="#scope-to-permission-translation">Scope-to-Permission Translation</a>.</p>
 <h4>Actions field</h4>
 <p>The <span class="code ">actions</span> field can be either a string containing a single action or a Json array containing zero or many actions.</p>
-<p>The supported actions map to either <a href="https://www.rabbitmq.com/access-control.html#authorisation">RabbitMQ permissions</a>:</p>
+<p>The supported actions map to either <a href="./access-control.html#authorisation">RabbitMQ permissions</a>:</p>
 <ul>
 <li><span class="code ">configure</span></li>
 <li><span class="code ">read</span></li>

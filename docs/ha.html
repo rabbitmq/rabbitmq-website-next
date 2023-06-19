@@ -8,11 +8,8 @@
 
 
 <h2><a id="interstitial" class="anchor" href="#interstitial">Wait, There's a Better Way: Next Generation Highly Available Queues and Streams</a></h2>
-<p>This guide covers a <a href="https://blog.rabbitmq.com/posts/2021/08/4.0-deprecation-announcements/"><strong>deprecated and scheduled for removal feature</strong></a>: mirroring (queue contents replication) of classic queues.
-<a href="quorum-queues.html">Quorum queues</a> is an alternative, more modern queue type
-that offers high availability via replication and focuses on data safety.
-As of RabbitMQ 3.10, quorum queues <a href="https://blog.rabbitmq.com/posts/2022/05/rabbitmq-3.10-release-overview/">support message TTL</a> and
-provide <a href="https://blog.rabbitmq.com/posts/2022/05/rabbitmq-3.10-performance-improvements/">higher throughput and more stable latency</a> compared to mirrored classic queues.</p>
+<p>This guide covers a <a href="https://blog.rabbitmq.com/posts/2021/08/4.0-deprecation-announcements/"><strong>deprecated and scheduled for removal feature</strong></a>: mirroring (queue contents replication) of classic queues.<a href="quorum-queues.html">Quorum queues</a> are an alternative to mirrored classic queues. </p>
+<p>Quorum queues are a more advanced queue type, which offers high availability using  replication and focuses on data safety. From RabbitMQ 3.10, quorum queues <a href="https://blog.rabbitmq.com/posts/2022/05/rabbitmq-3.10-release-overview/">support message TTL</a> and provide <a href="https://blog.rabbitmq.com/posts/2022/05/rabbitmq-3.10-performance-improvements/">higher throughput and more stable latency</a> compared to mirrored classic queues. You can <a href="./migrate-mcq-to-qq.html">Migrate your RabbitMQ Mirrored Classic Queues to Quorum Queues</a> now.</p>
 <p><a href="streams.html">Streams</a> is a messaging data structure available as of <a href="changelog.html">RabbitMQ 3.9</a>,
 and is also replicated.</p>
 <p>Quorum queues should be the <strong>default choice</strong> for a replicated queue type.
@@ -26,7 +23,7 @@ using policies before changing the default version in the configuration.</p>
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>Topics covered in this guide include</p>
 <ul>
-<li><a href="#interstitial">Next generation replicated queue type</a> and why it should be preferred over classic queue mirroring</li>
+<li><a href="#interstitial">Next generation replicated queue type</a> and why it should be preferred over classic queue mirroring. </li>
 <li>What is <a href="#what-is-mirroring">classic queue mirroring</a> and how it works</li>
 <li>How to <a href="#ways-to-configure">enable it</a></li>
 <li>What <a href="#mirroring-arguments">mirroring settings are available</a></li>

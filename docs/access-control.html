@@ -28,7 +28,7 @@ as well as several <a href="#backends">authentication and authorisation backends
 <li>How to <a href="#revoke">revoke access</a> for a user</li>
 <li><a href="#passwords-and-shell-escaping">Shell escaping</a> of characters in generated passwords</li>
 <li>How to <a href="#seeding">pre-create users</a> and their permissions</li>
-<li>Troubleshooting of <a href="#troubleshooting-authn">authentication</a> and <a href="#troubleshooting-authz">authorisation failures</a></li>
+<li>Troubleshooting of <a href="#troubleshooting-authn">authentication</a> and <a href="#troubleshooting-authz">authorisation failures</a>)</li>
 </ul>
 <p><a href="./passwords.html">Password-based</a> authentication has a companion guide.
 A closely related topic of <a href="./ssl.html">TLS support</a> is also covered in a dedicated guide.</p>
@@ -471,6 +471,14 @@ The following aliases are available:</p>
 <li><span class="code ">amqp</span> for <span class="code ">rabbit_auth_backend_amqp</span> (from the <a href="https://github.com/rabbitmq/rabbitmq-auth-backend-amqp">AMQP 0-9-1 auth backend plugin</a>)</li>
 <li><span class="code ">dummy</span> for <span class="code ">rabbit_auth_backend_dummy</span></li>
 </ul>
+<p>Some plugins do not currently have a shortcut. In this case, a full module (not the name of the plugin!) must
+be used:</p>
+<pre class="lang-ini">
+# note that the module name begins with a "rabbit_", not "rabbitmq_", like in the name
+# of the plugin
+auth_backends.1 = rabbit_auth_backend_oauth2
+</pre>
+
 <p>When using third party plugins, providing a full module name is necessary.</p>
 <p>The following example configures RabbitMQ to use the <a href="./ldap.html">LDAP backend</a>
 for both authentication and authorisation. Internal database will not be consulted:</p>

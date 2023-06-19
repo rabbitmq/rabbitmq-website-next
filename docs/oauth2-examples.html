@@ -48,7 +48,7 @@ that make it easier to</p>
 <li><a href="oauth2-examples-keycloak.html">KeyCloak</a></li>
 <li><a href="oauth2-examples-oauth0.html">https://auth0.com/</a></li>
 <li><a href="oauth2-examples-azure.html">Azure Active Directory</a>  </li>
-<li><a href="oauth2-examples-proxy.html">OAuth2 Proxy</a></li>
+<li><a href="./oauth2-examples-proxy.html">OAuth2 Proxy</a></li>
 </ul>
 </li>
 <li><a href="#understand-the-environment">Understanding the environment</a><ul>
@@ -154,7 +154,7 @@ The following scenarios are examples of Idp-initiated logon:</p>
 <li>RabbitMQ is behind a web portal which conveniently allow users to navigate directly to RabbitMQ fully authenticated.</li>
 <li>There is an OAuth2 proxy in between users and RabbitMQ which intercepts their requests and forwards them to RabbitMQ inserting the token into the HTTP <span class="code ">Authorization</span> header.  </li>
 </ul>
-<p>The latter scenario is demonstrated <a href="oauth2-examples-proxy.html">here</a>. The former scenario is covered in the following section.</p>
+<p>The latter scenario is demonstrated <a href="./oauth2-examples-proxy.html">here</a>. The former scenario is covered in the following section.</p>
 <h4>Idp-initiated Logon using the Login Endpoint</h4>
 <p>A Web portal offers their authenticated users the option to navigate to RabbitMQ
 by submitting a form with their OAuth token in the <span class="code ">access_token</span> form field as provided below:</p>
@@ -564,11 +564,14 @@ make stop-perftest-consumer CONSUMER=consumer_with_roles
 By default, RabbitMQ will first look for the <span class="code ">sub</span> claim and if it is not found it uses the <span class="code ">client_id</span>.</p>
 <p>Most authorization servers return the user's GUID in the <span class="code ">sub</span> claim rather than the actual user's username or email address, anything the user can relate to. When the <span class="code ">sub</span> claim does not carry a <em>user-friendly username</em>, you can configure one or several claims to extract the username from the token.</p>
 <p>Given this configuration:</p>
-<p><span class="code ">...
+<pre class="lang-erlang">
+  ...
   {rabbitmq_auth_backend_oauth2, [
     {resource_server_id, &lt;&lt;"rabbitmq"&gt;&gt;},
-    {preferred_username_claims, [&lt;&lt;"user_name"&gt;&gt;,&lt;&lt;"email"&gt;&gt;]},
-  ...</span></p>
+    {preferred_username_claims, [&lt;&lt;"user_name"&gt;&gt; ,&lt;&lt;"email"&gt;&gt;]},
+  ...
+</pre>
+
 <p>RabbitMQ would first look for the <span class="code ">user_name</span> claim and if it is not found it looks for <span class="code ">email</span>. Else it uses its default lookup mechanism which first looks for <span class="code ">sub</span> and then <span class="code ">client_id</span>.</p>
 <h3><a id="use-rar-tokens" class="anchor" href="#use-rar-tokens">Use Rich Authorization Request Tokens</a></h3>
 <p>The <a href="https://oauth.net/2/rich-authorization-requests/">Rich Authorization Request</a> extension provides a way for
