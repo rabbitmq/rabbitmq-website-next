@@ -56,7 +56,7 @@ To label the <span class="code ">ServiceMonitor</span> and <span class="code ">P
 <p><span class="code ">ServiceMonitor</span> and <span class="code ">PodMonitor</span> can be created in any namespace, as long as the Prometheus Operator has permissions to find it.
 For more information about these permissions, see <a href="#config-perm">Configure Permissions for the Prometheus Operator</a> below.</p>
 <p>Prometheus Operator will detect <span class="code ">ServiceMonitor</span> and <span class="code ">PodMonitor</span> objects and automatically configure and reload Prometheus' <a href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config">scrape config</a>.</p>
-<p>To validate whether Prometheus successfully scrapes metrics, open the Prometheus web UI in your browser and navigate to the <span class="code ">Status -&gt; Targets</span> page where you should see
+<p>To validate whether Prometheus successfully scrapes metrics, open the Prometheus web UI in your browser (ask your administrator for the URL) and navigate to the <span class="code ">Status -&gt; Targets</span> page where you should see
 an entry for the Cluster Operator (e.g. <span class="code ">podMonitor/&lt;podMonitorNamespace&gt;/rabbitmq-cluster-operator/0 (1/1 up)</span>) and one entry for each deployed RabbitMQ cluster (e.g. <span class="code ">serviceMonitor/&lt;serviceMonitorNamespace&gt;/rabbitmq/0 (1/1 up)</span>).</p>
 <h3>Prometheus Alerts</h3>
 <p>The custom resource <span class="code ">PrometheusRule</span> allows to declaratively define <a href="https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/">alerting rules</a>.
