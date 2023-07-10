@@ -81,7 +81,7 @@ so uneven cluster sizes is strongly recommended.</p>
 just as any other RabbitMQ queue.</p>
 <p>If declaring using <a href="./management.html">management UI</a>, the <span class="code ">stream</span> type must be specified using
 the queue type drop down menu.</p>
-<p>Streams support 3 additional <a href="./queues.html#optional-arguments">queue arguments</a>
+<p>Streams support additional <a href="./queues.html#optional-arguments">queue arguments</a>
 that are best configured using a <a href="./parameters.html#policies">policy</a></p>
 <ul>
 <li><span class="code ">x-max-length-bytes</span></li>
@@ -97,6 +97,13 @@ that are best configured using a <a href="./parameters.html#policies">policy</a>
 <p>Unit: bytes. A stream is divided up into fixed size segment files on disk.
 This setting controls the size of these.
 Default: (500000000 bytes).</p>
+<ul>
+<li><span class="code ">x-stream-filter-size-bytes</span></li>
+</ul>
+<p>Unit: bytes.
+The size of the Bloom filter used for <a href="#filtering">filtering</a>.
+The value must be between 16 and 255.
+Default: 16.</p>
 <p>The following snippet shows how to set the maximum size of a stream to 20 GB, with
 segment files of 100 MB:</p>
 <pre class="lang-java">
@@ -223,6 +230,53 @@ rabbitmq-streams add_super_stream invoices --partitions 3
 <p>Super streams add complexity compared to individual streams, so they should not be considered the default solution for all use cases involving streams.
 Consider using super streams only if you are sure you reached the limits of individual streams.</p>
 <p>A <a href="https://blog.rabbitmq.com/posts/2022/07/rabbitmq-3-11-feature-preview-super-streams">blog post</a> provides an overview of super streams.</p>
+<h3><a id="filtering" class="anchor" href="#filtering">Filtering</a></h3>
+<p>RabbitMQ Stream provides a server-side filtering feature that avoids reading all the messages of a stream and filtering only on the client side.
+This helps to save network bandwidth when a consuming application needs only a subset of messages, e.g. the messages from a given geographical region.</p>
+<p>A message must be published with an associated filter value for the filtering feature to work.
+This value is specified with the <span class="code ">x-stream-filter-value</span> header:</p>
+<pre class="lang-java">
+channel.basicPublish(
+  "", // default exchange
+  "my-stream",
+  new AMQP.BasicProperties.Builder()
+    .headers(Collections.singletonMap(
+      "x-stream-filter-value", "california" // set filter value
+    ))
+    .build(),
+  body
+);
+</pre>
+
+<p>A consumer must use the <span class="code ">x-stream-filter</span> argument if it wants to receive only messages for a given filter value:</p>
+<pre class="lang-java">
+channel.basicQos(100); // QoS must be specified
+channel.basicConsume(
+  "my-stream",
+  false,
+  Collections.singletonMap("x-stream-filter", "california"), // set filter
+  (consumerTag, message) -&gt; {
+    Map&lt;String, Object&gt; headers = message.getProperties().getHeaders();
+    // there must be some client-side filter logic
+    if ("california".equals(headers.get("x-stream-filter-value"))) {
+      // message processing
+      // ...
+    }
+    channel.basicAck(message.getEnvelope().getDeliveryTag(), false); // ack is required
+  },
+  consumerTag -&gt; { });
+</pre>
+
+<p>As shown in the snippet above, there must be some client-side filtering logic as well because server-side filtering is <em>probabilistic</em>: messages that do not match the filter value can still be sent to the consumer. 
+The server uses a <a href="https://en.wikipedia.org/wiki/Bloom_filter">Bloom filter</a>, a space-efficient probabilistic data structure, where false positives are possible.
+Despite this, the filtering saves some bandwidth, which is its primary goal.</p>
+<p>Additional notes on filtering:</p>
+<ul>
+<li>It is possible to publish messages with and without a filter value in the same stream.</li>
+<li>Messages without a filter value are not sent when a filter is set by a consumer.
+Set the <span class="code ">x-stream-match-unfiltered</span> argument to <span class="code ">true</span> to change this behavior and receive <em>unfiltered</em> messages as well.</li>
+<li>The <span class="code ">x-stream-filter</span> consumer argument accepts a string but also an array of strings to receive messages for different filter values.</li>
+</ul>
 <h2><a id="feature-comparison" class="anchor" href="#feature-comparison">Feature Comparison with Regular Queues</a></h2>
 <p>Streams are not really queues in the traditional sense and thus do not
 align very closely with AMQP 0.9.1 queue semantics. Many features that other queue types
