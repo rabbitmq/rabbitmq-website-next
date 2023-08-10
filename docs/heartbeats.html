@@ -113,12 +113,10 @@ feature.</p>
 <p>Heartbeats in STOMP are opt-in. To enable them, use the <span class="code ">heart-beat</span>
 header when connecting. See <a href="https://stomp.github.io/stomp-specification-1.2.html#Heart-beating">STOMP specification</a> for an example.</p>
 <h2><a id="mqtt" class="anchor" href="#mqtt">Heartbeats in MQTT</a></h2>
-<p><a href="http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/csprd02/mqtt-v3.1.1-csprd02.html#_Toc385349238">MQTT 3.1.1 includes heartbeats</a> under a different name
-("keepalives").  RabbitMQ MQTT plugin fully supports this
-feature.</p>
-<p>Keepalives in MQTT are opt-in. To enable them, set the
-<span class="code ">keepalive</span> interval when connecting. Please
-consult your MQTT client's documentation for examples.</p>
+<p><a href="https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901045">MQTT includes heartbeats</a> under a different name ("keepalives").
+RabbitMQ MQTT plugin fully supports this feature.</p>
+<p>Keepalives in MQTT are opt-in. To enable them, set the <span class="code ">keepalive</span> interval when connecting.
+Please consult your MQTT client's documentation for examples.</p>
 <h2><a id="shovel-and-federation" class="anchor" href="#shovel-and-federation">Heartbeats in Shovel and Federation Plugins</a></h2>
 <p><a href="shovel.html">Shovel</a> and <a href="federation.html">Federation</a> plugins open Erlang client
 connections to RabbitMQ nodes under the hood. As such, they can be configured

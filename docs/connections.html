@@ -16,7 +16,7 @@ are covered by the <a href="networking.html">Networking</a> and <a href="./troub
 <li><a href="./specification.html">AMQP 0-9-1</a> with <a href="extensions.html">extensions</a></li>
 <li><a href="https://www.amqp.org/resources/download">AMQP 1.0</a></li>
 <li><a href="stream.html">RabbitMQ Stream Protocol</a></li>
-<li><a href="mqtt.html">MQTT</a> 3.1.1</li>
+<li><a href="mqtt.html">MQTT</a> 3.1 through 5.0</li>
 <li><a href="stomp.html">STOMP</a> 1.0 through 1.2</li>
 </ul>
 <p>Note that despite the similarities in naming, AMQP 0-9-1 and AMQP 1.0 are different protocols, not
@@ -104,8 +104,8 @@ instead.</p>
 <p>AMQP 1.0 has a model that includes connections, sessions and links.</p>
 <p>After successfully opening a connection and authenticating, an application opens one or more sessions. It then
 attaches links to the session in order to publish and consume messages.</p>
-<h4>MQTT 3.1</h4>
-<p>MQTT 3.1 connections follow the flow described above. MQTT supports optional authentication.
+<h4>MQTT</h4>
+<p>MQTT connections follow the flow described above. MQTT supports optional authentication.
 When it is used, RabbitMQ uses a pre-configured set of credentials.</p>
 <h4>STOMP</h4>
 <p>STOMP connections follow the flow described above.</p>
