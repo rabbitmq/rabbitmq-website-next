@@ -19,6 +19,7 @@ via a plugin that ships in the core distribution.</p>
 <li><a href="#features">Supported MQTT features</a> and <a href="#limitations">limitations</a></li>
 <li><a href="#implementation">MQTT plugin implementation overview</a></li>
 <li>When (not) to use <a href="#quorum-queues">quorum queues</a></li>
+<li><a href="#qos0-queue-type">MQTT QoS 0 queue type</a></li>
 <li><a href="#authentication">Users and authentication</a> and <a href="#local-vs-remote">remote connections</a></li>
 <li><a href="#config">Key configurable settings</a> of the plugin</li>
 <li><a href="#tls">TLS support</a></li>
@@ -216,6 +217,11 @@ Setting <span class="code ">mqtt.mailbox_soft_limit</span> to a very high value 
 <p>The <span class="code ">mqtt.mailbox_soft_limit</span> can be thought of a <a href="maxlength.html">queue length limit</a> (although not precisely because, as mentioned previously, the Erlang process mailbox can contain other messages than MQTT application messages).
 This is why the configuration key <span class="code ">mqtt.mailbox_soft_limit</span> contains the word <span class="code ">soft</span>.
 The described overload protection mechanism corresponds roughly to <a href="maxlength.html#overflow-behaviour">overflow behaviour</a> <span class="code ">drop-head</span> that exists in classic queues and quorum queues.</p>
+<p>The following Prometheus metric reported by a given RabbitMQ node shows how many QoS 0 messages were dropped in total across all queues of type <span class="code ">rabbit_mqtt_qos0_queue</span> during the lifetime of that node:</p>
+<pre class="lang-bash">
+rabbitmq_global_messages_dead_lettered_maxlen_total{queue_type="rabbit_mqtt_qos0_queue",dead_letter_strategy="disabled"} 0
+</pre>
+
 <p>The <a href="https://blog.rabbitmq.com/posts/2023/03/native-mqtt/#new-mqtt-qos-0-queue-type">Native MQTT</a> blog post describes the MQTT QoS 0 queue type in more detail.</p>
 <h2><a id="authentication" class="anchor" href="#authentication">Users and Authentication</a></h2>
 <p>MQTT clients will be able to connect provided that they have a set of credentials for an existing user with the appropriate permissions.</p>
