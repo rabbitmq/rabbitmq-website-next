@@ -13,6 +13,7 @@ If RabbitMQ Messaging Topology Operator is not installed, see the <a href="https
 <li><a href="#requirements">Cluster Operator Requirements</a></li>
 <li><a href="#namespace-scope">Scope across multiple namespaces</a></li>
 <li><a href="#non-operator">Non Operator managed RabbitMQ</a></li>
+<li><a href="#uri-annotation">Custom Connection URI</a></li>
 <li><a href="#queues-policies">Queues and policies</a></li>
 <li><a href="#users-permissions">Users and user permissions</a></li>
 <li><a href="#exchanges-bindings">Exchanges and bindings</a></li>
@@ -113,6 +114,17 @@ spec:
 </pre>
 
 <p>Note that <span class="code ">spec.rabbitmqClusterReference</span> is an immutable field. You cannot update the connectionSecret name after creation.</p>
+<h2><a id="uri-annotation" class="anchor" href="#uri-annotation">Custom Connection URI</a></h2>
+<ul>
+<li>For RabbitmqClusters that cannot be connected by its Kubernetes service object (for example if the TLS certificate is generated for a custom domain, not the Kubernetes service),
+you can annotate Rabbitmqclusters with a custom connection URI. Messaging Topology Operator will use the provided information to connect instead of Kubernetes dns.</li>
+<li>This feature is released since Messaging Topology Operator <span class="code ">1.12.0</span>.</li>
+</ul>
+<p>To annotate RabbitmqClusters,</p>
+<pre class="lang-bash">
+kubectl annotate rmq RMQ-NAME rabbitmq.com/operator-connection-uri=https://test:1234
+</pre>
+
 <h2><a id="queues-policies" class="anchor" href="#queues-policies">Queues and Policies</a></h2>
 <p>Messaging Topology Operator can declare <a href="../../queues.html">queues</a> and
 <a href="../../parameters.html#how-policies-work">policies</a> in a RabbitMQ cluster.</p>
@@ -394,7 +406,8 @@ could cause unnecessary load on both the Operator and the RabbitMQ server.
 Only use this feature if time based reconciliation is required for your use case.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
-                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                    using <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
+                    or our community <a href="https://rabbitmq.com/discord">Discord server</a>.
                   </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
                     If you'd like to contribute an improvement to the site,
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.

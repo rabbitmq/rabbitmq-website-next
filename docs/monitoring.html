@@ -287,7 +287,7 @@ be one example. Both types are complimentary to infrastructure and node metrics.
     <tr>
       <td>Other message stats</td>
       <td>
-        <span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.12.1/deps/rabbitmq_management/priv/www/api/index.html">HTTP API reference</a>)
+        <span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.12.3/deps/rabbitmq_management/priv/www/api/index.html">HTTP API reference</a>)
       </td>
     </tr>
   </tbody>
@@ -389,6 +389,9 @@ compared to their previous values and historical mean/percentile values.</p>
 <h3><a id="queue-metrics" class="anchor" href="#queue-metrics">Individual Queue Metrics</a></h3>
 <p>Individual queue metrics are made available through the <a href="management.html#http-api">HTTP API</a>
 via the <span class="code ">GET /api/queues/{vhost}/{qname}</span> endpoint.</p>
+<p>The table below lists some key metrics that can be useful for monitoring queue state.
+Some other metrics (such as queue state and "idle period") should be considered <strong>internal metrics</strong>
+used by RabbitMQ contributors.</p>
 <table>
   <thead>
     <tr><td>Metric</td><td>JSON field name</td></tr>
@@ -428,8 +431,9 @@ via the <span class="code ">GET /api/queues/{vhost}/{qname}</span> endpoint.</p>
     </tr>
     <tr>
       <td>Other message stats</td>
-      <td><span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-management/v3.12.1/priv/www/api/index.html">HTTP API reference</a>)
-    </td>
+      <td>
+        <span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.12.3/deps/rabbitmq_management/priv/www/api/index.html">HTTP API reference</a>)
+      </td>
     </tr>
   </tbody>
 </table>
@@ -838,7 +842,8 @@ important clues that will help identify the root cause. Collect logs from all Ra
 as all applications (if possible).</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
-                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                    using <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
+                    or our community <a href="https://rabbitmq.com/discord">Discord server</a>.
                   </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
                     If you'd like to contribute an improvement to the site,
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.

@@ -22,6 +22,7 @@ Besides helping detect issues, it provides the operator data that can be used
 to size and configure both RabbitMQ nodes and applications.</p>
 <p>This guide provides recommendations in a few areas:</p>
 <ul>
+<li><a href="#storage">Storage</a> considerations for node data directories</li>
 <li>Recommendations related to <a href="#users-and-permissions">virtual hosts, users and permissions</a></li>
 <li><a href="#monitoring-and-resource-usage">Monitoring and resource usage</a></li>
 <li><a href="#limits">Per-virtual host and per-user limits</a></li>
@@ -30,6 +31,42 @@ to size and configure both RabbitMQ nodes and applications.</p>
 <li><a href="#apps">Application-level</a> practices and considerations</li>
 </ul>
 <p>and more.</p>
+<h2><a id="storage" class="anchor" href="#storage">Storage Considerations</a></h2>
+<h3><a id="storage-durability" class="anchor" href="#storage-durability">Use Durable Storage</a></h3>
+<p>Modern RabbitMQ 3.x features, most notably quorum queues and streams, are not designed with transient storage in mind.</p>
+<p>Data safety features of <a href="./quorum-queues.html">quorum queues</a> and <a href="./streams.html">streams</a> expect
+node data storage to be durable. Both data structures also assume reasonably stable latency of I/O
+operations, something that network-attached storage will not be always ready to provide in practice.</p>
+<p>Quorum queue and stream replicas hosted on restarted nodes that use transient storage will have
+to perform a full sync of the entire data set on the leader replica. This can result in massive
+data transfers and network link overload that could have been avoided by using durable storage.</p>
+<p>When nodes are restarted, the rest of the cluster expects them to retain the information
+about their cluster peers. When this is not the case, restarted nodes may be able to rejoin
+as new nodes but a <a href="https://rabbitmq.com/cluster-formation.html#node-health-checks-and-cleanup">special peer clean up mechanism</a>
+would have to be enabled to remove their prior identities.</p>
+<p>Transient entities (such as queues) and RAM node support will be removed in RabbitMQ 4.0.</p>
+<h3><a id="storage-nas" class="anchor" href="#storage-nas">Network-attached Storage (NAS)</a></h3>
+<p>Network-attached storage (NAS) can be used for RabbitMQ node data directories, provided that
+the NAS volume</p>
+<ul>
+<li>It offers low I/O latency</li>
+<li>It can guarantee no significant latency spikes (for example, due to sharing with other I/O-heavy services)</li>
+</ul>
+<p>Quorum queues, streams, and other RabbitMQ features will benefit from fast local SSD and NVMe storage.
+When possible, prefer local storage to NAS.</p>
+<h3><a id="storage-isolation" class="anchor" href="#storage-isolation">Storage Isolation</a></h3>
+<p>RabbitMQ nodes must never share their data directories. Ideally, should should not share their
+disk I/O with other services for most predictable latency and throughput.</p>
+<h3><a id="storage-filesystems" class="anchor" href="#storage-filesystems">Choice of a Filesystem</a></h3>
+<p>RabbitMQ nodes can use most widely used local filesystems: ext4, btfs, and so on.</p>
+<p>Avoid using distributed filesystems for node data directories:</p>
+<ul>
+<li>RabbitMQ's storage subsystem assumes the standard local filesystem semantics for <span class="code ">fsync(2)</span>
+   and other key operations. Distributed filesystems often <a href="https://docs.ceph.com/en/latest/cephfs/posix/">deviate from these standard guarantees</a></li>
+<li>Distributed filesystems are usually designed for shared access to a subset of directories.
+   Sharing a data directory between RabbitMQ nodes is <strong>an absolute no-no</strong> and
+   is guaranteed to result in data corruption since nodes will not coordinate their writes </li>
+</ul>
 <h2><a id="users-and-permissions" class="anchor" href="#users-and-permissions">Virtual Hosts, Users, Permissions</a></h2>
 <p>It is often necessary to seed a cluster with virtual hosts, users, permissions, topologies, policies
 and so on. The recommended way of doing this at deployment time is <a href="definitions.html">via definition import</a>.
@@ -316,7 +353,8 @@ Channels, like connections, are meant to be long lived.</p>
 should avoid in most cases as polling is inherently inefficient.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
-                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                    using <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
+                    or our community <a href="https://rabbitmq.com/discord">Discord server</a>.
                   </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
                     If you'd like to contribute an improvement to the site,
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.

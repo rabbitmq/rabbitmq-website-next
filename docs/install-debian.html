@@ -51,7 +51,7 @@ i.e. inline with <a href="https://wiki.debian.org/DebianReleases">distribution E
 <p>Currently the list of supported Debian-based distributions includes</p>
 <ul>
 <li>Ubuntu 20.04 through 23.04</li>
-<li>Debian Bullseye (11), Bookworm (12), and Sid ("unstable")</li>
+<li>Debian Bullseye (11), Bookworm (12), and Trixie ("testing")</li>
 </ul>
 <p>The package may work on other Debian-based distributions
 if <a href="#manual-installation">dependencies</a> are satisfied (e.g. using a backports repository)
@@ -139,9 +139,9 @@ sudo apt-get install curl gnupg apt-transport-https -y
 ## Team RabbitMQ's main signing key
 curl -1sLf "https://keys.openpgp.org/vks/v1/by-fingerprint/0A9AF2115F4687BD29803A206B73A36E6026DFCA" | sudo gpg --dearmor | sudo tee /usr/share/keyrings/com.rabbitmq.team.gpg &gt; /dev/null
 ## Community mirror of Cloudsmith: modern Erlang repository
-curl -1sLf https://ppa1.novemberain.com/gpg.E495BB49CC4BBE5B.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg &gt; /dev/null
+curl -1sLf https://ppa.novemberain.com/gpg.E495BB49CC4BBE5B.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg &gt; /dev/null
 ## Community mirror of Cloudsmith: RabbitMQ repository
-curl -1sLf https://ppa1.novemberain.com/gpg.9F4587F226208342.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/rabbitmq.9F4587F226208342.gpg &gt; /dev/null
+curl -1sLf https://ppa.novemberain.com/gpg.9F4587F226208342.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/rabbitmq.9F4587F226208342.gpg &gt; /dev/null
 
 ## Add apt repositories maintained by Team RabbitMQ
 sudo tee /etc/apt/sources.list.d/rabbitmq.list &lt;&lt;EOF
@@ -150,10 +150,18 @@ sudo tee /etc/apt/sources.list.d/rabbitmq.list &lt;&lt;EOF
 deb [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu jammy main
 deb-src [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu jammy main
 
+# another mirror for redundancy
+deb [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu jammy main
+deb-src [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu jammy main
+
 ## Provides RabbitMQ
 ##
 deb [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu jammy main
 deb-src [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu jammy main
+
+# another mirror for redundancy
+deb [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu jammy main
+deb-src [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu jammy main
 EOF
 
 ## Update package indices
@@ -195,9 +203,9 @@ sudo apt-get install curl gnupg apt-transport-https -y
 ## Team RabbitMQ's main signing key
 curl -1sLf "https://keys.openpgp.org/vks/v1/by-fingerprint/0A9AF2115F4687BD29803A206B73A36E6026DFCA" | sudo gpg --dearmor | sudo tee /usr/share/keyrings/com.rabbitmq.team.gpg &gt; /dev/null
 ## Community mirror of Cloudsmith: modern Erlang repository
-curl -1sLf https://ppa1.novemberain.com/gpg.E495BB49CC4BBE5B.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg &gt; /dev/null
+curl -1sLf https://ppa.novemberain.com/gpg.E495BB49CC4BBE5B.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg &gt; /dev/null
 ## Community mirror of Cloudsmith: RabbitMQ repository
-curl -1sLf https://ppa1.novemberain.com/gpg.9F4587F226208342.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/rabbitmq.9F4587F226208342.gpg &gt; /dev/null
+curl -1sLf https://ppa.novemberain.com/gpg.9F4587F226208342.key | sudo gpg --dearmor | sudo tee /usr/share/keyrings/rabbitmq.9F4587F226208342.gpg &gt; /dev/null
 </pre>
 
 <p>See the <a href="signatures.html">guide on signatures</a> to learn more.</p>
@@ -213,10 +221,18 @@ pattern:</p>
 deb [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu $distribution main
 deb-src [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu $distribution main
 
+# another mirror for redundancy
+deb [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu $distribution main
+deb-src [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu $distribution main
+
 ## Provides RabbitMQ from a Cloudsmith mirror
 ##
 deb [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu $distribution main
 deb-src [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu $distribution main
+
+# another mirror for redundancy
+deb [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu $distribution main
+deb-src [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu $distribution main
 </pre>
 
 <p>The next couple of sections discusses what distribution and component values
@@ -286,10 +302,18 @@ sudo tee /etc/apt/sources.list.d/rabbitmq.list &lt;&lt;EOF
 deb [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu $distribution main
 deb-src [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu $distribution main
 
+# another mirror for redundancy
+deb [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu $distribution main
+deb-src [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu $distribution main
+
 ## Provides RabbitMQ from a Cloudsmith mirror
 ##
 deb [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu $distribution main
 deb-src [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu $distribution main
+
+# another mirror for redundancy
+deb [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu $distribution main
+deb-src [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-server/deb/ubuntu $distribution main
 EOF
 </pre>
 
@@ -302,10 +326,17 @@ sudo tee /etc/apt/sources.list.d/rabbitmq.list &lt;&lt;EOF
 deb [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/debian bullseye main
 deb-src [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/debian bullseye main
 
+deb [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-erlang/deb/debian bullseye main
+deb-src [signed-by=/usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-erlang/deb/debian bullseye main
+
 ## Provides RabbitMQ from a Cloudsmith mirror
 ##
 deb [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/debian bullseye main
 deb-src [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-server/deb/debian bullseye main
+
+# another mirror for redundancy
+deb [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-server/deb/debian bullseye main
+deb-src [signed-by=/usr/share/keyrings/rabbitmq.9F4587F226208342.gpg] https://ppa2.novemberain.com/rabbitmq/rabbitmq-server/deb/debian bullseye main
 EOF
 </pre>
 
@@ -371,18 +402,18 @@ sudo apt-cache policy
 <pre class="lang-ini">
 # /etc/apt/preferences.d/erlang
 Package: erlang*
-Pin: version 1:25.3.2.2-1
+Pin: version 1:25.3.2.5-1
 # Note: priority of 1001 (greater than 1000) allows for downgrading.
 # To make package downgrading impossible, use a value of 999
 Pin-Priority: 1001
 </pre>
 
-<p>The following preference file example will pin <span class="code ">rabbitmq-server</span> package to <span class="code ">3.12.1</span>
+<p>The following preference file example will pin <span class="code ">rabbitmq-server</span> package to <span class="code ">3.12.3</span>
 (assuming <a href="https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-Version">package epoch</a> for the package is 1):</p>
 <pre class="lang-ini">
 # /etc/apt/preferences.d/rabbitmq
 Package: rabbitmq-server
-Pin: version 1:3.12.1-1
+Pin: version 1:3.12.3-1
 # Note: priority of 1001 (greater than 1000) allows for downgrading.
 # To make package downgrading impossible, use a value of 999
 Pin-Priority: 1001
@@ -403,10 +434,10 @@ Below is a download link.</p>
       .deb for Debian-based Linux (from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>)
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.12.1/rabbitmq-server_3.12.1-1_all.deb">rabbitmq-server_3.12.1-1_all.deb</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.12.3/rabbitmq-server_3.12.3-1_all.deb">rabbitmq-server_3.12.3-1_all.deb</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.12.1/rabbitmq-server_3.12.1-1_all.deb.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.12.3/rabbitmq-server_3.12.3-1_all.deb.asc">Signature</a>
     </td>
   </tr>
 </table>
@@ -422,12 +453,12 @@ sudo apt-get -y install socat logrotate init-system-helpers adduser
 
 # download the package
 sudo apt-get -y install wget
-wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.12.1/rabbitmq-server_3.12.1-1_all.deb
+wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.12.3/rabbitmq-server_3.12.3-1_all.deb
 
 # install the package with dpkg
-sudo dpkg -i rabbitmq-server_3.12.1-1_all.deb
+sudo dpkg -i rabbitmq-server_3.12.3-1_all.deb
 
-rm rabbitmq-server_3.12.1-1_all.deb
+rm rabbitmq-server_3.12.3-1_all.deb
 </pre>
 
 <p>Installation via <a href="#apt">apt repositories</a> is recommended
@@ -767,7 +798,8 @@ sudo apt-get install -y erlang-base \
 </pre><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
-                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                    using <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
+                    or our community <a href="https://rabbitmq.com/discord">Discord server</a>.
                   </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
                     If you'd like to contribute an improvement to the site,
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.

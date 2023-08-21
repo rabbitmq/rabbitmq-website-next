@@ -43,7 +43,7 @@ stomp.listeners.tcp.1 = 127.0.0.1:61613
 stomp.listeners.tcp.2 = ::1:61613
 </pre>
 
-<h3>TCP Listener Options</h3>
+<h4>TCP Listener Options</h4>
 <p>The plugin supports TCP listener option configuration.</p>
 <p>The settings use a common prefix, <span class="code ">stomp.tcp_listen_options</span>, and control
 things such as TCP buffer sizes, inbound TCP connection queue length, whether <a href="./heartbeats.html#tcp-keepalives">TCP keepalives</a>
@@ -63,7 +63,7 @@ stomp.tcp_listen_options.exit_on_close = true
 stomp.tcp_listen_options.send_timeout  = 120
 </pre>
 
-<h2><a id="tls" class="anchor" href="#tls">TLS Support</a></h2>
+<h3><a id="tls" class="anchor" href="#tls">TLS Support</a></h3>
 <p>To use TLS for STOMP connections, <a href="./ssl.html">TLS must be configured</a> in the broker. To enable
 TLS-enabled STOMP connections, add a TLS listener for STOMP using the <span class="code ">stomp.listeners.ssl.*</span> configuration keys.</p>
 <p>The plugin will use core RabbitMQ server
@@ -144,7 +144,7 @@ stomp.implicit_connect = true
 <p>Implicit connect is <em>not</em> enabled by default.</p>
 <p><strong>Note:</strong> A client causing an implicit connect will <em>not</em> receive a
 <span class="code ">CONNECTED</span> frame from the server.</p>
-<h2><a id="proxy-protocol" class="anchor" href="#proxy-protocol">Proxy Protocol</a></h2>
+<h3><a id="proxy-protocol" class="anchor" href="#proxy-protocol">Proxy Protocol</a></h3>
 <p>The STOMP plugin supports the <a href="http://www.haproxy.org/download/1.8/doc/proxy-protocol.txt">proxy protocol</a>.
 This feature is turned off by default. To turn it on for STOMP clients:</p>
 <pre class="lang-ini">
@@ -153,6 +153,12 @@ stomp.proxy_protocol = true
 
 <p>See the <a href="./networking.html#proxy-protocol">Networking Guide</a> for more information
 about the proxy protocol.</p>
+<h3><a id="frame-size-limit" class="anchor" href="#frame-size-limit">Frame Size Limit</a></h3>
+<p>By default frame size limit is 4Mb. When a frame exceeds the limit it's an error and connection closed.</p>
+<pre class="lang-ini">
+stomp.max_frame_size = 4 * 1024 * 1024
+</pre>
+
 <h2><a id="d" class="anchor" href="#d">Destinations</a></h2>
 <p>The STOMP specification does not prescribe what kinds of destinations
 a broker must support, instead the value of the <span class="code ">destination</span> header
@@ -168,7 +174,7 @@ STOMP gateway;</li>
 <li><span class="code ">/topic</span> -- <span class="code ">SEND</span> and <span class="code ">SUBSCRIBE</span> to transient and durable topics;</li>
 <li><span class="code ">/temp-queue/</span> -- create temporary queues (in <span class="code ">reply-to</span> headers only).</li>
 </ul>
-<h4>AMQP 0-9-1 Semantics</h4>
+<h3>AMQP 0-9-1 Semantics</h3>
 <p>The <span class="code ">destination</span> header on a <span class="code ">MESSAGE</span> frame is set as though the
 message originated from a <span class="code ">SEND</span> frame:</p>
 <ul>
@@ -510,7 +516,8 @@ can be modified with <a href="./parameters.html">policies</a>. Otherwise the que
 and re-declared. This is true for STOMP clients as well as AMQP 0-9-1.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
-                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                    using <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
+                    or our community <a href="https://rabbitmq.com/discord">Discord server</a>.
                   </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
                     If you'd like to contribute an improvement to the site,
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.

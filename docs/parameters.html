@@ -344,12 +344,13 @@ semantics, they are limited only to a few arguments:</p>
 <li>message-ttl</li>
 <li>max-length</li>
 <li>max-length-bytes</li>
+<li>ha-mode</li>
+<li>ha-params</li>
+<li>ha-sync-mode</li>
 </ul>
-<p>The arguments above are all numeric. The reason for that is explained
-in the following section.</p>
 <h3><a id="operator-policy-conflicts" class="anchor" href="#operator-policy-conflicts">Conflict Resolution with Regular Policies</a></h3>
-<p>An operator policy and a regular one can contain the same
-keys in their definitions. When it happens, the smaller
+<p>An operator policy and a regular policy can contain the same
+keys in their definitions. When it happens, the more conservative
 value is chosen as effective. For example, if a matching
 operator policy definition sets <span class="code ">max-length</span> to
 50 and a matching regular policy definition uses the value of 100,
@@ -357,6 +358,72 @@ the value of 50 will be used. If, however, regular policy's value
 was 20, it would be used. Operator policies, therefore, don't
 just overwrite regular policy values. They enforce limits but
 try to not override user-provided policies where possible.</p>
+<table>
+    <tr>
+        <th>expires</th>
+        <td>
+            <ul>
+                <li>lower value</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>message-ttl</th>
+        <td>
+            <ul>
+                <li>lower value</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>max-length</th>
+        <td>
+            <ul>
+                <li>lower value</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>max-length-bytes</th>
+        <td>
+            <ul>
+                <li>lower value</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>ha-mode</th>
+        <td>
+          The order of preference:
+
+          <ol>
+            <li>all</li>
+            <li>exactly</li>
+            <li>nodes</li>
+          </ol>
+        </td>
+    </tr>
+    <tr>
+        <th>ha-params</th>
+        <td>
+          <ul>
+            <li>higher value when both values are integers</li>
+            <li>integer value when only one value is an integer</li>
+            <li>longer list when both values are a list of nodes</li>
+            <li>operator policy value when both values are an equal length list of nodes</li>
+          </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>ha-sync-mode</th>
+        <td>
+            <ul>
+                <li>operator policy value</li>
+            </ul>
+        </td>
+    </tr>
+</table>
+
 <p>When the same key is provided by both <a href="./queues.html#optional-arguments">client-provided <span class="code ">x-arguments</span></a> and by a user policy,
 the former take precedence.</p>
 <p>However, if an operator policy is also used, that will take precedence over the client-provided
@@ -426,10 +493,19 @@ PUT /api/operator-policies/%2f/transient-queue-ttl
             </ul>
         </td>
     </tr>
-</table><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+</table>
+
+<h3><a id="disable-operator-policy-changes" class="anchor" href="#disable-operator-policy-changes">How to Disable Operator Policy Changes</a></h3>
+<p>Modification of operator policies via the HTTP API and Web UI can be disabled
+in configuration. This makes operator policies read-only for all users via the
+HTTP API and Web UI.</p>
+<pre class="lang-ini">
+management.restrictions.operator_policy_changes.disabled = true
+</pre><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
-                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                    using <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
+                    or our community <a href="https://rabbitmq.com/discord">Discord server</a>.
                   </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
                     If you'd like to contribute an improvement to the site,
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.

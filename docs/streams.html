@@ -31,7 +31,7 @@ to bind multiple queues. Stream consumers will also be able to read from replica
 allowing read load to be spread across the cluster.</p>
 </li>
 <li>
-<p>Replay / Time-travelling</p>
+<p>Replay (Time-travelling)</p>
 <p>As all current RabbitMQ queue types have destructive consume behaviour, i.e. messages
 are deleted from the queue when a consumer is finished with them, it is not
 possible to re-read messages that have been consumed. Streams will allow
@@ -44,7 +44,7 @@ any of the existing log based messaging systems. Streams have been designed
 with performance as a major goal.</p>
 </li>
 <li>
-<p>Large logs</p>
+<p>Large backlogs</p>
 <p>Most RabbitMQ queues are designed to converge towards the empty state and are
 optimised as such and can perform worse when there are millions of messages on a
 given queue. Streams are designed to store larger amounts of data in an
@@ -594,7 +594,8 @@ Due to the way stream storage is implemented, offset tracking information is als
 This should make no practical difference in most systems.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
-                    on the <a href="https://groups.google.com/forum/#!forum/rabbitmq-users">RabbitMQ mailing list</a>.
+                    using <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
+                    or our community <a href="https://rabbitmq.com/discord">Discord server</a>.
                   </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
                     If you'd like to contribute an improvement to the site,
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
