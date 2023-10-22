@@ -80,16 +80,16 @@ and reconfigured on the fly as system topology changes. There are two key pieces
 <li>An upstream name that federation policies will refer to</li>
 <li>An upstream definition JSON document with at least one mandatory key, <span class="code ">uri</span></li>
 </ul>
-<p>The following example configures an upstream named "source" which can be contacted at <span class="code ">remote-host.local:5672</span>:</p>
+<p>The following example configures an upstream named "origin" which can be contacted at <span class="code ">remote-host.local:5672</span>:</p>
 <pre class="lang-bash">
 # Adds a federation upstream named "origin"
-rabbitmqctl set_parameter federation-upstream origin '{"uri":"amqp://localhost:5673"}'
+rabbitmqctl set_parameter federation-upstream origin '{"uri":"amqp://remote-host.local:5672"}'
 </pre>
 
 <p>On Windows, use <span class="code ">rabbitmqctl.bat</span> and suitable PowerShell quoting:</p>
 <pre class="lang-powershell">
 # Adds a federation upstream named "origin"
-rabbitmqctl.bat set_parameter federation-upstream origin "{""uri"":""amqp://localhost:5673""}"
+rabbitmqctl.bat set_parameter federation-upstream origin "{""uri"":""amqp://remote-host.local:5672""}"
 </pre>
 
 <p>Once an upstream has been specified, a policy that controls federation can be added.

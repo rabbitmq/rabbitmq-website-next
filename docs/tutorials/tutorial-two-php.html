@@ -86,8 +86,8 @@ fake a second of work for every dot in the message body. It will pop
 messages from the queue and perform the task, so let's call it <span class="code ">worker.php</span>:</p>
 <pre class="lang-php">
 $callback = function ($msg) {
-  echo ' [x] Received ', $msg-&gt;body, "\n";
-  sleep(substr_count($msg-&gt;body, '.'));
+  echo ' [x] Received ', $msg-&gt;getBody(), "\n";
+  sleep(substr_count($msg-&gt;getBody(), '.'));
   echo " [x] Done\n";
 };
 
@@ -188,8 +188,8 @@ It's time to turn them on by setting the fourth parameter to <span class="code "
 from the worker, once we're done with a task.</p>
 <pre class="lang-php">
 $callback = function ($msg) {
-  echo ' [x] Received ', $msg-&gt;body, "\n";
-  sleep(substr_count($msg-&gt;body, '.'));
+  echo ' [x] Received ', $msg-&gt;getBody(), "\n";
+  sleep(substr_count($msg-&gt;getBody(), '.'));
   echo " [x] Done\n";
   $msg-&gt;ack();
 };
@@ -311,7 +311,7 @@ one message to a worker at a time. Or, in other words, don't dispatch
 a new message to a worker until it has processed and acknowledged the
 previous one. Instead, it will dispatch it to the next worker that is not still busy.</p>
 <pre class="lang-php">
-$channel-&gt;basic_qos(null, 1, null);
+$channel-&gt;basic_qos(null, 1, false);
 </pre>
 
 <blockquote>
@@ -366,17 +366,19 @@ $channel-&gt;queue_declare('task_queue', false, true, false, false);
 echo " [*] Waiting for messages. To exit press CTRL+C\n";
 
 $callback = function ($msg) {
-    echo ' [x] Received ', $msg-&gt;body, "\n";
-    sleep(substr_count($msg-&gt;body, '.'));
+    echo ' [x] Received ', $msg-&gt;getBody(), "\n";
+    sleep(substr_count($msg-&gt;getBody(), '.'));
     echo " [x] Done\n";
     $msg-&gt;ack();
 };
 
-$channel-&gt;basic_qos(null, 1, null);
+$channel-&gt;basic_qos(null, 1, false);
 $channel-&gt;basic_consume('task_queue', '', false, false, false, false, $callback);
 
-while ($channel-&gt;is_open()) {
-    $channel-&gt;wait();
+try {
+    $channel-&gt;consume();
+} catch (\Throwable $exception) {
+    echo $exception-&gt;getMessage();
 }
 
 $channel-&gt;close();

@@ -55,7 +55,7 @@ such as</p>
 <li><a href="#heartbeats">Heartbeats</a> (a.k.a. keepalives)</li>
 <li><a href="#intermediaries">proxies and load balancers</a></li>
 </ul>
-<p><a href="https://docs.vmware.com/en/VMware-Tanzu-RabbitMQ-for-Kubernetes/index.html">VMware RabbitMQ</a> provides an <a href="https://docs.vmware.com/en/VMware-RabbitMQ-for-Kubernetes/1.4/rmq/GUID-clustering-compression-rabbitmq.html">Intra-cluster Compression</a> feature.</p>
+<p><a href="https://docs.vmware.com/en/VMware-Tanzu-RabbitMQ-for-Kubernetes/index.html">VMware RabbitMQ</a> provides an <a href="https://docs.vmware.com/en/VMware-RabbitMQ-for-Kubernetes/1/rmq/standby-replication.html">Intra-cluster Compression</a> feature.</p>
 <p>A methodology for <a href="./troubleshooting-networking.html">troubleshooting of networking-related issues</a>
 is covered in a separate guide.</p>
 <h2><a id="interfaces" class="anchor" href="#interfaces">Network Interfaces for Client Connections</a></h2>
@@ -133,7 +133,7 @@ Make sure the following ports are accessible:</p>
 <li>4369: <a href="http://erlang.org/doc/man/epmd.html">epmd</a>, a peer discovery service used by RabbitMQ nodes and CLI tools</li>
 <li>5672, 5671: used by AMQP 0-9-1 and AMQP 1.0 clients without and with TLS</li>
 <li>5552, 5551: used by the <a href="streams.html">RabbitMQ Stream protocol</a> clients without and with TLS</li>
-<li>6000 through 6500: used by <a href="stream.html">RabbitMQ Stream</a> replication</li>
+<li>6000 through 6500: used for <a href="streams.html">stream</a> replication</li>
 <li>25672: used for inter-node and CLI tools communication (Erlang distribution server port)
    and is allocated from a dynamic range (limited to a single port by default,
    computed as AMQP port + 20000). Unless external connections on these ports are really necessary (e.g.
@@ -506,7 +506,10 @@ total throughput.</p>
 <p>Most operating systems limit the number of file handles that
 can be opened at the same time. When an OS process (such as RabbitMQ's Erlang VM) reaches
 the limit, it won't be able to open any new files or accept any more
-TCP connections.</p>
+TCP connections. The limit will also affect how much memory the <a href="./runtime.html">Erlang runtime</a>
+will allocate upfront. This means that the limit on some modern distributions
+<a href="https://blog.rabbitmq.com/posts/2022/08/high-initial-memory-consumption-of-rabbitmq-nodes-on-centos-stream-9/">can be too high</a> and need
+lowering.</p>
 <p>How the limit is configured <a href="https://github.com/basho/basho_docs/blob/master/content/riak/kv/2.2.3/using/performance/open-files-limit.md">varies from OS to OS</a> and distribution to distribution, e.g. depending on whether systemd is used.
 For Linux, Controlling System Limits on Linux
 in our <a href="./install-debian.html#kernel-resource-limits">Debian</a> and <a href="./install-rpm.html#kernel-resource-limits">RPM</a>

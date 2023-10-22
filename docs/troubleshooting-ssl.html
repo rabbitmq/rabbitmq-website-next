@@ -19,6 +19,7 @@ the interaction between two specific components is responsible for the problem.<
 <li>Verify <a href="#verify-config">effective configuration</a></li>
 <li>Verify that the node <a href="#verify-listeners">listens for TLS connections</a></li>
 <li>Verify <a href="#verify-file-permissions">file permissions</a></li>
+<li>Verify <a href="#verify-file-format">file format</a> used by the certificate and private key files</li>
 <li>Verify <a href="#verify-tls-support-in-erlang">TLS support in Erlang/OTP</a></li>
 <li>Verify certificate/key pairs and test with alternative TLS client or server <a href="#openssl-tools">using OpenSSL command line tools</a></li>
 <li>Verify available and configured <a href="#verify-cipher-suites">cipher suites</a> and certificate key usage options</li>
@@ -82,6 +83,11 @@ the node will fail to accept TLS-enabled connections or TLS connections will jus
 differs between Erlang/OTP versions).</p>
 <p>When <a href="./configure.html#config-file-formats">new style configuration format</a> is used to configure certificate and private
 key paths, the node will check if the files exist on boot and refuse to start if that's not the case.</p>
+<h2><a id="verify-file-format" class="anchor" href="#verify-file-format">Check Certificate, Private Key and CA Bundle File Format</a></h2>
+<p>RabbitMQ nodes require that all certificate, private key and CA certificate bundle files be
+in the <a href="https://en.wikipedia.org/wiki/Privacy-Enhanced_Mail">PEM format</a>. Other formats will not be accepted.</p>
+<p>Files in other formats can be <a href="https://aboutssl.org/convert-certificate-to-pem-crt-to-pem-crt-to-pem-der-to-pem/">converted to PEM files</a>
+using OpenSSL CLI tools.</p>
 <h2><a id="verify-tls-support-in-erlang" class="anchor" href="#verify-tls-support-in-erlang">Check TLS Support in Erlang</a></h2>
 <p>Another key requirement for establishing TLS connections to the broker
 is TLS support in the broker. Confirm that the Erlang VM has support

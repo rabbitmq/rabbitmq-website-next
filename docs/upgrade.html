@@ -190,12 +190,9 @@ target one in order to find out about changes which could impact
 your workload and resource usage.</p>
 <h2><a id="clusters" class="anchor" href="#clusters">Single Node and Cluster Upgrades</a></h2>
 <h3><a id="single-node-upgrade" class="anchor" href="#single-node-upgrade">Upgrading a Single Node Installation</a></h3>
-<p>When upgrading a single node installation, simply stop the node, install a new version and start it back.
-The node will perform all the necessary local database migrations on start. Depending on the nature
-of migrations and data set size this can take some time.</p>
-<p>A data directory backup is performed before applying any migrations. The backup is deleted after
-successful upgrade. Upgrades therefore can temporarily double the amount of disk space node's data
-directory uses.</p>
+<p>Upgrading single node installation is similar to upgrading clusters. <a href="feature-flags.html">Feature flags</a> should be enabled after each
+upgrade (it's always a good idea to double-check by enabling them before the next upgrade as well - if they are already
+enabled, it will just do nothing). You should also follow the <a href="#rabbitmq-version-upgradability">upgrade compatibility matrix</a>.</p>
 <p>Client (application) connections will be dropped when the node stops. Applications need to be
 prepared to handle this and reconnect.</p>
 <p>With some distributions (e.g. the generic binary UNIX) you can install a newer version of
@@ -203,6 +200,11 @@ RabbitMQ without removing or replacing the old one, which can make upgrade faste
 You should make sure the new version <a href="relocate.html">uses the same data directory</a>.</p>
 <p>RabbitMQ does not support downgrades; it's strongly advised to back node's data directory up before
 upgrading.</p>
+<p>Single node deployments are often local development or test environments. In such cases, if you need to upgrade multiple versions
+(eg. from <span class="code ">3.8.15</span> to <span class="code ">3.12.5</span>), it's easier to simply delete everything in the data directory and go directly
+to the desired version. Effectively, it's no longer an upgrade but a fresh installation of the new version.
+Please note that this process will <strong>delete all data</strong> in your RabbitMQ (definitions and messages), but this is usually
+not a problem in a developement/test environment. The definitions can be preserved using <a href="definitions.html">export/import</a>.</p>
 <h3><a id="multiple-nodes-upgrade" class="anchor" href="#multiple-nodes-upgrade">Upgrading Multiple Nodes</a></h3>
 <p>Depending on what versions are involved in an upgrade, RabbitMQ cluster
 <em>may</em> provide an opportunity to perform upgrades without cluster
@@ -216,13 +218,12 @@ prepared to handle this and reconnect.</p>
 <h3><a id="rolling-upgrades" class="anchor" href="#rolling-upgrades">Rolling Upgrades</a></h3>
 <p>Rolling upgrades are possible only between compatible RabbitMQ and Erlang versions.</p>
 <h4><a id="rolling-upgrade-starting-with-3.8" class="anchor" href="#rolling-upgrade-starting-with-3.8">With RabbitMQ 3.8 or Later Versions</a></h4>
-<p>RabbitMQ 3.8.0 comes with a <a href="feature-flags.html">feature flag</a> subsystem which is
-responsible for determining if two versions of RabbitMQ are compatible.
-If they are, then two nodes with different versions can live in the
+<p>RabbitMQ provides a <a href="feature-flags.html">feature flag</a> subsystem which is
+responsible for determining if two RabbitMQ nodes of different versions are compatible with respect
+to a certain feature, important internal implementation detail or behavior.</p>
+<p>If they are, then two nodes with different versions can run side-by-side in the
 same cluster: this allows a rolling upgrade of cluster members without
 shutting down the cluster entirely.</p>
-<p>The upgrade from RabbitMQ 3.7.x to 3.8.x is also permitted, but not from
-older minor or major versions.</p>
 <p>To learn more, please read the <a href="feature-flags.html">feature flags documentation</a>.</p>
 <h4><a id="rolling-upgrade-before-3.8" class="anchor" href="#rolling-upgrade-before-3.8">Before RabbitMQ 3.8</a></h4>
 <p>With RabbitMQ up-to and including 3.7.x, when upgrading from one major
@@ -242,8 +243,8 @@ It is <strong>strongly recommended to consult release notes before upgrading</st
 </ul>
 <p><strong>A RabbitMQ node will fail to [re-]join a peer running an incompatible version</strong>.</p>
 <p>When upgrading Erlang it's advised to run all nodes on the same major series
-(e.g. 19.x or 20.x). Even though it is possible to run a cluster with mixed
-Erlang versions, they can have incompatibilities that will affect cluster stability.</p>
+(e.g. 26.x or 25.3.x). Even though it is possible to run a cluster with mixed
+major Erlang versions, they can have subtle and important incompatibilities.</p>
 <p>Running mixed Erlang versions can result in internal inter-node communication
 protocol incompatibilities. When a node detects such an incompatibility it will
 refuse to join its peer (cluster).</p>
@@ -256,7 +257,7 @@ can check for that via the management UI. Confirm that:</p>
 <ul>
 <li>the <span class="code ">rabbitmqctl await_startup</span> (or <span class="code ">rabbitmqctl wait &lt;pidfile&gt;</span>) command returns</li>
 <li>the node starts and rejoins its cluster according to the management overview page or <span class="code ">rabbitmq-diagnostics cluster_status</span></li>
-<li>the node is not quorum-critical for any <a href="#quorum-queues">quorum queues</a> it hosts</li>
+<li>the node is not quorum-critical for any <a href="#quorum-queues">quorum queues</a> and streams it hosts</li>
 <li>all classic mirrored queues have <a href="#mirrored-queues-synchronisation">synchronised mirrors</a></li>
 </ul>
 <p>During a rolling upgrade, client connection recovery will make sure that connections
@@ -265,7 +266,18 @@ In practice this will put more load on the remaining cluster nodes.
 This can impact performance and stability of the cluster.
 It's not recommended to perform rolling upgrades under high load.</p>
 <p>Nodes can be put into maintenance mode to prepare them for
-shutdown during rolling upgrades.</p>
+shutdown during rolling upgrades. This is covered below.</p>
+<h3><a id="" class="anchor" href="#rolling-upgrades-after-upgrade">After Restarting All Nodes</a></h3>
+<p>After performing a rolling upgrade and putting the last node out of <a href="#maintenance-mode">maintenence mode</a>,
+perform the following steps:</p>
+<ul>
+<li>Enable all <a href="./feature-flags.html">feature flags</a> in the cluster using <span class="code ">rabbitmqctl enable_feature_flag all</span></li>
+<li>Rebalance all queue and stream leader replicas with <span class="code ">rabbitmq-queues rebalance all</span></li>
+</ul>
+<p>Enabling all feature flags is <strong>very important</strong> for future upgrade, which may require all
+feature flags from certain earlier versions to be enabled.</p>
+<p>Rebalancing of queue and stream leader replicas helps spread the load across
+all cluster nodes.</p>
 <h2><a id="maintenance-mode" class="anchor" href="#maintenance-mode">Maintenance Mode</a></h2>
 <h3>What is Maintenance Mode?</h3>
 <p>Maintenance mode is a special node operation mode introduced in latest RabbitMQ releases.

@@ -6,41 +6,45 @@
   <body id="feature-flags"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Feature Flags
 </h1>
 <h2>Overview</h2>
-<p>In a mixed version cluster (e.g. some versions are 3.7.x and some are
-3.8.x) some nodes will support a different set of features, behave
-differently in certain scenarios, and otherwise not act exactly the
-same: they are different versions after all.</p>
+<p>In a mixed version cluster (e.g. some versions are 3.11.x and some are 3.12.x)
+during an upgrade, some nodes will support a different set of features, behave
+differently in certain scenarios, and otherwise not act exactly the same: they
+are different versions after all.</p>
 <p>Feature flags are a mechanism that controls what features are considered
 to be enabled or available on all cluster nodes. If a feature flag is
 enabled, so is its associated feature (or behavior). If not then all
 nodes in the cluster will disable the feature (behavior).</p>
 <p>The feature flag subsystem allows RabbitMQ nodes with different versions
 to determine if they are compatible and then communicate together,
-regardless of their version.</p>
-<p>This subsystem was introduced in RabbitMQ 3.8.0 to allow <strong><a href="./upgrade.html#rolling-upgrades">rolling
-upgrades</a> of cluster members without
-shutting down the entire cluster</strong>.</p>
+despite having different versions and thus potentially having different
+feature sets or implementation details.</p>
+<p>This subsystem was introduced to allow for <strong><a href="./upgrade.html#rolling-upgrades">rolling
+upgrades</a> of cluster members without shutting
+down the entire cluster</strong>.</p>
 <p class="box-warning">
 Feature flags are not meant to be used as a form of cluster configuration.
 After a successful rolling upgrade, users should enable all feature flags.
 
-Each feature flag will become mandatory at some point. For example,
+Each feature flag will become mandatory (graduate) at some point. For example,
 <a href="https://github.com/rabbitmq/rabbitmq-server/blob/main/release-notes/3.11.0.md#compatibility-notes">
-RabbitMQ 3.11 requires feature flags introduced in 3.8 to be enabled prior to the upgrade</a>.
+RabbitMQ 3.11 requires feature flags introduced in 3.8 to be enabled prior to
+the upgrade</a>.
 </p>
 
 <h2><a id="tldr" class="anchor" href="#tldr">Quick summary (TL;DR)</a></h2>
-<h3>The Two Main Rules</h3>
+<h3>Feature Flag Ground Rules</h3>
 <ul>
-<li>A feature flag can be enabled only if all nodes in the cluster support it.</li>
+<li>A feature flag can be enabled only if all nodes in the cluster support it</li>
 <li>A node can join or re-join a cluster only if:<ol>
-<li>it supports all feature flags enabled in the cluster and</li>
-<li>if the cluster supports all the feature flags enabled on that node.</li>
+<li>it supports all the feature flags enabled in the cluster and</li>
+<li>if every other cluster member supports all the feature flags enabled on
+   that node</li>
 </ol>
 </li>
+<li>Once enabled, a feature flag cannot be disabled</li>
 </ul>
-<p>RabbitMQ 3.7.x and 3.8.x nodes are compatible as long as no 3.8.x
-feature flags are enabled.</p>
+<p>For example, RabbitMQ 3.12.x and 3.11.x nodes are compatible as long as no
+3.12.x-specific feature flags are enabled.</p>
 <p class="box-warning">
 This subsystem does not guarantee that all future changes in
 RabbitMQ can be implemented as feature flags and entirely backwards
@@ -48,11 +52,11 @@ compatible with older release series. Therefore, <strong>a future
 version of RabbitMQ might still require a cluster-wide shutdown for
 upgrading</strong>.
 
-Please always read <a href="./changelog.html">release notes</a> to see if a rolling
-upgrade to the next minor or major RabbitMQ version is possible.
+Please always read <a href="./changelog.html">release notes</a> to see if a
+rolling upgrade to the next minor or major RabbitMQ version is possible.
 </p>
 
-<h3>The Two Main Commands</h3>
+<h3>Key CLI Tool Commands</h3>
 <ul>
 <li>To list feature flags:
     <pre class="lang-bash">rabbitmqctl list_feature_flags</pre></li>
@@ -61,7 +65,7 @@ upgrade to the next minor or major RabbitMQ version is possible.
 </ul>
 <p>It is also possible to list and enable feature flags from the
 <a href="./management.html">Management plugin UI</a>, in "<em>Admin &gt; Feature flags</em>".</p>
-<h3>The Two Examples</h3>
+<h3>Examples</h3>
 <h4>Example 1: Compatible Nodes</h4>
 <div style="text-align: center;">
 <img src="./img/feature-flags/compatible-nodes.svg" style="width: 100%; max-width: 400px;" alt="Example 1: 2 compatible nodes, the first node A has feature flags enabled and includes Toaster (set to ON), Coffee Maker (set to OFF), and Juicer Machine (set to OFF and deactivated). The second node, node B has feature flags enabled and includes Toaster (set to ON) and Coffee Maker (set to OFF)." title="Example 1: Compatible Nodes" />
@@ -87,8 +91,8 @@ upgrade to the next minor or major RabbitMQ version is possible.
    while node B was stopped, node B cannot re-join the cluster on restart.</li>
 </ul>
 <h2><a id="version-compatibility" class="anchor" href="#version-compatibility">Feature Flags and RabbitMQ Versions</a></h2>
-<p>As covered earlier, the feature flags subsystem's primary goal is to
-allow upgrades regardless of the version of RabbitMQ, if possible.</p>
+<p>As covered earlier, the feature flags subsystem's primary goal is to allow
+upgrades regardless of the version of cluster members, to the extent possible.</p>
 <p>Feature flags make it possible to safely perform a rolling upgrade to the
 next patch or minor release, except if it is stated otherwise
 in the release notes. Indeed, there are some changes which cannot be
@@ -97,33 +101,37 @@ implemented as feature flags.</p>
 <img src="./img/feature-flags/feature-flags-and-rabbitmq-versions.svg" style="width: 100%; max-width: 647px;" alt="Feature flags compatibility with different RabbitMQ versions." title="Feature flags compatibility with different RabbitMQ versions." />
 </div>
 
-<p>It is also possible to upgrade from RabbitMQ 3.7.x to 3.8.x. Indeed,
-RabbitMQ 3.7.x does not have the feature flags subsystem and RabbitMQ
-3.8.x considers that a 3.7.x node has an empty list of feature flags.
-Therefore, as long as the 3.8.x node has all its feature flags disabled,
-it is compatible with a 3.7.x node.</p>
 <p>However, note that only upgrading from one minor to the next minor
-or major is supported. To upgrade from e.g. 3.6.16 to 3.8.7, it is
-necessary to upgrade to 3.7.28 first. Likewise if there is one or more
+or major is supported. To upgrade from e.g. 3.9.16 to 3.12.3, it is
+necessary to upgrade to 3.9.29 first, then to the latest 3.10 patch release,
+then the latest 3.11 release, then 3.12.3. After certain steps in the
+upgrade process it will also be necessary to enable all stable feature
+flags available in that version. For example, 3.12.0 is a release
+that requires all feature flags to be enabled before a node can be
+upgraded to it.</p>
+<p>Likewise if there is one or more
 minor release branches between the minor version used and the next
 major release. That might work (i.e. there could be no incompatible
 changes between major releases), but this scenario is unsupported by design
 for the following reasons:</p>
 <ul>
 <li>Skipping minor versions is not tested in CI.</li>
-<li>Non-sequential releases may or may not support the same set of feature flags.
-   Support for older feature flags can be removed. Flag present
-   for several minor branches, they are removed and their associated
-   feature/behavior is now implicitly enabled by default, preventing
-   clustering with older nodes. Feature flags are kept around for a number (say, two) of
-   minor releases to allow for a transition period.</li>
+<li>Non-sequential releases may or may not support the same set of feature
+   flags. Feature flags present for several minor branches can be marked as
+   required and their associated feature/behavior is now implicitly enabled by
+   default. The compatibility code is removed in the process, preventing
+   clustering with older nodes. Remember their purpose is to allow upgrades,
+   they are not a configuration mechanism.</li>
 </ul>
-<p>The deprecation/removal policy of feature flags is yet to be defined.</p>
+<p>Their is no policy defining the life cycle of a feature flag in general. E.g.
+there is no guaranty that a feature flag will go from "stable" to "required"
+after N minor releasees. Because new code builds on top of existing code,
+feature flags are marked as required and the compatibility code is removed
+whenever it is needed.</p>
 <h2><a id="how-to-list-feature-flags" class="anchor" href="#how-to-list-feature-flags">How to List Supported Feature Flags</a></h2>
-<p>When a node starts for the first time, all supported feature flags
-are enabled by default. When a node is upgraded to a newer version of
-RabbitMQ, new feature flags are enabled by default if it is a single
-isolated node, or remain disabled by default if it belongs to a cluster.</p>
+<p>When a node starts for the first time, all stable feature flags are enabled by
+default. When a node is upgraded to a newer version of RabbitMQ, new feature
+flags are left disabled.</p>
 <p><strong>To list the feature flags</strong>, use <span class="code ">rabbitmqctl list_feature_flags</span>:</p>
 <pre class="lang-bash">
 rabbitmqctl list_feature_flags
@@ -165,7 +173,7 @@ a list of columns to display. The available columns are:</p>
    feature flag.</li>
 <li><span class="code ">desc</span>: the description of the feature flag.</li>
 <li><span class="code ">doc_url</span>: the URL to a webpage to learn more about the feature flag.</li>
-<li><span class="code ">stability</span>: indicates if the feature flag is <em>stable</em> or
+<li><span class="code ">stability</span>: indicates if the feature flag is <em>required</em>, <em>stable</em> or
    <em>experimental</em>.</li>
 </ul>
 <h2><a id="how-to-enable-feature-flags" class="anchor" href="#how-to-enable-feature-flags">How to Enable Feature Flags</a></h2>
@@ -180,7 +188,7 @@ rabbitmqctl enable_feature_flag &lt;name&gt;
 
 <p><strong>To enable all feature flags</strong>, use <span class="code ">rabbitmqctl enable_feature_flag all</span>:</p>
 <pre class="lang-bash">
-rabbitmqctl enable_feature_flag &lt;all&gt;
+rabbitmqctl enable_feature_flag all
 </pre>
 
 <p>The <span class="code ">list_feature_flags</span> command can be used again to verify the feature
@@ -208,29 +216,48 @@ rabbitmqctl -q --formatter pretty_table list_feature_flags
 
 <h2><a id="how-to-disable-feature-flags" class="anchor" href="#how-to-disable-feature-flags">How to Disable Feature Flags</a></h2>
 <p>It is <strong>impossible to disable a feature flag</strong> once it is enabled.</p>
-<h2><a id="how-to-start-new-node-disabled-feature-flags" class="anchor" href="#how-to-start-new-node-disabled-feature-flags">How to Configure the List of Feature Flags to Enable on Startup</a></h2>
-<p>By default a new and unclustered node will start with all supported feature flags enabled, but this setting can be overridden. There are two ways to <a href="configure.html">configure</a> the list of feature flags to enable out-of-the-box when starting a node for the <strong>first</strong> time:</p>
+<h2><a id="how-to-start-new-node-disabled-feature-flags" class="anchor" href="#how-to-start-new-node-disabled-feature-flags">How to Override the List of Feature Flags to Enable on Initial Startup</a></h2>
+<p>By default a new and unclustered node will start with all stable feature flags
+enabled, but this setting can be overridden. <strong>Since enabled feature flags
+cannot be disabled, overriding the list of enabled feature flags is a safe
+thing to do for the first node boot only</strong>.</p>
+<p>This mechanism is only useful to allow a user to expand an existing cluster
+with a node running a newer version of RabbitMQ compared to the rest of the
+cluster. The compatibility with the new node is still verified and adding it to
+the cluster may still fail if it is incompatible.</p>
+<p>There are two ways to do this:</p>
 <ol>
-<li>
-<p>Using the <span class="code ">RABBITMQ_FEATURE_FLAGS</span> environment variable:
-<br />
-<pre class="lang-bash">RABBITMQ_FEATURE_FLAGS=quorum_queue,implicit_default_bindings</pre></p>
-</li>
-<li>
-<p>Using the <span class="code ">forced_feature_flags_on_init</span> configuration parameter:
-<br />
-<pre class="lang-erlang">{rabbit, [{forced_feature_flags_on_init, [quorum_queue, implicit_default_bindings]}]}</pre>
-</p>
-</li>
+<li>Using the <span class="code ">RABBITMQ_FEATURE_FLAGS</span> environment variable:
+    <pre class="lang-bash">RABBITMQ_FEATURE_FLAGS=quorum_queue,implicit_default_bindings</pre></li>
+<li>Using the <span class="code ">forced_feature_flags_on_init</span> configuration parameter:
+    <pre class="lang-erlang">{rabbit, [{forced_feature_flags_on_init, [quorum_queue, implicit_default_bindings]}]}</pre></li>
 </ol>
 <p>The environment variable has precedence over the configuration parameter.</p>
+<p>Obviously, required feature flags will always be enabled, regardless of this.</p>
+<h2><a id="graduation" class="anchor" href="#graduation">Feature Flag Maturation and Graduation Process</a></h2>
+<p>After their initial introduction into RabbitMQ, feature flags are <em>optional</em>,
+that is, they only serve the purpose of allowing for a safe rolling cluster
+upgrade.</p>
+<p>Over time, however, features become more mature and future development of
+RabbitMQ assumes that a certain set of features is available and can be relied
+on by the users and developers alike. When that happens, feature flags
+<em>graduate</em> to core (required) features in the next minor feature release.</p>
+<p>It is very important to enable all feature flags after performing a rolling
+cluster upgrade: in the future these flags will become mandatory, and
+proactively enabling them will allow for a smoother upgrade experience in the
+future.</p>
 <h2><a id="list-of-feature-flags" class="anchor" href="#list-of-feature-flags">List of Feature Flags</a></h2>
-<p>The feature flags listed below are provided by RabbitMQ core or one of the tier-1 plugins bundled with RabbitMQ.</p>
-<p>Column <span class="code ">Required</span> shows the RabbitMQ version <strong>before</strong> which a feature flag MUST have been enabled.
-For example, if a feature flag is required in 3.12.0, this feature flag must be enabled in 3.11.x (or earlier) before upgrading to 3.12.x.
-Otherwise, if a RabbitMQ node is upgraded to 3.12.x while this feature flag is disabled, the RabbitMQ node will refuse to start in 3.12.x.</p>
-<p>Column <span class="code ">Stable</span> shows the RabbitMQ version that introduced a feature flag.
-For example, if a feature flag is stable in 3.11.0, that feature flag SHOULD be enabled promptly after upgrading all nodes in a RabbitMQ cluster to version 3.11.x.</p>
+<p>The feature flags listed below are provided by RabbitMQ core or one of the
+tier-1 plugins bundled with RabbitMQ.</p>
+<p>Column <span class="code ">Required</span> shows the RabbitMQ version <strong>before</strong> which a feature flag
+MUST have been enabled. For example, if a feature flag is required in 3.12.0,
+this feature flag must be enabled in 3.11.x (or earlier) before upgrading to
+3.12.x. Otherwise, if a RabbitMQ node is upgraded to 3.12.x while this feature
+flag is disabled, the RabbitMQ node will refuse to start in 3.12.x.</p>
+<p>Column <span class="code ">Stable</span> shows the RabbitMQ version that introduced a feature flag. For
+example, if a feature flag is stable in 3.11.0, that feature flag SHOULD be
+enabled promptly after upgrading all nodes in a RabbitMQ cluster to version
+3.11.x.</p>
 <h3><a id="core-feature-flags" class="anchor" href="#core-feature-flags">Core Feature Flags</a></h3>
 <p>The following feature flags are provided by RabbitMQ core.</p>
 <table>
@@ -246,7 +273,8 @@ For example, if a feature flag is stable in 3.11.0, that feature flag SHOULD be 
     <td>3.12.0</td>
     <td>restart_streams</td>
     <td>
-      Support for restarting streams with optional preferred next leader argument. Used to implement stream leader rebalancing
+      Support for restarting streams with optional preferred next leader
+      argument. Used to implement stream leader rebalancing
     </td>
   </tr>
   <tr>
@@ -254,7 +282,8 @@ For example, if a feature flag is stable in 3.11.0, that feature flag SHOULD be 
     <td>3.12.0</td>
     <td>stream_sac_coordinator_unblock_group</td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/issues/7743">Bug fix</a> to unblock a group of consumers in a super stream partition
+      <a href="https://github.com/rabbitmq/rabbitmq-server/issues/7743">Bug
+      fix</a> to unblock a group of consumers in a super stream partition
     </td>
   </tr>
   <tr>
@@ -310,7 +339,8 @@ For example, if a feature flag is stable in 3.11.0, that feature flag SHOULD be 
     <td>3.10.9</td>
     <td>classic_queue_type_delivery_support</td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/issues/5931">Bug fix</a> for classic queue deliveries using mixed versions
+      <a href="https://github.com/rabbitmq/rabbitmq-server/issues/5931">Bug
+      fix</a> for classic queue deliveries using mixed versions
     </td>
   </tr>
   <tr>
@@ -342,7 +372,8 @@ For example, if a feature flag is stable in 3.11.0, that feature flag SHOULD be 
     <td>3.8.0</td>
     <td>implicit_default_bindings</td>
     <td>
-      Default bindings are now implicit, instead of being stored in the database
+      Default bindings are now implicit, instead of being stored in the
+      database
     </td>
   </tr>
   <tr>
@@ -364,7 +395,8 @@ For example, if a feature flag is stable in 3.11.0, that feature flag SHOULD be 
 </table>
 
 <h3><a id="rabbitmq_management_agent-feature-flags" class="anchor" href="#rabbitmq_management_agent-feature-flags">rabbitmq_management_agent Feature Flags</a></h3>
-<p>The following feature flags are provided by plugin <a href="https://github.com/rabbitmq/rabbitmq-server/tree/main/deps/rabbitmq_management_agent">rabbimq_management_agent</a>.</p>
+<p>The following feature flags are provided by plugin
+<a href="https://github.com/rabbitmq/rabbitmq-server/tree/main/deps/rabbitmq_management_agent">rabbimq_management_agent</a>.</p>
 <table>
   <tr>
    <th>Required</th>
@@ -392,7 +424,8 @@ For example, if a feature flag is stable in 3.11.0, that feature flag SHOULD be 
 </table>
 
 <h3><a id="rabbitmq_mqtt-feature-flags" class="anchor" href="#rabbitmq_mqtt-feature-flags">rabbitmq_rabbitmq_mqtt Feature Flags</a></h3>
-<p>The following feature flags are provided by plugin <a href="https://www.rabbitmq.com/mqtt.html">rabbimq_mqtt</a>.</p>
+<p>The following feature flags are provided by plugin
+<a href="https://www.rabbitmq.com/mqtt.html">rabbimq_mqtt</a>.</p>
 <table>
   <tr>
    <th>Required</th>
@@ -464,14 +497,13 @@ node, it is enabled on all other nodes.</p>
 <p>The feature flags subsystem covers inter-node communication only. This
 means the following scenarios are not covered and may not work as
 initially expected.</p>
-<h5>Using <span class="code ">rabbitmqctl</span> on a remote node</h5>
+<h4>Using <span class="code ">rabbitmqctl</span> on a remote node</h4>
 <p>Controlling a remote node with <span class="code ">rabbitmqctl</span> is only supported if the
-remote node is running the same version of RabbitMQ than <span class="code ">rabbitmqctl</span>
-comes from.</p>
+remote node is running the same version of RabbitMQ as<span class="code ">rabbitmqctl</span>.</p>
 <p>If <a href="./cli.html">CLI tools</a> from a different minor/major version of RabbitMQ is
-used on a remote node, they may fail to work as expected or even have unexpected
-side effects on the node.</p>
-<h5>Load-balancing Requests to the HTTP API</h5>
+used on a remote node, they may fail to work as expected or even have
+unexpected side effects on the node.</p>
+<h4>Load-balancing Requests to the HTTP API</h4>
 <p>If a request sent to the HTTP API exposed by the <a href="./management.html">Management
 plugin</a> goes through a load balancer, including one
 from the management plugin UI, the API's behavior and its response may
@@ -576,8 +608,8 @@ quorum_queue_migration(_FeatureName, _FeatureProps, is_enabled) -&gt;
     mnesia:table_info(rabbit_durable_queue, attributes) =:= Fields.
 </pre>
 
-<p>More implementation docs can be found in
-the <a href="https://github.com/rabbitmq/rabbitmq-server/blob/main/deps/rabbit/src/rabbit_feature_flags.erl"><span class="code ">rabbit_feature_flags</span> module source
+<p>More implementation docs can be found in the <a href="https://github.com/rabbitmq/rabbitmq-server/blob/main/deps/rabbit/src/rabbit_feature_flags.erl"><span class="code ">rabbit_feature_flags</span> module
+source
 code</a>.</p>
 <p>Erlang's <span class="code ">edoc</span> reference can be generated locally from a RabbitMQ
 repository clone or source archive:</p>
@@ -634,7 +666,8 @@ will use a second version of RabbitMQ to start half of the nodes when
 starting a cluster:</p>
 <ul>
 <li>Node 1 will be on the primary copy (the one used to start the testsuite)</li>
-<li>Node 2 will be on the secondary copy (the one provided explicitly to <span class="code ">rabbitmq-ct-helpers</span>)</li>
+<li>Node 2 will be on the secondary copy (the one provided explicitly to
+   <span class="code ">rabbitmq-ct-helpers</span>)</li>
 <li>Node 3 will be on the primary copy</li>
 <li>Node 4 will be on the secondary copy</li>
 <li>...</li>
@@ -644,16 +677,16 @@ starting a cluster:</p>
 <li>
 <p>Clone the <span class="code ">rabbitmq-public-umbrella</span> repository and checkout the
     appropriate branch or tag. This will be the <strong>secondary Umbrella</strong>.
-    In this example, the <span class="code ">v3.7.x</span> branch is used:</p>
+    In this example, the <span class="code ">v3.11.x</span> branch is used:</p>
 <p><pre class="lang-bash">
-git clone https://github.com/rabbitmq/rabbitmq-public-umbrella.git secondary-umbrella
+git clone https://github.com/rabbitmq/rabbitmq-server.git secondary-umbrella
 cd secondary-umbrella
-git checkout v3.7.x
+git checkout v3.11.x
 make co
 </pre></p>
 <p><p class="box-info">
-Currently, when using the <span class="code ">v3.7.x</span> branch, <span class="code ">deps/rabbit_common</span> and
-<span class="code ">deps/rabbit</span> must use the <span class="code ">v3.7.x-versions-compatibility</span> branch.
+Currently, when using the <span class="code ">v3.11.x</span> branch, <span class="code ">deps/rabbit_common</span> and
+<span class="code ">deps/rabbit</span> must use the <span class="code ">v3.11.x-versions-compatibility</span> branch.
 </p></p>
 </li>
 <li>

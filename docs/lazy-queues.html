@@ -1,35 +1,44 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Lazy Queues
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Classic Queues Operating in "Lazy" Queue Mode (A Lazy Queue)
  — RabbitMQ</title></head>
-  <body id="lazy-queues"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Lazy Queues
+  <body id="lazy-queues"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Classic Queues Operating in "Lazy" Queue Mode (A Lazy Queue)
 </h1>
-<h2><a id="interstitial" class="anchor" href="#interstitial">Wait, There's a Better Way: Next Generation Classic Queue Storage</a></h2>
-<p>This guide covers lazy mode of classic queues.</p>
-<p><a href="quorum-queues.html">Quorum queues</a> is an alternative, more modern queue type
+<h2>What is a Lazy Queue</h2>
+<p>A "lazy queue" is a classic queue which is running in <span class="code ">lazy</span> mode. When the "lazy" queue mode is set, 
+messages in classic queues are moved to disk as early as practically possible. 
+These messages are loaded into RAM only when they are requested by consumers.</p>
+<p>The other queue mode is the <span class="code ">default</span> mode. 
+If no mode is specified during declaration, then the <span class="code ">default</span> mode is used.</p>
+<p>It is important to read <a href="#interstitial">There is a Better Way: The Next Generation of Classic Queue Storage is to use Quorum Queues</a> next.</p>
+<h2><a id="interstitial" class="anchor" href="#interstitial">There is a Better Way: The Next Generation of Classic Queue Storage is to use Quorum Queues</a></h2>
+<p><strong>Before going into further detail about lazy queues, review the following information and recommendation and take appropriate next steps based on it.</strong></p>
+<ul>
+<li>
+<p>Classic queues operated in <span class="code ">lazy</span> mode until <strong>RabbitMQ 3.12</strong>. It is important to know that from <strong>RabbitMQ 3.12</strong> and onwards, this <span class="code ">lazy</span> queue mode is ignored. By default, in <strong>RabbitMQ 3.12</strong>, classic queues
+work in a similar manner to how classic queues worked with <span class="code ">lazy</span> mode running on them. Classic queues in <strong>RabbitMQ 3.12</strong> may however 
+keep a small number of messages in memory (up to 2048 at the time of writing) based on the consumption rate. </p>
+</li>
+<li>
+<p><strong>Quorum queues should be your default choice for a replicated queue type.</strong>
+Classic queue mirroring will be removed in a future version of RabbitMQ. 
+Classic queues will remain a supported non-replicated queue type.</p>
+</li>
+<li>
+<p><strong>The recommendation is:</strong> If you are using <strong>RabbitMQ 3.11</strong> and earlier versions, either
+upgrade to <strong>RabbitMQ 3.12</strong> now and switch to quorum queues if possible (refer to <a href="./migrate-mcq-to-qq.md">Migrate your RabbitMQ Mirrored Classic Queues to Quorum Queues</a> if you want to do this)
+or turn on <span class="code ">lazy</span> queue mode for classic queues to avoid running into memory issues.</p>
+</li>
+</ul>
+<p><a href="quorum-queues.html">Quorum queues</a> are the alternative to classic queues. Quorum Queues are a more modern queue type
 that offers high availability via replication and focuses on data safety.
-As of RabbitMQ 3.10, quorum queues <a href="https://blog.rabbitmq.com/posts/2022/05/rabbitmq-3.10-release-overview/">support message TTL</a> and
+From RabbitMQ 3.10 onwwards, quorum queues <a href="https://blog.rabbitmq.com/posts/2022/05/rabbitmq-3.10-release-overview/">support message TTL</a> and
 provide <a href="https://blog.rabbitmq.com/posts/2022/05/rabbitmq-3.10-performance-improvements/">higher throughput and more stable latency</a> compared to mirrored classic queues.</p>
-<p><a href="streams.html">Streams</a> is a messaging data structure available as of <a href="changelog.html">RabbitMQ 3.9</a>,
-and is also replicated.</p>
-<p>Quorum queues should be the <strong>default choice</strong> for a replicated queue type.
-Classic queue mirroring will be <strong>removed in a future version</strong> of RabbitMQ:
-classic queues will remain a supported non-replicated queue type.</p>
-<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>Until <strong>RabbitMQ 3.12</strong>, classic queues could operate in <strong>lazy mode</strong>.
-As of RabbitMQ 3.12 the queue mode is ignored and classic queues
-behave in a similar manner to lazy queues. They may however
-keep a small number of messages in memory (up to 2048 at the
-time of writing) based on the consumption rate.</p>
-<p>We recommend users of <strong>RabbitMQ 3.11</strong> and below to either
-upgrade to <strong>RabbitMQ 3.12</strong> or enable <strong>lazy mode</strong> to avoid
-running into memory issues.</p>
-<p>Classic queues operating in <strong>lazy mode</strong>
-move their contents to disk as early as practically possible,
-and only load them in RAM when requested by consumers,
-therefore the lazy denomination.</p>
-<p>One of the main goals of lazy queues is to be able to support very
+<p><a href="streams.html">Streams</a> are another messaging data structure available as of <a href="changelog.html">RabbitMQ 3.9</a>,
+and is also replicated. </p>
+<h2><a id="overview" class="anchor" href="#overview">A Deeper Dive into Lazy Queues</a></h2>
+<p>One of the main reasons for using lazy queues is to support very
 long queues (many millions of messages).  Queues can become very long
 for various reasons:</p>
 <ul class="plain">
@@ -47,7 +56,7 @@ making it unable to receive new messages while it's paging.
 Even though recent versions of RabbitMQ improved the paging algorithm,
 the situation is still not ideal for use cases where you have
 many millions on messages in the queue that might need to be paged out.</p>
-<p>Lazy queues attempt to move messages to disk as early as practically possible.
+<p>Running classic queues in <span class="code ">lazy</span> queue mode attempts to move the messages above to disk as early as practically possible.
 This means significantly fewer messages are kept in RAM in the majority of cases under normal operation.
 This comes at a cost of increased disk I/O.</p>
 <h2><a id="configuration" class="anchor" href="#configuration">Making a Queue Lazy</a></h2>

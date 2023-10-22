@@ -407,9 +407,9 @@ and <span class="code ">client_id</span>. Note that <span class="code ">client_i
 applies to MQTT. For example, if <span class="code ">tonyg</span> is the
 connected user, the permission <span class="code ">^{username}-.*</span> is expanded to
 <span class="code ">^tonyg-.*</span></p>
-<p>If a different authorisation backend (e.g. <a href="ldap.html">LDAP</a>,
-<a href="https://github.com/rabbitmq/rabbitmq-server/tree/main/deps/rabbitmq_auth_backend_http">HTTP</a>,
-<a href="https://github.com/rabbitmq/rabbitmq-auth-backend-amqp">AMQP</a>,
+<p>f a different authorisation backend (e.g. <a href="ldap.html">LDAP</a>,
+<a href="https://github.com/rabbitmq/rabbitmq-server/tree/v3.12.x/deps/rabbitmq_auth_backend_http">HTTP</a>,
+<a href="https://github.com/rabbitmq/rabbitmq-server/tree/v3.12.x/deps/rabbitmq-auth-backend-amqp">AMQP</a>,
 <a href="oauth2.html">OAuth2</a>) is used, please refer
 to the documentation of those backends.</p>
 <p>If a custom authorisation backend is used, topic
@@ -424,20 +424,28 @@ any currently open connections. Connections
 use an authorization operation cache, so client operations
 will be refused eventually. The period of time depends on the
 <a href="#backends">authorization backend</a> used.</p>
-<h2><a id="backends" class="anchor" href="#backends">Alternative Authentication and Authorisation Backends</a></h2>
+<h2><a id="backends" class="anchor" href="#backends">Authentication and Authorisation Backends</a></h2>
 <p>Authentication and authorisation are pluggable. Plugins can provide implementations
-of</p>
+of:</p>
 <ul>
-<li>authentication ("authn") backends</li>
-<li>authorisation ("authz") backends</li>
+<li>authentication ("authn") backends: they determine client identity and decide whether the client should be allowed to connect</li>
+<li>authorisation ("authz") backends: they determine whether an identified (authenticated) client is authorized to perform a certain operation</li>
 </ul>
-<p>It is possible for a plugin to provide both.
-For example the internal, <a href="ldap.html">LDAP</a>
-and <a href="https://github.com/rabbitmq/rabbitmq-server/tree/main/deps/rabbitmq_auth_backend_http">HTTP</a>
-backends do so.</p>
-<p>Some plugins, for example, the <a href="https://github.com/gotthardp/rabbitmq-auth-backend-ip-range">Source IP range one</a>,
-only provide an authorisation backend. Authentication is supposed to be handled by the internal database, LDAP, etc.</p>
-<p>A special <a href="https://github.com/rabbitmq/rabbitmq-server/tree/v3.9.x/deps/rabbitmq_auth_backend_cache">cache backend</a>
+<p>It is possible and common for a plugin to provide both backends. RabbitMQ ships with
+the following <a href="./plugins.html">built-in plugins</a> which provide both authentication and authorisation backends:</p>
+<ul>
+<li><a href="ldap.html">LDAP</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/tree/v3.12.x/deps/rabbitmq_auth_backend_http">HTTP</a></li>
+</ul>
+<p>The following built-in plugins provide authorisation backend implementations:</p>
+<ul>
+<li><a href="oauth2.html">OAuth2</a></li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-server/tree/v3.12.x/deps/rabbitmq-auth-backend-amqp">AMQP 0.9.1</a></li>
+</ul>
+<p>Some plugins such as <a href="https://github.com/gotthardp/rabbitmq-auth-backend-ip-range">Source IP range one</a>
+also only provide an authorisation backend.</p>
+<p>Authentication is supposed to be handled by the internal database, LDAP, etc.</p>
+<p>A special <a href="https://github.com/rabbitmq/rabbitmq-server/tree/v3.12.x/deps/rabbitmq_auth_backend_cache">cache backend</a>
 can be used in <a href="#combined-backends">combination</a> with other backends to significantly
 reduce the load they generate on external services, such as LDAP or HTTP servers.</p>
 <h3><a id="combined-backends" class="anchor" href="#combined-backends">Combining Backends</a></h3>
@@ -493,7 +501,7 @@ auth_backends.1 = ldap
 auth_backends.2 = internal
 </pre>
 
-<p>Same as above but will fall back to the <a href="https://github.com/rabbitmq/rabbitmq-server/tree/main/deps/rabbitmq_auth_backend_http">HTTP backend</a>
+<p>Same as above but will fall back to the <a href="https://github.com/rabbitmq/rabbitmq-server/tree/v3.12.x/deps/rabbitmq_auth_backend_http">HTTP backend</a>
 instead:</p>
 <pre class="lang-ini">
 # rabbitmq.conf

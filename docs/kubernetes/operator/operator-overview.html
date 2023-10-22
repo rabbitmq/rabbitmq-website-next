@@ -1,22 +1,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> RabbitMQ Cluster Operator for Kubernetes
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> RabbitMQ Kubernetes Operators: Cluster Operator and Message Topology Operator
  — RabbitMQ</title></head>
-  <body id="kubernetes/operator/operator-overview"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> RabbitMQ Cluster Operator for Kubernetes
+  <body id="kubernetes/operator/operator-overview"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> RabbitMQ Kubernetes Operators: Cluster Operator and Message Topology Operator
 </h1>
-<p>The RabbitMQ team develop and maintain two <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/operator/">kubernetes operators</a>:</p>
+<p>The RabbitMQ team develop and maintain two <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/operator/">kubernetes operators</a>: the RabbitMQ Cluster Kubernetes Operator and the RabbitMQ Messaging Topology Operator.</p>
 <ul>
-<li>RabbitMQ Cluster Kubernetes Operator automates provisioning, management, and operations of RabbitMQ clusters running on Kubernetes.</li>
-<li>RabbitMQ Messaging Topology Operator manages RabbitMQ messaging topologies within a RabbitMQ cluster deployed via the RabbitMQ Cluster Kubernetes Operator.</li>
+<li>
+<p>The RabbitMQ Cluster Kubernetes Operator automates provisioning, management, and operations of RabbitMQ clusters running on Kubernetes.</p>
+</li>
+<li>
+<p>The RabbitMQ Messaging Topology Operator manages RabbitMQ messaging topologies within a RabbitMQ cluster deployed via the RabbitMQ Cluster Kubernetes Operator.</p>
+</li>
 </ul>
-<p>Kubernetes Operators are software extensions to Kubernetes that provide custom resources for management of applications,
-services  and their components.</p>
-<p>In this and other Operator related guides, we use "Operator" (with a capital O) to refer to a Kubernetes Operator
-pattern implementation and "operator" (with a lowercase o) to refer to a technical operations
-engineer (administrator).</p>
+<p>Kubernetes Operators are software extensions to Kubernetes that provide custom resources for management of applications, services and their components.</p>
+<p>In this information and other Operator related information, "Operator" (with a capital O) is used to refer to a Kubernetes Operator pattern implementation and "operator" (with a lowercase o) is used to refer to a technical operations engineer (administrator).</p>
 <h2><a id="cluster-operator" class="anchor" href="#cluster-operator">RabbitMQ Cluster Kubernetes Operator</a></h2>
-<p>RabbitMQ Cluster Kubernetes Operator provides a consistent and easy way to deploy RabbitMQ clusters to Kubernetes and
+<p>The RabbitMQ Cluster Kubernetes Operator provides a consistent and easy way to deploy RabbitMQ clusters to Kubernetes and
 run them, including "day two" (continuous) operations. RabbitMQ clusters deployed using the Operator can be
 used by applications running on Kubernetes or outside of Kubernetes.</p>
 <p>Documentation of Cluster Operator spans several guides:</p>
@@ -47,7 +48,7 @@ It is covered in the following guides:</p>
 <li>Monitoring of RabbitMQ clusters using <a href="../../prometheus.html">Prometheus and Grafana</a></li>
 <li>Scaling up and automated <a href="../../upgrade.html">rolling upgrades</a> of RabbitMQ clusters</li>
 </ul>
-<h3><a id="op-design-principles" class="anchor" href="#op-design-principles">Design principles</a></h3>
+<h3><a id="op-design-principles" class="anchor" href="#op-design-principles"> RabbitMQ Cluster Kubernetes Operator Design Principles</a></h3>
 <p>RabbitMQ Cluster Kubernetes Operator was designed with the following ideas and concepts in mind:</p>
 <ul>
 <li>It should provide <a href="../../configure.html">RabbitMQ node configuration</a> flexibility</li>
@@ -59,31 +60,31 @@ This implies that, when the Operator is upgraded, it will not automatically upda
 existing instances of <span class="code ">RabbitmqCluster</span> with new defaults, if any, or to the latest version of RabbitMQ.</p>
 <p>The only exception to this, is when a field is removed from the spec, by user action, the Operator will set the default value.</p>
 <h3><a id="limitations" class="anchor" href="#limitations">Limitations</a></h3>
-<h4>RabbitMQ Cluster Reconciliation</h4>
+<h4>RabbitMQ Cluster Operator Reconciliation</h4>
 <p>Deleted <span class="code ">Secret</span> objects will be recreated by the Kubernetes Operator but the newly generated secret value will
 not be deployed to the RabbitMQ cluster. For example, if the <span class="code ">Secret</span> with administrator credentials is deleted,
 a new <span class="code ">Secret</span> will be created with new username and password, but those will not be reflected in the RabbitMQ cluster.
 It works the same way for any <span class="code ">Secret</span> value, e.g. the value of the <a href="../../clustering.html#erlang-cookie">shared inter-node authentication secret</a>
 known as the Erlang cookie.</p>
-<h4>RabbitMQ Cluster Feature Flags</h4>
+<h4>RabbitMQ Cluster Operator Feature Flags</h4>
 <p>Cluster Operator does not support disabling any <a href="../../feature-flags.html#how-to-disable-feature-flags">RabbitMQ feature flags</a>.
 The Operator lists all available feature flags and enables all of them at cluster start.</p>
 <h2><a id="topology-operator" class="anchor" href="#topology-operator">RabbitMQ Messaging Topology Operator</a></h2>
-<p>RabbitMQ Messaging Topology Operator supports managing RabbitMQ messaging topologies objects through kubernetes declarative API.</p>
-<p>Documentation of Messaging Topology Operator structured as following:</p>
+<p>The RabbitMQ Messaging Topology Operator supports managing RabbitMQ messaging topologies objects through the kubernetes declarative API.</p>
+<p>Documentation for the Messaging Topology Operator is structured as follows:</p>
 <ul>
 <li><a href="./install-topology-operator.html">Installing RabbitMQ Messaging Topology Operator</a></li>
 <li><a href="./using-topology-operator.html">Using RabbitMQ Messaging Topology Operator</a></li>
 <li><a href="./tls-topology-operator.html">TLS for Messaging Topology Operator</a></li>
 <li><a href="./troubleshooting-topology-operator.html">Troubleshooting Messaging Topology Operator</a></li>
 </ul>
-<h2><a id="source" class="anchor" href="#source">Source Code</a></h2>
+<h2><a id="source" class="anchor" href="#source">The Source Code for these Kubernetes Operators</a></h2>
 <p>Both Operators are open source. You can contribute to its development on GitHub:</p>
 <ul>
 <li><a href="https://github.com/rabbitmq/cluster-operator">RabbitMQ Cluster Kubernetes Operator</a></li>
 <li><a href="https://github.com/rabbitmq/messaging-topology-operator">RabbitMQ Messaging Topology Operator</a></li>
 </ul>
-<h2><a id="license" class="anchor" href="#license">License</a></h2>
+<h2><a id="license" class="anchor" href="#license">The Licenses for these Kubernetes Operators </a></h2>
 <p>Both Operators are released under the <a href="https://www.mozilla.org/en-US/MPL/2.0/">Mozilla Public License 2.0</a>.</p>
 <h2><a id="kubernetes-versions" class="anchor" href="#kubernetes-versions">Supported Kubernetes Versions</a></h2>
 <p>RabbitMQ Operators are intended to be used with any Kubernetes-compliant platform. If you encounter an issue with

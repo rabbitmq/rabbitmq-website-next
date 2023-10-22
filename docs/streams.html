@@ -1,22 +1,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
       <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
-      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Streams 
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Streams
  — RabbitMQ</title></head>
-  <body id="streams"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Streams 
+  <body id="streams"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Streams
 </h1>
 
 
-<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>Streams are a new persistent and replicated data structure which models
-an append-only log with non-destructive consumer semantics.
-They can be used via a RabbitMQ client library as if it was a queue or through a
-<a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.12.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc">dedicated binary protocol</a>
-plugin and associated client(s). The latter option is recommended as it
-provides access to all stream-specific features and offers best possible throughput (performance).</p>
-<p>This page covers the concepts of streams, their usage, and their administration and maintenance operations.
-Please visit the <a href="./stream.html">stream plugin</a> page to learn more about the usage of streams with the binary RabbitMQ Stream protocol and the <a href="./stream-core-plugin-comparison.html">stream core and stream plugin comparison page</a> for the feature matrix.</p>
-<h3><a id="use-cases" class="anchor" href="#use-cases">Use Cases</a></h3>
+<h2><a id="overview" class="anchor" href="#overview">What is a Stream</a></h2>
+<p>RabbitMQ Streams is a persistent replicated data structure that can complete the same tasks as queues: they buffer messages from producers that are read by consumers.
+However, streams differ from queues in two important ways: how messages are stored and consumed.</p>
+<p>Streams model an append-only log of messages that can be repeatedly read until they expire.
+Streams are always persistent and replicated. A more technical description of this stream behavior is “non-destructive consumer semantics”.</p>
+<p>To read messages from a stream in RabbitMQ, one or more consumers subscribe to it and read the same messages as many times as they want.</p>
+<p>Data in a stream can be used via a RabbitMQ client library or through a
+<a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.12.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc">dedicated binary protocol</a> plugin and associated client(s).
+The latter option is <strong>highly recommended</strong> as it provides access to all stream-specific features and offers best possible throughput (performance).</p>
+<p>You might ask the following questions now? Do streams replace queues then? Should I move away from using queues? To answer these questions, streams were not introduced to replace queues but to complement them. Streams open up many opportunities for new RabbitMQ use cases which are described in <a href="#use-cases">Use Cases for Using Streams</a>.</p>
+<p>The following information details streams usage, and the administration and maintenance operations for streams.</p>
+<p>You should also review the <a href="./stream.html">stream plugin</a> information to learn more about the usage of streams with the binary RabbitMQ Stream protocol and the <a href="./stream-core-plugin-comparison.html">stream core and stream plugin comparison page</a> for the feature matrix.</p>
+<h3><a id="use-cases" class="anchor" href="#use-cases">Use Cases for Using Streams</a></h3>
 <p>Streams were developed to initially cover 4 messaging use-cases that
 existing queue types either can not provide or provide with downsides:</p>
 <ol>
@@ -51,11 +54,11 @@ given queue. Streams are designed to store larger amounts of data in an
 efficient manner with minimal in-memory overhead.</p>
 </li>
 </ol>
-<h2><a id="usage" class="anchor" href="#usage">Usage</a></h2>
+<h2><a id="usage" class="anchor" href="#usage">How to Use RabbitMQ Streams</a></h2>
 <p>An AMQP 0.9.1 client library that can specify <a href="./queues.html#optional-arguments">optional queue and consumer arguments</a>
 will be able to use streams as regular AMQP 0.9.1 queues.</p>
 <p>Just like queues, streams have to be declared first.</p>
-<h3><a id="declaring" class="anchor" href="#declaring">Declaring</a></h3>
+<h3><a id="declaring" class="anchor" href="#declaring">Declaring a RabbitMQ Stream</a></h3>
 <p>To declare a stream, set the <span class="code ">x-queue-type</span> queue argument to <span class="code ">stream</span>
 (the default is <span class="code ">classic</span>). This argument must be provided by a client
 at declaration time; it cannot be set or changed using a <a href="./parameters.html#policies">policy</a>.
@@ -186,7 +189,7 @@ channel.basicConsume(
   consumerTag -&gt; { });
 </pre>
 
-<h4>Other</h4>
+<h4>Other Stream Operations</h4>
 <p>The following operations can be used in a similar way to classic and quorum queues
 but some have some queue specific behaviour.</p>
 <ul>
@@ -200,7 +203,7 @@ but some have some queue specific behaviour.</p>
 <li><a href="./confirms.html">Consumer acknowledgements</a> (keep <a href="#global-qos">QoS Prefetch Limitations</a> in mind)</li>
 <li>Cancellation of consumers</li>
 </ul>
-<h3><a id="single-active-consumer" class="anchor" href="#single-active-consumer">Single Active Consumer</a></h3>
+<h3><a id="single-active-consumer" class="anchor" href="#single-active-consumer">Single Active Consumer Feature for Streams</a></h3>
 <p>Single active consumer for streams is a feature available in RabbitMQ 3.11 and more.
 It provides <em>exclusive consumption</em> and <em>consumption continuity</em> on a stream.
 When several consumer instances sharing the same stream and name enable single active consumer, only one of these instances will be active at a time and so will receive messages.
@@ -214,7 +217,7 @@ The other instances will be idle.</p>
 <h3><a id="super-streams" class="anchor" href="#super-streams">Super Streams</a></h3>
 <p>Super streams are a way to scale out by partitioning a large stream into smaller streams.
 They integrate with <a href="#single-active-consumer">single active consumer</a> to preserve message order within a partition.
-Super streams are available in RabbitMQ 3.11 and more.</p>
+Super streams are available starting with RabbitMQ 3.11.</p>
 <p>A super stream is a logical stream made of individual, regular streams.
 It is a way to scale out publishing and consuming with RabbitMQ Streams: a large logical stream is divided into partition streams, splitting up the storage and the traffic on several cluster nodes.</p>
 <p>A super stream remains a logical entity: applications see it as one “large” stream, thanks to the smartness of client libraries.
@@ -277,7 +280,7 @@ Despite this, the filtering saves some bandwidth, which is its primary goal.</p>
 Set the <span class="code ">x-stream-match-unfiltered</span> argument to <span class="code ">true</span> to change this behavior and receive <em>unfiltered</em> messages as well.</li>
 <li>The <span class="code ">x-stream-filter</span> consumer argument accepts a string but also an array of strings to receive messages for different filter values.</li>
 </ul>
-<h2><a id="feature-comparison" class="anchor" href="#feature-comparison">Feature Comparison with Regular Queues</a></h2>
+<h2><a id="feature-comparison" class="anchor" href="#feature-comparison">Feature Comparison: Regular Queues versus Streams</a></h2>
 <p>Streams are not really queues in the traditional sense and thus do not
 align very closely with AMQP 0.9.1 queue semantics. Many features that other queue types
 support are not supported and will never be due to the nature of the queue type.</p>
@@ -449,7 +452,7 @@ to become in-sync and then de-comission the node it replaces.</p>
 rabbitmq-streams stream_status [-p &lt;vhost&gt;] &lt;stream-name&gt;
 </pre>
 
-<h2><a id="behaviour" class="anchor" href="#behaviour">Behaviour</a></h2>
+<h2><a id="behaviour" class="anchor" href="#behaviour">Stream Behaviour</a></h2>
 <p>Every stream has a primary writer (the leader) and zero or more replicas.</p>
 <h3><a id="leader-election" class="anchor" href="#leader-election">Leader Election and Failure Handling</a></h3>
 <p>When a new stream is declared, the set of nodes that will host its
@@ -541,7 +544,7 @@ in a table:</p>
 </tr>
 </tbody>
 </table>
-<h3><a id="data-safety" class="anchor" href="#data-safety">Data Safety</a></h3>
+<h3><a id="data-safety" class="anchor" href="#data-safety">Data Safety when using Streams</a></h3>
 <p>Streams replicate data across multiple nodes and publisher confirms are only
 issued once the data has been replicated to a quorum of stream replicas.</p>
 <p>Streams always store data on disk, however, they do not explicitly flush (fsync)
@@ -558,7 +561,7 @@ flushed the data to disk.</p>
 <p><em><em>No guarantees are provided for messages that have not been confirmed using
 the publisher confirm mechanism</em></em>. Such messages could be lost "mid-way", in an operating
 system buffer or otherwise fail to reach the stream leader.</p>
-<h3><a id="availability" class="anchor" href="#availability">Availability</a></h3>
+<h3><a id="availability" class="anchor" href="#availability">Stream Availability</a></h3>
 <p>A stream should be able to tolerate a minority of stream replicas becoming unavailable
 with no or little effect on availability.</p>
 <p>Note that depending on the <a href="./partitions.html">partition handling strategy</a>
@@ -569,12 +572,13 @@ A stream with five replicas can tolerate two, and so on.</p>
 <p>If a quorum of nodes cannot be recovered (say if 2 out of 3 RabbitMQ nodes are
 permanently lost) the queue is permanently unavailable and
 will most likely need operator involvement to be recovered.</p>
-<h2><a id="configuration" class="anchor" href="#configuration">Configuration</a></h2>
-<p>For stream protocol port, TLS and other configuration, see the <a href="stream.html">Stream plugin guide</a>.</p>
-<h2><a id="resource-use" class="anchor" href="#resource-use">Resource Use</a></h2>
+<h2><a id="configuration" class="anchor" href="#configuration">Configuring Streams</a></h2>
+<p>For stream protocol port, TLS and other configuration, see the <a href="stream.html">Stream plugin guide</a>.
+For required stream replication ports see the <a href="networking.html#ports">Networking guide</a>.</p>
+<h2><a id="resource-use" class="anchor" href="#resource-use">How Streams Use Resources</a></h2>
 <p>Streams usually will have lower CPU and memory footprint than quorum queues.</p>
 <p>All data is stored on disk with only unwritten data stored in memory.</p>
-<h2><a id="offset-tracking" class="anchor" href="#offset-tracking">Offset Tracking</a></h2>
+<h2><a id="offset-tracking" class="anchor" href="#offset-tracking">Offset Tracking when using Streams</a></h2>
 <p>When using the broker provided offset tracking features (currently only available
 when using the <a href="./stream.html">Stream plugin</a>) offsets are persisted in the stream
 itself as non-message data. This means that as offset persistence is requested the

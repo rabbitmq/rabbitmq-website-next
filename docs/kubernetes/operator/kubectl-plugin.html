@@ -5,33 +5,27 @@
  — RabbitMQ</title></head>
   <body id="kubernetes/operator/kubectl-plugin"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> RabbitMQ Cluster Operator Plugin for kubectl
 </h1>
-<p>This guide covers the RabbitMQ Cluster Operator plugin for kubectl.
-This plugin makes it easy to install the <a href="./operator-overview.html">RabbitMQ Cluster Kubernetes Operator</a>.
-into any Kubernetes instance and offers several commands for common workflows with RabbitMQ clusters.</p>
-<p>The only prerequisites to using the plugin are a working installation of kubectl and krew.</p>
-<ol>
-<li><a href="#install">Install the plugin</a></li>
-<li><a href="#using">Using the plugin</a></li>
-</ol>
-<p>Each plugin command automates many interactions with the kubernetes API and the RabbitMQ cluster operator.
-For a more detailed guide on using the operator and how to deploy Custom Resource objects it manages, see the
-<a href="./using-operator.html">Using RabbitMQ Cluster Operator</a> page.</p>
-<hr />
-<h2><a id="install" class="anchor" href="#install">Install the plugin</a></h2>
-<h3><a id="krew" class="anchor" href="#krew">Setup Krew</a></h3>
-<p><a href="https://krew.sigs.k8s.io/docs/user-guide/setup/install/">Krew</a> is the plugin manager for kubectl command-line tool. </p>
+<p>Installing the RabbitMQ Cluster Operator plugin for kubectl makes installing the <a href="./operator-overview.html">RabbitMQ Cluster Kubernetes Operator</a> into any Kubernetes instance easier because each plugin command automates many interactions with the kubernetes API and the RabbitMQ Cluster Operator. The plugin also includes several commands for common workflows with RabbitMQ clusters.</p>
+<p>To find out more about using the RabbitMQ Cluster operator and how to deploy Custom Resource objects it manages, refer to the
+<a href="./using-operator.html">Using RabbitMQ Cluster Operator</a> information.</p>
+<h2>Before Installing the RabbitMQ Cluster Operator Plugin for kubectl</h2>
+<p>Ensure you have the following tools installed: </p>
+<ul>
+<li><a href="https://krew.sigs.k8s.io/docs/user-guide/setup/install/">Krew</a> is the plugin manager for kubectl command-line tool. </li>
+<li><a href="https://kubernetes.io/docs/tasks/tools/">kubectl</a></li>
+</ul>
 <p>After installing <span class="code ">krew</span>, verify the installation:</p>
 <pre class="lang-bash">
 kubectl krew
 </pre>
 
-<h3><a id="install-plugin" class="anchor" href="#install-plugin">Install kubectl RabbitMQ plugin</a></h3>
-<p>With krew setup we can go ahead and install the RabbitMQ Cluster Operator plugin.</p>
+<h3><a id="install" class="anchor" href="#install">Install the Cluster Operator Plugin for kubectl</a></h3>
+<p>When krew is setup, you can now install the RabbitMQ Cluster Operator plugin.</p>
 <pre class="lang-bash">
 kubectl krew install rabbitmq
 </pre>
 
-<p>To verify the installation, get the list of available commands:</p>
+<p>To verify the plugin is installed, get the list of available commands:</p>
 <pre class="lang-bash">
 kubectl rabbitmq help
 # USAGE:
@@ -41,20 +35,19 @@ kubectl rabbitmq help
 </pre>
 
 <hr />
-<h2><a id="using" class="anchor" href="#using">Using the Plugin</a></h2>
-<h3><a id="create-rmq" class="anchor" href="#create-rmq">Create a RabbitMQ cluster</a></h3>
+<h2><a id="using" class="anchor" href="#using">Using the Cluster Operator Plugin for kubectl</a></h2>
+<h3><a id="create-rmq" class="anchor" href="#create-rmq">Create a RabbitMQ Cluster</a></h3>
 <pre class="lang-bash">
 kubectl rabbitmq create INSTANCE
 </pre>
 
-<p>This will create RabbitMQ cluster with some basic configuration where only the cluster name is configured.</p>
-<h3><a id="get-rmq" class="anchor" href="#get-rmq">Get a RabbitMQ cluster</a></h3>
+<p>The previous command creates a RabbitMQ cluster with some basic configuration where only the cluster name is configured.</p>
+<h3><a id="get-rmq" class="anchor" href="#get-rmq">Get a RabbitMQ Cluster</a></h3>
 <pre class="lang-bash">
 kubectl rabbitmq get INSTANCE
 </pre>
 
-<p>Display all of the kubernetes resources associated with the named RabbitMQ cluster including
-pods, configmaps, statefulsets, services and secrets.</p>
+<p>Display all of the kubernetes resources associated with the named RabbitMQ cluster including pods, configmaps, statefulsets, services, and secrets.</p>
 <pre class="lang-bash">
 NAME                     READY   STATUS    RESTARTS   AGE
 pod/hello-rmq-server-0   0/1     Pending   0          5h31m
@@ -75,90 +68,88 @@ secret/hello-rmq-default-user    Opaque   3      5h31m
 secret/hello-rmq-erlang-cookie   Opaque   1      5h31m
 </pre>
 
-<h3><a id="list-rmq" class="anchor" href="#list-rmq">List all RabbitMQ clusters</a></h3>
+<h3><a id="list-rmq" class="anchor" href="#list-rmq">List all RabbitMQ Clusters</a></h3>
 <pre class="lang-bash">
 kubectl rabbitmq list
 </pre>
 
-<p>Displays all RabbitMQ clusters deployed by the RabbitMQ cluster operator on the target kubernetes instance.</p>
-<h3><a id="delete-rmq" class="anchor" href="#delete-plugin">Delete RabbitMQ cluster</a></h3>
+<p>The previous commands lists all RabbitMQ clusters deployed by the RabbitMQ cluster operator on the target kubernetes instance.</p>
+<h3><a id="delete-rmq" class="anchor" href="#delete-plugin">Delete a RabbitMQ Cluster</a></h3>
 <pre class="lang-bash">
 kubectl rabbitmq delete INSTANCE
 </pre>
 
-<p>Deletes a RabbitMQ cluster, or multiple RabbitMQ clusters. When deleting multiple RabbitMQ clusters, provide a space
+<p>The previous command deletes a RabbitMQ cluster, or multiple RabbitMQ clusters. When deleting multiple RabbitMQ clusters, provide a space
 separated list.</p>
 <pre class="lang-bash">
 kubectl rabbitmq delete rmq1 rmq2 rmq3
 </pre>
 
-<h3><a id="secrets" class="anchor" href="#secrets">Print default user secrets</a></h3>
+<h3><a id="secrets" class="anchor" href="#secrets">Print Default User Secrets for the RabbitMQ Cluster</a></h3>
 <pre class="lang-bash">
 kubectl rabbitmq secrets INSTANCE
 </pre>
 
-<p>Displays the default user secrets for the named RabbitMQ cluster</p>
-<h3><a id="manage" class="anchor" href="#manage">Open the Management UI</a></h3>
+<p>The previous command lists the default user secrets for the named RabbitMQ cluster.</p>
+<h3><a id="manage" class="anchor" href="#manage">Open the RabbitMQ Management UI</a></h3>
 <pre class="lang-bash">
 kubectl rabbitmq manage INSTANCE
 </pre>
 
-<p>Opens the RabbitMQ <a href="../../management.html">Management UI</a> in a browser.</p>
-<h3><a id="debug" class="anchor" href="#debug">Set Log Level to debug</a></h3>
+<p>The previous command opens the RabbitMQ <a href="../../management.html">Management UI</a> in a browser.</p>
+<h3><a id="debug" class="anchor" href="#debug">Set the Log Level on all RabbitMQ Nodes for Debugging</a></h3>
 <pre class="lang-bash">
 kubectl rabbitmq debug INSTANCE
 </pre>
 
-<p>Sets the log level on all nodes to debug. For a detailed breakdown on RabbitMQ logging
-see the <a href="../../logging.html">Logging guide</a>.</p>
+<p>The previous command sets the log level on all nodes to debug. For a detailed breakdown on RabbitMQ logging, refer to the <a href="../../logging.html">Logging</a> information.</p>
 <h3><a id="tail" class="anchor" href="#tail">Tail Logs</a></h3>
 <pre class="lang-bash">
 kubectl rabbitmq tail INSTANCE
 </pre>
 
-<p>Attach to live log output from all RabbitMQ nodes. This requires the <span class="code ">tail</span> plugin for <span class="code ">kubectl</span>.
-Install it with</p>
+<p>After running the previous command, you will see all log output for the remote RabbitMQ nodes on your console. Note, to run the previous command, you must have the <span class="code ">tail</span> plugin installed.</p>
+<p>Install the <span class="code ">tail</span> plugin by running the following command:</p>
 <pre class="lang-bash">
 kubectl krew install tail
 </pre>
 
-<h3><a id="observe" class="anchor" href="#observe">Observe</a></h3>
+<h3><a id="observe" class="anchor" href="#observe">Observe Nodes on the RabbitMQ Cluster</a></h3>
 <pre class="lang-bash">
 kubectl rabbitmq observe INSTANCE INDEX
 </pre>
 
-<p>Opens the <a href="../../rabbitmq-diagnostics.8.html"><span class="code ">rabbitmq-diagnostics</span></a> observer interface for a given node.</p>
-<h3><a id="feature-flags" class="anchor" href="#feature-flags">Enable All Feature Flags</a></h3>
+<p>The previous command opens the <a href="../../rabbitmq-diagnostics.8.html"><span class="code ">rabbitmq-diagnostics</span></a> observer interface for a given node.</p>
+<h3><a id="feature-flags" class="anchor" href="#feature-flags">Turn on All Feature Flags</a></h3>
 <pre class="lang-bash">
 kubectl rabbitmq enable-all-feature-flags INSTANCE 
 </pre>
 
-<p>This command uses <a href="../../cli.html"><span class="code ">rabbitmqctl</span></a> to enable all possible <a href="../../feature-flags.html">feature flags</a>.</p>
-<h3><a id="pause-reconciliation" class="anchor" href="#pause-reconciliation">Pause Reconciliation</a></h3>
+<p>The previous command uses <a href="../../cli.html"><span class="code ">rabbitmqctl</span></a> to activate or turn on all possible <a href="../../feature-flags.html">feature flags</a>.</p>
+<h3><a id="pause-reconciliation" class="anchor" href="#pause-reconciliation">Pause Reconciliation on the RabbitMQ Cluster</a></h3>
 <pre class="lang-bash">
 kubectl rabbitmq pause-reconciliation INSTANCE 
 </pre>
 
-<p>This adds the label "rabbitmq.com/pauseReconciliation=true" to the target RabbitMQ cluster.
-The label prevents the Operator from watching and updating the instance.</p>
-<h3><a id="resume-reconciliation" class="anchor" href="#resume-reconciliation">Resume Reconciliation</a></h3>
+<p>The previous command adds the label "rabbitmq.com/pauseReconciliation=true" to the target RabbitMQ cluster. The label prevents the Operator from watching and updating the instance.</p>
+<h3><a id="resume-reconciliation" class="anchor" href="#resume-reconciliation">Resume Reconciliation on the RabbitMQ Cluster</a></h3>
 <pre class="lang-bash">
 kubectl rabbitmq resume-reconciliation INSTANCE 
 </pre>
 
-<p>Instructs the operator to resume reconciliation for a RabbitMQ cluster.</p>
+<p>The previous command instructs the Operator to resume reconciliation for a RabbitMQ cluster.</p>
 <h3><a id="list-pause-reconciliation-instances" class="anchor" href="#list-pause-reconciliation-instances">List Instances with Paused Reconciliation</a></h3>
 <pre class="lang-bash">
 kubectl rabbitmq [list pause reconciliation instances](list-pause-reconciliation-instances) INSTANCE
 </pre>
 
-<p>Lists all instances that are not being reconciled by the operator.</p>
+<p>The previous command lists all instances that are not being reconciled by the Operator.</p>
 <h3><a id="perf-test" class="anchor" href="#perf-test">Perf Test</a></h3>
 <pre class="lang-bash">
 kubectl rabbitmq perf-test INSTANCE --rate 100
 </pre>
 
-<p>Runs <a href="https://rabbitmq.github.io/rabbitmq-perf-test/stable/htmlsingle/">perf-test</a> against an instance. You can pass as many perf test parameters as you like here.</p>
+<p>The previous command runs <a href="https://rabbitmq.github.io/rabbitmq-perf-test/stable/htmlsingle/">perf-test</a> against an instance. You can pass as many perf test parameters as you like here.</p>
 <p>To monitor PerfTest, add the following ServiceMonitor:</p>
 <pre class="lang-yaml">
   apiVersion: monitoring.coreos.com/v1
@@ -174,7 +165,6 @@ kubectl rabbitmq perf-test INSTANCE --rate 100
         app: perf-test
 </pre>
 
-<hr />
 <p>Please submit feedback and feature requests for the RabbitMQ Cluster Operator <a href="https://github.com/rabbitmq/cluster-operator">on GitHub</a>.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them

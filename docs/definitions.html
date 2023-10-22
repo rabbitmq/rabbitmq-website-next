@@ -17,7 +17,7 @@ used for schema <a href="backup.html">backup</a> or data seeding.</p>
 Every node in a cluster has its own replica of all definitions. When a part of definitions changes,
 the update is performed on all nodes in a single transaction. This means that
 in practice, definitions can be exported from any cluster node with the same result.</p>
-<p><a href="https://docs.vmware.com/en/VMware-Tanzu-RabbitMQ-for-Kubernetes/index.html">VMware RabbitMQ</a> supports <a href="https://docs.vmware.com/en/VMware-RabbitMQ-for-Kubernetes/1.4/rmq/GUID-standby-replication.html">Warm Standby Replication</a> to a remote cluster,
+<p><a href="https://docs.vmware.com/en/VMware-Tanzu-RabbitMQ-for-Kubernetes/index.html">VMware RabbitMQ</a> supports <a href="https://docs.vmware.com/en/VMware-RabbitMQ-for-Kubernetes/1/rmq/standby-replication.html">Warm Standby Replication</a> to a remote cluster,
 which makes it easy to run a warm standby cluster for disaster recovery.</p>
 <p>Definition import on node boot is the recommended way of <a href="#import-on-boot">pre-configuring nodes at deployment time</a>.</p>
 <h2><a id="export" class="anchor" href="#export">Definition Export</a></h2>
@@ -126,7 +126,7 @@ an equivalent default user can be created via the same definitions file.</p>
     "users": [
         {
             "name": "guest",
-            "password": "guest",
+            "password_hash": "9/1i+jKFRpbTRV1PtRnzFFYibT3cEpP92JeZ8YKGtflf4e/u",
             "tags": ["administrator"]
         }
     ],

@@ -17,11 +17,11 @@ do not mesh well with the use of a configuration file:</p>
 </ul>
 <p>RabbitMQ calls these items <em>parameters</em>. Parameters can be
 set by invoking <a href="man/rabbitmqctl.8.html"><span class="code ">rabbitmqctl</span></a>
-or through <a href="management.html">the management plugin</a>'s HTTP API.
-There are 2 kinds of parameters: vhost-scoped parameters and global parameters.
+or through <a href="management.html">the HTTP API</a>.</p>
+<p>There are two kinds of parameters: vhost-scoped parameters and global parameters.
 Vhost-scoped parameters are tied to a virtual host and consist
-of a component name, a name and a value.
-Global parameters are not tied to a particular virtual host and they consist
+of a component name, a name and a value.</p>
+<p>Global parameters are not tied to a particular virtual host and they consist
 of a name and value.</p>
 <p>One special case of parameters usage is <a href="#policies">policies</a>.</p>
 <p>Policies is <strong>the recommended way</strong> of specifying
@@ -29,6 +29,13 @@ of a name and value.</p>
 as plugins such as <a href="federation.html">Federation</a>
 and <a href="shovel.html">Shovel</a>.</p>
 <p>Policies are vhost-scoped.</p>
+<p><a href="#operator-policies">Operator policies</a> allow cluster operators override certain arguments
+defined in regular policies. This special policy type was designed for defining
+guardrails, for example, limiting maximum queue size, enforcing a quorum queue and stream
+initial replication factor, and so on.</p>
+<p>Operator policies are particularly important in environments where RabbitMQ is offered
+as a service, that is, where it is operated by one team but consumed by multiple other
+teams or external customers. </p>
 <h2><a id="parameter-management" class="anchor" href="#parameter-management">Global and Per-vhost Parameters</a></h2>
 <p>As stated above, there are vhost-scoped parameters and global parameters.
 An example of vhost-scoped
@@ -339,15 +346,81 @@ matching queues.</p>
 <p>Because operator policies can unexpectedly change queue
 attributes and, in turn, application assumptions and
 semantics, they are limited only to a few arguments:</p>
-<ul>
-<li>expires</li>
-<li>message-ttl</li>
-<li>max-length</li>
-<li>max-length-bytes</li>
-<li>ha-mode</li>
-<li>ha-params</li>
-<li>ha-sync-mode</li>
-</ul>
+<table>
+  <thead>
+    <td></td>
+    <td><strong>Classic</strong></td>
+    <td><strong>Quorum</strong></td>
+    <td><strong>Stream</strong></td>
+  </thead>
+  <tr>
+    <th>delivery-limit</th>
+    <td> </td>
+    <td> <span>✓</span> </td>
+    <td> </td>
+  </tr>
+  <tr>
+    <th>expires</th>
+    <td> <span>✓</span> </td>
+    <td> <span>✓</span> </td>
+    <td> </td>
+  </tr>
+  <tr>
+    <th>ha-mode</th>
+    <td> <span>✓</span> </td>
+    <td> </td>
+    <td> </td>
+  </tr>
+  <tr>
+    <th>ha-params</th>
+    <td> <span>✓</span> </td>
+    <td> </td>
+    <td> </td>
+  </tr>
+  <tr>
+    <th>ha-sync-mode</th>
+    <td> <span>✓</span> </td>
+    <td> </td>
+    <td> </td>
+  </tr>
+  <tr>
+    <th>max-in-memory-bytes</th>
+    <td> </td>
+    <td> <span>✓</span> </td>
+    <td> </td>
+  </tr>
+  <tr>
+    <th>max-in-memory-length</th>
+    <td> </td>
+    <td> <span>✓</span> </td>
+    <td> </td>
+  </tr>
+  <tr>
+    <th>max-length</th>
+    <td> <span>✓</span> </td>
+    <td> <span>✓</span> </td>
+    <td> </td>
+  </tr>
+  <tr>
+    <th>max-length-bytes</th>
+    <td> <span>✓</span> </td>
+    <td> <span>✓</span> </td>
+    <td> <span>✓</span> </td>
+  </tr>
+  <tr>
+    <th>message-ttl</th>
+    <td> <span>✓</span> </td>
+    <td> <span>✓</span> </td>
+    <td> </td>
+  </tr>
+  <tr>
+    <th>target-group-size</th>
+    <td> </td>
+    <td> <span>✓</span> </td>
+    <td> </td>
+  </tr>
+</table>
+
 <h3><a id="operator-policy-conflicts" class="anchor" href="#operator-policy-conflicts">Conflict Resolution with Regular Policies</a></h3>
 <p>An operator policy and a regular policy can contain the same
 keys in their definitions. When it happens, the more conservative
@@ -359,37 +432,36 @@ was 20, it would be used. Operator policies, therefore, don't
 just overwrite regular policy values. They enforce limits but
 try to not override user-provided policies where possible.</p>
 <table>
+    <thead>
+        <td></td>
+        <td><strong>Classic</strong></td>
+        <td><strong>Quorum</strong></td>
+        <td><strong>Stream</strong></td>
+    </thead>
+    <tr>
+        <th>delivery-limit</th>
+        <td> </td>
+        <td>
+            <ul>
+                <li>lesser value</li>
+            </ul>
+        </td>
+        <td> </td>
+    </tr>
     <tr>
         <th>expires</th>
         <td>
             <ul>
-                <li>lower value</li>
+                <li>lesser value</li>
             </ul>
         </td>
-    </tr>
-    <tr>
-        <th>message-ttl</th>
         <td>
             <ul>
-                <li>lower value</li>
+                <li>lesser value of the two policies</li>
+                <li>policy precedence over queue arguments</li>
             </ul>
         </td>
-    </tr>
-    <tr>
-        <th>max-length</th>
-        <td>
-            <ul>
-                <li>lower value</li>
-            </ul>
-        </td>
-    </tr>
-    <tr>
-        <th>max-length-bytes</th>
-        <td>
-            <ul>
-                <li>lower value</li>
-            </ul>
-        </td>
+        <td> </td>
     </tr>
     <tr>
         <th>ha-mode</th>
@@ -402,17 +474,21 @@ try to not override user-provided policies where possible.</p>
             <li>nodes</li>
           </ol>
         </td>
+        <td> </td>
+        <td> </td>
     </tr>
     <tr>
         <th>ha-params</th>
         <td>
           <ul>
-            <li>higher value when both values are integers</li>
+            <li>greater value when both values are integers</li>
             <li>integer value when only one value is an integer</li>
             <li>longer list when both values are a list of nodes</li>
             <li>operator policy value when both values are an equal length list of nodes</li>
           </ul>
         </td>
+        <td> </td>
+        <td> </td>
     </tr>
     <tr>
         <th>ha-sync-mode</th>
@@ -421,6 +497,85 @@ try to not override user-provided policies where possible.</p>
                 <li>operator policy value</li>
             </ul>
         </td>
+        <td> </td>
+        <td> </td>
+    </tr>
+    <tr>
+        <th>max-in-memory-bytes</th>
+        <td> </td>
+        <td>
+            <ul>
+                <li>lesser value</li>
+            </ul>
+        </td>
+        <td> </td>
+    </tr>
+    <tr>
+        <th>max-in-memory-length</th>
+        <td> </td>
+        <td>
+            <ul>
+                <li>lesser value</li>
+            </ul>
+        </td>
+        <td> </td>
+    </tr>
+    <tr>
+        <th>max-length</th>
+        <td>
+            <ul>
+                <li>lesser value</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>lesser value</li>
+            </ul>
+        </td>
+        <td> </td>
+    </tr>
+    <tr>
+        <th>max-length-bytes</th>
+        <td>
+            <ul>
+                <li>lesser value</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>lesser value</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>lesser value of the two policies</li>
+                <li>policy precedence over queue arguments</li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <th>message-ttl</th>
+        <td>
+            <ul>
+                <li>lesser value</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>lesser value</li>
+            </ul>
+        </td>
+        <td> </td>
+    </tr>
+    <tr>
+        <th>target-group-size</th>
+        <td> </td>
+        <td>
+            <ul>
+                <li>greater value</li>
+            </ul>
+        </td>
+        <td> </td>
     </tr>
 </table>
 

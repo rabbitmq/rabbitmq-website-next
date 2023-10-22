@@ -147,14 +147,14 @@ for dependency management.</p>
 <p><pre class="lang-javascript">
 {
     "require": {
-        "php-amqplib/php-amqplib": "&gt;=3.0"
+        "php-amqplib/php-amqplib": "^3.2"
     }
 }
 </pre></p>
 <p>Provided you have <a href="https://getcomposer.org/doc/00-intro.md">Composer</a> installed and functional,
 you can run the following:</p>
 <p><pre class="lang-bash">
-composer.phar install
+php composer.phar install
 </pre></p>
 <p>There's also a <a href="https://github.com/composer/windows-setup">Composer installer for Windows</a>.</p>
 </blockquote>
@@ -264,8 +264,10 @@ $callback = function ($msg) {
 
 $channel-&gt;basic_consume('hello', '', false, true, false, false, $callback);
 
-while ($channel-&gt;is_open()) {
-    $channel-&gt;wait();
+try {
+    $channel-&gt;consume();
+} catch (\Throwable $exception) {
+    echo $exception-&gt;getMessage();
 }
 </pre>
 

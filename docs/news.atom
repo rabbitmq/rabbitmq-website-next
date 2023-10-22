@@ -1,6 +1,186 @@
 <?xml version="1.0"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><id>https://www.rabbitmq.com/news.atom</id><link rel="self" href="https://www.rabbitmq.com/news.atom"/><link rel="alternate" type="text/html" href="https://www.rabbitmq.com/news.html"/><title type="text">RabbitMQ Project Announcements</title><updated>2023-08-18T14:00:00+00:00</updated><entry><id>tag:rabbitmq.com,2007:2023-08-18T14:00:00+00:00</id><title type="text">RabbitMQ 3.12.3 release</title><updated>2023-08-18T14:00:00+00:00</updated><author><name>RabbitMQ</name><uri>https://www.rabbitmq.com/</uri><email>rabbitmq-core@groups.vmware.com</email></author><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
-      8 <p>
+<feed xmlns="http://www.w3.org/2005/Atom"><id>https://www.rabbitmq.com/news.atom</id><link rel="self" href="https://www.rabbitmq.com/news.atom"/><link rel="alternate" type="text/html" href="https://www.rabbitmq.com/news.html"/><title type="text">RabbitMQ Project Announcements</title><updated>2023-10-19T19:00:00-05:00</updated><entry><id>tag:rabbitmq.com,2007:2023-10-19T19:00:00-05:00</id><title type="text">RabbitMQ 3.12.7 release</title><updated>2023-10-19T19:00:00-05:00</updated><author><name>RabbitMQ</name><uri>https://www.rabbitmq.com/</uri><email>rabbitmq-core@groups.vmware.com</email></author><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+        <p>
+          The RabbitMQ team is pleased to announce the release of RabbitMQ 3.12.7,
+          a maintenance release in the <a href="https://blog.rabbitmq.com/tags/v3.12.x/">RabbitMQ 3.12.x</a> series.
+        </p>
+        <p>
+          This is a maintenance release that contains bug fixes.
+          Release notes can be found <a href="./changelog.html">in the change log</a>.
+        </p>
+        <p>
+          This release <a href="which-erlang.html">requires Erlang/OTP 25.x</a>
+          and supports Erlang versions through <a href="https://www.erlang.org/blog/otp-26-highlights/">the latest Erlang 26</a>.
+        </p>
+        <p>
+          Binary builds and packages of the new release can be found on <a href="https://github.com/rabbitmq/rabbitmq-server/releases/">GitHub</a>,
+          <a href="/install-debian.html">Debian</a> and <a href="/install-rpm.html">dnf (yum) repositories</a>.
+          See <a href="https://rabbitmq.com/download.html">RabbitMQ installation guides</a> to learn more.
+        </p>
+        <p>
+          We encourage all users of earlier versions of RabbitMQ to upgrade to this latest release.
+        </p>
+        <p>
+          As always, we welcome any questions, bug reports, and other feedback
+          on this release, as well as general suggestions for features and
+          enhancements in future releases. Contact us via <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
+          and the <a href="https://rabbitmq.com/discord/">RabbitMQ Discord server</a>.
+        </p>
+      </div></content></entry><entry><id>tag:rabbitmq.com,2007:2023-10-19T19:00:00-05:00</id><title type="text">RabbitMQ 3.11.24 release</title><updated>2023-10-19T19:00:00-05:00</updated><author><name>RabbitMQ</name><uri>https://www.rabbitmq.com/</uri><email>rabbitmq-core@groups.vmware.com</email></author><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+        <p>
+          The RabbitMQ team is pleased to announce the release of RabbitMQ 3.11.24,
+          a maintenance release in the <a href="https://blog.rabbitmq.com/tags/v3.11.x/">RabbitMQ 3.11.x</a> series.
+        </p>
+        <p>
+          This is a maintenance release that contains bug fixes.
+          Release notes can be found <a href="./changelog.html">in the change log</a>.
+        </p>
+        <p>
+          This release <a href="which-erlang.html">requires Erlang/OTP 25.x</a>
+          and supports Erlang versions through <a href="https://www.erlang.org/blog/my-otp-25-highlights/">the latest Erlang 25.3</a>.
+        </p>
+        <p>
+          Binary builds and packages of the new release can be found on <a href="https://github.com/rabbitmq/rabbitmq-server/releases/">GitHub</a>,
+          <a href="/install-debian.html">Debian</a> and <a href="/install-rpm.html">dnf (yum) repositories</a>.
+          See <a href="https://rabbitmq.com/download.html">RabbitMQ installation guides</a> to learn more.
+        </p>
+        <p>
+          As always, we welcome any questions, bug reports, and other feedback
+          on this release, as well as general suggestions for features and
+          enhancements in future releases. Contact us via <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
+          and the <a href="https://rabbitmq.com/discord/">RabbitMQ Discord server</a>.
+        </p>
+      </div></content></entry><entry><id>tag:rabbitmq.com,2007:2023-09-22T19:00:00-05:00</id><title type="text">RabbitMQ 3.12.6 release</title><updated>2023-09-22T19:00:00-05:00</updated><author><name>RabbitMQ</name><uri>https://www.rabbitmq.com/</uri><email>rabbitmq-core@groups.vmware.com</email></author><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+        <p>
+          The RabbitMQ team is pleased to announce the release of RabbitMQ 3.12.6,
+          a maintenance release in the <a href="https://blog.rabbitmq.com/tags/v3.12.x/">RabbitMQ 3.12.x</a> series.
+        </p>
+        <p>
+          This is maintenance release contains an important dependency update.
+          Release notes can be found <a href="./changelog.html">in the change log</a>.
+        </p>
+        <p>
+          This release <a href="which-erlang.html">requires Erlang/OTP 25.x</a>
+          and supports Erlang versions through <a href="https://www.erlang.org/blog/otp-26-highlights/">the latest Erlang 26</a>.
+        </p>
+        <p>
+          Binary builds and packages of the new release can be found on <a href="https://github.com/rabbitmq/rabbitmq-server/releases/">GitHub</a>,
+          <a href="/install-debian.html">apt</a> and <a href="/install-rpm.html">dnf (yum) repositories</a>.
+          See <a href="https://rabbitmq.com/download.html">RabbitMQ installation guides</a> to learn more.
+        </p>
+        <p>
+          We encourage all users of earlier versions of RabbitMQ to upgrade to this latest release.
+        </p>
+        <p>
+          As always, we welcome any questions, bug reports, and other feedback
+          on this release, as well as general suggestions for features and
+          enhancements in future releases. Contact us via <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
+          and the <a href="https://rabbitmq.com/discord/">RabbitMQ Discord server</a>.
+        </p>
+      </div></content></entry><entry><id>tag:rabbitmq.com,2007:2023-09-20T19:00:00-05:00</id><title type="text">RabbitMQ 3.12.5 release</title><updated>2023-09-20T19:00:00-05:00</updated><author><name>RabbitMQ</name><uri>https://www.rabbitmq.com/</uri><email>rabbitmq-core@groups.vmware.com</email></author><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+        <p>
+          The RabbitMQ team is pleased to announce the release of RabbitMQ 3.12.5,
+          a maintenance release in the <a href="https://blog.rabbitmq.com/tags/v3.12.x/">RabbitMQ 3.12.x</a> series.
+        </p>
+        <p>
+          This is a maintenance release that contains bug fixes.
+          Release notes can be found <a href="./changelog.html">in the change log</a>.
+        </p>
+        <p>
+          This release <a href="which-erlang.html">requires Erlang/OTP 25.x</a>
+          and supports Erlang versions through <a href="https://www.erlang.org/blog/otp-26-highlights/">the latest Erlang 26</a>.
+        </p>
+        <p>
+          Binary builds and packages of the new release can be found on <a href="https://github.com/rabbitmq/rabbitmq-server/releases/">GitHub</a>,
+          <a href="/install-debian.html">Debian</a> and <a href="/install-rpm.html">dnf (yum) repositories</a>.
+          See <a href="https://rabbitmq.com/download.html">RabbitMQ installation guides</a> to learn more.
+        </p>
+        <p>
+          We encourage all users of earlier versions of RabbitMQ to upgrade to this latest release.
+        </p>
+        <p>
+          As always, we welcome any questions, bug reports, and other feedback
+          on this release, as well as general suggestions for features and
+          enhancements in future releases. Contact us via <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
+          and the <a href="https://rabbitmq.com/discord/">RabbitMQ Discord server</a>.
+        </p>
+      </div></content></entry><entry><id>tag:rabbitmq.com,2007:2023-09-1214:00:00+00:00</id><title type="text">RabbitMQ 3.11.23 release</title><updated>2023-09-1214:00:00+00:00</updated><author><name>RabbitMQ</name><uri>https://www.rabbitmq.com/</uri><email>rabbitmq-core@groups.vmware.com</email></author><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+        <p>
+          The RabbitMQ team is pleased to announce the release of RabbitMQ 3.11.23,
+          a maintenance release in the <a href="https://blog.rabbitmq.com/tags/v3.11.x/">RabbitMQ 3.11.x</a> series.
+        </p>
+        <p>
+          This is a maintenance release that contains bug fixes.
+          Release notes can be found <a href="./changelog.html">in the change log</a>.
+        </p>
+        <p>
+          This release <a href="which-erlang.html">requires Erlang/OTP 25.x</a>
+          and supports Erlang versions through <a href="https://www.erlang.org/blog/my-otp-25-highlights/">the latest Erlang 25.3</a>.
+        </p>
+        <p>
+          Binary builds and packages of the new release can be found on <a href="https://github.com/rabbitmq/rabbitmq-server/releases/">GitHub</a>,
+          <a href="/install-debian.html">Debian</a> and <a href="/install-rpm.html">dnf (yum) repositories</a>.
+          See <a href="https://rabbitmq.com/download.html">RabbitMQ installation guides</a> to learn more.
+        </p>
+        <p>
+          As always, we welcome any questions, bug reports, and other feedback
+          on this release, as well as general suggestions for features and
+          enhancements in future releases. Contact us via <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
+          and the <a href="https://rabbitmq.com/discord/">RabbitMQ Discord server</a>.
+        </p>
+      </div></content></entry><entry><id>tag:rabbitmq.com,2007:2023-08-24T14:00:00+00:00</id><title type="text">RabbitMQ 3.12.4 release</title><updated>2023-08-24T14:00:00+00:00</updated><author><name>RabbitMQ</name><uri>https://www.rabbitmq.com/</uri><email>rabbitmq-core@groups.vmware.com</email></author><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+        <p>
+          The RabbitMQ team is pleased to announce the release of RabbitMQ 3.12.4,
+          a maintenance release in the <a href="https://blog.rabbitmq.com/tags/v3.12.x/">RabbitMQ 3.12.x</a> series.
+        </p>
+        <p>
+          This is a maintenance release that contains bug fixes.
+          Release notes can be found <a href="./changelog.html">in the change log</a>.
+        </p>
+        <p>
+          This release <a href="which-erlang.html">requires Erlang/OTP 25.x</a>
+          and supports Erlang versions through <a href="https://www.erlang.org/blog/otp-26-highlights/">the latest Erlang 26</a>.
+        </p>
+        <p>
+          Binary builds and packages of the new release can be found on <a href="https://github.com/rabbitmq/rabbitmq-server/releases/">GitHub</a>,
+          <a href="/install-debian.html">Debian</a> and <a href="/install-rpm.html">dnf (yum) repositories</a>.
+          See <a href="https://rabbitmq.com/download.html">RabbitMQ installation guides</a> to learn more.
+        </p>
+        <p>
+          We encourage all users of earlier versions of RabbitMQ to upgrade to this latest release.
+        </p>
+        <p>
+          As always, we welcome any questions, bug reports, and other feedback
+          on this release, as well as general suggestions for features and
+          enhancements in future releases. Contact us via <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
+          and the <a href="https://rabbitmq.com/discord/">RabbitMQ Discord server</a>.
+        </p>
+      </div></content></entry><entry><id>tag:rabbitmq.com,2007:2023-08-24T14:00:00+00:00</id><title type="text">RabbitMQ 3.11.22 release</title><updated>2023-08-24T14:00:00+00:00</updated><author><name>RabbitMQ</name><uri>https://www.rabbitmq.com/</uri><email>rabbitmq-core@groups.vmware.com</email></author><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+        <p>
+          The RabbitMQ team is pleased to announce the release of RabbitMQ 3.11.22,
+          a maintenance release in the <a href="https://blog.rabbitmq.com/tags/v3.11.x/">RabbitMQ 3.11.x</a> series.
+        </p>
+        <p>
+          This is a maintenance release that contains bug fixes.
+          Release notes can be found <a href="./changelog.html">in the change log</a>.
+        </p>
+        <p>
+          This release <a href="which-erlang.html">requires Erlang/OTP 25.x</a>
+          and supports Erlang versions through <a href="https://www.erlang.org/blog/my-otp-25-highlights/">the latest Erlang 25.3</a>.
+        </p>
+        <p>
+          Binary builds and packages of the new release can be found on <a href="https://github.com/rabbitmq/rabbitmq-server/releases/">GitHub</a>,
+          <a href="/install-debian.html">Debian</a> and <a href="/install-rpm.html">dnf (yum) repositories</a>.
+          See <a href="https://rabbitmq.com/download.html">RabbitMQ installation guides</a> to learn more.
+        </p>
+        <p>
+          As always, we welcome any questions, bug reports, and other feedback
+          on this release, as well as general suggestions for features and
+          enhancements in future releases. Contact us via <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
+          and the <a href="https://rabbitmq.com/discord/">RabbitMQ Discord server</a>.
+        </p>
+      </div></content></entry><entry><id>tag:rabbitmq.com,2007:2023-08-18T14:00:00+00:00</id><title type="text">RabbitMQ 3.12.3 release</title><updated>2023-08-18T14:00:00+00:00</updated><author><name>RabbitMQ</name><uri>https://www.rabbitmq.com/</uri><email>rabbitmq-core@groups.vmware.com</email></author><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
+        <p>
           The RabbitMQ team is pleased to announce the release of RabbitMQ 3.12.3,
           a maintenance release in the <a href="https://blog.rabbitmq.com/tags/v3.12.x/">RabbitMQ 3.12.x</a> series.
         </p>
@@ -23,8 +203,8 @@
         <p>
           As always, we welcome any questions, bug reports, and other feedback
           on this release, as well as general suggestions for features and
-          enhancements in future releases. Contact us via <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>,
-          <a href="https://rabbitmq.com/discord/">RabbitMQ Discord server</a> or <a href="https://rabbitmq.com/slack/">RabbitMQ community Slack</a>.
+          enhancements in future releases. Contact us via <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
+          and the <a href="https://rabbitmq.com/discord/">RabbitMQ Discord server</a>.
         </p>
       </div></content></entry><entry><id>tag:rabbitmq.com,2007:2023-08-18T14:00:00+00:00</id><title type="text">RabbitMQ 3.11.21 release</title><updated>2023-08-18T14:00:00+00:00</updated><author><name>RabbitMQ</name><uri>https://www.rabbitmq.com/</uri><email>rabbitmq-core@groups.vmware.com</email></author><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
         <p>
@@ -47,8 +227,8 @@
         <p>
           As always, we welcome any questions, bug reports, and other feedback
           on this release, as well as general suggestions for features and
-          enhancements in future releases. Contact us via <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>,
-          <a href="https://rabbitmq.com/discord/">RabbitMQ Discord server</a> or <a href="https://rabbitmq.com/slack/">RabbitMQ community Slack</a>.
+          enhancements in future releases. Contact us via <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
+          and the <a href="https://rabbitmq.com/discord/">RabbitMQ Discord server</a>.
         </p>
       </div></content></entry><entry><id>tag:rabbitmq.com,2007:2023-07-18T14:00:00+00:00</id><title type="text">RabbitMQ 3.12.2 release</title><updated>2023-07-18T14:00:00+00:00</updated><author><name>RabbitMQ</name><uri>https://www.rabbitmq.com/</uri><email>rabbitmq-core@groups.vmware.com</email></author><content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml">
         <p>

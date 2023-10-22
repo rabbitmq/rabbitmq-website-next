@@ -127,7 +127,7 @@ Some of the features include:</p>
 
 <p>The UI application supports recent versions of Google Chrome, Safari, Firefox, and Microsoft Edge browsers.</p>
 <h3><a id="usage-ui-clusters" class="anchor" href="#usage-ui-clusters">Management UI Access in Clusters</a></h3>
-<p>Any cluster node with <span class="code ">rabbitmq-management</span> plugin enabled can be
+<p>Any cluster node with <span class="code ">rabbitmq_management</span> plugin enabled can be
 used for management UI access or data collection by monitoring tools.
 It will reach out to other nodes and collect their stats, then aggregate and return a response
 to the client.</p>
@@ -337,7 +337,7 @@ Additionally, RabbitMQ also accepts a JWT token in the HTTP <span class="code ">
 <p>When activated, the management plugin provides an HTTP API at
 <span class="code ">http://<i>server-name</i>:15672/api/</span> by default. Browse to that
 location for more information on the API. For convenience the same API reference is
-<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.12.3/deps/rabbitmq_management/priv/www/api/index.html">available on GitHub</a>.</p>
+<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.12.7/deps/rabbitmq_management/priv/www/api/index.html">available on GitHub</a>.</p>
 <h3><a id="http-api-monitoring" class="anchor" href="#http-api-monitoring">HTTP API and Monitoring</a></h3>
 <p>The API is intended to be used for basic observability tasks. <a href="prometheus.html">Prometheus and Grafana</a>
 are recommended for long term metric storage, alerting, anomaly detection, and so on.</p>
@@ -356,7 +356,7 @@ has the management plugin enabled at <span class="code ">http://<i>{node-hostnam
 see <a href="./devtools.html">Developer Tools</a>.</p>
 <p>Some API endpoints return a lot of information. The volume can be reduced
 by filtering what columns are returned by <span class="code ">HTTP GET</span> requests. See
-<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.12.3/deps/rabbitmq_management/priv/www/api/index.html">latest HTTP API documentation</a> for details.</p>
+<a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.12.7/deps/rabbitmq_management/priv/www/api/index.html">latest HTTP API documentation</a> for details.</p>
 <h3><a id="http-api-proxy" class="anchor" href="#http-api-proxy">Using a Reverse Proxy in front of the HTTP API</a></h3>
 <p>It may be necessary to put a reverse proxy in front of a RabbitMQ cluster. Reverse proxy setup for RabbitMQ
 may require careful handling of encoded slashes in paths if default virtual host (<span class="code ">/</span>) is used.</p>
@@ -395,11 +395,11 @@ location ~* /rabbitmq/(.*) {
 AllowEncodedSlashes On
 </pre>
 
-<p>for the Apache virtual host. The location also needs a <a href="https://httpd.apache.org/docs/2.4/mod/mod_proxy.html"><span class="code ">nocanon</span> setting</a>:</p>
+<p>for the Apache virtual host. Apache needs both <a href="https://httpd.apache.org/docs/2.4/mod/mod_proxy.html">mod_proxy</a> and <a href="https://httpd.apache.org/docs/2.4/mod/mod_proxy_http.html">mod_proxy_http</a> enabled. The location also needs a <a href="https://httpd.apache.org/docs/2.4/mod/mod_proxy.html"><span class="code ">nocanon</span> setting</a>:</p>
 <pre class="lang-apacheconf">
-ProxyPassReverse http://rabbitmq-host:15672/
+ProxyPassReverse / http://rabbitmq-host:15672/
 # "nocanon" is required only if default RabbitMQ virtual host is used
-ProxyPass http://rabbitmq-host:15672/ nocanon
+ProxyPass / http://rabbitmq-host:15672/ nocanon
 </pre>
 
 <h2><a id="configuration" class="anchor" href="#configuration">Configuration</a></h2>
@@ -853,9 +853,15 @@ For every cluster node to have its metrics collected, it is still required that 
 the metrics from the node won't be available.</p>
 <h3><a id="clustering-inter-node-connectivity" class="anchor" href="#clustering-inter-node-connectivity">Aggregation Queries in Clusters</a></h3>
 <p>In cluster, HTTP API performs cluster-wide queries when handling client
-requests, which means it can be affected by network partitions and slow downs.
-Timeouts for inter-node aggregation queries are controlled via the
-<a href="nettick.html">net tick mechanism</a>.</p>
+requests, which means it can be affected by network partitions, network slowdowns,
+and unresponsive nodes.</p>
+<p>Timeouts for inter-node aggregation queries are controlled via the
+<a href="nettick.html">net tick mechanism</a>. Lowering the value may help reduce
+the delay introduced by nodes that have recently become unresponsive.
+Values lower than 10s <strong>can produce false positives and must be avoided</strong>.</p>
+<p>In contrast to the HTTP API, the <a href="./prometheus.html">Prometheus monitoring endpoint</a> only serves
+node-local data and is generally not affected by failures or unavailability of other nodes
+in the cluster.</p>
 <h2><a id="proxy" class="anchor" href="#proxy">(Reverse HTTP) Proxy Setup</a></h2>
 <p>It is possible to make the web UI available via any proxy that
 conforms with RFC 1738. The following sample Apache configuration

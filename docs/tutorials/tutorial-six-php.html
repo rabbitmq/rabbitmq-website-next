@@ -236,7 +236,7 @@ function fib($n)
 
 echo " [x] Awaiting RPC requests\n";
 $callback = function ($req) {
-    $n = intval($req-&gt;body);
+    $n = intval($req-&gt;getBody());
     echo ' [.] fib(', $n, ")\n";
 
     $msg = new AMQPMessage(
@@ -252,11 +252,13 @@ $callback = function ($req) {
     $req-&gt;ack();
 };
 
-$channel-&gt;basic_qos(null, 1, null);
+$channel-&gt;basic_qos(null, 1, false);
 $channel-&gt;basic_consume('rpc_queue', '', false, false, false, false, $callback);
 
-while ($channel-&gt;is_open()) {
-    $channel-&gt;wait();
+try {
+    $channel-&gt;consume();
+} catch (\Throwable $exception) {
+    echo $exception-&gt;getMessage();
 }
 
 $channel-&gt;close();

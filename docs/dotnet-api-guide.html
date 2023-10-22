@@ -720,59 +720,64 @@ recovery must be capable of handling redeliveries.</p>
 <h2><a id="oauth2-support" class="anchor" href="#oauth2-support">OAuth 2 Support</a></h2>
 <p>The client can authenticate against an OAuth 2 server like <a href="https://github.com/cloudfoundry/uaa">UAA</a>.
 The <a href="https://github.com/rabbitmq/rabbitmq-server/tree/main/deps/rabbitmq_auth_backend_oauth2">OAuth 2 plugin</a>
-must be turned on on the server side and configured to use the same OAuth 2 server as the client.</p>
+must be turned on on the server side and configured to use the same OAuth 2
+server as the client. This section assumes that the <a href="https://www.nuget.org/packages/RabbitMQ.Client.OAuth2">most recent major version of the OAuth2 client library</a> is used.</p>
 <h3><a id="oauth2-getting-token" class="anchor" href="#oauth2-getting-token">Getting the OAuth 2 Token</a></h3>
-<p>The .Net client provides the <span class="code ">OAuth2ClientCredentialsProvider</span>
-class to get a JWT token using the <a href="https://tools.ietf.org/html/rfc6749#section-4.4">OAuth 2 Client Credentials flow</a>.
-The client sends the access token in the password field when opening a connection.
-The broker then verifies the access token signature, validity, and permissions
-before authorising the connection and granting access to the requested
-virtual host.</p>
+<p>The .Net client provides the <span class="code ">OAuth2ClientCredentialsProvider</span> class to get a
+JWT token using the <a href="https://tools.ietf.org/html/rfc6749#section-4.4">OAuth 2 Client Credentials flow</a>.
+The client sends the access token in the password field when opening a
+connection. The broker then verifies the access token signature, validity, and
+permissions before authorising the connection and granting access to the
+requested virtual host.</p>
 <pre class="lang-csharp">
-using RabbitMQ.Client.Impl.OAuth2;
+using RabbitMQ.Client.OAuth2;
 
-...
-
-ICredentialsProvider credentialsProvider = new OAuth2ClientCredentialsProvider("prod-uaa-1",
-    new OAuth2Client("client_id", "client_secret", new Uri("http://somedomain.com/token")));
+var tokenEndpointUri = new Uri("http://somedomain.com/token");
+var oAuth2Client = new OAuth2ClientBuilder("client_id", "client_secret", tokenEndpointUri).Build();
+ICredentialsProvider credentialProvider = new OAuth2ClientCredentialsProvider("prod-uaa-1", oAuth2Client);
 
 var connectionFactory = new ConnectionFactory {
         CredentialsProvider = credentialsProvider
 };            
 var connection = connectionFactory.CreateConnection();
-
 </pre>
 
 <p>In production, ensure you use HTTPS for the token endpoint URI and configure
 a <span class="code ">HttpClientHandler</span> appropriately for the <span class="code ">HttpClient</span> :</p>
 <pre class="lang-csharp">
-...
 HttpClientHandler httpClientHandler = buildHttpClientHandlerWithTLSEnabled();
 
-ICredentialsProvider credentialsProvider = new OAuth2ClientCredentialsProvider("prod-uaa-1",
-    new OAuth2Client("client_id", "client_secret", new Uri("http://somedomain.com/token"),
-     OAuth2ClientCredentialsProvider.EMPTY, httpClientHandler));
+var tokenEndpointUri = new Uri("https://somedomain.com/token");
+
+var oAuth2ClientBuilder = new OAuth2ClientBuilder("client_id", "client_secret", tokenEndpointUri)
+oAuth2ClientBuilder.SetHttpClientHandler(httpClientHandler);
+var oAuth2Client = oAuth2ClientBuilder.Build();
+
+ICredentialsProvider credentialsProvider = new OAuth2ClientCredentialsProvider("prod-uaa-1", oAuth2Client);
+
+var connectionFactory = new ConnectionFactory {
+        CredentialsProvider = credentialsProvider
+};            
+var connection = connectionFactory.CreateConnection();
 </pre>
 
-<p>Note: In case your Authorization server requires extra request parameters beyond what the specification
-requires, you can add <span class="code ">&lt;key, value&gt;</span> pairs to a <span class="code ">Dictionary</span> and passing it to the
-<span class="code ">OAuth2ClientCredentialsProvider</span> constructor rather than an <span class="code ">EMPTY</span> one as shown above.</p>
+<p>Note: In case your Authorization server requires extra request parameters
+beyond what the specification requires, you can add <span class="code ">&lt;key, value&gt;</span> pairs to a
+<span class="code ">Dictionary</span> and passing it to the <span class="code ">OAuth2ClientCredentialsProvider</span>
+constructor rather than an <span class="code ">EMPTY</span> one as shown above.</p>
 <h3><a id="oauth2-refreshing-token" class="anchor" href="#oauth2-refreshing-token">Refreshing the Token</a></h3>
-<p>When tokens expire, the broker refuses further operations over the connection. It is possible to call
-<span class="code ">ICredentialsProvider#Refresh()</span> before expiring and send the new
-token to the server. This is not convenient for applications so, the .Net client provides
-help with the <span class="code ">TimerBasedCredentialRefresher</span>. This utility
-schedules a timer for every token received. When the timer expires, it reports the
-connection which in turn calls <span class="code ">ICredentialsProvider#Refresh()</span>.</p>
+<p>When tokens expire, the broker refuses further operations over the connection.
+It is possible to call <span class="code ">ICredentialsProvider#Refresh()</span> before expiring and
+send the new token to the server. This is not convenient for applications so,
+the .Net client provides help with the <span class="code ">TimerBasedCredentialRefresher</span>. This
+utility schedules a timer for every token received. When the timer expires, it
+raises an event in which the connection calls <span class="code ">ICredentialsProvider#Refresh()</span>.</p>
 <p>The following snippet shows how to create a <span class="code ">TimerBasedCredentialRefresher</span>
 instance and set it up on the <span class="code ">ConnectionFactory</span>:</p>
 <pre class="lang-csharp">
-using RabbitMQ.Client.Impl.OAuth2;
-
+using RabbitMQ.Client.OAuth2;
 ...
 
-ICredentialsProvider credentialsProvider = new OAuth2ClientCredentialsProvider("prod-uaa-1",
-    new OAuth2Client("client_id", "client_secret", new Uri("http://somedomain.com/token")));
 ICredentialsRefresher credentialsRefresher = new TimerBasedCredentialRefresher();
 
 var connectionFactory = new ConnectionFactory {
@@ -782,9 +787,9 @@ var connectionFactory = new ConnectionFactory {
 var connection = connectionFactory.CreateConnection();
 </pre>
 
-<p>The <span class="code ">TimerBasedCredentialRefresher</span> schedules a refresh after 2/3
-of the token validity time. For example, if the token expires in 60 minutes,
-it is refreshed after 40 minutes.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+<p>The <span class="code ">TimerBasedCredentialRefresher</span> schedules a refresh after 2/3 of the token
+validity time. For example, if the token expires in 60 minutes, it is refreshed
+after 40 minutes.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     using <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>

@@ -287,7 +287,7 @@ be one example. Both types are complimentary to infrastructure and node metrics.
     <tr>
       <td>Other message stats</td>
       <td>
-        <span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.12.3/deps/rabbitmq_management/priv/www/api/index.html">HTTP API reference</a>)
+        <span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.12.7/deps/rabbitmq_management/priv/www/api/index.html">HTTP API reference</a>)
       </td>
     </tr>
   </tbody>
@@ -432,7 +432,7 @@ used by RabbitMQ contributors.</p>
     <tr>
       <td>Other message stats</td>
       <td>
-        <span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.12.3/deps/rabbitmq_management/priv/www/api/index.html">HTTP API reference</a>)
+        <span class="code ">message_stats.*</span> (see <a href="https://rawcdn.githack.com/rabbitmq/rabbitmq-server/v3.12.7/deps/rabbitmq_management/priv/www/api/index.html">HTTP API reference</a>)
       </td>
     </tr>
   </tbody>
@@ -647,58 +647,16 @@ The checks verify that one node has started and the deployment process can proce
 If the check does not pass, the deployment of the node is considered to be incomplete and the deployment process
 will typically wait and retry for a period of time. One popular example of such environment is Kubernetes
 where an operator-defined <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-readiness-gate">readiness probe</a>
-can prevent a deployment from proceeding when the <a href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#deployment-and-scaling-guarantees"><span class="code ">OrderedReady</span> pod management policy</a> is used.</p>
+can prevent a deployment from proceeding when the <a href="https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#deployment-and-scaling-guarantees"><span class="code ">OrderedReady</span> pod management policy</a>
+is used (which is not recommended to use with RabbitMQ!) or when a rolling restart is performed.</p>
 <p>Given the <a href="./clustering.html#restarting-schema-sync">peer syncing behavior during node restarts</a>, such a health check can prevent a cluster-wide restart
 from completing in time. Checks that explicitly or implicitly assume a fully booted node that's rejoined
 its cluster peers will fail and block further node deployments.</p>
-<p>Most health check, even relatively basic ones, implicitly assume that the node has
-finished booting. They are not suitable for nodes that are <a href="./clustering.html#restarting-schema-sync">awaiting schema table sync</a> from a peer.</p>
-<p>One very common example of such check is</p>
-<pre class="lang-bash">
-# will exit with an error for the nodes that are currently waiting for
-# a peer to sync schema tables from
-rabbitmq-diagnostics check_running
-</pre>
-
-<p>One health check that does not expect a node to be fully booted and have schema tables synced is</p>
-<pre class="lang-bash">
-# a very basic check that will succeed for the nodes that are currently waiting for
-# a peer to sync schema from
-rabbitmq-diagnostics ping
-</pre>
-
-<p>This basic check would allow the deployment to proceed and the nodes to eventually rejoin each other,
-assuming they are <a href="./upgrade.html">compatible</a>.</p>
-<h4>Optional Check 1</h4>
-<p>This check verifies that an expected set of plugins is enabled. It is orthogonal to
-the primary checks.</p>
-<p><a href="./rabbitmq-plugins.8.html#list"><span class="code ">rabbitmq-plugins list --enabled</span></a> is the command that lists enabled plugins
-on a node:</p>
-<pre class="lang-bash">
-rabbitmq-plugins -q list --enabled --minimal
-# =&gt; Configured: E = explicitly enabled; e = implicitly enabled
-# =&gt; | Status: * = running on rabbit@mercurio
-# =&gt; |/
-# =&gt; [E*] rabbitmq_auth_mechanism_ssl       3.8.0
-# =&gt; [E*] rabbitmq_consistent_hash_exchange 3.8.0
-# =&gt; [E*] rabbitmq_management               3.8.0
-# =&gt; [E*] rabbitmq_management_agent         3.8.0
-# =&gt; [E*] rabbitmq_shovel                   3.8.0
-# =&gt; [E*] rabbitmq_shovel_management        3.8.0
-# =&gt; [E*] rabbitmq_top                      3.8.0
-# =&gt; [E*] rabbitmq_tracing                  3.8.0
-</pre>
-
-<p>A health check that verifies that a specific plugin, <a href="shovel.html"><span class="code ">rabbitmq_shovel</span></a>
-is enabled and running:</p>
-<pre class="lang-bash">
-rabbitmq-plugins -q is_enabled rabbitmq_shovel
-# if the check succeeded, exit code will be 0
-</pre>
-
-<p>The probability of false positives is generally low but rises
-in environments where environment variables that can affect <a href="./cli.html">rabbitmq-plugins</a>
-are overridden.</p>
+<p>Moreover, most CLI commands (such as <span class="code ">rabbitmq-diagnistics</span>) has a performance impact because the CLI joins the <a href="https://www.erlang.org/doc/reference_manual/distributed.html">Erlang
+distribution</a> (the same mechanism used for clustering RabbitMQ nodes).
+Joining and leaving this cluster on every probe execution has unnecessary overhead.</p>
+<p><a href="kubernetes/operator/operator-overview.html">RabbitMQ Kubernetes Operator</a> configures a TCP port check on the AMQP port
+as the <span class="code ">readinessProbe</span> and defines no <span class="code ">livenessProbe</span> at all. This should be considered the best practice.</p>
 <h2><a id="clusters" class="anchor" href="#clusters">Monitoring of Clusters</a></h2>
 <p>Monitoring a single node is easy and straightforward.</p>
 <p>When monitoring clusters it is important to understand the guarantees provided by API endpoints used.

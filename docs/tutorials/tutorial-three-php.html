@@ -269,13 +269,15 @@ $channel-&gt;queue_bind($queue_name, 'logs');
 echo " [*] Waiting for logs. To exit press CTRL+C\n";
 
 $callback = function ($msg) {
-    echo ' [x] ', $msg-&gt;body, "\n";
+    echo ' [x] ', $msg-&gt;getBody(), "\n";
 };
 
 $channel-&gt;basic_consume($queue_name, '', false, true, false, false, $callback);
 
-while ($channel-&gt;is_open()) {
-    $channel-&gt;wait();
+try {
+    $channel-&gt;consume();
+} catch (\Throwable $exception) {
+    echo $exception-&gt;getMessage();
 }
 
 $channel-&gt;close();

@@ -7,20 +7,17 @@
 </h1>
 
 
-<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p>The classic queue is the original queue type provided by RabbitMQ.
-It is an implementation of a <strong>non-replicated</strong> FIFO queue.</p>
-<p>Classic queues are a versatile queue type suitable for many use cases
-where data safety is not a top priority, because the data stored in
-classic queues is not replicated. If data safety is important,
-we recommend using <a href="./quorum-queues.html">quorum queues</a> and <a href="./streams.html">streams</a>.</p>
-<p>Classic queues is the default queue type
+<h2><a id="overview" class="anchor" href="#overview">What is a Classic Queue</a></h2>
+<p>A RabbitMQ classic queue (the original queue type) is a versatile queue type suitable for use cases where data safety is not a priority because the data stored in classic queues is not replicated. 
+Classic queues uses the <strong>non-replicated</strong> FIFO queue implementation. </p>
+<p>If data safety is a priority, the recommendation is to use <a href="./quorum-queues.html">quorum queues</a> and <a href="./streams.html">streams</a> instead of classic queues. </p>
+<p>Classic queues are the default queue type
 as long as the default queue type is not overriden for the virtual host.</p>
 <p>There are <a href="#versions">two versions</a> (implementations) of classic queue message storage
 and indexing.
 The version only impacts how the data is stored on and read from disk: all features are
 available in both versions.</p>
-<h2><a id="features" class="anchor" href="#features">Features</a></h2>
+<h2><a id="features" class="anchor" href="#features">Classic Queue Features</a></h2>
 <p>Classic queues fully support <a href="queues.html">queue exclusivity</a>,
 <a href="./ttl.html">queue and message TTL (Time-To-Live)</a>,
 <a href="./maxlength.html">queue length limits</a>,
@@ -89,20 +86,20 @@ messages and one for transient messages, but they
 are usually considered together as the shared message
 store. All queues in the vhost use the same message
 store.</p>
-<h2><a id="versions" class="anchor" href="#versions">Storage Implementation Versions</a></h2>
+<h2><a id="versions" class="anchor" href="#versions">Classic Queue Storage Implementation Versions</a></h2>
 <p>There are currently two classic queue versions (implementation).
 Depending on the version, classic queues will
 use a different index for messages, as well
 as operate differently regarding the embedding of small messages in
 the index.</p>
-<h4>Version 1</h4>
+<h4>Classic Queue Implementation Version 1</h4>
 <p>Version 1 is the default and the original implementation of classic
 queues. The index in version 1 uses a combination of a journal and
 segment files. When reading messages from segment files it loads
 an entire segment file in memory, which can lead to memory issues
 but does reduce the amount of I/O performed. Version 1 embeds
 small messages in the index, further worsening memory issues.</p>
-<h3>Version 2</h3>
+<h3>Classic Queue Implementation Version 2</h3>
 <p>Version 2 takes advantage of the improved performance of modern
 storage devices and is the recommended version. The index in
 version 2 only uses segment files and only loads messages from
@@ -134,14 +131,14 @@ the migration should complete in a matter of seconds.</p>
 <span class="code ">classic_queue.default_version</span> in rabbitmq.conf. Changing the default version
 only affects newly declared queues. Pre-existing queues will remain on version 1,
 until explicitly migrated or deleted and redeclared.</p>
-<h2><a id="resource-use" class="anchor" href="#resource-use">Resource Use</a></h2>
+<h2><a id="resource-use" class="anchor" href="#resource-use">Resource Use with Classic Queues</a></h2>
 <p>Classic queues aim to provide reasonably good throughput in the majority
 of situations without configuration. However, some configuration is
 sometimes useful. This section covers a few configurable values that
 affect stability, throughput, latency and I/O characteristics of a node.
 Consider getting accustomed to <a href="https://rabbitmq.github.io/rabbitmq-perf-test/stable/htmlsingle/">benchmarking with PerfTest</a>
 in addition to get the most out of your queues.</p>
-<p>Some related guides include:</p>
+<p>Some related information includes:</p>
 <ul>
 <li><a href="configure.html">Main configuration guide</a></li>
 <li><a href="./relocate.html">File and Directory Locations</a></li>
@@ -149,7 +146,7 @@ in addition to get the most out of your queues.</p>
 <li><a href="./queues.html#runtime-characteristics">Queues</a> and their runtime characteristics</li>
 <li><a href="./lazy-queues.html">Lazy Queues</a> for <strong>RabbitMQ before 3.12</strong></li>
 </ul>
-<h3><a id="file-handles" class="anchor" href="#file-handles">File Handles</a></h3>
+<h3><a id="file-handles" class="anchor" href="#file-handles">File Handle Usage with Classic Queues</a></h3>
 <p>The RabbitMQ server is limited in the <a href="./networking.html#open-file-handle-limit">number of file handles</a>
 it can open. Every running network connection requires one file handle,
 and the rest are available for queues to use.</p>
@@ -183,7 +180,7 @@ will function just fine with 3 or 4 file handles.</p>
 <p>As a result of not using the file handle management subsystem,
 version 2 does not track as many I/O statistics; only the numbers
 of reads and writes. Other metrics can be obtained at the OS level.</p>
-<h3><a id="memory" class="anchor" href="#memory">Memory Footprint</a></h3>
+<h3><a id="memory" class="anchor" href="#memory">Memory Footprint with Classic Queues</a></h3>
 <p>Classic queues may keep up to 2048 messages in memory, depending
 on the consume rate. Classic queues will, however, avoid reading
 larger messages from disk too early. In <strong>RabbitMQ 3.12</strong> this

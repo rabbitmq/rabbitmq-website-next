@@ -228,7 +228,8 @@ rabbitmq_global_messages_dead_lettered_maxlen_total{queue_type="rabbit_mqtt_qos0
 <p>For an MQTT connection to succeed, it must successfully authenticate and the user must
 have the <a href="./access-control.html">appropriate permissions</a> to the virtual host used by the
 plugin (see below).</p>
-<p>MQTT clients can (and usually do) specify a set of credentials when they connect.</p>
+<p>MQTT clients can (and usually do) specify a set of credentials when they connect. The credentials
+can be a username and password pair, or a x.509 certificate (see below).</p>
 <p>The plugin supports anonymous authentication but its use is highly discouraged and it is a subject
 to certain limitations (listed below) enforced for a reasonable level of security
 by default.</p>

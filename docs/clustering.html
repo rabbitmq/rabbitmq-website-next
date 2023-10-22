@@ -295,8 +295,9 @@ MQTT client connections won't be accepted, quorum queues would lose their availa
 characteristics as three and five node clusters.</p>
 <p>The <a href="./quorum-queues.html">Quorum Queues guide</a> covers this topic in more detail.</p>
 <h2><a id="clustering-and-clients" class="anchor" href="#clustering-and-clients">Clustering and Clients</a></h2>
+<h3>Messaging Protocols</h3>
 <p>Assuming all cluster members
-are available, a client can connect to any node and
+are available, a messaging (AMQP 0-9-1, AMQP 1.0, MQTT, STOMP) client can connect to any node and
 perform any operation. Nodes will route operations to the
 <a href="./quorum-queues.html">quorum queue leader</a> or <a href="ha.html#leader-migration-data-locality">queue leader replica</a>
 transparently to clients.</p>
@@ -313,6 +314,16 @@ operations on queues that have a quorum of replicas online.</p>
 <p>With classic mirrored queues, there are scenarios where it may not be possible for a client to transparently continue
 operations after connecting to a different node. They usually involve
 <a href="./ha.html#non-mirrored-queue-behavior-on-node-failure">non-mirrored queues hosted on a failed node</a>.</p>
+<h3>Stream Clients</h3>
+<p>RabbitMQ Stream protocol clients <strong>behave differently from messaging protocols clients</strong>: they are
+more cluster topology-aware. For publishing, they can connect to any node, and that node
+will forward all relevant operations to the node that hosts the leader replica of the stream.</p>
+<p>However, stream consumers should connect to one of the nodes hosting the replicas of
+the target stream. The protocol includes a topology discovery operation, so well-behaved client
+libraries will select one of the suitable nodes. This won't be the case when a load balancer is used,
+however.</p>
+<p>See <a href="https://blog.rabbitmq.com/posts/2021/07/connecting-to-streams/#well-behaved-clients">Connecting to Streams</a>
+to learn more.</p>
 <h2><a id="clustering-and-observability" class="anchor" href="#clustering-and-observability">Clustering and Observability</a></h2>
 <p>Client connections, channels and queues will be distributed across cluster nodes.
 Operators need to be able to inspect and <a href="./monitoring.html">monitor</a> such resources
