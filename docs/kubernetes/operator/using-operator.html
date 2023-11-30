@@ -408,14 +408,14 @@ spec:
 <p><strong>Description:</strong> Additional RabbitMQ configuration options that will be written to <span class="code ">/etc/rabbitmq/conf.d/90-userDefinedConfiguration.conf</span>. The RabbitMQ Cluster Kubernetes Operator
 generates a configuration file <span class="code ">/etc/rabbitmq/conf.d/10-operatorDefaults.conf</span> with the following properties:</p>
 <pre class="lang-ini">
-cluster_formation.peer_discovery_backend             = rabbit_peer_discovery_k8s
-cluster_formation.k8s.host                           = kubernetes.default
-cluster_formation.k8s.address_type                   = hostname
-cluster_partition_handling                           = pause_minority
-queue_leader_locator                                 = balanced
-disk_free_limit.absolute                             = 2GB
-cluster_formation.randomized_startup_delay_range.min = 0
-cluster_formation.randomized_startup_delay_range.max = 60
+queue_master_locator = min-masters
+disk_free_limit.absolute = 2GB
+cluster_partition_handling = pause_minority
+cluster_formation.peer_discovery_backend = rabbit_peer_discovery_k8s
+cluster_formation.k8s.host = kubernetes.default
+cluster_formation.k8s.address_type = hostname
+cluster_formation.target_cluster_size_hint = ${number-of-replicas}
+cluster_name = ${instance-name}
 </pre>
 
 <p>All the values in additional config will be applied after this list. If any property is specified twice, the latest
@@ -488,6 +488,27 @@ spec:
 
 <p>If community plugins need to be provisioned, they should be included into a custom image or <a href="https://github.com/rabbitmq/cluster-operator/tree/main/docs/examples/community-plugins">downloaded on node startup</a>. The latter option is generally
 <strong>not recommended</strong> as it goes against the philosophy of immutable images and repeatable builds.</p>
+<h3><a name="erlang-inet" class="anchor" href="#erlang-inet" id="erlang-inet">Erlang INET configuration</a></h3>
+<p><strong>Description:</strong> <a href="/runtime.html">runtime</a> configuration related to networking. All supported settings are documented
+in <a href="https://www.erlang.org/doc/apps/erts/inet_cfg">this Erlang documentation guide</a>. This can be useful to configure nodes to use IPv6.</p>
+<p>The contents of this field are copied into a <span class="code ">ConfigMap</span> and mounted in the RabbitMQ container in the path <span class="code ">/etc/rabbitmq/erl_inetrc</span>.</p>
+<p>This field was introduced in Cluster Operator 2.6.0.</p>
+<p><strong>Default Value:</strong> N/A</p>
+<p><strong>Example:</strong></p>
+<pre class="lang-yaml">
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rabbitmqcluster-sample
+spec:
+  rabbitmq:
+    erlangInetConfig: |
+      {inet6, true}.
+    envConfig: |
+        SERVER_ADDITIONAL_ERL_ARGS="-kernel inetrc '/etc/rabbitmq/erl_inetrc'  -proto_dist inet6_tcp"
+        RABBITMQ_CTL_ERL_ARGS="-proto_dist inet6_tcp"
+</pre>
+
 <h3><a name="tls-conf" class="anchor" href="#tls-conf" id="tls-conf">TLS Configuration</a></h3>
 <p><strong>Description:</strong> Configure RabbitMQ to use the certificates provided by Secret <span class="code ">spec.tls.secretName</span>. The Secret must
 already exist in the same Namespace as the <span class="code ">RabbitmqCluster</span> object. It is expected that the Secret contains <span class="code ">tls.key</span>
@@ -1115,7 +1136,7 @@ spec:
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
                   </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2005-2023 <a href="https://tanzu.vmware.com/">Broadcom</a>. All Rights Reserved. The term “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •

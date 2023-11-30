@@ -5,6 +5,8 @@
  — RabbitMQ</title></head>
   <body id="oauth2-examples"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> RabbitMQ OAuth 2.0 Auth Backend Examples
 </h1>
+
+
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
 <p>This tutorial-style guide has two primary goals:</p>
 <ol>
@@ -24,12 +26,12 @@ that make it easier to</p>
 <ul>
 <li><a href="#prerequisites">Prerequisites to follow this guide</a></li>
 <li><a href="#getting-started-with-uaa-and-rabbitmq">Getting started with UAA and RabbitMQ</a></li>
-<li><a href="#access-management-ui">Access Management UI using OAuth 2.0 tokens</a>  <ul>
+<li><a href="#access-management-ui">Access Management UI using OAuth 2.0 tokens</a><ul>
 <li><a href="#service-provider-initiated-logon">Service-Provider initiated logon</a></li>
 <li><a href="#identity-provider-initiated-logon">Identity-Provider initiated logon</a></li>
 </ul>
 </li>
-<li><a href="#access-other-protocols">Access other protocols using OAuth 2.0 tokens</a>    </li>
+<li><a href="#access-other-protocols">Access other protocols using OAuth 2.0 tokens</a></li>
 <li><a href="#monitoring-agent-accessing-management-rest-api">Management REST api</a><ul>
 <li><a href="#amqp-protocol">AMQP protocol</a></li>
 <li><a href="#jms-protocol">JMS protocol</a></li>
@@ -47,7 +49,7 @@ that make it easier to</p>
 <li>Use different OAuth 2.0 servers<ul>
 <li><a href="oauth2-examples-keycloak.html">KeyCloak</a></li>
 <li><a href="oauth2-examples-oauth0.html">https://auth0.com/</a></li>
-<li><a href="oauth2-examples-azure.html">Azure Active Directory</a>  </li>
+<li><a href="oauth2-examples-azure.html">Azure Active Directory</a></li>
 <li><a href="./oauth2-examples-proxy.html">OAuth2 Proxy</a></li>
 </ul>
 </li>
@@ -142,7 +144,7 @@ in <span class="code ">advanced.config</span>:</p>
  {rabbitmq_management, [
     {oauth_enabled, true},
     {oauth_client_id, "rabbit_client_code"},
-    {oauth_provider_url, "http://localhost:8080"},      
+    {oauth_provider_url, "http://localhost:8080"},
     ...
   ]},
 </pre>
@@ -152,17 +154,17 @@ in <span class="code ">advanced.config</span>:</p>
 The following scenarios are examples of Idp-initiated logon:</p>
 <ul>
 <li>RabbitMQ is behind a web portal which conveniently allow users to navigate directly to RabbitMQ fully authenticated.</li>
-<li>There is an OAuth2 proxy in between users and RabbitMQ which intercepts their requests and forwards them to RabbitMQ inserting the token into the HTTP <span class="code ">Authorization</span> header.  </li>
+<li>There is an OAuth2 proxy in between users and RabbitMQ which intercepts their requests and forwards them to RabbitMQ inserting the token into the HTTP <span class="code ">Authorization</span> header.</li>
 </ul>
 <p>The latter scenario is demonstrated <a href="./oauth2-examples-proxy.html">here</a>. The former scenario is covered in the following section.</p>
 <h4>Idp-initiated Logon using the Login Endpoint</h4>
 <p>A Web portal offers their authenticated users the option to navigate to RabbitMQ
 by submitting a form with their OAuth token in the <span class="code ">access_token</span> form field as provided below:</p>
 <pre class="lang-plain">
-    [ Idp | WebPortal ] ----&gt; 2. /login [access_token: TOKEN]----   [ RabbitMQ Cluster ]            
+    [ Idp | WebPortal ] ----&gt; 2. /login [access_token: TOKEN]----   [ RabbitMQ Cluster ]
               /|\                                                        |       /|\
                |                                                         +--------+
-      1. rabbit_admin from a browser                                   3. validate token        
+      1. rabbit_admin from a browser                                   3. validate token
 </pre>
 
 <p>If the access token is valid, RabbitMQ redirects the user to the <strong>Overview</strong> page.</p>
@@ -172,7 +174,7 @@ add one entry to <span class="code ">advanced.config</span>. For example:</p>
  ...
  {rabbitmq_management, [
     {oauth_enabled, true},
-    {oauth_provider_url, "http://localhost:8080"},      
+    {oauth_provider_url, "http://localhost:8080"},
     {oauth_initiated_logon_type, idp_initiated},
     ...
   ]},
@@ -213,7 +215,7 @@ OAuth 2.0-aware application is covered in <a href="#scenario-4">scenario four</a
 <p>Instead you are launching the application with a token that you have previously obtained from UAA. This is just to probe AMQP access with a JWT Token. Needless to say that the application should instead obtain the JWT Token prior to connecting to RabbitMQ and it should also be able to refresh it before reconnecting. RabbitMQ validates the token before accepting it. If the token has expired, RabbitMQ will reject the connection.</p>
 <p>First of all, an application which wants to connect to RabbitMQ using Oauth 2.0 must present a
 valid JWT token. To obtain the token, the application must first authenticate (<span class="code ">1.</span>) with UAA. In case of a successful
-authentication, it gets back a JWT token (<span class="code ">2.</span>) which uses it to connect (<span class="code ">3.</span>) to RabbitMQ.  </p>
+authentication, it gets back a JWT token (<span class="code ">2.</span>) which uses it to connect (<span class="code ">3.</span>) to RabbitMQ.</p>
 <pre class="lang-plain">
 [ UAA ]                  [ RabbitMQ ]
   /|\                    [  amqp    ]
@@ -582,7 +584,7 @@ defines a more sophisticated permission model.</p>
 <pre class="lang-javascript">
 {
   "authorization_details": [
-    { "type" : "rabbitmq",  
+    { "type" : "rabbitmq",
       "locations": ["cluster:finance/vhost:primary-*"],
       "actions": [ "read", "write", "configure"  ]
     },
@@ -706,7 +708,7 @@ This user is configured under <span class="code ">{uaa_repo}/uaa/src/main/webapp
 <h2><a id="deeper-dive" class="anchor" href="#deeper-dive">Deeper Dive</a></h2>
 <h3>About Users and Clients</h3>
 <p>First of all, you need to clarify the distinction between <em>users</em> and <em>clients</em>.
-- A <em>user</em> is often represented as a live person. This is typically the user who wants to access the RabbitMQ Management UI/API.<br />
+- A <em>user</em> is often represented as a live person. This is typically the user who wants to access the RabbitMQ Management UI/API.
 - A <em>client</em> (a.k.a. <em>service account</em>) is an application that acts on behalf of a user or act on its own. This is typically an AMQP application.</p>
 <h3>About Permissions</h3>
 <p><em>Users</em> and <em>clients</em> will both need to get granted permissions. In OAuth 2.0, permissions/roles are named <em>scopes</em>. They are free form strings. When a RabbitMQ user connects to RabbitMQ, it must provide a JWT token with those <em>scopes</em> as a password (and empty username). And RabbitMQ determines from those <em>scopes</em> what permissions it has.</p>
@@ -868,7 +870,7 @@ curl http://localhost:8080/uaa/token_key \
 </pre>
 
 <p>These are the fields relevant for RabbitMQ:
-- <span class="code ">sub</span> (<a href="https://tools.ietf.org/html/rfc7519#page-9">Subject</a>) this is the identify of the subject of the token. <strong>RabbitMQ uses this field to identify the user</strong>. This token corresponds to the <span class="code ">rabbit_admin</span> end user. If you logged into the Management UI, you would see it in the top-right corner. If this were an AMPQ user, you would see it on each connection listed in the connections tab.<br />
+- <span class="code ">sub</span> (<a href="https://tools.ietf.org/html/rfc7519#page-9">Subject</a>) this is the identify of the subject of the token. <strong>RabbitMQ uses this field to identify the user</strong>. This token corresponds to the <span class="code ">rabbit_admin</span> end user. If you logged into the Management UI, you would see it in the top-right corner. If this were an AMPQ user, you would see it on each connection listed in the connections tab.
   UAA would add 2 more fields relative to the <em>subject</em>: a <span class="code ">user_id</span> with the same value as the <span class="code ">sub</span> field, and <span class="code ">user_name</span> with user's name. In UAA, the <span class="code ">sub</span>/<span class="code ">user_id</span> fields contains the user identifier, which is a GUID.</p>
 <ul>
 <li>
@@ -904,7 +906,7 @@ curl http://localhost:8080/uaa/token_key \
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
                   </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2005-2023 <a href="https://tanzu.vmware.com/">Broadcom</a>. All Rights Reserved. The term “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •

@@ -60,13 +60,14 @@ In environments where <span class="code ">sudo</span> isn't available, consider 
 <a href="install-generic-unix.html">generic binary build</a>.</p>
 <h2><a id="install-erlang" class="anchor" href="#install-erlang">Install Erlang</a></h2>
 <p>Before installing RabbitMQ, you must install a <a href="which-erlang.html">supported version</a> of Erlang/OTP.
-Standard Red Hat, Fedora, CentOS repositories provide Erlang versions that are typically <a href="which-erlang.html">out of date</a>
+Standard Red Hat, CentOS Stream, and CentOS-derivative repositories provide Erlang versions that are typically <a href="which-erlang.html">out of date</a>
 and cannot be used to run latest RabbitMQ releases.</p>
 <p>There are three alternative sources for modern Erlang on RPM-based distributions:</p>
 <ul>
 <li>Team RabbitMQ produces <a href="https://github.com/rabbitmq/erlang-rpm">a package</a> stripped
    down to only provide those components needed to run
    RabbitMQ. This is the recommended option.</li>
+<li>Fedora provides <a href="https://packages.fedoraproject.org/pkgs/erlang/erlang/">up-to-date Erlang packages</a></li>
 <li><a href="https://www.opensuse.org/">openSUSE</a> produces <a href="https://software.opensuse.org/download.html?project=devel%3Alanguages%3Aerlang%3AFactory&amp;package=erlang">Erlang packages</a> for openSUSE Leap</li>
 <li><a href="https://www.erlang-solutions.com/resources/download.html">Erlang Solutions</a> produces packages that are usually reasonably up to
    date and involve installation of a potentially excessive list of dependencies</li>
@@ -133,6 +134,7 @@ between distributions (e.g. CentOS Stream 9, CentOS Stream 8, or OpenSUSE).</p>
 <p>The following example sets up a repository that will install RabbitMQ and its Erlang dependency from
 a Cloudsmith mirror, and targets <strong>CentOS Stream 8</strong>. The same repository definition <strong>can be used by recent Fedora releases</strong>,
 and Amazon Linux 2023.</p>
+<p>These repository mirrors only provide 64-bit x86 (<span class="code ">amd64</span>) packages of Erlang.</p>
 <pre class="lang-ini">
 # In /etc/yum.repos.d/rabbitmq.repo
 
@@ -257,6 +259,7 @@ type=rpm-md
 <p>The following example sets up a repository that will install RabbitMQ and its Erlang dependency from
 a Cloudsmith mirror,
 and targets <strong>CentOS Stream 9</strong>, Amazon Linux 2023, and modern Fedora releases.</p>
+<p>These repository mirrors only provide 64-bit x86 (<span class="code ">amd64</span>) packages of Erlang.</p>
 <pre class="lang-ini">
 # In /etc/yum.repos.d/rabbitmq.repo
 
@@ -477,7 +480,7 @@ dnf install socat logrotate -y
 
 # This example assumes the CentOS Stream 8 version of the package, suitable for
 # Red Hat 8, CentOS Stream 9, CentOS Stream 8 and modern Fedora releases.
-dnf install rabbitmq-server-3.12.7-1.el8.noarch.rpm
+dnf install rabbitmq-server-3.12.10-1.el8.noarch.rpm
 </pre>
 
 <p><a href="signatures.html">RabbitMQ public signing key</a> can also be <a href="https://www.rabbitmq.com/rabbitmq-release-signing-key.asc">downloaded from rabbitmq.com</a>:</p>
@@ -489,7 +492,7 @@ dnf install socat logrotate -y
 
 # This example assumes the CentOS 8 version of the package, suitable for
 # Red Hat 8, CentOS Stream 9, CentOS Stream 8 and modern Fedora releases.
-dnf install rabbitmq-server-3.12.7-1.el8.noarch.rpm
+dnf install rabbitmq-server-3.12.10-1.el8.noarch.rpm
 </pre>
 
 <h2><a id="downloads" class="anchor" href="#downloads">Direct Downloads</a></h2>
@@ -507,10 +510,10 @@ from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>.<
       RPM for RHEL Linux 8.x and 9.x, CentOS Stream 8 and 9, Fedora 35+, Amazon Linux 2023, Rocky Linux, Alma Linux
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.12.7/rabbitmq-server-3.12.7-1.el8.noarch.rpm">rabbitmq-server-3.12.7-1.el8.noarch.rpm</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.12.10/rabbitmq-server-3.12.10-1.el8.noarch.rpm">rabbitmq-server-3.12.10-1.el8.noarch.rpm</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.12.7/rabbitmq-server-3.12.7-1.el8.noarch.rpm.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.12.10/rabbitmq-server-3.12.10-1.el8.noarch.rpm.asc">Signature</a>
     </td>
   </tr>
 
@@ -519,10 +522,10 @@ from <a href="https://github.com/rabbitmq/rabbitmq-server/releases">GitHub</a>.<
       RPM for openSUSE Linux
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.12.7/rabbitmq-server-3.12.7-1.suse.noarch.rpm">rabbitmq-server-3.12.7-1.suse.noarch.rpm</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.12.10/rabbitmq-server-3.12.10-1.suse.noarch.rpm">rabbitmq-server-3.12.10-1.suse.noarch.rpm</a>
     </td>
     <td>
-      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.12.7/rabbitmq-server-3.12.7-1.suse.noarch.rpm.asc">Signature</a>
+      <a href="https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.12.10/rabbitmq-server-3.12.10-1.suse.noarch.rpm.asc">Signature</a>
     </td>
   </tr>
 </table>
@@ -676,7 +679,7 @@ Redirecting to /bin/systemctl status rabbitmq-server.service
            └─2861 inet_gethost 4
 
 Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##  ##
-Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##  ##      RabbitMQ 3.12.1. Copyright (c) 2007-2023 VMware, Inc. or its affiliates.
+Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##  ##      RabbitMQ 3.12.1. Copyright (c) 2005-2023 Broadcom. All Rights Reserved. The term “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
 Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##########  Licensed under the MPL 2.0. Website: https://www.rabbitmq.com/
 Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ######  ##
 Dec 26 10:21:30 localhost.localdomain rabbitmq-server[957]: ##########  Logs: /var/log/rabbitmq/rabbit@localhost.log
@@ -725,7 +728,7 @@ sudo journalctl --system | grep rabbitmq
 <p>The output will look similar to this:</p>
 <pre class="lang-ini">
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##
-Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##      RabbitMQ 3.12.1. Copyright (c) 2007-2023 VMware, Inc. or its affiliates.
+Dec 26 11:03:04 localhost rabbitmq-server[968]: ##  ##      RabbitMQ 3.12.1. Copyright (c) 2005-2023 Broadcom. All Rights Reserved. The term “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##########  Licensed under the MPL 2.0. Website: https://www.rabbitmq.com/
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ######  ##
 Dec 26 11:03:04 localhost rabbitmq-server[968]: ##########  Logs: /var/log/rabbitmq/rabbit@localhost.log
@@ -750,7 +753,7 @@ By default, the package will set up <span class="code ">logrotate</span> to run 
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
                   </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2005-2023 <a href="https://tanzu.vmware.com/">Broadcom</a>. All Rights Reserved. The term “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •

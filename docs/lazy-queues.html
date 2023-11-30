@@ -5,11 +5,13 @@
  — RabbitMQ</title></head>
   <body id="lazy-queues"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Classic Queues Operating in "Lazy" Queue Mode (A Lazy Queue)
 </h1>
+
+
 <h2>What is a Lazy Queue</h2>
-<p>A "lazy queue" is a classic queue which is running in <span class="code ">lazy</span> mode. When the "lazy" queue mode is set, 
-messages in classic queues are moved to disk as early as practically possible. 
+<p>A "lazy queue" is a classic queue which is running in <span class="code ">lazy</span> mode. When the "lazy" queue mode is set,
+messages in classic queues are moved to disk as early as practically possible.
 These messages are loaded into RAM only when they are requested by consumers.</p>
-<p>The other queue mode is the <span class="code ">default</span> mode. 
+<p>The other queue mode is the <span class="code ">default</span> mode.
 If no mode is specified during declaration, then the <span class="code ">default</span> mode is used.</p>
 <p>It is important to read <a href="#interstitial">There is a Better Way: The Next Generation of Classic Queue Storage is to use Quorum Queues</a> next.</p>
 <h2><a id="interstitial" class="anchor" href="#interstitial">There is a Better Way: The Next Generation of Classic Queue Storage is to use Quorum Queues</a></h2>
@@ -17,12 +19,12 @@ If no mode is specified during declaration, then the <span class="code ">default
 <ul>
 <li>
 <p>Classic queues operated in <span class="code ">lazy</span> mode until <strong>RabbitMQ 3.12</strong>. It is important to know that from <strong>RabbitMQ 3.12</strong> and onwards, this <span class="code ">lazy</span> queue mode is ignored. By default, in <strong>RabbitMQ 3.12</strong>, classic queues
-work in a similar manner to how classic queues worked with <span class="code ">lazy</span> mode running on them. Classic queues in <strong>RabbitMQ 3.12</strong> may however 
-keep a small number of messages in memory (up to 2048 at the time of writing) based on the consumption rate. </p>
+work in a similar manner to how classic queues worked with <span class="code ">lazy</span> mode running on them. Classic queues in <strong>RabbitMQ 3.12</strong> may however
+keep a small number of messages in memory (up to 2048 at the time of writing) based on the consumption rate.</p>
 </li>
 <li>
 <p><strong>Quorum queues should be your default choice for a replicated queue type.</strong>
-Classic queue mirroring will be removed in a future version of RabbitMQ. 
+Classic queue mirroring will be removed in a future version of RabbitMQ.
 Classic queues will remain a supported non-replicated queue type.</p>
 </li>
 <li>
@@ -36,7 +38,7 @@ that offers high availability via replication and focuses on data safety.
 From RabbitMQ 3.10 onwwards, quorum queues <a href="https://blog.rabbitmq.com/posts/2022/05/rabbitmq-3.10-release-overview/">support message TTL</a> and
 provide <a href="https://blog.rabbitmq.com/posts/2022/05/rabbitmq-3.10-performance-improvements/">higher throughput and more stable latency</a> compared to mirrored classic queues.</p>
 <p><a href="streams.html">Streams</a> are another messaging data structure available as of <a href="changelog.html">RabbitMQ 3.9</a>,
-and is also replicated. </p>
+and is also replicated.</p>
 <h2><a id="overview" class="anchor" href="#overview">A Deeper Dive into Lazy Queues</a></h2>
 <p>One of the main reasons for using lazy queues is to support very
 long queues (many millions of messages).  Queues can become very long
@@ -383,7 +385,7 @@ a common scenario with lazy queues, for example.</p><div id="help-and-feedback">
      
      <li><a href="/mpl.html">License</a></li>
    </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2005-2023 <a href="https://tanzu.vmware.com/">Broadcom</a>. All Rights Reserved. The term “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •

@@ -5,6 +5,8 @@
  — RabbitMQ</title></head>
   <body id="feature-flags"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Feature Flags
 </h1>
+
+
 <h2>Overview</h2>
 <p>In a mixed version cluster (e.g. some versions are 3.11.x and some are 3.12.x)
 during an upgrade, some nodes will support a different set of features, behave
@@ -677,17 +679,13 @@ starting a cluster:</p>
 <li>
 <p>Clone the <span class="code ">rabbitmq-public-umbrella</span> repository and checkout the
     appropriate branch or tag. This will be the <strong>secondary Umbrella</strong>.
-    In this example, the <span class="code ">v3.11.x</span> branch is used:</p>
+    In this example, the <span class="code ">v3.12.x</span> branch is used:</p>
 <p><pre class="lang-bash">
 git clone https://github.com/rabbitmq/rabbitmq-server.git secondary-umbrella
 cd secondary-umbrella
-git checkout v3.11.x
+git checkout v3.12.x
 make co
 </pre></p>
-<p><p class="box-info">
-Currently, when using the <span class="code ">v3.11.x</span> branch, <span class="code ">deps/rabbit_common</span> and
-<span class="code ">deps/rabbit</span> must use the <span class="code ">v3.11.x-versions-compatibility</span> branch.
-</p></p>
 </li>
 <li>
 <p>Compile RabbitMQ or the plugin being tested in the secondary
@@ -769,7 +767,7 @@ with an older one.</p>
      
      <li><a href="/mpl.html">License</a></li>
    </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2005-2023 <a href="https://tanzu.vmware.com/">Broadcom</a>. All Rights Reserved. The term “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •

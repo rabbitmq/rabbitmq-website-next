@@ -16,7 +16,12 @@ Streams are always persistent and replicated. A more technical description of th
 <p>Data in a stream can be used via a RabbitMQ client library or through a
 <a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.12.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc">dedicated binary protocol</a> plugin and associated client(s).
 The latter option is <strong>highly recommended</strong> as it provides access to all stream-specific features and offers best possible throughput (performance).</p>
-<p>You might ask the following questions now? Do streams replace queues then? Should I move away from using queues? To answer these questions, streams were not introduced to replace queues but to complement them. Streams open up many opportunities for new RabbitMQ use cases which are described in <a href="#use-cases">Use Cases for Using Streams</a>.</p>
+<p>Now, you might be asking the following questions:</p>
+<ul>
+<li>Do streams replace queues then?</li>
+<li>Should I move away from using queues?</li>
+</ul>
+<p>To answer these questions, streams were not introduced to replace queues but to complement them. Streams open up many opportunities for new RabbitMQ use cases which are described in <a href="#use-cases">Use Cases for Using Streams</a>.</p>
 <p>The following information details streams usage, and the administration and maintenance operations for streams.</p>
 <p>You should also review the <a href="./stream.html">stream plugin</a> information to learn more about the usage of streams with the binary RabbitMQ Stream protocol and the <a href="./stream-core-plugin-comparison.html">stream core and stream plugin comparison page</a> for the feature matrix.</p>
 <h3><a id="use-cases" class="anchor" href="#use-cases">Use Cases for Using Streams</a></h3>
@@ -644,7 +649,7 @@ This should make no practical difference in most systems.</p><div id="help-and-f
      
      <li><a href="/mpl.html">License</a></li>
    </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2005-2023 <a href="https://tanzu.vmware.com/">Broadcom</a>. All Rights Reserved. The term “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •

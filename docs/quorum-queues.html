@@ -754,7 +754,7 @@ at this point.</p>
 <strong>some workloads</strong>. Other workloads may not see any increases, or observe decreases in throughput, with these settings.</p>
 <p>Use the values and recommendations here as a <strong>starting point</strong> and conduct your own benchmark (for example,
 <a href="https://rabbitmq.github.io/rabbitmq-perf-test/stable/htmlsingle/">using PerfTest</a>) to conclude what combination of values works best for a particular workloads.</p>
-<h3><a id="wal-segment-entry-count" class="anchor" href="#wal-segment-entry-count">Tuning: WAL Segment File Entry Count</a></h3>
+<h3><a id="segment-entry-count" class="anchor" href="#segment-entry-count">Tuning: Raft Segment File Entry Count</a></h3>
 <p>Workloads with small messages and higher message rates can benefit from the following
 configuration change that increases the number of Raft log entries (such as enqueued messages)
 that are allowed in a single write-ahead log file:</p>
@@ -796,7 +796,7 @@ sudo blockdev --setra 4096 /dev/sda
                     its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
                     Simply fork the repository and submit a pull request. Thank you!
                   </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2005-2023 <a href="https://tanzu.vmware.com/">Broadcom</a>. All Rights Reserved. The term “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •

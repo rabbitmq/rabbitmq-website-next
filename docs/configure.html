@@ -34,7 +34,7 @@ that outlines what settings will likely need tuning in most production environme
 <p>A RabbitMQ node can be configured using a number of mechanisms responsible
 for different areas:</p>
 <table>
-  <caption>Ways of configuration RabbitMQ</caption>
+  <caption>Ways of configuring RabbitMQ</caption>
   <thead>
     <td><strong>Mechanism</strong></td>
     <td><strong>Description</strong></td>
@@ -45,17 +45,9 @@ for different areas:</p>
       <a href="#configuration-files">Configuration File(s)</a>
     </td>
     <td>
-      contains server and plugin settings for
-
-      <ul>
-        <li><a href="./networking.html">TCP listeners and other networking-related settings</a></li>
-        <li><a href="./ssl.html">TLS</a></li>
-        <li><a href="./alarms.html">resource constraints (alarms)</a></li>
-        <li><a href="./access-control.html">authentication and authorisation backends</a></li>
-        <li><a href="./persistence-conf.html">message store settings</a></li>
-      </ul>
-
-      and so on.
+      Contains server and plugin settings for TCP listeners and other <a href="./networking.html">networking-related settings</a>,
+      <a href="./ssl.html">TLS</a>, <a href="./alarms.html">resource constraints (alarms)</a>, <a href="./access-control.html">authentication and authorisation backends</a>,
+      <a href="./persistence-conf.html">message store settings</a>, and more.
     </td>
   </tr>
   <tr>
@@ -63,7 +55,7 @@ for different areas:</p>
       <a href="#customise-environment">Environment Variables</a>
     </td>
     <td>
-      define <a href="./cli.html#node-names">node name</a>, file and directory locations, runtime flags taken from the shell, or set in
+      Used to define <a href="./cli.html#node-names">node name</a>, file and directory locations, runtime flags taken from the shell, or set in
       the environment configuration file, <span class="code ">rabbitmq-env.conf</span> (Linux, MacOS, BSD)
       and <span class="code ">rabbitmq-env-conf.bat</span> (Windows)
     </td>
@@ -302,7 +294,7 @@ listeners.tcp.default = 5673
 
 <p>This example will alter the <a href="./networking.html#ports">port RabbitMQ listens on</a> for
 AMQP 0-9-1 and AMQP 1.0 client connections from 5672 to 5673.</p>
-<p>The RabbitMQ server source repository contains <a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.11.x/deps/rabbit/docs/rabbitmq.conf.example">an example rabbitmq.conf file</a>
+<p>The RabbitMQ server source repository contains <a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.12.x/deps/rabbit/docs/rabbitmq.conf.example">an example rabbitmq.conf file</a>
 named <span class="code ">rabbitmq.conf.example</span>. It contains examples of
 most of the configuration items you might want to set (with some very obscure ones omitted), along with
 documentation for those settings.</p>
@@ -511,7 +503,7 @@ same location as the real file should be placed (see
 above). On Debian and RPM distributions
 policy forbids doing so; instead find the file
 under <span class="code ">/usr/share/doc/rabbitmq-server/</span>
-or <span class="code ">/usr/share/doc/rabbitmq-server-3.12.7/</span>,
+or <span class="code ">/usr/share/doc/rabbitmq-server-3.12.10/</span>,
 respectively.</p>
 <h3><a id="config-items" class="anchor" href="#config-items">Core Server Variables Configurable in rabbitmq.conf</a></h3>
 <p>These variables are the most common. The list is not complete, as
@@ -525,7 +517,7 @@ some settings are quite obscure.</p>
   </thead>
 
   <tr>
-    <td><span class="code ">listeners</span></td>
+    <td><span class="code ">listeners.tcp</span></td>
     <td>
       Ports or hostname/pair on which to listen for "plain" AMQP 0-9-1 and AMQP 1.0 connections
       (without <a href="./ssl.html">TLS</a>). See the <a href="./networking.html">Networking guide</a> for more
@@ -537,6 +529,27 @@ some settings are quite obscure.</p>
 listeners.tcp.default = 5672
 </pre>
       </p>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="code ">listeners.ssl</span></td>
+    <td>
+      Ports or hostname/pair on which to listen for TLS-enabled AMQP 0-9-1 and AMQP 1.0 connections.
+      See the <a href="./ssl.html">TLS guide</a> for more
+      details and examples.
+      <p>Default: <span class="code ">none</span> (not set)</p>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="code ">ssl_options</span></td>
+    <td>
+      TLS configuration. See the <a href="ssl.html#enabling-ssl">TLS guide</a>.
+      <p>
+        Default:
+<pre class="lang-ini">
+ssl_options = none
+</pre>
+        </p>
     </td>
   </tr>
   <tr>
@@ -553,28 +566,6 @@ num_acceptors.tcp = 10
     </td>
   </tr>
   <tr>
-    <td><span class="code ">handshake_timeout</span></td>
-    <td>
-      Maximum time for AMQP 0-9-1 handshake (after socket connection and TLS handshake),
-      in milliseconds.
-      <p>
-        Default:
-<pre class="lang-ini">
-handshake_timeout = 10000
-</pre>
-      </p>
-    </td>
-  </tr>
-  <tr>
-    <td><span class="code ">listeners.ssl</span></td>
-    <td>
-      Ports or hostname/pair on which to listen for TLS-enabled AMQP 0-9-1 and AMQP 1.0 connections.
-      See the <a href="./ssl.html">TLS guide</a> for more
-      details and examples.
-      <p>Default: <span class="code ">none</span> (not set)</p>
-    </td>
-  </tr>
-  <tr>
     <td><span class="code ">num_acceptors.ssl</span></td>
     <td>
       Number of Erlang processes that will accept TLS connections from clients.
@@ -586,17 +577,56 @@ num_acceptors.ssl = 10
       </p>
     </td>
   </tr>
-
   <tr>
-    <td><span class="code ">ssl_options</span></td>
+    <td><span class="code ">distribution.listener.interface</span></td>
     <td>
-      TLS configuration. See the <a href="ssl.html#enabling-ssl">TLS guide</a>.
+      Controls what network interface will be used for communication
+      with other cluster members and CLI tools.
       <p>
         Default:
 <pre class="lang-ini">
-ssl_options = none
+distribution.listener.interface = 0.0.0.0
 </pre>
-        </p>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="code ">distribution.listener.port_range.min</span></td>
+    <td>
+      Controls the lower bound of a server port range that will be used for communication
+      with other cluster members and CLI tools.
+      <p>
+        Default:
+<pre class="lang-ini">
+distribution.listener.port_range.min = 25672
+</pre>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="code ">distribution.listener.port_range.max</span></td>
+    <td>
+      Controls the upper bound of a server port range that will be used for communication
+      with other cluster members and CLI tools.
+      <p>
+        Default:
+<pre class="lang-ini">
+distribution.listener.port_range.max = 25672
+</pre>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td><span class="code ">handshake_timeout</span></td>
+    <td>
+      Maximum time for AMQP 0-9-1 handshake (after socket connection and TLS handshake),
+      in milliseconds.
+      <p>
+        Default:
+<pre class="lang-ini">
+handshake_timeout = 10000
+</pre>
+      </p>
     </td>
   </tr>
   <tr>
@@ -2129,7 +2159,7 @@ LimitNOFILE=64000
 <p>See <a href="https://www.freedesktop.org/software/systemd/man/systemd.exec.html">systemd documentation</a> to learn about
 the supported limits and other directives.</p>
 <h4>With Docker</h4>
-<p>To configure kernel limits for Docker contains, use the <span class="code ">"default-ulimits"</span> key in
+<p>To configure kernel limits for Docker containers, use the <span class="code ">"default-ulimits"</span> key in
 <a href="https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file">Docker daemon configuration file</a>.
 The file has to be installed on Docker hosts at <span class="code ">/etc/docker/daemon.json</span>:</p>
 <pre class="lang-json">
@@ -2212,7 +2242,7 @@ and re-login or reboot.</p>
      
      <li><a href="/mpl.html">License</a></li>
    </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2005-2023 <a href="https://tanzu.vmware.com/">Broadcom</a>. All Rights Reserved. The term “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •

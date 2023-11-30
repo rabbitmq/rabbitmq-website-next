@@ -12,24 +12,24 @@
 an append-only log with non-destructive consumer semantics.</p>
 <p>This feature is available in all <a href="./versions.html">currently maintained release series</a>.</p>
 <p>Streams can be used as a regular AMQP 0.9.1 queue or through a
-<a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.11.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc">dedicated binary protocol</a>
+<a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.12.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc">dedicated binary protocol</a>
 plugin and associated client(s).
 Please see the <a href="./stream-core-plugin-comparison.html">stream core and stream plugin comparison page</a> for the feature matrix.</p>
 <p>This page covers the Stream plugin, which allows to interact with streams using this
-<a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.11.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc">new binary protocol</a>.
+<a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.12.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc">new binary protocol</a>.
 For an overview of the concepts and the ways to operate streams, please see the
 <a href="streams.html">guide on RabbitMQ streams</a>.</p>
 <p>Client libraries for the stream protocol are available on several platforms.</p>
 <p><em>Note:</em> items with a check mark (✓) are officially supported by the RabbitMQ Team at VMware.</p>
 <ul>
-<li><a href="https://github.com/rabbitmq/rabbitmq-stream-java-client">✓ RabbitMQ Java Stream Client</a> </li>
+<li><a href="https://github.com/rabbitmq/rabbitmq-stream-java-client">✓ RabbitMQ Java Stream Client</a></li>
 <li><a href="https://github.com/rabbitmq/rabbitmq-stream-go-client">✓ RabbitMQ Golang Stream Client</a></li>
 <li><a href="https://github.com/rabbitmq/rabbitmq-stream-dotnet-client">✓ RabbitMQ .NET Stream Client</a></li>
 <li><a href="https://github.com/rabbitmq/rabbitmq-stream-rust-client">✓ RabbitMQ Rust Stream Client</a></li>
 <li><a href="https://pypi.org/project/rstream/">✓ RabbitMQ Python Stream Client (rstream)</a></li>
 <li><a href="https://gitlab.com/wrobell/rbfly">RabbitMQ Python Stream Client (rbfly)</a></li>
 <li><a href="https://github.com/coders51/rabbitmq-stream-js-client">RabbitMQ NodeJS Stream Client</a></li>
-<li><a href="https://gitlab.com/evnu/lake">RabbitMQ Erlang Stream Client (lake)</a> </li>
+<li><a href="https://gitlab.com/evnu/lake">RabbitMQ Erlang Stream Client (lake)</a></li>
 <li><a href="https://github.com/VictorGaiva/rabbitmq-stream">RabbitMQ Elixir Stream Client </a></li>
 <li><a href="https://github.com/GianfrancoGGL/rabbitmq-stream-c-client">RabbitMQ C Stream Client </a></li>
 </ul>
@@ -118,16 +118,16 @@ Low values can help to cope with a lot of moderately fast-publishing connections
 <p>This setting applies only to <strong>publishers</strong>, it does not apply to consumers.</p>
 <h3><a id="consumer-credit-flow" class="anchor" href="#consumer-credit-flow">Consumer Credit Flow</a></h3>
 <p>This section covers the stream protocol credit flow mechanism that allows consumers to control how the broker dispatches messages.</p>
-<p>A consumer provides an initial number of credits when it creates its <a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.11.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc#subscribe">subscription</a>.
+<p>A consumer provides an initial number of credits when it creates its <a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.12.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc#subscribe">subscription</a>.
 A credit represents a <em>chunk</em> of messages that the broker is allowed to send to the consumer.</p>
 <p>A <em>chunk</em> is a batch of messages.
-This is the storage and transportation unit used in RabbitMQ Stream, that is messages are stored contiguously in a chunk and they are <a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.11.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc#deliver">delivered</a> as part of a chunk.
+This is the storage and transportation unit used in RabbitMQ Stream, that is messages are stored contiguously in a chunk and they are <a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.12.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc#deliver">delivered</a> as part of a chunk.
 A chunk can be made of one to several thousands of messages, depending on the ingress.</p>
 <p>So if a consumer creates a subscription with 5 initial credits, the broker will send 5 chunks of messages.
 The broker substracts a credit every time it delivers a chunk.
 When there is no credit left for a subscription, the broker stops sending messages.
 So in our example the broker will stop sending messages for this subscription after it delivers 5 chunks.
-This is not what we usually want, so the consumer can provide <a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.11.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc#credit">credits</a> to its subscription to get more messages.</p>
+This is not what we usually want, so the consumer can provide <a href="https://github.com/rabbitmq/rabbitmq-server/blob/v3.12.x/deps/rabbitmq_stream/docs/PROTOCOL.adoc#credit">credits</a> to its subscription to get more messages.</p>
 <p>This is up to the consumer (i.e. client library and/or application) to provide credits, depending on how fast it processes messages.
 We want messages to flow continuously, so a good rule of thumb is to create the subscription with at least 2 credits and provide a credit on each new chunk of messages.
 By doing so there should always be some messages flowing on the network and the consumer should be busy all the time, not idle.</p>
@@ -229,7 +229,7 @@ stream.advertised_tls_port = 12344
      
      <li><a href="/mpl.html">License</a></li>
    </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2005-2023 <a href="https://tanzu.vmware.com/">Broadcom</a>. All Rights Reserved. The term “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •

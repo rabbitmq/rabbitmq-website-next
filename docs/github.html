@@ -59,24 +59,24 @@ for example, 3.11.x, are backported to release series-specific
 branches.</p>
 <h2><a id="release-branches" class="anchor" href="#release-branches">Release series branches</a></h2>
 <p>There is also a separate branch for every release series that is currently
-maintained. These branches are named after the series: <span class="code ">v3.11.x</span>, <span class="code ">v3.10.x</span>,
+maintained. These branches are named after the series: <span class="code ">v3.12.x</span>, <span class="code ">v3.11.x</span>,
 and so on.</p>
 <p>It plays the same role as the <span class="code ">main</span> branch except that it carries merged,
 QA'd code intended for the next bug-fix release rather than
 the next general release.</p>
 <p>Pull requests that are meant to ship in currently maintained release series are backported
 to these branches after being merged into the <span class="code ">main</span> branch. In the process they are
-labelled with <span class="code ">backport-v3.11.x</span>, <span class="code ">backport-v3.10.x</span>, and similar labels
+labelled with <span class="code ">backport-v3.12.x</span>, <span class="code ">backport-v3.11.x</span>, and similar labels
 on GitHub.</p>
-<p>For example, if a pull request is labelled with <span class="code ">backport-v3.10.x</span>, it means that it was
-backported, or at least considered for backporting, to the <span class="code ">v3.10.x</span> branch to ship
-in a 3.10.x release.</p>
+<p>For example, if a pull request is labelled with <span class="code ">backport-v3.12.x</span>, it means that it was
+backported, or at least considered for backporting, to the <span class="code ">v3.12.x</span> branch to ship
+in a 3.12.x release.</p>
 <h2><a id="tags" class="anchor" href="#tags">Tags</a></h2>
 <p>Team RabbitMQ uses tags in the git repository to give names to snapshots of the state of
 the code: mostly importantly, releases. Generally, both the core repositories and the
 repositories of plugins intended to work with the named
 snapshot are tagged.</p>
-<p>For example, if you are using RabbitMQ server version 3.11.5,
+<p>For example, if you are using RabbitMQ server version 3.12.7,
 then examining the output of <span class="code ">git tag</span> yields:</p>
 <pre class="lang-bash">
 git tag
@@ -118,7 +118,7 @@ as explained in the plugin's documentation.</p><div id="help-and-feedback"><h2>G
      
      <li><a href="/mpl.html">License</a></li>
    </ul></div></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
-          Copyright © 2007-2023 <a href="https://tanzu.vmware.com/">VMware</a>, Inc. or its affiliates. All rights reserved.
+          Copyright © 2005-2023 <a href="https://tanzu.vmware.com/">Broadcom</a>. All Rights Reserved. The term “Broadcom” refers to Broadcom Inc. and/or its subsidiaries.
           <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
           <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
           <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
