@@ -470,6 +470,16 @@ has the same semantics as in <a href="./streams.html#consuming">AMQP 0.9.1</a>, 
 <p>The default value is <span class="code ">next</span>.</p>
 <p>When delivering messages from a stream, the message offset (that is the position of the
 message in the stream) is included in the <span class="code ">x-stream-offset</span> header of the <span class="code ">MESSAGE</span> frame.</p>
+<p><a href="https://blog.rabbitmq.com/posts/2023/10/stream-filtering/">Stream filtering</a> is also supported.
+The <a href="./stream.html">stream protocol</a> is the preferred way to interact with streams, but most features are also available with other protocols.
+Stream filtering is no exception, it works the same way with STOMP as with <a href="https://blog.rabbitmq.com/posts/2023/10/stream-filtering-internals/#bonus-stream-filtering-on-amqp">AMQP</a>:</p>
+<ul>
+<li>Declaration: a stream can be created on subscription.
+Set the <span class="code ">x-queue-type</span> header to <span class="code ">stream</span> and use the <span class="code ">x-stream-filter-size-bytes</span> header to set the filter size (optional).</li>
+<li>Publishing: use the <span class="code ">x-stream-filter-value</span> header to set the filter value for outbound messages.</li>
+<li>Consuming: use the <span class="code ">x-stream-filter</span> header to set the expected filter value(s) (use a comma to separate values) and optionally the <span class="code ">x-stream-match-unfiltered</span> header (<span class="code ">true</span> or <span class="code ">false</span>) to receive messages without any filter value as well (default is <span class="code ">false</span>).
+Applications must also implement client-side filtering, as it is still possible to receive messages that do not meet the filter value(s) criteria.</li>
+</ul>
 <h3><a id="pear.hpos" class="anchor" href="#pear.hpos">Header prohibited on <span class="code ">SEND</span></a></h3>
 <p>It is not permitted to set a <span class="code ">message-id</span> header on a <span class="code ">SEND</span> frame.
 The header and its value is set by the server on a <span class="code ">MESSAGE</span> frame sent
