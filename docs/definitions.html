@@ -96,10 +96,11 @@ cluster deployment (formation) is recommended.</p>
 <p>Modern releases support definition import directly in the core,
 without the need to <a href="plugins.html#enabled-plugins-file">preconfigure</a> the <a href="management.html">management plugin</a>.</p>
 <p>To import definitions from a local file on node boot,
-set the <span class="code ">load_definitions</span> config key to a path of a previously exported JSON file with definitions:</p>
+point the <span class="code ">definitions.local.path</span> config key to a path of a previously exported JSON file with definitions:</p>
 <pre class="lang-ini">
 # Does not require management plugin to be enabled.
-load_definitions = /path/to/definitions/file.json
+definitions.import_backend = local_filesystem
+definitions.local.path = /path/to/definitions/defs.json
 </pre>
 
 <p>Definitions can be imported from a URL accessible over HTTPS on node boot.

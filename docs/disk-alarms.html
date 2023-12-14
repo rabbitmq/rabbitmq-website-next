@@ -69,24 +69,21 @@ This configuration file sets the disk free space limit to 1GB:</p>
 disk_free_limit.absolute = 1000000000
 </pre>
 
-<p>Or you can use memory units (KB, MB GB etc.) like this:</p>
+<p>The value can also be set using memory units (KB, MB GB etc.) like this:</p>
 <pre class="lang-ini">
 disk_free_limit.absolute = 1GB
 </pre>
 
-<p>It is also possible to set a free space limit relative to the RAM in the machine.
-This configuration file sets the disk free space limit to the same
-as the amount of RAM on the machine:</p>
-<pre class="lang-ini">
-disk_free_limit.relative = 1.0
-</pre>
-
 <p>The limit can be changed while the broker is running
-using the <span class="code ">rabbitmqctl set_disk_free_limit</span> command
-or <span class="code ">rabbitmqctl set_disk_free_limit mem_relative</span> command.
-This command will take effect until next node restart.</p>
+using the <span class="code ">rabbitmqctl set_disk_free_limit</span> command.
+This command will have its effect until the next node restart.</p>
 <p>The corresponding configuration setting should also be changed
-when the effects should survive a node restart.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+when the effects should survive a node restart.</p>
+<h3>Absolute and Relative Free Disk Space Low Watermark</h3>
+<p>When both <span class="code ">disk_free_limit.absolute</span> and <span class="code ">disk_free_limit.relative</span> values are set
+by accident, in all <a href="/versions.html">supported RabbitMQ versions</a>, the former will take precedence.</p>
+<p><span class="code ">disk_free_limit.absolute</span> is the recommended of the two options because it is easier
+to reason about.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     using <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
