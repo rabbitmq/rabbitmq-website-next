@@ -241,6 +241,8 @@ Consider using super streams only if you are sure you reached the limits of indi
 <h3><a id="filtering" class="anchor" href="#filtering">Filtering</a></h3>
 <p>RabbitMQ Stream provides a server-side filtering feature that avoids reading all the messages of a stream and filtering only on the client side.
 This helps to save network bandwidth when a consuming application needs only a subset of messages, e.g. the messages from a given geographical region.</p>
+<p>Stream filtering is supported with the <a href="stream.html">stream protocol</a>, AMQP 0.9.1, and <a href="stomp.html#stream-support">STOMP</a>.
+Examples will be using AMQP 0.9.1.</p>
 <p>A message must be published with an associated filter value for the filtering feature to work.
 This value is specified with the <span class="code ">x-stream-filter-value</span> header:</p>
 <pre class="lang-java">
@@ -285,6 +287,7 @@ Despite this, the filtering saves some bandwidth, which is its primary goal.</p>
 Set the <span class="code ">x-stream-match-unfiltered</span> argument to <span class="code ">true</span> to change this behavior and receive <em>unfiltered</em> messages as well.</li>
 <li>The <span class="code ">x-stream-filter</span> consumer argument accepts a string but also an array of strings to receive messages for different filter values.</li>
 </ul>
+<p>A <a href="https://blog.rabbitmq.com/posts/2023/10/stream-filtering/">first blog post</a> provides an overview of stream filtering and a <a href="https://blog.rabbitmq.com/posts/2023/10/stream-filtering-internals/">second blog post</a> covers internals.</p>
 <h2><a id="feature-comparison" class="anchor" href="#feature-comparison">Feature Comparison: Regular Queues versus Streams</a></h2>
 <p>Streams are not really queues in the traditional sense and thus do not
 align very closely with AMQP 0.9.1 queue semantics. Many features that other queue types
