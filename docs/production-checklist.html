@@ -23,6 +23,7 @@ to size and configure both RabbitMQ nodes and applications.</p>
 <p>This guide provides recommendations in a few areas:</p>
 <ul>
 <li><a href="#storage">Storage</a> considerations for node data directories</li>
+<li><a href="#networking">Networking</a>-related recommendations</li>
 <li>Recommendations related to <a href="#users-and-permissions">virtual hosts, users and permissions</a></li>
 <li><a href="#monitoring-and-resource-usage">Monitoring and resource usage</a></li>
 <li><a href="#limits">Per-virtual host and per-user limits</a></li>
@@ -259,6 +260,29 @@ including CPU usage of both RabbitMQ and applications that use it.</p>
 <p>Production environments may require network configuration
 tuning, for example, to sustain a high number of concurrent clients.
 Please refer to the <a href="networking.html">Networking Guide</a> for details.</p>
+<h3><a id="networking-throughput" class="anchor" href="#networking-throughput">Minimum Available Network Throughput Estimate</a></h3>
+<p>With higher message rates and large message payloads, traffic bandwidth available to cluster nodes becomes an important
+factor.</p>
+<p>The following (intentionally oversimplified) formula can be used to compute the <strong>minimum amount of bandwidth</strong>
+that must be available to cluster nodes, in bytes per second:</p>
+<pre class="lang-ini">
+MR * MS * 110% * 8
+</pre>
+
+<p>where</p>
+<ul>
+<li><span class="code ">MR</span>: 95th percentile message rate per second</li>
+<li><span class="code ">MS</span>: 95th percentile message size, in bytes</li>
+<li>110%: accounts for message properties, protocol metadata, and other data transferred</li>
+<li>8: bits per byte</li>
+</ul>
+<p>For example, with a message rate (<span class="code ">MR</span>) of 20K per second and 6 kiB message payloads (<span class="code ">MS</span>):</p>
+<pre class="lang-ini">
+20K * 6 kiB * 110% * 8 = 20000 * 6000 * 1.1 * 8 = 1.056 (gigabit/second)
+</pre>
+
+<p>With the above inputs, cluster nodes must have network links with throughput of at least 1.056 gigabit per second.</p>
+<p>This formula <strong>is a rule of thumb</strong> and does not consider protocol- or workload-specific nuances.</p>
 <h2><a id="clustering" class="anchor" href="#clustering">Clustering Considerations</a></h2>
 <h3><a id="clustering-cluster-size" class="anchor" href="#clustering-cluster-size">Cluster Size</a></h3>
 <p>The number of queues, queue replication factor, number of connections, maximum

@@ -504,7 +504,7 @@ if (result == null) {
 <p><span class="code ">IModel</span> instance usage by more than
 one thread simultaneously should be avoided. Application code
 should maintain a clear notion of thread ownership for <span class="code ">IModel</span> instances.</p>
-<p>This is a hard requirement for publishers: sharing a channel (an <span class="code ">IModel</span> instance)
+<p>This is a <strong>hard requirement for publishers</strong>: sharing a channel (an <span class="code ">IModel</span> instance)
 for concurrent publishing will lead to incorrect frame interleaving at the protocol level.
 Channel instances <strong>must not be shared</strong> by threads that publish on them.</p>
 <p>If more than one thread needs to access a particular <span class="code ">IModel</span>
@@ -560,13 +560,27 @@ library. Such callbacks include:</p>
 <li>the <span class="code ">BasicReturn</span> event on <span class="code ">IModel</span></li>
 <li>any of the various shutdown events on <span class="code ">IConnection</span>, <span class="code ">IModel</span> etc.</li>
 </ul>
-<h3><a id="consumer-callbacks-and-ordering" class="anchor" href="#consumer-callbacks-and-ordering">Consumer Callbacks and Ordering</a></h3>
-<p>As of version <span class="code ">3.5.0</span> application callback handlers <strong>can</strong> invoke blocking
-operations (such as <span class="code ">IModel.QueueDeclare</span> or <span class="code ">IModel.BasicCancel</span>). <span class="code ">IBasicConsumer</span> callbacks are invoked concurrently.
-However, per-channel operation order is preserved. In other words, if messages A and B were delivered
-in this order on the same channel, they will be processed in this order. If messages A and B
-were delivered on different channels, they can be processed in any order (or in parallel).
-Consumer callbacks are invoked in tasks dispatched a <a href="https://msdn.microsoft.com/en-us/library/dd997402%28v=vs.110%29.aspx">TaskScheduler</a>.</p>
+<h3><a id="consumer-callbacks-and-ordering" class="anchor" href="#consumer-callbacks-and-ordering">Consumer Callbacks, Concurrency and Operation Ordering</a></h3>
+<h4>Is Consumer Operation Dispatch Concurrent?</h4>
+<p><span class="code ">IBasicConsumer</span> callbacks are invoked sequantially (with a concurrency degree of one) by default.</p>
+<p>For concurrent dispatch of inbound consumer deliveries, set <a href="https://rabbitmq.github.io/rabbitmq-dotnet-client/api/RabbitMQ.Client.ConnectionFactory.html#RabbitMQ_Client_ConnectionFactory_ConsumerDispatchConcurrency"><span class="code ">ConnectionFactory.ConsumerDispatchConcurrency</span></a> to a value
+greater than one.</p>
+<h4>Message Ordering Guarantee</h4>
+<p>Consumer events on the same channel are guaranteed to be dispatched in the same order they were received in.</p>
+<p>For example, if messages A and B were delivered in this order on the same channel, they will be dispatched to
+a consumer (a specific <span class="code ">IBasicConsumer</span> instance) in this order.</p>
+<p>If messages A and B were delivered on different channels, they can be dispatched to consumers in any order (or in parallel).</p>
+<p>With the concurrency degree of one, deliveries on the same channel will be handled sequentially. With a higher
+concurrency degree, their dispatch will happen in the same order but actual processing can happen in parallel (depending
+on the number of available cores and application runtime), which can result in concurrency hazards.</p>
+<h4>Acknowledgement of Multiple Deliveries at Once</h4>
+<p>Consumers can <a href="/confirms.html">acknowledge</a> multiple deliveries at a time. When consumer dispatch concurrency degree is higher than one,
+this can result in a <a href="/confirms.html#consumer-acks-double-acking">double acknowledgement</a>, which is considered to be <a href="/channels.html#error-handling">an error in the protocol</a>.</p>
+<p>Therefore, with concurrent consumer dispatch, consumers should acknowledge only one delivery at a time.</p>
+<h4>Consumers and Blocking Operations on the Same Channel</h4>
+<p>Consumer event handlers can invoke blocking
+operations on the same channel (such as <span class="code ">IModel.QueueDeclare</span> or <span class="code ">IModel.BasicCancel</span>)
+without deadlocking.</p>
 <h2><a id="basic-return" class="anchor" href="#basic-return">Handling Unroutable Messages</a></h2>
 <p>If a message is published with the "mandatory" flag
 set, but cannot be delivered, the broker will return it to the sending

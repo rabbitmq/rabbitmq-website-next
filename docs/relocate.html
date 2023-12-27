@@ -37,7 +37,7 @@ make sure that they have sufficient permissions for RabbitMQ
 node OS process to read and write from. It's best to assume
 that most directories and files used by RabbitMQ require read,
 write, and file creation permissions. <a href="./install-debian.html">Debian</a>,
-<a href="./install-rpm.html">RPM</a> and <a href="./install-windows.html">Windows installer</a> scripts
+<a href="./install-rpm.html">RPM</a>, <a href="./install-homebrew.html">Homebrew</a> and <a href="./install-windows.html">Windows installer</a> packages
 will set up file system permissions suitable for most
 environments, however, when strict default permissions are
 used system-wide, it may be necessary to run additional
@@ -92,7 +92,7 @@ file and directories have sufficient permissions</p>
   <tr>
     <td>RABBITMQ_MNESIA_DIR</td>
     <td>
-      The directory where this RabbitMQ node's data is stored. This s
+      The directory where this RabbitMQ node's data is stored. This includes
       a schema database, message stores, cluster member information and other
       persistent node state.
     </td>
@@ -165,11 +165,11 @@ file and directories have sufficient permissions</p>
 
 <h2><a id="unix" class="anchor" href="#unix">Default Locations on Linux, macOS, BSD</a></h2>
 <p>In the following table the <span class="code ">${install_prefix}</span> to
-some paths is indicated. Homebrew installations use the
-<i>installation-prefix</i> (Homebrew Cellar) when installed. By
-default this is <span class="code ">/usr/local</span>.</p>
-<p>Debian and RPM package installations use an empty
+some paths is indicated. Debian and RPM package installations use an empty
 <span class="code ">${install_prefix}</span>.</p>
+<p><a href="/install-homebrew.html">Homebrew installations</a> use the
+<strong>installation-prefix</strong> (Homebrew Cellar) when installed. By
+default this is <span class="code ">/opt/homebrew</span> on Apple Silicon-based Macs.</p>
 <table>
   <th>Name</th><th>Location</th>
   <tr>
@@ -318,10 +318,12 @@ default this is <span class="code ">/usr/local</span>.</p>
 </table>
 
 <h2><a id="binary-build" class="anchor" href="#binary-build">Generic Binary Build Defaults</a></h2>
-<p>These are the defaults obtained when unpacking the Generic
-Unix tar-file and running the server without modification. In
+<p>These are the defaults obtained when a generic binary build
+archive is unpacked without any modification. In
 this table <span class="envvar">$RABBITMQ_HOME</span> refers
 to the directory produced when extracting the archive.</p>
+<p>These paths are not relevant for installation options that use the same package type but heavily
+customize it, such as the <a href="/install-homebrew.html">Homebrew formula</a>.</p>
 <table>
   <th>Name</th><th>Location</th>
   <tr>

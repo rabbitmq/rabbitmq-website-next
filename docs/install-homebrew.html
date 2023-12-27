@@ -8,11 +8,13 @@
 
 
 <h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
-<p><a href="https://brew.sh/">Homebrew</a> is a popular package manager for macOS.
-<a href="https://github.com/Homebrew/homebrew-core/blob/master/Formula/r/rabbitmq.rb">RabbitMQ formula</a> is available from
-Homebrews core tap (out of the box).</p>
-<p>The formula will also install a recent <a href="./which-erlang.html">supported Erlang/OTP version</a>
-as a dependency.</p>
+<p><a href="https://brew.sh/">Homebrew</a> is a popular package manager for macOS and Linux.
+A <a href="https://github.com/Homebrew/homebrew-core/blob/master/Formula/r/rabbitmq.rb">RabbitMQ formula</a> is available from
+Homebrews core tap (out of the box). The formula maintained by Homebrew community and not Team RabbitMQ.</p>
+<p>A recent <a href="./which-erlang.html">supported Erlang/OTP version</a> will be installed as a dependency.</p>
+<p>Please <strong>read this short guide</strong> from start to finish. The formula is has its caveats,
+some of which may render a node unupgradable to <a href="/upgrade.html">RabbitMQ 3.12 and later versions</a>
+because of disabled stable <a href="/feature-flags.html">feature flags</a>.</p>
 <h2><a id="installation" class="anchor" href="#installation">Installation</a></h2>
 <p>Before installing make sure the taps are up-to-date:</p>
 <pre class="lang-bash">
@@ -25,9 +27,11 @@ brew install rabbitmq
 </pre>
 
 <p>Installing the RabbitMQ formula will install key dependencies such as a <a href="./which-erlang.html">supported Erlang/OTP version</a>.</p>
+<p>However, installing the formula <strong>will not start the service</strong> (a RabbitMQ node). See <a href="#managing-node">Running and Managing the Node</a>
+below.</p>
 <h2><a id="locations" class="anchor" href="#locations">Locations</a></h2>
-<p>The RabbitMQ server scripts and <a href="./cli.html">CLI tools</a> are installed into the <span class="code ">sbin</span> directory under <span class="code ">/usr/local/Cellar/rabbitmq/{version}/</span> for Intel Macs
-or <span class="code ">/opt/homebrew/Cellar/rabbitmq/{version}/</span> for Apple Silicon Macs.</p>
+<p>Both RabbitMQ server scripts and <a href="./cli.html">CLI tools</a> are installed into the <span class="code ">sbin</span> directory under <span class="code ">/usr/local/Cellar/rabbitmq/{version}/</span>
+for Intel Macs or <span class="code ">/opt/homebrew/Cellar/rabbitmq/{version}/</span> for Apple Silicon Macs.</p>
 <p>They should be accessible from <span class="code ">/usr/local/opt/rabbitmq/sbin</span> for for Intel Macs or <span class="code ">/opt/homebrew/opt/rabbitmq/sbin</span> for Apple Silicon Macs.
 Links to binaries have been created under <span class="code ">/usr/local/sbin</span> for Intel Macs or <span class="code ">/opt/homebrew/sbin</span> for Apple Silicon ones.</p>
 <p>To find out locations for your installation, use:</p>
@@ -35,47 +39,51 @@ Links to binaries have been created under <span class="code ">/usr/local/sbin</s
 brew info rabbitmq
 </pre>
 
-<p>With Homebrew, the node and CLI tools will use the logged in user account by default.</p>
+<h2><a id="user" class="anchor" href="#user">Effective OS User</a></h2>
+<p>With Homebrew, the node and CLI tools will use the logged in user OS account by default. This is optimal
+for development environments and means that the same <a href="/cli.html#authentication">shared secret file</a> is used by
+both RabbitMQ nodes and CLI tools.</p>
 <h2><a id="managing-node" class="anchor" href="#managing-node">Running and Managing the Node</a></h2>
 <p>Unlike some other installation methods, namely the <a href="./install-debian.html">Debian</a> and <a href="./install-rpm.html">RPM packages</a>, RabbitMQ
 Homebrew formula uses <a href="./install-generic-unix.html">generic UNIX binary builds</a> and does not require <span class="code ">sudo</span>.</p>
-<h4>Starting the Server</h4>
+<h3>Starting the Server</h3>
+<h4>Starting a Node In the Foreground</h4>
 <p>To start a node in the foreground, run:</p>
 <pre class="lang-bash">
 CONF_ENV_FILE="/opt/homebrew/etc/rabbitmq/rabbitmq-env.conf" /opt/homebrew/opt/rabbitmq/sbin/rabbitmq-server
 </pre>
 
-<p>To start a node in the background, use <span class="code ">brew services start</span>:</p>
+<p>After starting a node, we recommend enabling all feature flags on it:</p>
 <pre class="lang-bash">
-brew services start rabbitmq
+# highly recommended: enable all feature flags on the running node
+/opt/homebrew/sbin/rabbitmqctl enable_feature_flag all
 </pre>
 
-<h4>Stopping the Server</h4>
+<h4>Starting a Node In the Background</h4>
+<p>To start a node in the background, use <span class="code ">brew services start</span>:</p>
+<pre class="lang-bash">
+# starts a local RabbitMQ node
+brew services start rabbitmq
+
+# highly recommended: enable all feature flags on the running node
+/opt/homebrew/sbin/rabbitmqctl enable_feature_flag all
+</pre>
+
+<h3>Stopping the Server</h3>
 <p>To stop a running node, use:</p>
 <pre class="lang-bash">
+# stops the locally running RabbitMQ node
 brew services stop rabbitmq
 </pre>
 
 <p>or CLI tools directly:</p>
 <pre class="lang-bash">
-/opt/homebrew/opt/rabbitmq/sbin/rabbitmqctl shutdown
+/opt/homebrew/sbin/rabbitmqctl shutdown
 </pre>
 
 <p>The command will wait for the node process to stop. If the target node is not running,
 it will exit with a warning.</p>
-<h4>Configuring the Server</h4>
-<p>File and directory locations used by Homebrew differ from Intel Macs to Apple Silicon ones.
-To find out locations for your installation, use:</p>
-<pre class="lang-bash">
-brew info rabbitmq
-</pre>
-
-<p>On Apple Silicon Macs, <a href="configure.html#configuration-files">RabbitMQ configuration file</a> located at <span class="code ">/opt/homebrew/etc/rabbitmq/rabbitmq.conf</span>.
-The file does not exist by default and can be created.</p>
-<p>It is possible to <a href="configure.html#customise-general-unix-environment">use environment variables</a> to control certain settings.
-<span class="code ">rabbitmq-env.conf</span> is located at <span class="code ">/opt/homebrew/etc/rabbitmq/rabbitmq-env.conf</span></p>
-<p>See RabbitMQ <a href="configure.html">configuration guide</a> to learn more.</p>
-<h2><a id="cli" class="anchor" href="#cli"></a></h2>
+<h2><a id="cli" class="anchor" href="#cli">Using RabbitMQ CLI Tools with Homebrew</a></h2>
 <p>The formula sets up links to CLI tools under <span class="code ">/usr/local/sbin</span> for Intel Macs or <span class="code ">/opt/homebrew/sbin</span> for Apple Silicon Macs.</p>
 <p>In case that directory is not in <span class="code ">PATH</span>, it is recommended to append it:</p>
 <pre class="lang-bash">
@@ -86,7 +94,54 @@ export PATH=$PATH:/opt/homebrew/sbin
 </pre>
 
 <p>Add the above export to the shell profile (such as <span class="code ">~/.bashrc</span> for bash or <span class="code ">~/.zshrc</span> for zsh)
-to have <span class="code ">PATH</span> updated for every new shell, including OS restarts.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+to have <span class="code ">PATH</span> updated for every new shell, including OS restarts.</p>
+<h2><a id="feature-flags" class="anchor" href="#feature-flags">Enabling Feature Flags</a></h2>
+<p>The Homebrew formula does not enable <a href="/feature-flags.html">feature flags</a> after installation. To enable
+all feature flags after installation (this is <strong>very important</strong> both to get access to certain features and for future release compatibility),
+use</p>
+<pre class="lang-bash">
+/opt/homebrew/sbin/rabbitmqctl enable_feature_flag all
+</pre>
+
+<h2><a id="configure" class="anchor" href="#configure">Configuring a Homebrew-installed RabbitMQ Node</a></h2>
+<p>File and directory locations used by Homebrew differ from Intel Macs to Apple Silicon ones.
+To find out locations for your installation, use:</p>
+<pre class="lang-bash">
+brew info rabbitmq
+</pre>
+
+<p>On Apple Silicon Macs, <a href="configure.html#configuration-files">RabbitMQ configuration file</a> located at <span class="code ">/opt/homebrew/etc/rabbitmq/rabbitmq.conf</span>.
+The file does not exist by default and <strong>must be created by the user</strong>. The node then
+must be restarted so that it picks up the new configuration file on boot.</p>
+<p>It is possible to <a href="configure.html#customise-general-unix-environment">use environment variables</a> to control certain settings.
+<span class="code ">rabbitmq-env.conf</span> is located at <span class="code ">/opt/homebrew/etc/rabbitmq/rabbitmq-env.conf</span></p>
+<p>See RabbitMQ <a href="configure.html">configuration guide</a> to learn more.</p>
+<h2><a id="reinstall" class="anchor" href="#reinstall">Reinstalling the Formula</a></h2>
+<p>To reinstall the formula, for example, if an older installation
+cannot be upgraded because it <a href="/upgrade.html">did not proactively enable all feature flags</a>,
+uninstall it, then remove all node data files:</p>
+<pre class="lang-bash">
+brew services stop rabbitmq
+
+brew uninstall rabbitmq
+
+# Now delete all node's data directories and configuration files.
+# This assumes that Homebrew root is at /opt/homebrew
+rm -rf /opt/homebrew/etc/rabbitmq/
+rm -rf /opt/homebrew/opt/rabbitmq/
+rm -rf /opt/homebrew/var/lib/rabbitmq/
+# the launch agent file
+rm -f $HOME/Library/LaunchAgents/homebrew.mxcl.rabbitmq.plist
+
+# re-install
+brew install rabbitmq
+
+## start the service if necessary
+# brew services start rabbitmq
+
+## after starting the service, enable all feature flags
+# /opt/homebrew/sbin/rabbitmqctl enable_feature_flag all
+</pre><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     using <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
