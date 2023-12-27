@@ -1,0 +1,1754 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta content="73d8ba46-8c12-43f6-8c22-24aa21b8d93d" name="onetrust-data-domain" /><meta content="https://tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.js" name="microsites-utag" /><script src="https://d1fto35gcfffzn.cloudfront.net/assets/jquery-1.11.2.min.js"></script><script src="//www.vmware.com/files/templates/inc/utag_data.js"></script><script src="//tags.tiqcdn.com/utag/vmware/microsites-privacy/prod/utag.sync.js"></script><script>function OptanonWrapper() { { window.dataLayer.push({ event: 'OneTrustGroupsUpdated' }); } }</script><script src="/js/gtm.js"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="googlebot" content="NOODP" /><meta name="google-site-verification" content="nSYeDgyKM9mw5CWcZuD0xu7iSWXlJijAlg9rcxVOYf4" /><meta name="google-site-verification" content="6UEaC3SWhpGQvqRnSJIEm2swxXpM5Adn4dxZhFsNdw0" /><meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" id="viewport" name="viewport" /><link href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700" rel="stylesheet" /><link rel="stylesheet" href="/css/rabbit.css" type="text/css" /><link rel="stylesheet" href="/css/highlightjs_style.css" type="text/css" /><link rel="stylesheet" href="/css/rabbit-next.css" type="text/css" /><!--[if IE 6]>
+      <link rel="stylesheet" href="/css/rabbit-ie6.css" type="text/css" />
+      <![endif]--><link rel="icon" type="/image/vnd.microsoft.icon" href="/favicon.ico" /><link rel="stylesheet" href="/css/tutorial.css" type="text/css" /><script async="true" type="text/javascript" src="/js/site.js"></script><title> Inter-Protocol Property Conversions
+ — RabbitMQ</title></head>
+  <body id="conversions"><div id="outerContainer"><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq.svg" alt="RabbitMQ" /></a></div><a class="btn menubtn" onclick="showHide()">Menu <img src="/img/carrot-down-white.svg" /></a><div class="mobilemenuicon" onclick="showHide()"><img src="/img/mobile-menu-icon.svg" /></div><div id="nav"><ul id="mainNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul></div></div><div class="nav-separator"></div><div id="innerContainer" class="container"><div id="left-content"><h1> Inter-Protocol Property Conversions
+</h1>
+
+
+<p>This guide covers RabbitMQ 3.13 and later versions.</p>
+<h2><a id="toc" class="anchor" href="#toc">Table of contents</a></h2>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#conventions">Conventions</a></li>
+<li><a href="#amqp-amqpl">AMQP -&gt; AMQP 0.9.1</a></li>
+<li><a href="#amqpl-amqp">AMQP 0.9.1 -&gt; AMQP</a></li>
+<li><a href="#mqtt-amqp">MQTT 5.0 -&gt; AMQP</a></li>
+<li><a href="#mqtt-amqpl">MQTT 5.0 -&gt; AMQP 0.9.1</a></li>
+<li><a href="#amqp-mqtt">AMQP -&gt; MQTT 5.0</a></li>
+<li><a href="#amqpl-mqtt">AMQP 0.9.1 -&gt; MQTT 5.0</a></li>
+</ul>
+<h2><a id="overview" class="anchor" href="#overview">Overview</a></h2>
+<p>RabbitMQ is a multi-protocol broker supporting <a href="https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-overview-v1.0-os.html">AMQP 1.0</a>
+(henceforth AMQP), <a href="https://www.rabbitmq.com/resources/specs/amqp0-9-1.pdf">AMQP 0.9.1</a>,
+<a href="https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html">MQTT</a>, <a href="https://stomp.github.io/">STOMP</a>,
+and the <a href="https://github.com/rabbitmq/rabbitmq-server/blob/main/deps/rabbitmq_stream/docs/PROTOCOL.adoc">RabbitMQ Streams</a> protocols.
+Messages can readily be published by one protocol and consumed by others.
+This necessitates data format conversions between different protocol formats.
+Prior to RabbitMQ 3.13 all messages were converted into an internal format based
+on the AMQP 0.9.1 protocol when published to RabbitMQ. This approach often resulted in unnecessary
+conversions and/or data fidelity issues.</p>
+<p>Since RabbitMQ 3.13 the approach has changed for the AMQP 0.9.1 and MQTT protocols
+in that messages will always be stored in their original format and only converted
+<em>if</em> consumed by a protocol different from the originating protocol. This has the advantage
+that no protocol specific information is lost when the originating and the consuming protocols
+are the same.</p>
+<p>The only exception to this rule are <a href="https://www.rabbitmq.com/streams.html">streams</a>: No matter which protocol published,
+streams internally store their messages as AMQP 1.0 encoded data. Hence, when for example publishing using AMQP 0.9.1
+a conversion to AMQP takes place.</p>
+<p>All conversions have been re-written and formalised.
+This document aims to capture the conversions rules that are implemented so that
+application developers can look back at this to understand how their messages
+will be transformed in their multi-protocol messaging applications.</p>
+<h2><a id="conventions" class="anchor" href="#conventions">Conventions</a></h2>
+<p><span class="code ">shortstr</span>: (condition) a string that is smaller than 256 bytes and contains only valid
+UTF-8 encoded data with no <span class="code ">NUL</span> (binary zero octet) characters.</p>
+<p><span class="code ">*</span>: is read as "any" (field/type etc).</p>
+<p>Conditions can be read to be evaluated in the order they are written. For example
+an AMQP <span class="code ">message_id</span> of type <span class="code ">utf8</span> with more than 255 bytes will fail the first
+<span class="code ">shortstr</span> condition and then fall through to the next line.
+If there is no matching line then the data will not be converted (and therefore not be
+available to the consuming application).</p>
+<h2><a id="amqp-amqpl" class="anchor" href="#amqp-amqpl">AMQP -&gt; AMQP 0.9.1</a></h2>
+<p>In RabbitMQ 3.13 the AMQP (1.0) plugin does not implement these conversion rules yet
+and they are only used when reading from a stream. However they will be used
+as of RabbitMQ 4.0+.</p>
+<table>
+<thead>
+<tr>
+<th>AMQP section</th>
+<th>AMQP field</th>
+<th>AMQP type</th>
+<th>Condition</th>
+<th>AMQP 0.9.1 section</th>
+<th>AMQP 0.9.1 Field</th>
+<th>AMQP 0.9.1 Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>header</td>
+<td>durable</td>
+<td>boolean</td>
+<td></td>
+<td>properties</td>
+<td>delivery_mode</td>
+<td>ubyte</td>
+<td>2 = durable, 1 = transient</td>
+</tr>
+<tr>
+<td>header</td>
+<td>priority</td>
+<td>ubyte</td>
+<td></td>
+<td>properties</td>
+<td>priority</td>
+<td>ubyte</td>
+<td></td>
+</tr>
+<tr>
+<td>header</td>
+<td>ttl</td>
+<td>milliseconds (uint)</td>
+<td></td>
+<td>properties</td>
+<td>expiration</td>
+<td>shortstr</td>
+<td>milliseconds converted to string value</td>
+</tr>
+<tr>
+<td>properties</td>
+<td>message_id</td>
+<td>utf8</td>
+<td><span class="code ">shortstr</span></td>
+<td>properties</td>
+<td>message_id</td>
+<td>shortstr</td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>message_id</td>
+<td>utf8</td>
+<td>&gt; 256 bytes</td>
+<td>properties</td>
+<td>headers, Key: x-message-id</td>
+<td>longstr</td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>message_id</td>
+<td>uuid (16 byte binary)</td>
+<td></td>
+<td>properties</td>
+<td>message_id</td>
+<td>shortstr</td>
+<td>converted to text e.g. "<em>urn:uuid:550e8400-e29b-41d4-a716-446655440000</em>"</td>
+</tr>
+<tr>
+<td>properties</td>
+<td>message_id</td>
+<td>ulong</td>
+<td></td>
+<td>properties</td>
+<td>message_id</td>
+<td>shortstr</td>
+<td>converted to text</td>
+</tr>
+<tr>
+<td>properties</td>
+<td>message_id</td>
+<td>binary</td>
+<td></td>
+<td>properties</td>
+<td>headers, Key: x-message-id</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>user_id</td>
+<td>binary</td>
+<td><span class="code ">shortstr</span></td>
+<td>properties</td>
+<td>user_id</td>
+<td>shortstr</td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>to</td>
+<td>address</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>subject</td>
+<td>utf8</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>reply_to</td>
+<td>address</td>
+<td><span class="code ">shortstr</span></td>
+<td>properties</td>
+<td>reply_to</td>
+<td>shortstr</td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>correlation_id</td>
+<td>utf8</td>
+<td><span class="code ">shortstr</span></td>
+<td>properties</td>
+<td>correlation_id</td>
+<td>shortstr</td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>correlation_id</td>
+<td>utf8</td>
+<td>&gt; 256 bytes</td>
+<td>properties</td>
+<td>headers, Key: x-correlation-id</td>
+<td>longstr</td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>correlation_id</td>
+<td>uuid (16 byte binary)</td>
+<td></td>
+<td>properties</td>
+<td>correlation_id</td>
+<td>shortstr</td>
+<td>converted to text representation, eg. "urn:uuid:550e8400-e29b-41d4-a716-446655440000"</td>
+</tr>
+<tr>
+<td>properties</td>
+<td>correlation_id</td>
+<td>ulong</td>
+<td></td>
+<td>properties</td>
+<td>correlation_id</td>
+<td>shortstr</td>
+<td>Converted to text representation of number</td>
+</tr>
+<tr>
+<td>properties</td>
+<td>correlation_id</td>
+<td>binary</td>
+<td></td>
+<td>properties</td>
+<td>headers, Key: x-correlation-id</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>content_type</td>
+<td>symbol</td>
+<td></td>
+<td>properties</td>
+<td>content_type</td>
+<td>shortstr</td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>content_encoding</td>
+<td>symbol</td>
+<td></td>
+<td>properties</td>
+<td>content_encoding</td>
+<td>shortstr</td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>absolute_expiry_time</td>
+<td>timestamp</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>creation_time</td>
+<td>timestamp</td>
+<td></td>
+<td>properties</td>
+<td>timestamp</td>
+<td>timestamp</td>
+<td>converted to seconds</td>
+</tr>
+<tr>
+<td>properties</td>
+<td>group_id</td>
+<td>utf8</td>
+<td><span class="code ">shortstr</span></td>
+<td>properties</td>
+<td>app_id</td>
+<td>shortstr</td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>group_sequence</td>
+<td>sequence-no</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>reply_to_group_id</td>
+<td>utf8</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>application properties</td>
+<td>*</td>
+<td>* (see type conversions)</td>
+<td>Key: <span class="code ">shortstr</span></td>
+<td>properties</td>
+<td>headers</td>
+<td>*</td>
+<td></td>
+</tr>
+<tr>
+<td>message annotations</td>
+<td>* (symbol - x-cc*)</td>
+<td></td>
+<td>Key: x-cc</td>
+<td>properties</td>
+<td>headers, Key: "CC"</td>
+<td>longstr</td>
+<td></td>
+</tr>
+<tr>
+<td>message annotations</td>
+<td>* (symbol - x-*)</td>
+<td>* (see type conversions)</td>
+<td>Key: <span class="code ">shortstr</span> &amp; x-*</td>
+<td>properties</td>
+<td>headers</td>
+<td>*</td>
+<td>Typically this means x- headers</td>
+</tr>
+<tr>
+<td>data</td>
+<td></td>
+<td>data</td>
+<td>single data section</td>
+<td>payload</td>
+<td></td>
+<td>binary</td>
+<td>plain binary extracted from data section</td>
+</tr>
+<tr>
+<td>data (multiple)</td>
+<td>*</td>
+<td>*</td>
+<td>multiple data sections</td>
+<td>payload</td>
+<td></td>
+<td>AMQP 1.0 encoded binary</td>
+<td>properties.type will be set to "amqp-1.0"</td>
+</tr>
+<tr>
+<td>amqp.value</td>
+<td>*</td>
+<td>*</td>
+<td></td>
+<td>payload</td>
+<td></td>
+<td>AMQP 1.0 encoded binary</td>
+<td>properties.type will be set to "amqp-1.0"</td>
+</tr>
+<tr>
+<td>amqp.sequence</td>
+<td>*</td>
+<td>*</td>
+<td></td>
+<td>payload</td>
+<td></td>
+<td>AMQP 1.0 encoded binary</td>
+<td>properties.type will be set to "amqp-1.0"</td>
+</tr>
+</tbody>
+</table>
+<h3><a id="amqp-amqpl-types" class="anchor" href="#amqp-amqpl-types">AMQP -&gt; AMQP 0.9.1 type conversions</a></h3>
+<table>
+<thead>
+<tr>
+<th>AMQP 1.0 type</th>
+<th>Condition</th>
+<th>AMQP 0.9.1 type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>utf8 (string)</td>
+<td></td>
+<td>longstr</td>
+<td>RabbitMQ does not support shortstr header values so all utf8 inputs are converted to longstr unless it is a field in the basic properties</td>
+</tr>
+<tr>
+<td>binary</td>
+<td></td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>long</td>
+<td></td>
+<td>long</td>
+<td></td>
+</tr>
+<tr>
+<td>ulong</td>
+<td></td>
+<td>long</td>
+<td>risk of overflow</td>
+</tr>
+<tr>
+<td>ubyte</td>
+<td></td>
+<td>unsignedbyte</td>
+<td></td>
+</tr>
+<tr>
+<td>short</td>
+<td></td>
+<td>short</td>
+<td></td>
+</tr>
+<tr>
+<td>ushort</td>
+<td></td>
+<td>usignedshort</td>
+<td></td>
+</tr>
+<tr>
+<td>uint</td>
+<td></td>
+<td>unsignedint</td>
+<td></td>
+</tr>
+<tr>
+<td>int</td>
+<td></td>
+<td>signedint</td>
+<td></td>
+</tr>
+<tr>
+<td>double</td>
+<td></td>
+<td>double</td>
+<td></td>
+</tr>
+<tr>
+<td>float</td>
+<td></td>
+<td>float</td>
+<td></td>
+</tr>
+<tr>
+<td>boolean</td>
+<td></td>
+<td>bool</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td></td>
+<td>timestamp (seconds)</td>
+<td>value divided by 1000</td>
+</tr>
+<tr>
+<td>byte</td>
+<td></td>
+<td>byte</td>
+<td></td>
+</tr>
+<tr>
+<td>null</td>
+<td></td>
+<td>void</td>
+<td></td>
+</tr>
+<tr>
+<td>list</td>
+<td></td>
+<td>array</td>
+<td></td>
+</tr>
+<tr>
+<td>map</td>
+<td></td>
+<td>table</td>
+<td></td>
+</tr>
+<tr>
+<td>symbol</td>
+<td></td>
+<td>longstr</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2><a id="amqpl-amqp" class="anchor" href="#amqpl-amqp">AMQP 0.9.1 -&gt; AMQP</a></h2>
+<table>
+<thead>
+<tr>
+<th>AMQP 0.9.1 section</th>
+<th>AMQP 0.9.1 field</th>
+<th>AMQP 0.9.1 type</th>
+<th>Condition</th>
+<th>AMQP 1.0 section</th>
+<th>AMQP 1.0 Field</th>
+<th>AMQP 1.0 Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>basic properties</td>
+<td>message_id</td>
+<td>shortstr</td>
+<td>valid urn uuid</td>
+<td>properties</td>
+<td>message_id</td>
+<td>uuid</td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>message_id</td>
+<td>shortstr</td>
+<td></td>
+<td>properties</td>
+<td>message_id</td>
+<td>utf8</td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>correlation_id</td>
+<td>shortstr</td>
+<td>valid urn uuid</td>
+<td>properties</td>
+<td>correlation_id</td>
+<td>uuid</td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>correlation_id</td>
+<td>shortstr</td>
+<td></td>
+<td>properties</td>
+<td>correlation_id</td>
+<td>utf8</td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>user_id</td>
+<td>shortstr</td>
+<td></td>
+<td>properties</td>
+<td>user_id</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>expiration</td>
+<td>shortstr</td>
+<td>if convertible to numeric type</td>
+<td>header</td>
+<td>ttl</td>
+<td>uint</td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>type</td>
+<td>shortstr</td>
+<td></td>
+<td>message annotations</td>
+<td>x-basic-type</td>
+<td>utf8</td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>reply_to</td>
+<td>shortstr</td>
+<td></td>
+<td>properties</td>
+<td>reply_to</td>
+<td>utf8</td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>app_id</td>
+<td>shortstr</td>
+<td></td>
+<td>properties</td>
+<td>group-id</td>
+<td>utf8</td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>timestamp</td>
+<td>timestamp (seconds)</td>
+<td></td>
+<td>properties</td>
+<td>creation_time</td>
+<td>timestamp</td>
+<td>converted to ms</td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>content-type</td>
+<td>shortstr</td>
+<td></td>
+<td>properties</td>
+<td>content-type</td>
+<td>symbol</td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>content-encoding</td>
+<td>shortstr</td>
+<td></td>
+<td>properties</td>
+<td>content-encoding</td>
+<td>symbol</td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>delivery-mode</td>
+<td>octet</td>
+<td></td>
+<td>header</td>
+<td>durable</td>
+<td>boolean</td>
+<td>previously in x-basic-delivery-mode</td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>priority</td>
+<td>octet</td>
+<td></td>
+<td>header</td>
+<td>priority</td>
+<td>ubyte</td>
+<td>previously in x-basic-priority</td>
+</tr>
+<tr>
+<td>basic.properties</td>
+<td>headers</td>
+<td></td>
+<td>Key=x-amqp-1.0-properties</td>
+<td>properties</td>
+<td>-</td>
+<td>-</td>
+<td>legacy 1.0 plugin headers</td>
+</tr>
+<tr>
+<td>basic.properties</td>
+<td>headers</td>
+<td></td>
+<td>Key=x-amqp-1.0-application-properties</td>
+<td>application properties</td>
+<td>-</td>
+<td>-</td>
+<td>legacy 1.0 plugin headers</td>
+</tr>
+<tr>
+<td>basic.properties</td>
+<td>headers</td>
+<td></td>
+<td>Key=x-amqp-1.0-message-annotations</td>
+<td>message annotations</td>
+<td>-</td>
+<td>-</td>
+<td>legacy 1.0 plugin headers</td>
+</tr>
+<tr>
+<td>basic.properties</td>
+<td>headers</td>
+<td></td>
+<td>Key=x-reply-to-topic</td>
+<td>properties</td>
+<td>reply_to</td>
+<td>utf8</td>
+<td>"/topic/" RK</td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>headers</td>
+<td>*</td>
+<td>Key begins with "x-"</td>
+<td>message annotations</td>
+<td>Key</td>
+<td>*</td>
+<td>see type conversion rules</td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>headers</td>
+<td>table</td>
+<td>Value not array or table</td>
+<td>application properties</td>
+<td>Key</td>
+<td>*</td>
+<td>see type conversion rules</td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>headers</td>
+<td>table</td>
+<td>Value is array or table</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>not converted</td>
+</tr>
+<tr>
+<td>payload</td>
+<td>-</td>
+<td>binary</td>
+<td></td>
+<td>data</td>
+<td>-</td>
+<td>data</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3><a id="amqpl-amqp-types" class="anchor" href="#amqpl-amqp-types">AMQP 0.9.1 -&gt; AMQP type conversions</a></h3>
+<table>
+<thead>
+<tr>
+<th>AMQP 0.9.1 type</th>
+<th>Condition</th>
+<th>AMQP 1.0 type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>longstr</td>
+<td><span class="code ">shortstr</span></td>
+<td>utf8</td>
+<td>Performance / accuracy trade-off</td>
+</tr>
+<tr>
+<td>longstr</td>
+<td></td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>long</td>
+<td></td>
+<td>long</td>
+<td></td>
+</tr>
+<tr>
+<td>ubyte</td>
+<td></td>
+<td>ubyte</td>
+<td></td>
+</tr>
+<tr>
+<td>short</td>
+<td></td>
+<td>short</td>
+<td></td>
+</tr>
+<tr>
+<td>ushort</td>
+<td></td>
+<td>ushort</td>
+<td></td>
+</tr>
+<tr>
+<td>uint</td>
+<td></td>
+<td>uint</td>
+<td></td>
+</tr>
+<tr>
+<td>int</td>
+<td></td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>double</td>
+<td></td>
+<td>double</td>
+<td></td>
+</tr>
+<tr>
+<td>float</td>
+<td></td>
+<td>float</td>
+<td></td>
+</tr>
+<tr>
+<td>bool</td>
+<td></td>
+<td>boolean</td>
+<td></td>
+</tr>
+<tr>
+<td>binary</td>
+<td></td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td></td>
+<td>timestamp</td>
+<td>Converted from seconds to milliseconds</td>
+</tr>
+<tr>
+<td>byte</td>
+<td></td>
+<td>byte</td>
+<td></td>
+</tr>
+<tr>
+<td>void</td>
+<td></td>
+<td>null</td>
+<td></td>
+</tr>
+<tr>
+<td>array</td>
+<td></td>
+<td>list</td>
+<td></td>
+</tr>
+<tr>
+<td>table</td>
+<td></td>
+<td>map</td>
+<td></td>
+</tr>
+<tr>
+<td>table.key</td>
+<td>x-* header</td>
+<td>symbol</td>
+<td></td>
+</tr>
+<tr>
+<td>table.key</td>
+<td></td>
+<td>utf8</td>
+<td></td>
+</tr>
+<tr>
+<td>table.value</td>
+<td></td>
+<td>*</td>
+<td>converted according to this table</td>
+</tr>
+</tbody>
+</table>
+<h2><a id="mqtt-amqp" class="anchor" href="#mqtt-amqp">MQTT 5.0 -&gt; AMQP</a></h2>
+<table>
+<thead>
+<tr>
+<th>MQTT 5.0 Section</th>
+<th>MQTT Field</th>
+<th>MQTT 5.0 Type</th>
+<th>Condition</th>
+<th>AMQP 1.0 Section</th>
+<th>AMQP 1.0 Field</th>
+<th>AMQP 1.0 Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fixed Header</td>
+<td>Dup</td>
+<td>Bits</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Setting to header first-acquirer does not make sense because the DUP flag only applies from client to server (consumption from server to client is determined by the Redelivered flag sent from the queues)</td>
+</tr>
+<tr>
+<td>Fixed Header</td>
+<td>QoS</td>
+<td>Bits</td>
+<td></td>
+<td>header</td>
+<td>durable</td>
+<td>boolean</td>
+<td>durable is true if QoS &gt; 0</td>
+</tr>
+<tr>
+<td>Fixed Header</td>
+<td>Retain</td>
+<td>Bits</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Variable Header</td>
+<td>Payload Format Indicator</td>
+<td>Bits</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>see row "Payload" with condition "Payload Format Indicator set"</td>
+</tr>
+<tr>
+<td>Variable Header</td>
+<td>Message Expiry Interval</td>
+<td>uint</td>
+<td></td>
+<td>header</td>
+<td>ttl</td>
+<td>milliseconds</td>
+<td>seconds to milliseconds</td>
+</tr>
+<tr>
+<td>Variable Header</td>
+<td>Topic Alias</td>
+<td>ushort</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Variable Header</td>
+<td>Response Topic</td>
+<td>utf8</td>
+<td></td>
+<td>properties</td>
+<td>reply_to</td>
+<td>utf8</td>
+<td>Translate MQTT topic to AMQP routing key (RK). Set reply-to address to "/exchange/" X "/" RK.</td>
+</tr>
+<tr>
+<td>Variable Header</td>
+<td>Correlation Data</td>
+<td>binary</td>
+<td><span class="code ">urn:uuid</span></td>
+<td>properties</td>
+<td>correlation_id</td>
+<td>uuid</td>
+<td></td>
+</tr>
+<tr>
+<td>Variable Header</td>
+<td>Correlation Data</td>
+<td>binary</td>
+<td></td>
+<td>properties</td>
+<td>correlation_id</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>Variable Header</td>
+<td>User Property</td>
+<td>utf8</td>
+<td>Key begins with "x-" and key is ASCII</td>
+<td>message annotation</td>
+<td></td>
+<td>value: utf8</td>
+<td>Key is of type symbol</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>Key does not begin with "x-"</td>
+<td>application properties</td>
+<td></td>
+<td>value: utf8</td>
+<td>Key is of type utf8</td>
+</tr>
+<tr>
+<td>Variable Header</td>
+<td>Subscription Identifier</td>
+<td>uint</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Variable Header</td>
+<td>Content Type</td>
+<td>utf8</td>
+<td>valid ASCII</td>
+<td>properties</td>
+<td>content_type</td>
+<td>symbol</td>
+<td>MQTT content type is UTF-8 whereas AMQP 1.0 content type is only ASCII</td>
+</tr>
+<tr>
+<td>Payload</td>
+<td></td>
+<td></td>
+<td>Payload Format Indicator unset</td>
+<td>data</td>
+<td></td>
+<td>data</td>
+<td></td>
+</tr>
+<tr>
+<td>Payload</td>
+<td></td>
+<td></td>
+<td>Payload Format Indicator set</td>
+<td>amqp.value</td>
+<td></td>
+<td>utf8</td>
+<td>If the Payload Format Indicator is set, convert the MQTT payload to a string (i.e. single AMQP value section) because an AMQP string is UTF-8 encoded</td>
+</tr>
+</tbody>
+</table>
+<h2><a id="mqtt-amqp-types" class="anchor" href="#mqtt-amqp-types">MQTT 5.0 -&gt; AMQP type conversions</a></h2>
+<table>
+<thead>
+<tr>
+<th>MQTT 5.0 Type</th>
+<th>Condition</th>
+<th>AMQP 1.0 Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bits</td>
+<td></td>
+<td>boolean</td>
+<td>only selected flags are converted</td>
+</tr>
+<tr>
+<td>ushort</td>
+<td></td>
+<td>ushort</td>
+<td></td>
+</tr>
+<tr>
+<td>uint</td>
+<td></td>
+<td>uint</td>
+<td></td>
+</tr>
+<tr>
+<td>utf8</td>
+<td></td>
+<td>utf8</td>
+<td></td>
+</tr>
+<tr>
+<td>binary data</td>
+<td>utf8</td>
+<td>utf8</td>
+<td></td>
+</tr>
+<tr>
+<td>binary data</td>
+<td></td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>utf8 string pairs</td>
+<td></td>
+<td>map</td>
+<td>de-duplicate keys, but maintains order</td>
+</tr>
+</tbody>
+</table>
+<h2><a id="mqtt-amqpl" class="anchor" href="#mqtt-amqpl">MQTT 5.0 -&gt; AMQP 0.9.1</a></h2>
+<table>
+<thead>
+<tr>
+<th>MQTT 5.0 Section</th>
+<th>MQTT 5.0 Field</th>
+<th>MQTT 5.0 Type</th>
+<th>Condition</th>
+<th>AMQP 0.9.1 Section</th>
+<th>AMQP 0.9.1 Field</th>
+<th>AMQP 0.9.1 Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fixed Header</td>
+<td>Dup</td>
+<td>Bits</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>Setting to basic.deliver field redelivered does not make sense because the DUP flag only applies from client to server (consumption from server to client is determined by the Redelivered flag sent from the queues)</td>
+</tr>
+<tr>
+<td>Fixed Header</td>
+<td>QoS</td>
+<td>Bits</td>
+<td></td>
+<td>properties</td>
+<td>delivery_mode</td>
+<td></td>
+<td>QoS 0 maps to delivery_mode 1 QoS 1 maps to delivery_mode 2</td>
+</tr>
+<tr>
+<td>Fixed Header</td>
+<td>Retain</td>
+<td>Bits</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Variable Header</td>
+<td>Payload Format Indicator</td>
+<td>Bits</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>AMQP 0.9.1 content_encoding refers to a MIME content encoding whose valid values are listed in <span class="code ">https://www.iana.org/assignments/http-parameters/http-parameters.xml</span> Therefore AMQP 0.9.1 content_encoding is something different. It would best map to <span class="code ">text/&lt;subtype&gt;; charset="utf-8</span> of content_type, but the <span class="code ">&lt;subtype&gt;</span> is not defined. Furthermore MQTT 5.0 property Content Type is already defined.</td>
+</tr>
+<tr>
+<td>Variable Header</td>
+<td>Message Expiry Interval</td>
+<td>uint</td>
+<td></td>
+<td>properties</td>
+<td>expiration</td>
+<td>shortstr</td>
+<td>seconds to milliseconds</td>
+</tr>
+<tr>
+<td>Variable Header</td>
+<td>Topic Alias</td>
+<td>ushort</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Variable Header</td>
+<td>Response Topic</td>
+<td>utf8</td>
+<td></td>
+<td>properties</td>
+<td>headers, Key: x-reply-to-topic</td>
+<td>longstr</td>
+<td>AMQP 0.9.1 property reply_to refers to a queue name, not to a topic name</td>
+</tr>
+<tr>
+<td>Variable Header</td>
+<td>Correlation Data</td>
+<td>binary</td>
+<td><span class="code ">shortstr</span></td>
+<td>properties</td>
+<td>correlation_id</td>
+<td>shortstr</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>properties</td>
+<td>headers, Key: x-correlation-id</td>
+<td>longstr</td>
+<td></td>
+</tr>
+<tr>
+<td>Variable Header</td>
+<td>User Property</td>
+<td>utf8 string pair</td>
+<td>name is <span class="code ">shortstr</span></td>
+<td>properties</td>
+<td>headers</td>
+<td>longstr</td>
+<td>RabbitMQ cannot have shortstr as e.g. header values.</td>
+</tr>
+<tr>
+<td>Variable Header</td>
+<td>Subscription Identifier</td>
+<td>variable byte integer</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Variable Header</td>
+<td>Content Type</td>
+<td>utf8</td>
+<td><span class="code ">shortstr</span></td>
+<td>properties</td>
+<td>content_type</td>
+<td>shortstr</td>
+<td></td>
+</tr>
+<tr>
+<td>Payload</td>
+<td></td>
+<td></td>
+<td></td>
+<td>payload</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2><a id="mqtt-amqpl-types" class="anchor" href="#mqtt-amqpl-types">MQTT 5.0 -&gt; AMQP 0.9.1 type conversions</a></h2>
+<table>
+<thead>
+<tr>
+<th>MQTT 5.0 Type</th>
+<th>Condition</th>
+<th>AMQP 0.9.1 Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bits</td>
+<td></td>
+<td>Bits</td>
+<td></td>
+</tr>
+<tr>
+<td>ushort</td>
+<td></td>
+<td>ushort</td>
+<td></td>
+</tr>
+<tr>
+<td>uint</td>
+<td></td>
+<td>uint</td>
+<td></td>
+</tr>
+<tr>
+<td>utf8</td>
+<td>&lt; 256 bytes AND target is not header</td>
+<td>shortstr</td>
+<td>RabbitMQ cannot have shortstr as e.g. header values.</td>
+</tr>
+<tr>
+<td>utf8</td>
+<td>&gt;= 256 bytes</td>
+<td>longstr</td>
+<td></td>
+</tr>
+<tr>
+<td>binary</td>
+<td>&lt; 256 bytes of UTF-8 encoded data</td>
+<td>shortstr</td>
+<td></td>
+</tr>
+<tr>
+<td>binary</td>
+<td>no valid UTF-8 or &gt;= 256 bytes</td>
+<td>longstr</td>
+<td></td>
+</tr>
+<tr>
+<td>utf8 pairs</td>
+<td></td>
+<td>table</td>
+<td>"Duplicate fields are illegal" in AMQP 0.9.1 Field Tables. RabbitMQ sorts the fields by key.</td>
+</tr>
+</tbody>
+</table>
+<h2><a id="amqp-mqtt" class="anchor" href="#amqp-mqtt">AMQP -&gt; MQTT 5.0</a></h2>
+<table>
+<thead>
+<tr>
+<th>AMQP 1.0 section</th>
+<th>AMQP 1.0 field</th>
+<th>AMQP 1.0 type</th>
+<th>Condition</th>
+<th>MQTT 5.0 Section</th>
+<th>MQTT 5.0 Field</th>
+<th>MQTT 5.0 Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>header</td>
+<td>durable</td>
+<td>boolean</td>
+<td></td>
+<td>Fixed Header</td>
+<td>QoS</td>
+<td>Bits</td>
+<td>durable=true maps to QoS 1 durable=false maps to QoS 0</td>
+</tr>
+<tr>
+<td>properties</td>
+<td>message_id</td>
+<td>*</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>user_id</td>
+<td>binary</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>to</td>
+<td>address</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>subject</td>
+<td>utf8</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>reply_to</td>
+<td>address</td>
+<td>"/exchange/" X "/" RK where X matches mqtt.exchange</td>
+<td>Variable Header</td>
+<td>Response Topic</td>
+<td>utf8</td>
+<td>Translate AMQP topic to MQTT topic</td>
+</tr>
+<tr>
+<td>properties</td>
+<td>correlation_id</td>
+<td>*</td>
+<td></td>
+<td>Variable Header</td>
+<td>Correlation Data</td>
+<td>binary</td>
+<td>convert to binary</td>
+</tr>
+<tr>
+<td>properties</td>
+<td>content_type</td>
+<td>symbol</td>
+<td></td>
+<td>Variable Header</td>
+<td>Content Type</td>
+<td>utf8</td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>content_encoding</td>
+<td>symbol</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>absolute_expiry_time</td>
+<td>timestamp</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>creation_time</td>
+<td>timestamp</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>group_id</td>
+<td>utf8</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>group_sequence</td>
+<td>sequence-no</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>properties</td>
+<td>reply_to_group_id</td>
+<td>utf8</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>application properties</td>
+<td>*</td>
+<td>*</td>
+<td>not array, list, map or binary</td>
+<td>User Properties</td>
+<td></td>
+<td>utf8</td>
+<td>Values converted to string representation</td>
+</tr>
+<tr>
+<td>message annotations</td>
+<td>*</td>
+<td>*</td>
+<td>x- headers only, excluding those with array, list, map or binary values</td>
+<td>User Properties</td>
+<td></td>
+<td>utf8</td>
+<td></td>
+</tr>
+<tr>
+<td>data</td>
+<td></td>
+<td>data</td>
+<td>one or more data sections</td>
+<td>Payload</td>
+<td></td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>data</td>
+<td>*</td>
+<td>*</td>
+<td>single AMQP binary value section</td>
+<td>Payload</td>
+<td></td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>data</td>
+<td></td>
+<td>amqp.value(utf8)</td>
+<td>single AMQP value section convertible to UTF-8</td>
+<td>Payload</td>
+<td></td>
+<td>binary</td>
+<td>Payload-Format-Indicator is set to 1 such that MQTT 5.0 clients can parse the text representation of the message and therefore understand the message.</td>
+</tr>
+<tr>
+<td>data</td>
+<td></td>
+<td>*</td>
+<td>other single AMQP value section or amqp-sequence sections</td>
+<td>Payload</td>
+<td></td>
+<td>binary</td>
+<td>Encode with the AMQP type system and include a Content Type <span class="code ">message/vnd.rabbitmq.amqp</span>. This Content Type is not registered.</td>
+</tr>
+</tbody>
+</table>
+<h2><a id="amqpl-mqtt" class="anchor" href="#amqpl-mqtt">AMQP 0.9.1 -&gt; MQTT 5.0</a></h2>
+<table>
+<thead>
+<tr>
+<th>AMQP 0.9.1 section</th>
+<th>AMQP 0.9.1 field</th>
+<th>AMQP 0.9.1 type</th>
+<th>Condition</th>
+<th>MQTT 5.0 Section</th>
+<th>MQTT 5.0 Field</th>
+<th>MQTT 5.0 Type</th>
+<th>Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>basic properties</td>
+<td>message_id</td>
+<td>shortstr</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>correlation_id</td>
+<td>shortstr</td>
+<td></td>
+<td>Variable Header</td>
+<td>Correlation Data</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>user_id</td>
+<td>shortstr</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>expiration</td>
+<td>shortstr</td>
+<td></td>
+<td>Variable Header</td>
+<td>Message Expiry Interval</td>
+<td>uint</td>
+<td>convert from milliseconds to seconds</td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>type</td>
+<td>shortstr</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>reply_to</td>
+<td>shortstr</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>app_id</td>
+<td>shortstr</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>timestamp</td>
+<td>timestamp (seconds)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>content_type</td>
+<td>shortstr</td>
+<td></td>
+<td>Variable Header</td>
+<td>Content Type</td>
+<td>utf8</td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>content_encoding</td>
+<td>shortstr</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>delivery_mode</td>
+<td>octet</td>
+<td></td>
+<td>Fixed Header</td>
+<td>QoS</td>
+<td>Bits</td>
+<td>delivery-mode 2 maps to QoS 1 delivery-mode 1 maps to QoS 0</td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>priority</td>
+<td>octet</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>basic.properties</td>
+<td>headers</td>
+<td>longstr</td>
+<td>Key=x-reply-to-topic</td>
+<td>Variable Header</td>
+<td>Response Topic</td>
+<td>utf8</td>
+<td>Translate AMQP topic to MQTT topic</td>
+</tr>
+<tr>
+<td>basic.properties</td>
+<td>headers</td>
+<td>longstr</td>
+<td>Key=x-correlation-id</td>
+<td>Variable Header</td>
+<td>Correlation Data</td>
+<td>binary</td>
+<td></td>
+</tr>
+<tr>
+<td>basic.properties</td>
+<td>headers</td>
+<td>*</td>
+<td>not array, table</td>
+<td>User properties</td>
+<td></td>
+<td>utf8</td>
+<td>Simple values are converted into their string representation</td>
+</tr>
+<tr>
+<td>basic properties</td>
+<td>headers</td>
+<td>table</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>payload</td>
+<td></td>
+<td>binary</td>
+<td></td>
+<td>Payload</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+                    If you have questions about the contents of this guide or
+                    any other topic related to RabbitMQ, don't hesitate to ask them
+                    using <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>
+                    or our community <a href="https://rabbitmq.com/discord">Discord server</a>.
+                  </p></div><div id="contribute"><h2>Help Us Improve the Docs &lt;3</h2><p>
+                    If you'd like to contribute an improvement to the site,
+                    its source is <a href="https://github.com/rabbitmq/rabbitmq-website">available on GitHub</a>.
+                    Simply fork the repository and submit a pull request. Thank you!
+                  </p></div></div><div id="right-nav"></div></div><div class="clear"></div><div class="pageFooter"><div class="container"></div><div class="container"><div class="rabbit-logo"><a href="/"><img src="/img/logo-rabbitmq-white.svg" alt="RabbitMQ" /></a></div><ul class="footerNav"><li><a href="/#features">Features</a></li><li><a href="/#getstarted">Get Started</a></li><li><a href="/#support">Support</a></li><li><a href="/#community">Community</a></li><li><a href="/documentation.html">Docs</a></li></ul><p id="copyright">
+          Copyright © 2005-2023 <a href="https://tanzu.vmware.com/">Broadcom</a>. All Rights Reserved. The term "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.
+          <a href="https://www.vmware.com/help/legal.html">Terms of Use</a> •
+          <a href="https://www.vmware.com/help/privacy.html">Privacy</a> •
+          <a href="/trademark-guidelines.html">Trademark Guidelines</a> •
+          <a href="https://www.vmware.com/help/privacy/california-privacy-rights.html">Your California Privacy Rights</a> •
+          <a class="ot-sdk-show-settings">Cookie Settings</a><br /><a id="teconsent"></a></p></div></div></div><script type="text/javascript" src="/js/highlight.pack.js"></script><script type="text/javascript">
+        // code highlighting
+        window.addEventListener("load", function() {
+          const selectors = "pre.lang-apacheconf, \
+                             pre.lang-bash, \
+                             pre.lang-csharp, \
+                             pre.lang-clojure, \
+                             pre.lang-elixir, \
+                             pre.lang-erlang, \
+                             pre.lang-go, \
+                             pre.lang-groovy, \
+                             pre.lang-haskell, \
+                             pre.lang-ini, \
+                             pre.lang-java, \
+                             pre.lang-javascript, \
+                             pre.lang-json, \
+                             pre.lang-makefile, \
+                             pre.lang-nginxconf, \
+                             pre.lang-objectivec, \
+                             pre.lang-php, \
+                             pre.lang-plaintext, \
+                             pre.lang-powershell, \
+                             pre.lang-python, \
+                             pre.lang-ruby, \
+                             pre.lang-swift, \
+                             pre.lang-yaml, \
+                             pre.lang-xml";
+          document.querySelectorAll(selectors).forEach(function(el) {
+            hljs.highlightBlock(el);
+          });
+        });
+      </script></body>
+</html>
