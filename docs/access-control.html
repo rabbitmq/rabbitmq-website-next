@@ -25,7 +25,7 @@ as well as several <a href="#backends">authentication and authorisation backends
 <li>How to <a href="#certificate-authentication">authenticate clients using their TLS certificate information</a></li>
 <li>How to limit <a href="#topic-authorisation">access to topics on a topic exchange</a></li>
 <li><a href="#user-tags">User tags</a> and how they are used</li>
-<li>How to <a href="#revoke">revoke access</a> for a user</li>
+<li>How to rotate credentials and <a href="#revoke">revoke access</a> for a user</li>
 <li><a href="#passwords-and-shell-escaping">Shell escaping</a> of characters in generated passwords</li>
 <li>How to <a href="#seeding">pre-create users</a> and their permissions</li>
 <li>Troubleshooting of <a href="#troubleshooting-authn">authentication</a> and <a href="#troubleshooting-authz">authorisation failures</a>)</li>
@@ -416,7 +416,8 @@ to the documentation of those backends.</p>
 authorisation is enforced by implementing the
 <span class="code ">check_topic_access</span> callback of the
 <span class="code ">rabbit_authz_backend</span> behavior.</p>
-<h2><a id="revoke" class="anchor" href="#revoke">Revoking User Access</a></h2>
+<h2><a id="revoke" class="anchor" href="#revoke">Revoking User Access and Credential Rotation</a></h2>
+<h3>Revoking User Access</h3>
 <p>To revoke user access, the recommended procedure is <a href="#user-management">deleting the user</a>.
 All open connections that belong to a deleted user will be closed.</p>
 <p>It is also possible to clear user permissions but that will not affect
@@ -424,6 +425,24 @@ any currently open connections. Connections
 use an authorization operation cache, so client operations
 will be refused eventually. The period of time depends on the
 <a href="#backends">authorization backend</a> used.</p>
+<h3>Credential Rotation</h3>
+<p>A credential rotation for credentials of users stored in the internal data store usually involves the following steps:</p>
+<ul>
+<li><a href="rabbitmqctl.8.html#change_password">changing user password</a> using CLI tools
+    or update it using the <span class="code ">PUT /api/users/{user}</span> <a href="/management.html">HTTP API</a> endpoint</li>
+<li>Using <span class="code ">rabbitmqctl close_all_user_connections</span> or <span class="code ">rabbitmqctl close_all_connections</span> to close all existing connections</li>
+<li>Making sure that applications can discover the new credentials and reconnect, for example, by restarting them</li>
+</ul>
+<p>In case of a suspected credential leak, a more thorough credential rotation procedure can be employed:</p>
+<ul>
+<li>Assessing the permissions of the user and <a href="/definitions.html">obtaining a complete cluster definitions file</a></li>
+<li><a href="#user-management">Delete the user</a>, thus revoking its access and closing all existing connections that used those credentials</li>
+<li>Re-adding the user with a new generated password</li>
+<li>Re-granting the user access to all the virtual hosts it had access to earlier</li>
+<li>Making sure that applications can discover the new credentials and reconnect, for example, by restarting them</li>
+</ul>
+<p>With external <a href="#backends">authN backends</a> such as <a href="/ldap.html">LDAP</a>, user accounts are managed externally to RabbitMQ,
+therefore the credential rotation routine will also be external to RabbitMQ.</p>
 <h2><a id="backends" class="anchor" href="#backends">Authentication and Authorisation Backends</a></h2>
 <p>Authentication and authorisation are pluggable. Plugins can provide implementations
 of:</p>
