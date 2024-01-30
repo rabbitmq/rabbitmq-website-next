@@ -585,7 +585,68 @@ mqtt.sparkplug = true
 </pre>
 
 <p>When the Sparkplug support is enabled, the MQTT plugin will not translate the
-<span class="code ">spAvM.N</span>/<span class="code ">spBvM.N</span> part of the names of topics.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
+<span class="code ">spAvM.N</span>/<span class="code ">spBvM.N</span> part of the names of topics.</p>
+<h2><a id="limitations" class="anchor" href="#limitations">Limitations</a></h2>
+<h3>QoS 2 is Not Supported</h3>
+<p>QoS 2 subscriptions will be treated as if they were QoS 1 subscriptions.</p>
+<h3>Presence of a Quorum of Nodes</h3>
+<p>See <a href="#consensus">Consensus Features</a>.</p>
+<h3>Overlapping Subscriptions</h3>
+<p>Overlapping subscriptions from the same client
+(e.g. <span class="code ">/sports/football/epl/#</span> and <span class="code ">/sports/football/#</span>) can result in
+duplicate messages being delivered. Applications
+need to account for this.</p>
+<h3>Retained Message Stores</h3>
+<p>See Retained Messages above. Different retained message stores have
+different benefits, trade-offs, and limitations.</p>
+<h2><a id="disabling-plugin" class="anchor" href="#disabling-plugin">Disabling the Plugin</a></h2>
+<p>Before the plugin is disabled on a node, or a node removed from the cluster, it must be decommissioned using <a href="./cli.html"><span class="code ">rabbitmqctl</span></a>:</p>
+<pre class="lang-bash">
+rabbitmqctl decommission_mqtt_node &lt;node&gt;
+</pre>
+
+<h2><a id="retained" class="anchor" href="#retained">Retained Messages and Stores</a></h2>
+<p>The plugin supports retained messages. Message store implementation is pluggable
+and the plugin ships with two implementation out of the box:</p>
+<ul>
+<li>ETS-based (in memory), implemented in the <span class="code ">rabbit_mqtt_retained_msg_store_ets</span> module</li>
+<li>DETS-based (on disk), implemented in the <span class="code ">rabbit_mqtt_retained_msg_store_dets</span></li>
+</ul>
+<p>Both implementations have limitations and trade-offs.
+With the first one, maximum number of messages that can be retained is limited by RAM.
+With the second one, there is a limit of 2 GB per vhost. Both are node-local
+(messages retained on one broker node are not replicated to other nodes in the cluster).</p>
+<p>To configure the store, use <span class="code ">rabbitmq_mqtt.retained_message_store</span> configuration key:</p>
+<pre class="lang-ini">
+mqtt.default_user     = guest
+mqtt.default_pass     = guest
+mqtt.allow_anonymous  = true
+mqtt.vhost            = /
+mqtt.exchange         = amq.topic
+mqtt.subscription_ttl = 1800000
+mqtt.prefetch         = 10
+
+## use DETS (disk-based) store for retained messages
+mqtt.retained_message_store = rabbit_mqtt_retained_msg_store_dets
+## only used by DETS store
+mqtt.retained_message_store_dets_sync_interval = 2000
+
+mqtt.listeners.ssl = none
+mqtt.listeners.tcp.default = 1883
+</pre>
+
+<p>The value must be a module that implements the store:</p>
+<ul>
+<li><span class="code ">rabbit_mqtt_retained_msg_store_ets</span> for RAM-based</li>
+<li><span class="code ">rabbit_mqtt_retained_msg_store_dets</span> for disk-based</li>
+</ul>
+<p>These implementations are suitable for development but sometimes won't be for production needs.
+MQTT 3.1 specification does not define consistency or replication requirements for retained
+message stores, therefore RabbitMQ allows for custom ones to meet the consistency and
+availability needs of a particular environment. For example, stores based on <a href="http://basho.com/riak/">Riak</a>
+and <a href="http://cassandra.apache.org/">Cassandra</a> would be suitable for most production environments as
+those data stores provide <a href="https://github.com/basho/basho_docs/blob/master/content/riak/kv/2.2.3/using/reference/strong-consistency.md">tunable consistency</a>.</p>
+<p>Message stores must implement the <span class="code ">rabbit_mqtt_retained_msg_store</span> behaviour.</p><div id="help-and-feedback"><h2>Getting Help and Providing Feedback</h2><p>
                     If you have questions about the contents of this guide or
                     any other topic related to RabbitMQ, don't hesitate to ask them
                     using <a href="https://github.com/rabbitmq/rabbitmq-server/discussions">GitHub Discussions</a>

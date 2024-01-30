@@ -97,6 +97,13 @@ ch.Close();
 on a closed channel will result in an exception that says that the channel has already been
 closed.</p>
 <p>When a channel's connection is closed, so is the channel.</p>
+<p>If a channel is closed immediately after a consumer <a href="/confirms.html">acknowledged a number of deliveries</a> on it,
+the acknowledgements may or may not reach their target queue before the channel is terminated.
+In this case the messages with a pending acknowledgement on the channel will be automatically requeued
+following the channel closure.</p>
+<p>This scenario usually applies to workloads with short lived channels. Using long lived channels and
+designing consumers in a way that they can handle redeliveries potential surprises may be
+associated with this edge case behavior. Note that redelivered messages will be <a href="/consumers.html#message-properties">explicitly marked as such</a>.</p>
 <h3><a id="error-handling" class="anchor" href="#error-handling">Channels and Error Handling</a></h3>
 <p>In the section above channels were closed by applications. There is another way a channel can
 be closed: due to a protocol exception.</p>

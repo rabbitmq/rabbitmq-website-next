@@ -73,16 +73,8 @@ rabbitmq-diagnostics status | grep -A 2 -B 2 "Node data directory"
 <p>The above data directory will also contain message store data in a subdirectory. If you don't want to
 copy the messages, skip copying the <a href="#manual-messages-backup">message directories</a>.</p>
 <h3><a id="manual-definitions-restore" class="anchor" href="#manual-definitions-restore">Restoring from a Manual Definitions Backup</a></h3>
-<p>Internal node database stores node's name in certain records. Should node name change, the database must first
-be updated to reflect the change using the following <a href="./cli.html">rabbitmqctl</a> command:</p>
-<pre class="lang-sh">
-rabbitmqctl rename_cluster_node &lt;oldnode&gt; &lt;newnode&gt;
-</pre>
-
-<p>The command can take multiple old name/new name pairs if multiple nodes in a cluster are being renamed
-at the same time.</p>
-<p>When a new node starts with a backed up directory and a matching node name, it should perform
-the upgrade steps as needed and proceed booting.</p>
+<p>To perform a restore, a new node starts with a backed up directory and the original node name.
+The node then should perform the upgrade steps as needed and proceed booting.</p>
 <h2><a id="messages-backup" class="anchor" href="#messages-backup">Backing Up Messages</a></h2>
 <p>To back up messages on a node it <strong>must be first stopped</strong>.</p>
 <p>In the case of a cluster with <a href="./quorum-queues.html">replicated queues</a>, it is highly recommended

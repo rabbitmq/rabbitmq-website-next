@@ -503,7 +503,7 @@ same location as the real file should be placed (see
 above). On Debian and RPM distributions
 policy forbids doing so; instead find the file
 under <span class="code ">/usr/share/doc/rabbitmq-server/</span>
-or <span class="code ">/usr/share/doc/rabbitmq-server-3.12.11/</span>,
+or <span class="code ">/usr/share/doc/rabbitmq-server-3.12.12/</span>,
 respectively.</p>
 <h3><a id="config-items" class="anchor" href="#config-items">Core Server Variables Configurable in rabbitmq.conf</a></h3>
 <p>These variables are the most common. The list is not complete, as
@@ -1269,14 +1269,14 @@ under the <span class="code ">rabbit</span> section.</p>
     <td><span class="code ">msg_store_file_size_limit</span></td>
     <td>
       Message store segment file size. Changing this for a node
-      with an existing (initialised) database is dangerous can
+      with an existing (initialised) database is dangerous and can
       lead to data loss!
       <p>
         Default: <span class="code ">16777216</span>
 <pre class="lang-erlang">
 {rabbit, [
 %% Changing this for a node
-%% with an existing (initialised) database is dangerous can
+%% with an existing (initialised) database is dangerous and can
 %% lead to data loss!
 {msg_store_file_size_limit, 16777216}
 ]}
